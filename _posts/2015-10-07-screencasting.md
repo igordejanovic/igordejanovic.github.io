@@ -24,5 +24,7 @@ Also, I installed `screenkey` application which is very useful if key presses ar
 
 The end result is shown in the screenshot bellow and I hope that some screencasts will appear here shortly.
 
+![Webcam screenshot](/img/posts/webcam-screenshot.png)
+
 
 
