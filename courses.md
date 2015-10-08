@@ -1,6 +1,6 @@
 ---
-layout: page
 title: Materijali za predavanja
+layout: page
 ---
 
 ---

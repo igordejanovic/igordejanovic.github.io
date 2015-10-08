@@ -1,0 +1,17 @@
+---
+layout: page
+title: Contact
+---
+
+<p>You can reach me on <a href="{{ site.github }}">github</a> or <a href="{{ site.twitter }}">twitter</a>, or you can use this form to send
+me an e-mail.</p>
+
+<form action="//formspree.io/{{ site.author.email }}"
+      method="POST">
+    <input type="email" name="_replyto" placeholder="{{ site.var_your_email }}">
+    <input type="hidden" name="_next" value="{{ site.baseurl }}/thanks" />
+    <input type="hidden" name="_subject" value="New submission from {{ site.url }}{{ site.baseurl }}" />
+    <input type="text" name="_gotcha" style="display:none" />
+    <textarea type="text" name="content" rows="8" placeholder="{{ site.var_your_message }}"></textarea>
+    <input type="submit" value="Send">
+</form>
