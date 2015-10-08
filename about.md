@@ -7,7 +7,7 @@ title: About
 
 I am user, supporter, and developer of Free/Libre Open-Source Software. Check out my FLOSS projects at [github]({{ site.github }}).
 
-Some of my research are listed at [my university page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
+Some of my research is listed at [my university page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
 
 You can follow me on [twitter](https://twitter.com/dejanovicigor).
 
