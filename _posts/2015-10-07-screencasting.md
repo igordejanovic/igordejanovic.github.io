@@ -1,6 +1,5 @@
 ---
 title: Screencasting in ArchLinux
-categories: linux, teaching
 ---
 
 Today I put some time in setting a screenrecording environment on my main machine.  My idea is to record some screencasts of creating Domain-Specific Languages in [textx](https://github.com/igordejanovic/textX).
