@@ -7,10 +7,11 @@ layout: page
 
 ### Jezici specifični za domen (Domain-Specific Languages)
 
-- [Uvod](/slides/jsd/1-uvod.html)
+- [O predmetu](/slides/jsd/1-upoznavanje.html)
 
 
 ### Softverski obrasci i komponente
 
-- [Uvod](/slides/sok/uvod.html)
+- [O predmetu](/slides/sok/1-upoznavanje.html)
+- [Uvod](/slides/sok/2-uvod.html)
 
