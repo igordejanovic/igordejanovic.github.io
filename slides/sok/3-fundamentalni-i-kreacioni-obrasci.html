@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+
+ <head>
+  <meta charset="utf-8">
+
+  <title>SOK - fundamentalni i kreacioni obrasci</title>
+
+  <meta name="description" content="Softverski obrasci i komponente - fundamentalni i kreacioni obrasci">
+  <meta name="author" content="Igor Dejanović">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="/reveal/css/reveal.css">
+  <link rel="stylesheet" href="/reveal/css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="/slides/slides.css">
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="/reveal/lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+   var link = document.createElement( 'link' );
+   link.rel = 'stylesheet';
+   link.type = 'text/css';
+   link.href = window.location.search.match( /print-pdf/gi ) ? '/reveal/css/print/pdf.css' : '/reveal/css/print/paper.css';
+   document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!-- google analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-68681917-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="/reveal/lib/js/html5shiv.js"></script>
+  <![endif]-->
+ </head>
+
+ <body>
+
+  <div class="reveal">
+
+   <!-- Any section element inside of this container is displayed as a slide -->
+   <div class="slides">
+
+    <section class="first-slide">
+      <h1>Softverski obrasci i komponente</h1>
+      <h2>Fundamentalni i kreacioni obrasci</h2>
+      <p class="center">
+        <small>
+          <a href="http://www.informatika.ftn.uns.ac.rs/IgorDejanovic">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="/img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="/img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="/img/mail.png"/></a>
+        </small>
+        <p><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+        <p><small>Katedra za informatiku</small></p>
+    </section>
+
+
+    <section> <!-- Fundamentalni -->
+
+      <section>
+        <h2>Fundamentalni obrasci</h2>
+        <ul>
+          <li>Osnovni obrasci koji se koriste za izgradnju složenijih obrazaca.</li> 
+          <ul>
+            <li>Delegation</li>
+            <li>Interface</li>
+            <li>Abstract Superclass</li>
+            <li>Interface and Abstract Class</li>
+            <li>Immutable</li>
+            <li>Marker Interface</li>
+            <li>Proxy</li>
+          </ul>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Delegation</h2>
+        <ul>
+          <li>Opšti način proširenja funkcionalnosti klase ili objekta.</li>
+          <li>Koristi se u situacijama kada nasleđivanje nije dovoljno
+            fleksibilno, posebno u situaciji kada programski jezik omogućava
+            samo jednostruko nasleđivanje.</li>
+          <li>Dinamičko proširenje pri instanciranju klase definisanjem
+            delegata.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Primer problema</h2>
+        <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Delegation-concreteBad.png" alt="Primer problema za delegat obrazac"/>
+      </section>
+
+      <section>
+        <h2>Primer rešenja</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Delegation-concreteGood.png" alt="Primer rešenja za delegat obrazac"/>
+      </section>
+
+      <section>
+        <h2>Struktura obrasca</h2>
+        <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Delegation-abstract.png" alt="Struktura delagat obrasca"/>
+      </section>
+
+      <section>
+        <h2>Primer</h2>
+        <pre><code data-trim>
+interface I {
+    void f();
+    void g();
+}
+class A implements I {
+    public void f() { System.out.println("A: doing f()"); }
+    public void g() { System.out.println("A: doing g()"); }
+}
+class B implements I {
+    public void f() { System.out.println("B: doing f()"); }
+    public void g() { System.out.println("B: doing g()"); }
+}
+        </code></pre>
+        <footer>
+          <p align="center">Izvor: Wikipedia</p>
+        </footer>
+      </section>
+
+      <section>
+        <h2>Primer (nastavak)</h2>
+        <pre><code data-trim style="font-size:80%; line-height: 95%;">
+class C implements I {
+    // delegation
+    I i = new A();
+
+    public void f() { i.f(); }
+    public void g() { i.g(); }
+}
+
+// normal attributes
+public void toA() { i = new A(); }
+public void toB() { i = new B(); }
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.f();
+        // output: A: doing f()
+        c.g();
+        // output: A: doing g()
+        c.toB();
+        c.f();
+        // output: B: doing f()
+        c.g();
+        // output: B: doing g()
+    }
+}
+        </code></pre>
+        <footer>
+          <p align="center">Izvor: Wikipedia</p>
+        </footer>
+      </section>
+
+
+      <section>
+        <h2>Kada koristiti?</h2>
+        <ul>
+          <li>Nasleđivanje je statička veza. Potrebno je da objekat <i>menja
+              klasu</i> u vreme izvršavanja.</li>
+          <li>Potrebno je simulirati višestruko nasleđivanje. Delegator može
+            imati više delegata.</li>
+          <li>Želimo da nasledimo određenu klasu ali ona nije pod našom
+            kontrolom.  Delegacija je u tom slučaju bezbednija jer nas štiti od
+            nekompatibilnih promena nadklase.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Interface</h2>
+        <ul>
+          <li>Želimo da učinimo klijenta nezavisnim od klasa koje obezbeđuju
+            servis tako da možemo izmeniti klase bez uticaja na klijenta.</li>
+          <li>Servisne klase već nasleđuju neke klase a višestruko nasleđivanje
+            nije podržano.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura obrasca</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Interface-Abstract.png" alt="Struktura interface obrasca"/>
+      </section>
+
+
+      <section>
+        <h2>Primer</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Interface-Concrete.png" alt="Primer interface obrasca"/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Servisna klasa može biti zamenjena bez uticaja na klijenta.</li>
+          <li>Servisna klasa može implementirati više interfejsa i nasleđivati
+            proizvoljnu klasu.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Interface and Abstract Class</h2>
+        <ul>
+          <li>Proširenje Interface obrasca.</li>
+          <li>Želimo da klijenta učinimo nezavisnim od hijerarhije klasa koje
+            implementiraju servis na takav način da možemo menjati klase koje
+            implementiraju servis bez uticaja na klijenta.</li>
+          <li>Istovremeno želimo da definišemo apstraktnu implementaciju
+            servisa tako da konkretni servisi mogu da redefinišu/dopune baznu
+            implementaciju.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura obrasca</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/IntAndAbsCls-Abstract.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Primer</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/IntAndAbsCls-Concrete.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Konkretan servis može biti baziran na apstraktnoj implementaciji
+            ali i ne mora. Dovoljno je da implementira interfejs servisa.</li>
+          <li>Servisna klasa može implementirati više interfejsa i može
+            nasleđivati proizvoljnu klasu.</li>
+          <li>Apstraktna klasa obezbeđuje bazičnu implementaciju čime se razvoj
+            novih servisnih klasa ubrzava.</li>
+        </ul>
+      </section>
+
+
+    </section>  <!-- Fundamentalni -->
+
+
+
+    <section>   <!-- Kreacioni -->
+
+      <section>
+        <h2>Kreacioni obrasci</h2>
+        <ul>
+          <li>Apstrakcija i lokalizacija procesa instanciranja objekata.</li>
+          <li>Čine sistem nezavisnim od načina kreiranja i kompozicije
+            objekata.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Bazične osobine</h2>
+        <p>Bazične osobine kreacionih obrazaca su sledeće:</p>
+        <ul>
+          <li>Enkapsuliraju znanje o konkretnim klasama koje sistem
+            koristi.</li>
+          <li>Skrivaju način na koji se vrši instaciranje klasa i kompozicija
+            objekata.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Katalog kreacionih obrazaca</h2>
+        <p>Prema [1] kreacioni obrasci su sledeći:</p>
+        <ul>
+          <li>Factory Method</li>
+          <li>Abstract Factory</li>
+          <li>Prototype</li>
+          <li>Builder</li>
+          <li>Singleton</li>
+        </ul>
+        <footer>
+          <ol>
+            <li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design
+                Patterns: Elements of Reusable Object-Oriented Software</i>,
+              Addison-Wesley Professional, 1994</li>
+          </ol>
+        </footer>
+      </section>
+
+
+      <section>
+        <h2>Factory Method</h2>
+        <ul>
+          <li>Želimo da odvojimo klijenta od konkretne implementacije putem
+            Interfejsa.</li>
+          <li>Želimo da klijent kreira objekte na takav način da "ne zna" koju
+            konkretnu klasu instancira.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/FactoryMethod.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Instanciranje konkretnih objekata je lokalizovano. Programski kod
+            nije jako spregnut sa tipom konkretnih instanci.</li>
+          <li>Klasa može delegirati kreiranje konkretnih objekata koje koristi
+            na svoje podklase čime se postiže veća fleksibilnost.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>A šta gubimo?</h2>
+        <ul>
+          <li>Relativno veliki broj klasa.</li>
+          <li>Svaki novi Proizvod zahteva novog Kreatora.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h1>Demonstracija obrasca <i>Factory Method</i> na primeru u Javi</h1>
+      </section>
+
+
+      <section>
+        <h2>Abstract Factory</h2>
+        <ul>
+          <li>Proširenje <i>Factory Method</i> obrasca.</li>
+          <li>Kreiranje familije objekata sličnih po funkciji koju vrše u
+            aplikaciji pri čemu klijent (objekat koji ih koristi) "ne zna"
+            konkrente klase objekata.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/AbstractFactory.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Instanciranje familije konkretnih objekata je lokalizovano.</li>
+          <li>Programski kod nije jako spregnut sa tipom konkretnih instanci.</li>
+          <li>Promena familije konkretnih instanci moguća je izmenom
+            programskog koda na mestu gde se instancira konkretna fabrika
+            objekata (najčešće jedna linija koda).</li>
+          <li>U određenim slučajevima moguća je dinamička promena fabrike
+            objekata (npr. 
+            <a href="https://en.wikipedia.org/wiki/Pluggable_look_and_feel">Swing PLAF</a>).</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>A šta gubimo?</h2>
+        <ul>
+          <li>Relativno veliki broj klasa.</li>
+          <li>Svaki novi Proizvod zahteva novu metodu u svim Kreatorima i svaka
+            nova familija proizvoda zahteva novog konkretnog Kreatora i nove
+            konkretne proizvode.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Prototype</h2>
+        <ul>
+          <li>Kreiranje objekta kopiranjem već postojeće instance.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Prototype.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Eliminišemo potrebu za postojanjem kreator klasa i njenih
+            naslednica pri korišćenju Factory Method dizajn šablona - smanjuje
+            se broj potrebnih klasa.</li>
+          <li>Ako je instanciranje objekata previše "skupo" sa stanovišta
+            potrošnje procesorskog vremena i memorije, kloniranje već kreiranih
+            objekata može dovesti do ubrzanja i smanjenja potrošnje
+            memorije.</li>
+          <li>Ukoliko nam trebaju instance objekata čije stanje se razlikuje od
+            inicijalnog ali je slično već postojećim jednostavnije je
+            kloniranje postojećeg, sličnog, objekta i izmena potrebnih atributa
+            od kreiranja i pune inicijalizacije novog objekta.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Na šta treba obratiti pažnju?</h2>
+        <ul>
+          <li>Kloniranje se najčešće realizuje tzv. "dubokim kopiranjem" (eng.
+            <i>deep copy</i>).</li>
+          <li>Javina clone operacija je realizovana kao "plitko kopiranje"
+            (eng. <i>shallow copy</i>).</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h1>Demonstracija obrasca <i>Prototype</i> na primeru u Javi</h1>
+      </section>
+
+
+      <section>
+        <h2>Builder</h2>
+        <ul>
+          <li>Konstrukcija složenih objekata podelom nadležnosti na onoga ko
+            "zna" kako treba napraviti strukturu složenog objekta i onoga ko
+            "zna" kako treba kreirati pojedinačne delove.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Builder.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Razdvajamo konstrukciju složenog objekta (najčešće Composite) od
+            njegove reprezentacije tako da isti postupak izgradnje može
+            rezultovati različitim reprezentacijama.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Kada koristiti?</h2>
+        <ul>
+          <li>Ako je potrebno učiniti algoritam za kreiranje složenih objekata
+            nezavisnim od konkretnih delova koji sačinjavaju objekat.</li>
+          <li>Ako proces konstrukcije mora obezbediti različite reprezentacije
+            objekta koji se izgrađuje.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Singleton</h2>
+        <ul>
+          <li>Potrebno je da postoji samo jedna instanca klase u sistemu.  Na
+            primer: logger, registar, jedinstvena konekcija ka bazi i sl.</li>
+          <li>Jedinična instanca mora biti dostupna svim klijentima.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Struktura</h2>
+          <img src="slike/3-fundamentalni-i-kreacioni-obrasci/Singleton.png" alt=""/>
+      </section>
+
+
+      <section>
+        <h2>Šta dobijamo?</h2>
+        <ul>
+          <li>Kontrolisani pristup jedinstvenoj instanci.</li>
+          <li>Nasleđivanje klase jedinstvene instance i omogućavanje
+            rekonfiguracije sistema i u vreme izvršavanja (<i>run-time</i>).</li>
+          <li>Ako je naknadno potrebno, može se obezbediti postojanje više od
+            jedne instance. Na primer, <i>Connection Pool</i>.</li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2>Napomena</h2>
+        <ul>
+          <li><i>Singleton</i> se danas smatra anti-obrascem.</li>
+          <li>Dva glavna razloga:</li>
+          <ul>
+            <li><i>Singleton</i> je globalni objekat – globalne varijable loše utiču
+              na kvalitet dizajna i na konkurentnost u kontekstu višenitnog
+              programiranja.</li>
+            <li><i>Singleton</i> se teško <i>mock-up</i>-uje (klijentski kod je čvrsto
+              spregnut sa <i>Singleton</i> objektom) pa je testiranje koda koji ga
+              koristi veoma teško. Ovaj problem se može rešiti korišćenjem
+            <i>Dependency Injection</i> obrasca.</li>
+          </ul>
+        </ul>
+      </section>
+
+
+    </section>  <!-- Kreacioni -->
+
+
+    <section>
+      <h2>Literatura</h2>
+
+      <div style="text-align:left;font-size:60%;">
+
+        <li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns:
+            Elements of Reusable Object-Oriented Software</i>, Addison-Wesley
+          Professional, 1994</li>
+
+        <li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns
+            Illustrated with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+      </div>
+
+    </section>
+
+
+
+   </div>
+
+  </div>
+
+  <script src="/reveal/lib/js/head.min.js"></script>
+  <script src="/reveal/js/reveal.js"></script>
+
+  <script>
+
+   // Full list of configuration options available at:
+   // https://github.com/hakimel/reveal.js#configuration
+   Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    history: true,
+    center: true,
+
+    transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+     { src: '/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+     { src: '/reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '/reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+     { src: '/reveal/plugin/zoom-js/zoom.js', async: true },
+     { src: '/reveal/plugin/notes/notes.js', async: true }
+    ]
+   });
+
+  </script>
+
+ </body>
+</html>
