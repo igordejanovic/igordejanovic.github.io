@@ -7,7 +7,7 @@ layout: page
 
 Here are a short descriptions of some of my FLOSS projects I like to hack on.  I use these tools in teaching [Domain-Specific Languages](../courses/) course.  
 
-### textX
+### [textX](../textX/)
 
 textX is a meta-language (i.e. a language for language definition) for domain-specific language (DSL) specification in Python inspired by [xText](https://eclipse.org/Xtext/).
 
@@ -15,7 +15,7 @@ From a single grammar description textX automatically builds a meta-model (in th
 
 Read more information [here](../textX/) or see project on [github](https://github.com/igordejanovic/textX).
 
-### Arpeggio
+### [Arpeggio](../Arpeggio/)
 
 Arpeggio is recursive descent parser with backtracking and memoization (a.k.a. pacrat parser) for Python. Arpeggio grammars are based on PEG formalism.
 Arpeggio's main use is a foundation for a tool-chain for DSL development but it can be used for all sort of general purpose parsing.

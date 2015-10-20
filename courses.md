@@ -1,26 +1,13 @@
 ---
-title: Materijali za predavanja
+title: Predavanja (Courses)
 layout: page
 ---
 
 ---
 
-### Jezici specifični za domen (Domain-Specific Languages)
+- [Jezici specifični za domen (Domain-Specific Languages)](jsd)
 
-1. [O predmetu](/slides/jsd/1-upoznavanje.html)
-
-
-### Softverski obrasci i komponente
-
-1. [O predmetu](/slides/sok/1-upoznavanje.html)
-1. [Uvod](/slides/sok/2-uvod.html)
-1. [Fundamentalni i kreacioni obrasci](/slides/sok/3-fundamentalni-i-kreacioni-obrasci.html)
-    - [Factory Method primer](/slides/sok/primeri/creational.factorymethod.zip)
-    - [Prototype primer](/slides/sok/primeri/creational.prototype.zip)
-1. [Strukturalni obrasci](/slides/sok/4-strukturalni-obrasci.html)
-    - [Composite primer](/slides/sok/primeri/structural.composite.zip)
-    - [Proxy primer](/slides/sok/primeri/structural.proxy.zip)
-1. [Obrasci ponašanja](/slides/sok/5-obrasci-ponasanja.html)
+- [Softverski obrasci i komponente](sok)
 
 
 
