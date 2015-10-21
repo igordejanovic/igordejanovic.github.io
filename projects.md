@@ -5,7 +5,7 @@ layout: page
 
 ---
 
-Here are a short descriptions of some of my FLOSS projects I like to hack on.  I use these tools in teaching [Domain-Specific Languages](../courses/) course.  
+Here are short descriptions of some of my FLOSS projects I like to hack on.  I use these tools in teaching [Domain-Specific Languages](../courses/) course.  
 
 ### [textX](../textX/)
 
