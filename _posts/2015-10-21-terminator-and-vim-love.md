@@ -14,7 +14,7 @@ For shell stuff I use [zsh](http://zsh.sourceforge.net/) and great set of config
 - Zooming split (Ctrl+X)
 - Increase/decrease font size (Ctrl-+, Ctrl--, Ctrl-0)
 
-I usually open vim inside terminator which gives nice and easy spliting, moving splits, running shell commands. Enviroment very much like those provided with tiling window manager.
+I usually open vim inside terminator which gives nice and easy spliting, moving splits, running shell commands. Enviroment very much like those provided with tiling window manager. This setup cuts mouse usage to zero during coding sessions which is nice especially when working on laptop (and this is most of the time).
 
 Here is how it looks like.
 
