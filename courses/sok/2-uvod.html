@@ -14,19 +14,19 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-  <link rel="stylesheet" href="/reveal/css/reveal.css">
-  <link rel="stylesheet" href="/reveal/css/theme/beige.css" id="theme">
-  <link rel="stylesheet" href="/slides/slides.css">
+  <link rel="stylesheet" href="../../reveal/css/reveal.css">
+  <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="../slides.css">
 
   <!-- Code syntax highlighting -->
-  <link rel="stylesheet" href="/reveal/lib/css/zenburn.css">
+  <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
 
   <!-- If the query includes 'print-pdf', include the PDF print sheet -->
   <script>
    var link = document.createElement( 'link' );
    link.rel = 'stylesheet';
    link.type = 'text/css';
-   link.href = window.location.search.match( /print-pdf/gi ) ? '/reveal/css/print/pdf.css' : '/reveal/css/print/paper.css';
+   link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
    document.getElementsByTagName( 'head' )[0].appendChild( link );
   </script>
 
@@ -41,7 +41,7 @@
   </script>
 
   <!--[if lt IE 9]>
-  <script src="/reveal/lib/js/html5shiv.js"></script>
+  <script src="../../reveal/lib/js/html5shiv.js"></script>
   <![endif]-->
  </head>
 
@@ -62,19 +62,19 @@
               <a href="https://twitter.com/dejanovicigor"><img class="contact" src="/img/twitter.png"/></a>
               <a href="mailto:igord@uns.ac.rs"><img class="contact" src="/img/mail.png"/></a>
         </small>
-        <p><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
-        <p><small>Katedra za informatiku</small></p>
+        <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+        <p class="center"><small>Katedra za informatiku</small></p>
     </section>
 
 
     <section>
-      
+
       <section>
         <h2>Razvoj softvera</h2>
         <ul>
-          <li>Razvoj softvera je težak a razvoj softvera na takav način da se 
+          <li>Razvoj softvera je težak a razvoj softvera na takav način da se
             rešenje može ponovo upotrebiti je još teže.</li>
-          <li>Dobar, proširiv i fleksibilan dizajn je teško a verovatno i 
+          <li>Dobar, proširiv i fleksibilan dizajn je teško a verovatno i
             nemoguće odraditi <i>iz prve</i> za neiskusnog projektanta.</li>
         </ul>
       </section>
@@ -128,7 +128,7 @@
       <section>
         <h2>Ponovna iskoristljivost - Kako?</h2>
         <ul>
-          <li>Na nivou koda - biblioteke, okviri za razvoj (frameworks), 
+          <li>Na nivou koda - biblioteke, okviri za razvoj (frameworks),
             softverske komponente itd.</li>
           <li>Na nivou dizajna  - dizajn obrasci.</li>
         </ul>
@@ -171,7 +171,7 @@
       <section>
         <h2>Šta je softverski obrazac?</h2>
         <ul>
-          <li>Recept nastao na bazi kumuliranog ekspertskog znanja i iskustva 
+          <li>Recept nastao na bazi kumuliranog ekspertskog znanja i iskustva
             u rešavanju određenog rekurentnog problema u razvoju softvera koji
             opisuje problem, rešenje i kontekst u kome je rešenje primenjivo
             kao i prednosti i mane rešenja.</li>
@@ -200,7 +200,7 @@
           <li>Učenje na tuđim greškama.</li>
           <li>Manje iskusni projektanti mogu praviti dobar dizajn.</li>
           <li>Lakša komunikacija. Konzistentan vokabular.</li>
-          <li>Lakša analiza dizajna složenog softvera. Obrasci imaju svoju 
+          <li>Lakša analiza dizajna složenog softvera. Obrasci imaju svoju
             <i>mustru</i>.</li>
           <li>Lakše uključivanje novih ljudi na projekat.</li>
           <li>Poznavanje unapred svih eventualnih problema koje rešenje može
@@ -267,14 +267,14 @@
       <section>
         <h2>Softverski anti-obrasci</h2>
         <ul>
-          <li>U razvoju softvera antiobrasci predstavljaju obrasce koji su 
-            se pokazali neefikasnim i kontraproduktivnim u praksi <sup>1</sup>.  
+          <li>U razvoju softvera antiobrasci predstavljaju obrasce koji su
+            se pokazali neefikasnim i kontraproduktivnim u praksi <sup>1</sup>.
             </li>
           <li>Još se zovu i <i>pitfalls</i> ili <i>dark patterns</i>.</li>
         </ul>
         <footer>
           <ol>
-              <li>Anti-pattern, From Wikipedia, the free encyclopedia, 
+              <li>Anti-pattern, From Wikipedia, the free encyclopedia,
                 <a href="http://en.wikipedia.org/wiki/Anti-pattern">
                 http://en.wikipedia.org/wiki/Anti-pattern</a></li>
           </ol>
@@ -286,9 +286,9 @@
         <p>Antiobrasci iskazuju sledeće osobine:</p>
         <ul>
           <li>Rekurentan obrazac akcije, procesa ili strukture koji je
-            inicijalno izgledao kao dobar ali je u praksi pokazao da donosi 
+            inicijalno izgledao kao dobar ali je u praksi pokazao da donosi
             više problema nego rešenja,</li>
-          <li>Refaktorisano rešenje problema postoji, jasno je dokumentovano i 
+          <li>Refaktorisano rešenje problema postoji, jasno je dokumentovano i
             dokazano u praksi.</li>
         </ul>
       </section>
@@ -298,24 +298,24 @@
         <div style="font-size:80%;">
         <p>Primeri antiobrazaca su <sup>1</sup>:
         <ul>
-          <li><b>Cargo cult programming</b> - Korišćenje obrazaca i metoda 
+          <li><b>Cargo cult programming</b> - Korišćenje obrazaca i metoda
             bez razumevanja zbog čega se koriste.</li>
-          <li><b>God object</b> - Koncentrisanje previše funkcionalnosti u 
+          <li><b>God object</b> - Koncentrisanje previše funkcionalnosti u
             jedan element dizajna (najčešće klasu).</li>
           <li><b>Big ball of mud</b> - Sistem bez jasne strukture.</li>
           <li><b>Copy and paste programming</b> - Kopiranje i izmena
             postojećeg koda umesto kreiranja generičkog rešenja.</li>
-          <li><b>Not Invented Here (NIH) sindrom</b> - Tendencija ka 
-            izmišljanju <i>tople vode</i> umesto korišćenja postojećeg, 
+          <li><b>Not Invented Here (NIH) sindrom</b> - Tendencija ka
+            izmišljanju <i>tople vode</i> umesto korišćenja postojećeg,
             oprobanog rešenja.</li>
-          <li><b>Premature optimization</b> - Optimizovanje softvera prerano 
+          <li><b>Premature optimization</b> - Optimizovanje softvera prerano
             na uštrb dobrog dizajna i funkcionalnosti.</li>
-          <li><b>Dependency hell</b> - Problemi sa verzijama zavisnih 
+          <li><b>Dependency hell</b> - Problemi sa verzijama zavisnih
             komponenti i softvera.</li>
         </ul>
         <footer>
           <ol>
-            <li>Za širi spisak videti 
+            <li>Za širi spisak videti
               <a href="http://en.wikipedia.org/wiki/Anti-pattern">
                 http://en.wikipedia.org/wiki/Anti-pattern</a></li>
           </ol>
@@ -337,7 +337,7 @@
         <li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns
             Illustrated with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
 
-        <li>Anti-pattern, From Wikipedia, the free encyclopedia, 
+        <li>Anti-pattern, From Wikipedia, the free encyclopedia,
           <a href="http://en.wikipedia.org/wiki/Anti-pattern">
           http://en.wikipedia.org/wiki/Anti-pattern</a></li>
       </div>
@@ -350,8 +350,8 @@
 
   </div>
 
-  <script src="/reveal/lib/js/head.min.js"></script>
-  <script src="/reveal/js/reveal.js"></script>
+  <script src="../../reveal/lib/js/head.min.js"></script>
+  <script src="../../reveal/js/reveal.js"></script>
 
   <script>
 
@@ -368,12 +368,12 @@
 
     // Optional reveal.js plugins
     dependencies: [
-     { src: '/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-     { src: '/reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-     { src: '/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-     { src: '/reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-     { src: '/reveal/plugin/zoom-js/zoom.js', async: true },
-     { src: '/reveal/plugin/notes/notes.js', async: true }
+     { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+     { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+     { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+     { src: '../../reveal/plugin/notes/notes.js', async: true }
     ]
    });
 

@@ -1,0 +1,3621 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Programski jezik Python</title>
+
+    <meta name="description" content="Programski jezik Pyton">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Programski jezik Python</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Kratak pregled jezika</li>
+              <li>Leksičke konvencije i sintaksa</li>
+              <li>Tipovi i objekti</li>
+              <li>Operatori i izrazi</li>
+              <li>Struktura programa i kontrola toka</li>
+              <li>Funkcije i funkcionalno programiranje</li>
+              <li>Klase i objektno-orijentisano programirane</li>
+              <li>Moduli i paketi</li>
+              <li>Ulaz i izlaz</li>
+              <li>Alati</li>
+            </ul>
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Kratak pregled Python-a</h1>
+          </section>
+
+
+          <section>
+            <h2>Python</h2>
+            <ul style="font-size:90%;">
+              <li>Razvoj započet 1989 u Holandiji kao hobi projekat Gvida Van Rosuma.
+                  Danas jedan od najpopularnijih jezika.</li>
+              <li>Interpretiran dinamički jezik visokog nivoa.</li>
+              <li>Više paradigmi: imperativno, proceduralno, objektno, funkcionalno...</li>
+              <li>Akcenat na efikasnosti programera i čitkosti koda.</li>
+              <li>Cross-platform</li>
+              <li>Sveobuhvatna i veoma razvijena standardna biblioteka.</li>
+              <li>Jezik ima više implementacija.</li>
+              <li>Koristi se za desktop i web aplikacije, mobilne aplikacije, administrativne skripte,
+                upravljačke skripte, u ugrađenim sistemima...</li>
+              <li>Upotrebljava se u firmama širom sveta: Google, Disney, Dropbox, Industrial Light &amp; Magic...</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Zen of Python</h2>
+            <pre><code data-trim class="no-highlight" style="line-height:100%;">
+&gt;&gt;&gt; import this
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Implementacije Python-a</h2>
+            <ul>
+              <li>CPython</li>
+              <li>PyPy</li>
+              <li>Jython</li>
+              <li>Iron Python</li>
+              <li>pyjs</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Python konzola</h2>
+            <ul>
+              <li>Pokreće se pozivom Python interpretera bez parametara.</li>
+            </ul>
+            <pre><code data-trim>
+$ python
+Python 3.4.1 (default, May 19 2014, 17:23:49)
+[GCC 4.9.0 20140507 (prerelease)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; print("Hello World!")
+Hello World!
+&gt;&gt;&gt; 23423432 ** 34
+36992864259838982449973046100677855738848171498810334668814347544
+72272789093305975943853887303038138168893642829742372685558166974
+99603306904629343154070096117901999442230973428786292674630445031
+96766248000024671594323356975802355740978014370737946624
+&gt;&gt;&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Jednostavan program na Python-u</h2>
+            <pre><code data-trim>
+principal = 1000    # Početni iznos
+rate = 0.05         # Kamatna stopa
+numyears = 5
+year = 1
+while year <= numyears:
+    principal = principal * (1 + rate)
+    print year, principal     # print(year, principal) u Python-u 3
+    year += 1
+            </code></pre>
+            <ul>
+              <li>Varijable - imena/reference za objekte.</li>
+              <li>Objekti imaju nepromenjiv tip. Varijable mogu da menjaju objekat koji referenciraju.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>print i formatiranje izlaza</h2>
+            <ul>
+              <li>Slično <code>printf</code> funkciji u C-u.</li>
+              <li>Upotrebom string interpolacije (operator %)</li>
+            </ul>
+            <pre><code data-trim>
+print "%3d %0.2f" % (year, principal)
+print("%3d %0.2f" % (year, principal))      # Python 3
+            </code></pre>
+            <ul>
+              <li>Ili modernija varijanta - <code>format</code> funkcija</li>
+            </ul>
+            <pre><code data-trim>
+print format(year,"3d"),format(principal,"0.2f")
+print(format(year,"3d"),format(principal,"0.2f")) # Python 3
+
+# ili format funkcijom nad stringom
+print "{0:3d} {1:0.2f}".format(year,principal)
+print("{0:3d} {1:0.2f}".format(year,principal)) # Python 3
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Uslovi</h2>
+            <pre><code data-trim class="python">
+if a < b:
+    print "Computer says Yes"
+else:
+    print "Computer says No"
+            </code></pre>
+            <pre><code data-trim class="python">
+if product == "game" and type == "pirate memory" \
+        and not (age < 4 or age > 8):
+    print "I'll take it!"
+            </code></pre>
+            <pre><code data-trim>
+if suffix == ".htm":
+    content = "text/html"
+elif suffix == ".jpg":
+    content = "image/jpeg"
+elif suffix == ".png":
+    content = "image/png"
+else:
+    raise RuntimeError("Unknown content type")
+            </code></pre>
+            <pre><code data-trim>
+if 'spam' in s:
+    has_spam = True
+else:
+    has_spam = False
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Fajl ulaz/izlaz</h2>
+            <pre><code data-trim class="python">
+f = open("foo.txt")
+line = f.readline()
+while line:
+    print line,     # print(line,end='') za Python 3
+    line = f.readline()
+f.close()
+            </code></pre>
+            <ul>
+              <li>Isti program u kraćoj formi:</li>
+            </ul>
+            <pre><code data-trim>
+with open("foo.txt") as f:
+  for line in f:
+      print line,
+            </code></pre>
+            <ul>
+              <li>Pisanje u fajl:</li>
+            </ul>
+            <pre><code data-trim class="python">
+f = open("out","w")       # Otvaranje za pisanje - "w"
+while year <= numyears:
+    principal = principal * (1 + rate)
+    print &gt;&gt;f,"%3d %0.2f" % (year,principal)
+    # Alternativno f.write("%3d %0.2f\n" % (year,principal))
+    # Za P3, print("%3d %0.2f" % (year,principal),file=f)
+    year += 1
+f.close()
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Stringovi</h2>
+            <pre><code data-trim class="python" style="line-height:105%">
+a = "Hello World"
+b = 'Python is groovy'
+c = """Computer says 'No'"""
+print '''Content-type: text/html
+&lt;h1&gt; Hello World &lt;/h1&gt;
+Click &lt;a href="http://www.python.org"&gt;here&lt;/a&gt;.
+'''
+b = a[4]      # b = 'o'
+
+c = a[:5]     # c = "Hello"
+d = a[6:]     # d = "World"
+e = a[3:8]    # e = "lo Wo"
+
+g = a + " This is a test"
+
+x = "37"
+y = "42"
+z = x + y               # z = "3742" (konkatanacija stringova)
+z = int(x) + int(y)     # z = 79 (Integer +)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Liste</h2>
+            <ul>
+              <li>Liste su sekvence proizvoljnih objekata (referenci)</li>
+            </ul>
+            <pre><code data-trim class="python" style="line-height:100%">
+names = [ "Dave", "Mark", "Ann", "Phil" ]
+a = names[2]          # Vraća treći objekat iz liste - "Ann"
+names[0] = "Jeff"     # Menja prvi objekat-referencu na "Jeff"
+names.append("Paula")       # Dodaje "Paula" na kraj liste
+names.insert(2, "Thomas")   # Ubacuje "Thomas" na lokaciju 2
+
+b = names[0:2]      # Vraća [ "Jeff", "Mark" ]
+c = names[2:]       # Vraća [ "Thomas", "Ann", "Phil", "Paula" ]
+names[1] = 'Jeff'   # Menja drugi element sa 'Jeff'
+names[0:2] = ['Dave','Mark','Jeff']   # Menja prva dva elementa sa liste
+                                      # sa listom na desnoj strani
+a = [1,2,3] + [4,5]     # Rezultat je [1,2,3,4,5]
+
+names = []            # Prazna lista
+names = list()        # Prazna lista
+
+a = [1,"Dave",3.14, ["Mark", 7, 9, [100,101]], 10]
+a[1]            # "Dave"
+a[3][2]         # 9
+a[3][3][1]      # 101
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>List comprehensions</h2>
+            <pre><code data-trim>
+import sys                # Učitavanje sys modula
+if len(sys.argv) != 2     # Proveri broj argumenata
+    print "Please supply a filename"
+    raise SystemExit(1)
+f = open(sys.argv[1])     # Ime fajla je dato kao paramatar
+lines = f.readlines()     # Pročitaj sve linije u listu
+f.close()
+
+# Konvertuje sve vrednosti u linijama teksta u float
+fvalues = [float(line) for line in lines]
+
+# Pronađi min i max vrednosti
+print "The minimum value is ", min(fvalues)
+print "The maximum value is ", max(fvalues)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>N-torke - <i>Tuples</i></h2>
+            <ul>
+              <li>Nepromenjiva struktura - <i>immutable</i></li>
+            </ul>
+            <pre><code data-trim class="python">
+stock = ('GOOG', 100, 490.10)
+address = ('www.python.org', 80)
+person = (first_name, last_name, phone)
+# ili samo
+stock = 'GOOG', 100, 490.10
+address = 'www.python.org',80
+person = first_name, last_name, phone
+# Načini navođenja
+a = ()          # 0-tuple (prazan tuple)
+b = (item,)     # 1-tuple (obratiti pažnju na zarez)
+c = item,       # 1-tuple (obratiti pažnju na zarez)
+# "raspakivanje"
+name, shares, price = stock
+host, port = address
+first_name, last_name, phone = person
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer upotrebe n-torki i lista</h2>
+            <div style="font-size:90%;">
+            <pre><code data-trim class="python">
+# File containing lines of the form "name,shares,price"
+filename = "portfolio.csv"
+portfolio = []
+with open(filename) as f:
+  for line in f:
+      fields = line.split(",")      # Svaku liniju podeli na mestu ","
+      name = fields[0]              # Izdvoj pojedinačna polja
+      shares = int(fields[1])       # i konvertuj vrednosti
+      price = float(fields[2])
+      stock = (name,shares,price)   # Kreiraj n-torku (name, shares, price)
+      portfolio.append(stock)       # Dodaj je na listu slogova
+            </code></pre>
+            <pre><code data-trim>
+&gt;&gt;&gt; portfolio[0]
+('GOOG', 100, 490.10)
+&gt;&gt;&gt; portfolio[1]
+('MSFT', 50, 54.23)
+&gt;&gt;&gt;
+&gt;&gt;&gt; portfolio[1][1]
+50
+&gt;&gt;&gt; portfolio[1][2]
+54.23
+&gt;&gt;&gt;
+            </code></pre>
+            <pre><code data-trim>
+total = 0.0
+for name, shares, price in portfolio:
+    total += shares * price
+            </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Skupovi - <i>sets</i></h2>
+            <ul>
+              <li>Neuređena kolekcija objekata.</li>
+            </ul>
+            <pre><code data-trim class="python">
+s = set([3,5,9,10])     # Kreira skup brojeva
+t = set("Hello")        # Kreira skup jedinstvenih karaktera
+&gt;&gt;&gt; t
+set(['H', 'e', 'l', 'o'])
+            </code></pre>
+            <ul>
+              <li>Operacije nad skupovima</li>
+            </ul>
+            <pre><code data-trim>
+a = t | s     # Unija skupova t i s
+b = t &amp; s     # Presek skupova t i s
+c = t - s     # Razlika skupova t i s
+d = t ^ s     # Simetrična razlika skupova t i s
+              # (elementi koji pripadaju ili skupu t ili
+              #  skupu s ali ne i preseku)
+            </code></pre>
+            <ul>
+              <li>Dodavanje i uklanjanje elemenata.</li>
+            </ul>
+            <pre><code data-trim class="python">
+t.add('x')                # Dodavanje jednog elementa u t
+s.update([10,37,42])      # Dodavanje više elemenata u s
+t.remove('H')             # Uklanjanje elementa
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Rečnici - <i>dictionaries</i></h2>
+            <ul>
+              <li>Asocijativni niz objekata indeksiranih ključevima.</li>
+              <li>Ključ može biti bilo koji nepromenjivi objekat (<i>immutable</i>).</li>
+            </ul>
+            <pre><code data-trim class="python" style="line-height:110%">
+# Dva načina kreiranja praznog rečnika
+stock = {}
+stock = dict()
+
+# Kreiranje rečnika sa podacima
+stock = {
+    "name" : "GOOG",
+    "shares" : 100,
+    "price" : 490.10
+}
+
+# Upotreba
+name = stock["name"]
+value = stock["shares"] * shares["price"]
+
+# Upis vrednosti
+stock["shares"] = 75
+stock["date"] = "June 7, 2007"
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Rečnici - nastavak</h2>
+            <pre><code data-trim class="python" style="line-height:100%">
+# Mogu se koristiti za brzo pronalaženje podataka
+prices = {
+    "GOOG": 490.10,
+    "AAPL": 123.50,
+    "IBM":  91.50,
+    "MSFT": 52.13
+}
+
+# Default vrednosti
+if "SCOX" in prices:
+    p = prices["SCOX"]
+else:
+    p = 0.0
+# ili kraće
+p = prices.get("SCOX",0.0)
+
+# Lista ključeva
+syms = list(prices)     # syms = ["AAPL", "MSFT", "IBM", "GOOG"]
+# ili
+syms = prices.keys()
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Iteracija i petlje</h2>
+            <pre><code data-trim>
+for n in [1,2,3,4,5,6,7,8,9]:
+    print "2 na stepen %d je %d" % (n, 2**n)
+
+for n in range(1,10):
+    print "2 na stepen %d je %d" % (n, 2**n)
+
+a = range(5)        # a = [0, 1, 2, 3, 4]
+b = range(1, 8)     # b = [1, 2, 3, 4, 5, 6, 7]
+c = range(0, 14, 3) # c = [0, 3, 6, 9, 12]
+d = range(8, 1, -1) # d = [8, 7, 6, 5, 4, 3, 2]
+
+for i in xrange(100000000):       # i = 0,1,2,...,99999999
+    statements
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Iteracija i petlje (2)</h2>
+            <ul>
+              <li>Iterator protokol</li>
+              <li>Stringovi su sekvence - podržavaju iterator protokol</li>
+            </ul>
+            <pre><code data-trim class="python">
+a = "Hello World"
+# Štampa pojedinačna slova stringa a
+for c in a:
+    print c
+            </code></pre>
+            <ul>
+              <li>Liste takođe.</li>
+            </ul>
+            <pre><code data-trim class="python">
+b = ["Dave","Mark","Ann","Phil"]
+# Štampa članove liste b
+for name in b:
+    print name
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Iteracija i petlje (3)</h2>
+            <ul>
+              <li>I mape</li>
+            </ul>
+            <pre><code data-trim class="python">
+c = { 'GOOG' : 490.10, 'IBM' : 91.50, 'AAPL' : 123.15 }
+# Štampa sve članove rečnika c
+for key in c:
+    print key, c[key]
+            </code></pre>
+            <ul>
+              <li>I fajlovi</li>
+            </ul>
+            <pre><code data-trim class="python">
+# Štampa sve linije fajla foo.txt
+f = open("foo.txt")
+for line in f:
+    print line,
+            </code></pre>
+            <ul>
+              <li>Proizvoljni objekti mogu da podrže iterator protokol.</li>
+              <li>Kreiranje iteratora upotrebom funkcija - generatori (videti u nastavku)</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Funkcije</h2>
+            <ul>
+              <li>Kreiraju se ključnom rečju <code>def</code></li>
+              <li>Ukoliko funkcija nema povratnu vrednost implicitno vraća <code>None</code></li>
+            </ul>
+            <pre><code data-trim class="python">
+def fibonacci(n):
+  "Returns element of fibonacci array at given possition."
+  if n < 0:
+    raise ValueError("Array index must be >=0.")
+  if n < 2:
+    return 1
+  return fibonacci(n-2) + fibonacci(n-1)
+            </code></pre>
+            <ul>
+              <li>Parametri mogu imati podrazumevane vrednosti</li>
+            </ul>
+            <pre><code data-trim class="python">
+def f(a, b=5):
+  return a + 2 ** b
+&gt;&gt;&gt; f(3)
+35
+&gt;&gt;&gt; f(3, 5)
+35
+&gt;&gt;&gt; f(3, 6)
+67
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Funkcije (2)</h2>
+            <ul>
+              <li>Parametri i vrednosti parametara se mogu upariti po poziciji ili po nazivu</li>
+            </ul>
+            <pre><code data-trim>
+def f(a, b=5):
+  return a + 2 ** b
+
+&gt;&gt;&gt; f(b=3, a=1)
+9
+            </code></pre>
+            <ul>
+              <li>Promenjivi broj parametara, po poziciji i po imenu</li>
+            </ul>
+            <pre><code data-trim>
+def f(*args, **kwargs):
+  for a in args:
+    print(a)
+  for k, v in kwargs.items():
+    print(k, v)
+
+&gt;&gt;&gt; f(34, 56, 67, b=12, c=89, foo="bar")
+34
+56
+67
+b 12
+foo bar
+c 89
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Funkcije (3)</h2>
+            <ul>
+              <li>Sve reference unutar funkcije su unutar opsega funkcije (scope)</li>
+              <li>Ako treba da referenciramo globalnu varijablu deklarišemo je sa ključnom
+                  rečju <code>global</code>.</li>
+            </ul>
+            <pre><code data-trim class="python">
+count = 0
+...
+def foo1():
+  count = 1    # Kreiranje lokalne varijable count
+...
+def foo2():
+  global count
+  count += 1    # Izmene globalne varijable count
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Generatori</h2>
+            <ul>
+              <li>Umesto jedne vrednosti funkcija može generisati sekvencu vrednosti.</li>
+            </ul>
+            <pre><code data-trim>
+def countdown(n):
+  print "Counting down!"
+  while n &gt; 0:
+    yield n     # Generisanje vrednosti (n)
+    n -= 1
+            </code></pre>
+            <ul>
+              <li>Poziv funkcije vraća tzv. <i>generator objekat</i></li>
+              <li>Ključna reč <code>yield</code> označava povratak jedne vrednosti sekvence.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Generatori - upotreba</h2>
+            <pre><code data-trim>
+&gt;&gt;&gt; c = countdown(5)
+&gt;&gt;&gt; c.next()
+Counting down!
+5
+&gt;&gt;&gt; c.next()
+4
+&gt;&gt;&gt; c.next()
+3
+            </code></pre>
+            <pre><code data-trim>
+&gt;&gt;&gt; for i in countdown(5):
+...
+print i,
+Counting down!
+5 4 3 2 1
+            </code></pre>
+            <ul>
+              <li>Svaki objekat (klasa) koji implementira generator protokol može
+                  da se koristi kao generator.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Korutine (<i>coroutines</i>)</h2>
+            <ul>
+              <li>Koncept obrnut generatorima.</li>
+              <li>Funkcije koje mogu spolja da prime sekvencu vrednosti u toku
+                  izvršavanja.</li>
+            </ul>
+            <pre><code data-trim>
+def print_matches(matchtext):
+  print "Tražim", matchtext
+  while True:
+    line = (yield)    # Preuzmi liniju teksta spolja
+    if matchtext in line:
+      print line
+&gt;&gt;&gt; matcher = print_matches("python")
+&gt;&gt;&gt; matcher.next()    # Postavlja se na prvi (yield)
+Tražim python
+&gt;&gt;&gt; matcher.send("Hello World")
+&gt;&gt;&gt; matcher.send("python is cool")
+python is cool
+&gt;&gt;&gt; matcher.send("yow!")
+&gt;&gt;&gt; matcher.close()     # Na kraju je potrebno zatvoriti korutinu
+            </code></pre>
+            <ul>
+              <li>Omogućavaju implementaciju <i>producer-consumer</i> ili <i>pipe</i> obrasca bez upotrebe
+                  niti i višenitnog programiranja.</li>
+            </ul>
+          </section>
+
+
+          <section style="font-size:90%;">
+            <h2>Objekti i klase</h2>
+            <ul>
+              <li>Sve vrednosti su objekti.</li>
+              <li>Objekat se sastoji od internih podataka i metoda koje operišu nad njima.</li>
+              <li>Metode i atributi objekta se mogu izlistati ugrađenom funkcijom <code>dir</code>.</li>
+            </ul>
+            <ul>
+              <li>Stringovi su objekti.</li>
+              <li>Proba</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; dir("foo")
+['__add__', '__class__', '__contains__', '__delattr__',
+...  '__len__', '__lt__', '__mod__', '__mul__',
+... 'capitalize', 'center', 'count', 'decode', 'encode',
+... 'startswith', 'strip', 'swapcase', 'title', 'translate',
+'upper', 'zfill']
+            </code></pre>
+            <ul>
+              <li>Brojevi su objekti</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; dir(2)
+['__abs__', '__add__', '__and__', '__class__', '__cmp__', '__coerce__',
+ ...'__pow__', '__radd__', '__rand__', '__rdiv__', '__rdivmod__',
+ ...'bit_length', 'conjugate', 'denominator', 'imag', 'numerator', 'real']
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Objekti i klase (2)</h2>
+            <ul>
+              <li>Funkcije su objekti</li>
+            </ul>
+            <pre><code data-trim class="python">
+&gt;&gt;&gt; dir(fibonacci)
+['__call__', '__class__', '__closure__', '__code__',
+ ...
+ 'func_dict', 'func_doc', 'func_globals', 'func_name']
+            </code></pre>
+            <ul>
+              <li>Liste su objekti</li>
+            </ul>
+            <pre><code data-trim class="python">
+&gt;&gt;&gt; items = [37, 42]
+&gt;&gt;&gt; dir(items)
+['_ _add_ _', '_ _class_ _', '_ _contains_ _', '_ _delattr_ _'
+...
+'append', 'count', 'extend', 'index', 'insert', 'pop',
+'remove', 'reverse', 'sort']
+&gt;&gt;&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Objekti i klase (3)</h2>
+            <ul>
+              <li>Specijalne metode su oblika <code>__xxx__</code></li>
+              <li>Ove metode se koriste za implementaciju npr. operatora (npr. +, -, *, in...)i odgovora
+                  na specijalne ugrađene funkcije (npr. len)</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; items = [37, 42]
+&gt;&gt;&gt; items.__add__([73,101])
+[37, 42, 73, 101]
+# je ekvivalentno sa
+&gt;&gt;&gt; items + [73, 101]
+            </code></pre>
+            <ul>
+              <li>Klasa može da proizvoljno redefiniše specijalne metode.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Objekti i klase (4)</h2>
+            <ul>
+              <li>Specijalna metoda __init__ predstavlja konstruktor.</li>
+              <li>Primer: implementacija steka</li>
+            </ul>
+            <pre><code data-trim style="line-height:110%">
+class Stack(object):
+  def __init__(self):
+    self.stack = [ ]
+  def push(self,object):
+    self.stack.append(object)
+  def pop(self):
+    return self.stack.pop()
+  def length(self):
+    return len(self.stack)
+
+s = Stack()
+s.push("Dave")
+s.push(42)
+s.push([3,4,5])
+x = s.pop()
+y = s.pop()
+del s
+            </code></pre>
+            <ul>
+              <li>Svaka metoda prima objekat kao eksplicitan prvi parametar.</li>
+              <li>Po konvenciji parametar nazivamo <code>self</code></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Objekti i klase (5)</h2>
+            <ul>
+              <li>Pošto je stek vrlo sličan Python listi možemo direktno naslediti
+                  ugrađenu listu.</li>
+            </ul>
+            <pre><code data-trim>
+class Stack(list):    # Nasleđujemo listu
+  # Dodajemo push metodu da bi implementirali
+  # stack interfejs
+  # Napomena: liste već imaju pop() methodu.
+  def push(self,object):
+    self.append(object)
+            </code></pre>
+            <ul>
+              <li>Ovako kreirana klasa ima sve osobine liste.</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; s = Stack()
+&gt;&gt;&gt; s.push(2)
+&gt;&gt;&gt; s.push(3)
+&gt;&gt;&gt; s.push(4)
+&gt;&gt;&gt; s
+[2, 3, 4]
+&gt;&gt;&gt; s[:2]
+[2, 3]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Objekti i klase</h2>
+            <ul>
+              <li>Klasa može da definiše različite vrste metoda.</li>
+            </ul>
+            <pre><code data-trim class="python">
+class EventHandler(object):
+  @staticmethod
+  def dispatcherThread():
+    while (1):
+      # Wait for requests
+      ...
+
+EventHandler.dispatcherThread()   # Poziv static metode kao da je funkcija
+            </code></pre>
+            <ul>
+              <li>@staticmethod je dekorator. Više u nastavku.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Izuzeci</h2>
+            <ul>
+              <li>Ukoliko dođe do graške u programu javlja se izuzetak</li>
+              <li>Ispis može biti poput ovoga:</li>
+            </ul>
+            <pre><code data-trim>
+Traceback (most recent call last):
+File "foo.py", line 12, in &lt;module&gt;
+IOError: [Errno 2] No such file or directory: 'file.txt'
+            </code></pre>
+            <ul>
+              <li>Izuzeci se mogu uhvatiti i obraditi.</li>
+            </ul>
+            <pre><code data-trim>
+f = open("file.txt", "r")
+try:
+  ... obrada fajla
+except Exception as e:
+  .. obrada izuzetka
+finally:
+  # Ovaj blok se uvek izvršava na kraju
+  # bez obzira šta da se desi
+  f.close()
+            </code></pre>
+            <ul>
+              <li>Izuzeci se programski izazivaju na mestu detektovanja
+                  nevalidnog stanja sa:</li>
+            </ul>
+            <pre><code data-trim class="python">
+raise RuntimeError("Computer says no")
+            </code></pre>
+          </section>
+
+
+
+          <section>
+            <h2>Izuzeci - konteksti</h2>
+            <ul>
+              <li>Upotreba nekog resursa uvek zahteva njegovo oslobađanje (zatvaranje)
+                  po završetku upotrebe.</li>
+              <li>Ovo oslobađanje može biti teže izvodljivo u kontekstu izuzetaka.</li>
+              <li>Zato je uvedena ključna reč <code>with</code>.</li>
+            </ul>
+            <pre><code data-trim class="python">
+import threading
+message_lock = threading.Lock()
+...
+with message_lock:
+  messages.add(newmessage)
+            </code></pre>
+            <ul>
+              <li>Izlaskom iz <code>with</code> bloka, bilo regularno ili zbog izuzetka biće
+                  automatski obavljeno oslobađanje resursa.</li>
+              <li>Objekti koji mogu da se navedu u iskazu <code>with</code> implementiraju
+                  određeni kontekst protokol (dve specijalne metode:
+                  <code>__enter__</code> i <code>__exit__</code>)</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Izuzeci - konteksti</h2>
+            <ul>
+              <li> <code>open</code> funkcija vraća kontekst. Zato je moguće pisati:</li>
+            </ul>
+            <pre><code data-trim>
+with open('file.txt') as f:
+  ... obrada fajla f
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Moduli</h2>
+            <ul>
+              <li>Veće programe je poželjno razbiti u više fajlova/modula.</li>
+              <li>Python omogućava import-ovanje definicija iz drugih fajlova/modula.</li>
+              <li>Python moduli su fajlovi sa ekstenzijom .py</li>
+            </ul>
+            <pre><code data-trim>
+# file : div.py
+def divide(a,b):
+  q = a/b
+  r = a - q*b
+  return (q,r)
+            </code></pre>
+            <pre><code data-trim>
+import div
+a, b = div.divide(2305, 29)
+            </code></pre>
+            <pre><code data-trim>
+import div as foo
+a,b = foo.divide(2305,29)
+            </code></pre>
+            <pre><code data-trim>
+from div import divide
+a,b = divide(2305,29)
+            </code></pre>
+            <pre><code data-trim>
+from div import *
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Moduli (2)</h2>
+            <ul>
+              <li>I moduli su objekti</li>
+            </ul>
+            <pre><code data-trim class="python">
+&gt;&gt;&gt; import string
+&gt;&gt;&gt; dir(string)
+['_ _builtins_ _', '_ _doc_ _', '_ _file_ _', '_ _name_ _', '_idmap',
+'_idmapL', '_lower', '_swapcase', '_upper', 'atof', 'atof_error',
+'atoi', 'atoi_error', 'atol', 'atol_error', 'capitalize',
+'capwords', 'center', 'count', 'digits', 'expandtabs', 'find',
+...
+            </code></pre>
+          </section>
+
+        </section>
+
+
+
+        <section>
+
+          <section>
+            <h1>Leksičke konvencije i sintaksa</h1>
+          </section>
+
+
+          <section>
+            <h2>Struktura linije i indentacija</h2>
+            <pre><code data-trim class="python">
+a = math.cos(3 * (x - n)) + \
+    math.sin(3 * (y - n))
+            </code></pre>
+            <pre><code data-trim class="python">
+if a:
+  statement1     # Ispravna indentacija
+  statement2
+else:
+  statement3
+    statement4   # Neispravna indentacija
+            </code></pre>
+            <pre><code data-trim class="python">
+if a: statement1
+else: statement2
+            </code></pre>
+            <pre><code data-trim>
+if a:
+  pass
+else:
+  statements
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Struktura linije i indentacija (2)</h2>
+            <ul>
+              <li>Nije propisana širina uvlačenja ali mora biti konzistentan.</li>
+              <li>Preporučeno je 4 <i>space</i> karaktera za uvlačenje.</li>
+              <li>Preporuka je da se koriste <i>space</i> karakteri umesto <i>tab</i>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>String literali</h2>
+            <ul>
+              <li>Navode se unutar jednostrukih ili dvostrukih znakova navoda ili
+                  trostrukih za višelinijske stringove.</li>
+              <li>Unutar stringova \ karakter (<i>backslash</i>) služi da definiše
+                  tzv. <i>escape</i> sekvencu odnosno da omogući navođenje specijalnih znakova.</li>
+              <li>Moguće je navesti i unicode kod sa prefiksom \u</li>
+              <li>Za detalje videti reference.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Kontejneri</h2>
+            <ul>
+              <li>Vrednosti koje se navode unutar zagrada [...], (...), {...} predstavljaju
+                  kolekciju objekata koja se nalazi unutar liste, n-torke ili rečnika.</li>
+            </ul>
+            <pre><code data-trim>
+a = [ 1, 3.4, 'hello' ]
+b = ( 10, 20, 30 )
+c = { 'a': 3, 'b': 42 }
+            </code></pre>
+            <ul>
+              <li>Elementi kontejnera se mogu navoditi u više linija bez upotrebe znaka
+                  za nastavak linije (\)</li>
+              <li>Takođe, na kraju liste može da postoji , i to je sintaksno dozvoljeno.</li>
+            </ul>
+            <pre><code data-trim class="python">
+a = [ 1,
+      3.4,
+      'hello',
+    ]
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Tipovi i objekti</h1>
+          </section>
+
+
+          <section>
+            <h2>Terminologija</h2>
+            <ul>
+              <li>Svi podaci Python programa su objekti.</li>
+              <li>Objekti imaju identitet, tip i vrednost.</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; a = 42
+&gt;&gt;&gt; id(a)
+140649856584416
+&gt;&gt;&gt; id(42)
+140649856584416
+&gt;&gt;&gt; type(a)
+&lt;class 'int'&gt;
+&gt;&gt;&gt; b = a
+&gt;&gt;&gt; id(b)
+140649856584416
+&gt;&gt;&gt; type(b)
+&lt;class 'int'&gt;
+&gt;&gt;&gt;
+            </code></pre>
+            <ul>
+              <li>Jednom kreiran, identitet i tip objekta su nepromenjivi.</li>
+              <li>Ukoliko je vrednost objekta nepromenjiva kažemo da je objekat
+                  nepromenjiv (<i>immutable</i>).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Terminologija (2)</h2>
+            <ul>
+              <li>Objekti koji sadrže reference na druge objekte se nazivaju
+                  kontejneri ili kolekcije.</li>
+              <li>Objekte karakterišu atributi i metode.</li>
+              <li>Atributi su podaci pridruženi objektima.</li>
+              <li>Metode su funkcije koje vrše određene operacije nad objektom.</li>
+            </ul>
+            <pre><code data-trim class="python">
+a = 3 + 4j      # Kreiranje kompleksnog broja
+r = a.real      # Realni deo (atribut)
+b = [1, 2, 3]   # Kreiranje liste
+b.append(7)     # Dodavanje novog elementa upotrebom append metode
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Duck Typing</h2>
+            <ul>
+              <li>Metode i atributi objekta definišu njegovu semantiku a ne pripadnost
+                  određenom tipu tj. nasleđivanje određene klase</li>
+              <blockquote>
+                If it walks like a duck and quacks like a duck, it must be a duck.
+              </blockquote>
+              <pre><code data-trim>
+def sum(a, b):
+    return a + b     # a i b podržavaju + operaciju
+
+&gt;&gt;&gt; print sum(2, 5)
+7
+&gt;&gt;&gt; print sum(2.5, 6.7)
+9.2
+&gt;&gt;&gt; print sum(True, False)
+1
+&gt;&gt;&gt; print sum("Hello ", "world!")
+Hello world!
+              </code></pre>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Protokoli</h2>
+            <ul>
+              <li>Koncept tesno povezan sa <i>duck typing</i>.</li>
+              <li>Predstavlja određeno ponašanje objekta (skup metoda, atributa i njihove
+                  semantike).</li>
+              <li>Ako kažemo da objekat podržava neki protokol znamo šta možemo
+                  da očekujemo od njega i u kom kontekstu možemo da ga koristimo
+                  bez obzira kog je tipa.</li>
+              <li>Na primer, ako je objekat sekvenca (podržava protokol sekvence) tada
+                  znamo da možemo da koristimo isecanje (<i>slice</i>), iteraciju itd.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Identitet i tip objekta</h2>
+            <pre><code data-trim>
+# Poređenje dva objekta
+def compare(a,b):
+  if a is b:
+    # a i b su isti objekat
+    ...
+  if a == b:
+    # a i b imaju istu vrednost
+    ...
+  if type(a) is type(b):
+    # a i b su istog tipa
+    ...
+            </code></pre>
+            <pre><code data-trim>
+if type(s) is list:
+  s.append(item)
+if type(d) is dict:
+  d.update(t)
+            </code></pre>
+            <pre><code data-trim>
+if isinstance(s,list):
+  s.append(item)
+if isinstance(d,dict):
+  d.update(t)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Brojanje referenci</h2>
+            <pre><code data-trim class="python">
+a = 37        # Kreira objekat sa vrednošću 37
+b = a         # Uvećava brojač referenci za 37
+c = []
+c.append(b)   # Uvećava brojač referenci za 37
+
+del a         # Umanjuje brojač referenci za 37
+b = 42        # - II -
+c[0] = 2.0    # - II -
+            </code></pre>
+            <pre><code data-trim class="python">
+&gt;&gt;&gt; a = 37
+&gt;&gt;&gt; import sys
+&gt;&gt;&gt; sys.getrefcount(a)
+7
+&gt;&gt;&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Reference i kopije</h2>
+            <pre><code data-trim>
+&gt;&gt;&gt; a = [1,2,3,4]
+&gt;&gt;&gt; b = a             # b je referenca na listu a
+&gt;&gt;&gt; b is a
+True
+&gt;&gt;&gt; b[2] = -100       # Promena elementa u b
+&gt;&gt;&gt; a
+[1, 2, -100, 4]       # Element je promenjen u a jer je to
+&gt;&gt;&gt;                   # isti objekat
+
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Plitko i duboko kopiranje</h2>
+            <div class="side-left-code">
+              <pre><code data-trim>
+&gt;&gt;&gt; a = [ 1, 2, [3,4] ]
+&gt;&gt;&gt; b = list(a)
+&gt;&gt;&gt; b is a
+False
+&gt;&gt;&gt; b.append(100)
+&gt;&gt;&gt; b
+[1, 2, [3, 4], 100]
+&gt;&gt;&gt; a
+[1, 2, [3, 4]]
+&gt;&gt;&gt; b[2][0] = -100
+&gt;&gt;&gt; b
+[1, 2, [-100, 4], 100]
+&gt;&gt;&gt; a
+[1, 2, [-100, 4]]
+              </code></pre>
+            </div>
+            <div class="side-right-code">
+              <pre><code data-trim>
+&gt;&gt;&gt; import copy
+&gt;&gt;&gt; a = [1, 2, [3, 4]]
+&gt;&gt;&gt; b = copy.deepcopy(a)
+&gt;&gt;&gt; b[2][0] = -100
+&gt;&gt;&gt; b
+[1, 2, [-100, 4]]
+&gt;&gt;&gt; a
+[1, 2, [3, 4]]
+&gt;&gt;&gt;
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>First-Class Objects</h2>
+            <ul>
+              <li>Svi objekti u Python-u su "prvog reda" (<i>first-class</i>)</li>
+              <li>Ovo znači da svi objekti koji se mogu imenovati (referencirati)
+                  imaju isti status.</li>
+            </ul>
+            <div class="side-left-code" style="width:40%;">
+              <pre><code data-trim>
+items = {
+    'number' : 42
+    'text' : "Hello World"
+}
+
+items["func"] = abs
+import math
+items["mod"] = math
+items["error"] = ValueError
+nums = [1,2,3,4]
+items["append"] = nums.append
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="line-height:100%;left:37%;top:40%;width:75%;">
+              <pre><code data-trim>
+&gt;&gt;&gt; items["func"](-45)   # Poziva abs(-45)
+45
+&gt;&gt;&gt; items["mod"].sqrt(4) # Poziva math.sqrt(4)
+2.0
+&gt;&gt;&gt; try:
+...
+x = int("a lot")
+... except items["error"] as e:
+# Isto kao except ValueError as e
+...
+print("Couldn't convert")
+...
+Couldn't convert
+&gt;&gt;&gt; items["append"](100) # Izvršava nums.append(100)
+&gt;&gt;&gt; nums
+[1, 2, 3, 4, 100]
+&gt;&gt;&gt;
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Ugrađeni tipovi za podatke</h2>
+            <ul>
+              <li>None: NoneType</li>
+              <li>Brojevi: int, long, float, complex, bool</li>
+              <li>Sekvence: str, unicode, list, tuple, xrange</li>
+              <li>Mape: dict</li>
+              <li>Skupovi: set(<i>mutable</i>), frozenset(<i>immutable</i>)</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Sekvence</h2>
+            <ul>
+              <li>Uređena kolekcija objekata indeksirana nenegativnim rednim brojem.</li>
+              <li>Stringovi - nepromenjiva sekvenca karaktera.</li>
+              <li>n-torka(tuple) - nepromenjiva sekvenca proizvoljnih objekata.</li>
+              <li>Sve sekvence podržavaju <i>slicing</i> i iteracije.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Operacije nad sekvencama</h2>
+            <pre><code data-trim>
+s[i]              # Indeksni pristup
+s[i:j]            # Isecanje (slicing)
+s[i:j:korak]      # Prošireno isecanje
+len(s)            # broj elemenata sekvence
+min(s), max(s)    # minimalna/maksimalna vrednosta u sekvenci
+sum(s, [initial]) # sumiranje sekvence
+all(s)            # da li su svi elementi sekvence True
+any(s)            # da li je bilo koji element u listi True
+for a in s:       # iteracija
+  ...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Operacije nad promenjivim sekvencama</h2>
+            <pre><code data-trim>
+s[i] = v
+s[i:j] = t
+s[i:j:korak] = t
+del s[i]
+del s[i:j]
+del s[i:j:korak]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Liste</h2>
+            <ul>
+              <li>Liste su sekvence.</li>
+              <li>Svaka sekvenca se može konvertovati u listu sa <code>list(s)</code>.</li>
+              <li>Definišu sledeće metode:</li>
+              <ul>
+                <li><code>s.append(x)</code> - dodavanje na kraj</li>
+                <li><code>s.extend(t)</code> - proširenje sa listom t</li>
+                <li><code>s.count(x)</code> - broj pojava vrednosti x</li>
+                <li><code>s.index(x)</code> - pozicija prve pojave vrednosti x</li>
+                <li><code>s.insert(i, x)</code> - umetanje vrednosti x na poziciju i</li>
+                <li><code>s.pop()</code> - izbacivanje elementa sa kraja liste</li>
+                <li><code>s.remove(x)</code> - izbacivanje elementa x iz liste</li>
+                <li><code>s.reverse()</code> - obrtanje liste u mestu</li>
+                <li><code>s.sort([key, [, reverse]])</code> - sortiranje liste u mestu</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stringovi</h2>
+            <ul>
+              <li>Stringovi u Python-u 2 mogu biti <i>byte</i> i <i>unicode</i> stringovi.</li>
+              <li>U python-u 2 unicode stringovi imaju prefix <i>u</i>.</li>
+              <pre><code data-trim>
+ustr = u'Ово је ћирилични unicode стринг!'
+bstr = 'Ovo je byte string!'
+              </code></pre>
+              <li>Literali se navode unutar znakova navoda. Koriste se trostruki za
+                  višelinijske stringove.</li>
+              <pre><code data-trim>
+a = 'Ovo je string'
+b = "I ovo je string"
+c = """ Ovo je viselinijski
+string
+Evo jos jedne linije
+"""
+d = '''
+I ovo je viselinijski
+string
+'''
+              </code></pre>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stringovi (2)</h2>
+            <ul>
+              <li>Stringovi su nepromenjivi objekti (<i>immutable</i>). Sve metode stringa
+                  koje vraćaju string kreiraju novi string.</li>
+              <li>Neke od metoda:</li>
+              <pre><code data-trim class="python">
+s.capitalize()                # Prvi karakter postaje veliko slovo.
+s.center(width [, pad])       # Centrira string unutar zadate širine.
+s.find(sub [, start [,end]])  # Pronalazi podstring
+s.isalnum()                   # True ukoliko je alfanumerik
+s.isdigit()                   # True ukoliko su svi karakteri cifre
+s.lower()                     # Sva slova postaju mala
+s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
+                              # listu podstringova
+              </code></pre>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stringovi - formatiranje</h2>
+            <ul>
+              <li>Tri načina:</li>
+              <ul>
+                <li>Konkatanacija - operator + - izbegavati.</li>
+                <li>Interpolacija - % operator.</li>
+                <li><code>format</code> metoda - noviji i preferirani način.</li>
+              </ul>
+            </ul>
+            <pre><code data-trim class="python">
+>>> "Odgovor je %d" % 42
+'Odgovor je 42'
+>>> "Prvi=%s, drugi=%d, treci=%s" % ("prvi", 23, "third")
+'Prvi=prvi, drugi=23, treci=third'
+>>> "Prvi=%(prvi)s, drugi=%(drugi)d, pa opet %(prvi)s"
+    % {'drugi':11, 'prvi':"34"}
+'Prvi=34, drugi=11, pa opet 34'
+>>> "{} ribi {} rep.".format("Riba", "grize")
+'Riba ribi grize rep.'
+>>> "{1} ribi {0} rep.".format("Riba", "grize")
+'grize ribi Riba rep.'
+>>> "{ko} ribi {sta} rep.".format(ko="Riba", sta="grize")
+'Riba ribi grize rep.'
+>>> "{ko} ribi {sta} rep.".format(sta="soli", ko="riba")
+'riba ribi soli rep.'
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Mape</h2>
+            <ul>
+              <li>Promenjive, neuređene kolekcije proizvoljnih objekata indeksirane
+                  proizvoljnim objektom (uz određena ograničenja).</li>
+              <li>Rečnici (dict) su ugrađeni tip i predstavljaju implementaciju <i>hash</i>
+                  tabela ili asocijativnih nizova.</li>
+              <li>dict kao ograničenje za ključeve zahteva nepromenjivost (<i>immutability</i>)
+                  jer <i>hash</i> vrednost mora biti konstantna.</li>
+              <li>Operacije:</li>
+            </ul>
+            <pre><code data-trim class="python">
+m = {}            # Kreiranje praznog rečnika
+m = {             # Kreiranje rečnika sa elementima
+  'BG': 11000,
+  'NS': 21000,    # Zarez na kraju je dozvoljen
+}
+m['KG'] =         # Upis u rečnik
+m['NS']           # Čitanje vrednosti
+21000
+del m['BG']       # Brisanje vrednosti
+m[42] = 'Odgovor' # Ključevi i vrednosti mogu biti
+                  # različitog tipa
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Mape (2)</h2>
+            <pre><code data-trim class="python">
+len(m)              # Broj elemenata rečnika
+'NS' in m           # Provera pripadnosti
+m.clear()           # Uklanja sve elemente
+m.copy()            # Vraća kopiju od m
+m.get(k[, default]) # Vraća objekat pod ključem k a ako
+                    # ne postoji vraća v
+m.items()           # Vraća sekvencu (ključ, vrednost) parova
+m.keys()            # Vraća kolekciju ključeva
+m.values()          # Vraća kolekciju vrednosti
+m.setdefault(k[, v])  # Vraća m[k] ako postoji a ako ne vraća
+                      # v i postavlja m[k]=v
+m.update(b)         # Proširuje m sa elementima mape b
+m.pop(k[, default]) # Uklanja i vraća m[k] ukoliko postoji ili
+                    # default ukoliko ne postoji
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Dict comprehensions</h2>
+            <pre><code data-trim>
+# Treba da kreiramo mapu od sekvence ključeva i vrednosti
+mapa = {}
+for idx, kljuc in enumerate(kljucevi):
+  mapa[kljuc] = vrednosti[idx]
+
+# ili upotrebom dict comprehensions
+mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Skupovi</h2>
+            <ul>
+              <li>Neuređene kolekcije jedinstvenih elemenata.</li>
+              <li>Elementi nisu indeksirani. Ne postoji slice operator.</li>
+              <li>Elementi moraju biti nepromenjivi (<i>immutable</i>).</li>
+              <li>Dve vrste:</li>
+              <ul>
+                <li> <code>set</code> - promenivi skup</li>
+                <li> <code>frozenset</code> - nepromenjivi skup</li>
+              </ul>
+              <li>Instanciraju se pozivom sa parametrom koji implementira
+                  iterator protokol.</li>
+            </ul>
+            <pre><code data-trim>
+s = set([1,5,10,15])
+f = frozenset(['a',37,'hello'])
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Skupovi - operacije</h2>
+            <pre><code data-trim class="python">
+len(s)                    # Broj elemenata
+s.copy()                  # Kopija
+s.intersection(t)         # s &amp; t   - presek
+s.union(t)                # s | t   - unija
+s.difference(t)           # s - t   - razlika
+s.symetric_difference(t)  # s ^ t   - simetrična razlika
+s.isdisjoint(t)           # True ako nemaju zajedničkih elem.
+s.issubset(t)             # True ako je s podskup od t
+s.issuperset(t)           # True ako je s nadskup od t
+
+# Promenivi skupovi još imaju i
+s.add(element)
+s.remove(element)
+s.clear()
+s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
+...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Callables</h2>
+            <ul>
+              <li>Objekti koji podržavaju semantiku poziva.</li>
+              <li>Funkcije, klase, metode.</li>
+              <li>Tretiraju se kao i svi drugi objekti - mogu biti elementi kolekcija,
+                  mogu se prosleđivati kao parametri, biti povratne vrednosti drugih
+                  callables itd.</li>
+            </ul>
+            <pre><code data-trim class="python" style="line-height:105%">
+def foo(x,y):
+    return x + y
+
+bar = lambda x,y: x + y
+
+funkcije = [foo, bar]
+for f in funkcije:
+  print f(2,3)
+
+def div_by_maker(x):
+  def div_by(b):
+    return b/x
+  return div_by
+
+a = div_by_maker(5)
+a(20)                 # = 4
+b = div_by_maker(2)
+b(20)                 # = 10
+b(10)                 # = 5
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Operatori i izrazi</h1>
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Struktura programa i kontrola toka</h1>
+          </section>
+
+
+          <section>
+            <h2>Struktura programa</h2>
+            <ul>
+              <li>Svaki iskaz se tretira na isti način. Nema specijalnih iskaza.</li>
+              <li>Svaki iskaz se može pojaviti bilo gde u programu.</li>
+            </ul>
+            <pre><code data-trim>
+if debug:
+  def square(x):
+    if not isinstance(x,float):
+      raise TypeError("Expected a float")
+    return x * x
+else:
+  def square(x):
+    return x * x
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Uslovno izvršavanje</h2>
+            <pre><code data-trim class="python">
+if expression:
+  statements
+elif expression:
+  statements
+elif expression:
+  statements
+...
+else:
+  statements
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Petlje i iteracije</h2>
+            <pre><code data-trim class="python">
+while expression:
+  statements
+
+# For petlja (s podržava iterator protokol)
+for i in s:
+  statements
+
+# Ili razloženo
+it = s.__iter__() # Iterator za kolekciju s
+while True:
+  try:
+    i = it.next() # Sledeći element (__next__ u P3)
+    # Obradi element i
+  except StopIteration:
+    # Nema više elemenata
+    break
+  ...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Raspakivanje elemenata</h2>
+            <ul>
+              <li>Ukoliko su svim elementi kolekcije sekvence iste dužine moguće je uraditi
+                  sledeće:</li>
+            </ul>
+            <pre><code data-trim>
+# s je oblika [ (x1,y1,z1), (x2,y2,z2),... ]
+for x,y,z in s:
+  ... Obrada x, y, z elemenata
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Indeks u for petlji</h2>
+            <ul>
+              <li>Kada se iterira kroz elemente kolekcije nekad je potrebno znati indeks.</li>
+            </ul>
+            <pre><code data-trim>
+i = 0
+for x in s:
+  statements
+  i += 1
+
+# Ili jednostavnije
+for i,x in enumerate(s):
+  statements
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Paralelna iteracija</h2>
+            <ul>
+              <li>Često je potrebno iterirati paralelno kroz više kolekcija.</li>
+            </ul>
+            <pre><code data-trim class="python">
+# s i t su dve sekvence
+i = 0
+while i &lt; len(s) and i &lt; len(t):
+    x = s[i]    # Uzmi i-ti element iz s
+    y = t[i]    # Uzmi i-ti element iz t
+    statements
+    i += 1
+
+# Ili jednostavnije
+for x,y in zip(s,t):
+  statements
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>For-else, break, continue</h2>
+            <ul>
+              <li>Iz <code>for</code> petlje može prevremeno da se izađe upotrebom <code>break</code>
+                  iskaza.</li>
+              <li><code>For</code> petlja može imati opcioni <code>else</code> blok koji
+                  se izvršava ukoliko se petlja nije završila prevremeno (<code>break</code> iskaz)</li>
+            </ul>
+            <pre><code data-trim>
+for line in open("foo.txt"):
+  stripped = line.strip()
+  if not stripped:
+    break
+    # process the stripped line
+  ...
+else:
+  raise RuntimeError("Missing section separator")
+            </code></pre>
+            <ul>
+              <li>Sa <code>continue</code> se može direktno preći na sledeći ciklus iteracije.</li>
+            </ul>
+            <pre><code data-trim>
+for line in open("foo.txt"):
+  stripped = line.strip()
+  if not stripped:    # Ako je linija prazna
+    continue # Preskoči je
+  # Obradi sve linije koje nisu prazne
+            </code></pre>
+          </section>
+
+
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Funkcije i funkcionalno programiranje</h1>
+          </section>
+
+
+          <section>
+            <h2>Osnove</h2>
+            <pre><code data-trim>
+# Definisanje
+def add(x, y):
+  return x + y
+
+# Lambda funkcija
+l = lambda x, y: x + y
+
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Podrazumevana vrednost parametara</h2>
+            <pre><code data-trim class="python">
+# Podrazumenavana vrednost parametara
+def split(line, delimiter=','):
+  statements
+
+# Povezivanje je u trenutku kreiranja funkcije.
+# Primer:
+a = 10
+def foo(x=a):
+  return x
+
+a = 5     # Redefinisanje varijable 'a'
+foo()     # Vraća 10 (podrazumevana vrednost nije promenjena)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Napomena kod <i>mutable</i> tipova</h2>
+            <pre><code data-trim class="python">
+#Problem
+def foo(x, items=[]):
+  items.append(x)
+  return items
+
+foo(1)    # Vraća [1]
+foo(2)    # Vraća [1, 2]
+foo(3)    # Vraća [1, 2, 3]
+
+# Rešenje
+def foo(x, items=None):
+  items = [] if items is None else items
+  items.append(x)
+  return items
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Promenjiv broj argumenata - po poziciji</h2>
+            <pre><code data-trim>
+def fprintf(file, fmt, *args):
+  file.write(fmt % args)
+
+# Poziv fprintf. args postaje n-torka (42,"hello world", 3.45)
+fprintf(out,"%d %s %f", 42, "hello world", 3.45)
+
+# n-torke možemo i "raspakovati" pri pozivu upotrebom * operatora
+def printf(fmt, *args):
+  # Poziv druge funkcije i prosleđivanje argumenata
+  fprintf(sys.stdout, fmt, *args)
+
+# Ili npr.
+a = (2,3)
+f = lambda x, y: x + y
+print f(*a)   # n-torka a se "razlaže" i prosleđuje poziciono
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prosleđivanje parametara po nazivu</h2>
+            <pre><code data-trim class="python">
+def foo(x, y, z, w):
+  statements
+
+# Keyword argument invocation
+foo(x=3, y=22, w='hello', z=[1,2])
+
+# Može i kombinovano
+foo(3, 22, w='hello', z=[1,2])
+# Ali ne i ovako - višestruke vrednosti za y
+foo('hello', 3, z=[1,2], y=22)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Promenjiv broj argumenata - imenovani parametri</h2>
+            <pre><code data-trim class="python">
+def make_table(data, **parms):
+  # Get configuration parameters from parms (a dict)
+  fgcolor = parms.pop("fgcolor","black")
+  bgcolor = parms.pop("bgcolor","white")
+  width = parms.pop("width",None)
+  ...
+  # No more options
+  if parms:
+    raise TypeError("Unsupported configuration options %s" % list(parms))
+
+make_table(items, fgcolor="black", bgcolor="white", border=1,
+            borderstyle="grooved", cellpadding=10,
+            width=400)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Promenjiv broj argumenata - kombinovan prenos</h2>
+            <ul>
+              <li>Mogu se kombinovati pozicioni i imenovani parametri dok god
+                  se imenovani (**) nalaze na kraju</li>
+            </ul>
+            <pre><code data-trim>
+# Različit broj pozicionih i imenovanih parametara
+def spam(*args, **kwargs):
+  # args je n-torka sa pozicionim parametrima
+  # kwargs je rečnik sa imenovanim parametrima
+  ...
+
+# Možemo i prosleđivati parametre drugim funkcijama
+# To se često koristi kod tzv. wrapper ili proxy funkcija
+def callfunc(*args, **kwargs):
+  func(*args,**kwargs)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prenos parametara i povratne vrednosti</h2>
+            <ul>
+              <li>Prenos se obavlja po referenci.</li>
+            </ul>
+            <pre><code data-trim class="python">
+a = [1, 2, 3, 4, 5]
+def square(items):
+  for i, x in enumerate(items):
+    items[i] = x * x     # Menja elemente u mestu
+
+square(a)     # Promena u [1, 4, 9, 16, 25]
+            </code></pre>
+            <ul>
+              <li>Ako funkcija vraća više vrednosti to se može učiniti n-torkom (<i>tuple</i>).</li>
+            </ul>
+            <pre><code data-trim class="pyton">
+def factor(a):
+  d = 2
+  while (d &lt;= (a / 2)):
+    if ((a / d) * d == a):
+      return ((a / d), d)
+    d = d + 1
+  return (a, 1)     # Vraćamo dve vrednosti iz funkcije
+
+(x, y) = factor(1234)
+# ili jednostavno
+x, y = factor(1234)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pravila dometa (<i>scoping rules</i>) - lokalne i globalne varijable</h2>
+            <pre><code data-trim>
+a = 42
+def foo():
+  a = 13
+foo()
+# ovde je a 42
+
+a = 42
+b = 37
+def foo():
+  global a    # Deklarišemo 'a' kao globalnu
+  a = 13
+  b = 0
+foo()
+# a je 13. b je još uvek 37.
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pravila dometa (<i>scoping rules</i>) - ne-lokalne varijable</h2>
+            <div class="side-left-code">
+              <pre><code data-trim>
+def countdown(start):
+  n = start
+  def display():
+    print('T-minus %d' % n)
+  def decrement():
+    n -= 1      # Ne radi u Python 2
+  while n &gt; 0:
+    display()
+    decrement()
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="top:29%;">
+              <pre><code data-trim>
+def countdown(start):
+  n = start
+  def display():
+    print('T-minus %d' % n)
+  def decrement():
+    nonlocal n # Radi samo u Python 3
+    n -= 1
+  while n &gt; 0:
+    display()
+    decrement()
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Dekoratori</h2>
+            <ul>
+              <li>Dekorator obrazac.</li>
+              <li>Funkcije koje prihvataju kao parametar funkciju (ili uopšte <code>callable</code>) i
+                  vraćaju izmenjenu verziju.</li>
+            </ul>
+            <div class="side-left-code" style="width:35%">
+              <pre><code data-trim class="python">
+@trace
+def square(x):
+  return x*x
+
+# Ovo je ekvivalentno sa
+def square(x):
+  return x*x
+square = trace(square)
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:35%;width:65%;top:46%">
+              <pre><code data-trim class="python">
+enable_tracing = True
+if enable_tracing:
+  debug_log = open("debug.log","w")
+def trace(func):
+  if enable_tracing:
+    def callf(*args,**kwargs):
+      debug_log.write("Calling %s: %s, %s\n" %
+              (func._ _name_ _, args, kwargs))
+      r = func(*args,**kwargs)
+      debug_log.write("%s returned %s\n" %
+                      (func._ _name, r))
+      return r
+    return callf
+  else:
+    return func
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Dekoratori (2)</h2>
+            <ul>
+              <li>Mogu da se stekuju.</li>
+            </ul>
+            <pre><code data-trim class="python">
+@foo
+@bar
+@spam
+def grok(x):
+  pass
+
+# je isto što i
+def grok(x):
+  pass
+grok = foo(bar(spam(grok)))
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Dekoratori (3)</h2>
+            <ul>
+              <li>Mogu da imaju parametre</li>
+            </ul>
+            <div>
+              <div style="float:left; width:50%">
+                <pre><code data-trim class="python">
+@eventhandler('BUTTON')
+def handle_button(msg):
+  ...
+
+@eventhandler('RESET')
+def handle_reset(msg):
+  ...
+
+# Sto je ekvivalentno sa
+def handle_button(msg):
+...
+temp = eventhandler('BUTTON')
+handle_button = temp(handle_button)
+                </code></pre>
+              </div>
+              <div style="float:left; width:50%;">
+                <pre><code data-trim class="python">
+# Event handler decorator
+event_handlers = { }
+def eventhandler(event):
+  def register_function(f):
+    event_handlers[event] = f
+    return f
+  return register_function
+                </code></pre>
+              </div>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>List comprehensions opet</h2>
+            <div class="side-left-code" style="width:42%">
+              <pre><code data-trim class="python">
+nums = [1, 2, 3, 4, 5]
+squares = []
+for n in nums:
+  squares.append(n * n)
+
+# Ekvivalentno
+nums = [1, 2, 3, 4, 5]
+squares = [n * n for n in nums]
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:40%;width:67%;top:23%">
+              <pre><code data-trim class="python">
+# Opšti oblik sintakse
+[expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN ]
+
+# Što je ekvivalentno sa
+s = []
+for item1 in iterable1:
+  if condition1:
+    for item2 in iterable2:
+      if condition2:
+        ...
+        for itemN in iterableN:
+          if conditionN: s.append(expression)
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>List comprehensions primeri</h2>
+            <pre><code data-trim>
+a = [-3, 5, 2, -10, 7, 8]
+b = 'abc'
+
+c = [2*s for s in a]                # c = [-6,10,4,-20,14,16]
+d = [s for s in a if s &gt;= 0]        # d = [5,2,7,8]
+e = [(x,y) for x in a               # e = [(5,'a'),(5,'b'),(5,'c'),
+           for y in b               #      (2,'a'),(2,'b'),(2,'c'),
+           if x &gt; 0 ]               #      (7,'a'),(7,'b'),(7,'c'),
+                                    #      (8,'a'),(8,'b'),(8,'c')]
+
+f = [(1,2), (3,4), (5,6)]
+g = [math.sqrt(x * x + y * y)             # g = [2.23606, 5.0, 7.81024]
+                for x,y in f]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Generator izrazi</h2>
+            <ul>
+              <li>Slično kao <i>list comprehensions</i> ali ne kreiraju listu
+                  već generator objekat koji izračunava vrednosti na zahtev (lenja evaluacija).</li>
+            </ul>
+            <div class="side-left-code" style="width:66%">
+              <pre><code data-trim class="python">
+# Opšti oblik sintakse
+(expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN )
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:63%;width:40%;top:48%">
+              <pre><code data-trim class="python">
+&gt;&gt;&gt; a = [1, 2, 3, 4]
+&gt;&gt;&gt; b = (10*i for i in a)
+&gt;&gt;&gt; b
+&lt;generator object at 0x590a8&gt;
+&gt;&gt;&gt; b.next()
+10
+&gt;&gt;&gt; b.next()
+20
+...
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Generator izrazi - primer</h2>
+            <pre><code data-trim class="python">
+f = open("data.txt")
+lines = (t.strip() for t in f)
+
+comments = (t for t in lines if t[0] == '#')
+for c in comments:
+  print(c)
+
+
+# Uvek se može konvertovati u listu
+clist = list(comments)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><code>lambda</code> iskaz</h2>
+            <ul>
+              <li>Kreiranje anonimne funkcije.</li>
+            </ul>
+            <pre><code data-trim class="python">
+# Sintaksa
+lambda args : expression
+
+# Primeri
+a = lambda x,y : x+y
+r = a(2,3)
+
+# Osnovna namena - kratke callback funkcije
+# Npr. - case-insensitive sortiranje
+names.sort(key=lambda n: n.lower())
+
+            </code></pre>
+          </section>
+
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Klase i objektno-orijentisano programiranje</h1>
+          </section>
+
+
+          <section>
+            <h2>Klase</h2>
+            <ul>
+              <li>Kolekcija funkcija (metoda), varijabli (atributa) i dinamičkih
+                  atributa(<i>properties</i>)</li>
+            </ul>
+            <pre><code data-trim style="line-height:110%">
+class Account(object):
+  num_accounts = 0
+
+  def __init__(self,name,balance):   # Konstruktor
+    self.name = name
+    self.balance = balance
+    Account.num_accounts += 1        # Pristup deljenom class atributu
+
+  def __del__(self):
+    Account.num_accounts -= 1
+
+  def deposit(self,amt):
+    self.balance = self.balance + amt
+
+  def withdraw(self,amt):
+    self.balance = self.balance - amt
+
+  def inquiry(self):
+    return self.balance
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><code>class</code> iskaz</h2>
+            <ul>
+              <li>Klasa je python objekat koji se kreira kada interpreter naiđe na
+                  <code>class</code> iskaz i uspešno ga obradi.</li>
+              <li>Referenca na ovaj objekat je ime klase.</li>
+              <li> <code>class</code> iskaz nije ni počemu poseban i može da se
+                  koristi bilo gde gde se mogu koristiti i drugi iskazi.</li>
+            </ul>
+            <pre><code data-trim>
+def napravi_klasu():
+  class MojaKlasa(object):
+    def __init__(self, a):
+      self.a = a
+  return MojaKlasa
+
+k = napravi_klasu()     # k je klasa
+m = napravi_klasu()     # m je klasa
+id(k) != id(m)          # ali nova
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Instanciranje</h2>
+            <ul>
+              <li>Istanciranje objekta se obavlja pozivom klase.</li>
+              <li>Klasa je <i>callable</i>.</li>
+            </ul>
+            <pre><code data-trim class="python">
+a = Account("Guido", 1000.00)  # Poziva Account.__init__(a,"Guido",1000.00)
+b = Account("Bill", 10.00)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Referenciranje atributa i metoda</h2>
+            <pre><code data-trim class="python">
+a.deposit(100.00)       # Poziva Account.deposit(a, 100.00)
+b.withdraw(50.00)       # Poziva Account.withdraw(b, 50.00)
+name = a.name           # Pristup 'name' atributu
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pravila opsega (<i>scoping</i>)</h2>
+            <ul>
+              <li>Klase definišu prostor imena (<i>namespace</i>) ali metode nemaju
+                  prostor imena.</li>
+              <li>Pristup atributima iz metoda mora biti potpuno kvalifikovan</li>
+              <li>U tu svrhu koristi se eksplicitna <code>self</code> referenca.</li>
+            </ul>
+            <pre><code data-trim class="python">
+class Foo(object):
+
+  def bar(self):
+    print("bar!")
+
+  def spam(self):
+    bar(self)       # Neispravno! 'bar' baca NameError izuzetak
+    self.bar()      # Ispravno
+    Foo.bar(self)   # Takođe ispravno
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje</h2>
+            <pre><code data-trim class="python">
+import random
+
+class EvilAccount(Account):
+
+  def inquiry(self):
+    if random.randint(0,4) == 1:
+      return self.balance * 1.10
+    else:
+      return self.balance
+
+
+c = EvilAccount("George", 1000.00)
+c.deposit(10.0)
+available = c.inquiry()
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje (2)</h2>
+            <ul>
+              <li>Naslednica može da doda nove atribute.</li>
+            </ul>
+            <pre><code data-trim class="python">
+class EvilAccount(Account):
+
+  def __init__(self, name, balance, evilfactor):
+    Account.__init__(self, name, balance)
+    self.evilfactor = evilfactor
+
+  def inquiry(self):
+    if random.randint(0,4) == 1:
+      return self.balance * 1.10
+    else:
+      return self.balance
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><code>super</code> funkcija</h2>
+            <pre><code data-trim class="python">
+class MoreEvilAccount(EvilAccount):
+
+  def deposit(self,amount):
+    self.withdraw(5.00)
+    EvilAccount.deposit(self, amount)
+            </code></pre>
+            <pre><code data-trim class="python">
+class MoreEvilAccount(EvilAccount):
+
+  def deposit(self,amount):
+    self.withdraw(5.00)
+    super(MoreEvilAccount, self).deposit(amount)
+
+    # U python-u 3 može i samo
+    super().deposit(amount)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Višestruko nasleđivanje</h2>
+            <div class="side-left-code" style="width:40%">
+              <pre><code data-trim class="python">
+class DepositCharge(object):
+  fee = 5.00
+  def deposit_fee(self):
+    self.withdraw(self.fee)
+
+class WithdrawCharge(object):
+  fee = 2.50
+  def withdraw_fee(self):
+    self.withdraw(self.fee)
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:40%;width:60%;margin-top: -17px">
+              <pre><code data-trim class="python">
+class MostEvilAccount(EvilAccount,
+                      DepositCharge,
+                      WithdrawCharge):
+
+  def deposit(self,amt):
+    self.deposit_fee()
+    super(MostEvilAccount,self).deposit(amt)
+
+  def withdraw(self,amt):
+    self.withdraw_fee()
+    super(MostEvilAcount,self).withdraw(amt)
+              </code></pre>
+            </div>
+            <div>
+              <pre><code data-trim class="python" style="margin-top:70px">
+d = MostEvilAccount("Dave",500.00,1.10)
+d.deposit_fee()   # DepositCharge.deposit_fee().  Fee je 5.00
+d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Višestruko nasleđivanje - MRO</h2>
+            <ul>
+              <li><i>Method Resolution Order</i> - MRO</li>
+            </ul>
+            <pre><code data-trim>
+&gt;&gt;&gt; MostEvilAccount.__mro__
+(&lt;class '_ _main_ _.MostEvilAccount'&gt;,
+ &lt;class '_ _main_ _.EvilAccount'&gt;,
+ &lt;class '_ _main_ _.Account'&gt;,
+ &lt;class '_ _main_ _.DepositCharge'&gt;,
+ &lt;class '_ _main_ _.WithdrawCharge'&gt;,
+ &lt;type 'object'&gt;)
+&gt;&gt;&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Polimorfizam, dinamičko povezivanje, <i>duck typing</i></h2>
+            <ul>
+              <li>Korišćenje objekta bez obzira na njegov konkretni tip.</li>
+              <li>Dovoljno je samo da ima određene atribute i metode tj. određeno ponašanje.</li>
+              <li>U Python-u nije bitna ni hijerarhija nasleđivanja.</li>
+              <li>Primer: file-like objekti iz standardne biblioteke.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2><i>Static</i> metode</h2>
+            <pre><code data-trim>
+class Foo(object):
+  @staticmethod
+  def add(x,y):
+    return x + y
+
+x = Foo.add(3,4)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Static</i> metode (2)</h2>
+            <pre><code data-trim class="python" style="line-height:110%">
+class Date(object):
+  def __init__(self,year,month,day):
+    self.year = year
+    self.month = month
+    self.day = day
+
+  @staticmethod
+  def now():
+    t = time.localtime()
+    return Date(t.tm_year, t.tm_mon, t.tm_day)
+
+  @staticmethod
+  def tomorrow():
+    t = time.localtime(time.time()+86400)
+    return Date(t.tm_year, t.tm_mon, t.tm_day)
+
+a = Date(1967, 4, 9)
+b = Date.now()      # Calls static method now()
+c = Date.tomorrow() # Poziva static metodu tomorrow()
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2> <i>class</i> metode</h2>
+            <ul>
+              <li>Metode klase koje primaju <code>class</code> objekat klase
+                  nad kojom su pozvane.</li>
+            </ul>
+            <pre><code data-trim>
+class Times(object):
+  factor = 1
+
+  @classmethod
+  def mul(cls,x):
+    return cls.factor * x
+
+class TwoTimes(Times):
+  factor = 2
+
+x = TwoTimes.mul(4)     # Poziva Times.mul(TwoTimes, 4) -&gt; 8
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer upotrebe <i>class</i> metode - problem</h2>
+            <pre><code data-trim>
+class EuroDate(Date):
+  # Izmena string konverzije da koristi evropske datume
+  def __str__(self):
+    return "%02d/%02d/%4d" % (self.day, self.month, self.year)
+            </code></pre>
+            <ul>
+              <li>Problem je ukoliko se pozove <code>EuroDate.now()</code> biće vraćena
+                  instanca <code>Date</code> klase.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer upotrebe <i>class</i> metode - rešenje</h2>
+            <pre><code data-trim class="python">
+class Date(object):
+  ...
+  @classmethod
+  def now(cls):
+    t = time.localtime()
+    # Kreiranje objekat odgovarajućeg tipa
+    return cls(t.tm_year, t.tm_month, t.tm_day)
+
+class EuroDate(Date):
+...
+
+a = Date.now()      # Poziva Date.now(Date) i vraća Date
+b = EuroDate.now()  # Poziva Date.now(EuroDate) i vraća EuroDate
+
+# Jedna napomena. Metode su dostupne i na instancama
+a = Date(1967,4,9)
+b = d.now()         # Poziva Date.now(Date)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Properties</i></h2>
+            <ul>
+              <li>Specijalna vrsta atributa koja dinamički izračunava svoju vrednost.</li>
+            </ul>
+
+            <div class="side-left-code" style="width:50%">
+              <pre><code data-trim class="python">
+class Circle(object):
+  def __init__(self,radius):
+    self.radius = radius
+  @property
+  def area(self):
+    return math.pi * self.radius ** 2
+  @property
+  def perimeter(self):
+    return 2 * math.pi * self.radius
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:50%;width:50%;top:38%">
+              <pre><code data-trim class="python">
+&gt;&gt;&gt; c = Circle(4.0)
+&gt;&gt;&gt; c.radius
+4.0
+&gt;&gt;&gt; c.area
+50.26548245743669
+&gt;&gt;&gt; c.perimeter
+25.132741228718345
+&gt;&gt;&gt; c.area = 2
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+AttributeError: can't set attribute
+&gt;&gt;&gt;
+              </code></pre>
+            </div>
+          </section>
+
+
+          <section>
+            <h2> <i>Properties</i> - <i>setters</i></h2>
+            <pre><code data-trim class="python" style="line-height:100%">
+class Foo(object):
+  def __init__(self,name):
+    self.__name = name
+  @property
+  def name(self):
+    return self.__name
+  @name.setter
+  def name(self,value):
+    if not isinstance(value,str):
+      raise TypeError("Must be a string!")
+    self.__name = value
+  @name.deleter
+  def name(self):
+    raise TypeError("Can't delete name")
+
+f = Foo("Guido")
+n = f.name        # Poziva f.name() - getter
+f.name = "Monty"  # Poziva setter name(f, "Monty")
+f.name = 45       # Poziva setter name(f, 45) -&gt; TypeError
+del f.name        # Poziva deleter name(f) -&gt; TypeError
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Enakpsulacija i privatni atributi</h2>
+            <pre><code data-trim>
+class A(object):
+  def __init__(self):
+    self.__X = 3        # Izmenjeno u self._A__X
+  def __spam(self):     # Izmenjeno u _A__spam()
+    pass
+  def bar(self):
+    self.__spam()       # Poziva A.__spam()
+
+
+class B(A):
+  def __init__(self):
+    A.__init__(self)
+    self.__X = 37       # Izmenjeno u self._B__X
+  def __spam(self):     # Izmenjeno u _B__spam()
+    pass
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Redefinisanje operatora (<i>operator overloading</i>)</h2>
+            <ul>
+              <li>Svi operatori korišćeni u Python-u (npr. +, -, *, /, in, []...)su opisani
+                  specijalnim metodama i mogu se redefinisati.</li>
+            </ul>
+            <pre><code data-trim>
+class Complex(object):
+  def __init__(self,real,imag=0):
+    self.real = float(real)
+    self.imag = float(imag)
+  def __repr__(self):
+    return "Complex(%s,%s)" % (self.real, self.imag)
+  def __str__(self):
+    return "(%g+%gj)" % (self.real, self.imag)
+  # self + other
+  def __add__(self,other):
+    return Complex(self.real + other.real, self.imag + other.imag)
+  # self - other
+  def __sub__(self,other):
+    return Complex(self.real - other.real, self.imag - other.imag)
+            </code></pre>
+            <ul>
+              <li>Napomena: Ovo je samo ilustrativan primer - Python već ima ugrađen tip
+                  kompleksnih brojeva.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Pripadnost klasi ili tipu</h2>
+            <pre><code data-trim class="python">
+class A(object): pass
+class B(A): pass
+class C(object): pass
+a = A() # Instance of 'A'
+b = B() # Instance of 'B'
+c = C() # Instance of 'C'
+
+type(a)           # Vraća klasu A (class objekat)
+isinstance(a, A)  # True
+isinstance(b, A)  # True, B nasleđuje A
+isinstance(b, C)  # False, B ne nasleđuje C
+
+
+issubclass(B,A)   # True
+issubclass(C,A)   # False
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Moduli i paketi</h1>
+          </section>
+
+
+          <section>
+            <h2>Moduli i <code>import</code> iskaz</h2>
+            <ul>
+              <li>Svaki pajton fajl može da se koristi kao modul.</li>
+              <li> <code>import</code> iskaz <i>uvozi</i> definicije iz
+                  drugog modula u tekući prostor imena (<i>namespace</i> )</li>
+            </ul>
+            <div class="side-left-code" style="width:50%">
+              <pre><code data-trim class="python">
+# spam.py
+a = 37
+def foo():
+  print("I'm foo and a is %s" % a)
+def bar():
+  print("I'm bar and I'm calling foo")
+  foo()
+class Spam(object):
+  def grok(self):
+    print("I'm Spam.grok")
+              </code></pre>
+            </div>
+            <div class="side-right-code" style="left:50%;width:50%;top:42%">
+              <pre><code data-trim class="python">
+import spam
+x = spam.a
+spam.foo()
+s = spam.Spam()
+s.grok()
+...
+              </code></pre>
+          </section>
+
+
+          <section>
+            <h2> <code>import</code> - razni oblici</h2>
+            <pre><code data-trim>
+import socket, os, re
+            </code></pre>
+            <pre><code data-trim>
+import spam as sp
+import socket as net
+sp.foo()
+sp.bar()
+net.gethostname()
+            </code></pre>
+            <pre><code data-trim>
+if format == 'xml':
+  import xmlreader as reader
+elif format == 'csv':
+  import csvreader as reader
+data = reader.read_data(filename)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2> <code>import</code> - razni oblici (2)</h2>
+            <ul>
+              <li>Import samo određenog objekta.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from spam import foo
+foo()
+spam.foo()
+            </code></pre>
+            <ul>
+              <li>Import na više linija</li>
+            </ul>
+            <pre><code data-trim class="python">
+from spam import (foo,
+                  bar,
+                  Spam)
+            </code></pre>
+            <ul>
+              <li>Promena imena pri importu.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from spam import Spam as Sp
+s = Sp()
+            </code></pre>
+          </section>
+
+
+
+          <section>
+            <h2> <code>import</code> - razni oblici (3)</h2>
+            <ul>
+              <li>Import svih definicija u tekući prostor imena.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from spam import *
+            </code></pre>
+            <ul>
+              <li>Definisanje šta se uvozi kod import *.</li>
+            </ul>
+            <pre><code data-trim class="python">
+# module: spam.py
+__all__ = [ 'bar', 'Spam' ]
+            </code></pre>
+            <ul>
+              <li>Pravila opsega se ne menjaju.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from spam import foo
+a = 42
+foo()     # Ispisuje "I'm foo and a is 37"
+            </code></pre>
+            <pre><code data-trim class="python">
+from spam import bar
+def foo():
+  print("I'm a different foo")
+bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
+      # definicija foo() iz ovog fajla
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Izvršavanje glavnog programa</h2>
+            <ul>
+              <li><code>import</code> iskaz izvršava kod u prostoru imena pozivaoca.</li>
+              <li>Svaki modul definiše implicitno varijablu <code>__name__</code> koja
+                  predstavlja ime modula.</li>
+              <li>Ukoliko se modul startuje kao nezavisan program i tada dolazi do
+                  izvršavanja koda ali će <code>__name__</code> varijabla imati vrednost
+                  "__main__".</li>
+              <li>Pajton program se startuje sa:</li>
+            </ul>
+            <pre><code data-trim>
+$ python moj_program.py
+            </code></pre>
+            <ul>
+              <li>Možemo u modulu imati ovakav kod da bi obezbedili drugačije tretiranje
+                  modula pri importu i pri startovanju kao nezavisan program.</li>
+            </ul>
+            <pre><code data-trim class="python">
+if __name__ == '__main__':
+  # Startovan kao program
+else:
+  # Importovan kao modul
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Ulaz i izlaz</h1>
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Alati i okruženja</h1>
+          </section>
+
+
+          <section>
+            <h2>IPython</h2>
+            <ul>
+                <li>Interaktivni <i>shell</i> sličan standardnom</li>
+                <li>Read-Eval-Print-Loop</li>
+                <li>Razvoj kroz eksperimentisanje</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>IPython mogućnosti</h2>
+            <ul>
+                <li>Dopuna sa TAB tasterom</li>
+                <li>Istraživanje objekata sa ?</li>
+                <li>Autoreload modula</li>
+                <li><i>Magic</i> funkcije</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Primer sesije</h2>
+            <pre><code>
+[igor@sizif]$ ipython2
+Python 2.7.8 (default, Jul  1 2014, 17:30:21)
+Type "copyright", "credits" or "license" for more information.
+
+IPython 2.1.0 -- An enhanced Interactive Python.
+?         -&gt; Introduction and overview of IPython's features.
+%quickref -&gt; Quick reference.
+help      -&gt; Python's own help system.
+object?   -&gt; Details about 'object', use 'object??' for extra details.
+
+In [1]: print "Hello world!"
+Hello world!
+
+In [2]:
+              </code></pre>
+          </section>
+
+          <section>
+            <h2>Dopuna koda</h2>
+
+            <ul>
+                <li>Pritisak na taster TAB</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+In [4]: import os
+
+In [5]: os.pa
+os.pardir          os.path            os.pathconf
+os.pathconf_names  os.pathsep
+
+In [5]: os.pa
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Informacije o objektima</h2>
+            <p>
+                Iza naziva reference staviti znak "?"
+            </p>
+            <pre><code data-trim class="no-highlight">
+In [7]: map?
+Type:        builtin_function_or_method
+String form: &lt;built-in function map&gt;
+Namespace:   Python builtin
+Docstring:
+map(function, sequence[, sequence, ...]) -&gt; list
+
+Return a list of the results of applying the function to the items of
+the argument sequence(s).  If more than one sequence is given, the
+function is called with an argument list consisting of the corresponding
+item of each sequence, substituting None for missing values when not all
+sequences have the same length.  If the function is None, return a list of
+the items of the sequence (or a list of tuples if more than one sequence).
+
+In [8]:
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Proširene informacije o objektima</h2>
+            <p>
+                Iza naziva reference staviti znak "??"
+            </p>
+            <pre><code data-trim class="python">
+In [2]: import os
+
+In [3]: os.path.abspath??
+Type:        function
+String form: &lt;function abspath at 0x7f723641b848&gt;
+File:        /usr/lib/python2.7/posixpath.py
+Definition:  os.path.abspath(path)
+Source:
+def abspath(path):
+"""Return an absolute path."""
+if not isabs(path):
+if isinstance(path, _unicode):
+  cwd = os.getcwdu()
+else:
+  cwd = os.getcwd()
+path = join(cwd, path)
+return normpath(path)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2> <i>paste</i> više linija koda</h2>
+            <ul>
+              <li>Ponekad je zgodno u cilju testiranja <i>paste</i>-ovati blok koda na
+                  konzolu uz očuvanje indentacije.</li>
+              <li>Za ovu namenu koristi se magična funkcija <code>%paste</code></li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+In [5]: %paste
+def napravi_klasu():
+    class MojaKlasa(object):
+        def __init__(self, a):
+            self.a = a
+    return MojaKlasa
+## -- End pasted text --
+
+            </code></pre>
+          </section>
+
+
+          <section>
+              <h2>Reload modula</h2>
+              <ul>
+                  <li>Problem kod izmene koda posle import-a.</li>
+                  <li>Dva načina:</li>
+                      <ol>
+                          <li><em>reload</em> funkcija</li>
+                              <pre><code data-trim>
+                                  reload(moj_modul)
+                              </code></pre>
+                          <li><em>autoreload</em> ekstenzija</li>
+                              <pre><code data-trim>
+%load_ext autoreload
+%autoreload 2
+                              </code></pre>
+                      </ol>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Zadatak</h2>
+              Upotrebom IPython konzole:
+              <ul>
+                  <li>kreirati niz od 100 celih brojeva iz intervala [1, 1000]
+                      tako da se brojevi ne ponavljaju.</li>
+                  <li>Pronaći minimalni i maksimalni element niza.</li>
+                  <li>Sortirati niz u opadajućem redosledu.</li>
+                  <li>Napraviti modul sa funkcijom koja vraća sortirani niz sa brojem elemenata
+                      zadatim kao parametar.</li>
+                  <li>Uraditi import ove funkcije u IPython sesiju.</li>
+                  <li>Obrnuti smer sortiranja.</li>
+                  <li>Uraditi reload modula u IPython-u bez restarta i verifikovati da je
+                      funkcija izmenjena.</li>
+              </ul>
+              <aside>
+                  Pomoć: <em>random</em> modul
+              </aside>
+          </section>
+
+
+
+          <section>
+              <h2><a href="http://www.jetbrains.com/pycharm/" target="_blank">PyCharm</a></h2>
+              <img src="Python/PyCharm.png" />
+          </section>
+
+          <section>
+              <h2>Osobine</h2>
+              <ul>
+                  <li>Osnovne IDE operacije: navigacija, bojenje i dopuna koda, prikaz strukture koda...</li>
+                  <li>Podrška za analizu koda i refaktorisanje</li>
+                  <li>Integrisani debager. Podrška za testiranje</li>
+                  <li>Podrška za Django web framework, editovanje HTML i javaScript fajlova</li>
+                  <li>Komercijalni (firma JetBrains) - dostupan u Community verziji</li>
+                  <li>Pisan u Javi, radi na svim vodećim OS</li>
+              </ul>
+          </section>
+
+
+          <section>
+              <h2><a href="http://pydev.org/" target="_blank">Eclipse PyDev</a></h2>
+              <img style="max-height: 70%;" src="Python/PyDev.png"/>
+          </section>
+
+          <section>
+              <h2>Osobine</h2>
+              <ul>
+                  <li>Slobodan softver otvorenog koda.</li>
+                  <li>Dostupan kao skup plugin-a za Eclipse</li>
+                  <li>Osnovne operacije: navigacija, strukturni prikaz, bojenje i dopuna koda...</li>
+                  <li>Podrška za refaktorisanje ali trenutno na nižem nivou od PyCharm.</li>
+                  <li>Integrisani debager, interaktivna konzola, podrška za testiranje</li>
+                  <li>Podrška za Django i Django template</li>
+                  <li>Pisan u Javi, radi na svim vodećim OS</li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Instalacija</h2>
+              Načini za instalaciju:
+              <ul>
+                  <li>Eclipse distribucija sa već ugrađenim PyDev-om (npr. <a href="http://brainwy.github.io/liclipse/">LiClipse</a>)</li>
+                  <li>Dropins zip arhiva</li>
+                  <li>Update site: <a href="http://pydev.org/updates">http://pydev.org/updates</a></li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Konfiguracija</h2>
+              <h3>Podešavanje interpretera</h3>
+              <ul>
+                  <li>Moguće je podesiti više interpretera (npr python 2 i 3).</li>
+                  <li>Moguće je podesiti poseban interpreter za svaki projekat.</li>
+                  <li>Obavlja se kroz standardni dijalog za konfigurisanje (<em>Window
+                      &gt; Preferences</em>).</li>
+                  <li>Potrebno je konfigurisati Python interpreter u sekciji <em>PyDev
+                      &gt; Interpreter Python</em></li>
+                  <li>U većini slučajeva dovoljno je izabrati akciju <em>Auto Config</em>.
+                      Ukoliko Eclipse nije u stanju sam da pronađe Python
+                      interpreter to se može ručno definisati opcijom <em>New...</em></li>
+
+              </ul>
+          </section>
+
+
+          <section>
+              <h2>Konfiguracija</h2>
+              <h3>Podešavanje interpretera</h3>
+              <img style="height: 550px;" src="Python/PyDevPreferences.png"/>
+          </section>
+
+          <section>
+              <h2>Kreiranje novog projekta</h2>
+              <img src="Python/PyDevNewProject.png"/>
+          </section>
+
+          <section>
+              <h3>Efikasno editovanje - prečice na tastaturi</h3>
+              <table class="reveal">
+                  <thead>
+                      <th>Prečica</th>
+                      <th>Akcija</th>
+                  </thead>
+                  <tbody>
+                      <tr> <td>Ctrl-O</td> <td>Outline prikaz i navigacija</td></tr>
+                      <tr> <td>F3 ili Ctrl+Click</td> <td>Odlazak na definiciju</td></tr>
+                      <tr> <td>Ctrl+1</td> <td>Brza ispravka koda.</td></tr>
+                      <tr> <td>Ctrl+Shift+R</td> <td>Otvaranje fajla po delu imena.</td></tr>
+                      <tr> <td>Ctrl+E</td> <td>Prelazak na otvoreni tab po delu imena.</td></tr>
+                      <tr> <td>Ctrl+Q</td> <td>Poslednja edit lokacija.</td></tr>
+                      <tr> <td>Ctrl+4, Ctrl+5</td> <td>Dodavanje/uklanjanje blok komentara.<td></tr>
+                      <tr> <td>Ctrl+Shift+O</td> <td>Popravka import sekcije.<td></tr>
+                  </tbody>
+              </table>
+              <p>
+              <br/>
+              Puna lista je dostupna
+                  <a href="http://pydev.org/manual_adv_keybindings.html" target="_blank">ovde</a>
+              </p>
+          </section>
+
+          <section>
+              <h2>Zadatak</h2>
+              <ul>
+                  <li>Podesiti interpreter u PyDev-u.</li>
+                  <li>Kreirati novi projekat</li>
+                  <li>Kreirati novi Python modul sledećeg sadržaja:</li>
+                  <pre><code data-trim class="python">
+import fnmatch
+import os
+
+images = ['*.jpg', '*.jpeg', '*.png', '*.tif', '*.tiff']
+matches = []
+
+for root, dirnames, filenames in os.walk("C:\\eclipse\\plugins\\"):
+  for extensions in images:
+    for filename in fnmatch.filter(filenames, extensions):
+      matches.append(os.path.join(root, filename))
+
+print matches
+              </code></pre>
+                  <small>Preuzeto sa <a href="http://www.pythonforbeginners.com/systems-programming/os-walk-and-fnmatch-in-python/">http://www.pythonforbeginners.com/systems-programming/os-walk-and-fnmatch-in-python/</a></small>
+                  <li>Pokrenuti program iz PyDev</li>
+              </p>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Debagovanje</h2>
+              <ul>
+                  <li>Debagovanje sa print i Python kodom</li>
+                  <li>Integrisani debager</li>
+                  <ul>
+                      <li>Postavljanje prekidnih tačaka</li>
+                      <li>Pokretanje debagera</li>
+                      <li>Koračno izvršavanje i analiza varijabli</li>
+                  </ul>
+                  <img style="height: 400px;" src="Python/RemoteDebuging-Breakpoints.png" />
+              </ul>
+          </section>
+
+          <section>
+              <h2>Udaljeno debagovanje</h2>
+              <ul>
+                  <li><b>Problem:</b> debagovanje aplikacija koje ne mogu da se izvršavaju u kontekstu
+                          PyDev debagera (npr. web aplikacije na serveru).</li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Udaljeno debagovanje</h2>
+              <ul>
+                  <li><b>Rešenje:</b>udaljeno debagovanje (<em>Remote Debugging</em>)</li>
+                  <li>Način rada:</li>
+                  <ul>
+                      <li>Pokrećemo PyDev debager u server modu.
+                          Debager sluša na podrazumevanom portu 5678. </li>
+                          <img src="Python/RemoteDebuging-startServerButtons.png"/>
+                          <img src="Python/RemoteDebuging-DebugServerView.png" />
+                      <li>U kod koji se debaguje dodajemo instrukciju
+                          koja će se povezati za debager i predati mu kontrolu. </li>
+
+                      <pre><code data-trim>
+                      import pydevd;pydevd.settrace()
+                      </code></pre>
+                  </ul>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Udaljeno debagovanje</h2>
+              <ul>
+                  <li><em>settrace</em> poziv podrazumevano pokušava da se konektuje na
+                          lokalni računar. Ukoliko je potrebno moguće mu je proslediti
+                          parametar <em>host</em> gde se navodi IP adresa ili simboličko ime
+                          računara na kome je startovan debag server.</li>
+                  <li><b>Napomena:</b> <em>pydevd</em> paket mora biti na <em>PYTHONPATH</em></li>
+              </ul>
+              <pre><code data-trim>
+              export PYTHONPATH=%PYTHONPATH%;~/eclipse/plugins/org.python.pydev_2.7.3.2013031601/pysrc/
+              </code></pre>
+          </section>
+
+          <section>
+              <h2>Zadatak</h2>
+              <ul>
+                  <li>Pokrenuti program u debageru</li>
+                  <li>Izvršavati u koračnom modu i analizirati vrednosti varijabli</li>
+                  <li>Postavljati tačke prekida</li>
+                  <li>Ponoviti postupak sa tehnikom udaljenog debagovanja</li>
+              </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Pakovanje i distribucija paketa</h1>
+          </section>
+
+
+
+          <section>
+              <h2>Pakovanje i distribucija aplikacija u Python-u</h2>
+              <ul>
+                  <li>Distutils</li>
+                  <li>Setuptools</li>
+                  <li>pip</li>
+                  <li>PyPi</li>
+                  <li>Virtualenv</li>
+              </ul>
+          </section>
+
+
+          <section>
+              <h2>Distutils</h2>
+              <ul>
+                <li>Standardna biblioteka za upravljanje paketima.</li>
+                <li>Dolazi uz instalaciju Pythona.</li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Setuptools</h2>
+              <ul>
+                <li>Naprednija verzija biblioteke za upravljanje paketima.</li>
+                <li>Dobrim delom kompatiblina sa Distutils</li>
+                <li>Na windows-u instalira se sa pip-om preko skripte get-pip.py</li>
+                <pre><code data-trim>
+C:\&gt;python get-pip.py
+Downloading/unpacking pip
+Downloading/unpacking setuptools
+Installing collected packages: pip, setuptools
+Successfully installed pip setuptools
+Cleaning up...
+              </code></pre>
+              <li><b>Napomena:</b> Podesiti PATH da uključi Python Scripts folder.</li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>setup.py fajl</h2>
+              <ul>
+                <li>Metapodaci python paketa + informacije za <em>build</em>.</li>
+                <li>Primer:</li>
+                <pre><code data-trim>
+#!/usr/bin/env python
+
+from setuptools import setup
+#from distutils.core import setup
+
+setup(name='ImePaketa',
+      version='1.0',
+      description='Opis paketa',
+      author='Ime i prezime autora',
+      author_email='mailautora@negde.com',
+      url='http://ulrprojekta.com/',
+      packages=['prvipaket', 'drugipaket',
+                'drugipaket.podpaket'],
+     )
+              </code></pre>
+              </ul>
+          </section>
+
+          <section>
+              <h2>Instalacija iz setup.py</h2>
+              <p>
+                  Instalacija iz izvornog koda sa setup.py fajlom se obavlja komandom:
+              </p>
+              <pre><code data-trim class="no-highlight">
+C:\Pygments-1.6&gt; python setup.py install
+
+copying pygments\styles\native.py -&gt; build\lib\pygments\styles
+...
+Processing Pygments-1.6-py2.7.egg
+creating c:\python27\lib\site-packages\Pygments-1.6-py2.7.egg
+Extracting Pygments-1.6-py2.7.egg to c:\python27\lib\site-packages
+Adding Pygments 1.6 to easy-install.pth file
+Installing pygmentize-script.py script to c:\python27\Scripts
+Installing pygmentize.exe script to c:\python27\Scripts
+
+Installed c:\python27\lib\site-packages\pygments-1.6-py2.7.egg
+Processing dependencies for Pygments==1.6
+Finished processing dependencies for Pygments==1.6
+
+C:\Pygments-1.6&gt;
+              </code></pre>
+          </section>
+
+
+          <section>
+              <h2>Kreiranje installer-a iz setup.py</h2>
+              <p>
+                  Kreiranje binarnog installera za windows se obavlja sledećom komandom:
+              </p>
+              <pre><code data-trim class="no-highlight">
+                python setup.py bdist_wininst
+              </code></pre>
+          </section>
+
+
+          <section>
+              <h2>Instalacija za razvoj</h2>
+              <p>
+                  Ukoliko k&ocirc;d koji želimo da instaliramo još uvek razvijamo a
+                  želimo da izbegnemo ponovnu instalaciju posle svake izmene
+                  potrebno je da instaliramo paket na sledeći način
+              </p>
+
+              <pre><code data-trim class="no-highlight">
+              python setup.py develop
+              </code></pre>
+
+              <p>
+                Za deinstalaciju razvojnog paketa koristi se:
+              </p>
+
+              <pre><code data-trim class="no-highlight">
+              python setup.py develop --uninstall
+              </code></pre>
+
+          </section>
+
+
+          <section>
+            <h2>Zadatak</h2>
+            <ul>
+              <li>Kreirati fajl gsearch.py sa sadržajem sa sledećeg slajda.</li>
+              <li>Napraviti setup.py za njega i instalirati ga u <em>develop</em> modu.</li>
+              <li>Pokrenuti IPyhon sa proizvoljne lokacije i importovati gsearch modul.</li>
+              <li>Pozvati search funkciju.</li>
+              <li>Izmeniti search funkciju.</li>
+              <li>Importovati gsearch modul i verifikovati da je izmenjen.</li>
+            </ul>
+          </section>
+
+
+          <section>
+              <h2>Primer</h2>
+              <small>Preuzeto sa <a href="http://www.pythonforbeginners.com/code-snippets-source-code/google-command-line-script/">http://www.pythonforbeginners.com/code-snippets-source-code/google-command-line-script/</a> i prilagođeno kursu.</small>
+
+              <pre><code data-trim style="line-height: 110%;font-size:75%;">
+#!/usr/bin/python3
+from urllib import parse, request
+import json
+
+def search(query):
+
+  url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&"
+
+  query = parse.urlencode( {'q' : query } )
+  response = request.urlopen (url + query ).read()
+  data = json.loads ( response.decode("utf-8") )
+  results = data [ 'responseData' ] [ 'results' ]
+
+  ret_results = []
+  for result in results:
+      title = result['title']
+      url = result['url']
+      ret_results.append((title, url))
+
+  return ret_results
+
+if __name__=="__main__":
+    for title, link in search("fakultet tehnickih nauka"):
+        print("{}   [{}]".format(title, link))
+              </code></pre>
+          </section>
+
+
+          <section>
+              <h2>Python Package Index - PyPI</h2>
+              <ul>
+                <li>PyPI (<b>Py</b>thon <b>P</b>ackage <b>I</b>ndex)
+                    predstavlja repozitorijum python paketa.</li>
+                <li>Dostupan je na adresi
+                    <a href="https://pypi.python.org/">https://pypi.python.org/</a></li>
+                <li>Paketi se mogu pretraživati i prezimati putem web
+                    interfejsa ali i putem <code>pip</code> alata.</li>
+              </ul>
+          </section>
+
+          <section>
+              <h2>pip</h2>
+              <h3>Osnovne komande</h3>
+                <p>Pretraga paketa po nazivu:</p>
+                <pre><code data-trim class="no-highlight">
+                  pip search deo_imena
+                </code></pre>
+                <p>Instalacija paketa:</p>
+                <pre><code data-trim class="no-highlight">
+                  pip install ime_paketa
+                </code></pre>
+                <p>Prikaz instaliranih paketa:</p>
+                <pre><code data-trim class="no-highlight">
+                  pip list
+                </code></pre>
+                <p><em>Upgrade</em> paketa:</p>
+                <pre><code data-trim class="no-highlight">
+                  pip install --upgrade ime_paketa
+                </code></pre>
+                <p>Deinstalacija paketa:</p>
+                <pre><code data-trim class="no-highlight">
+                  pip uninstall ime_paketa
+                </code></pre>
+          </section>
+
+
+          <section>
+            <h2>virtualenv</h2>
+            <ul>
+              <li>Problem sa zavisnošću i kolizijom između verzija.</li>
+              <li>virtualenv omogućava kreiranje izolovanih Python okruženja sa svojim skupom paketa.</li>
+              <li>Kada se aktivira određeno okruženje, sistemski paketi kao i paketi iz drugih okruženja se ne vide.</li>
+              <li>Kreiranje novog okruženja:</li>
+              <pre><code data-trim class="no-highlight">
+[igor@sizif ~]$ mkdir VEnv
+[igor@sizif ~]$ cd VEnv
+[igor@sizif VEnv]$ virtualenv JSD
+Using base prefix '/usr'
+New python executable in JSD/bin/python3
+Also creating executable in JSD/bin/python
+Installing setuptools, pip...done.
+[igor@sizif VEnv]$
+              </code></pre>
+              </ul>
+            </section>
+
+            <section>
+            <h2>Aktivacija virtuelnog okruženja</h2>
+            <pre><code data-trim class="no-highlight">
+[igor@sizif VEnv]$ source ~/VEnv/JSD/bin/activate
+(JSD)[igor@sizif VEnv]$
+            </code></pre>
+
+            <p>Listanje paketa u okruženju:</p>
+            <pre><code data-trim class="no-highlight">
+(JSD)[igor@sizif VEnv]$ pip list
+pip (1.5.6)
+setuptools (3.6)
+(JSD)[igor@sizif VEnv]$
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Instalacija paketa u virtuelno okruženje</h2>
+            <pre><code data-trim class="no-highlight">
+(JSD)[igor@sizif VEnv]$ pip install Django
+Downloading/unpacking Django
+  Downloading Django-1.7-py2.py3-none-any.whl (7.4MB): 7.4MB downloaded
+Installing collected packages: Django
+Successfully installed Django
+Cleaning up...
+(JSD)[igor@sizif VEnv]$ pip list
+Django (1.7)
+pip (1.5.6)
+setuptools (3.6)
+(JSD)[igor@sizif VEnv]$
+            </code></pre>
+          </section>
+
+            <section>
+              <h2>Zadatak</h2>
+              <ul>
+                <li>Kreirati novo virtuelno okruženje <em>JSD</em></li>
+                <li>Aktivirati ga</li>
+                <li>Instalirati sledeće pakete: IPython, Arpeggio, textX, Django</li>
+                <li>Izlistati sve instalirane pakete</li>
+                <li>Deinstalirati paket Django</li>
+                <li>Konfigurisati PyDev da prepoznaje pakete iz novog okruženja.
+                    Ovo se može verifikovati sa:</li>
+                <pre><code data-trim>
+                import arpeggio
+              </code></pre>
+              <li>Ukoliko arpeggio nije na putanji PyDev će označiti grešku da modul ne postoji.</li>
+              </ul>
+            </section>
+
+
+        </section>
+
+
+
+        <section>
+          <h2>Reference</h2>
+          <ul>
+              <li>Beazley, David M. Python essential reference. Addison-Wesley Professional, 2009.</li>
+              <li> <a href="https://docs.python.org/3/" target="_blank">Python dokumentacija</a></li>
+              <li> <a href="http://virtualenv.readthedocs.org/en/latest/virtualenv.html" target="_blank">virtualenv dokumentacija</a></li>
+              <li> <a href="https://pip.readthedocs.org/en/latest/" target="_blank">pip dokumentacija</a></li>
+          </ul>
+
+        </section>
+
+
+
+        <section>
+          <h1>KRAJ</h1>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>

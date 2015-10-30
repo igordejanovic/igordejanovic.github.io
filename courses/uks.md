@@ -5,6 +5,6 @@ layout: page
 
 ---
 
-1. [O predmetu](/slides/uks/1-upoznavanje.html)
+1. [O predmetu](1-upoznavanje.html)
 
 
