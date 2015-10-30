@@ -1,11 +1,11 @@
 ---
-title: Slides
+title: Courses/Slides
 layout: page
 ---
 
 ---
 
-## Predavanja (Courses)
+## Slajdovi za predavanja
 
 - [Jezici specifični za domen (Domain-Specific Languages)](jsd)
 
