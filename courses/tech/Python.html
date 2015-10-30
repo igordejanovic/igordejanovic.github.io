@@ -742,7 +742,6 @@ python is cool
             </ul>
             <ul>
               <li>Stringovi su objekti.</li>
-              <li>Proba</li>
             </ul>
             <pre><code data-trim>
 &gt;&gt;&gt; dir("foo")
@@ -893,7 +892,7 @@ EventHandler.dispatcherThread()   # Poziv static metode kao da je funkcija
           </section>
 
 
-          <section>
+          <section style="font-size:90%;">
             <h2>Izuzeci</h2>
             <ul>
               <li>Ukoliko dođe do graške u programu javlja se izuzetak</li>
@@ -2035,7 +2034,8 @@ def countdown(start):
               <li>Funkcije koje prihvataju kao parametar funkciju (ili uopšte <code>callable</code>) i
                   vraćaju izmenjenu verziju.</li>
             </ul>
-            <div class="side-left-code" style="width:35%">
+            <div>
+            <div style="float:left; width:35%">
               <pre><code data-trim class="python">
 @trace
 def square(x):
@@ -2047,7 +2047,7 @@ def square(x):
 square = trace(square)
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:35%;width:65%;top:46%">
+            <div style="float:left; width:65%;">
               <pre><code data-trim class="python">
 enable_tracing = True
 if enable_tracing:
@@ -2065,6 +2065,7 @@ def trace(func):
   else:
     return func
               </code></pre>
+            </div>
             </div>
           </section>
 
@@ -2127,9 +2128,10 @@ def eventhandler(event):
           </section>
 
 
-          <section>
+          <section style="font-size: 90%">
             <h2>List comprehensions opet</h2>
-            <div class="side-left-code" style="width:42%">
+            <div>
+            <div style="float:left; width:40%;">
               <pre><code data-trim class="python">
 nums = [1, 2, 3, 4, 5]
 squares = []
@@ -2141,7 +2143,7 @@ nums = [1, 2, 3, 4, 5]
 squares = [n * n for n in nums]
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:40%;width:67%;top:23%">
+            <div style="float:left; width:60%;">
               <pre><code data-trim class="python">
 # Opšti oblik sintakse
 [expression for item1 in iterable1 if condition1
@@ -2159,6 +2161,7 @@ for item1 in iterable1:
         for itemN in iterableN:
           if conditionN: s.append(expression)
               </code></pre>
+            </div>
             </div>
           </section>
 
@@ -2189,7 +2192,8 @@ g = [math.sqrt(x * x + y * y)             # g = [2.23606, 5.0, 7.81024]
               <li>Slično kao <i>list comprehensions</i> ali ne kreiraju listu
                   već generator objekat koji izračunava vrednosti na zahtev (lenja evaluacija).</li>
             </ul>
-            <div class="side-left-code" style="width:66%">
+            <div style="font-size: 90%">
+            <div style="float:left; width:60%">
               <pre><code data-trim class="python">
 # Opšti oblik sintakse
 (expression for item1 in iterable1 if condition1
@@ -2198,7 +2202,7 @@ g = [math.sqrt(x * x + y * y)             # g = [2.23606, 5.0, 7.81024]
             for itemN in iterableN if conditionN )
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:63%;width:40%;top:48%">
+            <div style="float: left; width:40%">
               <pre><code data-trim class="python">
 &gt;&gt;&gt; a = [1, 2, 3, 4]
 &gt;&gt;&gt; b = (10*i for i in a)
@@ -2427,7 +2431,8 @@ class MoreEvilAccount(EvilAccount):
 
           <section>
             <h2>Višestruko nasleđivanje</h2>
-            <div class="side-left-code" style="width:40%">
+            <div>
+            <div style="float:left; width:40%">
               <pre><code data-trim class="python">
 class DepositCharge(object):
   fee = 5.00
@@ -2440,7 +2445,7 @@ class WithdrawCharge(object):
     self.withdraw(self.fee)
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:40%;width:60%;margin-top: -17px">
+            <div style="float: left; width:60%">
               <pre><code data-trim class="python">
 class MostEvilAccount(EvilAccount,
                       DepositCharge,
@@ -2455,12 +2460,14 @@ class MostEvilAccount(EvilAccount,
     super(MostEvilAcount,self).withdraw(amt)
               </code></pre>
             </div>
+            <div style="clear: both;"></div>
             <div>
-              <pre><code data-trim class="python" style="margin-top:70px">
+              <pre><code data-trim class="python">
 d = MostEvilAccount("Dave",500.00,1.10)
 d.deposit_fee()   # DepositCharge.deposit_fee().  Fee je 5.00
 d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
               </code></pre>
+            </div>
             </div>
           </section>
 
@@ -2600,7 +2607,8 @@ b = d.now()         # Poziva Date.now(Date)
               <li>Specijalna vrsta atributa koja dinamički izračunava svoju vrednost.</li>
             </ul>
 
-            <div class="side-left-code" style="width:50%">
+            <div>
+            <div style="float: left; width:50%">
               <pre><code data-trim class="python">
 class Circle(object):
   def __init__(self,radius):
@@ -2613,7 +2621,7 @@ class Circle(object):
     return 2 * math.pi * self.radius
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:50%;width:50%;top:38%">
+            <div style="float: left; width:50%">
               <pre><code data-trim class="python">
 &gt;&gt;&gt; c = Circle(4.0)
 &gt;&gt;&gt; c.radius
@@ -2628,6 +2636,7 @@ Traceback (most recent call last):
 AttributeError: can't set attribute
 &gt;&gt;&gt;
               </code></pre>
+            </div>
             </div>
           </section>
 
@@ -2749,7 +2758,8 @@ issubclass(C,A)   # False
               <li> <code>import</code> iskaz <i>uvozi</i> definicije iz
                   drugog modula u tekući prostor imena (<i>namespace</i> )</li>
             </ul>
-            <div class="side-left-code" style="width:50%">
+            <div>
+            <div style="float: left; width:50%">
               <pre><code data-trim class="python">
 # spam.py
 a = 37
@@ -2763,7 +2773,7 @@ class Spam(object):
     print("I'm Spam.grok")
               </code></pre>
             </div>
-            <div class="side-right-code" style="left:50%;width:50%;top:42%">
+            <div style="float: left; width:50%">
               <pre><code data-trim class="python">
 import spam
 x = spam.a
@@ -2772,6 +2782,8 @@ s = spam.Spam()
 s.grok()
 ...
               </code></pre>
+            </div>
+            </div>
           </section>
 
 
@@ -3459,7 +3471,7 @@ if __name__=="__main__":
               </ul>
           </section>
 
-          <section>
+          <section style="font-size: 90%">
               <h2>pip</h2>
               <h3>Osnovne komande</h3>
                 <p>Pretraga paketa po nazivu:</p>
