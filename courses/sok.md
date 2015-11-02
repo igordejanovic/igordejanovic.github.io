@@ -15,4 +15,6 @@ layout: page
     - [Composite primer](primeri/structural.composite.zip)
     - [Proxy primer](primeri/structural.proxy.zip)
 1. [Obrasci ponašanja](5-obrasci-ponasanja.html)
+1. [Dependency Injection & Google Guice](../tech/DependencyInjection.html)
+1. [Razvoj baziran na komponentama](7-razvoj-baziran-na-komponentama.html)
 
