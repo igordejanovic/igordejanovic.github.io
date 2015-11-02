@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Dependency Injection & Google Juice</title>
+
+    <meta name="description" content="Dependency Injection with the examples in Google Juice">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <style type="text/css" media="screen">
+      .reveal pre code {font-size: 90%; line-height: 120%; max-height: 550px}
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Dependency Injection & Google Juice</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Motivacija</li>
+              <li>Umetanje zavisnosti (<i>Dependency Injection</i>)</li>
+              <li><a href="https://github.com/google/guice">Google Juice</a></li>
+            </ul>
+        </section>
+
+        <section>
+
+          <section>
+            <h2>Motivacija</h2>
+            <ul>
+              <li>Objekti iole složenijih aplikacija formiraju složene grafove zavisnosti.</li>
+              <li>Kako objekat "dobija" reference na zavisne objekte?</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Motivacija</h2>
+            <img src="DependencyInjection/Motivation.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Klasičan pristup dobavljanja referenci</h2>
+            <pre><code data-trim class="java">
+public class RealBillingService implements BillingService {
+
+  @Override
+  public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+      CreditCardProcessor processor = new PaypalCreditCardProcessor();
+      TransactionLog transactionLog = new DatabaseTransactionLog();
+
+      try {
+        ChargeResult result = processor.charge(creditCard, order.getAmount());
+        transactionLog.logChargeResult(result);
+
+        return result.wasSuccessful()
+            ? Receipt.forSuccessfulCharge(order.getAmount())
+            : Receipt.forDeclinedCharge(result.getDeclineMessage());
+       } catch (UnreachableException e) {
+        transactionLog.logConnectException(e);
+        return Receipt.forSystemFailure(e.getMessage());
+      }
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Upotreba <i>Singleton/Factory</i> obrasca</h2>
+            <ul>
+              <li>Objekat se sam brine o dobavljanju referenci ali to čini posredstvom globalne deljene reference.</li>
+            </ul>
+            <pre><code data-trim class="java">
+public class RealBillingService implements BillingService {
+
+  public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+    CreditCardProcessor processor = CreditCardProcessorFactory.getInstance();
+    TransactionLog transactionLog = TransactionLogFactory.getInstance();
+
+    try {
+      ChargeResult result = processor.charge(creditCard, order.getAmount());
+      transactionLog.logChargeResult(result);
+
+      return result.wasSuccessful() ?
+            Receipt.forSuccessfulCharge(order.getAmount()) :
+            Receipt.forDeclinedCharge(result.getDeclineMessage());
+    } catch (UnreachableException e) {
+      transactionLog.logConnectException(e);
+      return Receipt.forSystemFailure(e.getMessage());
+    }
+  }
+}
+
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Upotreba <i>Singleton/Factory</i> obrasca - testiranje</h2>
+            <pre><code data-trim class="java" style="font-size:80%; line-heigh: 110%; max-height:550px; height:550px;">
+public class RealBillingServiceTest extends TestCase {
+
+  private final PizzaOrder order = new PizzaOrder(100);
+  private final CreditCard creditCard = new CreditCard(5000);
+
+  private final InMemoryTransactionLog transactionLog = new InMemoryTransactionLog();
+  private final FakeCreditCardProcessor creditCardProcessor = new FakeCreditCardProcessor();
+
+  @Override
+  public void setUp() {
+    TransactionLogFactory.setInstance(transactionLog);
+    CreditCardProcessorFactory.setInstance(creditCardProcessor);
+  }
+
+  @Override
+  public void tearDown() {
+    TransactionLogFactory.setInstance(null);
+    CreditCardProcessorFactory.setInstance(null);
+  }
+
+  public void testSuccessfulCharge() {
+    RealBillingService billingService = new RealBillingService();
+    Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+    assertTrue(receipt.hasSuccessfulCharge());
+    assertEquals(100.0, receipt.getAmount(), 0.001);
+    assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+    assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+    assertTrue(transactionLog.wasSuccessLogged());
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Upotreba Singleton/Factory obrasca - problemi</h2>
+            <ul>
+              <li>Deljena referenca - moramo posebno da pazimo da je postavljamo na prave vrednosti.</li>
+              <li>Nemoguće paralelizovati testove.</li>
+            </ul>
+          </section>
+
+        </section>
+
+
+
+        <section>
+
+          <section>
+            <h1>Dependency Injection</h1>
+          </section>
+
+          <section>
+            <h2>Umetanje zavisnosti - <i>Dependency Injection</i></h2>
+            <ul>
+
+              <li>Izmeštanje nadležnosti za dobavljanje referenci van objekta -
+                neko drugi će se brinuti da "umetne" reference pre njihove
+                upotrebe.</li>
+
+              <li>Prednosti:</li>
+              <ul>
+                <li>Kod se pojednostavljuje. Zavisnost između klasa je bazirana
+                  na apstraktnim interfejsima što pozitivno utiče na održavanje
+                  (<i>maintability</i>), ponovnu iskoristljivost (<i>reusability</i>) i
+                  podelu posla i nadležnosti.</li>
+                <li>Objekat će do trenutka poziva njegovih servisnih metoda već
+                  biti na odgovarajući način inicijalizovan. Smanjuje se tzv.
+                  <i>boilerplate</i> kod.</li>
+                <li>Testiranje je daleko jednostavnije. Kreiranje "lažnih"
+                  objekata (<i>mockup</i>) je moguće i jednostavno se izvodi. Moguća
+                  paralelizacija testova.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Mehanizmi umetanja zavisnosti</h2>
+            <ul>
+              <li>Putem parametara konstruktora.</li>
+              <li>Putem mutator metoda (<i>setters</i>).</li>
+              <li>Putem implementiranog interfejsa.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Injekcija putem parametara konstruktora</h2>
+            <pre><code data-trim>
+Client(Service service) {
+    this.service = service;
+}
+            </code></pre>
+            <footer>
+              <a href="http://en.wikipedia.org/wiki/Dependency_injection">http://en.wikipedia.org/wiki/Dependency_injection</a>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Injekcija putem <i>setter</i> metoda</h2>
+            <pre><code data-trim>
+public void setService(Service service) {
+    this.service = service;
+}
+            </code></pre>
+            <footer>
+              <a href="http://en.wikipedia.org/wiki/Dependency_injection">http://en.wikipedia.org/wiki/Dependency_injection</a>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Injekcija putem interfejsa</h2>
+            <pre><code data-trim>
+public interface ServiceSetter {
+    public void setService(Service service);
+}
+public class client implements ServiceSetter {
+
+    private Service service;
+
+    @Override
+    public void setService(Service service) {
+        this.service = service;
+    }
+}
+            </code></pre>
+            <footer>
+              <a href="http://en.wikipedia.org/wiki/Dependency_injection">http://en.wikipedia.org/wiki/Dependency_injection</a>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Upotreba DI</h2>
+            <pre><code data-trim class="java">
+public class RealBillingService implements BillingService {
+  private final CreditCardProcessor processor;
+  private final TransactionLog transactionLog;
+
+  public RealBillingService(CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    this.processor = processor;
+    this.transactionLog = transactionLog;
+  }
+
+  public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+    try {
+      ChargeResult result = processor.charge(creditCard, order.getAmount());
+      transactionLog.logChargeResult(result);
+
+      return result.wasSuccessful() ?
+           Receipt.forSuccessfulCharge(order.getAmount()) :
+           Receipt.forDeclinedCharge(result.getDeclineMessage());
+    } catch (UnreachableException e) {
+      transactionLog.logConnectException(e);
+      return Receipt.forSystemFailure(e.getMessage());
+    }
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Upotreba DI - testiranje</h2>
+            <pre><code data-trim class="java">
+public class RealBillingServiceTest extends TestCase {
+
+  private final PizzaOrder order = new PizzaOrder(100);
+  private final CreditCard creditCard = new CreditCard(5000);
+
+  private final InMemoryTransactionLog transactionLog =
+                                             new InMemoryTransactionLog();
+  private final FakeCreditCardProcessor creditCardProcessor =
+                                             new FakeCreditCardProcessor();
+
+  public void testSuccessfulCharge() {
+    RealBillingService billingService = new RealBillingService(
+        creditCardProcessor, transactionLog);
+    Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+    assertTrue(receipt.hasSuccessfulCharge());
+    assertEquals(100.0, receipt.getAmount(), 0.001);
+    assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+    assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+    assertTrue(transactionLog.wasSuccessLogged());
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>DI kontejneri</h2>
+            <ul>
+              <li>DI se može implementirati i bez posebnog alata/okvira.</li>
+              <li>DI kontejneri omogućavaju nametanje određenih konvencija za primenu ovog obrasca.</li>
+              <li>Korišćenje DI kontejera donosi određene prednosti:</li>
+              <ul>
+                <li>Upotreba najbolje prakse</li>
+                <li>Standardizacija</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>DI kontejneri za Javu</h2>
+            <ul>
+              <li>Google Guice</li>
+              <li>PicoContainer</li>
+              <li>Spring</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Standardizacija za programski jezik Java</h2>
+            <ul style="font-size:90%">
+              <li>JSR-330<sup>1</sup></li>
+              <li>Definiše skup standardnih Java anotacija za DI:</li>
+              <ul>
+                <li><code>Provider&lt;T&gt; </code>- Provides instances of T</li>
+                <li><code>Inject </code>- Identifies injectable constructors, methods, and fields.</li>
+                <li><code>Named</code> - String-based qualifier.</li>
+                <li><code>Qualifier</code> - Identifies qualifier annotations.</li>
+                <li><code>Scope</code> - Identifies scope annotations.</li>
+                <li><code>Singleton</code> - Identifies a type that the injector only instantiates once.</li>
+              </ul>
+            </ul>
+            <footer>
+              <ol>
+                <li><a href="https://code.google.com/p/atinject/">https://code.google.com/p/atinject/</a></li>
+              </ol>
+            </footer>
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Google Guice</h1>
+          </section>
+
+
+          <section>
+            <h2>Google Guice</h2>
+            <ul>
+              <li><i>Lightweight</i> okvir za DI u Javi.</li>
+              <li>Razvijen od strane Google-a.</li>
+              <li>Konfiguracija bazirana na Java anotacijama.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Injekcija putem konstruktora</h2>
+            <pre><code data-trim class="java">
+public class RealBillingService implements BillingService {
+  private final CreditCardProcessor processor;
+  private final TransactionLog transactionLog;
+
+  @Inject
+  public RealBillingService(CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    this.processor = processor;
+    this.transactionLog = transactionLog;
+  }
+
+  public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+    try {
+      ChargeResult result = processor.charge(creditCard, order.getAmount());
+      transactionLog.logChargeResult(result);
+
+      return result.wasSuccessful()
+          ? Receipt.forSuccessfulCharge(order.getAmount())
+          : Receipt.forDeclinedCharge(result.getDeclineMessage());
+     } catch (UnreachableException e) {
+      transactionLog.logConnectException(e);
+      return Receipt.forSystemFailure(e.getMessage());
+    }
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Konfiguracija za povezivanje - <i>binding/wiring</i></h2>
+            <pre><code data-trim class="java">
+public class BillingModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+    bind(CreditCardProcessor.class).to(PaypalCreditCardProcessor.class);
+    bind(BillingService.class).to(RealBillingService.class);
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Upotreba kontejnera</h2>
+            <pre><code data-trim class="java">
+public static void main(String[] args) {
+  Injector injector = Guice.createInjector(new BillingModule());
+  BillingService billingService = injector.getInstance(BillingService.class);
+  Receipt result = billingService.chargeOrder(new PizzaOrder(100),
+                                              new CreditCard(500));
+  System.out.println(result.hasSuccessfulCharge());
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Linked Bindings</i></h2>
+            <pre><code data-trim class="java">
+public class BillingModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+    bind(DatabaseTransactionLog.class).to(MySqlDatabaseTransactionLog.class);
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Custom Bindings Annotations</i></h2>
+            <pre><code data-trim class="java">
+package example.pizza;
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.Target;
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+
+@BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
+public @interface PayPal {}
+...
+public class RealBillingService implements BillingService {
+
+  @Inject
+  public RealBillingService(@PayPal CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    ...
+  }
+...
+    bind(CreditCardProcessor.class)
+        .annotatedWith(PayPal.class)
+        .to(PayPalCreditCardProcessor.class);
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>@Named Binding Annotation</i></h2>
+            <pre><code data-trim class="java">
+public class RealBillingService implements BillingService {
+
+  @Inject
+  public RealBillingService(@Named("Checkout") CreditCardProcessor processor,
+      TransactionLog transactionLog) {
+    ...
+  }
+ ...
+ ...
+    bind(CreditCardProcessor.class)
+        .annotatedWith(Names.named("Checkout"))
+        .to(CheckoutCreditCardProcessor.class);
+
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Instance Bindings</i></h2>
+            <pre><code data-trim class="java">
+bind(String.class)
+    .annotatedWith(Names.named("JDBC URL"))
+    .toInstance("jdbc:mysql://localhost/pizza");
+bind(Integer.class)
+    .annotatedWith(Names.named("login timeout seconds"))
+    .toInstance(10);
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>@Provides Methods</i></h2>
+            <pre><code data-trim class="java">
+public class BillingModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    ...
+  }
+
+  @Provides
+  TransactionLog provideTransactionLog() {
+    DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+    transactionLog.setJdbcUrl("jdbc:mysql://localhost/pizza");
+    transactionLog.setThreadPoolSize(30);
+    return transactionLog;
+  }
+}
+...
+  @Provides @PayPal
+  CreditCardProcessor providePayPalCreditCardProcessor(
+      @Named("PayPal API key") String apiKey) {
+    PayPalCreditCardProcessor processor = new PayPalCreditCardProcessor();
+    processor.setApiKey(apiKey);
+    return processor;
+  }
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Provider Bindings</i></h2>
+            <pre><code data-trim class="java">
+public class DatabaseTransactionLogProvider implements Provider&lt;TransactionLog&gt; {
+  private final Connection connection;
+
+  @Inject
+  public DatabaseTransactionLogProvider(Connection connection) {
+    this.connection = connection;
+  }
+
+  public TransactionLog get() {
+    DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+    transactionLog.setConnection(connection);
+    return transactionLog;
+  }
+}
+...
+public class BillingModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(TransactionLog.class)
+        .toProvider(DatabaseTransactionLogProvider.class);
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Scopes</i></h2>
+            <pre><code data-trim class="java">
+@Singleton
+public class InMemoryTransactionLog implements TransactionLog {
+  /* everything here should be threadsafe! */
+}
+...
+bind(TransactionLog.class).to(InMemoryTransactionLog.class).in(Singleton.class);
+...
+@Provides @Singleton
+TransactionLog provideTransactionLog() {
+  ...
+}
+...
+bind(Bar.class).to(Applebees.class).in(Singleton.class);
+bind(Grill.class).to(Applebees.class).in(Singleton.class);
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+          <h2>Reference</h2>
+          <ul>
+            <li><a href="https://github.com/google/guice/wiki">Google Guice Wiki</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection on Wikipedia</a></li>
+            <li>Martin Fowler, <a href="http://www.martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a>, January 2004.</li>
+          </ul>
+        </section>
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
