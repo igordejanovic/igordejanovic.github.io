@@ -37,7 +37,7 @@ After this you will be able to `Open with...` directory with terminator.
 To open textual file with vim inside terminator make a shell script `terminator-vim` with the following content:
 
     #!/bin/bash
-    terminator --working-directory=`dirname $@` -x vim $@
+    terminator --working-directory=`dirname "$@"` -x vim "$@"
 
 Repeat the above procedure but this time by right clicking on the file you would like to open with vim.
 
