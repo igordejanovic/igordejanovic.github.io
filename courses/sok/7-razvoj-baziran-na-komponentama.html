@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+
+ <head>
+  <meta charset="utf-8">
+
+  <title>SOK - Razvoj baziran na komponentama</title>
+
+  <meta name="description" content="Softverski obrasci i komponente - Razvoj baziran na komponentama">
+  <meta name="author" content="Igor Dejanović">
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="../../reveal/css/reveal.css">
+  <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+  <link rel="stylesheet" href="../slides.css">
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+   var link = document.createElement( 'link' );
+   link.rel = 'stylesheet';
+   link.type = 'text/css';
+   link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+   document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+
+  <!-- google analytics -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-68681917-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <!--[if lt IE 9]>
+  <script src="../../reveal/lib/js/html5shiv.js"></script>
+  <![endif]-->
+ </head>
+
+ <body>
+
+  <div class="reveal">
+
+   <!-- Any section element inside of this container is displayed as a slide -->
+   <div class="slides">
+
+    <section class="first-slide">
+      <h1>Softverski obrasci i komponente</h1>
+      <h2>Razvoj baziran na komponentama</h2>
+      <p class="center">
+        <small>
+          <a href="http://www.informatika.ftn.uns.ac.rs/IgorDejanovic">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+        </small>
+        <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+        <p class="center"><small>Katedra za informatiku</small></p>
+    </section>
+
+
+    <section>
+      <h2>Razvoj softvera</h2>
+      <blockquote> In a world of rapidly changing business requirements,
+        custom-made software is often too late – too late to be productive
+        before becoming obsolete.</blockquote>
+      <footer>
+        <p>C. Szyperski, <i>Component Software: Beyond Object-Oriented
+          Programming</i>, Addison-Wesley Longman Publishing Co., Inc.,
+        2002</p>
+      </footer>
+    </section>
+
+
+    <section>
+      <h2>Modularizacija</h2>
+      <ul>
+        <li>Savladavanje kompleksnosti softvera podelom na manje celine –
+            <em>Divide and Conquer</em> princip.</li>
+        <li>Moduli treba da imaju <em>visoku koheziju</em> i <em>slabu spregu</em>
+          sa drugim modulima.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Softverske komponente</h2>
+      <ul>
+        <li>Softverske komponente su izvršive jedinice koje se nezavisno
+          proizvode, dobavljaju i instaliraju i koje se mogu komponovati u
+          cilju formiranja funkcionalnog sistema.</li>
+        <li>U cilju obezbeđivanja kompozicije, komponente moraju da poštuju
+          određeni <em>komponentni model</em> i da budu kreirane za <em>određenu ciljnu
+            platformu</em>.</li>
+        <li>Sistem sastavljen od softverskih komponenti se naziva komponentni
+            softver (<i>component software</i>)</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Razvoj baziran na komponentama</h2>
+      <ul>
+        <li>Razvoj baziran na komponentama (<i>Component-Based Development -
+            CBD</i>) – izrada softvera upotrebom softverskih komponenti.</li>
+        <li>Komponentizacija nije nova ideja – uspešno se primenjuje u
+          različitim oblastima...</li>
+        <li>...ali do nedavno nije bilo velikog uspeha u oblasti razvoja
+          softvera.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Šta je problem sa softverom?</h2>
+      <p>Često se tvrdi da je softver previše fleksibilan da bi bilo moguće
+      kreirati komponente – ovo ne može biti razlog već više znak nezrelosti
+      oblasti.</p>
+    </section>
+
+
+    <section>
+      <h2>Integracija kao preduslov ponovne iskoristljivosti komponenti</h2>
+      <blockquote>
+        A key issue is that today’s software environments focus on writing new
+        software, instead of integrating existing software into new systems. In
+        reality, integrating existing code has become a large part of the work
+        of software developers. Therefore, there is a need for tools that
+        standardize the integration aspects of software so that reusing
+        existing components becomes reliable, robust and cheap.
+      </blockquote>
+      <footer>
+        <a href="http://www.osgi.org/About/Technology">http://www.osgi.org/About/Technology</a>
+      </footer>
+    </section>
+
+
+    <section>
+      <h2>Prednosti komponentnog razvoja</h2>
+      <ul>
+        <li>Jasna podela nadležnosti.</li>
+        <li>Visok stepen kohezije i nizak stepe sprege – komponente se bave
+          jasno određenim poslom i komuniciraju sa svojom okolinom preko jasno
+          definisanih interfejsa i protokola.</li>
+        <li>Ponovna iskoristljivost (<i>reusability</i>) – ista komponenta se može
+          koristiti u više aplikacija.</li>
+        <li>Komponente se mogu kupovati od nezavisnih proizvođača koji se
+          specijalizuju za izradu određenog tipa komponenti –brža izgradnja
+          kvalitetnog softvera.</li>
+        <li>Održavanje i unapređenje komponente se prebacuje na proizvođača
+          koji može biti eksterni (<i>third-party</i>).</li>
+        <li>Proizvođači komponenti mogu istu komponentu prodavati velikom broju
+          kupaca i time stvoriti preduslove za dalji razvoj i usavršavanje
+          komponente.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Preduslovi uspešne komponentizacije</h2>
+      <ul>
+        <li>Postojanje standarda koji su praktični i ostvarljivi: </li>
+        <ul>
+          <li>OSGi</li>
+          <li>EJB</li>
+          <li>DCOM i ActiveX</li>
+          <li>CORBA</li>
+        </ul>
+        <li>Postojanje tržišta komponenti:</li>
+        <ul>
+          <li>Eclipse Marketplace</li>
+          <li>Firefox/Chrome priključci</li>
+          <li>Google Play, Apple App Store i dr.</li>
+        </ul>
+        <li>Isplativost razvoja: smatra se da komponenta mora bar 3 puta da se iskoristi da bi se njen razvoj isplatio.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Vrste softvera prema načinu dobavljanja</h2>
+      <ul>
+        <li>Namenski izrađen softver (<i>Custom made</i>)</li>
+        <li>Standardni softver</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Namenski izrađen softver</h2>
+      <ul>
+        <li>Može biti u potpunosti prilagođen korisniku.</li>
+        <li>Može koristiti vlasnička znanja i iskustvo firme za koju se
+          proizvodi.</li>
+        <li>Ovim se može postići značajna prednost na tržištu.</li>
+        <li>Razvoj i održavanje može biti skupo. Interoperabilnost sa drugim
+          sistemima može biti problematično.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Standardni softver</h2>
+      <ul>
+        <li>Kupuje se gotov i parametrizuje se da bude "dovoljno dobar" za
+          posao za koji se koristi.</li>
+        <li>Kratko vreme izgradnje – svodi se na konfiguraciju i
+          prilagođavanje.</li>
+        <li>Unapređenje, održavanje i implementacija interoperabilnosti sa
+          drugim sistemima se prebacuje na proizvođača standardnog
+          softvera.</li>
+        <li>Teško može biti osnova sticanja prednosti na tržištu jer i
+          konkurencija može kupiti isti softver.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Problem sa standardnim softverom</h2>
+      <ul>
+        <li>Često zahteva drastičnu promenu poslovnih procesa i načina rada u
+          cilju prilagođavanja – primer: uvođenje SAP R/3 u Australijsku
+          poštu.</li>
+        <li>Izmenu procesa bi trebalo raditi u skladu sa izmenom poslovnog
+          okruženja a ne u cilju prilagođavanja predviđenom načinu rada
+          softvera.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Komponentni softver – hibridni pristup</h2>
+      <ul>
+        <li>Namenski izraditi komponente u domenu ekspertize.</li>
+        <li>Kupiti standardne komponente za ostale domene.</li>
+        <li>Primer: kupovina GUI komponenti, komponenti za rad sa XML
+          datotekama, bazama i sl.</li>
+        <li>Dobijamo prednost na tržištu jer u svom domenu radimo posao na
+          način na koji želimo ali istovremeno ubrzavamo razvoj upotrebom
+          standardnih, robusnih komponenti u domenima koji nisu od presudnog
+        značaja za naš poslovni domen.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Evolutivni razvoj</h2>
+      <ul>
+        <li>Za razliku od monolitnih rešenja gde imamo periodičnu zamenu sistema
+          novim (revolutivni pristup) kod komponentnog razvoja unapređenje
+          sistema možemo raditi evolutivno kroz nezavisno unapređenje
+          komponenti.</li>
+        <li>Imamo niz češćih manjih promena umesto ređih velikih promena koje
+          menjaju sistem iz korena.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Univerzalne komponente?</h2>
+      <ul>
+        <li>... ne postoje.</li>
+        <li>Komponente se prave za određenu ciljnu platformu i moraju poštovati
+          određeni komponentni model.</li>
+        <li>Takođe, moramo unapred imati svest o korisnicima komponente koju
+          razvijamo odnosno njihovim očekivanjima.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Apstraktna arhitektura softvera baziranog na komponentama</h2>
+      <img src="7-razvoj-baziran-na-komponentama/AbstractPlatform.png" alt=""/>
+    </section>
+
+
+    <section>
+      <h2>Platforma</h2>
+      <ul>
+        <li>Obezbeđuje infrastrukturu u koju se "ugrađuju" komponente.</li>
+        <li>Pruža skup bazičnih servisa koje komponente mogu da koriste.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Servisi</h2>
+      <ul>
+        <li>Predstavlja skup funkcionalnosti koje određena komponenta pruža
+          drugim komponentama i čije korišćenje je definisano ugovorom, koji
+          propisuje način upotrebe (npr. interfejsi i protokoli), i ograničeno
+        politikom upotrebe servisa.</li>
+        <li>Platforma mora imati propisane mehanizme za objavljivanje i
+          pronalaženje servisa.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Konzumenti i pružaoci servisa</h2>
+      <ul>
+        <li>U komponentnom softveru svaka komponenta može biti u ulozi pružaoca
+          i/ili konzumenta servisa.</li>
+        <li>Različite tehnike pronalaženja i povezivanja servisa.</li>
+      </ul>
+    </section>
+
+
+    <section>
+      <h2>Literatura</h2>
+      <div style="text-align:left;font-size:60%;">
+      <ul>
+        <li>C. Szyperski, <i>Component Software: Beyond Object-Oriented
+            Programming</i>, Addison-Wesley Longman Publishing Co., Inc.,
+          2002</li>
+      </ul>
+      </div>
+    </section>
+
+
+
+   </div>
+
+  </div>
+
+  <script src="../../reveal/lib/js/head.min.js"></script>
+  <script src="../../reveal/js/reveal.js"></script>
+
+  <script>
+
+   // Full list of configuration options available at:
+   // https://github.com/hakimel/reveal.js#configuration
+   Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    history: true,
+    center: true,
+
+    transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+     { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+     { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+     { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+     { src: '../../reveal/plugin/notes/notes.js', async: true }
+    ]
+   });
+
+  </script>
+
+ </body>
+</html>
