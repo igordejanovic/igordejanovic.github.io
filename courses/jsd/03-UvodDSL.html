@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>JSD - Uvod u DSL-ove</title>
+
+    <meta name="description" content="Jezici specifični za domen - Uvod u DSL-ove">
+    <meta name="author" content="Igor Dejanović">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Uvod u jezike specifične za domen</h1>
+          <h3>Jezici specifični za domen</h3>
+          <p class="center">
+            <small><a href="http://www.informatika.ftn.uns.ac.rs/IgorDejanovic">Igor Dejanović</a>
+              - <a href="mailto:igord@uns.ac.rs">igord@uns.ac.rs</a></small><br>
+            <small>Fakultet tehničkih nauka u Novom Sadu</small><br/>
+            <small>Katedra za informatiku</small></br>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Problem i motivacija</li>
+              <li>Primeri</li>
+              <li>Prednosti</li>
+              <li>Arhitekture</li>
+              <li>Gradivni elementi</li>
+              <li>Klasifikacija</li>
+              <li>Jezičke radionice</li>
+            </ul>
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Problem i motivacija</h1>
+          </section>
+
+
+          <section>
+            <h2>Šta je jezik?</h2>
+            <ul>
+              <li>Komunikacija misli i osećanja sistemom znakova kao što su
+                  zvuci, gestovi ili pisani simboli <sup>1</sup>.</li>
+              <li>Sistem znakova, simbola, gestova i pravila koji se koriste u
+                  komunikaciji <sup>2</sup>.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li><a href="http://www.thefreedictionary.com/language" target="_blank">
+                    http://www.thefreedictionary.com/language</a>
+                </li>
+                <li><a href="http://oxforddictionaries.com/definition/english/language" target="_blank">
+                    http://oxforddictionaries.com/definition/english/language</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Šta je softverski jezik?</h2>
+            <ul>
+              <li>Jezik korišćen u komunikaciji čovek-računar ili računar-računar.</li>
+              <li>U varijanti čovek-računar težimo da jezik bude lak za
+                  razumevanje od strane čoveka ali ipak da može da se procesira
+                  na efikasan način od strane računara.</li>
+              <li>U kontekstu razvoj softvera dve su uloge jezika:</li>
+              <ul>
+                <li> <b>preskriptivna</b> - za opis budućih sisitema</li>
+                <li> <b>deskriptivna</b> - za opis postojećih sisitema</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Šta domen?</h2>
+            <ul>
+              <li>Sfera delovanja, interesa ili funkcije <sup>1</sup>.</li>
+              <li>Oblast znanja, uticaja, ili delovanja <sup>2</sup>.</li>
+              <li>Da bi se domensko znanje moglo procesirati i da bi mogli
+                  komunicirati u određenom domenu korisno je definisati
+                  ontologiju domena koja opisuje koncepte domena i njihove
+                  međusobne veze.</li>
+              <li>Primer domena: osiguranje, zdravstvo, finansije, saobraćaj...</li>
+              <li>Domeni mogu sadržati poddomene. Na primer, ako je
+                  posmatrani domen problema osiguranje, poddomeni mogu biti
+                  životno osiguranje, osiguranje vozila, osiguranje nekretnina i sl.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li> <a href="http://www.thefreedictionary.com/domain" target="_blank">
+                     http://www.thefreedictionary.com/domain</a></li>
+                <li> <a href="http://www.merriam-webster.com/dictionary/domain" target="_blank">
+                     http://www.merriam-webster.com/dictionary/domain</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Jezici specifični za domen (<i>Domain-Specific Languages - DSL</i>)</h2>
+            <ul>
+              <li>Jezici specifični za domen (<i>Domain-Specific Languages - DSL</i>)
+                  su jezici prilagođeni i ograničeni na određeni domen problema.</li>
+              <li>Za razliku od jezika opšte namene (<i>General Purpose Language
+                  - GPL</i>), nude povećanje ekspresivnosti kroz upotrebu
+                  koncepata i notacija prilagođenih domenu problema i
+                  domenskim ekspertima.</li>
+              <li>Nazivaju se još i <i>mali jezici</i> (<i>little languages</i>).</li>
+              <li>Uspešan DSL je fokusiran na uzak, dobro definisan domen i
+                  pokriva ga na odgovarajući način.</li>
+              <li>Domen često ima svoj jezik korišćen od strane domenskih
+                  eksperata iako ne postoji njegova implementacija na računaru.</li>
+            </ul>
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Primeri</h1>
+          </section>
+
+
+          <section>
+            <h2>SQL</h2>
+            <pre><code data-trim class="sql" style="font-size:150%; line-height:150%">
+SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>JPA mapiranje</h2>
+            <pre><code data-trim class="java" style="line-height:105%;font-size:90%;">
+@Entity
+@Table(name="COURSES")
+public class Course {
+
+  private long courseId;
+  private String courseName;
+
+  public Course() {
+  }
+
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+
+  @Id
+  @GeneratedValue
+  @Column(name="COURSE_ID")
+  public long getCourseId() {
+    return this.courseId;
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Build jezici (Ant/Maven/Gradle)</h2>
+            <img src="03-UvodDSL/Ant-Maven-Gradle.png">
+          </section>
+
+
+          <section>
+            <h2>Poslovni procesi - BPMN</h2>
+            <img src="03-UvodDSL/BPMN.png">
+          </section>
+
+
+          <section>
+            <h2>Mobilne aplikacije</h2>
+            <img height="500" src="03-UvodDSL/MobilneAplikacije.png">
+            <footer>
+              Kelly, S. &amp; Tolvanen, J.-P. Domain-Specific Modeling: Enabling Full Code
+                Generation Wiley-IEEE Computer Society Pr, 2008
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Ali i...</h2>
+            <img src="03-UvodDSL/MusicNotation-External.png">
+          </section>
+
+
+          <section>
+            <h2>ili...</h2>
+            <img src="03-UvodDSL/ChessNotation.png">
+          </section>
+
+
+          <section>
+            <h2>pa čak i...</h2>
+            <img height="500" src="03-UvodDSL/saobracajni-znaci.jpg">
+          </section>
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="prednosti">Prednosti</h1>
+          </section>
+
+
+          <section>
+            <h2>Kada jezik smatramo DSL-om?</h2>
+            <ul>
+              <li>Zavisi od toga šta nam je domen.</li>
+              <li>Jezik može biti više ili manje prilagođen nekom domenu.</li>
+              <li>U ekstremnom slučaju i opšti jezik kao što je Java možemo
+                  smatrati DSL-om ako nam je domen "razvoj softvera".
+                  Naravno, iako tačno u teorijskom smislu, u praktičnom gubimo
+                  sve prednosti DSL-ova.</li>
+              <li>Dobar DSL pokriva uzak, dobro definisan domen (domen
+                  problema). Koristi samo koncepte ciljnog domena, ograničen je
+                  na dati domen i samim tim je iskazivanje rešenja jezgrovitije i
+                  jasnije domenskim ekspertima.</li>
+              <li>Čest je slučaj da jezik nastane kao DSL ali se vremenom proširi
+                  do te mere da ga možemo smatrati GPL-om.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Uticaj na produktivnost</h2>
+            <ul>
+              <li>Pojedine studije pokazuju da povećanje produktivnosti ide i do
+                  1000% <sup>1</sup>.</li>
+              <li>Šta je osnovni razlog za povećanje produktivnosti?</li>
+            </ul>
+            <footer>
+              <ol>
+                <li>MetaCase, <i>Nokia case study</i>, tech. rep., MetaCase, 2007</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Problem mentalnog mapiranja</h2>
+            <img src="03-UvodDSL/MentalnoMapiranje-1.png">
+            <footer>
+              Dmitriev, S. <i>Language oriented programming: The next programming
+                paradigm </i>, JetBrains onBoard, 2004.
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Rešenje upotrebom DSL-ova</h2>
+            <img src="03-UvodDSL/MentalnoMapiranje-2.png">
+            <footer>
+              Dmitriev, S. <i>Language oriented programming: The next programming
+                paradigm </i>, JetBrains onBoard, 2004.
+            </footer>
+          </section>
+
+
+          <section style="font-size:90%">
+            <h2>Zašto DSL-ovi?</h2>
+            <ul>
+              <li>DSLovi su koncizniji od jezika opšte namene što omogućava
+                  korisnicima da jasnije iskažu svoju nameru.</li>
+              <li>DSL sintaksa, bilo tekstualna ili grafička, može se prilagoditi i
+                  približiti domenskim ekspertima.</li>
+              <li>Koncepti korišćeni u DSLovima su koncepti problemskog
+                  (poslovnog) domena što pod određenim uslovima omogućava
+                  da domenski eksperti direktno koriste DSL bez posredovanja
+                  programera.</li>
+              <li>Upotrebom koncepata problemskog domena izbegava se ručno
+                  mapiranje na koncepte ciljne implementacione platforme. Taj
+                  posao se obavlja automatski upotrebom DSL prevodioca
+                  (kompajlera ili generatora koda).</li>
+              <li>Iskazivanje rešenja konceptima nezavisnim od korišćene
+                  tehnologije rezultuje dužim životnim vekom aplikacije.</li>
+              <li>Samodokumentujući jezički iskazi.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Uticaj na kvalitet softvera</h2>
+            <ul>
+              <li>Korišćenje koncepata domena problema dovodi do smanjenja
+                  broja linija koda (u terminologiji tekstualnih notacija), što ima
+                  pozitivan uticaj na brzinu razvoja i jednostavnost odžavanja.</li>
+              <li>Smanjenje broja linija koda ide i do 50 puta u pojedinim
+                  domenima primene. Gustina softverskih grešaka (broj
+                  softverskih grešaka na hiljadu linija koda) ne zavisi značajno
+                  od jezika koji se koristi.</li>
+              <li>Iz toga se može zaključiti da DSL jezici kroz smanjenje broja
+                  linija koda posredno utiču na smanjenje apsolutnog broja
+                  softverskih grešaka što povećava kvalitet softverskog proizvoda
+                  i smanjuje cenu održavanja.</li>
+              <li>Prevođenje koda na ciljnu platformu (kompajliranje) će
+                  rezultovati konzistentnim kodom.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Uticaj na evoluciju aplikacije</h2>
+            <ul>
+              <li>Iskazivanje rešenja konceptima nezavisnim od korišćene
+                  tehnologije rezultuje dužim životnim vekom aplikacije.</li>
+              <li>Nije potrebno menjati jezičke iskaze (programe/modele) kada
+                  dođe do promene tehnologije. Potrebno je promenu uneti u
+                  generator koda.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="arhitekture">Arhitekture</h1>
+          </section>
+
+
+          <section>
+            <h2>Arhitektura bazirana na prevodiocima</h2>
+            <img height="600" src="03-UvodDSL/Arhitektura-kompajler.svg">
+          </section>
+
+
+          <section>
+            <h2>Arhitektura bazirana na interpreterima</h2>
+            <img height="600" src="03-UvodDSL/Arhitektura-interpreter.svg">
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="gradivni_elementi">Gradivni elementi</h1>
+          </section>
+
+
+          <section>
+            <h2>Gradivni elementi DSL-a</h2>
+            Kao i svaki softverski jezik i DSL se sastoji od:
+            <ul>
+              <li>Apstraktne sintakse</li>
+              <li>Jedne ili više konkretnih sintaksi</li>
+              <li>Semantike</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Apstraktna sintaksa</h2>
+            <ul>
+              <li>Određuje pravila validnosti iskaza sa stanovišta njegove
+                  strukture.</li>
+              <li>Definiše koncepte domena, njihove osobine i međusobne
+                  relacije.</li>
+              <li>Jezici za definisanje apstraktnih sintaksi jezika se u domenu
+                  modelovanja nazivaju meta-meta-modelima. <sup>1</sup></li>
+            </ul>
+            <footer>
+              <ol>
+                <li>Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
+                    čine i konkretne sintakse i semantika.</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Primer - apstraktna sintaksa jezika za opis konačnih automata</h2>
+            <img height="400" src="03-UvodDSL/StateMachine.svg">
+            <footer>
+              I. Dejanović, Prilog metodama brzog razvoja softvera na bazi proširivih
+              jezičkih specifikacija. PhD thesis, Faculty of Technical Sciences, University of
+              Novi Sad, Trg Dositeja Obradovića 6, January 2012
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Stablo apstraktne sintakse</h2>
+            <ul>
+              <li>Svaki iskaz na datom jeziku se može na apstraktan način
+                  opisati stablom apstraktne sintakse (Abstract Syntax Tree).</li>
+              <li>Konkretna sintaksa nije važna u tom slučaju (na primer, ako
+                  posmatramo program na Javi tada ključne reči nisu deo stabla
+                  apstraktne sintakse).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer stabla apstraktne sintakse</h2>
+            <img src="03-UvodDSL/AbstractSyntaxTree.svg" height="550">
+            <small>
+              <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank">
+              http://en.wikipedia.org/wiki/Abstract_syntax_tree</a>
+            </small>
+          </section>
+
+
+          <section>
+            <h2>Konkretna sintaksa</h2>
+            <ul>
+              <li>Da bi mogli da prikažemo iskaz na konkretan način potrebna
+                  nam je konkretna sintaksa.</li>
+              <li>Konkretna sintaksa definiše <i>izgled</i> iskaza na nekom jeziku,
+                  odnosno u širem smislu definiše i načine interakcije korisnika sa
+                  jezičkim iskazima tj. predstavlja interfejs jezik-korisnik.</li>
+              <li>Iako nam je dovoljna jedna konkretna sintaksa za jedan jezik,
+                  možemo ih imati više.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer istog iskaza upotrebom dve različite konkretne sintakse</h2>
+            <img src="03-UvodDSL/RazliciteSintakse.png" height="400">
+            <footer>
+              I. Dejanović, Prilog metodama brzog razvoja softvera na bazi proširivih
+              jezičkih specifikacija. PhD thesis, Faculty of Technical Sciences, University of
+              Novi Sad, Trg Dositeja Obradovića 6, January 2012
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Semantika</h2>
+            <ul>
+              <li>Definiše smisao jezičkih iskaza.</li>
+              <li>Iako postoje i druge tehnike u praksi se najčešće semantika
+                  definiše prevođenjem (kompajliranjem tj. generisanjem koda)
+                  na jezik koji već ima definisanu semantiku putem prevodioca
+                  na niže jezike ili interpretera (npr. virtualne mašine).</li>
+              <li>Najčešće su ciljni jezici na koje se DSL prevodi jezici opšte
+                  namene.</li>
+              <li><b>Primer:</b> generisanje Java programskog koda iz DSL jezičkog
+                  iskaza.</li>
+              <li>Jezici se prevode na sve "niže" i "niže". Gde je kraj prevođenju?
+                  Mašinski jezik. Definisan u hardveru računara (procesoru).</li>
+            </ul>
+          </section>
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1>Klasifikacija</h1>
+          </section>
+
+
+          <section>
+            <h2>Podela DSL-ova prema vrsti konkretne sintakse</h2>
+            <ul>
+              <li>Tekstualni</li>
+              <li>Grafički</li>
+              <li>Tabelarni</li>
+              <li>Baziran na ekranskim formama</li>
+              <li>...</li>
+              <li>Hibridni - kombinacija više osnovnih</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Tekstualne sintakse - prednosti i mane</h2>
+            <ul>
+              <li>Programeri se osećaju "kod kuće".</li>
+              <li>Mogu se koristiti regularni tekst editori.</li>
+              <li>Serijalizovana forma je identična sa prezentacionom.</li>
+              <li>Mogu se koristiti standardni sistemi za kontrolu verzija (Git,
+                  Mercurial, Subversion ...).</li>
+              <li>Podrška u alatima: bojenje koda, dopuna koda, pretraga,
+                  navigacija...</li>
+              <li>Mana: Nije pogodna za opis i razumevanje strukture koja nije
+                  linearne prirode (grafovi, tabele itd.).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Grafičke sintakse - prednosti</h2>
+            <ul>
+              <li>Razumevanje strukture. Podržano operacijama zoom, pan i sl.</li>
+              <li>Često razumljivije domenskim ekspertima (najčešće je
+                  domenski jezik grafičke prirode).</li>
+              <li>Intuitivniji i lakši za učenje - učenje kroz isprobavanje (paleta
+                  sa alatima i konceptima, onemogućavanje kreiranje nevalidnih
+                  konstrukcija itd.).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Grafičke sintakse - mane</h2>
+            <ul>
+              <li>Još uvek složeniji za implementaciju i održavanje.</li>
+              <li>Za serijalizaciju se koristi format koji se razlikuje od
+                  prezentacionog.</li>
+              <li>Otežano ili potpuno nemoguće korišćenje standardnih alata za
+                  kontrolu verzija. Potrebno je razviti poseban VCS alat.</li>
+              <li>Zahteva namenske editore.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Podela prema vrsti domena</h2>
+            <img src="03-UvodDSL/HorizontalniVertikalniDSL.svg" height="500">
+          </section>
+
+
+          <section>
+            <h2>Podela DSL-ova prema načinu implementacije</h2>
+            <ul>
+              <li> <b>Interni</b> - Nastali su na bazi već postojećih programskih jezika
+                  (najčešće GPL-ova).</li>
+              <li> <b>Eksterni</b> - Izrađeni "on nule" definisanjem sintakse i
+                  implementacijom kompajlera koji prevodi programe pisane na
+                  ovom jeziku na neki drugi jezik (najčešće GPL) ili se program
+                  direktno interpretira.</li>
+            </ul>
+            <footer>
+              M. Fowler, <i>Domain-Specific Languages</i>. Addison-Wesley Professional, 1 ed., Oct. 2010
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Interni DSL-ovi</h2>
+            <ul>
+              <li>Bazirani na postojećem jeziku i alatima. Najčešće tekstualni.</li>
+              <li>Koriste svu infrastrukturu jezika domaćina (editore, debagere,
+                  kompajlere/interpretere...).</li>
+              <li>Brzi za implementaciju i laki za održavanje. Popularni u
+                  pojedinim zajednicama (Ruby, Groovy, Scala...).</li>
+              <li>Dobri kao ulaznica u svet DSL/DSM/MDE pristupa.</li>
+              <li>Najčešće na pametan način koriste mogućnosti jezika
+                  (anonimne funkcije, meta-programiranje itd.).</li>
+              <li>Ograničenja konkretne sintakse.</li>
+              <li>Svaka namenska biblioteka može se smatrati internim DSL-om
+                  (API bazirani)...</li>
+              <li>... ali konkretna sintaksa takvog jezika nije prilagođena
+                  domenu.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Eksterni DSL-ovi</h2>
+            <ul>
+              <li>Izrađeni "on nule" -&gt; skuplji razvoj i održavanje.</li>
+              <li>Puna kontrola konkretne sintakse -&gt; bolje prilagođavanje
+                  domenskim ekspertima.</li>
+              <li>Editori i svi propratni alati takođe moraju da se prave "od
+                  nule"...</li>
+              <li>...mada danas postoje alati koji nam taj posao olakšavaju.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Neki od poznatijih eksternih DSL-ova</h2>
+            <ul>
+              <li><b>SQL</b>: tekstualni, domen - rad sa relacionim bazama podataka</li>
+              <li><b>HTML</b>: tekstualni, domen - definisanje sadržaja na vebu</li>
+              <li><b>CSS</b>: tekstualni, domen - stilizovanje sadržaja</li>
+              <li><b>make</b>: tekstualni, domen - izgradnja aplikacije (build)</li>
+              <li><b>LaTeX</b>: tekstualni, domen: kreiranje štampanih materijala
+                  (typesetting)</li>
+              <li><b>Window Builder</b>: GUI baziran, domen - izgradnja interfejsa</li>
+              <li><b>R</b>: tekstualni, domen - statistička obrada podataka</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer: Interni DSL za definisanje email-a (JavaMail API)</h2>
+            <pre><code data-trim class="java" style="font-size:120%;line-height:130%">
+MimeMessage message = new MimeMessage(session);
+message.setFrom(new InternetAddress(from));
+message.addRecipient(Message.RecipientType.TO,
+                      new InternetAddress(to));
+message.setSubject("Greetings from Novi Sad");
+message.setText("Enjoying my stay in Novi Sad! See you soon!");
+Transport.send(message);
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer: Hipotetički eksterni DSL za definisanje email-a</h2>
+            <pre><code data-trim class="no-highlight">
+BEGIN_MAIL myMail
+    FROM me@myself.com
+    TO myfriend@somewhere.org
+    SUBJECT Greetings  from  Novi Sad
+
+Enjoying my stay in Novi Sad! See you soon!
+
+END_MAIL
+SEND myMail
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer: Interni DSL za definisanje grafički korisničkih interfejsa (Swing)</h2>
+            <pre><code data-trim class="java" style="line-height:100%">
+public DSLKurs() {
+    setBounds(100, 100, 450, 300);
+    getContentPane().setLayout(new BorderLayout());
+    contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    getContentPane().add(contentPanel, BorderLayout.CENTER);
+    contentPanel.setLayout(new FormLayout(new ColumnSpec[ {
+                            FormFactory.RELATED_GAP_COLSPEC,
+                            FormFactory.DEFAULT_COLSPEC,
+                            FormFactory.RELATED_GAP_COLSPEC,
+                            ColumnSpec.decode("default:grow"),},
+                  new RowSpec[] {
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,}));
+    ....
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer: Eksterni DSL za definisanje grafički korisničkih
+                interfejsa (WindowBuilder)</h2>
+            <img src="03-UvodDSL/GUIDSL-External.png" height="500">
+          </section>
+
+
+          <section>
+            <h2>Primer: Interni DSL za definisanje gramatike jezika
+                (Arpeggio Python)</h2>
+            <pre><code data-trim class="python" style="font-size:120%;line-height:130%">
+def number():     return _(r'\d*\.\d*|\d+')
+def factor():     return Optional(["+","-"]), [number,
+                          ("(", expression, ")")]
+def term():       return factor, ZeroOrMore(["*","/"], factor)
+def expression(): return term, ZeroOrMore(["+", "-"], term)
+def calc():       return OneOrMore(expression), EOF
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer: Eksterni DSL za definisanje gramatike jezika
+                (Arpeggio PEG)</h2>
+            <pre><code data-trim style="font-size:130%;line-height:130%">
+number = r'\d*\.\d*|\d+'
+factor = ("+" / "-")?
+        (number / "(" expression ")")
+term = factor (( "*" / "/") factor)*
+expression = term (("+" / "-") term)*
+calc = expression+ EOF
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Konkretna sintaksa je važna!!!</h2>
+            <h3>Neki jezici su pogodniji za kreiranje internih DSL-ova.</h3>
+          </section>
+
+
+          <section>
+            <h2>Jezici pogodni za kreiranje internih DSL-ova</h2>
+            <ul>
+              <li>Ruby</li>
+              <li>Groovy</li>
+              <li>Scala</li>
+              <li>Lisp</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer internog DSL-a (Ruby Sinatra)</h2>
+            <pre><code data-trim class="ruby">
+get '/dogs' do
+    # get a listing of all the dogs
+end
+get '/dog/:id' do
+    # just get one dog, you might find him like this:
+    @dog = Dog.find(params[:id])
+    # using the params convention, you specified in your route
+end
+post '/dog' do
+    # create a new dog listing
+end
+put '/dog/:id' do
+    # HTTP PUT request method to update an existing dog
+end
+delete '/dog/:id' do
+    # HTTP DELETE request method to remove a dog who's been sold!
+end
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primer internog DSL-a (Groovy Gradle)</h2>
+            <pre><code data-trim class="gradle">
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy fileTree(dir: new File(gradle.gradleHomeDir, 'lib'),
+                    includes: ['**/groovy­all­*.jar'])
+    compile gradleApi()
+    compile 'eu.appsatori:gradle­fatjar­plugin:0.1.3',
+    {
+        ext.optional = true
+    }
+    testCompile 'org.spockframework:spock­core:0.6­groovy­1.8'
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Eksterni DSL-ovi omogućavaju potpuno prilagođavanje domenu.</h2>
+          </section>
+
+
+          <section>
+            <h2>Interni DSL za muzičku notaciju</h2>
+            <pre><code data-trim class="java" style="font-size:130%;line-height:130%">
+Score k = new Score(Tonality.G_major);
+Bar bar = new Bar(BarType.4_4);
+t.addPause(Duration.1_4);
+t.addNote(NoteType.A3, Duration.1_4);
+t.addNote(NoteType.C2, Duration.1_4);
+k.addBar(bar);
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Eksterni DSL za muzičku notaciju</h2>
+            U eksternoj varijanti možemo u potpunosti prilagoditi konkretnu
+            sintaksu domenskim ekspertima.
+            <img src="03-UvodDSL/MusicNotation-External.png" height="500">
+          </section>
+
+
+          <section>
+            <h2>Lilypond note script</h2>
+            Ali se dešava da i u eksternoj varijanti DSL nije prilagođen
+            domenskim ekspertima.
+            <img src="03-UvodDSL/Lilypond.png" height="500">
+          </section>
+
+
+          <section>
+            <h2>Kritike DSL-ova</h2>
+            <ul>
+              <li>Skup razvoj i održavanje jezika.</li>
+              <li>Potreba za ekspertima u domenu razvoja jezika koji su
+                  istovremeno sposobni da analiziraju domen primene.</li>
+              <li>Jezička "kakofonija" (<i>Language Cacophony</i> <sup>1</sup>)i potreba da
+                  programeri poznaju veliki broj jezika (poseban jezik za svaki
+                  tehnički i/ili poslovni domen).</li>
+            </ul>
+            <footer>
+              <ol>
+                <li>M. Fowler, <i>Language workbenches: The killer-app for domain specific
+                    languages</i>,
+                  Online <a href="http://www.martinfowler.com/articles/languageWorkbench.html" target="_blank">
+                          http://www.martinfowler.com/articles/languageWorkbench.html</a>, 2005.</li>
+              </ol>
+            </footer>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="jezičke_radionice">Jezičke radionice</h1>
+          </section>
+
+
+          <section>
+            <h2>Jezičke radionice (<i>Language Workbenches</i>)</h2>
+            <ul>
+              <li>Integrisana okruženja za razvoj, testiranje i evoluciju jezika i
+                  alata za njihovo efikasno korišćenje (editori, interpreteri,
+                  kompajleri i sl.). Koriste se kod paradigme razvoja orijentisane
+                  ka jezicima (<i>Language Oriented Programming - LOP</i>) <sup>1</sup></li>
+              <li>Rešavaju problem brzine razvoja i lakoće održavanja DSL-ova.</li>
+              <li>Primeri jezičkih radionica:</li>
+              <ul>
+                <li>Meta Programming System (MPS)</li>
+                <li>xText</li>
+                <li>Spoofax</li>
+              </ul>
+            </ul>
+            <footer>
+              <ol>
+                <li>M. Fowler, <i>Language workbenches: The killer-app for domain specific
+                    languages</i>,
+                  Online <a href="http://www.martinfowler.com/articles/languageWorkbench.html" target="_blank">
+                          http://www.martinfowler.com/articles/languageWorkbench.html</a>, 2005.</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Pristupi</h2>
+            <ul>
+              <li>Projekcione - editori manipulišu direktno
+                  apstraktnom reprezentacijom (stablom apstraktne sintakse).</li>
+              <li>Bazirane na parserima</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Meta Programming System (MPS)</h2>
+            <ul>
+              <li>JetBrains - <a href="http://www.jetbrains.com/mps/" target="_blank">
+                  http://www.jetbrains.com/mps/ </li></a>
+              <li>Podrška za različite konkretne sintakse (notacije): tablarne,
+                  tekstualne, bazirani na ćelijama, grafičke (u najavi).</li>
+              <li>Projekciona jezička radionica - editori manipulišu direktno
+                  apstraktnom reprezentacijom (stablom apstraktne sintakse).
+                  Čak i u slučaju tekstualnih notacija.</li>
+              <li>Podrška za kontrolu verzija.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Meta Programming System - karakterističan izgled</h2>
+            <img src="03-UvodDSL/MPS.png" height="500">
+            <small> <a href="http://www.jetbrains.com/mps/docs/tutorial.html" target="_blank">
+                http://www.jetbrains.com/mps/docs/tutorial.html</a></small>
+          </section>
+
+
+          <section>
+            <h2>xText</h2>
+            <ul>
+              <li>Nastao kao deo projekta slobodnog softvera - openArchitectureWare.</li>
+              <li>Iza razvoja u najvećoj meri stoji nemačka firma Itemis.</li>
+              <li>Postao deo Eclipse projekta.</li>
+              <li>Tekstualne sintakse. EBNF-like gramatika.</li>
+              <li>Upotreba ECore meta-metamodela <sup>1</sup>. Meta-model se generiše
+                  iz gramatike a može da koristi i već postojeći meta-model.</li>
+              <li>Generisanje Eclipse editora sa podrškom za bojenje sintakse,
+                  navigaciju, <i>outline</i> pogled itd.</li>
+              <li>xText bazirani DSL se duboko integriše u Eclipse okruženje i
+                  teško je uočiti razliku sa podrškom za bilo koji drugi jezik sa
+                  Eclipse podrškom (npr. Java).</li>
+            </ul>
+            <footer>
+              <ol>
+                <li> <a href="http://www.eclipse.org/modeling/emf/" target="_blank">
+                     http://www.eclipse.org/modeling/emf/</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>xText - Little tortoise jezik</h2>
+            <img src="03-UvodDSL/xText-tortoise.png" height="500">
+            <small> <a href="http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise" target="_blank">
+                    http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise</a></small>
+          </section>
+
+
+          <section>
+            <h2>xText - Little tortoise gramatika</h2>
+            <img src="03-UvodDSL/xText-grammar.png" height="500">
+            <small> <a href="http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise" target="_blank">
+                    http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise</a></small>
+          </section>
+
+
+          <section>
+            <h2>xText - primeri</h2>
+              Za dokumentaciju sa primerom izgradnje 7 različitih jezika
+              pogledati <a href="http://www.eclipse.org/Xtext/7languagesDoc.html" target="_blank">
+                   http://www.eclipse.org/Xtext/7languagesDoc.html</a>
+          </section>
+
+
+          <section>
+            <h2>Spoofax</h2>
+            <ul>
+              <li>Kao i xText baziran na parsiranju i tekstualnim sintaksama.
+                  Kreira punu podršku za jezik u vidu Eclipse priključaka.</li>
+              <li>Istraživački projekat na TU Delft u Holandiji.</li>
+              <li>Gramatika jezika se definiše meta-jezikom SDF (Syntax
+                  Definition Formalism).</li>
+              <li>Parser koristi SGLR algoritam (<i>Scanerless GLR</i>) i omogućava
+                  parsiranje punog skupa kontekstno slobodnih gramatika. U
+                  slučaju neodređenosti parser vraća šumu parsiranja (<i>parse
+                    forest</i>) dok u slučaju determinističke gramatike vraća uvek
+                  stablo parsiranja (<i>parse tree</i>).</li>
+              <li>Za tranformaciju programa i prepisivanje stabala koristi se DSL
+                  Stratego.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Spoofax - karakterističan izgled</h2>
+            <img src="03-UvodDSL/Spoofax-prikaz.png" height="600">
+          </section>
+
+
+          <section>
+            <h2>Inženjerstvo softverskih jezika</h2>
+            <ul>
+              <li><i>Software Language Engineering - SLE</i>.</li>
+              <li>Pravac i pogled na razvoj softverskih jezika koji pokušava da
+                  ujedini sve druge pravce koji u osnovi imaju razvoj i upotrebu
+                  softverskih jezika (MDE/MDA/DSM.., ontologije,
+                  <i>grammarware</i>, <i>Language Oriented Programming</i>...).</li>
+              <li>Anneke Kleppe se smatra predvodnikom ovog pokreta. <sub>1</sub></li>
+              <li>Jedna od ideja je izjednačavanje modela i programa - kao
+                  jedinstven naziv predložen je <i>mogram</i>.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li>A. Kleppe, <i>Software language engineering: creating domain-specific
+                    languages using metamodels</i>. Addison-Wesley, 2009</li>
+              </ol>
+            </footer>
+          </section>
+
+
+        </section>
+
+
+        <section>
+          <h2>Literatura</h2>
+          <ol>
+            <li>M. Völter, DSL Engineering: Designing, Implementing and Using
+                Domain-Specific Languages. 2013</li>
+            <li>S. Kelly and J.-P. Tolvanen, Domain-Specific Modeling: Enabling Full
+                Code Generation. Wiley-IEEE Computer Society Pr, March 2008</li>
+            <li>I. Dejanović, Prilog metodama brzog razvoja softvera na bazi proširivih
+                jezičkih specifikacija. PhD thesis, Faculty of Technical Sciences,
+                University of Novi Sad, Trg Dositeja Obradovića 6, January 2012</li>
+          </ol>
+        </section>
+
+
+        <section>
+          <h1>Kraj</h1>
+        </section>
+
+
+      </div>
+    </div>
+
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
+

@@ -5,6 +5,7 @@ layout: page
 
 ---
 
-1. [O predmetu](1-upoznavanje.html)
+1. [O predmetu](01-upoznavanje.html)
+1. [Programski jezik Python](../tech/Python.html)
 
 
