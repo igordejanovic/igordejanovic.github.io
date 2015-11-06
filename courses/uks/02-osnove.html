@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Osnove upravljanja konfiguracijom softvera</title>
+
+    <meta name="description" content="UKS - Osnove upravljanja konfiguracijom softvera">
+    <meta name="author" content="Igor Dejanović">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section class="first-slide">
+          <h1>Upravljanje konfiguracijom softvera</h1>
+          <h2>Osnove</h2>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+
+        <section>
+          <h2>Definicija konfiguracije</h2>
+          <ul>
+            <li>Reč "konfiguracija" potiče od latinskih reči "com" koja znači
+              "sa" i reči "figurare" koja znači "formirati".</li>
+            <li>Ova reč se može tumačiti kao "relativno uređenje delova ili
+              elemenata".</li>
+          </ul>
+        </section>
+
+
+        <section style="font-size:90%">
+          <h2>Upravljanje konfiguracijom</h2>
+          <blockquote>
+            Proces za uspostavu i održavanje konzistencije funkcionalnih i
+            fizičkih osobina kao i performansi proizvoda u skladu sa zahtevima,
+            dizajnom i operativnim informacijama tokom njegovog životnog
+            ciklusa<sup>1</sup>.
+          </blockquote>
+          <blockquote>
+            Disciplina koja se bavi identifikacijom svih komponenti i njihovih
+            međusobinih veza, u sistemu koji kontinualno evoluira, u cilju
+            očuvanja integriteta, sledljivosti i kontrole promena u toku životnog
+            ciklusa sistema<sup>2</sup>.
+          </blockquote>
+          <footer>
+            <ol>
+              <li>M. Handbook, <i>Configuration management guidance</i>, tech.
+                rep., MIL-HDBK-61A (SE) Department of Defense–United States of
+                America, 2001</li>
+              <li>Britanski standard BS 6488:1984 - <i>Code of practice for
+                  configuration management of computer-based systems</i></li>
+            </ol>
+          </footer>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje konfiguracijom</h2>
+          <blockquote> Upravljanje konfiguracijom predstavlja jedinstvenu
+            identifikaciju, kontrolisano skladištenje, kontrolisanu izmenu i
+            izveštavanje o statusu izabranih proizvoda, njihovih radnih vezija
+            i komponenti za vreme životnog ciklusa sistema<sup>1</sup>.
+          </blockquote>
+          <blockquote>
+            Upravljanje konfiguracijom softvera predstavlja kontrolu evolucije
+            složenih softverskih sistema<sup>2</sup>.
+          </blockquote>
+          <footer>
+            <ol>
+              <li>A. Hass, <i>Configuration management principles and practice</i>.
+                Addison-Wesley Professional, 2003</li>
+              <li>J. Estublier, <i>Software configuration management: a roadmap</i>, in
+                Proceedings of the conference on The future of Software engineering, pp.
+                279–289, ACM, 2000</li>
+            </ol>
+          </footer>
+        </section>
+
+
+        <section>
+          <h2>Stavka konfiguracije (Configuration Item)</h2>
+          <ul>
+            <li>Prema standardu ANSI/IEEE 1042-1987, stavka konfiguracije
+              (<i>Configuration Item - CI</i> ili <i>Software Configuration
+                Item</i>) predstavlja osnovnu jedinicu identifikacije i
+              praćenja.</li>
+            <li>Bilo koji artifakt nad kojim se može vršiti kontrola verzija,
+              koji se može pratiti.</li>
+            <li>Na primer, to može biti fajl ili direktorijum kod fajl baziranih
+              sistema, objekti smešteni u objektno orijentisanim bazama podataka
+              i sl.</li>
+            <li>Gotovo svi sistemi za kontrolu verzija danas u upotrebi imaju
+              fiksnu CI - a to je fajl.</li>
+            <li>Možemo reći da je tekuće stanje projekta skup tekućih stanja svih
+              stavki konfiguracije.</li>
+            <li>Verzija fajla takođe se može posmatrati kao stavka konfiguracije.</li>
+          </ul>
+        </section>
+
+
+
+        <section>
+          <h2>Stavka konfiguracije i promene - životni ciklus</h2>
+            <img src="02-osnove/ConfigurationItem-Cycle.png" alt=""/>
+          <ul>
+            <li>Stavka konfiguracije nastaje iz plana.</li>
+            <li>Kasnije verzije nastaju kao proizvod zahteva za promenom.</li>
+            <li>Zahtev za promenom nastaje na osnovu iskustva u toku korišćenja.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Referentna linija (<i>Baseline</i>)</h2>
+          <ul>
+            <li>Referentna linija može da znači sledeće:</li>
+            <ul>
+              <li>Identifikacija tačnih verzija svih CI koji čine deo jednog
+                izdanja.</li>
+              <li>Identifikacija tačnih verzija CI koje su odobrene da postanu
+                deo sledećeg izdanja kroz ustanovljen proces revizije i
+                odobravanja promena.</li>
+            </ul>
+            <li>Čini osnovu koja je predmet sledećih promena.</li>
+            <li>U sistemima za upravljanje izvornim kodom najčešće se sprovodi
+              kroz proces "označavanja" (eng. <i>Tagging</i>).</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Tradicionalna definicija CM-a</h2>
+          <ul>
+            <li>Identifikacija konfiguracije (<i>Configuration Identification</i>)</li>
+            <li>Upravljanje promenama (<i>Change Control</i>)</li>
+            <li>Praćenje statusa (<i>Status Accounting</i>)</li>
+            <li>Revizija i verifikacija (<i>Configuration Verification and Audit</i>)</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Struktura CM procesa [1]</h2>
+          <img src="02-osnove/SCM-LogicalStructure-Anotated.png" alt=""/>
+        </section>
+
+
+        <section>
+          <h2>Arhitektura CM sistema [2]</h2>
+          <img src="02-osnove/SCM-architecture.png" alt=""/>
+        </section>
+
+
+        <section>
+          <h2>Identifikacija konfiguracije (Configuration Identification)</h2>
+          <ul>
+            <li>Obezbeđivanje jedinstvene identifikacije za svaki artifakt koji
+              je predmet praćenja.</li>
+            <li>Najčešće su predmeti praćenja razne vrste fajlova: izvorni kod,
+              binarni fajlovi, slike, dokumenta, konfiguracioni fajlovi
+              itd.</li>
+            <li>Identifikacija često podrazumeva i imenovanje direktorijuma i
+              fajlova na smislen način koji će pojednostaviti praćenje.</li>
+            <li>Artifakti praćenja ne moraju uvek biti fajlovi u fajl sistemu
+              već mogu biti elementi u repozitorijumima koji nisu bazirani na
+              fajl sistemu. Na primer, modeli u repozitorijumima modela ili
+            dokumenti u sistemima za upravljanje dokumentima.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Identifikacija u kontekstu [2]</h2>
+          <img height="300" src="02-osnove/Identification.png" alt=""/>
+          <ul style="font-size:70%">
+            <li>Proces identifikacije započinje u dva slučaja: prvobitno kreiranje stavke konfiguracije i pojava zahteva za promenom.</li>
+            <li>Izlaz predstavljaju metapodaci za stavku konfiguracije.</li>
+            <li>Svaka organizacija pravi svoju konvenciju jedinstvene identifikacije. Često je ova šema nametnuta alatima koji se koriste za CM.</li>
+            <li>Pored identifikacije stavke konfiguracije potrebno je identifikovati i svaki zahtev za promenom kao i svaku novu verziju stavke konfiguracije.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje promenama (<i>Change Control</i>)</h2>
+          <ul>
+            <li>Promene su neizbežne: ljudi prave greške, klijenti zahtevaju promene, radno okruženje proizvoda evoluira.</li>
+            <li>Puna kontrola i upravljanje zahtevima za promenama i implementiranim promenama na osnovu zahteva.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje promenama u kontekstu [2]</h2>
+          <img height="300" src="02-osnove/ChangeControl.png" alt=""/>
+          <ul>
+            <li>Upravljanje promenama je inicirano događajem.</li>
+            <li>Izlaz aktivnosti upravljanja promenama je dokumentovan događaj
+              kao i zahtevi za promenama koji su rezultat tog događaja.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Događaji</h2>
+          <ul style="font-size:90%">
+            <li>Upravljanje promenama je inicirano događajem. Događaj može da
+              se posmatra i kao želja za promenom ali obično nije tako
+              formulisan.</li>
+            <li>Događaj može predstavljati i opservaciju da se desilo nešto
+              neočekivano ili pogrešno tokom upotrebe stavke
+              konfiguracije.</li>
+            <li>Događaj može biti, na primer:</li>
+            <ul style="font-size:90%">
+              <li>Loša formulacija uočena za vreme revizije dokumenta.</li>
+              <li>Greška u kodiranju uočena za vreme prolaska kroz programski
+                kod.</li>
+              <li>Ideja za proširenje ili poboljšanje funkcionalnosti nastala
+                od strane klijenta za vreme korišćenja proizvoda.</li>
+              <li>Greška pronađena za vreme integracionog testa.</li>
+              <li>Želja za poboljšanjem proizvoda kada je proizvod već
+                isporučen i u fazi je aktivne upotrebe.</li>
+              <li>Upit osoblj u za pomoć u vezi načina upotrebe proizvoda.</li>
+              <li>Prelazak na novu verziju korišćenih biblioteka i platformi
+                koje nisu unazad kompatibilne sa prethodnim verzijama.</li>
+            </ul>
+            <li>Događaj se dokumentuje u obliku registracije događaja.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Zahtevi za promenama (<i>Change Requests</i>)</h2>
+          <ul>
+            <li>Zahtevi za promenama nastaju kao posledica registracije događaja.</li>
+            <li>Neki zahtevi za promenama mogu biti planirani (na primer
+              zahtevi nastali za vreme revizije dokumenta), a neki i ne (na
+              primer zahtev klijenta za promenom).</li>
+            <li>Zahtevi za promenama dalje prolaze kroz aktivnost
+              identifikacije jer su predmet praćenja.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Praćenje statusa (<i>Status Accounting</i>)</h2>
+          <ul>
+            <li>Ova aktivnost obezbeđuje informacije potrebne za efikasno
+              upravljanje razvojem i održavanjem proizvoda.</li>
+            <li>Druge aktivnostim CM-a obezbeđuju potrebne podatke u vidu
+              metapodataka o stavkama konfiguracije kao i informacije o
+              promenama.</li>
+            <li>Praćenje statusa omogućava ekstrakciju, uređenje i formatiranje
+              informacija o stavkama konfiguracije i promenama na zahtevani
+              način.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Praćenje statusa u kontekstu [2]</h2>
+          <img src="02-osnove/StatusAccounting.png" alt=""/>
+          <ul>
+            <li>Praćenje statusa i izveštavanje može se obaviti u bilo kom
+              trenutku.</li>
+            <li>Izlaz ove aktivnosti je izveštaj prema zadatim kriterijumima.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2 style="font-size:140%">Revizija i verifikacija (<i>Configuration Verification and Audit</i>)</h2>
+          <ul>
+            <li>Osigurava da stavka konfiguracije koja se isporučuje odgovara
+              postavljenim zahtevima i da je kompletna.</li>
+            <li>Kompletnost podrazumeva i sve potrebne metapodatke koji
+              omogućavaju kompletan uvid u istoriju promena koje su dovele do
+              verzije koja se isporučuje.</li>
+            <li>Ova aktivnost se najčešće posmatra kao deo procesa osiguranja
+              kvaliteta.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Arhitektura SCM sistema [2]</h2>
+          <img src="02-osnove/SCM-architecture.png" alt=""/>
+        </section>
+
+
+        <section>
+          <h2>CM u kontekstu razvoja softvera [4]</h2>
+          <p>U kontekstu razvoja softvera upravljanje konfiguracijom (SCM) se
+          može posmatrati kroz sledeće aktivnosti:</p>
+          <ul>
+            <li>Upravljanje izvornim kodom (<i>Source Code Management</i>)</li>
+            <li>Upravljanje izgradnjom softvera (<i>Build Engineering</i>)</li>
+            <li>Upravljanje konfiguracijom okruženja (<i>Environment Configuration</i>)</li>
+            <li>Upravljanje promenama (<i>Change Control</i>)</li>
+            <li>Upravljanje izdanjima (<i>Release Management</i>)</li>
+            <li>Upravljanje uvođenjem (<i>Deployment</i>)</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje izvornim kodom (<i>Source Code Management</i>)</h2>
+          <ul>
+            <li>Jedna od najvažnijih SCM disciplina.</li>
+            <li>Bavi se:</li>
+            <ul>
+              <li>Čuvanjem svih stavki konfiguracije koje učestvuju u izgradnji
+                proizvoda.</li>
+              <li>Praćenjem promena nad stavkama konifiguracije i integracijom
+                konkurentnih promena.</li>
+              <li>Kreiranjem i praćenjem alternativnih tokova razvoja.</li>
+              <li>Vraćanje i uvid u istorijske verzije proizvoljnih stakvi
+                konfiguracije.</li>
+            </ul>
+            <li>Daje osnovu za izvođenje ostalih SCM aktivnosti.</li>
+            <li>U tesnoj vezi je sa praćenjem defekata i zahteva koji su
+              najčešće integrisani sa alatima i procesima upravljanja izvornim
+              kodom.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Osnovni principi upravljanje izvornim kodom</h2>
+          <ul>
+            <li>Sav kôd je u sigurnom skladištu i ne može biti izgubljen.</li>
+            <li>Konkurentne promene se jednostavno integrišu. Konflikti se
+              jednostavno razrešavaju.</li>
+            <li>Za kôd se vode beleške o značajnim trenucima razvoja
+              (referentne linije).</li>
+            <li>Upravljanje varijantama mora biti jednostavno upotrebom
+              grana.</li>
+            <li>Kôd promenjen u jednoj varijanti (grani) može se lako preneti
+              na drugu varijantu.</li>
+            <li>U svakom trenutku imamo potpunu sledljivost i možemo dobiti
+              informacije ko je, kada i zbog čega promenio izvorni kôd? Šta je
+              tačno pri tome promenjeno?</li>
+            <li>Možemo u svakom trenutku poništiti promenu.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje izgradnjom softvera (<i>Build Engineering</i>)</h2>
+          <ul>
+            <li>Aktivnost usmerena na izgradnju izvršne verzije sofvera iz
+              izvornog koda putem automatizovanih procedura na siguran i brz
+              način.</li>
+            <li>Bavi se identifikacijom zavisnosti u vreme kompajliranja i
+              izvršavanja kao i drugih tehničkih uslova potrebnih za efikasnu
+              izgradnju gotovog proizvoda.</li>
+            <li>Izuzetno važna za agilne i iterativne metodologije.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Principi upravljanja izgradnjom softvera</h2>
+          <ul>
+            <li>Izgradnja je razumljiva i ponovljiva.</li>
+            <li>Izvorni kôd i zavisnosti za kompajliranje se mogu lako
+              odrediti.</li>
+            <li>Uzrok nauspele izgradnje se može jednostavno ustanoviti i
+              problem se može brzo otkloniti.</li>
+            <li>Izgradnja mora biti potpuno automatizovana.</li>
+            <li>Skripte za automatizovanju izgradnju moraju biti čitke i moraju
+              se jednostavno održavati.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje konfiguracijom okruženja (<i>Environment Configuration</i>)</h2>
+          <ul>
+            <li>Identifikacija i upravljanje zavisnostima proizvoda u vreme
+              izvršavanja (<i>runtime dependencies</i>).</li>
+            <li>Razvojno okruženje je često drugačije od produkcionog ili QA
+              (<i>Quality Assurance</i>).</li>
+            <li>Automatizacija upravljanja parametrima okruženja (npr.
+              promenjive okruženja, konekcija sa bazom, povezivanje sa veb
+              servisima).</li>
+            <li>Značajno za aktivnost uvođenja (<i>deployment</i>).</li>
+            <li>Ukoliko se odradi loše može dovesti do nesagledivih posledica.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje promenama (<i>Change Control</i>)</h2>
+          <ul>
+            <li>Pored upravljanja izvornim kodom jedan od najznačajnijih
+              aktivnosti u SCM.</li>
+            <li>Kontrolisana izmena produkcionog okruženja (ili QA
+              okruženja).</li>
+            <li>Takođe esencijalna aktivnost za određivanje koje izdanje
+              proizvoda će postati deo produkcionog okruženja.</li>
+            <li>U velikim firmama često realizovana kroz odbor za upravljanje
+              promenama (<i>Change Control Board</i>).</li>
+            <li>Proces koji propisuje način razrešavanja zahteva za promenama
+              (<i>Request for Change</i>).</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Principi upravljanje promenama</h2>
+          <ul>
+            <li>Promene moraju biti planirane.</li>
+            <li>Promene moraju biti razumljive uključujući i uticaj koji će
+              imati na produkciono okruženje.</li>
+            <li>Način odobravanja i autorizacija promena mora biti
+              uspostavljena.</li>
+            <li>Procedure za hitne izmene moraju biti propisane u slučajevima
+              incidentnih situacija.</li>
+            <li>Mora postojati jasna sledljivost za sve izvršene promene - Ko
+              je promenu tražio? Ko je odobrio? Kada je promena izvršena nad
+              produkcionim okruženjem? Koji je status promene?</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje izdanjima (<i>Release Management</i>)</h2>
+          <ul>
+            <li>Proces kreiranja finalnog proizvoda na osnovu izvršne verzije
+              kreirane u procesu izgranje.</li>
+            <li>Definiše standarde pakovanja i imenovanja (identifikacije)
+              proizvoda.</li>
+            <li>Sledljivost ka ugrađenim promenama i odobrenjima datih promena
+              od strane CCB.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Principi upravljanja izdanjima</h2>
+          <ul>
+            <li>Izdanja se mogu identifikovati putem nepromenjivog
+              identifikatora.</li>
+            <li>Izdanja moraju biti zapakovana sa svim zavisnostima.</li>
+            <li>Kreiranje izdanja mora biti automatizovano u cilju izbegavanja
+              ljudske greške.</li>
+            <li>Kreiranje izdanja mora biti brzo i pouzdano da bi se moglo
+              koristiti kod agilnog i iterativnog razvoja.</li>
+            <li>Mora postojati način verifikacije izdanja u cilju utvrđivanja
+              gradivnih CI.</li>
+            <li>Sadržaj izdanja mora biti dobro poznat, uključujući i vezu
+              prema zahtevima.</li>
+            <li>Mora postojati mehanizam izveštavanja o svim kreiranim
+              izdanjima i njihovim sadržajima.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Upravljanje uvođenjem (<i>Deployment</i>)</h2>
+          <ul>
+            <li>Poslednja faza u SCM procesu.</li>
+            <li>Uvođenje izdanja u produkciono okruženje.</li>
+            <li>Takođe se bavi poništavanjem akcije (vraćanje na prethodnu
+              verziju) u slučaju problema.</li>
+            <li>Najčešće posao posebnog tima (<i>Operations Team</i>).</li>
+            <li>Praćenje aktivne verzije izdanja i eventualnih neautorizovanih
+              modifikacija produkcionog okruženja.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Principi upravljanja uvođenjem</h2>
+          <ul style="font-size:90%">
+            <li>Uvođenje izdanja (ili vraćanje na staro) mora biti pouzdano i
+              jednostavno.</li>
+            <li>Uvođenje izdanja (ili vraćanje na staro) mora kreirati dnevnik
+              (log) svih promena.</li>
+            <li>Samo autorizovano osoblje može vršiti ovu aktivnost.</li>
+            <li>U mnogim organizacijama razdvojene nadležnosti između razvojnog
+              tima i tima za uvođenje...</li>
+            <li>...ali poslednjih godina razvojni timovi preuzimaju posao
+              uvođenja softvera koji razvijaju.</li>
+            <li>Moraju postojati mehanizmi za otkrivanje neautorizovanih
+              promena.</li>
+            <li>Procedura za proveru verzije izdanja u produkciji (ili QA) mora
+              biti jasno definisana.</li>
+            <li>Proces uvođenja mora biti stalno revidiran i unapređivan.</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Literatura</h2>
+          <ul style="font-size:70%">
+            <li>M. Handbook, <i>Configuration management guidance</i>, tech.
+              rep., MIL-HDBK-61A (SE) Department of Defense–United States of
+              America, 2001.</li>
+            <li>A. Hass, <i>Configuration management principles and
+                practice</i>.  Addison-Wesley Professional, 2003.</li>
+            <li>J. Estublier, <i>Software configuration management: a
+                roadmap</i>, in Proceedings of the conference on The future of
+              Software engineering, pp. 279–289, ACM, 2000.</li>
+            <li>R. Aiello and L. Sachs, <i>Configuration Management Best
+                Practices: Practical Methods that Work in the Real World</i>.
+              Addison-Wesley Professional, 1st ed., 2010.</li>
+          </ul>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
