@@ -1,0 +1,1500 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Django</title>
+
+    <meta name="description" content="Django web framework for Python">
+    <meta name="author" content="Igor Dejanović">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Django</h1>
+          <h3>veb okvir za Python</h3>
+          <h4>bazirano na verziji 1.8.6</h4>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+
+        <section>
+          <h2>Django</h2>
+          <ul>
+            <li>Python okvir za razvoj veb aplikacija</li>
+            <li>BSD licenca</li>
+            <li>DRY princip</li>
+            <li><i>Full stack</i></li>
+            <li><i>Database migration</i></li>
+            <li>Modularan - aplikacije</li>
+            <li>Automatski admin interfejs</li>
+            <li>Velika i aktivna zajednica</li>
+            <li>Caching, syndication, internationalization...</li>
+          </ul>
+        </section>
+
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Kreiranje i podešavanje projekta</li>
+              <li>Django modeli</li>
+              <li>Admin aplikacija</li>
+              <li>Pogledi - <i>Views</i></li>
+              <li>Forme</li>
+              <li>Generički pogledi</li>
+              <li>Šabloni detaljnije</li>
+              <li>Testiranje</li>
+              <li>Stilizovanje aplikacije</li>
+            </ul>
+        </section>
+
+
+
+        <section>
+
+          <section>
+            <h1 id="kratak_pregled">Kreiranje i podešavanje projekta</h1>
+          </section>
+
+
+          <section>
+            <h2>Instalacija</h2>
+            <pre><code data-trim class="no-highlight">
+pip install Django
+            </code></pre>
+            <ul>
+              <li>Provera da li je instaliran</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+$ python -c "import django; print(django.get_version())"
+            </code></pre>
+            <footer>
+              <p class="center"><b>Preporuka:</b> Koristiti virtualno okruženje (<a
+                                 href="https://virtualenv.readthedocs.org/en/latest/">virtualenv</a>).</p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje projekta</h2>
+            <pre><code data-trim class="no-highlight">
+$ django-admin startproject mysite
+            </code></pre>
+            <ul>
+              <li>Ovo će kreirati sledeće fajlove i foldere:</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Podešavanje sajta</h2>
+            <ul>
+              <li>Modul <code>mysite/settings.py</code>.</li>
+              <li>Običan Python modul sa strukturama podataka za podešavanje
+                  svih aspekata sajta (baza, aplikacije, middleware...)</li>
+              <li>Podrazumevano se koristi sqlite3 baza što je sasvim dovoljno za razvoj.</li>
+            </ul>
+            <pre><code data-trim class="python">
+...
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pokretanje projekta</h2>
+            <pre><code data-trim class="no-highlight">
+$ ./manage.py runserver
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have unapplied migrations; your app may not work properly until
+they are applied.
+Run 'python manage.py migrate' to apply them.
+
+November 08, 2015 - 12:58:17
+Django version 1.8.6, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Početna strana</h2>
+            <img src="Django/DjangoStarted.png"/>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje inicijalne šeme baze podataka</h2>
+            <pre style="font-size:40%"><code data-trim>
+$ ./manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: staticfiles, messages
+  Apply all migrations: sessions, admin, auth, contenttypes
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying sessions.0001_initial... OK
+            </code></pre>
+            <ul>
+              <li>Inicijalna šema potiče od podrazumevano uključenih aplikacija.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Admin interfejs</h2>
+            <ul>
+              <li>Implementiran kao standardna Django aplikacija.</li>
+              <li>U verziji 1.8 podrazumevano aktiviran.</li>
+              <li>Potrebno je kreirati <i>admin</i> korisnika.</li>
+            </ul>
+            <pre><code data-trim>
+$ python manage.py createsuperuser
+Username (leave blank to use 'igor'):
+Email address: igord@uns.ac.rs
+Password:
+Password (again):
+Superuser created successfully.
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pristup admin interfejsu</h2>
+            <ul>
+              <li>Posle pokretanja aplikacije moguće je pristupiti admin interfejsu.</li>
+              <li>Podrazumevano se pristupa na <i>http://localhost:8000/admin/</i></li>
+            </ul>
+            <img src="Django/DjangoAdmin1.png" />
+          </section>
+
+
+          <section>
+            <h2>Projekti i aplikacije</h2>
+            <ul>
+              <li>Aplikacija je modul koji radi nešto korisno. Na primer, blog sistem, aplikacija
+                  za glasanje, forum i sl.</li>
+              <li>Projekat predstavlja skup aplikacija i konfiguracije za određene web sajtove.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje aplikacije unutar projekta</h2>
+            <pre><code data-trim class="no-highlight">
+$ python manage.py startapp polls
+            </code></pre>
+            <ul>
+              <li>Kreira fajlove i foldere sledećeg oblika:</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+polls/
+    __init__.py
+    admin.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+            </code></pre>
+          </section>
+
+        </section>
+
+
+
+
+        <section>
+
+          <section>
+            <h1 id="django_modeli">Django modeli</h1>
+          </section>
+
+
+          <section>
+            <h2>Django modeli</h2>
+            <ul>
+              <li>Smešteni su u <i>[app_name]/models.py</i> fajlu</li>
+              <li>Predstavljaju definitivan izvor definicije podataka u aplikaciji.</li>
+              <li>DRY - sve ostalo vezano za podatke se dedukuje iz modela.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from django.db import models
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Aktivacija modela</h2>
+            <ul>
+              <li>Potrebno je prvo aktivirati aplikaciju. Obavlja se dodavanjem
+                  imena aplikacije u <i>settings.py</i> fajl za sajt,
+                  n-torka <i>INSTALLED_APPS</i></li>
+            </ul>
+            <pre><code data-trim>
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'polls',
+)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje migracije</h2>
+            <pre><code data-trim class="no-highlight">
+$ python manage.py makemigrations polls
+Migrations for 'polls':
+  0001_initial.py:
+    - Create model Choice
+    - Create model Question
+    - Add field question to choice
+            </code></pre>
+            <p>Kreiran je fajl <code>polls/migrations/0001_initial.py</code></p>
+          </section>
+
+
+          <section>
+            <h2>Pregled SQL-a za određenu migraciju</h2>
+            <pre><code data-trim>
+$ python manage.py sqlmigrate polls 0001
+BEGIN;
+
+CREATE TABLE "polls_choice" (
+    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "choice_text" varchar(200) NOT NULL,
+    "votes" integer NOT NULL
+);
+CREATE TABLE "polls_question" (
+    "id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "question_text" varchar(200) NOT NULL,
+    "pub_date" datetime NOT NULL
+);
+...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Primena migracije nad bazom</h2>
+            <pre><code data-trim class="no-highlight">
+$ python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: sessions, admin, contenttypes, auth, polls
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+  Installing custom SQL...
+Running migrations:
+  Rendering model states... DONE
+  Applying polls.0001_initial... OK
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Migracije - sumarno</h2>
+            <p>Kod migracije šeme baze podataka uz očuvanje podataka raditi
+              sledeće:</p>
+            <ul>
+              <li>Modifikovati <code>model.py</code></li>
+              <li>Kreirati migraciju:</li>
+            </ul>
+              <pre><code>
+$ python manage.py makemigrations
+              </code></pre>
+            <ul>
+              <li>Primeniti migraciju:</li>
+            </ul>
+              <pre><code>
+$ python manage.py migrate
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Registracija modela u admin interfejsu</h2>
+            <ul>
+              <li>U fajlu <i>polls/admin.py</i></li>
+            </ul>
+            <pre style="font-size:40%"><code data-trim>
+from django.contrib import admin
+
+from .models import Question, Choice
+
+admin.site.register(Question)
+admin.site.register(Choice)
+            </code></pre>
+            <img src="Django/DjangoAdmin3.png" height="350"/>
+          </section>
+
+
+          <section>
+            <h2>Model API</h2>
+            <pre><code data-trim class="python">
+&gt;&gt;&gt; from polls.models import Question, Choice
+&gt;&gt;&gt; Question.objects.all()
+[]
+&gt;&gt;&gt; from django.utils import timezone
+&gt;&gt;&gt; q = Question(question_text="What's new?", pub_date=timezone.now())
+&gt;&gt;&gt; q.save()
+&gt;&gt;&gt; q.id
+1
+&gt;&gt;&gt; q.question_text
+"What's new?"
+&gt;&gt;&gt; q.pub_date
+datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=&lt;UTC&gt;)
+&gt;&gt;&gt; q.question_text = "What's up?"
+&gt;&gt;&gt; q.save()
+&gt;&gt;&gt; Question.objects.all()
+[&lt;Question: Question object&gt;]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>String reprezentacija instanci modela</h2>
+            <pre><code data-trim class="python">
+from django.db import models
+
+class Question(models.Model):
+    # ...
+    def __str__(self):              # __unicode__ on Python 2
+        return self.question_text
+
+class Choice(models.Model):
+    # ...
+    def __str__(self):              # __unicode__ on Python 2
+        return self.choice_text
+            </code></pre>
+            <ul>
+              <li>Na Python 2 definisati <i>__unicode__</i> metodu umesto <i>__str__</i></li>
+              <li>Django automatski dodaje <i>__str__</i> koji poziva <i>__unicode__</i>
+                  i enkoduje ga u <i>UTF-8</i>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Korisničke metode nad modelom</h2>
+            <pre><code data-trim class="python">
+import datetime
+
+from django.db import models
+from django.utils import timezone
+
+
+class Question(models.Model):
+    # ...
+    def was_published_recently(self):
+        return self.pub_date &gt;= timezone.now() - datetime.timedelta(days=1)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Model API (2)</h2>
+            <pre><code data-trim class="no-highlight">
+&gt;&gt;&gt; from polls.models import Question, Choice
+&gt;&gt;&gt; Question.objects.all()
+[&lt;Question: What's up?&gt;]
+
+&gt;&gt;&gt; Question.objects.filter(id=1)
+[&lt;Question: What's up?&gt;]
+&gt;&gt;&gt; Question.objects.filter(question_text__startswith='What')
+[&lt;Question: What's up?&gt;]
+
+&gt;&gt;&gt; from django.utils import timezone
+&gt;&gt;&gt; current_year = timezone.now().year
+&gt;&gt;&gt; Question.objects.get(pub_date__year=current_year)
+&lt;Question: What's up?&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Model API (3)</h2>
+            <pre><code data-trim class="no-highlight">
+&gt;&gt;&gt; Question.objects.get(id=2)
+Traceback (most recent call last):
+    ...
+DoesNotExist: Question matching query does not exist.
+
+&gt;&gt;&gt; Question.objects.get(pk=1)
+&lt;Question: What's up?&gt;
+
+&gt;&gt;&gt; q = Question.objects.get(pk=1)
+&gt;&gt;&gt; q.was_published_recently()
+True
+
+&gt;&gt;&gt; q = Question.objects.get(pk=1)
+
+&gt;&gt;&gt; q.choice_set.all()
+[]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Model API (4)</h2>
+            <pre><code data-trim style="font-size:90%;line-height:120%" class="no-highlight">
+&gt;&gt;&gt; q.choice_set.create(choice_text='Not much', votes=0)
+&lt;Choice: Not much&gt;
+&gt;&gt;&gt; q.choice_set.create(choice_text='The sky', votes=0)
+&lt;Choice: The sky&gt;
+&gt;&gt;&gt; c = q.choice_set.create(choice_text='Just hacking again', votes=0)
+
+&gt;&gt;&gt; c.question
+&lt;Question: What's up?&gt;
+
+&gt;&gt;&gt; q.choice_set.all()
+[&lt;Choice: Not much&gt;, &lt;Choice: The sky&gt;, &lt;Choice: Just hacking again&gt;]
+&gt;&gt;&gt; q.choice_set.count()
+3
+
+&gt;&gt;&gt; Choice.objects.filter(question__pub_date__year=current_year)
+[&lt;Choice: Not much&gt;, &lt;Choice: The sky&gt;, &lt;Choice: Just hacking again&gt;]
+
+&gt;&gt;&gt; c = q.choice_set.filter(choice_text__startswith='Just hacking')
+&gt;&gt;&gt; c.delete()
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h1 id="_apodešavanje_admin_aplikacije">
+              <a href="https://docs.djangoproject.com/en/1.7/intro/tutorial02/" target="_blank">
+                Podešavanje admin aplikacije</a></h1>
+
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="pogledi_-_views">Pogledi - <i>Views</i></h1>
+          </section>
+
+
+          <section>
+            <h2> <i>Views</i> - pogledi</h2>
+            <ul>
+              <li>Predstavljaju "vrstu" web stranice: blog home, arhiva po godini...</li>
+              <li>U <i>polls</i> aplikaciji imaćemo 4 pogleda:</li>
+              <ul>
+                <li> <i>Question</i> index stranicu</li>
+                <li> <i>Question</i> stranicu sa detaljima</li>
+                <li> <i>Question</i> stranicu sa rezultatima</li>
+                <li> Akciju za glasanje</li>
+              </ul>
+              <li>Pogledi generišu sadržaj koji se dostavlja klijentu na zahtev (URL request).</li>
+              <li>Sadržaj mogu biti web stranice ali mogu biti npr. i JSON ili XML stringovi.</li>
+              <li>Realizuju se kao python funkcije ili metode klase.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Prvi pogled</h2>
+            <ul>
+              <li>U fajlu <i>polls/views.py</i></li>
+            </ul>
+            <pre><code data-trim class="python">
+from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+            </code></pre>
+            <ul>
+              <li>Iz pogleda se vraća <code>HttpResponse</code> instanca ili izuzetak.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Rutiranje zahteva</h2>
+            <ul>
+              <li>Svaki URL zahtev se mapira na odgovarajuću <i>view</i> funkciju posredstvom
+                  tzv. <i>URLconf-a</i></li>
+              <li>Kreirati fajl <i>polls/urls.py</i> sa sadržajem:</li>
+            </ul>
+            <pre><code data-trim class="python">
+from django.conf.urls import patterns, url
+
+from polls import views
+
+urlpatterns = patterns('',
+    url(r'^$', views.index, name='index'),
+)
+            </code></pre>
+            <ul>
+              <li>Zatim u glavnom URLconf fajlu za sajt <i>mysite/urls.py</i> uključiti URLconf
+                  aplikacije <i>polls</i>.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
+urlpatterns = patterns('',
+    url(r'^polls/', include('polls.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Rutiranje zahteva (2)</h2>
+            <ul>
+              <li>Ako sada odete na adresu <code>http://localhost:8000/polls/</code> dobićete
+                  string <i>"“Hello, world. You’re at the polls index."</i></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Dodatni <i>polls</i> pogledi</h2>
+            <p>Fajl <code>polls/views.py</code></p>
+            <pre><code data-trim class="python">
+def detail(request, question_id):
+    return HttpResponse("You're looking at question %s." % question_id)
+
+def results(request, question_id):
+    response = "You're looking at the results of question %s."
+    return HttpResponse(response % question_id)
+
+def vote(request, question_id):
+    return HttpResponse("You're voting on question %s." % question_id)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Dodatne rute</h2>
+            <p>Fajl <code>polls/urls.py</code></p>
+            <pre><code data-trim class="python">
+from django.conf.urls import patterns, url
+
+from polls import views
+
+urlpatterns = patterns('',
+    # ex: /polls/
+    url(r'^$', views.index, name='index'),
+    # ex: /polls/5/
+    url(r'^(?P&lt;question_id&gt;\d+)/$', views.detail, name='detail'),
+    # ex: /polls/5/results/
+    url(r'^(?P&lt;question_id&gt;\d+)/results/$', views.results, name='results'),
+    # ex: /polls/5/vote/
+    url(r'^(?P&lt;question_id&gt;\d+)/vote/$', views.vote, name='vote'),
+)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pogled koji nešto zaista i radi</h2>
+            <p>Fajl <code>polls/views.py</code></p>
+            <pre><code data-trim>
+from django.http import HttpResponse
+
+from polls.models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([p.question_text for p in latest_question_list])
+    return HttpResponse(output)
+
+# Leave the rest of the views (detail, results, vote) unchanged
+            </code></pre>
+            <ul>
+              <li>Problem je što je izled vraćene strane hardkodiran u <i>view</i> funkciji.</li>
+              <li>Prepustićemo renderovanje stranice Django obrađivaču šablona.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Šabloni</h2>
+            <ul>
+              <li>Kreiramo folder <code>templates</code> unutar <code>polls</code> aplikacije.</li>
+              <li>Django koristi n-torku <code>TEMPLATE_LOADERS</code> za <i>callables</i> koji
+                  "znaju" kako da učitaju šablon iz raličitih izvora.</li>
+              <li>Jedan od loadera je <code> django.template.loaders.app_directories.Loader</code> koji
+                  učitava iz <code>templates</code> foldera aplikacije.</li>
+              <li>U <code>templates</code> folderu kreiramo <code>polls</code> direktorijum i u njemu
+                  fajl <code>index.html</code></li>
+              <li>Putanja je dakle <code>polls/templates/polls/index.html</code></li>
+              <li>Iz aplikacije šablon se (zahvaljujući loaderu) referencira sa <code>polls/index.html</code></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Prvi šablon</h2>
+            <p>Fajl <code>polls/templates/polls/index.html</code></p>
+            <pre><code data-trim class="django">
+{% if latest_question_list %}
+    &lt;ul&gt;
+    {% for question in latest_question_list %}
+        &lt;li&gt;&lt;a href="/polls/{{ question.id }}/"&gt;
+        {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+{% else %}
+    &lt;p&gt;No polls are available.&lt;/p&gt;
+{% endif %}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Ažuriranje pogleda da koristi šablon</h2>
+            <pre><code data-trim class="python">
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+
+from polls.models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    template = loader.get_template('polls/index.html')
+    context = RequestContext(request, {
+        'latest_question_list': latest_question_list,
+    })
+    return HttpResponse(template.render(context))
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prečica <code>render</code></h2>
+            <ul>
+              <li>Učitavanje i rederovanje šablona i vraćanje <code>HttpResponse</code> instance
+                  je čest slučaj.</li>
+              <li>Zbog toga postoji funkcija koja obavlja sav taj posao - <code>render()</code></li>
+            </ul>
+            <pre><code data-trim>
+from django.shortcuts import render
+from polls.models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.all().order_by('-pub_date')[:5]
+    context = {'latest_question_list': latest_question_list}
+    return render(request, 'polls/index.html', context)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Greška 404</h2>
+            <ul>
+              <li>Recimo da želimo da renderujemo detalje <code>Question</code> objekta.</li>
+            </ul>
+            <pre><code data-trim class="python">
+from django.http import Http404
+from django.shortcuts import render
+
+from polls.models import Question
+# ...
+def detail(request, question_id):
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404
+    return render(request, 'polls/detail.html', {'question': question})
+            </code></pre>
+            <ul>
+              <li>Za sada šablon <code>polls/detail.html</code> može biti prosto:</li>
+            </ul>
+            <pre><code data-trim>
+{{ question }}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prečica <code>get_object_or_404</code></h2>
+            <ul>
+              <li>Čest obrazac je pronalaženje objekta po id-u i podizanje
+                  greške 404 ukoliko ne postoji.</li>
+              <li>Za to može da se upotrebi prečica <code>get_object_or_404()</code></li>
+            </ul>
+            <pre><code data-trim>
+from django.shortcuts import get_object_or_404, render
+
+from polls.models import Question
+# ...
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/detail.html', {'question': question})
+            </code></pre>
+            <ul>
+              <li>Takođe postoji i <code>get_list_or_404()</code> koja koristi <code>filter</code>
+                  i podiže grešku 404 ukoliko je lista prazna.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Prepravka <code>details</code> šablona</h2>
+            <p>Fajl <code>polls/templates/polls/detail.html</code></p>
+            <pre><code data-trim class="django">
+&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+&lt;ul&gt;
+{% for choice in question.choice_set.all %}
+    &lt;li&gt;{{ choice.choice_text }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>URL-ovi u šablonima</h2>
+            <ul>
+              <li>Link u <code>index.html</code> šablonu je bio delimično hardkodiran:</li>
+            </ul>
+            <pre><code data-trim>
+&lt;li&gt;&lt;a href="/polls/{{ question.id }}/"&gt;{{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+            </code></pre>
+            <ul>
+              <li>To nije dobro kod većih aplikacija jer otežava promenu URL šeme.</li>
+              <li>Zbot toga je bolje koristiti <code>{% url %}</code> tag.</li>
+            </ul>
+            <pre><code data-trim>
+&lt;li&gt;&lt;a href="{% url 'detail' question.id %}"&gt;
+  {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+            </code></pre>
+            <p>Fajl <code>polls/urls.py</code></p>
+            <pre><code data-trim class="python">
+...
+# the 'name' value as called by the {% url %} template tag
+url(r'^(?P&lt;question_id&gt;\d+)/$', views.detail, name='detail'),
+...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2><i>Namespaces</i> u URL rutama</h2>
+            <ul>
+              <li>U prethodnom primeru <code>url</code> tag referencira rutu iz
+                  <code>urls.py</code> fajla po imenu.</li>
+              <li>Problem je ako imamo rute koje se isto zovu u više aplikacija.</li>
+              <li>To se rešava domenom imena (<i>namespace</i>).</li>
+            </ul>
+            <p>Fajl <code>mysite/urls.py</code></p>
+            <pre><code data-trim class="python">
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
+urlpatterns = patterns('',
+    url(r'^polls/', include('polls.urls', namespace="polls")),
+    url(r'^admin/', include(admin.site.urls)),
+)
+            </code></pre>
+            <p>Fajl <code>polls/templates/polls/index.html</code></p>
+            <pre><code data-trim>
+&lt;li&gt;&lt;a href="{% url 'polls:detail' question.id %}"&gt;
+  {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="forme">Forme</h1>
+          </section>
+
+
+
+          <section>
+            <h2>Pisanje jednostavne forme</h2>
+            <p>Šablon <code>polls/detail.html</code></p>
+            <pre><code data-trim>
+&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+
+{% if error_message %}&lt;p&gt;&lt;strong&gt;
+  {{ error_message }}&lt;/strong&gt;&lt;/p&gt;{% endif %}
+
+&lt;form action="{% url 'polls:vote' question.id %}" method="post"&gt;
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    &lt;input type="radio" name="choice" id="choice{{ forloop.counter }}"
+        value="{{ choice.id }}" /&gt;
+    &lt;label for="choice{{ forloop.counter }}"&gt;
+        {{ choice.choice_text }}&lt;/label&gt;&lt;br /&gt;
+{% endfor %}
+&lt;input type="submit" value="Vote" /&gt;
+&lt;/form&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pogled</h2>
+            <p>Fajl <code>polls/urls.py</code></p>
+            <pre><code data-trim>
+url(r'^(?P&lt;question_id&gt;\d+)/vote/$', views.vote, name='vote'),
+            </code></pre>
+            <p>Fajl <code>polls/views.py</code></p>
+            <pre><code data-trim style="font-size:90%;line-height:100%" class="python">
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from polls.models import Choice, Question
+# ...
+def vote(request, question_id):
+    p = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = p.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        return render(request, 'polls/detail.html', {
+            'question': p,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Rezultati glasanja</h2>
+            <ul>
+              <li>Po uspešnom glasanju (POST forme) vrši se redirekcija na
+                  <code>polls:results</code> pogled.</li>
+            </ul>
+            <p>Fajl <code>polls/views.py</code></p>
+            <pre><code data-trim>
+from django.shortcuts import get_object_or_404, render
+
+
+def results(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/results.html', {'question': question})
+            </code></pre>
+          <p>Šablon <code>polls/templates/polls/results.html</code></p>
+          <pre><code data-trim>
+&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+
+&lt;ul&gt;
+{% for choice in question.choice_set.all %}
+    &lt;li&gt;{{ choice.choice_text }} -- {{ choice.votes }}
+      vote{{ choice.votes|pluralize }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+
+&lt;a href="{% url 'polls:detail' question.id %}"&gt;Vote again?&lt;/a&gt;
+          </code></pre>
+
+          </section>
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="generički_pogledi">Generički pogledi</h1>
+          </section>
+
+
+          <section>
+            <h2>Generički pogledi</h2>
+            <ul>
+              <li>Prethodno prikazani pogledi su često korišćeni u web aplikacijama</li>
+              <ul>
+                <li>Učitavanje podataka iz baze na osnovu parametra prosleđenog preko URL-a.</li>
+                <li>Renderovanje šablona i vraćanje rezultata.</li>
+              </ul>
+              <li>Generički pogledi upravo predstavljaju ovaj obrazac koda.</li>
+              <li>Dva generička pogleda: <code>ListView</code> i <code>DetailsView</code></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Prerada polls urls.py</h2>
+            <p>Fajl <code>polls/urls.py</code></p>
+            <pre><code data-trim>
+from django.conf.urls import patterns, url
+
+from polls import views
+
+urlpatterns = patterns('',
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^(?P&lt;pk&gt;\d+)/$', views.DetailView.as_view(), name='detail'),
+    url(r'^(?P&lt;pk&gt;\d+)/results/$', views.ResultsView.as_view(),
+          name='results'),
+    url(r'^(?P&lt;question_id&gt;\d+)/vote/$', views.vote, name='vote'),
+)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prerada pogleda</h2>
+            <p>Fajl <code>polls/views.py</code></p>
+            <pre><code data-trim class="python" style="line-height:110%">
+...
+
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>ListView</h2>
+            <ul>
+              <li>Prikaz liste objekata.</li>
+              <li>Podrazumevani šablon je oblika <code>&lt;app name&gt;/&lt;model name&gt;_list.html</code></li>
+              <li>To se može promeniti navođenjem atributa <code>template_name</code></li>
+              <li>U kontekst šablona listi objekata se pristupa preko reference <code>&lt;model_name&gt;_list</code>
+                  pri čemu je ime modela u <i>lowercase-u</i> (npr. <code>question_list</code>)</li>
+              <li>Ovo se menja preko <code>context_object_name</code></li>
+              <li>Podrazumevano je listanje svih objekata modela. Ovo se može promenitit navođenjem
+                  metode <code>get_queryset(self)</code></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>DetailsView</h2>
+            <ul>
+              <li>Prikaz detalja pojedinačnog objekta.</li>
+              <li><code>id</code> objekta se iz URL-a prosleđuje pod imenom <code>pk</code>.</li>
+              <li>Važe ista pravila za određivanje šablona pri čemu je ime oblika
+                  <code>&lt;app name&gt;/&lt;model name&gt;_detail.html</code></li>
+              <li>U kontekstu šablona instanci se pristupa po imenu modela u <i>lowercase-u</i>.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h1 id="Šabloni_-_detaljnije">Šabloni - detaljnije</h1>
+          </section>
+
+
+          <section>
+            <h2>Šabloni</h2>
+            <ul>
+              <li>Tekstualni fajlovi koji imaju fiksne i varijablne delove.</li>
+              <li>Koriste se za generisanje proizvoljnog tekstualnog sadržaja:
+                  HTML, JSON, XML, CSS, JavaScrip, Java, Python, Email, izveštaji...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer</h2>
+            <pre><code data-trim class="django">
+{% extends "base_generic.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+&lt;h1&gt;{{ section.title }}&lt;/h1&gt;
+
+{% for story in story_list %}
+&lt;h2&gt;
+  &lt;a href="{{ story.get_absolute_url }}"&gt;
+    {{ story.headline|upper }}
+  &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;{{ story.tease|truncatewords:"100" }}&lt;/p&gt;
+{% endfor %}
+{% endblock %}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Varijable konteksta</h2>
+            <ul>
+              <li>Navode se u obliku <code>{{ varijabla  }}</code></li>
+              <li>Može se koristiti dot notacija za pristup atributima varijable pri čemu
+                  je semantika sledeća:</li>
+              <ul>
+                <li>Prvo se pokušava po ključu rečnika</li>
+                <li>Zatim pristup atributu ili metodi</li>
+                <li>Na kraju se pokušava pristup po numeričkom indeksu (deo iza tačke mora biti numerički)</li>
+              </ul>
+              <li>Ukoliko varijabla ne postoji u kontekstu referenca će biti renerovana na osnovu
+                  podešavanja <code>TEMPLATE_STRING_IF_INVALID</code> što je podrazumevano prazan string.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Filteri</h2>
+            <ul>
+              <li>Na prikaz varijable se može uticati filterima.</li>
+            </ul>
+            <pre><code data-trim class="django">
+{{ value|default:"nothing" }}
+  Za value == None -- nothing
+{{ value|length }}
+  Za value == [1, 2, 3] -- 3
+{{ value|filesizeformat }}
+  Za value == 123456789 -- 117.7 MB
+            </code></pre>
+            <ul>
+              <li>Filteri se mogu povezivati</li>
+            </ul>
+            <pre><code data-trim class="django">
+{{ text|escape|linebreaks }}
+            </code></pre>
+            <ul>
+              <li>Mogu imati parametre</li>
+            </ul>
+            <pre><code data-trim class="django">
+{{ bio|truncatewords:30 }}
+{{ list|join:", " }}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Tagovi</h2>
+            <ul>
+              <li>Složenije konstrukcije oblika</li>
+            </ul>
+            <pre><code data-trim class="django">
+{% tag %} ... sadržaj... {% endtag %}
+            </code></pre>
+            <ul>
+              <li>Služe za implementaciju kontrole toke (petlji, uslova), učitavanje
+                  eksternih informacija i sl.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>For</h2>
+            <pre><code data-trim class="django">
+&lt;ul&gt;
+{% for athlete in athlete_list %}
+    &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>If, elif i else</h2>
+            <pre><code data-trim class="django">
+{% if athlete_list %}
+    Number of athletes: {{ athlete_list|length }}
+{% elif athlete_in_locker_room_list %}
+    Athletes should be out of the locker room soon!
+{% else %}
+    No athletes.
+{% endif %}
+            </code></pre>
+
+            <pre><code data-trim class="django">
+{% if athlete_list|length &gt; 1 %}
+   Team: {% for athlete in athlete_list %} ... {% endfor %}
+{% else %}
+   Athlete: {{ athlete_list.0.name }}
+{% endif %}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje šablona</h2>
+            <ul>
+              <li>Najkompleksniji i najmoćniji mehanizam Django obrđivača šablona.</li>
+              <li>Omogućava definisanje šablona najvišeg nivoa i zatim redefiniciju i
+                  specijalizaciju za konkretne slučajeve.</li>
+              <li>Ovim se većina konkretnih šablona minimizuje.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje šablona (2)</h2>
+            <pre><code data-trim style="font-size:90%;line-height:100%">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;{% block title %}My amazing site{% endblock %}&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id="sidebar"&gt;
+        {% block sidebar %}
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="/blog/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        {% endblock %}
+    &lt;/div&gt;
+
+    &lt;div id="content"&gt;
+        {% block content %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje šablona (3)</h2>
+            <pre><code data-trim class="django">
+{% extends "base.html" %}
+
+{% block title %}My amazing blog{% endblock %}
+
+{% block content %}
+{% for entry in blog_entries %}
+    &lt;h2&gt;{{ entry.title }}&lt;/h2&gt;
+    &lt;p&gt;{{ entry.body }}&lt;/p&gt;
+{% endfor %}
+{% endblock %}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Nasleđivanje šablona (4)</h2>
+            <ul>
+              <li>Roditeljski <code>block</code> tagovi treba da imaju podrazumevani sadržaj.</li>
+              <li>Ukoliko primetite da duplirate kod u šablonima to je znak da treba da kreirate blok i
+                  da ga smestite u roditeljski šablon i onda samo redefinišete gde je potrebno.</li>
+              <li>Sadržaj roditeljskog bloka se može referencirati iz bloka putem
+                <code>{{ block.super  }}</code></li>
+              <li> <code>endblock</code> opciono može definisati ime što je zgodno kod većih šablona</li>
+            </ul>
+            <pre><code data-trim class="django">
+{% block content %}
+...
+{% endblock content %}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Automatski HTML <i>escaping</i></h2>
+            <ul>
+              <li>Sprečavanje <i>Cross Site Scripting (XSS)</i>.</li>
+              <li>Django automtski uključuje HTML escaping za sve stringove koje renderuje.</li>
+              <li>To je moguće isključiti za pojedine delove šablona ili na nivou celog obrađivača.</li>
+              <li>Sledeći karakteri se konvertuju:</li>
+              <ul>
+                <li>&lt; is converted to &amp;lt;</li>
+                <li>&gt; is converted to &amp;gt;</li>
+                <li>' (single quote) is converted to &amp;#39;</li>
+                <li>" (double quote) is converted to &amp;quot;</li>
+                <li>&amp; is converted to &amp;amp;</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Automatski HTML <i>escaping</i> - varijable</h2>
+            <pre><code data-trim class="django">
+This will be escaped: {{ data }}
+This will not be escaped: {{ data|safe }}
+            </code></pre>
+            <p>Za data vrednost '&lt;b&gt;' rezultuje sledećim kodom</p>
+            <pre><code data-trim class="django">
+This will be escaped: &amp;lt;b&amp;gt;
+This will not be escaped: &lt;b&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Automatski HTML <i>escaping</i> - blokovi</h2>
+            <pre><code data-trim class="django">
+{% autoescape off %}
+    Hello {{ name }}
+{% endautoescape %}
+            </code></pre>
+            <pre><code data-trim class="django">
+Auto-escaping is on by default. Hello {{ name }}
+
+{% autoescape off %}
+    This will not be auto-escaped: {{ data }}.
+
+    Nor this: {{ other_data }}
+    {% autoescape on %}
+        Auto-escaping applies again: {{ name }}
+    {% endautoescape %}
+{% endautoescape %}
+            </code></pre>
+          </section>
+
+
+
+          <section>
+            <h2>Pozivi metoda u šablonima</h2>
+            <ul>
+              <li>Moguće je pozivati metode koje nemaju parametre.</li>
+              <li>Sintaksa je ista kao za pristup atributima.</li>
+            </ul>
+            <pre><code data-trim class="django">
+{% for comment in task.comment_set.all %}
+    {{ comment }}
+{% endfor %}
+            </code></pre>
+            <pre><code data-trim class="django">
+{{ task.comment_set.all.count }}
+            </code></pre>
+            <p>Moguće je pozivati i korisničke metode.</p>
+            <pre><code data-trim class="python">
+class Task(models.Model):
+    def foo(self):
+        return "bar"
+            </code></pre>
+            <pre><code data-trim>
+{{ task.foo }}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Biblioteke tagova i filtera</h2>
+            <ul>
+              <li>Tagovi i filteri se mogu definisati od strane korisnika ili autora aplikacija.</li>
+              <li>Učitavaju se sa tagom <code>load</code></li>
+            </ul>
+            <pre><code data-trim class="django">
+{% load humanize %}
+
+{{ 45000|intcomma }}
+            </code></pre>
+            <ul>
+              <li>U ovom slučaju aplikacija <code>django.contrib.humanize</code> mora biti omogućena
+                  u konfiguraciji <code>INSTALLED_APPS</code></li>
+              <li>Moguće je istovremeno učitati više biblioteka.</li>
+            </ul>
+            <pre><code data-trim>
+{% load humanize i18n %}
+            </code></pre>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="testiranje"> <a href="https://docs.djangoproject.com/en/1.7/topics/testing/"
+                                    target="_blank">Testiranje</a></h1>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+            <section>
+              <h1 id="stilizovanje_aplikacija"> <a href="https://docs.djangoproject.com/en/1.7/intro/tutorial06/"
+                                                   target="_blank">Stilizovanje aplikacija</a></h1>
+            </section>
+
+        </section>
+
+
+        <section>
+          <h2>Reference</h2>
+          <a href="https://docs.djangoproject.com/en/1.8/" target="_blank">Django dokumentacija</a>
+        </section>
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>

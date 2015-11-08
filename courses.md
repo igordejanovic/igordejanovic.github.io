@@ -17,6 +17,7 @@ layout: page
 
 - [Programski jezik Python](tech/Python.html)
 - [Dependency Injection & Google Guice](tech/DependencyInjection.html)
+- [Django](tech/Django.html)
 
 
 
