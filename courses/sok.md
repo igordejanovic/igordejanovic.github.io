@@ -18,4 +18,5 @@ layout: page
 1. [Dependency Injection & Google Guice](../tech/DependencyInjection.html)
 1. [Razvoj baziran na komponentama](7-razvoj-baziran-na-komponentama.html)
 1. [SWT & JFace](../tech/SWT-JFace.html)
+   - [SWT&JFace examples](../tech/SWT-JFace/STW-JFace-examples.tar.gz)
 

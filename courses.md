@@ -19,6 +19,7 @@ layout: page
 - [Dependency Injection & Google Guice](tech/DependencyInjection.html)
 - [Django](tech/Django.html)
 - [SWT & JFace](tech/SWT-JFace.html)
+  - [SWT&JFace examples](tech/SWT-JFace/STW-JFace-examples.tar.gz)
 
 
 
