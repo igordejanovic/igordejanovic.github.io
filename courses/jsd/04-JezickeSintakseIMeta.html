@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>JSD - Jezičke sintakse i metamodelovanje</title>
+
+    <meta name="description" content="Jezici specifični za domen - Jezičke sintakse i metamodelovanje">
+    <meta name="author" content="Igor Dejanović">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Jezičke sintakse i meta-modelovanje</h1>
+          <h3>Jezici specifični za domen</h3>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Sintakse</li>
+              <li>Sekundarna sintaksa</li>
+              <li>Meta-modelovanje</li>
+              <li>Meta-metamodeli</li>
+              <li>Stek za metamodelovanje</li>
+            </ul>
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Sintakse</h1>
+          </section>
+
+
+          <section>
+            <h2>Tehnike i tehnologije za implementaciju DSL-ova</h2>
+            <ul>
+              <li>Parser generatori/interpreteri</li>
+              <li>Meta-modelovanje</li>
+              <li>Druge tehnike: ontologije, XML tehnologije...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Konkretna sintaksa</h2>
+            <ul>
+              <li>Da bi mogram prikazali korisniku potrebna nam je konkretna
+                  sintaksa.</li>
+              <li>Konkretna sintaksa definiše "izgled" iskaza na nekom jeziku,
+                  odnosno u širem smislu definiše i načine interakcije korisnika sa
+                  jezičkim iskazima tj. predstavlja interfejs jezik-korisnik.</li>
+              <li>Iako nam je za jedan jezik dovoljna jedna konkretna sintaksa,
+                  možemo ih imati više.</li>
+              <li>Konkretne sintakse mogu biti tekstualne, grafičke, tabelarne,
+                  tipa stabla, bazirane na dijalozima ...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer istog iskaza upotrebom dve različite konkretne sintakse</h2>
+            <img src="04-JezickeSintakseIMeta/RazliciteSintakse.png" height="500">
+          </section>
+
+
+          <section>
+            <h2>Parsiranje - sintaksna analiza</h2>
+            <ul>
+              <li>Analiza linearnog zapisa niza simbola na osnovu pravila neke
+                  formalne gramatike jezika.</li>
+              <li>Transformacija ulaznog stringa u stablo parsiranja.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stablo parsiranja</h2>
+            <ul>
+              <li>Nastaje iz niske simbola (ulaznog stringa) procesom skeniranja
+                  (tokenizacije ili leksičke analize) i parsiranja.</li>
+              <li>Čvorovi stabla su tokeni prepoznati od strane skenera dok je
+                  struktura stabla određena gramatikom jezika.</li>
+              <li>Stablo parsiranja reflektuje sintaksnu strukturu ulaznog stringa
+                  na bazi unapred definisane formalne gramatike.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stablo parsiranja - Primer</h2>
+            <img src="04-JezickeSintakseIMeta/calc_parse_tree.svg" height="500">
+          </section>
+
+
+          <section>
+            <h2>Apstraktna sintaksa</h2>
+            <ul>
+              <li>Određuje pravila validnosti jezičkih iskaza sa stanovišta
+                  njegove strukture bez razmatranja konkretne reprezentacije
+                  iskaza (konkretne sintakse).</li>
+              <li>Definiše strukture validnih rečenica sa stanovišta jezika.</li>
+              <li>Sadrži koncepte domena, njihove osobine i međusobne relacije.</li>
+              <li>Jezici za definisanje apstraktnih sintaksi jezika se u domenu
+                  modelovanja nazivaju meta-meta-modelima<sup>1</sup>.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li>Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
+                    čine i konkretne sintakse i semantika.</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Primer - apstraktna sintaksa jezika za opis konačnih automata</h2>
+            <img src="04-JezickeSintakseIMeta/StateMachine.svg" height="500">
+          </section>
+
+
+          <section>
+            <h2>Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze</h2>
+            <img src="04-JezickeSintakseIMeta/AST-Expression.png">
+          </section>
+
+
+          <section>
+            <h2>Stablo apstraktne sintakse</h2>
+            <ul>
+              <li>Svaki iskaz na datom jeziku se može na apstraktan način
+                  opisati stablom apstraktne sintakse (<i>Abstract Syntax Tree</i>).</li>
+              <li>AST je usmereno labelirano stablo gde čvorovi stabla
+                  predstavljaju instance koncepata apstraktne sintakse.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer stabla apstraktne sintakse</h2>
+            <img src="04-JezickeSintakseIMeta/AST.svg" height="500">
+          </section>
+
+
+          <section>
+            <h2>Razlike između stabla apstraktne i konkretne sintakse</h2>
+            <ul>
+              <li>Stablo konkretne sintakse je bazirano na formalnoj gramatici
+                  koja opisuje detalje zapisa u tekstualnom obliku.</li>
+              <li>Stablo apstraktne sintakse sadrži suštinu jezičkog iskaza.</li>
+              <li>Možemo imati više gramatika za isti jezik odnosno jedno
+                  stablo apstraktne sintakse možemo zapisati na više različitih
+                  načina što rezultuje različitim stablima konkretne sintakse.</li>
+              <li><b>Primer:</b> Izraz -(4-1)*5/(2+4.67) možemo u postfiksnoj
+                  notaciji zapisati kao 4 1 - 5 * 2 4.67 + / -. Ovo će
+                  rezultovati različitim stablima parsiranja ali je suština izraza
+                  ista i može rezultovati istim stablom apstraktne sintakse.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="sekundarna_sintaksa">Sekundarna sintaksa</h1>
+          </section>
+
+
+          <section>
+            <h2>Sekundarna sintaksa</h2>
+            <ul>
+              <li>Iako konkretna sintaksa nameće svoja pravila, gotovo uvek
+                  postoji određena sloboda koja se ostavlja korisniku i koja
+                  omogućava da se mogram koji je isti sa stanoviša apstraktne
+                  sintakse (isto stablo apstraktne sintakse) prezentuje na
+                  različite načine.</li>
+              <li>Primeri:</li>
+              <ul>
+                <li>"Prazni" karakteri kod tekstualnih sintaksi (white-spaces)
+                    najčešće nemaju semantičkog značaja pa se mogu koristiti na
+                    različite načine (kod se može nazubljivati na više načina).</li>
+                <li>Položaji, boja i veličine simbola kod grafičkih sintaksi najčešće
+                    nemaju semantičkog značenja pa korisnik može da iskoristi ove
+                    osobine da enkoduje neko svoje značenje.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section style="font-size:80%">
+            <h2>Problemi sa sekundarnom sintaksom</h2>
+            <ul>
+              <li>Sekundarna sintaksa se može koristiti na proizvoljan način.</li>
+              <li>Svaki korisnik razvija svoj stil upotrebe sekundarne sintakse što
+                  može prouzrokovati pogrešno ili otežano tumačenje.</li>
+            </ul>
+            <img src="04-JezickeSintakseIMeta/Sekundarna.png">
+            <p style="text-align:center">Da li su ova dva mograma ista?</p>
+          </section>
+
+
+          <section>
+            <h2>Problemi sa sekundarnom sintaksom</h2>
+            <img src="04-JezickeSintakseIMeta/Sekundarna2.png">
+            <p style="text-align:center">A sada?</p>
+          </section>
+
+
+          <section>
+            <h2>Moguća rešenja</h2>
+            <ul>
+              <li>Definisanje stila kodiranja - <i>coding style</i> (kod tekstualnih) koga
+                  se pridržavaju svi programeri. Potrebna je određena doza
+                  discipline.</li>
+              <li>Smanjenje korisničke slobode - ugrađivanje mogućih elemenata
+                  sekundarne sintakse u formalni jezik. Alati će sprečiti
+                  neispravnu upotrebu.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer - Python</h2>
+            <ul>
+              <li>Python koristi identaciju koda za kontrolu toka programa.</li>
+              <li>Jedan od razloga čitljivosti Python koda - svi programeri
+                  moraju ispravno da <i>nazubljuju</i> kod.</li>
+            </ul>
+            <pre><code data-trim class="python">
+def inner_from_python(expression):
+    retval = None
+    if isinstance(expression, types.FunctionType):
+        # If this expression is a parser rule
+        rule_name = expression.__name__
+        if rule_name in __rule_cache:
+            c_rule = __rule_cache.get(rule_name)
+            if self.debug:
+                print("Rule {} founded in cache.".format(rule_name))
+            if isinstance(c_rule, CrossRef):
+                self.__cross_refs += 1
+                if self.debug:
+                    print("CrossRef usage: {}"
+                          .format(c_rule.target_rule_name))
+            return c_rule
+        ...
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Pristupi u realizaciji editora za DSL-ove</h2>
+            <ul>
+              <li>Parsiranje</li>
+              <ul>
+                <li>Kod tekstualnih. Mogram se čuva u formi teksta koji se parsira
+                    pre daljeg procesiranja.</li>
+                <li>Korisnik edituje tekstualnu formu.</li>
+              </ul>
+              <li>Projekcija</li>
+              <ul>
+                <li>Mogram se čuva u formi stabla apstraktne sintakse.</li>
+                <li>Vrši se projekcija na konkretnu reprezentaciju (grafičku,
+                    tekstualnu, tabelarnu...).</li>
+                <li>Korisnik kroz konkretnu reprezentaciju direktno edituje stablo
+                    apstraktne sintakse.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1>Meta-modelovanje</h1>
+          </section>
+
+
+          <section>
+            <h2>Model</h2>
+            <ul>
+              <li>Modelovanje je esencijalno za ljudsku aktivnost jer svakoj
+                  akciji prethodi, eksplicitno ili implicitno, kreiranje modela.</li>
+              <li>Modeli mogu biti deskriptivni, ukoliko modeluju postojeći
+                  realni sistem, ili preskriptivni (specifikacija) ukoliko
+                  predstavljaju "plan" sistema koji treba da se izgradi.</li>
+              <li>Model predstavlja opis, ili specifikaciju sistema i njegovog
+                  okruženja kreiran za određenu namenu. Najčešće je model
+                  predstavljen kao kombinacija crteža i teksta. Tekst može biti
+                  zadat jezikom za modelovanje ili prirodnim jezikom <sup>1</sup>.</li>
+            </ul>
+            <footer>
+              <ol>
+                  <li>J. Miller, J. Mukerji, et al., <i>MDA Guide Version 1.0.1</i>, Object
+                      Management Group, vol. 234, 2003</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Model - drugi pokušaj</h2>
+            <blockquote>
+...Model predstavlja pojednostavljenje sistema sa određenim
+ciljem. Model treba da odgovori na pitanja umesto stvarnog
+sistema. Odgovori dobijeni od modela moraju da budu isti kao i oni
+dobijeni od realnog sistema, pod uslovom da se pitanja nalaze u
+domenu definisanom ciljem modela. Da bi bio koristan, model mora
+biti jednostavniji za upotrebu od realnog sistema. Da bi se ovo
+postiglo, mnogi detalji realnog sistema su apstrahovani i
+izostavljeni. Ovo pojednostavljenje je srž modelovanja...
+            </blockquote>
+            <footer>
+              J. Bézivin and O. Gerbé, <i>Towards a precise definition of the OMG/MDA
+              framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Osnovne karakteristike modela</h2>
+            <ul>
+              <li>Model ne predstavljaju samo crteži i tekstualni opisi. Model
+                  može imati materijalnu formu npr. može biti model/maketa
+                  aviona, pojednostavljena verzija motora sa unutrašnjim
+                  sagorevanjem itd.</li>
+              <li>Apstrakcija i namena, tj. skup pitanja na koje želimo da
+                  dobijemo odgovore, su osnovne karakteristike modela.</li>
+              <li>U opštem slučaju, ne možemo očekivati da će model dati
+                  potpuno iste odgovore kao modelovani sistem ali možemo
+                  očekivati da razlike (greške) budu u projektovanim granicama.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Meta-model</h2>
+            <ul>
+              <li>Kada kreiramo model sistema moramo poštovati određena
+                  pravila odnosno moramo koristiti određeni jezik za
+                  modelovanje.</li>
+              <li>Jezik može biti opšte namene (npr. UML) ili specifičan za
+                  domen.</li>
+              <li>Takav jezik predstavlja eksplicitnu specifikaciju korišćene
+                  apstrakcije pri modelovanju <sup>1</sup>.</li>
+              <li>Apstraktna sintaksa datog jezika u svetu modelovanja je
+                  takođe predstavljena kao model. Ovakav model nazivamo
+                  meta-modelom.</li>
+              <li>Meta-model sadrži koncepte domena, njihove međusobne veze
+                  i ograničenja.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li>J. Bézivin and O. Gerbé, <i>Towards a precise definition of the OMG/MDA
+                    framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Primer - meta-model jezika za opis konačnih automata</h2>
+            <img src="04-JezickeSintakseIMeta/StateMachine.svg" height="500">
+            <p style="text-align:center">Apstraktna sintaksa je meta-model</p>
+          </section>
+
+
+          <section>
+            <h2>Operacije koje koristimo pri (meta)modelovanju</h2>
+            <ul>
+              <li>Apstrakcija</li>
+              <li>Klasifikacija</li>
+              <li>Generalizacija</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Apstrakcija</h2>
+            <ul>
+              <li>Jedno od osnovnih oruđa ljudskog intelekta.</li>
+              <li>Proces zanemarivanja nebitnih informacija prilikom kreiranja
+                  modela.</li>
+            </ul>
+            <img src="04-JezickeSintakseIMeta/apstrakcija.svg" height="450">
+          </section>
+
+
+          <section>
+            <h2>Apstrakcija</h2>
+            <blockquote>
+                If you assume a certain basic knowledge in the audience, you
+                can talk in a language that deals with bigger concepts, and
+                express things in a much shorter and clearer way. This, more or
+                less, is what abstraction is.
+            </blockquote>
+            <footer>
+              <p class="center">Marijn Haverbeke, <i>Eloquent JavaScript</i>, <a
+                 href="http://eloquentjavascript.net/">http://eloquentjavascript.net/</a></p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Klasifikacija</h2>
+            <ul>
+              <li>Objekti realnih sistema, kao i njihovi modeli, se mogu grupisati
+                  na osnovu zajedničkih osobina.</li>
+            </ul>
+            <img src="04-JezickeSintakseIMeta/klasifikacija.svg" height="450">
+          </section>
+
+
+          <section>
+            <h2>Token modeli i modeli tipova</h2>
+            <ul>
+              <li>Prvi ih je definisao Čarls Sanders Pirs.</li>
+              <li>Token modeli</li>
+              <ul>
+                <li>Modeli konkretnih pojedinačnih pojava realnog sveta.</li>
+                <li>Nastaju isključivo procesom apstrakcije.</li>
+                <li>Primer: geografska mapa, maketa aviona...</li>
+              </ul>
+              <li>Modeli tipova</li>
+              <ul>
+                <li>Nastaju procesom klasifikacije modela tokena na osnovu
+                    zajedničkih osobina.</li>
+                <li>Ovakav model opisuje klasu pojava realnog sveta.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Generalizacija</h2>
+            <ul>
+              <li>Predstavlja dalji proces klasifikacije modela tipova na osnovu
+                  zajedničkih osobina.</li>
+              <li>Odvija se unutar modela tipova na taj način što se tipovi
+                  grupišu u apstraktne koncepte na osnovu zajedničkih osobina.
+                  Za tako kreirane koncepte kažemo da generalizuju posmatrani
+                  skup koncepata, odnosno posmatrani skup koncepata se
+                  nasleđuje iz generalizovanog koncepta.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h1>Meta-metamodeli</h1>
+          </section>
+
+
+          <section>
+            <h2>Meta-metamodel</h2>
+            <ul>
+              <li>Kreiranje jezika predstavlja domen sa svojim konceptima i
+                  pravilima.</li>
+              <li>Jezik ovog domena (jezik za opis jezika) nazivamo
+                  meta-jezikom.</li>
+              <li>Kao što apstraktnu sintaksu bilo kog jezika nazivamo
+                  meta-modelom, apstraknu sintaksu meta-jezika nazivamo
+                  meta-metamodelom.</li>
+              <li>Meta-metamodelom možemo opisati apstraktnu sintaksu bilo
+                  kog jezika pa i meta-jezika. Stoga kažemo da je
+                  meta-metamodel samodefinišući.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>MOF</h2>
+            <ul>
+              <li>MOF (<i>Meta-Object Facility</i>)<sup>1</sup> je meta-metamodel i industrijski
+                  standard koji se razvija pod okriljem OMG (<i>Object
+                  Management Group</i>) konzorcijuma.</li>
+              <li>Predstavlja osnovnu integracionu platformu MDA
+                  (<i>Model-Driven Architecture</i>) pravca i omogućava
+                  interoperabilnost UML baziranih alata.</li>
+              <li>Nastao je na bazi UML-a i u MOF-u se danas opisuju OMG
+                  jezici za modelovanje, između ostalog i UML</li>
+              <li>MOF je podeljen na EMOF (<i>Essential MOF</i>),
+                  CMOF(<i>Complete MOF</i>) i SMOF(<i>Semantic MOF</i>).</li>
+            </ul>
+            <footer>
+              <ol>
+                <li><a href="http://www.omg.org/mof/" target="_blank">
+                    http://www.omg.org/mof/</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>EMOF</h2>
+            <img src="04-JezickeSintakseIMeta/EMOF.png">
+          </section>
+
+
+          <section>
+            <h2>ECore</h2>
+            <ul>
+              <li>ECore je meta-metamodel čiji je razvoj započeo IBM a kasnije
+                je razvijan u okviru Eclipse EMF (<i>Eclipse Modeling
+                  Framework</i>)<sup>1</sup> projekta.</li>
+              <li>Baziran na programskom jeziku Java. Pod licencom slobodnog
+                  softvera (<i>Eclipse Public License</i>).</li>
+              <li>U osnovi predstavlja efikasnu implementaciju EMOF
+                  meta-metamodela.</li>
+              <li>Industrijski standard, dokazan i testiran kroz višegodišnju
+                  upotrebu na realnim projektima.</li>
+            </ul>
+            <footer>
+              <ol>
+                <li><a href="http://www.eclipse.org/modeling/emf/" target="_blank">
+                    http://www.eclipse.org/modeling/emf/</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>ECore</h2>
+            <img src="04-JezickeSintakseIMeta/EcoreRelations.png" height="600">
+          </section>
+
+
+          <section>
+            <h2>GOPPRR</h2>
+            <ul>
+              <li>Ime predstavlja skraćenicu reči koje opisuju osnovne koncepte
+                  jezika: <b>G</b>raph, <b>O</b>bject, <b>P</b>roperty, <b>P</b>ort,
+                  <b>R</b>ole, <b>R</b>elationship.</li>
+              <li>Vlasnički softver. Okosnica MetaEdit+ alata<sup>1</sup>. Nastao je od
+                  ranijih verzija koje su nosile naziv GOPRR i OPRR<sup>2</sup> .</li>
+            </ul>
+            <footer>
+              <ol>
+                <li> <a href="http://www.metacase.com/products.html" target="_blank">
+                    http://www.metacase.com/products.html</a></li>
+                <li>S. Kelly, <i>Towards a comprehensive MetaCASE and CAME environment:
+                    conceptual, architectural, functional and usability advances in MetaEdit+</i>. PhD
+                    thesis, University of Jyväskylä, 1997</li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>MoRP</h2>
+            <ul>
+              <li>Razvijen na Katedri za informatiku.</li>
+              <li>Jednostavan - mali broj koncepata.</li>
+              <li>Implementacija u Javi<sup>1</sup> . U toku port na Python<sup>2</sup> (čim se nađe
+                  vremena ;) ).</li>
+            </ul>
+            <img src="04-JezickeSintakseIMeta/MoRP.svg" height="350">
+            <footer>
+              <ol>
+                <li> <a href="https://github.com/igordejanovic/MoRP" target="_blank">
+                    https://github.com/igordejanovic/MoRP</a></li>
+                <li> <a href="https://github.com/igordejanovic/MoRPy" target="_blank">
+                    https://github.com/igordejanovic/MoRPy</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="stek_za_metamodelovanje">Stek za metamodelovanje</h1>
+          </section>
+
+
+          <section>
+            <h2>Stek za metamodelovanje</h2>
+            <img src="04-JezickeSintakseIMeta/Metanivoi.svg" height="600">
+          </section>
+
+
+          <section>
+            <h2>Primer - Mogram, jezik, meta-jezik</h2>
+            <img src="04-JezickeSintakseIMeta/Kapija-StateMachine-MoRP.svg" height="600">
+          </section>
+
+        </section>
+
+
+        <section>
+          <h1>Kraj</h1>
+        </section>
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
