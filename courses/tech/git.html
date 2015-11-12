@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Git DVCS</title>
+
+    <meta name="description" content="Git DVCS">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Git DVCS</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+
+        <section>
+          <h2>Sadržaj</h2>
+          <ul>
+            <li>Uvod</li>
+            <li>Git repozitorijum</li>
+            <li>Instalacija i konfiguracija</li>
+            <li>Osnovne operacije</li>
+            <li>Grane</li>
+            <li>Spajanje grana (Merging)</li>
+            <li>Razmena promena</li>
+            <li>Ispravka grešaka</li>
+            <li>Održavanje repozitorijuma</li>
+            <li>Modeli grananja</li>
+            <li>Preporučena praksa</li>
+          </ul>
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1>Uvod</h1>
+          </section>
+
+
+          <section>
+            <h2>Šta je Git</h2>
+            <ul>
+              <li>Distribuirani sistem za kontrolu verzija (Distributed Version
+                Control System - DVCS).</li>
+              <li>Razvoj započeo Linus Torvalds, u aprilu 2005. godine, posle
+                promene politike licenciranja BitKeeper-a koji je do tada
+                korišćen za razvoj linux kernela.</li>
+              <li>Dostupan na adresi <a href="http://git-scm.com/">http://git-scm.com/</a></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Git - osobine</h2>
+            <ul>
+              <li>Izuzetno brz i skalabilan.</li>
+              <li>Jednostavan dizajn.</li>
+              <li>Odlična podrška za nelinearan razvoj (podrška za veliki broj
+                grana) i velike projekte (npr. Linux kernel).</li>
+              <li>Pisan najvećim delom u C-u, ali su delovi pisani u Perl-u,
+                bash-u itd.</li>
+              <li>Komande niskog nivoa (<i>plumbing</i>). Komande visokog nivoa
+                (<i>porcelain</i>).</li>
+              <li>Ne prati fajlove već sadržaj. Izmene se eksplicitno dodaju pre <i>commit</i>-a.</li>
+              <li>Kriptografska autentifikacija istorije promena.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Osnovni workflow</h2>
+            <ul>
+              <li>Ako ne postoji klon repozitorijuma na lokalnom računaru vrši
+                se kloniranje udaljenog repozitorijuma (ovo se generalno radi
+                jednom).</li>
+              <li>Menjaju se fajlovi.</li>
+              <li>Izmene se dodaju u pripremnu zonu (indeks).</li>
+              <li>Vrši se trajno beleženje promene (operacija <i>commit</i>).</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1>Git repozitorijum</h1>
+          </section>
+
+
+          <section>
+            <h2>Praćenje sadržaja</h2>
+            <ul>
+              <li>Osnova git repozitorijuma je praćenje sadržaja a ne fajlova i
+                promena nad njima. Informacije o promenama se izračunavaju po
+                potrebi.</li>
+            </ul>
+            <blockquote>
+I’m right. I’m always right, but sometimes I’m more right than
+other times. And dammit, when I say "files don’t matter", I’m
+really really Right(tm)<sup>1</sup>.
+            </blockquote>
+            <footer>
+              <ol>
+                <li>Linus Torvalds, <a href=http://article.gmane.org/gmane.comp.version-control.git/217"">prepiska na mailing listi</a></li>
+              </ol>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Veza radnog stabla, indeksa i repozitorijuma</h2>
+            <img src="git/Workflow.svg" alt="" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Životni ciklus fajla u git repozitorijumu</h2>
+            <img src="git/FileLifecycle.svg" alt="" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Git repozitorijum</h2>
+            <ul>
+              <li>Jednostavan model repozitorijuma baziran na mapama (parovi
+                ključ-vrednost). <em>Objektna baza</em>.</li>
+              <li>Ključevi su <em>SHA1 heš sadržaja</em> koji se čuva + hedera.</li>
+              <li><em>Tri vrste objekata/vrednosti</em>. Sadržaj se komprimuje pomoću <em>zlib</em> biblioteke.</li>
+              <li>Reference - <em>pokazivači</em> na određene objekte u repozitorijumu.</li>
+              <li>Repozitorijum se nalazi u <em>.git</em> direktorijumu unutar
+                  direktorijuma gde je izvršena inicijalizacija sa <em>git init</em>
+                  komandom (videti u nastavku).</li>
+            </ul>
+          </section>
+
+
+          <section style="font-size:90%">
+            <h2>Vrste git objekata</h2>
+            <ul>
+              <li>Repozitorijum je objektna baza gde postoje tri vrste objekata:</li>
+              <ul>
+                <li><em>BLOB:</em> Niz bajtova bez semantike. Najčešće služi za
+                  opis sadržaja fajla.</li>
+                <li><em>Stablo(Tree):</em> Čuva niz referenci na blobove i
+                  druga podstabla zajedno sa meta-podacima kao što su: naziv
+                  fajla, mod i sl.</li>
+                <li><em>Commit:</em> "Pokazivač" na stablo koje opisuje kako je
+                  projekat izgledao u trenutku <i>commit</i>-a. Osim toga
+                  sadrži niz meta-informacija kao što su autor, vreme nastanka,
+                pokazivače na prethodne commit-e i dr.</li>
+              </ul>
+
+              <li>Svi objekti su smešteni na isti način u <em>.git/objects</em>
+                direktorijumu. Prva dva karaktera SHA1 heša čine naziv
+                poddirektorijuma dok preostalih 38 čini ime fajla.</li>
+              <li>Na primer:</li>
+              <ul>
+                <li>.git/obects/bb/82d56602c51c7998911b2d07e84e25a942a028</li>
+              </ul>
+              <li>Gotovo sve Git operacije se baziraju na manipulaciji sa
+                strukturom koja se sastoji od objekata čiji tip je jedan od
+                navedenih.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>BLOB</h2>
+
+            <ul>
+              <li>Niz bajtova bez semantike i metapodataka. Najčešće služi za opis sadržaja fajla.</li>
+              <li>Struktura blob objekta:</li>
+            </ul>
+            <pre><code data-trim class="java">
+blob 107\0
+class MainClass {
+    static void main(int argc, String[] argv) {
+        System.out.println("Hello World!");
+    }
+}
+            </code></pre>
+            <img src="git/blob.svg" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Tree</h2>
+            <ul>
+
+              <li>Čuva niz referenci na blobove i druga podstabla zajedno sa
+                meta-podacima kao što su: naziv fajla, mod i sl.</li>
+              <li>Rekurzivne reference na druga stabla.</li>
+              <li>Struktura tree objekta:</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+tree 64\0
+100644 blob 8e0462460e55357686a844cfd27564ab5a6055a6 README
+040000 tree 1d6a41c11d3557faae7522bc2af7042e8723e63a src
+            </code></pre>
+            <img src="git/tree.svg" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Commit</h2>
+            <ul>
+              <li>Niz bajtova bez semantike i metapodataka. Najčešće služi za opis sadržaja fajla.</li>
+              <li>Struktura commit objekta:</li>
+              <li>Struktura commit objekta:</li>
+            </ul>
+            <pre><code data-trim class="no-highlight">
+commit 195\0
+tree c7984074ae6aae0bb8b087ca0a5bd6026b108528
+author Igor Dejanovic &lt;igor.dejanovic@gmail.com&gt; 1350920069 +0200
+committer Igor Dejanovic &lt;igor.dejanovic@gmail.com&gt; 1350920069 +0200
+Prvi commit.
+            </code></pre>
+            <img src="git/commit.svg" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Prvi commit</h2>
+            <img src="git/prvi-commit.svg" alt="" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Drugi commit</h2>
+            <img src="git/drugi-commit.svg" alt="" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Reference</h2>
+            <ul>
+              <li>Pokazivači na objekte u git repozitorijumu (najčešće <i>commit</i>-e).</li>
+              <li>Smeštene u <em>.git/refs</em> direktorijumu.</li>
+              <li>Dele se na:</li>
+              <ul>
+                <li><em>glave (heads)</em> koje predstavljaju pokazivač na
+                  poslednji <i>commit</i> sa grane.</li>
+                <li><em>oznake (tags)</em> koji predstavljaju obeleživač/marker
+                  <i>commit</i>-a koji je, na neki način, poseban. Na primer,
+                  možemo označiti određenu verziju projekta.</li>k
+              </ul>
+              <li>Specijalna referenca <em>HEAD</em> pokazuje na glavu koja je tekuća
+                čime označava granu na kojoj se radna kopija trenutno nalazi.
+                Smeštena je u <em>.git/HEAD</em> fajlu.</li>
+              <li>Navode se prema putanji u refs folderu (npr. <em>refs/heads/master</em>).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Git repozitorijum sa objektima i referencama</h2>
+            <img src="git/git-repo.svg" alt="" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Prikaz popularnih hosting rešenja -
+              <a href="https://github.com/" target="_blank">GitHub</a> i
+              <a href="https://about.gitlab.com/" target="_blank">GitLab</a></h2>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h1>Instalacija i konfiguracija</h1>
+          </section>
+
+
+          <section>
+            <h2>Vrste klijenata</h2>
+            <ul>
+              <li>GUI</li>
+              <ul>
+                <li>FLOSS: EGit (Eclipse plugin), git-cola, TortoiseGit, Git Extensions...</li>
+                <li>Komercijalni: SmartGit</li>
+              </ul>
+              <li>Command line - kanonički git klijent</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Pomoć - help</h2>
+            Spisak osnovnih komandi git-a se može dobiti sa:
+            <pre><code data-trim>
+$ git help
+usage: git [–version] ...
+...
+The most commonly used git commands are:
+add       Add file contents to the index
+bisect    Find by binary search the change that introduced a bug
+branch    List, create, or delete branches
+checkout  Checkout a branch or paths to the working tree
+...
+            </code></pre>
+            Detaljna pomoć za komandu se dobija sa:
+            <pre><code data-trim>
+$ git help &lt;ime komande&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Konfiguracija</h2>
+            <ul>
+              <li>Konfiguracija se čuva u tekstualnim fajlovima koji imaju strukturu <em>.ini fajlova</em>.</li>
+              <li>Preporučivo je parametre podešavati putem <em>git config</em> komande.</li>
+              <li>Tri nivoa konfiguracije:</li>
+              <ul>
+                <li><em>sistemska</em> (za sve korisnike instalacije) Fajl
+                  <em>/etc/gitconfig</em></li>
+                <li><em>po korisniku</em> (važi za ulogovanog korisnika) Fajl
+                  <em>~/.gitconfig</em> (POSIX) ili <em>C:\Documents and
+                    Settings\$USER\.gitconfig</em> (Windows)</li>
+                <li><em>po repozitorijumu</em> (važi za tekući repozitorijum)
+                  Fajl <em>.git/config</em> unutar repozitorijuma</li>
+              </ul>
+            </ul>
+          </section>
+
+
+
+          <section>
+            <h2>Osnovna konfiguracija</h2>
+
+            Konfigurisanje imena i email-a:
+            <pre><code data-trim>
+$ git config --global user.name "Igor Dejanović"
+$ git config --global user.email "igor DOT dejanovic AT gmail DOT com"
+            </code></pre>
+Konfiguracija se može izlistati sa:
+            <pre><code data-trim>
+$ git config --list
+            </code></pre>
+          Editor za unos log poruka je postavljen na podrazumevani sistemski (najčešće vi ili vim). Windows korisnici uglavnom nisu vični upotrebi ovog editora.
+          Podrazumevani editor se na windowsu može promeniti na sledeći način:
+          <pre><code data-trim>
+# Windows - Obratiti pažnju na duple navodnike!!!
+$ git config --global core.editor
+    "'C:/Program Files/Windows NT/Accessories/wordpad.exe'"
+          </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Konfiguracija za SSL i proxy</h2>
+            Za pristup serverima sa nevalidnim sertifikatom (npr.  samopotpisan
+            sertifikat) potrebno je podesiti sledeće za sertifikat koji smo
+            preuzeli sa servera:
+            <pre><code data-trim class="no-highlight">
+$ git config --global http.sslCAInfo /home/igor/Dropbox/config/all-certs.crt
+            </code></pre>
+
+            ili ukoliko ne želimo proveru sertifikata:
+            <pre><code data-trim class="no-highlight">
+$ git config --global http.sslVerify false
+            </code></pre>
+            Ako je potreban pristup preko HTTP proxy-ja to se po korisniku može podesiti sa:
+            <pre><code data-trim class="no-highlight">
+$ git config --global http.proxy 192.168.77.100:8080
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Povezivanje sa serverom upotrebom SSH ključeva</h2>
+            <ul>
+              <li>Ključevi se nalaze u <em>~/.ssh/</em> direktorijumu.</li>
+              <li>Generišu se sa komandom:</li>
+            </ul>
+              <pre><code data-trim style="font-size:90%" class="no-highlight">
+$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+Enter passphrase (empty for no passphrase): [Type a passphrase]
+Enter same passphrase again: [Type passphrase again]
+Your identification has been saved in /Users/you/.ssh/id_rsa.
+Your public key has been saved in /Users/you/.ssh/id_rsa.pub.
+The key fingerprint is:
+01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com
+              </code></pre>
+              <footer>
+                <p class="center">GitHub, <a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank">Generating SSH keys</a></p>
+              </footer>
+          </section>
+
+
+          <section>
+            <h2>Konfigurisanje diff/merge alata</h2>
+            <pre><code data-trim class="no-highlight">
+$ git config --global merge.tool meld
+            </code></pre>
+            Ili na windows-u:
+            <pre><code data-trim class="no-highlight">
+$ git config --global merge.tool "'C:\ Program Files\...'"
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Konfiguracija veličine slova u nazivima fajlova</h2>
+
+            Unix fajl sistemi su uglavnom <i>case-sensitive</i> dok kod <i>windows</i>-a to
+            nije slučaj. Stoga je na unix file sistemima sasvim legalno da
+            postoje dva fajla istog naziva ali različite veličine slova (na primer
+            <code>File1.txt</code> i <code>file1.txt</code>). Ovo na <i>windows</i>-u nije moguće pa je dobro,
+            ukoliko članovi tima rade na različitim operativnim sistemima,
+            podesiti sledeće:
+            <pre><code data-trim class="no-highlight">
+$ git config --global core.ignorecase true
+            </code></pre>
+            Na taj način će git tretirati fajlove različitog <i>case</i>-a kao identične i
+            ukoliko se kreira fajl istog naziva kao postojeći u repozitorijum ali
+            različitog <i>case</i>-a on će biti ignorisan.
+          </section>
+
+
+          <section style="font-size:90%">
+            <h2>Konfiguracija završetaka linija (<i>line endings</i>)</h2>
+
+            Unix na kraju reda kod tekstualnih fajlova koristi LF bajt. Windows
+            koristi dva bajta - CR i LF. Današnji editori su u stanju da rade sa
+            oba standarda. Git podržava automatsku konverziju krajeva linija.
+            Tekuća praksa je da se kreira konfiguracioni fajl <em>.gitattributes</em> u
+            korenskom folderu u kome se "pomaže" git-u da pravilno odredi
+            tekstualne i binarne fajlove. Ovaj fajl se <i>commit</i>-uje u repozitorijum
+            tako da svi članovi tima imaju isto podešavanje.
+            Sadržaj <code>.gitattributes</code> fajla:
+            <pre><code data-trim class="no-highlight">
+* text=auto
+*.png binary
+*.jpg binary
+*.exe binary
+            </code></pre>
+
+            <div class="attention">
+              <b>Napomena:</b>
+              <p class="center">Za dodatnu konfiguraciju pogledati konfiguracione parametre
+              <em>core.eol</em>, <em>core.autocrlf</em> i
+              <em>core.safecrlf</em>.</p>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Normalizacija krajeva linija u repozitorijumu</h2>
+            Ako se u git repozitorijumu već nalaze fajlovi sa CRLF tada je
+            potrebno izvršiti normalizaciju svih tekstualnih fajlova na LF
+            pratite <a target="_blank" href="https://help.github.com/articles/dealing-with-line-endings/">uputstvo sa GitHub-a</a>.
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h1 id="osnovne_operacije">Osnovne operacije</h1>
+          </section>
+
+
+          <section>
+            <h2>Inicijalizacija repozitorijuma</h2>
+            <ul>
+              <li>Repozitorijum je skup metapodataka koji se nalaze u skrivenom folderu .git unutar korenskog foldera projekta.</li>
+              <li>Kreiranje se obavlja na sledeći način:</li>
+              <pre><code data-trim class="no-highlight">
+# Prelazak u folder gde se nalazi izvorni kod
+# projekta
+$ cd ~/Projekat
+# Inicijalizacija
+$ git init
+Initialized empty Git repository in
+/home/igor/Projekat/.git/
+
+              </code></pre>
+              <li>Ovim je kreiran prazan repozitorijum. Sledeći korak je dodavanje sadržaja.</li>
+            </ul>
+          </section>
+
+
+
+        </section>
+
+
+
+
+        <section>
+          <h1>KRAJ</h1>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>

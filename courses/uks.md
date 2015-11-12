@@ -9,5 +9,6 @@ layout: page
 1. [Programski jezik Python](../tech/Python.html)
 1. [Osnove upravljanja konfiguracijom softvera](02-osnove.html)
 1. [Sistemi za kontrolu verzija - Uvod](../tech/sistemi-za-kontrolu-verzija.html)
+1. [Git](../tech/git.html)
 
 

@@ -22,6 +22,7 @@ layout: page
   - [SWT&JFace examples](tech/SWT-JFace/STW-JFace-examples.tar.gz)
 - Sistemi za kontrolu verzija
   - [Uvod](tech/sistemi-za-kontrolu-verzija.html)
+  - [Git](tech/git.html)
 
 
 
