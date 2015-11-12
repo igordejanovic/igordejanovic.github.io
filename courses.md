@@ -20,6 +20,8 @@ layout: page
 - [Django](tech/Django.html)
 - [SWT & JFace](tech/SWT-JFace.html)
   - [SWT&JFace examples](tech/SWT-JFace/STW-JFace-examples.tar.gz)
+- Sistemi za kontrolu verzija
+  - [Uvod](tech/sistemi-za-kontrolu-verzija.html)
 
 
 

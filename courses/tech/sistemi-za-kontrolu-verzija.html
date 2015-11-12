@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Sistemi za kontrolu verzija</title>
+
+    <meta name="description" content="Sistemi za kontrolu verzija">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Sistemi za kontrolu verzija</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+
+        <section>
+          <h2>Sadržaj</h2>
+          <ul>
+            <li>Problemi, podela i osobine</li>
+            <li>Centralizovani</li>
+            <li>Distribuirani</li>
+          </ul>
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h2>Problem sa konkurentnim izmenama</h2>
+            <ul>
+              <ul>
+                <li>Konkurentni razvoj podrazumeva da različiti ljudi menjaju iste resurse u isto vreme.</li>
+                <li>Kako očuvati sve izmene? Kako ih spojiti na konzistentan način?</li>
+                <li>Poseban problem – čuvanje istorije promena.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Problem sa konkurentnim izmenama</h2>
+            <img class="moje" height="400" src="sistemi-za-kontrolu-verzija/KonkurentneIzmene-1.svg" alt=""/>
+            <p class="center">Mika i Žika preuzimaju fajl A iz deljenog repozitorijuma</p>
+          </section>
+
+
+          <section>
+            <h2>Problem sa konkurentnim izmenama</h2>
+            <img height="400" src="sistemi-za-kontrolu-verzija/KonkurentneIzmene-2.svg" alt=""/>
+            <p class="center">Mika vraća izmenjenu verziju fajla A</p>
+          </section>
+
+
+          <section>
+            <h2>Problem sa konkurentnim izmenama</h2>
+            <img height="400" src="sistemi-za-kontrolu-verzija/KonkurentneIzmene-3.svg" alt=""/>
+            <p class="center">Žika vraća izmenjenu verziju i preko Mikine</p>
+            <p class="center">Mikina izmena je izgubljena</p>
+          </section>
+
+
+          <section>
+            <h2>Kontrola verzija - <i>Version Control</i></h2>
+            <ul>
+              <li>Kontrola verzija (eng. <em>Version Control</em>) je opšti naziv za
+                aktivnost praćenja promena i spajanja konkurentnih promena nad
+                artifaktima od interesa za posmatranu aktivnost, uz očuvanje
+              istorije.</li>
+              <li>U slučaju razvoja softvera artifakti koji su predmet praćenja
+                mogu biti bilo koji digitalni sadržaji koji su deo softverskog
+                projekta: modeli, programski kod, dokumentacija, konfiguracioni
+              fajlovi, multimedijalni sadržaji i sl.</li>
+              <li>Predstavlja deo šire discipline pod nazivom upravljanje
+                konfiguracijom softvera (eng. <em>Software Configuration Management</em> -
+                SCM ). SCM je inženjerska disciplina koja omogućava kontrolisano
+              praćenje i evoluciju softverskog proizvoda.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Sistem za kontrolu verzija</h2>
+            <ul>
+              <li>Sistem za kontrolu verzija (<em>Version Control System - VCS</em>)
+                upravlja promenama nad digitalnim artifaktima (najčešće fajlovima
+                i folderima).</li>
+              <li>Daje <em>uvid u sve promene</em> koje su učinjene nad artifaktima koji
+                su predmet kontrole verzija sa svim relevantnim metapodacima kao
+                što su:</li>
+              <ul>
+                <li>Ko je načinio promenu?</li>
+                <li>Kada je promena učinjena?</li>
+                <li>Šta je tom prilikom promenjeno i na koji način?</li>
+                <li>Nad kojom verzijom je promena učinjena, odnosno koje</li>
+                <li>promene su prethodile?</li>
+                <li>...</li>
+              </ul>
+              <li>Omogućava <em>vraćanje na verziju iz prošlosti</em> i kreiranje
+                <em>alternativnih tokova</em> razvoja/varijanti.</li>
+            </ul>
+          </section>
+
+
+          <section style="font-size:90%">
+            <h2>Modeli upravljanja konkurentnim promenama</h2>
+            <ul>
+              <li>Pesimistički (<em>Lock-Modify-Unlock</em>)</li>
+              <ul>
+                <li>Konkurentne izmene se izbegavaju zaključavanjem</li>
+                <li>Primena moguća samo kod centralizovanih sistema</li>
+                <li>Mane:</li>
+                <ul>
+                  <li>Smanjena "propusnost" sistema – posebno izraženo kod
+                    projekata sa većim brojem učesnika</li>
+                  <li>Sindrom "otišao na ručak"</li>
+                </ul>
+              </ul>
+              <li>Optimistički (<em>Copy-Modify-Merge</em>)</li>
+              <ul>
+                <li>Konkurentne promene se udružuju naknadno (operacija <em>Merge</em>).</li>
+                <li>Visoka propusnost – svaki učesnik može da ažurira proizvoljan artifakt.</li>
+                <li>Mane:</li>
+                <ul>
+                  <li>Konkurentne promene mogu biti u konfliktu što se razrešava
+                    prilikom operacije spajanja.</li>
+                  <li>Kod proizvoljnih binarnih fajlova gde semantika sadržaja
+                    nije poznata alatu ovaj pristup ne može da se koristi.</li>
+                </ul>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Osnovni koncepti</h2>
+            <ul>
+              <li>Promena (<em>Change/Delta/Patch</em>)</li>
+              <li>Skup promena (<em>ChangeSet</em>)</li>
+              <li>Repozitorijum</li>
+              <li>Radna stablo/kopija (<em>Working Tree/Copy</em>)</li>
+            </ul>
+          </section>
+
+
+          <section style="font-size:80%">
+            <h2>Postojeće arhitekture</h2>
+            <ul>
+              <li>Centralizovana ili client-server arhitektura.</li>
+              <ul>
+                <li>Sva istorija je u repozitorijumu centralnog servera. Klijenti imaju samo tekuću verziju.</li>
+              </ul>
+              <img class="center" src="sistemi-za-kontrolu-verzija/Centralizovana-arhitektura.svg" height="200" alt=""/>
+
+              <li>Distribuirana ili peer-to-peer arhitektura.</li>
+              <ul>
+                <li>Svaki klijent ima punu istoriju izmena.</li>
+              </ul>
+              <img class="center" src="sistemi-za-kontrolu-verzija/Distribuirana-arhitektura.svg" height="200" alt=""/>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Centralizovani sistemi za kontrolu verzija</h2>
+            <ul>
+              <li>Klijent-server arhitektura.</li>
+              <li>Prednosti:</li>
+              <ul>
+                <li>Moguće je uspostaviti strožiju kontrolu.</li>
+                <li>Bolji uvid u tekuće stanje projekta.</li>
+              </ul>
+              <li>Mane:</li>
+              <ul>
+                <li>Sve promene se vide na centralnom serveru što obeshrabuje programere na eksperimentisanje.</li>
+                <li>Jedna tačka otkaza.</li>
+                <li>Lošija skalabilnost u poređenju sa distribuiranim.</li>
+                <li>Kod offline rada imamo pojavu velikih i nefokusiranih promena (commit-a).</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Distribuirani sistemi za kontrolu verzija</h2>
+            <ul>
+              <li>Sistemi koji su implementirani u skladu sa distribuiranom
+                arhitekturom (<em>peer-to-peer</em>) nazivaju se distribuiranim sistemima
+                za kontrolu verzija (<em>Distributed Version Control Systems -
+                  DVCS</em>).</li>
+              <li>Prednosti:</li>
+              <ul>
+                <li>Offline rad. Kreiranje manjih, fokusiranih promena/commit-a.</li>
+                <li>Jednostavno kreiranje repozitorijuma i eksperimentisanje.</li>
+                <li>Jednostavno grananje – svaki repozitorijum je grana razvoja.</li>
+                <li>Jednostavno kreiranje podtimova.</li>
+                <li>Jednostavno baziranje projekta na već postojećem (eng.  forking).</li>
+                <li>Nov način rada – društveno kodiranje (eng. <em>social coding</em>).
+                    Videti sajtove <a href="https://github.com/">github.com</a>,
+                    <a href="https://about.gitlab.com/">gitlab.org</a> i
+                    <a href="https://bitbucket.org/">bitbucket.org</a></li>
+                <li>Odlična skalabilnost – primer: linux kernel.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Osnovne VCS operacije</h2>
+            <ul>
+              <li><em>Clone</em> kod DVCS, <em>checkout</em> kod centralizovanih – Kreiranje radne kopije.</li>
+              <li><em>Commit</em> – Registrovanje nove promene.</li>
+              <li><em>Update</em> – Preuzimanje tuđih promena</li>
+              <li><em>Pull/Push</em> kod DVCS – Prijem/slanje promena iz/u udaljenih repozitorijuma.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1 id="centralizovani_sistemi">Centralizovani sistemi</h1>
+          </section>
+
+
+          <section>
+            <h2>Najpoznatiji predstavnici</h2>
+            <ul>
+              <li>Subversion – <a href="http://subversion.apache.org/">http://subversion.apache.org/</a></li>
+              <li>CVS – <a href="http://savannah.nongnu.org/projects/cvs">http://savannah.nongnu.org/projects/cvs</a></li>
+              <li>Perforce – <a href="http://www.perforce.com/">http://www.perforce.com/</a></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Šta je Subversion</h2>
+            <ul>
+              <li>Open-source centralizovani VCS sistem nastao kao zamena za vremešni CVS.</li>
+              <li>Repozitorijum u kojoj se čuva celokupna istorija projekta se nalazi na centralnom serveru.</li>
+              <li>Programeri pristupaju određenim verzijama projekta upotrebom SVN klijenata.</li>
+              <li>Postoji više klijenata u upotrebi: svn, TortoiseSVN, Subclipse, Subversive...</li>
+              <li>Svaki član tima može izabrati sa kojim će klijentom da radi.</li>
+              <li>Može koristiti i više klijenata ukoliko želi.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Subversion arhitektura</h2>
+            <img src="sistemi-za-kontrolu-verzija/SVN-Arhitektura.png" height="500" alt=""/>
+            <footer>
+              <p class="center">B. Collins-Sussman, B. W. Fitzpatrick, and C. M. Pilato, <i>Version Control with Subversion</i>, For Subversion 1.7.</p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Model Subversion repozitorijuma</h2>
+            <div style="float: left; width: 50%">
+              <ul>
+                <li>Repozitorijum je modelovan kao fajl sistem sa verzijama.</li>
+                <li>Početna verzija je 0 i fajl sistem je prazan.</li>
+                <li>Operacije nad fajl sistemom su ACID (<i>Atomicity-Consistency-Isolation-Durability</i>) operacije.</li>
+                <li>Svaka uspešna izmena fajl sistema uvećava verziju za 1.</li>
+              </ul>
+            </div>
+            <div style="float: left; width: 50%" >
+                <img src="sistemi-za-kontrolu-verzija/SVNFileSystem.png" alt=""/>
+            </div>
+            <div style="clear: both;"/>
+            <footer>
+              <p class="center">B. Collins-Sussman, B. W. Fitzpatrick, and C. M. Pilato, <i>Version Control with Subversion</i>, For Subversion 1.7.</p>
+            </footer>
+          </section>
+
+
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h1>Distribuirani sistemi za kontrolu verzija</h1>
+          </section>
+
+
+          <section>
+            <h2>Distribuirani sistemi - najpoznatiji predstavnici</h2>
+            <ul>
+              <li>Git – <a href="http://git-scm.com/">http://git-scm.com/</a></li>
+              <li>Mercurial – <a href="http://mercurial.selenic.com/">http://mercurial.selenic.com/</a></li>
+              <li>Bazzar – <a href="http://bazaar.canonical.com/">http://bazaar.canonical.com/</a></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>DVCS repozitorijum</h2>
+            <img src="sistemi-za-kontrolu-verzija/DVCS-repo.svg" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Komunikacija između repozitorijuma</h2>
+            <img src="sistemi-za-kontrolu-verzija/DVCS-repos-push-pull.svg" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Git</h2>
+            <ul>
+              <li>Razvoj započeo Linus Torvalds, u aprilu 2005. godine, posle
+                promene politike licenciranja BitKeeper-a koji je do tada
+                korišćen za razvoj linux kernela.</li>
+              <li>Izuzetno brz i skalabilan.</li>
+              <li>Pisan najvećim delom u C-u, ali su delovi pisani u Perl-u, bash-u itd.</li>
+              <li>Kriptografska autentifikacija istorije promena.</li>
+              <li>Problemi sa portom na Windows platformu. Ali to je sada manje-više rešeno.</li>
+              <li>Ne prati fajlove već sadržaj. Izmene se eksplicitno dodaju pre commit-a.</li>
+              <li>Repozitorijum je potrebno povremeno “očistiti”.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Mercurial</h2>
+            <ul>
+              <li>Brz, skalabilan i portabilan.</li>
+              <li>Pisan najvećim delom u Python-u sa kritičnim delovima napisanim u C-u.</li>
+              <li>Jednostavan za korišćenje. Komande po uzoru na subversion.</li>
+              <li>Jedan izvšni fajl proširiv putem ekstenzija.</li>
+              <li>Repozitorijum je aditivne prirode. Nije promenjiv i nije
+                potrebno čišćenje kao kod git-a. Veličina repozitorijuma je
+                uvek minimalna.</li>
+              <li>Problematičan kod velikih fajlova.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Bazaar</h2>
+            <ul>
+              <li>Za sada najsporiji od “velike trojke”.</li>
+              <li>Pisan najvećim delom u Python-u sa delovima napisanim u C-u.</li>
+              <li>Podržan od strane Canonical-a.</li>
+              <li>Direktna podrška za različite procese.</li>
+              <li>Praćenje naziva direktorijuma i fajlova. Jaka podrška za
+                promene imena i premeštanje fajlova.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+          <h1>KRAJ</h1>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
