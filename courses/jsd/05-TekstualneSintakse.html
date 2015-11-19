@@ -214,8 +214,8 @@
               <li>Σ - konačni skup <em>terminalnih simbola</em>,</li>
               <li>P - konačni skup <em>produkcionih pravila</em> (produkcija) oblika:
                   <p>(Σ ∪ N)∗ N(Σ ∪ N)∗ → (Σ ∪ N)∗</p>
-                  <li>S - neterminal iz skupa N (S ∈ N) koga nazivamo <em>početnim
-                    simbolom</em>.</li>
+              <li>S - neterminal iz skupa N (S ∈ N) koga nazivamo <em>početnim
+                simbolom</em>.</li>
             </ul>
           </section>
 
@@ -254,6 +254,133 @@
             </ul>
           </section>
 
+
+          <section>
+            <h2>Primer kontekstno slobodne gramatike</h2>
+            G = ({S}, {a, b}, P, S)
+            <pre><code data-trim>
+S → aSa
+S → bSb
+S → ε
+            </code></pre>
+            <footer>
+              <p><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Izvođenje - derivacija (<i>Derivation</i>)</h2>
+            <ul>
+              <li>Generisanje ispravne rečenice, počevši od startnog
+                simbola/neterminala, sukcesivnom primenom produkcija dok ne
+                dobijemo rečenicu koja se sastoji samo od terminala.</li>
+            </ul>
+            <pre><code data-trim>
+S → aSa    (1)
+S → bSb    (2)
+S → ε      (3)
+
+S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
+            </code></pre>
+            <footer>
+              <p><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Primer izvođenja - alebarski izrazi</h2>
+            <div>
+              <p class="center"><b>Cilj: </b>( x + y ) * x - z * y / ( x + x )</p>
+              <div style="float: left; width: 20%">
+                <pre><code data-trim>
+1. S → x
+2. S → y
+3. S → z
+4. S → S + S
+5. S → S - S
+6. S → S * S
+7. S → S / S
+8. S → ( S )
+                </code></pre>
+
+              </div>
+              <div style="float: left; width: 80%">
+                <pre><code data-trim>
+S (startni simbol)
+→ S - S (pravilo 5)
+→ S * S - S (pravilo 6, primenjeno na levi neterminal S)
+→ S * S - S / S (pravilo 7, primenjeno na desni neterminal S)
+→ ( S ) * S - S / S (pravilo 8, primenjeno na levi S)
+→ ( S ) * S - S / ( S ) (pravilo 8, primenjeno na desni S)
+→ ( S + S ) * S - S / ( S ) (itd.)
+→ ( S + S ) * S - S * S / ( S )
+→ ( S + S ) * S - S * S / ( S + S )
+→ ( x + S ) * S - S * S / ( S + S )
+→ ( x + y ) * S - S * S / ( S + S )
+→ ( x + y ) * x - S * y / ( S + S )
+→ ( x + y ) * x - S * y / ( x + S )
+→ ( x + y ) * x - z * y / ( x + S )
+→ ( x + y ) * x - z * y / ( x + x )
+                </code></pre>
+              </div>
+            </div>
+            <footer>
+              <p class="center"><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Rečenična forma i rečenica</h2>
+            <ul>
+              <li>Bilo koja niska terminala i neterminala koja se može dobiti
+                primenom produkcionih pravila počevši od početnog simbola naziva se
+              rečeničnom formom (<em>Sentential Form</em>).</li>
+            </ul>
+            <pre><code data-trim>
+( x + S ) * S - S * S / ( S + S )
+            </code></pre>
+            <ul>
+              <li>Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica (<em>Sentence</em>).</li>
+            </ul>
+            <pre><code data-trim>
+( x + y ) * x - z * y / ( x + x )
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Odluke pri izvođenju</h2>
+            <ul>
+              <li>U svakom koraku izvođenja parser donosi dve odluke:</li>
+              <ol>
+                <li>koji neterminal da zameni</li>
+                <li>sa kojim pravilom da ga zameni ukoliko imamo više mogućnosti</li>
+              </ol>
+              <li>Prva odluka je najčešće fiksna (npr. uvek se zamenjuje prvi sleva ili prvi sdesna)</li>
+              <li>Za drugu odluku koriste se tehnike kao što su <em>lookahead</em> (videti u nastavku)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Strategije izvođenja</h2>
+            <ul>
+              <li><b>Levo izvođenje</b> - uvek se prvo razrešava u string levi neterminal</li>
+              <li><b>Desno izvođenje</b> - uvek se prvo razrešava u string desni neterminal</li>
+              <li>Strategija izvođenja je bitna kod parsera koji izvšavaju određene akcije kod
+                  svake primene produkcije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Levo izvođenje - primer</h2>
+            <img src="05-TekstualneSintakse/LeftDerivation.svg" width="1000"/>
+          </section>
+
+
           <section>
             <h2><i>Extended Backus–Naur Form</i> - EBNF</h2>
             <ul>
@@ -267,7 +394,7 @@
           </section>
 
           <section>
-            <h2>EBNF - primer</h2>
+            <h2>Primer - EBNF u EBNF-u</h2>
             <pre><code data-trim style="line-height:90%; font-size:90%;">
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
@@ -300,6 +427,8 @@ grammar = { rule } ;
           </section>
 
 
+
+
         </section>
 
 
@@ -320,9 +449,9 @@ grammar = { rule } ;
                 <li>Kreće od polaznog neterminala gramatike i pokušava da
                     generiše(izvede) ulazni string primenom produkcija.</li>
                 <li>Od opšteg ka pojedinačnom.</li>
-                <li>Ukoliko se izabere pogrešna alternativa radi se vraćanje - <i>backtrack</i></li>
+                <li>Ukoliko se izabere pogrešna alternativa radi se vraćanje - <em>backtrack</em></li>
                 <li>Ukoliko ne koriste vraćanje zovu se <em>prediktivni parseri</em>.</li>
-                <li>LL parseri i rekurzivni silazni parseri (recursive descent) koriste
+                <li>LL parseri i rekurzivni silazni parseri (<em>recursive descent</em>) koriste
                     ovu strategiju.</li>
                 <li>LL parseri prirodno primenjuju levo izvođenje stabla parsiranja.</li>
               </ul>
@@ -370,28 +499,6 @@ grammar = { rule } ;
               <li>Ukoliko ne koriste vraćanje (prediktivni parseri) prihvataju manji skup
                   gramatika.</li>
             </ul>
-          </section>
-
-
-          <section>
-            <h2>Izvođenje stabla</h2>
-            <ul>
-              <li>Izvođenje sintaksnih stabala predstavlja sekvencu primene pravila koje transformišu
-                  početni simbol u ulazni string.</li>
-              <li>Različite strategije izvođenja:</li>
-              <ul>
-                <li><b>Levo izvođenje</b> - uvek se prvo razrešava u string levi neterminal</li>
-                <li><b>Desno izvođenje</b> - uvek se prvo razrešava u string desni neterminal</li>
-              </ul>
-              <li>Strategija izvođenja je bitna kod parsera koji izvšavaju određene akcije kod
-                  svake primene produkcije.</li>
-            </ul>
-          </section>
-
-
-          <section>
-            <h2>Levo izvođenje - primer</h2>
-            <img src="05-TekstualneSintakse/LeftDerivation.svg"/>
           </section>
 
 
@@ -474,7 +581,7 @@ int              int                Match int
             <h2>LL - LR napomene</h2>
             <ul>
               <li>Kod LL parsera problem je određivanje produkcije koju treba primeniti nad neterminalom.</li>
-              <li>Kod LR parsera problem je kada uraditi REDUCE operaciju i na koji neterminal odnosno SHIFT.</li>
+              <li>Kod LR parsera problem je kada uraditi REDUCE operaciju i na koji neterminal, odnosno kada uraditi SHIFT.</li>
               <li>I kod jednog i kod drugog algoritma generiše se tablica koja pomaže parseru
                   da donese odluku u toku parsiranja.</li>
             </ul>
