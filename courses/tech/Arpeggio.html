@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Arpeggio</title>
+
+    <meta name="description" content="Arpeggio parser">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Arpeggio parser</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Kratak pregled Python parsera</li>
+              <ul>
+                <li>PyParsing</li>
+                <li>parsimonius</li>
+                <li>PLY</li>
+              </ul>
+              <li>Arpeggio</li>
+            </ul>
+        </section>
+
+
+        <section>
+
+          <section>
+            <h1 id="kratak_pregled_python_parsera">Kratak pregled Python parsera</h1>
+          </section>
+
+          <section>
+            <h2>PyParsing</h2>
+            <ul>
+              <li>100% Python</li>
+              <li>MIT licenca</li>
+              <li>PEG parser</li>
+              <li>Gramatika se zadaje Python izrazima preko redefinisanih operatora +  i | </li>
+              <li>Mane</li>
+              <ul>
+                <li>Slabija podrška za semantičku analizu</li>
+                <li>Performanse kod gramatika sa vraćanjem (<em>backtracking</em>)</li>
+                <li>Nije moguće definisati gramatiku putem PEG notacije</li>
+              </ul>
+              <li> <a href="http://pyparsing.wikispaces.com/">http://pyparsing.wikispaces.com/</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Primer</h2>
+            <pre><code data-trim>
+from pyparsing import Word, alphas
+greet = Word( alphas ) + "," + Word( alphas ) + "!" # &lt;-- grammar
+hello = "Hello, World!"
+print (hello, "-&gt;", greet.parseString( hello ))
+            </code></pre>
+            <pre><code data-trim>
+Hello, World! -&gt; ['Hello', ',', 'World', '!']
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h1 id="parsimonious">parsimonious</h1>
+          </section>
+
+
+          <section>
+            <h2>parsimonious</h2>
+            <ul>
+              <li>100% Python</li>
+              <li> <a href="https://github.com/erikrose/parsimonious" target="_blank">
+                   Projekat otvorenog koda.</a></li>
+              <li>PEG (packrat) parser</li>
+              <li>MIT licenca</li>
+              <li>Cilj - performanse</li>
+              <li>Gramatika se zadaje tekstulanim jezikom.</li>
+              <li> <i>Whitespace</i> karakteri se zadaju gramatikom.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer</h2>
+            <pre><code data-trim>
+&gt;&gt;&gt; from parsimonious.grammar import Grammar
+&gt;&gt;&gt; grammar = Grammar(
+...     """
+...     bold_text  = bold_open text bold_close
+...     text       = ~"[A-Z 0-9]*"i
+...     bold_open  = "(("
+...     bold_close = "))"
+...     """)
+
+&gt;&gt;&gt; print grammar.parse('((bold stuff))')
+&lt;Node called "bold_text" matching "((bold stuff))"&gt;
+    &lt;Node called "bold_open" matching "(("&gt;
+    &lt;RegexNode called "text" matching "bold stuff"&gt;
+    &lt;Node called "bold_close" matching "))"&gt;
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>PLY</h2>
+            <ul>
+              <li>100% Python</li>
+              <li>LR parser</li>
+              <li>Inspirisan sa lex/yacc alatima</li>
+              <li>Pravila prioriteta, oporavak od grešaka, podrška za neodređene gramatike.</li>
+              <li>Tokenizacija kao poseban korak (lex modul)</li>
+              <li>Gramatika se piše u docstring-ovima za semantičke akcije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer</h2>
+            <pre><code data-trim class="python">
+# When parsing starts, try to make a "chemical_equation" because it's
+# the name on left-hand side of the first p_* function definition.
+def p_species_list(p):
+    "chemical_equation :  chemical_equation species"
+    p[0] = p[1] + [p[2]]
+
+def p_species(p):
+    "chemical_equation : species"
+    p[0] = [p[1]]
+            </code></pre>
+          </section>
+
+        </section>
+
+
+        <section>
+          <section>
+            <h1>Arpeggio</h1>
+          </section>
+
+          <section>
+            <h2>Osnovne osobine</h2>
+            <ul>
+              <li>100% Python kod</li>
+              <li>MIT licenca</li>
+              <li>Definisanje gramatike putem Python izraza ili putem PEG notacije</li>
+              <li>Puna podrška za semantičku analizu</li>
+              <li>Dobra podrška za debagovanje</li>
+              <li>Vizualizacija stabla parsiranja i modela parsera upotrebom GraphViz biblioteke.</li>
+              <li>Dobra prijava grešaka</li>
+              <li>Mogućnost višestruke analize istog stabla parsiranja</li>
+              <li><a href="https://github.com/igordejanovic/arpeggio/">
+                  https://github.com/igordejanovic/arpeggio/</a></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>PEG pravila</h2>
+            <ul>
+              <li>Gramatika se zadaje skupom PEG pravila</li>
+              <li>Svako pravilo definiše način prepoznavanja određenog
+                  (ne)terminala na ulazu.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>PEG pravila (2)</h2>
+            <p>Ako su e, e1 i e2 PEG pravila definisani su sledeći
+                elementarni PEG izrazi:</p>
+            <ul style="font-size:90%">
+              <li><b>Sekvenca:</b> <em>e1 e2</em> - izraz će dovesti do
+                  prepoznavanja ulaza ako i samo ako redom izrazi
+                  e1 i e2 prepoznaju ulaz</li>
+              <li><b>Uređeni izbor:</b> <em>e1 / e2</em> - izraz će biti prepoznat
+                  ukoliko bilo izraz e1 ili izraz e2 dovedu do
+                  prepoznavanja u navedenom redosledu (prvo e1
+                  pa zatim e2 )</li>
+              <li><b>Jedan ili više:</b> <em>e+</em> - sukcesivno se vrši
+                  prepoznavanje izraza e dok god uspeva. Ukoliko
+                  je e prepoznat bar jednom prepoznavanje je
+                  uspešno</li>
+              <li><b>Nula ili više:</b> <em>e*</em> - sukcesivno se vrši
+                  prepoznavanje izraza e dok god uspeva. Izraz
+                  uvek uspeva pri čemu ako izraz e nije prepoznat
+                  ni jednom rezultat je prazan string,</li>
+              <li><b>Opciono:</b> <em>e?</em> - izraz uvek uspeva. Ukoliko se prepozna string sa ulaza
+                  biće konzumiran.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>PEG pravila - predikati</h2>
+            <p>Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.</p>
+            <ul>
+              <li><b>"I" predikat:</b> &amp;e - pravilo je uspešno samo ukoliko je e prepoznato na ulazu.</li>
+              <li><b>"Ne" predikat:</b> !e - pravilo je uspešno samo ukoliko e nije prepoznato na ulazu.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Koncepti</h2>
+            <ul>
+              <li><b>Parser model</b> - opisuje određenu vrstu dijagrama stanja-prelaza parsera.
+                  Može se vizualizovati upotrebom dot alata u cilju debagovanja.</li>
+              <li><b>Stablo parsiranja</b> - može se vizualizovati dot alatom</li>
+              <li><b>Semantičke akcije</b> - transformišu stablo parsiranja u drugi oblik upotrebom
+                  <i>Visitor</i> obrasca.</li>
+            </ul>
+          </section>
+
+          <section style="font-size: 90%">
+            <h2>Definisanje gramatike - interni DSL</h2>
+            <pre><code data-trim>
+def program():      return Kwd('begin'), ZeroOrMore(command),
+                            Kwd('end'), EOF
+def command():      return [up, down, left, right]
+def up():           return 'up'
+def down():         return 'down'
+def left():         return 'left'
+def right():        return 'right'
+            </code></pre>
+            <ul>
+              <li>Gramatička pravila → Python funkcije</li>
+              <li>Sekvenca → n-torka (<i>tuple</i>)</li>
+              <li>Uređeni izbor → Python lista</li>
+              <li>Ostalo → instance klasa (npr. <code>ZeroOrMore, OneOrMore, Optional</code>)</li>
+            </ul>
+            <p>Navedena gramatika prepoznaje ulaz oblika:</p>
+            <pre><code data-trim class="no-highlight">
+begin
+  up
+  up
+  left
+  down
+  right
+end
+          </code></pre>
+          </section>
+
+          <section>
+            <h2>Definisanje gramatike - eksterni DSL</h2>
+            <pre><code data-trim class="no-highlight">
+program = 'begin' (command)* 'end' EOF
+command = UP/DOWN/LEFT/RIGHT
+UP = 'up'
+DOWN = 'down'
+LEFT = 'left'
+RIGHT = 'right'
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Model parsera</h2>
+            <img src="Arpeggio/robot_parser_model.dot.svg" />
+          </section>
+
+          <section>
+            <h2>Stablo parsiranja</h2>
+            <img src="Arpeggio/robot_parse_tree.dot.svg" />
+            <p class="center">Elementi stabla su terminali i neterminali.</p>
+          </section>
+
+
+          <section>
+            <h2>Iz dokumentacije</h2>
+            <ul>
+              <li> <a href="http://igordejanovic.net/Arpeggio/parse_trees/" target="_blank">
+                   Stablo parsiranja, navigacija, terminali i ne-terminali</a></li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Semantičke akcije - transformacija u ASG</h2>
+            <pre><code data-trim class="python" style="line-height:100%">
+class CalcVisitor(PTNodeVisitor):
+
+    def visit_number(self, node, children):
+        """
+        Converts node value to float.
+        """
+        if self.debug:
+            print("Converting {}.".format(node.value))
+        return float(node.value)
+
+    def visit_factor(self, node, children):
+        """
+        Applies a sign to the expression or number.
+        """
+        if self.debug:
+            print("Factor {}".format(children))
+        if len(children) == 1:
+            return children[0]
+        sign = -1 if children[0] == '-' else 1
+        return sign * children[-1]
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Semantičke akcije - transformacija u ASG (2)</h2>
+            <pre><code data-trim class="python" >
+from arpeggio ParserPython, visit_parse_tree
+
+parser = ParserPython(calc)
+input_expr = "-(4-1)*5+(2+4.67)+5.89/(.2+7)"
+parse_tree = parser.parse(input_expr)
+result = visit_parse_tree(parse_tree, CalcVisitor())
+            </code></pre>
+            <p style="text-align:center">
+              <a href="http://igordejanovic.net/Arpeggio/semantics/"
+                 target="_blank">Dokumentacija</a>
+            </p>
+          </section>
+
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/tree/master/examples/robot" target="_blank">
+               Primer - robot</a></h1>
+          </section>
+
+          <section>
+            <h2>Zadaci</h2>
+            <ul>
+              <li>Proširiti robot primer tako da svaka komanda može definisati
+                  broj koraka koliko će robot preći u zadatom pravcu</li>
+              <pre><code data-trim>
+begin
+  up 5
+  left 3
+  down
+  up 2
+end
+            </code></pre>
+              <li>Dodati komandu za zadavanje incijalne pozicije.</li>
+            <pre><code data-trim>
+begin
+  init 5, 6
+  ...
+          </code></pre>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/blob/master/examples/calc" target="_blank">
+                Primer - calc</a></h1>
+          </section>
+
+
+          <section>
+            <h2>Prioritet i asocijativnost operatora</h2>
+            <img src="Arpeggio/PEGPrioritet.svg">
+            <ul>
+              <li>U gramatici prepoznavati prvo operatore nižeg pa onda višeg prioriteta.</li>
+              <li>Asocijativnost se može rešiti kroz semantičke akcije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Zadatak</h2>
+            <ul>
+              <li>Dodati operator stepenovanja</li>
+              <pre><code data-trim>
+2+56^2^3/(43-32)
+              </code></pre>
+              <li>Obratiti pažnju na prioritet i asocijativnost operacije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/blob/master/examples/json" target="_blank">
+                Primer - json</a></h1>
+          </section>
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/blob/master/examples/csv" target="_blank">
+                Primer - csv</a></h1>
+          </section>
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/blob/master/examples/simple" target="_blank">
+                Primer - simple</a></h1>
+          </section>
+
+
+          <section>
+            <h1><a href="https://github.com/igordejanovic/Arpeggio/blob/master/examples/bibtex" target="_blank">
+                Primer - bibtex</a></h1>
+            <h1><a href="https://github.com/unsftn/refreport" target="_blank">
+                Primer - refreport</a></h1>
+          </section>
+
+
+          <section>
+            <h1><a href="http://igordejanovic.net/Arpeggio/debugging/" target="_blank">
+                Debagovanje gramatike</a></h1>
+          </section>
+
+
+          <section>
+            <h1>
+              <a href="http://igordejanovic.net/Arpeggio/handling_errors/"
+                 target="_blank">Obrada greške</a></h1>
+          </section>
+
+
+          <section>
+            <h1>
+                <a href="http://igordejanovic.net/Arpeggio/configuration/"
+                target="_blank">Konfiguracija parsera</a></h1>
+          </section>
+
+
+          <section>
+            <h1> <a href="http://igordejanovic.net/Arpeggio/semantics/#semanticactionresults"
+                  target="_blank">SemanticActionResults</a></h1>
+          </section>
+
+
+          <section>
+            <h1> <a href="http://igordejanovic.net/Arpeggio/semantics/#default-actions"
+                    target="_blank">Podrazumevane semantičke akcije</a></h1>
+          </section>
+
+
+          <section>
+            <h2>Dokumentacija, forum, kod</h2>
+            <ul>
+              <li>Dokumentacija je dostupna <a href="http://igordejanovic.net/Arpeggio/" target="_blank">
+                  ovde</a>.</li>
+              <li>Diskusija vezana za Arpeggio se obavlja
+                <a href="https://groups.google.com/forum/?hl=en#!forum/arpeggio-talk" target="_blank">ovde</a>.</li>
+              <li>Kod je dostupan <a href="https://github.com/igordejanovic/arpeggio" target="_blank">ovde</a>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1 id="veče_džeza_i_slobodnih_formi">Veče džeza i slobodnih formi</h1>
+            <h2>Improvizacije</h2>
+          </section>
+
+        </section>
+
+
+
+        <section>
+          <h1>KRAJ</h1>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
