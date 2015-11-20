@@ -356,29 +356,115 @@ S (startni simbol)
             <ul>
               <li>U svakom koraku izvođenja parser donosi dve odluke:</li>
               <ol>
-                <li>koji neterminal da zameni</li>
-                <li>sa kojim pravilom da ga zameni ukoliko imamo više mogućnosti</li>
+                <li><b>koji neterminal da zameni</b></li>
+                <li><b>sa kojim pravilom da ga zameni</b> ukoliko imamo više mogućnosti</li>
               </ol>
               <li>Prva odluka je najčešće fiksna (npr. uvek se zamenjuje prvi sleva ili prvi sdesna)</li>
               <li>Za drugu odluku koriste se tehnike kao što su <em>lookahead</em> (videti u nastavku)</li>
+              <li>Strategija pri donošenju druge odluke utiče na izgled stabla parsiranja.</li>
             </ul>
           </section>
 
           <section>
-            <h2>Strategije izvođenja</h2>
+            <h2>Strategije izvođenja sa stanovišta izbora neterminala za zamenu</h2>
             <ul>
-              <li><b>Levo izvođenje</b> - uvek se prvo razrešava u string levi neterminal</li>
-              <li><b>Desno izvođenje</b> - uvek se prvo razrešava u string desni neterminal</li>
+              <li><b>Levo izvođenje</b> - uvek se prvo razrešava levi neterminal</li>
+              <li><b>Desno izvođenje</b> - uvek se prvo razrešava desni neterminal</li>
               <li>Strategija izvođenja je bitna kod parsera koji izvšavaju određene akcije kod
-                  svake primene produkcije.</li>
+                  svake primene produkcije jer se redosled primene razlikuje iako mogu
+                  rezultovati istim stablima parsiranja.</li>
             </ul>
           </section>
 
 
           <section>
             <h2>Levo izvođenje - primer</h2>
-            <img src="05-TekstualneSintakse/LeftDerivation.svg" width="1000"/>
+            <img src="05-TekstualneSintakse/LeftDerivation.png" width="1000"/>
           </section>
+
+
+          <section>
+            <h2>Višeznačne gramatike - primer - <em>dangling else</em></h2>
+            <ul style="font-size:80%;line-height:120%">
+              <li>Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom</li>
+              <li>Višeznačna gramatika je gramatika kod koje postoji ulazni
+                  string sa više različitih levih izvođenja.</li>
+              <li>Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa više
+                  različitih stabala parsiranja.</li>
+              <li>Klasičan primer je "viseći else" <sup>1</sup>:</li>
+              <pre><code data-trim>
+if a then if b then s else s2
+Može da se parsira kao:
+if a then (if b then s) else s2
+ili kao:
+if a then (if b then s else s2)
+                </code></pre>
+              <li>Rešavaju se dodavanjem pravila prioriteta ili dodavanjem
+                  konteksta kojim se izbegava višeznačnost.<br/> Na primer, za kod
+                  <b>if-else</b> klauzule može se dodati <b>endif</b>.</li>
+              <li>Obično je višeznačnost osobina gramatike a ne jezika tj.
+                  moguće je gramatiku transformisati u jednoznačnu a da
+                  generiše/prepoznaje isti jezik.</li>
+            </ul>
+            <footer>
+              1. <a href="http://en.wikipedia.org/wiki/Unambiguous_grammar#Dangling_else">
+                http://en.wikipedia.org/wiki/Unambiguous_grammar#Dangling_else</a>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Višeznačna gramatika - primer</h2>
+            <img src="05-TekstualneSintakse/Ambiguous.png" width="900"/>
+          </section>
+
+
+          <section>
+            <h2>A u ovom slučaju želimo</h2>
+            <p style="text-align:center;">Stablo koje oslikava prioritet i asocijativnost operacija</p>
+            <img src="05-TekstualneSintakse/Ambiguous2.png" height="500"/>
+          </section>
+
+
+          <section>
+            <h2>Razrešavanje višeznačnosti</h2>
+            <ul>
+              <li>Višeznačnost je uglavnom <em>osobina gramatike a ne jezika</em>.</li>
+              <li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
+              <li>Određeni parseri omogućavaju dodatna pravila (npr. <em>pravilo prioriteta</em>) koje
+                  pomaže u izboru produkcije koju treba primeniti.</li>
+              <li>Parseri će najčešće detektovati višeznačnost i prijaviti grešku.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Leva rekurzija</h2>
+            <ul>
+              <li>Određene vrste parsera ne smeju da imaju <em>levo rekurzivne produkcije</em> jer
+                  to dovodi do beskonačne rekurzije gde parser primenjuje stalno
+                  iste produkcije bez konzumiranja tokena sa ulaza.</li>
+              <li>Mogu biti direktne i indirektne.</li>
+              <li>Direktna leva rekurzija je produkcija oblika A → Aγ.</li>
+              <li>Leve rekurzije se <em>mogu refaktorisati</em> da koriste desno rekurzivne
+                  produkcije ali gramatika tada često gubi na intuitivnosti.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Eliminacija leve rekurzije u opštem slučaju</h2>
+            <p>Pravilo <em>A -&gt; Aa | B</em> postaje <em>A -> Ba*</em></p>
+            <p>Primer:</p>
+            <pre><code data-trim>
+expr -&gt; expr '+' term | number
+
+postaje:
+
+expr -&gt; number ('+' term)*
+            </code></pre>
+          </section>
+
 
 
           <section>
@@ -443,11 +529,11 @@ grammar = { rule } ;
 
           <section>
             <h2>Strategije parsiranja</h2>
-            <ul style="font-size:90%">
+            <ul style="font-size:80%">
               <li><b>Top-down (Silazna)</b></li>
               <ul>
                 <li>Kreće od polaznog neterminala gramatike i pokušava da
-                    generiše(izvede) ulazni string primenom produkcija.</li>
+                  generiše(izvede) ulazni string primenom produkcija <em>s leva na desno (lhs -&gt; rhs)</em>.</li>
                 <li>Od opšteg ka pojedinačnom.</li>
                 <li>Ukoliko se izabere pogrešna alternativa radi se vraćanje - <em>backtrack</em></li>
                 <li>Ukoliko ne koriste vraćanje zovu se <em>prediktivni parseri</em>.</li>
@@ -457,7 +543,7 @@ grammar = { rule } ;
               </ul>
               <li><b>Bottom-up (Uzlazna)</b></li>
               <ul>
-                <li>Kreće od terminala i primenom produkcija s desna na levo
+                <li>Kreće od terminala i primenom produkcija <em>s desna na levo (lhs &lt;- rhs)</em>
                     pokušava da redukuje ulaz na polazni neterminal gramatike.</li>
                 <li>Od pojedinačnog ka opštem.</li>
                 <li><em>Shift-Reduce</em> - efikasan metod uzlaznog parsiranja.</li>
@@ -507,17 +593,17 @@ grammar = { rule } ;
             <ul style="font-size:95%">
               <li>Top-down parser koji podržava podskup kontekstno slobodnih
                   gramatika.</li>
-              <li>Konzumira tokene s leva na desno i kreira levo izvođenje
-                  (produkcije se izvode s leva na desno).</li>
+              <li>Konzumira tokene s leva na desno i kreira levo izvođenje.</li>
               <li>Klasa gramatika koju podžava LL parser nazivamo LL
                   gramatikama.</li>
               <li>LL(k) parser koristi k tokena unapred (<em>lookahead</em>) za odluku
-                  koju sledeću produkciju će da primeni. Ako takav parser
+                  koju sledeću produkciju da primeni. Ako takav parser
                   postoji za neku gramatiku, a da ne koristi vraćanje
                   (<em>backtracking</em>) tada kažemo da je gramatika LL(k). Jezik za
                   koji postoji LL(k) gramatika naziva se LL(k) jezik.</li>
               <li>LL(*) parseri nisu ograničeni na broj tokena koje mogu
-                  preuzeti sa ulaza da bi odlučili o sledećoj produkciji.</li>
+                  preuzeti sa ulaza da bi odlučili o sledećoj produkciji -
+                  dinamički se prilagođavaju.</li>
               <li>Veće k - moćniji ali i složeniji parser. LL(1) su naročito
                   popularni kod računarskih jezika.</li>
             </ul>
@@ -564,7 +650,8 @@ int              int                Match int
               <li>1965. Donald Knuth.</li>
               <li>Gramatika uglavnom ne mora da se prilagođava kao kod LL
                   parsera. Mogu se navoditi rekurzivne produkcije.</li>
-              <li>Podvarijante: LALR (Look-Ahead), SLR (Simple).</li>
+              <li>Podvarijante: LALR (<i>Look-Ahead</i>), SLR (<i>Simple</i>),
+                  GLR (<i>Generalized LR</i>).</li>
               <li>Generatori: yacc, bison</li>
             </ul>
           </section>
@@ -593,11 +680,12 @@ int              int                Match int
             <ul>
               <li><b>G</b>eneralized <b>LR</b> parser.</li>
               <li>Parsiranje nederminističkih i višeznačnih gramatika.</li>
-              <li>Efektivno radi kao i LR parser ali za razliku od LR parsera koji
-                  u svakom stanju dozvoljava samo jedan prelaz, GLR dozvoljava
+              <li>Efektivno radi kao LR parser ali u svakom stanju dozvoljava dozvoljava
                   više prelaza čime simulira neterministički algoritam.</li>
               <li>Kod višeznačnih stringova vraća skup stabala parsiranja (šumu
                   parsiranja - <em>Parse Forest</em>).</li>
+              <li>Na korisniku da odredi ispravno stablo - najčešće dodatnim
+                  pravilima (npr. prioritet, asicijativnost).</li>
               <li>Bison u novijim verzijama može da generiše GLR parser.</li>
             </ul>
           </section>
@@ -655,6 +743,7 @@ int              int                Match int
                   omogućava nedvosmislenost u parsiranju.</li>
               <li>Ako ulazni tekst pripada jeziku koji opisuje dati PEG tada
                   postoji samo jedno validno stablo koje ga opisuje.</li>
+              <li>Odnosno, gramatike <em>ne mogu biti višeznačne</em>.</li>
               <li>Kod CFG postoji neodređenost jer je redosled izbora
                   alternativa neodređen i u praktičnim primenama zavisi od
                   korišćenog algoritma u implementaciji parsera.</li>
@@ -677,31 +766,15 @@ int              int                Match int
                   pogodnim za opis proširivih dinamičkih jezika.</li>
             </ul>
           </section>
-          <section>
-            <h2>Leva rekurzija</h2>
-            <ul>
-              <li>Silazni parseri ne smeju da imaju <em>levo rekurzivne produkcije</em> jer
-                  to dovodi do beskonačne rekurzije gde parser primenjuje stalno
-                  iste produkcije bez konzumiranja tokena sa ulaza.</li>
-              <li>Mogu biti direktne i indirektne.</li>
-              <li>Direktna leva rekurzija je produkcija oblika A → Aγ.</li>
-              <li>Leve rekurzije se <em>mogu refaktorisati</em> da koriste desno rekurzivne
-                  produkcije ali gramatika tada često gubi na intuitivnosti.</li>
-            </ul>
-          </section>
 
 
           <section>
-            <h2>Eliminacija leve rekurzije u opštem slučaju</h2>
-            <p>Pravilo <em>A -&gt; Aa | B</em> postaje <em>A -> Ba*</em></p>
-            <p>Primer:</p>
-            <pre><code data-trim>
-expr -&gt; expr + term | number
-postaje:
-expr -&gt; number (+ term)*
-            </code></pre>
-            <p></p>
+            <h2>Refaktorisanje gramatike za PEG parsere</h2>
+            <img src="05-TekstualneSintakse/PEGPrioritet.svg"/>
+            <p class="center" style="font-size: 80%; align: left">
+              Kako enkodovati pravila prioriteta i eliminisati levu rekurziju.</p>
           </section>
+
 
 
           <section>
@@ -716,67 +789,6 @@ expr -&gt; number (+ term)*
             </ul>
           </section>
 
-          <section>
-            <h2>Višeznačne gramatike - primer - <em>dangling else</em></h2>
-            <ul style="font-size:80%;line-height:120%">
-              <li>Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom</li>
-              <li>Višeznačna gramatika je gramatika kod koje postoji ulazni
-                  string sa više različitih levih izvođenja.</li>
-              <li>Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa više
-                  različitih stabala parsiranja.</li>
-              <li>Klasičan primer je "viseći else" <sup>1</sup>:</li>
-              <pre><code data-trim>
-if a then if b then s else s2
-Može da se parsira kao:
-if a then (if b then s) else s2
-ili kao:
-if a then (if b then s else s2)
-                </code></pre>
-              <li>Rešavaju se dodavanjem pravila prioriteta ili dodavanjem
-                  konteksta kojim se izbegava višeznačnost.<br/> Na primer, za kod
-                  <b>if-else</b> klauzule može se dodati <b>endif</b>.</li>
-              <li>Obično je višeznačnost osobina gramatike a ne jezika tj.
-                  moguće je gramatiku transformisati u jednoznačnu a da
-                  generiše/prepoznaje isti jezik.</li>
-            </ul>
-            <footer>
-              1. <a href="http://en.wikipedia.org/wiki/Unambiguous_grammar#Dangling_else">
-                http://en.wikipedia.org/wiki/Unambiguous_grammar#Dangling_else</a>
-            </footer>
-          </section>
-
-
-          <section>
-            <h2>Višeznačna gramatika - primer</h2>
-            <img src="05-TekstualneSintakse/Ambiguous.svg"/>
-          </section>
-
-
-          <section>
-            <h2>A u ovom slučaju želimo</h2>
-            <p style="text-align:center;">Stablo koje oslikava prioritet i asocijativnost operacija</p>
-            <img src="05-TekstualneSintakse/Ambiguous2.svg" />
-          </section>
-
-
-          <section>
-            <h2>Razrešavanje višeznačnosti</h2>
-            <ul>
-              <li>Višeznačnost je uglavnom <em>osobina gramatike a ne jezika</em>.</li>
-              <li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
-              <li>Određeni parseri omogućavaju dodatna pravila (npr. <em>pravilo prioriteta</em>) koje
-                  pomaže u izboru produkcije koju treba primeniti.</li>
-              <li>Parseri će najčešće detektovati višeznačnost i prijaviti grešku.</li>
-              <li>GLR parser vraća sva moguća stabla parsiranja pa je na korisniku da odredi
-                  ispravno stablo.</li>
-              <li><em>PEG gramatike</em> zbog uređenog operatora izbora <em>ne mogu biti višeznačne</em>.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2>Refaktorisanje gramatike za PEG parsere</h2>
-            <img src="05-TekstualneSintakse/PEGPrioritet.svg"/>
-          </section>
 
 
           <section>
