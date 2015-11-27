@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>textX</title>
+
+    <meta name="description" content="textX - high-level meta-language for Domain-Specific Languages">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>textX</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+          <h2>Osnovne osobine</h2>
+          <ul>
+            <li>100% Python kod</li>
+            <li>MIT licenca</li>
+            <li>Istovremeno definisanje gramatike i meta-modela - inspirisan
+                <a href="https://eclipse.org/Xtext/">Xtext</a>-om</li>
+            <li>Automatska konstrukcija modela - podrška za razrešavane referenci</li>
+            <li>Podrška za veze tipa celina-deo</li>
+            <li>Kontrola parsiranja (<i>whitespaces, case, keywords</i>...)</li>
+            <li>Postprocesiranje objekata modela ili celog modela</li>
+            <li>Modularizacija gramatika - import</li>
+            <li>Vizualizacija modela i meta-modela</li>
+            <li><a href="https://github.com/igordejanovic/textX/">
+                https://github.com/igordejanovic/textX/</a></li>
+            <li>Dokumentacija i tutorijali dostupni na
+                <a href="http://igordejanovic.net/textX/">http://igordejanovic.net/textX/</a></li>
+          </ul>
+        </section>
+
+
+        <section>
+          <img src="textX/textX.png">
+        </section>
+
+
+        <section>
+          <h2>Instalacija</h2>
+          <p>Sa PyPI</p>
+          <pre><code data-trim>
+$ pip install textX
+Collecting textX
+  Downloading textX-0.4.2.tar.gz
+Collecting Arpeggio (from textX)
+  Downloading Arpeggio-1.2.1.tar.gz
+Installing collected packages: Arpeggio, textX
+Building wheels for collected packages: textx, Arpeggio
+  Running setup.py bdist_wheel for textx
+  Stored in directory: /home/igor/.cache/pip/wheels/b7/d9/...
+  Running setup.py bdist_wheel for Arpeggio
+  Stored in directory: /home/igor/.cache/pip/wheels/31/0c/...
+Successfully built textx Arpeggio
+Installing collected packages: Arpeggio, textx
+Successfully installed Arpeggio-1.2.1 textX-0.4.2
+          </code></pre>
+        </section>
+
+
+        <section>
+          <h2>Instalacija razvojne verzije</h2>
+          <pre><code data-trim>
+$ pip install https://github.com/igordejanovic/textX/archive/master.zip
+Collecting https://github.com/igordejanovic/textX/archive/master.zip
+  Downloading https://github.com/igordejanovic/textX/archive/master.zip
+     - 577kB 379kB/s
+Collecting Arpeggio (from textX==0.4.2)
+Installing collected packages: Arpeggio, textX
+  Running setup.py install for textX
+Successfully installed Arpeggio-1.2.1 textX-0.4.2
+          </code></pre>
+
+        </section>
+
+
+        <section>
+          <h2>Gramatika - meta-model</h2>
+          <pre><code data-trim class="no-highlight">
+HelloWorldModel:
+  'hello' to_greet+=Who[',']
+;
+
+Who:
+  name = /[^,]*/
+;
+          </code></pre>
+          <pre><code data-trim>
+from textx.metamodel import metamodel_from_file
+hello_meta = metamodel_from_file('hello.tx')
+          </code></pre>
+          <img src="textX/hello_meta.dot.png">
+        </section>
+
+
+        <section>
+          <h2>Model - program</h2>
+          <pre><code data-trim>
+hello World, Solar System, Universe
+          </code></pre>
+          <img src="textX/hello_parts.png">
+        </section>
+
+
+        <section>
+          <h2>Parsiranje - instanciranje modela</h2>
+          <pre><code data-trim>
+example_hello_model = hello_meta.model_from_file('example.hello')
+          </code></pre>
+          <img src="textX/example.dot.png">
+          <ul>
+            <li>Model je graf Python objekata čija struktura je u skladu sa
+                gramatikom (npr. <em>HelloWorldModel</em> objekat sadrži
+                Python listu <em>to_greet</em>).</li>
+            <li>Model možemo dalje interpretirati, analizirati, generisati kod...</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Provera i vizualizacija meta-modela</h2>
+          <ul>
+            <li>textX će pri parsiraju gramatike prijaviti sintaksne greške.</li>
+            <li>Ako želimo možemo proveriti ispravnost u toku razvoja:</li>
+          </ul>
+            <pre><code data-trim>
+$ textx check hello.tx
+Meta-model OK.
+            </code></pre>
+          <ul>
+            <li>U slučaju greške biće prijavljena tačna lokacija.</li>
+          </ul>
+          <pre><code data-trim>
+Error in meta-model file.
+Expected 'abstract_rule_ref' at position (6, 9) =&gt; ':   name |*= /[^,]*/ '.
+          </code></pre>
+          <ul>
+            <li>ili vizualizovati</li>
+          </ul>
+          <pre><code data-trim>
+$ textx visualize hello.tx
+Meta-model OK.
+Generating 'hello.tx.dot' file for meta-model.
+To convert to png run 'dot -Tpng -O hello.tx.dot'
+$ dot -Tpng -O hello.tx.dot
+          </code></pre>
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h2>Robot primer</h2>
+            <pre><code data-trim>
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Gramatika</h2>
+            <img src="textX/robot_grammar.png" height="500">
+          </section>
+
+
+          <section>
+            <h2>Instanciranje meta-modela</h2>
+            <pre><code data-trim class="python">
+from textx.metamodel import metamodel_from_file
+robot_mm = metamodel_from_file('robot.tx')
+            </code></pre>
+            <img src="textX/robot.tx.dot.png">
+          </section>
+
+
+          <section>
+            <h2>Parsiranje i instanciranje modela</h2>
+            <pre><code data-trim class="python">
+robot_model = robot_mm.model_from_file('program.rbt')
+            </code></pre>
+              <pre><code data-trim>
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+            </code></pre>
+            <img src="textX/program.rbt.dot.png">
+          </section>
+
+
+          <section>
+            <h2>Šta raditi sa modelom?</h2>
+            <ul>
+              <li>Interpretiranje</li>
+              <li>Generisanje koda</li>
+              <li>Analiza</li>
+              <li>...</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Interpretiranje Robot modela</h2>
+            <pre><code data-trim>
+class Robot(object):
+
+  def __init__(self):
+    # Initial position is (0,0)
+    self.x = 0
+    self.y = 0
+
+  def __str__(self):
+    return "Robot position is {}, {}.".format(self.x, self.y)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Interpretiranje Robot modela</h2>
+            <pre><code data-trim class="python">
+def interpret(self, model):
+
+    # model is an instance of Program
+    for c in model.commands:
+
+        if c.__class__.__name__ == "InitialCommand":
+            print("Setting position to: {}, {}".format(c.x, c.y))
+            self.x = c.x
+            self.y = c.y
+        else:
+            dir = c.direction
+            print("Going {} for {} step(s).".format(dir, c.steps))
+
+            move = {
+                "up": (0, 1),
+                "down": (0, -1),
+                "left": (-1, 0),
+                "right": (1, 0)
+            }[dir]
+
+            # Calculate new robot position
+            self.x += c.steps * move[0]
+            self.y += c.steps * move[1]
+
+        print(self)
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Interpretacija Robot modela</h2>
+            <pre><code data-trim class="python">
+robot = Robot()
+robot.interpret(robot_model)
+            </code></pre>
+            <div>
+              <div style="float:left; width:50%">
+                <pre><code data-trim class="no-highlight">
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+                </code></pre>
+              </div>
+              <div style="float:left; width: 50%">
+                <pre><code data-trim class="no-highlight">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 0 step(s).
+Robot position is -6, 5.
+Going right for 1 step(s).
+Robot position is -5, 5.
+                </code></pre>
+              </div>
+            </div>
+            <div style="clear: both"></div>
+            <div class="attention">
+              <p><b>Problem: </b>Ako ne zadamo korak podrazumevano je 0 (textX definiše
+               default vrednosti za bazične tipove).</p>
+            </div>
+          </section>
+
+
+          <section>
+            <h2>Object processor</h2>
+            <div>
+              <div style="float:left; width:50%">
+                <pre><code data-trim class="python">
+def move_command_processor(move_cmd):
+
+  if move_cmd.steps == 0:
+    move_cmd.steps = 1
+                </code></pre>
+              </div>
+              <div style="float:left; width:50%">
+                <img src="textX/move_command.png">
+              </div>
+              <div style="clear:both"></div>
+            </div>
+            <p>Registracija procesora</p>
+            <pre><code data-trim class="python">
+robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
+            </code></pre>
+            <p>Sada se robot ponaša ispravno</p>
+            <pre><code data-trim class="no-highlight">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 1 step(s).
+Robot position is -6, 4.
+Going right for 1 step(s).
+Robot position is -5, 4.
+            </code></pre>
+          </section>
+        </section>
+
+
+        <section>
+          <h2>Workflow primer</h2>
+          <ul>
+            <li>Referenciranje drugih objekata</li>
+            <li><a href="https://github.com/igordejanovic/textX/tree/master/examples/workflow" target="_blank">Workflow primer</a></li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Generisanje koda - Entity primer</h2>
+          <ul>
+            <li>Referenciranje drugih objekata</li>
+            <li>Upotreba obrađivača šablona (<em>Template Engines</em>) za generisanje koda.</li>
+            <li><a href="https://github.com/igordejanovic/textX/tree/master/examples/Entity" target="_blank">Entity primer</a></li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Napredne tehnike - <a href="https://github.com/igordejanovic/pyFlies" target="_blank">pyFlies</a></h2>
+        </section>
+
+
+        <section>
+          <h2><a href="https://github.com/igordejanovic/textX-ninja" target="_blank">textX-ninja</a></h2>
+        </section>
+
+
+        <section>
+          <h2>Veče džeza i slobodnih formi - improvizacije</h2>
+        </section>
+
+
+        <section>
+          <h1>KRAJ</h1>
+        </section>
+
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>
