@@ -15,6 +15,7 @@ layout: page
 
 ## Tehnologije
 
+- [textX](tech/textX.html)
 - [Arpeggio](tech/Arpeggio.html)
 - [Programski jezik Python](tech/Python.html)
 - [Dependency Injection & Google Guice](tech/DependencyInjection.html)
