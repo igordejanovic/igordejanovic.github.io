@@ -25,6 +25,7 @@ layout: page
 - Sistemi za kontrolu verzija
   - [Uvod](tech/sistemi-za-kontrolu-verzija.html)
   - [Git](tech/git.html)
+- [Eclipse RCP](tech/EclipseRCP.html)
 
 
 

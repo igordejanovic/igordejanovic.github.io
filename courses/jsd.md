@@ -11,5 +11,6 @@ layout: page
 1. [Jezičke sintakse i metamodelovanje](04-JezickeSintakseIMeta.html)
 1. [Tekstualne sintakse](05-TekstualneSintakse.html)
 1. [Arpeggio](../tech/Arpeggio.html)
+1. [textX](../tech/textX.html)
 
 
