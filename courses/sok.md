@@ -19,4 +19,8 @@ layout: page
 1. [Razvoj baziran na komponentama](7-razvoj-baziran-na-komponentama.html)
 1. [SWT & JFace](../tech/SWT-JFace.html)
    - [SWT&JFace examples](../tech/SWT-JFace/STW-JFace-examples.tar.gz)
+1. Git - na enastava.io
+1. Zest - na enastava.io
+1. [Eclipse RCP](../tech/EclipseRCP.html)
+1. [Projektni zadatak](projektni-zadatak.html)
 
