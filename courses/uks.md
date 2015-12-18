@@ -11,5 +11,6 @@ layout: page
 1. [Sistemi za kontrolu verzija - Uvod](../tech/sistemi-za-kontrolu-verzija.html)
 1. [Git](../tech/git.html)
 1. [Django](../tech/Django.html)
+1. [Docker](../tech/Docker.html)
 
 
