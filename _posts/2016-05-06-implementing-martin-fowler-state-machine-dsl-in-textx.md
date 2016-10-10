@@ -38,7 +38,9 @@ repository](https://github.com/igordejanovic/textX/tree/master/examples/StateMac
 I hope you will enjoy watching this video as much I enjoyed playing with this
 little language.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HI14jk0JIR0" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/HI14jk0JIR0" frameborder="0"
+allowfullscreen></iframe>
 
 
 
