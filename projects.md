@@ -9,7 +9,7 @@ Here are short descriptions of some of my FLOSS projects I like to hack on.  I u
 
 ### [textX](../textX/)
 
-textX is a meta-language (i.e. a language for language definition) for domain-specific language (DSL) specification in Python inspired by [xText](https://eclipse.org/Xtext/).
+textX is a meta-language (i.e. a language for language definition) for domain-specific language (DSL) specification in Python inspired by [Xtext](https://eclipse.org/Xtext/).
 
 From a single grammar description textX automatically builds a meta-model (in the form of Python classes) and a parser for your language. Parser will parse expressions on your language and automatically build a graph of Python objects (i.e. the model) corresponding to the meta-model.
 
