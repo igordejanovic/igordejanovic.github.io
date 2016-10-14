@@ -1,35 +1,36 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
   <head>
+    <title>UKS-upoznavanje</title>
     <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-    <title>UKS - O predmetu</title>
+        body { font-family: 'Droid Serif'; }
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: normal;
+        }
+        .author {font-family: 'Ubuntu'; }
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
 
-    <meta name="description" content="Upravljanje konfiguracijom softvera - o predmetu">
-    <meta name="author" content="Igor Dejanović">
+        /* Two-column layout */
+        .lcol { width: 50%; float: left; }
+        .rcol { width: 50%; float: right; }
+        .lcol-narrow { width: 30%; float: left; }
+        .rcol-wide { width: 70%; float: right; }
 
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-
-    <link rel="stylesheet" href="../../reveal/css/reveal.css">
-    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
-    <link rel="stylesheet" href="../slides.css">
-
-    <!-- For syntax highlighting -->
-    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
-
-    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
-    <script>
-    var link = document.createElement( 'link' );
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
-    document.getElementsByTagName( 'head' )[0].appendChild( link );
-    </script>
-
+        code { -moz-border-radius: 5px; -web-border-radius: 5px; border-radius: 5px; }
+        a { color: #2c495b; text-decoration: none; }
+        .remark-slide-content { font-size: 25px; }
+        ul>li, ol>li { margin-top: 5px; }
+        .sekcija { font-size:20px; float:right; clear:both; }
+        .small { font-size: 14px;  }
+        .medium { font-size: 20px;  }
+        .ref { color:red; vertical-align: super; font-size: 15px; }
+    </style>
     <!-- google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -39,347 +40,266 @@
       ga('create', 'UA-68681917-1', 'auto');
       ga('send', 'pageview');
     </script>
-
-    <!--[if lt IE 9]>
-    <script src="../../reveal/lib/js/html5shiv.js"></script>
-    <![endif]-->
   </head>
-
   <body>
+    <textarea id="source">
 
-    <div class="reveal">
+class: center, middle
 
-      <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides">
+# Upravljanje konfiguracijom softvera
+## upoznavanje sa predmetom
 
-        <section class="first-slide">
-          <h1>Upravljanje konfiguracijom softvera</h1>
-          <h2>O predmetu</h2>
-          <p class="center">
-            <small>
-              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
-              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
-              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
-              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
-            </small>
-            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
-            <p class="center"><small>Katedra za informatiku</small></p>
-          </p>
-        </section>
+.author[ [Igor Dejanović](http://igordejanovic.net/) ]
 
-          <section>
-            <h2>Opšte informacije</h2>
-            <ul>
-              <li>Broj ESPB: 6</li>
-              <li>Fond časova: 3+3</li>
-              <li>Predmetni nastavnik: dr Igor Dejanović
-                  (igord na uns ac rs</a>)</li>
-              <li>Predmetni asistent: MSc. Željko Vuković
-                  (zeljkov na uns ac rs</a>)</li>
-              <li>Stranica predmeta:
-                <a href="http://www.informatika.ftn.uns.ac.rs/UKS">http://www.informatika.ftn.uns.ac.rs/UKS</a></li>
-              <li>Konsultacije se obavljaju po potrebi uz najavu na email</li>
-            </ul>
-          </section>
+.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
+.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
 
-          <section>
-            <h2>Šta predstavlja upravljanje konfiguracijom softvera?</h2>
-            <p>Upravljanje konifiguracijom softvera (<i>Software Configuration
-              Management</i>) predstavlja disciplinu koja se bavi kontrolisanom
-            evolucijom složenih softverskih sistema.</p>
-            <footer>
-                <p>J. Estublier, <i>Software configuration management: a
-                    roadmap</i>, in Proceedings of the conference on The future
-                  of Software engineering, pp. 279–289, ACM, 2000</p>
-            </footer>
-          </section>
+.footnote[2016]
 
 
-          <section>
-            <h2>Zašto koristiti SCM?</h2>
-            <ul style="font-size:90%;">
-              <li>Softverski proizvodi često “žive” godinama pa čak i
-                decenijama.</li>
-              <li>Softverski proizvodi su često izuzetno kompleksni.</li>
-              <li>Da bi obezbedili kontinualnu evoluciju moramo uvesti procese,
-                tehnike i alate koji će to omogućiti.</li>
-              <li>Praksa je pokazala da je uspeh projekta direktno povezan sa
-                upotrebom efikasnih SCM tehnika i alata.</li>
-              <li>Prva 4 na listi od 12 koraka za bolji razvoj softvera
-                istaknutog softver inženjera, pisca i autora izuzetno
-                popularnog servisa <a
-                href="http://stackoverflow.com/">StackOverflow</a> <a
-                href="http://www.joelonsoftware.com/AboutMe.html">Joela
-                Spolskog</a> predstavljaju SCM tehnike (kontrola verzija
-              izvornog koda, automatizovana i kontinualna izgradnja i praćenje
-              grešaka) <sup>1</sup>.</li>
-            </ul>
-            <footer>
-              <ol>
-                <li>J. Spolsky, <a
-                   href="http://www.joelonsoftware.com/articles/fog0000000043.html">The
-                   joel test: 12 steps to better code</a>, August 2000.</li>
-              </ol>
-            </footer>
-          </section>
+---
+
+# Opšte informacije
+
+- Broj ESPB: 6
+- Fond časova: 3+3
+- Predmetni nastavnik: [dr Igor Dejanović](http://igordejanovic.net) (igord na
+  uns ac rs)
+- Predmetni asistent: MSc. Miloš Simić (milossimicsimo na gmail)
+- Stranica predmeta: [http://informatika.ftn.uns.ac.rs/UKS]()
+- Konsultacije se obavljaju po potrebi uz najavu na email
+
+---
+
+# Šta predstavlja upravljanje konfiguracijom softvera?
+
+- Upravljanje konifiguracijom softvera (*Software Configuration
+  Management*) predstavlja disciplinu koja se bavi kontrolisanom
+  evolucijom složenih softverskih sistema.
+
+.footer[J. Estublier, *Software configuration management: a
+  roadmap*, in Proceedings of the conference on The future of Software
+  engineering, pp. 279–289, ACM, 2000]
+
+---
+
+# Zašto koristiti SCM?
 
 
-          <section>
-            <h2>Zašto koristiti SCM?</h2>
-            <ul>
-              <li>Podrška za paralelni rad. Ručno spajanje paralelnih izmena
-                nije ni malo zabavno.</li>
-              <li>Upotreba SCM alata, pre svega distribuiranih sistema za
-                kontrolu verzija je dovela do pojave tzv. društvenog kodiranja
-                (<a
-                   href="http://www.techrepublic.com/blog/it-consultant/social-coding-the-next-wave-in-development/">Social
-                   Coding</a>) i servisa kao što su <a
-                   href=""https://github.com/>https://github.com/</a>, <a
-                   href="https://bitbucket.org/">https://bitbucket.org/</a> i
-                 dr. Ovo je omogućilo eksploziju razvoja slobodnog
-                 softvera.</li>
-              <li>Zato što vam to traži poslodavac.</li>
-              <li>Zato što vam to traži klijent.</li>
-              <li><b>Savet:</b> Ako firma ne koristi SCM tehnike (pre svega
-                kontrolu verzija) zapitajte se da li želite da radite u takvoj
-                firmi.</li>
-            </ul>
-          </section>
+- Softverski proizvodi često “žive” godinama pa čak i decenijama.
+- Softverski proizvodi su često izuzetno kompleksni.
+- Da bi obezbedili kontinualnu evoluciju moramo uvesti procese,
+  tehnike i alate koji će to omogućiti.
+- Praksa je pokazala da je uspeh projekta direktno povezan sa
+  upotrebom efikasnih SCM tehnika i alata.
+- Prva 4 na listi od 12 koraka za bolji razvoj softvera
+  istaknutog softver inženjera, pisca i autora izuzetno
+  popularnog servisa [StackOverflow](http://stackoverflow.com/) [Joela
+  Spolskog](http://www.joelonsoftware.com/AboutMe.html) predstavljaju SCM tehnike (kontrola verzija
+  izvornog koda, automatizovana i kontinualna izgradnja i praćenje
+  grešaka) .ref[1].
 
 
-          <section>
-            <h2>Cilj predmeta</h2>
-            <ul>
-              <li>Savladavanje teoretskih osnova discipline upravljanja
-                konfiguracijom softvera (<i>Software Configuration
-                  Management</i>).</li>
-              <li>Osposobljavanje za uvođenje i primenu procesa upravljanja
-                konfiguracijom softvera.</li>
-              <li>Upoznavanje sa industrijskim standardima, okvirima i alatima
-                iz oblasti upravljanja konfiguracijom softvera.</li>
-              <li>Savladavanje modernih SCM tehnologija (Git, pytest,
-                GitHub/GitLab/Gogs, Docker, Travis, ReviewBoard, Mylyn).</li>
-            </ul>
-          </section>
+.footer[.ref[1] J. Spolsky, The joel test: 12 steps to better code, August 2000.]
+
+---
+
+# Zašto koristiti SCM?
+
+- Podrška za paralelni rad. Ručno spajanje paralelnih izmena nije ni malo
+  zabavno.
+- Upotreba SCM alata, pre svega distribuiranih sistema za kontrolu verzija je
+  dovela do pojave tzv. društvenog kodiranja ([Social
+    Coding](http://www.techrepublic.com/blog/it-consultant/social-coding-the-next-wave-in-development/))
+i servisa kao što su [GitHub](https://github.com/),
+  [BitBucket](https://bitbucket.org/) i dr. Ovo je omogućilo eksploziju razvoja
+  slobodnog softvera.
+--
+
+- Zato što vam to traži poslodavac.
+--
+
+- Zato što vam to traži klijent.
+--
+
+- **Savet:** Ako firma ne koristi SCM tehnike (pre svega kontrolu verzija)
+  zapitajte se da li želite da radite u takvoj firmi.
 
 
-          <section>
-            <h2>Struktura ocene</h2>
-            <ul>
-              <li>Predispitne obaveze - 60%</li>
-              <li>Teorijski deo ispita - 40%</li>
-            </ul>
-          </section>
+---
+
+#  Cilj predmeta
+
+- Savladavanje teoretskih osnova discipline upravljanja konfiguracijom softvera
+  (*Software Configuration Management*).
+- Osposobljavanje za uvođenje i primenu procesa upravljanja
+  konfiguracijom softvera.
+- Upoznavanje sa industrijskim standardima, okvirima i alatima
+  iz oblasti upravljanja konfiguracijom softvera.
+- Savladavanje modernih SCM tehnologija (Git, pytest,
+  GitHub/GitLab/Gogs, Docker, Travis, ReviewBoard, Mylyn).
+
+---
+
+# Struktura ocene
+
+- Predispitne obaveze - 60%
+- Teorijski deo ispita - 40%
 
 
-          <section>
-            <h2>Projekat</h2>
-            <ul>
-              <li>Timski rad - timovi od 4±1 studenta.</li>
-              <li>Obavezna upotreba sistema za kontrolu verzija (<a
-                   href=https://git-scm.com/"">Git</a>).</li>
-              <li>Obavezna upotreba sistema za praćenje projekta (<a
-                   href="https://github.com/">GitHub</a>).</li>
-            </ul>
-          </section>
+---
+
+# Projekat
+
+- Timski rad - timovi od 4±1 studenta.
+- Obavezna upotreba sistema za kontrolu verzija ([Git](https://git-scm.com/)).
+- Obavezna upotreba sistema za praćenje projekta ([GitHub](https://github.com/)).
+
+---
+
+# Projekat - raspodela bodova
+
+- Model `->` 6
+- Implementacija projekta `->` 20
+- Implementacija testova `->` 6
+- Git `->` 10
+- GitHub `->` 10
+- SCM proces `->` 8
+- **Ukupno: 60**
 
 
-          <section>
-            <h2>Projekat - raspodela bodova</h2>
-            <table class="centered" border="0" cellspacing="15" cellpadding="15" style="width:100%;font-size:90%;">
-              <tr><th>Aktivnost</th><th>Broj bodova</th></tr>
-              <tr><td>Model</td><td>6</td></tr>
-              <tr><td>Implementacije projekta</td><td>20</td></tr>
-              <tr><td>Implementacija testova</td><td>6</td></tr>
-              <tr><td>Git</td><td>10</td></tr>
-              <tr><td>GitHub</td><td>10</td></tr>
-              <tr><td>SCM proces</td><td>8</td></tr>
-              <tr><td><b>UKUPNO</b></td><td><b>60</b></td></tr>
-            </table>
-            <div class="attention">
-              <h2>Napomena</h2>
-              <p class="center">I pored timskog rada svi bodovi se dobijaju individualno.</p>
-            </div>
-          </section>
+.paznja[I pored timskog rada svi bodovi se dobijaju individualno.]
+
+---
+
+# Plan izvođenja nastave
+
+.medium[
+1. Upoznavanje sa predmetom
+1. Programski jezik Python
+1. [Django framework](https://www.djangoproject.com/)
+1. Osnove upravljanja konfiguracijom softvera
+1. Upravljanje izvornim kodom (*Source Code Management*)
+1. Sistemi za kontrolu verzija (Subversion, Mercurial, Git)
+1. Upravljanje promenama (*Change Control*). Postavka zadatka.
+1. Analiza i dizajn sistema za upravljanje konfiguracijom softvera
+1. SCM sistemi (GitLab/GitHub, Gogs, Trac, RedMine, Review Board...)
+1. Upravljanje izgradnom i uvođenjem softvera (*Build
+   Management and Deployment* - [Docker](https://www.docker.com/))
+1. Upravljanje izdanjima (*Release Management*)
+1. Diskusije i analiza progresa po timovima
+1. Demonstracije projekata
+]
+
+---
+
+# Projektni zadatak
+
+- Veb aplikacija za upravljanje promenama.
+- Slično GitHub-u.
+- Od zahteva za promenom do uvođenja i puštanja u rad.
+- Veza prema promenama u izvornom kodu - koristiti GitHub.
+- Krajnji cilj: definisan SCM proces za upravljanje promenama,
+  podržan aplikacijom. Preći na sopstvenu aplikaciju u
+  upravljanju projektom ([dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food))
 
 
-          <section>
-            <h2>Plan izvođenja nastave</h2>
-            <ul style="font-size:80%">
-              <li>Upoznavanje sa predmetom</li>
-              <li>Programski jezik <a href="https://www.python.org/">Python</a></li>
-              <li><a href="https://www.djangoproject.com/">Django framework</a></li>
-              <li>Osnove upravljanja konfiguracijom softvera</li>
-              <li>Upravljanje izvornim kodom (<i>Source Code Management</i>)</li>
-              <li>Sistemi za kontrolu verzija (Subversion, Mercurial, Git)</li>
-              <li>Upravljanje promenama (<i>Change Control</i>). Postavka zadatka.</li>
-              <li>Analiza i dizajn sistema za upravljanje konfiguracijom softvera</li>
-              <li>SCM sistemi (GitLab/GitHub, Gogs, Trac, RedMine, Review Board...)</li>
-              <li>Upravljanje izgradnom i uvođenjem softvera (<i>Build
-                  Management and Deployment - <a
-                     href="https://www.docker.com/">Docker</a>)</i></li>
-              <li>Upravljanje izdanjima (<i>Release Management</i>)</li>
-              <li>Diskusije i analiza progresa po timovima</li>
-              <li>Demostracije projekata</li>
-            </ul>
-          </section>
+---
+
+# Osnove upravljanja konfiguracijom softvera
+
+- Osnovni pojmovi i koncepti.
+- Šta sve obuhvata SCM? Koji su razlozi uvođenja?
+- Tradicionalno i moderna shvatanja SCM discipline.
+- SCM procesi.
+- SCM obrasci i preporučena praksa (*best practice*).
+- SCM alati.
+- SCM industrijski okviri i standardi.
 
 
-          <section>
-            <h2>Projektni zadatak</h2>
-            <ul>
-              <li>Veb aplikacija za upravljanje promenama.</li>
-              <li>Slično GitHub-u.</li>
-              <li>Od zahteva za promenom do uvođenja i puštanja u rad.</li>
-              <li>Veza prema promenama u izvornom kodu - koristiti GitHub.</li>
-              <li>Krajnji cilj: definisan SCM proces za upravljanje promenama,
-                podržan aplikacijom. Preći na sopstvenu aplikaciju u
-                upravljanju projektom (<i><a
-                     href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a></i>)</li>
-            </ul>
-          </section>
+---
+
+# Upravljanje izvornim kodom (*Source Code Management*)
+
+- Algoritmi i modeli. Distribuirani i centralizovani sistemi.
+- Upravljanje alternativnih tokovima razvoja. Grananje.
+- Formiranje osnovne linije (*Baseline*).
+- Upravljanje konkurentnim radom. Optimističko i pesimističko
+  zaključavanje.
+- Preporučena praksa.
+- Alati.
+
+---
+
+# Sistemi za kontrolu verzija
+
+- Pregled osnovnih osobina najpopularnijih alata za kontrolu
+  verzija (Subversion, Mercurial, Bazaar, Git).
+- Detaljno upoznavanje sa Git alatom.
+
+---
+
+# Upravljanje promenama (*Change Control*)
+
+- Šta predstavlja upravljanje promenama?
+- Kakve sve promene mogu nastati i u kojim fazama životnog ciklusa?
+- Kako se promene prate? Životni ciklus zahteva za promenom.
+- Kako se analizira uticaj promena na komponente sistema?
+- Izveštavanje.
+
+---
+
+# Upravljanje izgradnjom i uvođenje (*Build and Deploy*)
+
+- Šta predstavlja izgradnja a šta uvođenje softvera?
+- Zašto je potrebno postupak automatizovati?
+- Kako se izgradnja i uvođenje mogu automatizovati?
+- Šta predstavlja kontinualna izgradnja (*Continuous
+  Build*) i kontinualna dostava (*Continuous Delivery*)?
+- Puppet, Fabric, Travis, Docker, ...
 
 
-          <section>
-            <h2>Osnove upravljanja konfiguracijom softvera</h2>
-            <ul>
-              <li>Osnovni pojmovi i koncepti.</li>
-              <li>Šta sve obuhvata SCM? Koji su razlozi uvođenja?</li>
-              <li>Tradicionalno i moderna shvatanja SCM discipline.</li>
-              <li>SCM procesi.</li>
-              <li>SCM obrasci i preporučena praksa (<i>best practice</i>).</li>
-              <li>SCM alati.</li>
-              <li>SCM industrijski okviri i standardi.</li>
-            </ul>
-          </section>
+---
+
+# Upravljanje izdanjima (*Release Management*)
+
+- Šta predstavlja izdanje softvera?
+- Zašto je bitno da uvedemo upravljanje u ovaj segment?
+- Tehnike vođenja verzija izdanja?
+- Alternativna izdanja.
+- Sledljivost i povezivanje izdanja za komponente i njihove
+  verzije od kojih je izdanje kreirano.
+
+---
+
+# Literatura za predmet
 
 
-          <section>
-            <h2>Upravljanje izvornim kodom (<i>Source Code Management</i>)</h2>
-            <ul>
-              <li>Algoritmi i modeli. Distribuirani i centralizovani sistemi.</li>
-              <li>Upravljanje alternativnih tokovima razvoja. Grananje.</li>
-              <li>Formiranje osnovne linije (<i>Baseline</i>).</li>
-              <li>Upravljanje konkurentnim radom. Optimističko i pesimističko</li>
-              <li>zaključavanje.</li>
-              <li>Preporučena praksa.</li>
-              <li>Alati.</li>
-            </ul>
-          </section>
+- J. Humble and D. Farley, *Continuous delivery: reliable software releases
+  through build, test and deployment automation* Addison-Wesley Professional, 2010
+- S. Berczuk and B. Appleton, *Software configuration management patterns:
+  effective teamwork, practical integration* Addison-Wesley Professional, 2003
+- M. Handbook, *Configuration management guidance, tech. rep.,
+  MIL-HDBK-61A (SE)* Department of Defense–United States of America, 2001
+- Scott Chacon and Ben Straub, [Pro Git](https://git-scm.com/book/en/v2). APress, 2014.
+- Beazley, David M. *Python essential reference* Addison-Wesley Professional, 2009.
+- [The Python Tutorial](https://docs.python.org/release/3.4.0/tutorial/)
+- David Mertz, [Functional
+  Programming in Python](http://www.oreilly.com/programming/free/functional-programming-python.csp), O'Reilly, 2015.
 
 
-          <section>
-            <h2>Sistemi za kontrolu verzija</h2>
-            <ul>
-              <li>Pregled osnovnih osobina najpopularnijih alata za kontrolu
-                verzija (Subversion, Mercurial, Bazaar, Git).</li>
-              <li>Detaljno upoznavanje sa Git alatom.</li>
-            </ul>
-          </section>
 
-
-          <section>
-            <h2>Upravljanje promenama (<i>Change Control</i>)</h2>
-            <ul>
-              <li>Šta predstavlja upravljanje promenama?</li>
-              <li>Kakve sve promene mogu nastati i u kojim fazama životnog ciklusa?</li>
-              <li>Kako se promene prate? Životni ciklus zahteva za promenom.</li>
-              <li>Kako se analizira uticaj promena na komponente sistema?</li>
-              <li>Izveštavanje.</li>
-            </ul>
-          </section>
-
-
-          <section>
-            <h2>Upravljanje izgradnjom i uvođenje (<i>Build and Deploy</i>)</h2>
-            <ul>
-              <li>Šta predstavlja izgradnja a šta uvođenje softvera?</li>
-              <li>Zašto je potrebno postupak automatizovati?</li>
-              <li>Kako se izgradnja i uvođenje mogu automatizovati?</li>
-              <li>Šta predstavlja kontinualna izgradnja (<i>Continuous
-                  Build</i>) i kontinualna dostava (<i>Continuous
-                  Delivery</i>)?</li>
-              <li>Puppet, Fabric, Travis, Docker, ...</li>
-            </ul>
-          </section>
-
-
-          <section>
-            <h2>Upravljanje izdanjima (<i>Release Management</i>)</h2>
-            <ul>
-              <li>Šta predstavlja izdanje softvera?</li>
-              <li>Zašto je bitno da uvedemo upravljanje u ovaj segment?</li>
-              <li>Tehnike vođenja verzija izdanja?</li>
-              <li>Alternativna izdanja.</li>
-              <li>Sledljivost i povezivanje izdanja za komponente i njihove
-                verzije od kojih je izdanje kreirano.</li>
-            </ul>
-          </section>
-
-
-          <section>
-            <h2>Literatura za predmet</h2>
-            <ol>
-              <ul>
-                <li>J. Humble and D. Farley, <i>Continuous delivery: reliable
-                    software releases through build, test and deployment
-                    automation</i>. Addison-Wesley Professional, 2010</li>
-                <li>S. Berczuk and B. Appleton, <i>Software configuration
-                    management patterns: effective teamwork, practical
-                    integration</i>. Addison-Wesley Professional, 2003</li>
-                <li>M. Handbook, <i>Configuration management guidance</i>,
-                  tech. rep., MIL-HDBK-61A (SE) Department of Defense–United
-                  States of America, 2001</li>
-                <li>Scott Chacon and Ben Straub, <a
-                     href="https://git-scm.com/book/en/v2">Pro Git</a>. APress,
-                   2014.</li>
-                <li>Beazley, David M. <i>Python essential reference</i>. Addison-Wesley Professional, 2009.</li>
-                <li><a href="https://docs.python.org/release/3.4.0/tutorial/">The Python Tutorial</a></li>
-                <li>David Mertz, <i><a
-                       href="http://www.oreilly.com/programming/free/functional-programming-python.csp">Functional
-                       Programming in Python</a></i>, O'Reilly, 2015.</li>
-              </ul>
-            </ol>
-          </section>
-
-      </div>
-    </div>
-
-
-    <script src="../../reveal/lib/js/head.min.js"></script>
-    <script src="../../reveal/js/reveal.js"></script>
-
-    <script>
-
-      // Full list of configuration options available here:
-      // https://github.com/hakimel/reveal.js#configuration
-      Reveal.initialize({
-        controls: true,
-        progress: true,
-        slideNumber: true,
-        history: true,
-        center: true,
-
-
-        // Parallax scrolling
-        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-        // parallaxBackgroundSize: '2100px 900px',
-
-        transition: 'convex', // none/fade/slide/convex/concave/zoom
-
-        // Optional reveal.js plugins
-        dependencies: [
-          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
-          { src: '../../reveal/plugin/notes/notes.js', async: true }
-        ]
-      });
-
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
-
+    <script>
+      var slideshow = remark.create({
+                highlightLanguage: 'python',
+                highlightStyle: 'monokai',
+                highlightLines: true
+            });
+    </script>
   </body>
 </html>
+
