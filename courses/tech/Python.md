@@ -18,8 +18,8 @@ name: sadrzaj
 # Sadržaj
 
 - [Kratak pregled jezika](#pregled)
-- Leksičke konvencije i sintaksa
-- Tipovi i objekti
+- [Leksičke konvencije i sintaksa](#sintaksa)
+- [Tipovi i objekti](#tipovi)
 - Operatori i izrazi
 - Struktura programa i kontrola toka
 - Funkcije i funkcionalno programiranje
@@ -37,7 +37,7 @@ class: center, middle
 ---
 layout: true
 
-.sekcija[[Pregled](#sadrzaj)]
+.section[[Pregled](#sadrzaj)]
 
 ---
 
@@ -163,6 +163,7 @@ print("{0:3d} {1:0.2f}".format(year,principal)) # Python 3
 
 # Uslovi
 
+.multicode[
 ```python
 if a < b:
     print "Computer says Yes"
@@ -175,7 +176,7 @@ if product == "game" and type == "pirate memory" \
             and not (age < 4 or age > 8):
       print "I'll take it!"
 ```
-
+.lcol-wide[
 ```python
 if suffix == ".htm":
     content = "text/html"
@@ -184,15 +185,19 @@ elif suffix == ".jpg":
 elif suffix == ".png":
     content = "image/png"
 else:
-    raise RuntimeError("Unknown content type")
+    raise RuntimeError(
+        "Unknown content type")
 ```
-
+]
+.rcol-narrow[
 ```python
 if 'spam' in s:
     has_spam = True
 else:
     has_spam = False
 ```
+]
+]
 
 ---
 
@@ -378,6 +383,8 @@ for name, shares, price in portfolio:
 
 # Skupovi (*sets*)
 
+.multicode[.size-85[
+
 Neuređena kolekcija objekata.
 
 ```python
@@ -404,6 +411,7 @@ t.add('x')                # Dodavanje jednog elementa u t
 s.update([10,37,42])      # Dodavanje više elemenata u s
 t.remove('H')             # Uklanjanje elementa
 ```
+]]
 
 ---
 
@@ -412,6 +420,7 @@ t.remove('H')             # Uklanjanje elementa
 - Asocijativni niz objekata indeksiranih ključevima.
 - Ključ može biti bilo koji nepromenjivi objekat (*immutable*).
 
+.size-90[
 ```python
 # Dva načina kreiranja praznog rečnika
 stock = {}
@@ -432,6 +441,7 @@ value = stock["shares"] * shares["price"]
 stock["shares"] = 75
 stock["date"] = "June 7, 2007"
 ```
+]
 
 ---
 
@@ -661,6 +671,8 @@ kao generator.
 
 # Korutine (*coroutines*)
 
+.size-90[
+
 - Koncept obrnut generatorima.
 - Funkcije koje mogu spolja da prime sekvencu vrednosti u toku izvršavanja.
 
@@ -684,11 +696,13 @@ python is cool
 Omogućavaju implementaciju *producer-consumer* ili *pipe* obrasca bez upotrebe
 niti i višenitnog programiranja.
 
+]
+
 ---
 
 # Objekti i klase
 
-.medium[
+.size-85[
 
 - Sve vrednosti su objekti.
 - Objekat se sastoji od internih podataka i metoda koje operišu nad njima.
@@ -912,6 +926,8 @@ with message_lock:
 - Python omogućava import-ovanje definicija iz drugih fajlova/modula.
 - Python moduli su fajlovi sa ekstenzijom `.py`
 
+.multicode[
+
 ```python
 # file : div.py
 def divide(a,b):
@@ -945,6 +961,8 @@ from div import *
 ```
 ]
 
+]
+
 ---
 
 # Moduli (2)
@@ -971,7 +989,7 @@ class: center, middle
 ---
 layout: true
 
-.sekcija[[Sintaksa](#sadrzaj)]
+.section[[Sintaksa](#sadrzaj)]
 
 ---
 
@@ -1002,4 +1020,623 @@ if a:
 else:
   statements
 ```
+
+---
+
+# Struktura linije i indentacija (2)
+
+- Nije propisana širina uvlačenja ali mora biti konzistentan.
+- Preporučeno je 4 *space* karaktera za uvlačenje.
+- Preporuka je da se koriste *space* karakteri umesto *tab*.
+
+---
+
+# String literali
+
+- Navode se unutar jednostrukih ili dvostrukih znakova navoda ili trostrukih za
+  višelinijske stringove.
+- Unutar stringova karakter `\` (*backslash*) služi da definiše tzv.
+  *escape* sekvencu odnosno da omogući navođenje specijalnih znakova.
+- Moguće je navesti i unicode kod sa prefiksom `\u`
+- Za detalje videti reference.
+
+---
+
+# Kontejneri
+
+- Vrednosti koje se navode unutar zagrada `[...], (...), {...}`
+  predstavljaju kolekciju objekata koja se nalazi unutar liste, n-torke
+  ili rečnika.
+
+```python
+a = [ 1, 3.4, 'hello' ]
+b = ( 10, 20, 30 )
+c = { 'a': 3, 'b': 42 }
+```
+
+- Elementi kontejnera se mogu navoditi u više linija bez upotrebe znaka za
+  nastavak linije (`\`)
+- Takođe, na kraju liste može da postoji `,` i to je sintaksno dozvoljeno.
+
+```python
+a = [ 1,
+      3.4,
+      'hello',
+    ]
+```
+
+---
+layout: false
+name: tipovi
+class: center, middle
+
+# Tipovi i objekti
+
+---
+layout: true
+
+.section[[Tipovi i objekti](#sadrzaj)]
+
+---
+
+# Terminologija
+
+- Svi podaci Python programa su objekti.
+- Objekti imaju identitet, tip i vrednost.
+
+```python
+>>> a = 42
+>>> id(a)
+140649856584416
+>>> id(42)
+140649856584416
+>>> type(a)
+<class 'int'>
+>>> b = a
+>>> id(b)
+140649856584416
+>>> type(b)
+<class 'int'>
+>>>
+```
+
+- Jednom kreiran, identitet i tip objekta su nepromenjivi.
+- Ukoliko je vrednost objekta nepromenjiva kažemo da je objekat nepromenjiv
+  (*immutable*).
+
+---
+
+# Terminologija (2)
+
+- Objekti koji sadrže reference na druge objekte se nazivaju kontejneri ili
+  kolekcije.
+- Objekte karakterišu atributi i metode.
+- Atributi su podaci pridruženi objektima.
+- Metode su funkcije koje vrše određene operacije nad objektom.
+
+```python
+a = 3 + 4j      # Kreiranje kompleksnog broja
+r = a.real      # Realni deo (atribut)
+b = [1, 2, 3]   # Kreiranje liste
+b.append(7)     # Dodavanje novog elementa upotrebom append metode
+```
+
+---
+
+# *Duck Typing*
+
+- Metode i atributi objekta definišu njegovu semantiku a ne pripadnost
+  određenom tipu tj. nasleđivanje određene klase
+
+> If it walks like a duck and quacks like a duck, it must be a duck.
+
+--
+
+```python
+def sum(a, b):
+    return a + b     # a i b podržavaju + operaciju
+
+>>> print sum(2, 5)
+7
+>>> print sum(2.5, 6.7)
+9.2
+>>> print sum(True, False)
+1
+>>> print sum("Hello ", "world!")
+Hello world!
+```
+
+---
+
+# Protokoli
+- Koncept tesno povezan sa *duck typing*.
+- Predstavlja određeno ponašanje objekta (skup metoda, atributa i njihove
+  semantike).
+- Ako kažemo da objekat podržava neki protokol znamo šta možemo da očekujemo od
+  njega i u kom kontekstu možemo da ga koristimo bez obzira kog je tipa.
+- Na primer, ako je objekat sekvenca (podržava protokol sekvence) tada znamo da
+  možemo da koristimo isecanje (*slice*), iteraciju itd.
+
+---
+
+# Identitet i tip objekta
+
+```python
+# Poređenje dva objekta
+def compare(a,b):
+  if a is b:
+    # a i b su isti objekat
+    ...
+  if a == b:
+    # a i b imaju istu vrednost
+    ...
+  if type(a) is type(b):
+    # a i b su istog tipa
+    ...
+```
+
+.lcol[
+```python
+if type(s) is list:
+  s.append(item)
+if type(d) is dict:
+  d.update(t)
+```
+]
+.rcol[
+```python
+if isinstance(s,list):
+  s.append(item)
+if isinstance(d,dict):
+  d.update(t)
+```
+]
+
+---
+
+# Brojanje referenci
+
+```python
+a = 37        # Kreira objekat sa vrednošću 37
+b = a         # Uvećava brojač referenci za 37
+c = []
+c.append(b)   # Uvećava brojač referenci za 37
+
+del a         # Umanjuje brojač referenci za 37
+b = 42        # - II -
+c[0] = 2.0    # - II -
+```
+
+```python
+>>> a = 37
+>>> import sys
+>>> sys.getrefcount(a)
+7
+>>>
+```
+
+---
+
+# Reference i kopije
+
+```python
+>>> a = [1,2,3,4]
+>>> b = a             # b je referenca na listu a
+>>> b is a
+True
+>>> b[2] = -100       # Promena elementa u b
+>>> a
+[1, 2, -100, 4]       # Element je promenjen u a jer je to
+>>>                   # isti objekat
+```
+
+---
+
+# Plitko i duboko kopiranje
+
+.lcol[
+```python
+>>> a = [ 1, 2, [3,4] ]
+>>> b = list(a)
+>>> b is a
+False
+>>> b.append(100)
+>>> b
+[1, 2, [3, 4], 100]
+>>> a
+[1, 2, [3, 4]]
+>>> b[2][0] = -100
+>>> b
+[1, 2, [-100, 4], 100]
+>>> a
+[1, 2, [-100, 4]]
+
+```
+]
+.rcol[
+```python
+>>> import copy
+>>> a = [1, 2, [3, 4]]
+>>> b = copy.deepcopy(a)
+>>> b[2][0] = -100
+>>> b
+[1, 2, [-100, 4]]
+>>> a
+[1, 2, [3, 4]]
+>>>
+```
+]
+
+---
+
+
+# *First-Class Objects*
+
+- Svi objekti u Python-u su "prvog reda" (*first-class*)
+- Ovo znači da svi objekti koji se mogu imenovati (referencirati) imaju isti
+  status.
+
+.lcol-narrow[
+```python
+items = {
+    'number' : 42
+    'text' : "Hello World"
+}
+
+items["func"] = abs
+import math
+items["mod"] = math
+items["error"] = ValueError
+nums = [1,2,3,4]
+items["append"] = nums.append
+```
+]
+
+.rcol-wide[
+```python
+>>> items["func"](-45)   #Poziva abs(-45)
+45
+>>> items["mod"].sqrt(4) #Poziva math.sqrt(4)
+2.0
+>>> try:
+...
+x = int("a lot")
+... except items["error"] as e:
+# Isto kao except ValueError as e
+...
+print("Couldn't convert")
+...
+Couldn't convert
+>>> items["append"](100)  # nums.append(100)
+>>> nums
+[1, 2, 3, 4, 100]
+```
+
+]
+
+---
+
+# Ugrađeni tipovi za podatke
+
+- None: NoneType
+- Brojevi: int, long, float, complex, bool
+- Sekvence: str, unicode, list, tuple, xrange
+- Mape: dict
+- Skupovi: set(*mutable*), frozenset(*immutable*)
+
+---
+
+# Sekvence
+
+- Uređena kolekcija objekata indeksirana nenegativnim rednim brojem.
+- Stringovi - nepromenjiva sekvenca karaktera.
+- n-torka(tuple) - nepromenjiva sekvenca proizvoljnih objekata.
+- Sve sekvence podržavaju *slicing* i iteracije.
+
+---
+
+# Operacije nad sekvencama
+
+```python
+s[i]              # Indeksni pristup
+s[i:j]            # Isecanje (slicing)
+s[i:j:korak]      # Prošireno isecanje
+len(s)            # broj elemenata sekvence
+min(s), max(s)    # minimalna/maksimalna vrednosta u sekvenci
+sum(s, [initial]) # sumiranje sekvence
+all(s)            # da li su svi elementi sekvence True
+any(s)            # da li je bilo koji element u listi True
+for a in s:       # iteracija
+  ...
+```
+
+---
+
+# Operacije nad promenjivim sekvencama
+
+```python
+s[i] = v
+s[i:j] = t
+s[i:j:korak] = t
+del s[i]
+del s[i:j]
+del s[i:j:korak]
+```
+
+---
+
+# Liste
+
+- Liste su sekvence.
+- Svaka sekvenca se može konvertovati u listu sa <code>list(s)</code>.
+- Definišu sledeće metode:
+  - `s.append(x)` - dodavanje na kraj
+  - `s.extend(t)` - proširenje sa listom t
+  - `s.count(x)` - broj pojava vrednosti x
+  - `s.index(x)` - pozicija prve pojave vrednosti x
+  - `s.insert(i, x)` - umetanje vrednosti x na poziciju i
+  - `s.pop()` - izbacivanje elementa sa kraja liste
+  - `s.remove(x)` - izbacivanje elementa x iz liste
+  - `s.reverse()` - obrtanje liste u mestu
+  - `s.sort([key, [, reverse]])` - sortiranje liste u mestu
+
+---
+
+# Stringovi
+
+.size-90[
+
+- Stringovi u Python-u 2 mogu biti *byte* i *unicode* stringovi.
+- U python-u 2 unicode stringovi imaju prefix *u*.
+
+```python
+ustr = u'Ово је ћирилични unicode стринг!'
+bstr = 'Ovo je byte string!'
+```
+
+Literali se navode unutar znakova navoda. Koriste se trostruki za
+višelinijske stringove.
+
+```python
+a = 'Ovo je string'
+b = "I ovo je string"
+c = """ Ovo je viselinijski
+string
+Evo jos jedne linije
+"""
+d = '''
+I ovo je viselinijski
+string
+'''
+```
+]
+
+---
+
+# Stringovi (2)
+
+- Stringovi su nepromenjivi objekti (*immutable*). Sve metode stringa koje
+  vraćaju string kreiraju novi string.
+- Neke od metoda:
+
+```python
+s.capitalize()                # Prvi karakter postaje veliko slovo.
+s.center(width [, pad])       # Centrira string unutar zadate širine.
+s.find(sub [, start [,end]])  # Pronalazi podstring
+s.isalnum()                   # True ukoliko je alfanumerik
+s.isdigit()                   # True ukoliko su svi karakteri cifre
+s.lower()                     # Sva slova postaju mala
+s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
+                              # listu podstringova
+```
+
+---
+
+# Stringovi - formatiranje
+
+- Tri načina:
+  - Konkatanacija - operator `+` - izbegavati.
+  - Interpolacija - `%` operator.
+  - `format` metoda - noviji i preferirani način.
+
+```python
+>>> "Odgovor je %d" % 42
+'Odgovor je 42'
+>>> "Prvi=%s, drugi=%d, treci=%s" % ("prvi", 23, "third")
+'Prvi=prvi, drugi=23, treci=third'
+>>> "Prvi=%(prvi)s, drugi=%(drugi)d, pa opet %(prvi)s"
+    % {'drugi':11, 'prvi':"34"}
+'Prvi=34, drugi=11, pa opet 34'
+>>> "{} ribi {} rep.".format("Riba", "grize")
+'Riba ribi grize rep.'
+>>> "{1} ribi {0} rep.".format("Riba", "grize")
+'grize ribi Riba rep.'
+>>> "{ko} ribi {sta} rep.".format(ko="Riba", sta="grize")
+'Riba ribi grize rep.'
+>>> "{ko} ribi {sta} rep.".format(sta="soli", ko="riba")
+'riba ribi soli rep.'
+```
+
+---
+
+# Mape
+
+.size-90[
+- Promenjive, neuređene kolekcije proizvoljnih objekata indeksirane
+  proizvoljnim objektom (uz određena ograničenja).
+- Rečnici (*dict*) su ugrađeni tip i predstavljaju implementaciju *hash*
+  tabela ili asocijativnih nizova.
+- dict kao ograničenje za ključeve zahteva nepromenjivost (*immutability*)
+  jer *hash* vrednost mora biti konstantna.
+- Operacije:
+
+```python
+m = {}            # Kreiranje praznog rečnika
+m = {             # Kreiranje rečnika sa elementima
+  'BG': 11000,
+  'NS': 21000,    # Zarez na kraju je dozvoljen
+}
+m['KG'] =         # Upis u rečnik
+m['NS']           # Čitanje vrednosti
+21000
+del m['BG']       # Brisanje vrednosti
+m[42] = 'Odgovor' # Ključevi i vrednosti mogu biti
+                  # različitog tipa
+```
+]
+
+---
+
+# Mape (2)
+
+```python
+len(m)              # Broj elemenata rečnika
+'NS' in m           # Provera pripadnosti
+m.clear()           # Uklanja sve elemente
+m.copy()            # Vraća kopiju od m
+m.get(k[, default]) # Vraća objekat pod ključem k a ako
+                    # ne postoji vraća v
+m.items()           # Vraća sekvencu (ključ, vrednost) parova
+m.keys()            # Vraća kolekciju ključeva
+m.values()          # Vraća kolekciju vrednosti
+m.setdefault(k[, v])  # Vraća m[k] ako postoji a ako ne vraća
+                      # v i postavlja m[k]=v
+m.update(b)         # Proširuje m sa elementima mape b
+m.pop(k[, default]) # Uklanja i vraća m[k] ukoliko postoji ili
+                    # default ukoliko ne postoji
+```
+
+---
+
+# *Dict comprehensions*
+
+Treba da kreiramo mapu od sekvence ključeva i vrednosti
+
+```python
+mapa = {}
+for idx, kljuc in enumerate(kljucevi):
+  mapa[kljuc] = vrednosti[idx]
+```
+  
+ili upotrebom *dict comprehensions*
+
+```python
+mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
+```
+
+---
+
+# Skupovi
+
+- Neuređene kolekcije jedinstvenih elemenata.
+- Elementi nisu indeksirani. Ne postoji slice operator.
+- Elementi moraju biti nepromenjivi (*immutable*).
+- Dve vrste:
+  - `set` - promenivi skup
+  - `frozenset` - nepromenjivi skup
+- Instanciraju se pozivom sa parametrom koji implementira iterator protokol.
+
+```python
+s = set([1,5,10,15])
+f = frozenset(['a',37,'hello'])
+```
+
+---
+
+# Skupovi - operacije
+
+```python
+len(s)                    # Broj elemenata
+s.copy()                  # Kopija
+s.intersection(t)         # s &amp; t   - presek
+s.union(t)                # s | t   - unija
+s.difference(t)           # s - t   - razlika
+s.symetric_difference(t)  # s ^ t   - simetrična razlika
+s.isdisjoint(t)           # True ako nemaju zajedničkih elem.
+s.issubset(t)             # True ako je s podskup od t
+s.issuperset(t)           # True ako je s nadskup od t
+
+# Promenivi skupovi još imaju i
+s.add(element)
+s.remove(element)
+s.clear()
+s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
+...
+```
+
+---
+
+# Callables
+
+.size-85[
+- Objekti koji podržavaju semantiku poziva.
+- Funkcije, klase, metode.
+- Tretiraju se kao i svi drugi objekti - mogu biti elementi kolekcija, mogu se
+  prosleđivati kao parametri, biti povratne vrednosti drugih callables itd.
+
+```python
+def foo(x,y):
+    return x + y
+
+bar = lambda x,y: x + y
+
+funkcije = [foo, bar]
+for f in funkcije:
+  print f(2,3)
+
+def div_by_maker(x):
+  def div_by(b):
+    return b/x
+  return div_by
+
+a = div_by_maker(5)
+a(20)                 # = 4
+b = div_by_maker(2)
+b(20)                 # = 10
+b(10)                 # = 5
+```
+]
+
+---
+layout: false
+name: operatori
+class: center, middle
+
+# Operatori i izrazi (TODO)
+
+---
+layout: true
+
+.section[[Operatori](#sadrzaj)]
+
+---
+layout: false
+name: kontrola 
+class: center, middle
+
+# Struktura programa i kontrola toka
+
+---
+layout: true
+
+.section[[Kontrola toka](#sadrzaj)]
+
+---
+
+# Struktura programa
+
+- Svaki iskaz se tretira na isti način. Nema specijalnih iskaza.
+- Svaki iskaz se može pojaviti bilo gde u programu.
+
+```python
+if debug:
+  def square(x):
+    if not isinstance(x,float):
+      raise TypeError("Expected a float")
+    return x * x
+else:
+  def square(x):
+    return x * x
+```
+
 
