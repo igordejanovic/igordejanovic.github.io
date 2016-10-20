@@ -7,8 +7,9 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
+.small[Slajdovi u izradi]
 
-.footnote[2016]
+.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
 
 
 ---
@@ -20,9 +21,9 @@ name: sadrzaj
 - [Kratak pregled jezika](#pregled)
 - [Leksičke konvencije i sintaksa](#sintaksa)
 - [Tipovi i objekti](#tipovi)
-- Operatori i izrazi
-- Struktura programa i kontrola toka
-- Funkcije i funkcionalno programiranje
+- [Operatori i izrazi](#operatori)
+- [Struktura programa i kontrola toka](#kontrola)
+- [Funkcije i funkcionalno programiranje](#funkcionalno)
 - Klase i objektno-orijentisano programirane
 - Moduli i paketi
 - Ulaz i izlaz
@@ -1639,4 +1640,646 @@ else:
     return x * x
 ```
 
+---
 
+# Uslovno izvršavanje
+
+```python
+if expression:
+  statements
+elif expression:
+  statements
+elif expression:
+  statements
+...
+else:
+  statements
+```
+
+---
+
+# Petlje i iteracije
+
+.medium[
+
+```python
+while expression:
+  statements
+```
+
+For petlja (s podržava iterator protokol)
+```python
+
+for i in s:
+  statements
+```
+
+Ili razloženo
+```python
+it = s.__iter__() # Iterator za kolekciju s
+while True:
+  try:
+    i = it.next() # Sledeći element (__next__ u P3)
+    # Obradi element i
+  except StopIteration:
+    # Nema više elemenata
+    break
+  ...
+```
+]
+
+---
+
+# Raspakivanje elemenata
+
+
+Ukoliko su svim elementi kolekcije sekvence iste dužine moguće je uraditi
+sledeće:
+
+```python
+# s je oblika [ (x1,y1,z1), (x2,y2,z2),... ]
+for x,y,z in s:
+  ... Obrada x, y, z elemenata
+```
+
+---
+
+# Indeks u for petlji
+
+- Kada se iterira kroz elemente kolekcije nekad je potrebno znati indeks.
+
+```python
+i = 0
+for x in s:
+  statements
+  i += 1
+
+# Ili jednostavnije
+for i,x in enumerate(s):
+  statements
+```
+
+---
+
+# Paralelna iteracija
+
+Često je potrebno iterirati paralelno kroz više kolekcija.
+
+```python
+# s i t su dve sekvence
+i = 0
+while i &lt; len(s) and i &lt; len(t):
+    x = s[i]    # Uzmi i-ti element iz s
+    y = t[i]    # Uzmi i-ti element iz t
+    statements
+    i += 1
+```
+
+Ili jednostavnije
+
+```python
+for x,y in zip(s,t):
+  statements
+```
+
+---
+
+# For-else, break, continue
+
+- Iz `for` petlje može prevremeno da se izađe upotrebom `break` iskaza.
+
+- `For` petlja može imati opcioni `else` blok koji se izvršava ukoliko se
+  petlja nije završila prevremeno (`break` iskaz)
+
+```python
+for line in open("foo.txt"):
+  stripped = line.strip()
+  if not stripped:
+    break
+    # process the stripped line
+  ...
+else:
+  raise RuntimeError("Missing section separator")
+```
+
+---
+
+# For-else, break, continue
+
+- Sa `continue` se može direktno preći na sledeći ciklus iteracije.
+
+```python
+for line in open("foo.txt"):
+  stripped = line.strip()
+  if not stripped:    # Ako je linija prazna
+    continue # Preskoči je
+  # Obradi sve linije koje nisu prazne
+```
+
+---
+layout: false
+name: funkcionalno
+class: center, middle
+
+# Funkcije i funkcionalno programiranje
+
+---
+layout: true
+
+.section[[Funkcije](#sadrzaj)]
+
+---
+
+# Osnove
+
+
+Definisanje funkcije
+
+```python
+def add(x, y):
+  return x + y
+```
+
+--
+
+Lambda funkcija
+
+```python
+l = lambda x, y: x + y
+```
+
+---
+
+# Podrazumevana vrednost parametara
+
+```python
+def split(line, delimiter=','):
+  statements
+```
+
+Povezivanje je u trenutku kreiranja funkcije.
+
+```python
+a = 10
+def foo(x=a):
+  return x
+
+a = 5     # Redefinisanje varijable 'a'
+foo()     # Vraća 10 (podrazumevana vrednost nije promenjena)
+```
+
+---
+
+# Napomena kod *mutable* tipova
+
+Problem
+```python
+def foo(x, items=[]):
+  items.append(x)
+  return items
+
+foo(1)    # Vraća [1]
+foo(2)    # Vraća [1, 2]
+foo(3)    # Vraća [1, 2, 3]
+```
+
+--
+
+Rešenje
+```python
+def foo(x, items=None):
+  items = [] if items is None else items
+  items.append(x)
+  return items
+```
+
+---
+
+# Promenjiv broj argumenata - po poziciji
+
+.medium[
+
+```python
+def fprintf(file, fmt, *args):
+  file.write(fmt % args)
+```
+
+Poziv `fprintf` -  `args` postaje n-torka `(42,"hello world", 3.45)`
+```python
+fprintf(out,"%d %s %f", 42, "hello world", 3.45)
+```
+
+n-torke možemo i "raspakovati" pri pozivu upotrebom `*` operatora
+```python
+def printf(fmt, *args):
+  # Poziv druge funkcije i prosleđivanje argumenata
+  fprintf(sys.stdout, fmt, *args)
+```
+
+Ili na primer
+```
+a = (2,3)
+f = lambda x, y: x + y
+print f(*a)   # n-torka a se "razlaže" i prosleđuje poziciono
+```
+]
+
+
+---
+
+# Prosleđivanje parametara po nazivu
+
+```python
+def foo(x, y, z, w):
+  statements
+```
+ 
+Prosleđivanje vrednosti parametara po nazivu
+```python
+foo(x=3, y=22, w='hello', z=[1,2])
+```
+
+--
+
+Može i kombinovano
+```python
+foo(3, 22, w='hello', z=[1,2])
+```
+
+--
+
+Ali ne i ovako - višestruke vrednosti za y
+```python
+foo('hello', 3, z=[1,2], y=22)
+```
+
+---
+
+# Promenjiv broj argumenata - imenovani parametri
+
+```python
+def make_table(data, **parms):
+  # Preuzimanje konfiguracionih parametara
+  fgcolor = parms.pop("fgcolor","black")
+  bgcolor = parms.pop("bgcolor","white")
+  width = parms.pop("width",None)
+  ...
+  # Nema više opcija
+  if parms:
+    raise TypeError("Konfiguracione opcije '%s' nisu podržane" % list(parms))
+
+make_table(items, fgcolor="black", bgcolor="white", border=1,
+            borderstyle="grooved", cellpadding=10,
+            width=400)
+```
+
+---
+
+# Promenjiv broj argumenata - kombinovan prenos
+
+Mogu se kombinovati pozicioni i imenovani parametri dok god se imenovani (`**`)
+nalaze na kraju
+
+
+Različit broj pozicionih i imenovanih parametara
+
+```python
+def spam(*args, **kwargs):
+  # args je n-torka sa pozicionim parametrima
+  # kwargs je rečnik sa imenovanim parametrima
+  ...
+```
+  
+Možemo i prosleđivati parametre drugim funkcijama.  To se često koristi kod
+tzv. wrapper ili proxy funkcija
+
+```python
+def callfunc(*args, **kwargs):
+  func(*args,**kwargs)
+```
+
+---
+
+# Prenos parametara i povratne vrednosti
+
+.medium[
+
+Prenos se obavlja po referenci.
+```python
+a = [1, 2, 3, 4, 5]
+def square(items):
+  for i, x in enumerate(items):
+    items[i] = x * x     # Menja elemente u mestu
+
+square(a)     # Promena u [1, 4, 9, 16, 25]
+```
+
+Ako funkcija vraća više vrednosti to se može učiniti n-torkom (*tuple*).
+```python
+def factor(a):
+  d = 2
+  while (d &lt;= (a / 2)):
+    if ((a / d) * d == a):
+      return ((a / d), d)
+    d = d + 1
+  return (a, 1)     # Vraćamo dve vrednosti iz funkcije
+
+(x, y) = factor(1234)
+# ili jednostavno
+x, y = factor(1234)
+```
+]
+
+---
+
+# Opseg važenja (*scoping rules*) - lokalne i globalne varijable
+
+```python
+a = 42
+def foo():
+  a = 13
+foo()
+# ovde je a 42
+
+a = 42
+b = 37
+def foo():
+  global a    # Deklarišemo 'a' kao globalnu
+  a = 13
+  b = 0
+foo()
+# a je 13. b je još uvek 37.
+```
+
+---
+
+# Opseg važenja (*scoping rules*) - ne-lokalne varijable
+
+.lcol[
+```python
+def countdown(start):
+  n = start
+  def display():
+    print('T-minus %d' % n)
+  def decrement():
+    n -= 1      # Ne radi u Python 2
+  while n &gt; 0:
+    display()
+    decrement()
+```
+]
+
+.rcol[
+```python
+def countdown(start):
+  n = start
+  def display():
+    print('T-minus %d' % n)
+  def decrement():
+    nonlocal n # Radi samo u Python 3
+    n -= 1
+  while n &gt; 0:
+    display()
+    decrement()
+```
+]
+
+
+---
+
+# Dekoratori
+
+- Dekorator obrazac.
+- Funkcije koje prihvataju kao parametar funkciju (ili uopšte
+  `callable`) i vraćaju izmenjenu verziju.
+
+.lcol-narrow[
+```python
+@trace
+def square(x):
+  return x*x
+
+# Ovo je ekvivalentno sa
+def square(x):
+  return x*x
+square = trace(square)
+```
+]
+
+.medium[
+.rcol-wide[
+```python
+enable_tracing = True
+if enable_tracing:
+  debug_log = open("debug.log","w")
+def trace(func):
+  if enable_tracing:
+    def callf(*args,**kwargs):
+      debug_log.write("Calling %s: %s, %s\n" %
+              (func._ _name_ _, args, kwargs))
+      r = func(*args,**kwargs)
+      debug_log.write("%s returned %s\n" %
+                      (func._ _name, r))
+      return r
+    return callf
+  else:
+    return func
+```
+]]
+
+
+---
+
+# Dekoratori (2)
+
+Mogu da se stekuju.
+
+```python
+@foo
+@bar
+@spam
+def grok(x):
+  pass
+```
+
+je isto što i
+```python
+def grok(x):
+  pass
+grok = foo(bar(spam(grok)))
+```
+
+
+---
+
+# Dekoratori (3)
+
+Mogu da imaju parametre
+
+.lcol[
+```python
+@eventhandler('BUTTON')
+def handle_button(msg):
+  ...
+
+@eventhandler('RESET')
+def handle_reset(msg):
+  ...
+
+# Sto je ekvivalentno sa
+def handle_button(msg):
+...
+temp = eventhandler('BUTTON')
+handle_button = temp(handle_button)
+```
+]
+
+.rcol[
+```python
+# Event handler decorator
+event_handlers = { }
+def eventhandler(event):
+  def register_function(f):
+    event_handlers[event] = f
+    return f
+  return register_function
+```
+]
+
+
+---
+
+# *List comprehensions* opet
+
+.medium[
+.lcol-narrow[
+```python
+nums = [1, 2, 3, 4, 5]
+squares = []
+for n in nums:
+  squares.append(n * n)
+
+# Ekvivalentno
+nums = [1, 2, 3, 4, 5]
+squares = [n * n for n in nums]
+```
+]
+
+.rcol-wide[
+```python
+# Opšti oblik sintakse
+[expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN ]
+
+# Što je ekvivalentno sa
+s = []
+for item1 in iterable1:
+  if condition1:
+    for item2 in iterable2:
+      if condition2:
+        ...
+        for itemN in iterableN:
+          if conditionN: s.append(expression)
+```
+]]
+
+
+---
+
+# *List comprehensions* primeri
+
+```python
+a = [-3, 5, 2, -10, 7, 8]
+b = 'abc'
+
+c = [2*s for s in a]                # c = [-6,10,4,-20,14,16]
+d = [s for s in a if s >= 0]        # d = [5,2,7,8]
+e = [(x, y) for x in a              # e = [(5,'a'),(5,'b'),(5,'c'),
+           for y in b               #      (2,'a'),(2,'b'),(2,'c'),
+           if x > 0 ]               #      (7,'a'),(7,'b'),(7,'c'),
+                                    #      (8,'a'),(8,'b'),(8,'c')]
+
+f = [(1,2), (3,4), (5,6)]
+g = [math.sqrt(x * x + y * y)       # g = [2.23606, 5.0, 7.81024]
+     for x, y in f]
+```
+
+---
+
+# Generator izrazi
+
+Slično kao *list comprehensions* ali ne kreiraju listu već generator objekat
+koji izračunava vrednosti na zahtev (lenja evaluacija).
+
+.medium[
+.lcol-wide[
+```python
+# Opšti oblik sintakse
+(expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN )
+```
+]]
+
+.rcol-narrow[
+```python
+>>> a = [1, 2, 3, 4]
+>>> b = (10*i for i in a)
+>>> b
+&lt;generator object at 0x590a8>
+>>> b.next()
+10
+>>> b.next()
+20
+...
+```
+]
+
+
+---
+
+# Generator izrazi - primer
+
+
+```python
+f = open("data.txt")
+lines = (t.strip() for t in f)
+
+comments = (t for t in lines if t[0] == '#')
+for c in comments:
+  print(c)
+
+
+# Uvek se može konvertovati u listu
+clist = list(comments)
+```
+
+---
+
+# `lambda` iskaz
+
+
+Kreiranje anonimne funkcije.
+
+Sintaksa:
+
+```python
+lambda args : expression
+```
+
+Primeri
+```python
+a = lambda x,y : x+y
+r = a(2,3)
+```
+
+Osnovna namena - kratke callback funkcije
+
+Primer - *case-insensitive* sortiranje
+```python
+names.sort(key=lambda n: n.lower())
+
+```
