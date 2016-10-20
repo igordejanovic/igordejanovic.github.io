@@ -24,10 +24,10 @@ name: sadrzaj
 - [Operatori i izrazi](#operatori)
 - [Struktura programa i kontrola toka](#kontrola)
 - [Funkcije i funkcionalno programiranje](#funkcionalno)
-- Klase i objektno-orijentisano programirane
-- Moduli i paketi
-- Ulaz i izlaz
-- Alati
+- [Klase i objektno-orijentisano programirane](#objektno)
+- [Moduli i paketi](#moduli)
+- [Alati i okruženja](#alati)
+- [Pakovanje i distribucija](#pakovanje)
 
 ---
 name: pregled
@@ -2283,3 +2283,898 @@ Primer - *case-insensitive* sortiranje
 names.sort(key=lambda n: n.lower())
 
 ```
+
+---
+layout: false
+name: objektno
+class: center, middle
+
+# Klase i objektno-orijentisano programiranje
+
+---
+layout: true
+
+.section[[Objektno](#sadrzaj)]
+
+---
+
+# Klase
+  
+- Kolekcija funkcija (metoda), varijabli (atributa) i dinamičkih
+  atributa(*properties*).
+
+```python
+class Account(object):
+  num_accounts = 0
+
+  def __init__(self,name,balance):   # Konstruktor
+    self.name = name
+    self.balance = balance
+    Account.num_accounts += 1        # Pristup deljenom class atributu
+
+  def __del__(self):
+    Account.num_accounts -= 1
+
+  def deposit(self,amt):
+    self.balance = self.balance + amt
+
+  def withdraw(self,amt):
+    self.balance = self.balance - amt
+
+  def inquiry(self):
+    return self.balance
+```
+
+---
+
+# `class` iskaz
+- Klasa je python objekat koji se kreira kada interpreter naiđe na `class`
+  iskaz i uspešno ga obradi.
+- Referenca na ovaj objekat je ime klase.
+- `class` iskaz nije ni počemu poseban i može da se koristi bilo gde gde se
+  mogu koristiti i drugi iskazi.
+
+```python
+def napravi_klasu():
+  class MojaKlasa(object):
+    def __init__(self, a):
+      self.a = a
+  return MojaKlasa
+
+k = napravi_klasu()     # k je klasa
+m = napravi_klasu()     # m je klasa
+id(k) != id(m)          # ali nova
+```
+
+---
+
+# Instanciranje
+
+- Istanciranje objekta se obavlja pozivom klase.
+- Klasa je *callable*.
+
+```python
+a = Account("Guido", 1000.00)  # Poziva Account.__init__(a,"Guido",1000.00)
+b = Account("Bill", 10.00)
+```
+
+---
+
+# Referenciranje atributa i metoda
+
+```python
+a.deposit(100.00)       # Poziva Account.deposit(a, 100.00)
+b.withdraw(50.00)       # Poziva Account.withdraw(b, 50.00)
+name = a.name           # Pristup 'name' atributu
+```
+
+---
+
+# Opseg važenja (<i>scoping</i>)
+
+- Klase definišu prostor imena (*namespace*) ali metode nemaju prostor
+  imena.
+- Pristup atributima iz metoda mora biti potpuno kvalifikovan
+- U tu svrhu koristi se eksplicitna `self` referenca.
+
+```python
+class Foo(object):
+
+  def bar(self):
+    print("bar!")
+
+  def spam(self):
+    bar(self)       # Neispravno! 'bar' baca NameError izuzetak
+    self.bar()      # Ispravno
+    Foo.bar(self)   # Takođe ispravno
+```
+
+---
+
+# Nasleđivanje
+
+```python
+import random
+
+class EvilAccount(Account):
+
+  def inquiry(self):
+    if random.randint(0,4) == 1:
+      return self.balance * 1.10
+    else:
+      return self.balance
+
+
+c = EvilAccount("George", 1000.00)
+c.deposit(10.0)
+available = c.inquiry()
+```
+
+---
+
+# Nasleđivanje (2)
+
+- Naslednica može da doda nove atribute.
+
+```python
+class EvilAccount(Account):
+
+  def __init__(self, name, balance, evilfactor):
+    Account.__init__(self, name, balance)
+    self.evilfactor = evilfactor
+
+  def inquiry(self):
+    if random.randint(0,4) == 1:
+      return self.balance * 1.10
+    else:
+      return self.balance
+```
+
+---
+
+# `super` funkcija
+
+```python
+class MoreEvilAccount(EvilAccount):
+
+  def deposit(self,amount):
+    self.withdraw(5.00)
+    EvilAccount.deposit(self, amount)
+```
+
+```python
+class MoreEvilAccount(EvilAccount):
+
+  def deposit(self,amount):
+    self.withdraw(5.00)
+    super(MoreEvilAccount, self).deposit(amount)
+
+    # U python-u 3 može i samo
+    super().deposit(amount)
+```
+
+---
+
+# Višestruko nasleđivanje
+
+.lcol-narrow[
+```python
+class DepositCharge(object):
+  fee = 5.00
+  def deposit_fee(self):
+    self.withdraw(self.fee)
+
+class WithdrawCharge(object):
+  fee = 2.50
+  def withdraw_fee(self):
+    self.withdraw(self.fee)
+```
+]
+
+.rcol-wide[
+```python
+class MostEvilAccount(EvilAccount,
+                      DepositCharge,
+                      WithdrawCharge):
+
+  def deposit(self,amt):
+    self.deposit_fee()
+    super(MostEvilAccount,self).deposit(amt)
+
+  def withdraw(self,amt):
+    self.withdraw_fee()
+    super(MostEvilAcount,self).withdraw(amt)
+```
+]
+
+.wide[
+```python
+d = MostEvilAccount("Dave",500.00,1.10)
+d.deposit_fee()   # DepositCharge.deposit_fee().  Fee je 5.00
+d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
+```
+]
+
+
+---
+
+# Višestruko nasleđivanje - MRO
+
+- *Method Resolution Order* - MRO
+
+```python
+>>> MostEvilAccount.__mro__
+(<class '_ _main_ _.MostEvilAccount'>,
+ <class '_ _main_ _.EvilAccount'>,
+ <class '_ _main_ _.Account'>,
+ <class '_ _main_ _.DepositCharge'>,
+ <class '_ _main_ _.WithdrawCharge'>,
+ <type 'object'>)
+>>>
+```
+
+---
+
+# Polimorfizam, dinamičko povezivanje, *duck typing*
+
+- Korišćenje objekta bez obzira na njegov konkretni tip.
+- Dovoljno je samo da ima određene atribute i metode tj. određeno ponašanje.
+- U Python-u nije bitna ni hijerarhija nasleđivanja.
+- Primer: *file-like* objekti iz standardne biblioteke.
+
+---
+
+# *Static* metode
+
+```python
+class Foo(object):
+  @staticmethod
+  def add(x,y):
+    return x + y
+
+x = Foo.add(3,4)
+```
+
+---
+
+# *Static* metode (2)
+
+```python
+class Date(object):
+  def __init__(self,year,month,day):
+    self.year = year
+    self.month = month
+    self.day = day
+
+  @staticmethod
+  def now():
+    t = time.localtime()
+    return Date(t.tm_year, t.tm_mon, t.tm_day)
+
+  @staticmethod
+  def tomorrow():
+    t = time.localtime(time.time()+86400)
+    return Date(t.tm_year, t.tm_mon, t.tm_day)
+
+a = Date(1967, 4, 9)
+b = Date.now()      # Calls static method now()
+c = Date.tomorrow() # Poziva static metodu tomorrow()
+```
+
+---
+
+# *class* metode
+
+- Metode klase koje primaju `class` objekat klase nad kojom su
+  pozvane.
+
+```python
+class Times(object):
+  factor = 1
+
+  @classmethod
+  def mul(cls,x):
+    return cls.factor * x
+
+class TwoTimes(Times):
+  factor = 2
+
+x = TwoTimes.mul(4)     # Poziva Times.mul(TwoTimes, 4) -&gt; 8
+```
+
+---
+
+# Primer upotrebe *class* metode - problem
+
+```python
+class EuroDate(Date):
+
+  # Izmena string konverzije da koristi evropske datume
+  def __str__(self):
+    return "%02d/%02d/%4d" % (self.day, self.month, self.year)
+```
+
+- Problem je ukoliko se pozove `EuroDate.now()` biće vraćena instanca `Date`
+  klase.
+
+---
+
+# Primer upotrebe *class* metode - rešenje
+
+```python
+class Date(object):
+  ...
+  @classmethod
+  def now(cls):
+    t = time.localtime()
+    # Kreiranje objekat odgovarajućeg tipa
+    return cls(t.tm_year, t.tm_month, t.tm_day)
+
+class EuroDate(Date):
+...
+
+a = Date.now()      # Poziva Date.now(Date) i vraća Date
+b = EuroDate.now()  # Poziva Date.now(EuroDate) i vraća EuroDate
+
+# Jedna napomena. Metode su dostupne i na instancama
+a = Date(1967,4,9)
+b = d.now()         # Poziva Date.now(Date)
+```
+
+---
+
+
+# *Properties*
+
+- Specijalna vrsta atributa koja dinamički izračunava svoju vrednost.
+
+.lcol[
+```python
+class Circle(object):
+
+  def __init__(self,radius):
+    self.radius = radius
+
+  @property
+  def area(self):
+    return math.pi * self.radius ** 2
+
+  @property
+  def perimeter(self):
+    return 2 * math.pi * self.radius
+```
+]
+.rcol[
+```python
+>>> c = Circle(4.0)
+>>> c.radius
+4.0
+>>> c.area
+50.26548245743669
+>>> c.perimeter
+25.132741228718345
+>>> c.area = 2
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: can't set attribute
+>>>
+```
+]
+
+---
+
+# *Properties* - *setters*
+
+```python
+class Foo(object):
+  def __init__(self,name):
+    self.__name = name
+  @property
+  def name(self):
+    return self.__name
+  @name.setter
+  def name(self,value):
+    if not isinstance(value,str):
+      raise TypeError("Must be a string!")
+    self.__name = value
+  @name.deleter
+  def name(self):
+    raise TypeError("Can't delete name")
+
+f = Foo("Guido")
+n = f.name        # Poziva f.name() - getter
+f.name = "Monty"  # Poziva setter name(f, "Monty")
+f.name = 45       # Poziva setter name(f, 45) -&gt; TypeError
+del f.name        # Poziva deleter name(f) -&gt; TypeError
+```
+
+---
+
+# Enakpsulacija i privatni atributi
+
+```python
+class A(object):
+  def __init__(self):
+    self.__X = 3        # Izmenjeno u self._A__X
+  def __spam(self):     # Izmenjeno u _A__spam()
+    pass
+  def bar(self):
+    self.__spam()       # Poziva A.__spam()
+
+
+class B(A):
+  def __init__(self):
+    A.__init__(self)
+    self.__X = 37       # Izmenjeno u self._B__X
+  def __spam(self):     # Izmenjeno u _B__spam()
+    pass
+```
+
+---
+
+# Redefinisanje operatora (*operator overloading*)
+
+.medium[
+- Svi operatori korišćeni u Python-u (npr. `+, -, *, /, in, []...`) su opisani
+  specijalnim metodama i mogu se redefinisati.
+
+```python
+class Complex(object):
+  def __init__(self,real,imag=0):
+    self.real = float(real)
+    self.imag = float(imag)
+  def __repr__(self):
+    return "Complex(%s,%s)" % (self.real, self.imag)
+  def __str__(self):
+    return "(%g+%gj)" % (self.real, self.imag)
+  # self + other
+  def __add__(self,other):
+    return Complex(self.real + other.real, self.imag + other.imag)
+  # self - other
+  def __sub__(self,other):
+    return Complex(self.real - other.real, self.imag - other.imag)
+```
+
+- Napomena: Ovo je samo ilustrativan primer - Python već ima ugrađen tip
+  kompleksnih brojeva.
+]
+
+---
+
+# Pripadnost klasi ili tipu
+
+```python
+class A(object): pass
+class B(A): pass
+class C(object): pass
+a = A() # Instance of 'A'
+b = B() # Instance of 'B'
+c = C() # Instance of 'C'
+
+type(a)           # Vraća klasu A (class objekat)
+isinstance(a, A)  # True
+isinstance(b, A)  # True, B nasleđuje A
+isinstance(b, C)  # False, B ne nasleđuje C
+
+
+issubclass(B,A)   # True
+issubclass(C,A)   # False
+```
+
+
+
+---
+layout: false
+name: moduli
+class: center, middle
+
+# Moduli i paketi
+
+---
+layout: true
+
+.section[[Moduli](#sadrzaj)]
+
+---
+
+# Moduli i `import` iskaz
+
+
+- Svaki pajton fajl može da se koristi kao modul.
+- `import` iskaz *uvozi* definicije iz drugog modula u tekući prostor imena
+  (*namespace* )
+
+.lcol-wide[
+```python
+# spam.py
+a = 37
+def foo():
+  print("I'm foo and a is %s" % a)
+def bar():
+  print("I'm bar and I'm calling foo")
+  foo()
+class Spam(object):
+  def grok(self):
+    print("I'm Spam.grok")
+```
+]
+
+.rcol-narrow[
+```python
+import spam
+x = spam.a
+spam.foo()
+s = spam.Spam()
+s.grok()
+...
+```  
+]
+
+
+---
+
+# `import` - razni oblici
+
+```python
+import socket, os, re
+```
+
+```python
+import spam as sp
+import socket as net
+sp.foo()
+sp.bar()
+net.gethostname()
+```
+
+```python
+if format == 'xml':
+  import xmlreader as reader
+elif format == 'csv':
+  import csvreader as reader
+data = reader.read_data(filename)
+```
+
+---
+
+# `import` - razni oblici (2)
+
+Import samo određenog objekta.
+
+```python
+from spam import foo
+foo()
+spam.foo()
+```
+
+Import na više linija
+
+```python
+from spam import (foo,
+                  bar,
+                  Spam)
+```
+
+Promena imena pri importu.
+
+```python
+from spam import Spam as Sp
+s = Sp()
+```
+
+---
+
+#  `import` - razni oblici (3)
+
+Import svih definicija u tekući prostor imena.
+```python
+from spam import *
+```
+
+Definisanje šta se uvozi kod import `*`.
+```python
+# module: spam.py
+__all__ = [ 'bar', 'Spam' ]
+```
+
+Opseg važenja se ne menja.
+```python
+from spam import foo
+a = 42
+foo()     # Ispisuje "I'm foo and a is 37"
+```
+
+```python
+from spam import bar
+def foo():
+  print("I'm a different foo")
+bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
+      # definicija foo() iz ovog fajla
+```
+
+---
+
+# Izvršavanje glavnog programa
+
+.medium[
+- `import` iskaz izvršava kod u prostoru imena pozivaoca.
+- Svaki modul definiše implicitno varijablu `__name__` koja predstavlja ime
+  modula.
+- Ukoliko se modul startuje kao nezavisan program i tada dolazi do izvršavanja
+  koda ali će `__name__` varijabla imati vrednost `"__main__"`.
+- Pajton program se startuje sa:
+
+```bash
+$ python moj_program.py
+```
+
+- Možemo u modulu imati ovakav kod da bi obezbedili drugačije tretiranje modula
+  pri importu i pri startovanju kao nezavisan program.
+
+```python
+if __name__ == '__main__':
+  # Startovan kao program
+else:
+  # Importovan kao modul
+```
+]
+
+
+---
+layout: false
+name: alati
+class: center, middle
+
+# Alati i okruženja
+
+---
+layout: true
+
+.section[[Alati](#sadrzaj)]
+
+---
+
+# IPython
+
+
+- Interaktivni *shell* sličan standardnom
+- Read-Eval-Print-Loop
+- Razvoj kroz eksperimentisanje
+
+---
+
+# IPython mogućnosti
+
+
+- Dopuna sa TAB tasterom
+- Istraživanje objekata sa ?
+- Autoreload modula
+- *Magic* funkcije
+
+
+---
+
+# Primer sesije
+
+
+```python
+[igor@sizif]$ ipython2
+Python 2.7.8 (default, Jul  1 2014, 17:30:21)
+Type "copyright", "credits" or "license" for more information.
+
+IPython 2.1.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]: print "Hello world!"
+Hello world!
+
+In [2]:
+```
+
+---
+
+# Dopuna koda
+
+
+Pritisak na taster TAB
+
+```
+In [4]: import os
+
+In [5]: os.pa
+os.pardir          os.path            os.pathconf
+os.pathconf_names  os.pathsep
+
+In [5]: os.pa
+```
+
+---
+
+# Informacije o objektima
+
+Iza naziva reference staviti znak "?"
+
+```
+In [7]: map?
+Type:        builtin_function_or_method
+String form: <built-in function map>
+Namespace:   Python builtin
+Docstring:
+map(function, sequence[, sequence, ...]) -> list
+
+Return a list of the results of applying the function to the items of
+the argument sequence(s).  If more than one sequence is given, the
+function is called with an argument list consisting of the corresponding
+item of each sequence, substituting None for missing values when not all
+sequences have the same length.  If the function is None, return a list of
+the items of the sequence (or a list of tuples if more than one sequence).
+
+In [8]:
+ 
+```
+
+---
+
+# Proširene informacije o objektima
+
+
+Iza naziva reference staviti znak "??"
+
+```
+In [2]: import os
+
+In [3]: os.path.abspath??
+Type:        function
+String form: <function abspath at 0x7f723641b848>
+File:        /usr/lib/python2.7/posixpath.py
+Definition:  os.path.abspath(path)
+Source:
+def abspath(path):
+"""Return an absolute path."""
+if not isabs(path):
+if isinstance(path, _unicode):
+  cwd = os.getcwdu()
+else:
+  cwd = os.getcwd()
+path = join(cwd, path)
+return normpath(path)
+
+```
+
+---
+
+# *paste* više linija koda
+
+
+- Ponekad je zgodno u cilju testiranja *paste*-ovati blok koda na konzolu
+  uz očuvanje indentacije.
+- Za ovu namenu koristi se magična funkcija `%paste`
+
+```
+In [5]: %paste
+def napravi_klasu():
+    class MojaKlasa(object):
+        def __init__(self, a):
+            self.a = a
+    return MojaKlasa
+## -- End pasted text --
+
+```
+
+---
+
+# Reload modula
+
+
+- Problem kod izmene koda posle import-a.
+- Dva načina:
+
+  1. `reload` funkcija
+  ```
+  reload(moj_modul)
+  ```
+  1. `autoreload` ekstenzija
+  ```
+  %load_ext autoreload
+  %autoreload 2
+  ```
+
+---
+
+
+# Zadatak
+
+Upotrebom IPython konzole:
+
+- kreirati niz od 100 celih brojeva iz intervala [1, 1000] tako da se brojevi
+  ne ponavljaju.
+- Pronaći minimalni i maksimalni element niza.
+- Sortirati niz u opadajućem redosledu.
+- Napraviti modul sa funkcijom koja vraća sortirani niz sa brojem elemenata
+  zadatim kao parametar.
+- Uraditi import ove funkcije u IPython sesiju.
+- Obrnuti smer sortiranja.
+- Uraditi *reload* modula u IPython-u bez restarta i verifikovati da je funkcija
+  izmenjena.
+
+Pomoć: `random` modul
+
+
+---
+
+# [PyCharm](http://www.jetbrains.com/pycharm/)
+
+
+![PyCharm](Python/PyCharm.png)
+
+---
+
+# PyCharm - osobine
+
+- Osnovne IDE operacije: navigacija, bojenje i dopuna koda, prikaz strukture
+  koda...
+- Podrška za analizu koda i refaktorisanje
+- Integrisani debager. Podrška za testiranje
+- Podrška za Django web framework, editovanje HTML i javaScript fajlova
+- Komercijalni (firma JetBrains) - dostupan u *Community* verziji
+- Pisan u Javi, radi na svim vodećim OS
+
+---
+
+# [Eclipse PyDev](http://pydev.org/)
+
+![PyDev](Python/PyDev.png)
+
+
+---
+
+# PyDev - osobine
+
+- Slobodan softver otvorenog koda.
+- Dostupan kao skup plugin-a za Eclipse
+- Osnovne operacije: navigacija, strukturni prikaz, bojenje i dopuna koda...
+- Podrška za refaktorisanje ali trenutno na nižem nivou od PyCharm.
+- Integrisani debager, interaktivna konzola, podrška za testiranje
+- Podrška za Django i Django template
+- Pisan u Javi, radi na svim vodećim OS
+
+
+---
+
+# Editori
+
+- vim, neovim
+- emacs
+- Sublime
+- Atom
+- ...
+
+
+
+---
+layout: false
+name: pakovanje
+class: center, middle
+
+# Pakovanje i distribucija aplikacija
+
+---
+layout: true
+
+.section[[Pakovanje](#sadrzaj)]
+
+---
+
+# Pakovanje i distribucija aplikacija u Python-u
+
+- setuptools
+- pip
+- PyPi
+- virtualenv
+- wheels
+
+
+
