@@ -1,5 +1,5 @@
 ---
-title: Open-Source projects
+title: FLOSS projects
 layout: page
 sidebar: true
 order: 1
