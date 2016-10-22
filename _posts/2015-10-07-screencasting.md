@@ -1,5 +1,6 @@
 ---
 title: Screencasting in ArchLinux
+layout: post
 ---
 
 Today I put some time in setting a screenrecording environment on my main

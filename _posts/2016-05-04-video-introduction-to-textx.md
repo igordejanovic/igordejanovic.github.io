@@ -1,5 +1,6 @@
 ---
 title: Video introduction to textX
+layout: post
 ---
 
 Finally got some time to record first video for

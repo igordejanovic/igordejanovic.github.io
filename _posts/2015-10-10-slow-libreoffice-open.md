@@ -1,5 +1,6 @@
 ---
 title: Slow Libre Office file opening
+layout: post
 ---
 
 If you are experiencing a several seconds delay while opening files with Libre

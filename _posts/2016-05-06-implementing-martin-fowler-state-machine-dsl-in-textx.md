@@ -1,5 +1,6 @@
 ---
 title: Implementing Martin Fowler's State Machine DSL in textX
+layout: post
 ---
 
 Well, you know what they say: "You aren't making a DSL tool if you haven't

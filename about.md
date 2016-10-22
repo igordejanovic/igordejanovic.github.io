@@ -1,6 +1,8 @@
 ---
-layout: page
 title: About
+layout: page
+sidebar: true
+order: 10
 ---
 
 <img style="margin: 10px;" align="left" src="/img/profile.jpg"/> I work as an
@@ -13,12 +15,12 @@ abstract and concrete syntaxes fully aligned with the domain. I always strive
 for simplicity - simple tools, simple processes.
 
 I am user, supporter, and developer of Free/Libre Open-Source Software. Check
-out my FLOSS projects at [github]({{ site.github }}).
+out my FLOSS projects at [github](https://github.com/{{ site.github }}).
 
 Some of my research is listed at [my university
 page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
 
-You can follow me on [twitter](https://twitter.com/dejanovicigor).
+You can follow me on [twitter](https://twitter.com/{{ site.twitter }}).
 
 ## OpenPGP info
 

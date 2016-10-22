@@ -1,12 +1,14 @@
 ---
 title: Open-Source projects
 layout: page
+sidebar: true
+order: 1
 ---
 
 ---
 
 Here are short descriptions of some of my FLOSS projects I like to hack on.  I
-use these tools in teaching [Domain-Specific Languages](../courses/) course.  
+use these tools in teaching [Domain-Specific Languages](courses.html) course.  
 
 ### [textX](../textX/)
 
@@ -19,7 +21,7 @@ the form of Python classes) and a parser for your language. Parser will parse
 expressions on your language and automatically build a graph of Python objects
 (i.e. the model) corresponding to the meta-model.
 
-Read more information [here](../textX/) or see the project on
+Read more information [here](textX/) or see the project on
 [GitHub](https://github.com/igordejanovic/textX).
 
 ### [Arpeggio](../Arpeggio/)
@@ -31,7 +33,7 @@ can be used for all sort of general purpose parsing.
 
 It is used as a parsing tehnology for textX.
 
-Read more information [here](../Arpeggio/) or see the project on
+Read more information [here](Arpeggio/) or see the project on
 [GitHub](https://github.com/igordejanovic/Arpeggio/).
 
 

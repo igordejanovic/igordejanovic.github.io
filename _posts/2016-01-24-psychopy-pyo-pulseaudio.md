@@ -1,5 +1,6 @@
 ---
 title: PsychoPy, Pyo and PulseAudio
+layout: post
 ---
 
 Today, while hacking on [pyFlies](https://github.com/igordejanovic/pyFlies) I

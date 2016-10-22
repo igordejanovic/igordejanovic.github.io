@@ -1,32 +1,34 @@
 ---
 title: Courses/Slides
 layout: page
+sidebar: true
+order: 2
 ---
 
 ---
 
 ## Slajdovi za predavanja
 
-- [Jezici specifični za domen (Domain-Specific Languages)](jsd)
+- [Jezici specifični za domen (Domain-Specific Languages)](courses/jsd.html)
 
-- [Upravljanje konfiguracijom softvera (Software Configuration Management)](uks)
+- [Upravljanje konfiguracijom softvera (Software Configuration Management)](courses/uks.html)
 
-- [Softverski obrasci i komponente](sok)
+- [Softverski obrasci i komponente](courses/sok.html)
 
 ## Tehnologije
 
-- [textX](tech/textX.html)
-- [Arpeggio](tech/Arpeggio.html)
-- [Programski jezik Python](tech/Python.html)
-- [Dependency Injection & Google Guice](tech/DependencyInjection.html)
-- [Django](tech/Django.html)
-- [Docker](tech/Docker.html)
-- [SWT & JFace](tech/SWT-JFace.html)
-  - [SWT&JFace examples](tech/SWT-JFace/STW-JFace-examples.tar.gz)
+- [textX](courses/tech/textX.html)
+- [Arpeggio](courses/tech/Arpeggio.html)
+- [Programski jezik Python](courses/tech/Python.html)
+- [Dependency Injection & Google Guice](courses/tech/DependencyInjection.html)
+- [Django](courses/tech/Django.html)
+- [Docker](courses/tech/Docker.html)
+- [SWT & JFace](courses/tech/SWT-JFace.html)
+  - [SWT&JFace examples](courses/tech/SWT-JFace/STW-JFace-examples.tar.gz)
 - Sistemi za kontrolu verzija
-  - [Uvod](tech/sistemi-za-kontrolu-verzija.html)
-  - [Git](tech/git.html)
-- [Eclipse RCP](tech/EclipseRCP.html)
+  - [Uvod](courses/tech/sistemi-za-kontrolu-verzija.html)
+  - [Git](courses/tech/git.html)
+- [Eclipse RCP](courses/tech/EclipseRCP.html)
 
 
 
