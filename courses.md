@@ -20,7 +20,7 @@ order: 2
 - [textX](courses/tech/textX.html)
 - [Arpeggio](courses/tech/Arpeggio.html)
 - [Programski jezik Python](courses/tech/Python.html)
-- [Dependency Injection & Google Guice](courses/tech/DependencyInjection.html)
+- [Dependency Injection & Google Guice](courses/tech/dependency-injection.html)
 - [Django](courses/tech/Django.html)
 - [Docker](courses/tech/Docker.html)
 - [SWT & JFace](courses/tech/SWT-JFace.html)
