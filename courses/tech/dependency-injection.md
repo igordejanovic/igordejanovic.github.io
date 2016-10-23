@@ -44,7 +44,7 @@ layout: true
 
 # Motivacija
 
-![Motivacija](DependencyInjection/Motivation.png)
+![Motivacija](dependency-injection/Motivation.png)
 
 ---
 
