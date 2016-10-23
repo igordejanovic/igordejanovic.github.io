@@ -436,7 +436,7 @@ stock = {
 
 # Upotreba
 name = stock["name"]
-value = stock["shares"] * shares["price"]
+value = stock["shares"] * stock["price"]
 
 # Upis vrednosti
 stock["shares"] = 75
@@ -659,8 +659,8 @@ Counting down!
 
 ```python
 >>> for i in countdown(5):
-...
-print i,
+      ...
+      print i,
 Counting down!
 5 4 3 2 1
 ```
@@ -1213,7 +1213,6 @@ c[0] = 2.0    # - II -
 >>> import sys
 >>> sys.getrefcount(a)
 7
->>>
 ```
 
 ---
@@ -1300,13 +1299,13 @@ items["append"] = nums.append
 >>> items["mod"].sqrt(4) #Poziva math.sqrt(4)
 2.0
 >>> try:
-...
-x = int("a lot")
-... except items["error"] as e:
-# Isto kao except ValueError as e
-...
-print("Couldn't convert")
-...
+      ...
+      x = int("a lot")
+    # Isto kao except ValueError as e
+    except items["error"] as e:
+      ...
+      print("Couldn't convert")
+    ...
 Couldn't convert
 >>> items["append"](100)  # nums.append(100)
 >>> nums
@@ -2229,7 +2228,7 @@ koji izračunava vrednosti na zahtev (lenja evaluacija).
 >>> a = [1, 2, 3, 4]
 >>> b = (10*i for i in a)
 >>> b
-&lt;generator object at 0x590a8>
+<generator object at 0x590a8>
 >>> b.next()
 10
 >>> b.next()
@@ -2866,6 +2865,7 @@ s = Sp()
 
 #  `import` - razni oblici (3)
 
+.medium[
 Import svih definicija u tekući prostor imena.
 ```python
 from spam import *
@@ -2891,6 +2891,7 @@ def foo():
 bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
       # definicija foo() iz ovog fajla
 ```
+]
 
 ---
 
