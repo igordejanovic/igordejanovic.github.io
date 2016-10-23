@@ -332,7 +332,7 @@ public class RealBillingServiceTest extends TestCase {
   - `Scope` - Identifies scope annotations.
   - `Singleton` - Identifies a type that the injector only instantiates once.
 
-.footnote[.ref[1] https://code.google.com/p/atinject/]
+.footer[.ref[1] https://code.google.com/p/atinject/]
 
 
 ---
