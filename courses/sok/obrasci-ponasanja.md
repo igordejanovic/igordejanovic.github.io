@@ -8,8 +8,6 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.small[Slajdovi u izradi]
-
 .created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
 
 
@@ -243,6 +241,7 @@ layout: true
   *Memento* objektu je moguć samo od strane Originator objekta.
 - Pojednostavljen dizajn *Originator* objekta – klijenti čuvaju stanje
   objekta kroz *Memento* objekat.
+- Bolja skalabilnost - čuvanje stanja se prepušta klijentima.
 - Korišćenje *Memento* objekata može biti problematično ukoliko je stanje
   *Originator*-a definisano velikom količinom podataka.
 - U nekim programskim jezicima je teško sprečiti pristup internoj strukturi
