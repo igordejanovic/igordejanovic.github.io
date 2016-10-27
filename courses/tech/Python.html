@@ -77,9 +77,7 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.small[Slajdovi u izradi]
-
-.created[23.10.2016 u 20:19]
+.created[28.10.2016 u 00:30]
 
 
 ---
@@ -2933,7 +2931,7 @@ s = Sp()
 
 ---
 
-#  `import` - razni oblici (3)
+# `import` - razni oblici (3)
 
 .medium[
 Import svih definicija u tekući prostor imena.
@@ -3007,7 +3005,6 @@ layout: true
 
 # IPython
 
-
 - Interaktivni *shell* sličan standardnom
 - Read-Eval-Print-Loop
 - Razvoj kroz eksperimentisanje
@@ -3019,7 +3016,7 @@ layout: true
 
 - Dopuna sa TAB tasterom
 - Istraživanje objekata sa ?
-- Autoreload modula
+- *Autoreload* modula
 - *Magic* funkcije
 
 
@@ -3124,7 +3121,7 @@ return normpath(path)
   uz očuvanje indentacije.
 - Za ovu namenu koristi se magična funkcija `%paste`
 
-```
+```python
 In [5]: %paste
 def napravi_klasu():
     class MojaKlasa(object):
@@ -3136,6 +3133,8 @@ def napravi_klasu():
 ```
 
 ---
+
+
 
 # Reload modula
 
@@ -3241,14 +3240,313 @@ layout: true
 
 # Pakovanje i distribucija aplikacija u Python-u
 
+- Distutils
 - setuptools
 - pip
 - PyPi
 - virtualenv
 - wheels
 
+---
+
+# Distutils
+
+- Standardna biblioteka za upravljanje paketima.
+- Dolazi uz instalaciju Pythona.
+
+---
+
+# Setuptools
+              
+- Naprednija verzija biblioteke za upravljanje paketima.
+- Dobrim delom kompatiblina sa Distutils
+- Podrazumenvano se instalira u virtuelno okruženje (`virtualenv`)
+
+---
+
+# `setup.py` fajl
+              
+- Metapodaci python paketa + informacije za *build*.
+- Primer:
+
+```python
+#!/usr/bin/env python
+
+from setuptools import setup
+#from distutils.core import setup
+
+setup(name='ImePaketa',
+      version='1.0',
+      description='Opis paketa',
+      author='Ime i prezime autora',
+      author_email='mailautora@negde.com',
+      url='http://ulrprojekta.com/',
+      packages=['prvipaket', 'drugipaket',
+                'drugipaket.podpaket'],
+     )
+```
+
+---
+          
+# Instalacija iz setup.py
+              
+Instalacija iz izvornog koda sa setup.py fajlom se obavlja komandom:
+
+```
+$  python setup.py install
+```
+
+---
+
+# Instalacija za razvoj
+
+Ukoliko k&ocirc;d koji želimo da instaliramo još uvek razvijamo a želimo da
+izbegnemo ponovnu instalaciju posle svake izmene potrebno je da instaliramo
+paket na sledeći način:
+
+```
+$ python setup.py develop
+```
+
+Za deinstalaciju razvojnog paketa koristi se:
 
 
+```
+$ python setup.py develop --uninstall
+```
+
+---
+
+# Zadatak
+
+- Kreirati fajl `gsearch.py` sa sadržajem sa sledećeg slajda.
+- Napraviti `setup.py` za njega i instalirati ga u *develop* modu.
+- Pokrenuti `IPyhon` sa proizvoljne lokacije i importovati `gsearch` modul.
+- Pozvati `search` funkciju.
+- Izmeniti `search` funkciju.
+- Importovati `gsearch` modul i verifikovati da je izmenjen.
+
+---
+
+# Primer
+
+.medium[
+
+```python
+#!/usr/bin/python3
+from urllib import parse, request
+import json
+
+def search(query):
+
+  url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&"
+
+  query = parse.urlencode( {'q' : query } )
+  response = request.urlopen (url + query ).read()
+  data = json.loads ( response.decode("utf-8") )
+  results = data [ 'responseData' ] [ 'results' ]
+
+  ret_results = []
+  for result in results:
+      title = result['title']
+      url = result['url']
+      ret_results.append((title, url))
+
+  return ret_results
+
+if __name__=="__main__":
+    for title, link in search("fakultet tehnickih nauka"):
+        print("{}   [{}]".format(title, link))
+```
+
+]
+
+.footer[Primer preuzet sa [ove adrese](http://www.pythonforbeginners.com/code-snippets-source-code/google-command-line-script/) i prilagođen kursu]
+
+
+---
+
+# Kreiranje distribucija iz `setup.py`
+
+- Kreiranje *source* distribucije:
+
+```
+$ python setup.py sdist
+```
+              
+- Kreiranje *binarne* distribucije:
+
+```
+$ python setup.py bdist
+```
+
+- Npr. kreiranje binarnog installera za windows se obavlja sledećom komandom:
+              
+```
+$ python setup.py bdist_wininst
+```
+
+
+---
+
+# Python wheels
+
+- Novi način distribucije paketa.
+- C ekstenzije su prekompajlirane za ciljnu platformu.
+- Brža instalacija.
+
+Kreiraju se sa:
+
+```
+$ python setup.py bdist_wheel
+```
+
+---
+
+# Python Package Index - PyPI
+
+- PyPI (**Py**thon **P**ackage **I**ndex) predstavlja repozitorijum python
+  paketa.
+- Dostupan je na adresi https://pypi.python.org/
+- Paketi se mogu pretraživati i prezimati putem web interfejsa ali i putem `pip`
+  alata.
+
+---
+
+# `pip` alat
+
+
+Osnovne komande:
+
+.lcol[
+
+- Pretraga paketa po nazivu:
+
+        pip search deo_imena
+- Instalacija paketa:
+
+        pip install ime_paketa
+- Prikaz instaliranih paketa:
+
+        pip list
+]
+
+.rcol[
+
+- *Upgrade* paketa:
+
+        pip install --upgrade ime_paketa
+- Deinstalacija paketa:
+
+        pip uninstall ime_paketa
+]
+
+
+---
+
+# virtualenv
+
+- Problem sa zavisnošću i kolizijom između verzija.
+- `virtualenv` omogućava kreiranje izolovanih Python okruženja sa svojim skupom
+  paketa.
+- Kada se aktivira određeno okruženje, sistemski paketi kao i paketi iz drugih
+  okruženja se ne vide.
+- Kreiranje novog okruženja:
+             
+```bash
+$ virtualenv JSD
+Using base prefix '/usr'
+New python executable in /home/igor/VirtualEnvs/JSD/bin/python3
+Also creating executable in /home/igor/VirtualEnvs/JSD/bin/python
+Installing setuptools, pip, wheel...done.
+$
+```
+
+---
+
+# Aktivacija virtuelnog okruženja
+
+
+```bash
+$ source JSD/bin/activate
+(JSD)$
+```
+
+Listanje paketa u okruženju:
+
+```bash
+(JSD)$ pip list
+pip (8.1.2)
+setuptools (28.6.1)
+wheel (0.30.0a0)
+(JSD)$
+```
+
+- U okruženju se podrazumevano ne vide sistemski paketi.
+- Okruženje je izolovano od drugih okruženja.
+
+---
+
+# Instalacija paketa u virtuelno okruženje
+
+
+.medium[
+```bash
+(JSD)$ pip install textX
+Collecting textX
+  Downloading textX-1.4.tar.gz
+Collecting Arpeggio (from textX)
+  Downloading Arpeggio-1.5.tar.gz
+Building wheels for collected packages: textX, Arpeggio
+  Running setup.py bdist_wheel for textX ... done
+  Stored in directory: /home/igor/.cache/pip/wheels/...
+  Running setup.py bdist_wheel for Arpeggio ... done
+  Stored in directory: /home/igor/.cache/pip/wheels/...
+Successfully built textX Arpeggio
+Installing collected packages: Arpeggio, textX
+Successfully installed Arpeggio-1.5 textX-1.4
+```
+
+Sada se Django biblioteka nalazi u aktivnom okruženju:
+```bash
+(JSD)$ pip list
+Arpeggio (1.5)
+pip (8.1.2)
+setuptools (28.6.1)
+textX (1.4)
+wheel (0.30.0a0)
+(JSD)$
+```
+]
+
+---
+
+# Zadatak
+              
+- Kreirati novo virtuelno okruženje <em>JSD</em>
+- Aktivirati ga
+- Instalirati sledeće pakete: `IPython`, `Arpeggio`, `textX`, `Django`
+- Izlistati sve instalirane pakete
+- Deinstalirati paket `Django`
+- Konfigurisati PyDev da prepoznaje pakete iz novog okruženja. Ovo se može
+  verifikovati sa:
+
+```python
+import arpeggio
+```
+
+- Ukoliko `arpeggio` nije na putanji PyDev će označiti grešku da modul ne
+  postoji.
+              
+
+---
+
+# Reference
+
+- Beazley, David M. *Python essential reference*. Addison-Wesley Professional, 2009.
+- [Python dokumentacija](https://docs.python.org/3/)
+- [virtualenv dokumentacija](http://virtualenv.readthedocs.org/en/latest/virtualenv.html)
+- [pip dokumentacija](https://pip.readthedocs.org/en/latest/)</a>
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
