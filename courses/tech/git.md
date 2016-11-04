@@ -25,7 +25,7 @@ name: sadrzaj
 - [Grane](#grane)
 - [Spajanje grana (*Merging*)](#merging)
 - [Razmena promena](#razmena)
-- [Ispravka grešaka](#greske)
+- [Ispravke grešaka](#greske)
 - [Održavanje repozitorijuma](#odrzavanje)
 - [Modeli grananja](#modeli)
 - [Preporučena praksa](#praksa)
@@ -1142,6 +1142,18 @@ Ili upotrebom fajlova (mejlom, na prenosnom disku i sl.).
   $ git am *.patch
   ```
 
+
+---
+name: greske
+layout: false
+class: center, middle
+
+# Ispravke grešaka
+
+---
+layout: true
+
+.section[[Ispravke](#sadrzaj)]
 
 ---
 
