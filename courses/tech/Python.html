@@ -37,11 +37,6 @@
         .rcol-wide { width: 59%; float: right; }
         .rcol-narrow { width: 39%; float: right; }
         .wide { clear: both; }
-        .image_small, .image_medium, .image_50, .image_60 { text-align: center; }
-        .image_medium img { width: 85%; }
-        .image_small img { width: 70%; }
-        .image_60 img { width: 60%; }
-        .image_50 img { width: 50%; }
 
         code { -moz-border-radius: 5px; -web-border-radius: 5px; border-radius: 5px; }
         a { color: #2c495b; text-decoration: none; }
@@ -85,7 +80,7 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.created[04.11.2016 u 12:45]
+.created[07.11.2016 u 17:08]
 
 
 ---
@@ -3560,11 +3555,16 @@ import arpeggio
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create({
-                highlightLanguage: 'python',
-                highlightStyle: 'obsidian',
-                highlightLines: true
-            });
+        // https://github.com/gnab/remark/issues/72
+        remark.macros.scale = function (percentage) {
+            var url = this;
+            return '<img src="' + url + '" style="width: ' + percentage + '" />';
+        };
+        var slideshow = remark.create({
+                    highlightLanguage: 'python',
+                    highlightStyle: 'obsidian',
+                    highlightLines: true
+                });
     </script>
   </body>
 </html>
