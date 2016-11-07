@@ -15,7 +15,7 @@ layout: page
     - [Composite primer](sok/primeri/structural.composite.zip)
     - [Proxy primer](sok/primeri/structural.proxy.zip)
 1. [Obrasci ponašanja](sok/obrasci-ponasanja.html)
-1. [Dependency Injection & Google Guice](tech/DependencyInjection.html)
+1. [Dependency Injection](tech/dependency-injection.html)
 1. [Razvoj baziran na komponentama](sok/7-razvoj-baziran-na-komponentama.html)
 1. [SWT & JFace](tech/SWT-JFace.html)
    - [SWT&JFace examples](tech/SWT-JFace/STW-JFace-examples.tar.gz)
