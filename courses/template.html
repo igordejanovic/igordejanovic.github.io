@@ -37,11 +37,15 @@
         .rcol-wide { width: 59%; float: right; }
         .rcol-narrow { width: 39%; float: right; }
         .wide { clear: both; }
-        .image_small, .image_medium, .image_50, .image_60 { text-align: center; }
+        .image_small, .image_medium,
+        .image_20, .image_30, .image_50, .image_60 { text-align: center; }
+        .remark-slide img { text-align: center; }
         .image_medium img { width: 85%; }
         .image_small img { width: 70%; }
         .image_60 img { width: 60%; }
         .image_50 img { width: 50%; }
+        .image_30 img { width: 30%; }
+        .image_20 img { width: 20%; }
 
         code { -moz-border-radius: 5px; -web-border-radius: 5px; border-radius: 5px; }
         a { color: #2c495b; text-decoration: none; }
@@ -82,11 +86,16 @@
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create({
-                highlightLanguage: 'python',
-                highlightStyle: 'obsidian',
-                highlightLines: true
-            });
+        // https://github.com/gnab/remark/issues/72
+        remark.macros.scale = function (percentage) {
+            var url = this;
+            return '<img src="' + url + '" style="width: ' + percentage + '" />';
+        };
+        var slideshow = remark.create({
+                    highlightLanguage: 'python',
+                    highlightStyle: 'obsidian',
+                    highlightLines: true
+                });
     </script>
   </body>
 </html>

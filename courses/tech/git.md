@@ -29,6 +29,7 @@ name: sadrzaj
 - [Održavanje repozitorijuma](#odrzavanje)
 - [Modeli grananja](#modeli)
 - [Preporučena praksa](#praksa)
+- [O implementaciji](#implementacija)
           
 ---
 name: uvod
@@ -694,8 +695,8 @@ layout: true
 
 ## Kako to sve izgleda u repozitorijumu
 
-.image_small[
-![DAG](git/DAG.svg)
+.center[
+![:scale 70%](git/DAG.svg)
 ]
 
 .medium[
@@ -977,8 +978,8 @@ layout: true
 Ukoliko je polazni commit grane koju spajamo jednak vrhu tekuće grane git će
 podrazumevano da uradi tzv. *fast-forward* merge.
 
-.image_medium[
-![Fast-forward merge](git/Merge-ff.svg)
+.center[
+![:scale 85%](git/Merge-ff.svg)
 ]
 
 ---
@@ -989,8 +990,8 @@ Ukoliko se želi zadržati informacija o tome da je postojao alternativni tok
 (grana) može se proslediti parametar `--no-ff` čime se merge obavlja na klasičan
 način.
 
-.image_medium[
-![No fast-forward merge](git/Merge-no-ff.svg)
+.center[
+![:scale 85%](git/Merge-no-ff.svg)
 ]
 
 ---
@@ -1337,8 +1338,8 @@ $ git rebase ––continue
   git reflog
   ```
 
-.image_60[
-![Reflog](git/reflog.png)
+.center[
+![:scale 60%](git/reflog.png)
 ]
 
 
@@ -1583,7 +1584,153 @@ $ git svn dcommit
 
 
 ---
+name: implementacija
+class: center, middle
+layout: false
+
+# Implementacija
+
+---
+layout: true
+
+.section[[Implementacija](#sadrzaj)]
+
+---
+
+# Git repozitorijum
+
+- **Objektna baza**: Jednostavan model repozitorijuma baziran na mapama (parovi
+  ključ-vrednost).
+- Ključevi su **SHA1 heš sadržaja** koji se čuva + hedera.
+- **Tri vrste objekata/vrednosti**. Sadržaj se komprimuje pomoću *zlib* biblioteke.
+- Reference - *pokazivači* na određene objekte u repozitorijumu.
+- Repozitorijum se nalazi u **.git** direktorijumu unutar direktorijuma gde je
+    izvršena inicijalizacija sa `git init` komandom (videti u nastavku).
+
+---
+
+# Vrste git objekata
+
+Repozitorijum je objektna baza gde postoje tri vrste objekata:
+
+- **Blob:** Niz bajtova bez semantike. Najčešće služi za opis sadržaja fajla.
+- **Stablo(Tree):** Čuva niz referenci na blobove i druga podstabla zajedno sa
+  meta-podacima kao što su: naziv fajla, mod i sl.
+- **Commit:** "Pokazivač" na stablo koje opisuje kako je projekat izgledao u
+  trenutku *commit*-a. Osim toga sadrži niz meta-informacija kao što su autor,
+  vreme nastanka, pokazivače na prethodne *commit*-e i dr.
+
+
+---
+
+# Vrste git objekata
+
+- Svi objekti su smešteni na isti način u `.git/objects` direktorijumu. Prva dva
+  karaktera *SHA1* heša čine naziv poddirektorijuma dok preostalih 38 čini ime
+  fajla.
+- Na primer:
+  `.git/obects/bb/82d56602c51c7998911b2d07e84e25a942a028`
+- Gotovo sve Git operacije se baziraju na manipulaciji sa strukturom koja se
+  sastoji od objekata čiji tip je jedan od navedenih.
+  
+---
+
+# BLOB
+
+Niz bajtova bez semantike i metapodataka. Najčešće služi za
+opis sadržaja fajla.
+
+```java
+blob 107\0
+class MainClass {
+  static void main(int argc, String[] argv) {
+    System.out.println("Hello World!");
+  }
+}
+```
+.center[
+![:scale 30%](git/blob.svg)
+]
+
+---
+
+# *Tree*
+
+- Čuva niz referenci na blobove i druga podstabla zajedno sa meta-podacima kao
+  što su: naziv fajla, mod i sl.
+- Rekurzivne reference na druga stabla.
+- Struktura tree objekta:
+
+  ```
+  tree 64\0
+  100644 blob 8e0462460e55357686a844cfd27564ab5a6055a6 README
+  040000 tree 1d6a41c11d3557faae7522bc2af7042e8723e63a src
+  ```
+.center[
+![:scale 30%](git/tree.svg)
+]
+
+
+---
+
+# *Commit*
+
+- Sadrži informacije o trajnoj zabelešci (*commit*): referenca na stablo
+  (*tree*), autor, osobu koja je kreirala zabelešku (*commiter*), datum i vreme
+  nastanka kao i vezu prema pretodnim zbeleškama.
+
+Struktura commit objekta:
+```
+commit 195\0
+tree c7984074ae6aae0bb8b087ca0a5bd6026b108528
+author Igor Dejanovic <igor.dejanovic@gmail.com> 1350920069 +0200
+committer Igor Dejanovic <igor.dejanovic@gmail.com> 1350920069 +0200
+Prvi commit.
+```
+.center[
+![:scale 20%](git/commit.svg)
+]
+
+
+---
+
+# Prvi *commit*
+
+
+.center[![:scale 40%](git/prvi-commit.svg)]
+
+---
+
+# Drugi *commit*
+
+.center[![:scale 80%](git/drugi-commit.svg)]
+
+---
+
+# Reference
+
+- Pokazivači na objekte u git repozitorijumu (najčešće *commit*-e).
+- Smeštene u `.git/refs` direktorijumu.
+- Dele se na:
+  - **glave (heads)** koje predstavljaju pokazivač na poslednji *commit* sa grane.
+  - **oznake (tags)** koji predstavljaju obeleživač/marker *commit*-a koji je, na
+    neki način, poseban. Na primer, možemo označiti određenu verziju projekta.
+- Specijalna referenca `HEAD` pokazuje na glavu koja je tekuća čime označava granu
+  na kojoj se radna kopija trenutno nalazi. Smeštena je u `.git/HEAD` fajlu.
+- Navode se prema putanji u `refs` folderu (npr. `refs/heads/master`).
+
+---
+
+# Git repozitorijum sa objektima i referencama
+
+.center[![:scale 100%](git/git-repo.svg)]
+
+---
+
 
 # Literatura
 
-TODO
+- Scott Chacon, Ben Straub: *Pro Git*, Apress, 2014.
+  Dostupna na: https://git-scm.com/book/en/v2
+- Git dokumentacija - https://git-scm.com/doc
+
