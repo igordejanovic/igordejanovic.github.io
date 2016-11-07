@@ -79,14 +79,13 @@
 class: center, middle
 
 # Umetanje zavisnosti - *Dependency Injection*
-## Google Guice
 
 .author[ [Igor Dejanović](http://igordejanovic.net/) ]
 
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.created[04.11.2016 u 12:45]
+.created[07.11.2016 u 12:29]
 
 
 ---
@@ -98,6 +97,8 @@ name: sadrzaj
 - [Motivacija](#motivacija)
 - [*Dependency Injection*](#di)
 - [Google Guice](#guice)
+- [Injector](#injector)
+- [Flask-Injector](#flask-injector)
 
 ---
 name: motivacija
@@ -653,16 +654,202 @@ bind(Bar.class).to(Applebees.class).in(Singleton.class);
 bind(Grill.class).to(Applebees.class).in(Singleton.class);
 ```
 
+
+---
+name: injector
+class: center, middle
+layout: false
+
+# Injector
+
+---
+layout: true
+
+.section[[Injector](#sadrzaj)]
+
+---
+
+# Injector
+
+- https://github.com/alecthomas/injector
+- Python biblioteka za DI modelovana prema *Google Guice* ali sa *Pythonic API*.
+
+
+---
+
+# Jednostavan primer
+
+```python
+>>> from injector import Injector, inject
+>>> class Inner(object):
+...     def __init__(self):
+...         self.forty_two = 42
+...
+>>> class Outer(object):
+...     @inject
+...     def __init__(self, inner: Inner):
+...         self.inner = inner
+...
+>>> injector = Injector()
+>>> outer = injector.get(Outer)
+>>> outer.inner.forty_two
+42
+```
+
+.footer[
+   Python type hints - https://docs.python.org/3/library/typing.html
+]
+
+
+---
+
+# Složeniji primer
+
+.medium[
+```python
+from injector import Key
+Name = Key('name')
+Description = Key('description')
+
+```
+
+```python
+from injector import inject, provider, Module
+
+class User(object):
+    @inject
+    def __init__(self, name: Name, description: Description):
+        self.name = name
+        self.description = description
+
+
+class UserModule(Module):
+    def configure(self, binder):
+       binder.bind(User)
+
+
+class UserAttributeModule(Module):
+    def configure(self, binder):
+        binder.bind(Name, to='Sherlock')
+
+    @provider
+    def describe(self, name: Name) -> Description:
+        return '%s is a man of astounding insight' % name
+```
+]
+
+.footer[
+   http://injector.readthedocs.io/en/latest/terminology.html#injection
+]
+
+
+---
+
+# Složeniji primer
+
+```python
+from injector import Injector
+injector = Injector([UserModule(), UserAttributeModule()])
+```
+
+ili 
+
+```python
+injector = Injector([UserModule, UserAttributeModule])
+```
+
+Upotreba:
+
+.medium[
+.lcol[
+```python
+>>> injector.get(Name)
+'Sherlock'
+>>> injector.get(Description)
+'Sherlock is a man of astounding insight'
+```
+]
+.rcol[
+```python
+>>> user = injector.get(User)
+>>> isinstance(user, User)
+True
+>>> user.name
+'Sherlock'
+>>> user.description
+'Sherlock is a man of astounding insight'
+```
+]
+]
+
+
+---
+name: flask-injector
+class: center, middle
+layout: false
+
+# Flask injector
+
+---
+layout: true
+
+.section[[Flask injector](#sadrzaj)]
+
+---
+
+# Flask injector
+
+- Veza između `injector` biblioteke i `Flask` okvira za razvoj.
+
+---
+
+# Primer upotrebe
+
+.medium[
+```python
+import sqlite3
+from flask import Flask, Config
+from flask.views import View
+from flask_injector import FlaskInjector
+from injector import inject
+
+app = Flask(__name__)
+
+@app.route("/bar")
+def bar():
+    return render("bar.html")
+
+@app.route("/foo")
+@inject(db=sqlite3.Connection)
+def foo(db):
+    users = db.execute('SELECT * FROM users').all()
+    return render("foo.html")
+    
+def configure(binder):
+    binder.bind(
+        sqlite3.Connection,
+        to=sqlite3.Connection(':memory:'),
+        scope=request,
+    )
+
+FlaskInjector(app=app, modules=[configure])
+
+app.run()
+```
+]
+
 ---
 layout: false
 
 # Reference
 
-- [Google Guice Wiki](https://github.com/google/guice/wiki)
 - [Dependency Injection on
   Wikipedia](https://en.wikipedia.org/wiki/Dependency_injection)
 - Martin Fowler, [Inversion of Control Containers and the Dependency Injection
   pattern](http://www.martinfowler.com/articles/injection.html), January 2004.
+- [Google Guice Wiki](https://github.com/google/guice/wiki)
+- [`Injector` dokumentacija](http://injector.readthedocs.io/en/latest/)
+- [`Flask Injector` projekat](https://github.com/alecthomas/flask_injector)
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
