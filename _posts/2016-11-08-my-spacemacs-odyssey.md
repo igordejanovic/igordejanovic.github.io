@@ -107,7 +107,7 @@ files.
 # At the end
 
 All in all, this was a pleasant experience for me. After a two weeks of using
-spacemacs I can say that I feel fully productive and the journey have just
+spacemacs I can say that I feel fully productive and the journey has just
 begun. I still get impressed by spac(emacs) features every day. Although still
 in beta it is really well thought-out distribution with a nice configuration and
 set of defaults and packages.
