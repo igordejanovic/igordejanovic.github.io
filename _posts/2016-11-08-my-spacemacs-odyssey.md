@@ -1,6 +1,5 @@
 ---
 title:  My Spacemacs Odyssey
-date:   2016-11-08 18:00:00
 layout: post
 ---
 
@@ -18,6 +17,8 @@ to [Evil mode](https://www.emacswiki.org/emacs/Evil), a vim-like modal editing
 support which is enabled by default in spacemacs. Evil works remarkably good,
 even some often used plugins are ported like, for
 example, [surround](https://github.com/tpope/vim-surround).
+
+<!--more-->
 
 First impression are default settings which are most of the time just what I
 want. Configuration is done in `.spacemacs` file which is well organized and

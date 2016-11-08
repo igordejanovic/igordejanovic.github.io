@@ -14,6 +14,8 @@ For shell stuff I use [zsh](http://zsh.sourceforge.net/) and great set of
 configurations/addition [Oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh).
 If you haven't try it yet, you don't know what are you missing.
 
+<!--more-->
+
 [Terminator](http://gnometerminator.blogspot.rs/p/introduction.html) is my
 terminal emulator of choice. It has some great features like:
 

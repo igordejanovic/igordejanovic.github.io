@@ -13,6 +13,8 @@ in the field of DSLs you should definitely read this book.  There is an [excerpt
 from the book](http://www.informit.com/articles/article.aspx?p=1592379&seqNum=1)
 available on-line so I advise you to read it before watching the video below.
 
+<!--more-->
+
 Another book which I also highly recommend is [DSL Engineering: Designing,
 Implementing and Using Domain-Specific Languages](http://dslbook.org/) by
 [Markus Völter](http://voelter.de/about). Also an excelent read, although

@@ -16,6 +16,9 @@ it is just a
 
 away.
 
+
+<!--more-->
+
 A nice addition to screencast is a small webcam image in the corner. I find a
 screencast more personal and appealing when I can actually see a presenter.  I
 tried several webcam apps but all of them was to much for what I was trying to
