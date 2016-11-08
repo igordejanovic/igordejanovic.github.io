@@ -7,7 +7,7 @@ layout: post
 I'm a long time vim user and I just love vim modal editing approach. But, I
 always admired Emacs extensibity, introspection and self-documenting
 capabilities. Although I gave Emacs a try couple of times in the past I just
-couldn't get used to non-model editing and cumbersome finger-stretching keyboard
+couldn't get used to non-modal editing and cumbersome finger-stretching keyboard
 bindings. For some time I was keeping an eye
 on [spacemacs](http://spacemacs.org/), emacs distribution geared towards vim
 users. It looked like a perfect blend of vim and emacs so I gave it a try.
