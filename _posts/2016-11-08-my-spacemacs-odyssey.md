@@ -23,7 +23,7 @@ example, [surround](https://github.com/tpope/vim-surround).
 First impression are default settings which are most of the time just what I
 want. Configuration is done in `.spacemacs` file which is well organized and
 commented. Much of the functionality is accessible using key combination
-starting with space bar (hence the name of the distribution) following by a
+starting with space bar (hence the name of the distribution) followed by a
 letter which is easy to remember most of the time (`SPC b` - for buffer actions,
 `SPC f` - for file actions, `SPC p` - for project actions etc.). If you don't
 know the right key that proceeds a helpful popup is displayed with the keys that
@@ -50,7 +50,7 @@ our life easier. Here are some comments on few of them.
 selection narrowing framework. It is integrated with most packages that provides
 a list to select from. I was very impressed by
 a [helm-swoop](https://www.emacswiki.org/emacs/HelmSwoop) functionality which I
-use know most of the time to search inside the buffer.
+use most of the time now to search inside the buffer.
 
 The functionality similar to this can be achieved in vim
 using [unite](https://github.com/Shougo/unite.vim) but helm feels more powerful
@@ -65,8 +65,8 @@ interface. Keybindings are easier to grasp and the way of work is just more
 logical. For fugitive It took me quite some time to get to the speed.
 
 To call magit status use `SPC g s` or to call magit menu `SPC g m`. `SPC g` is
-prefix for some of the Magit commands. Check out blame mode, it is really nice
-`SPC g b`.
+prefix for some of the more frequently used Magit commands. Check out blame
+mode, it is really nice `SPC g b`.
 
 
 # flycheck
