@@ -1,77 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>UKS osnove</title>
-    <meta charset="utf-8">
-    <style>
-        @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
-        @import url(https://fonts.googleapis.com/css?family=Roboto);
-        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-
-        body { font-family: 'Roboto'; }
-        h1, h2, h3 {
-            font-family: 'Roboto Condensed';
-            font-weight: normal;
-        }
-        .remark-slide-content h1 { font-size: 50px; }
-        .remark-slide-content h2 { font-size: 40px; }
-        .remark-slide-content h3 { font-size: 30px; }
-        .remark-slide-content img { width: 100%; }
-        blockquote {
-          font-style: italic;
-          font-size: 130%;
-          margin-top: 10px;
-          margin-bottom: 10px;
-          margin-left: 50px;
-          padding-left: 15px;
-          border-left: 3px solid #ccc;
-        }
-        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-        .remark-inline-code { font-weight: bold; }
-
-        /* Two-column layout */
-        .lcol { width: 49%; float: left; }
-        .rcol { width: 49%; float: right; }
-        .lcol-narrow { width: 39%; float: left; }
-        .lcol-wide { width: 59%; float: left; }
-        .rcol-wide { width: 59%; float: right; }
-        .rcol-narrow { width: 39%; float: right; }
-        .wide { clear: both; }
-
-        code { -moz-border-radius: 5px; -web-border-radius: 5px; border-radius: 5px; }
-        a { color: #2c495b; text-decoration: none; }
-        .remark-slide-content { font-size: 25px; }
-        ul>li, ol>li { margin-top: 5px; }
-        .section { font-size:20px; float:right; clear:both; }
-        .small, .small .remark-code-line { font-size: 60%;  }
-        .medium, .medium .remark-code-line { font-size: 80%; }
-        .size-90, .size-90 .remark-code-line { font-size: 90%; }
-        .size-85, .size-85 .remark-code-line { font-size: 85%; }
-        .multicode pre { margin-top: 10px; margin-bottom: 10px; }
-        .attention { -moz-border-radius: 5px; -web-border-radius: 5px; border-radius: 5px;
-            background-color: #fbd2d2; text-align: center; }
-        .attention p { margin: 10px; }
-        .footer { position: absolute; bottom: 12px; left: 20px; font-size: 70%; }
-        .footer, li > p { margin:0; }
-        .ref { color:red; vertical-align: super; font-size: 70%; }
-        .created { font-size: 40%; margin-bottom: 2em; }
-        .created:before {
-          content: "Kreirano: ";
-        }
-    </style>
-    <!-- google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-68681917-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </head>
-  <body>
-    <textarea id="source">
-
 class: center, middle
 
 # Upravljanje konfiguracijom softvera
@@ -82,7 +8,7 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.created[17.11.2016 u 17:05]
+.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
 
 
 ---
@@ -531,22 +457,3 @@ sledeće aktivnosti:
    ed., 2010.
 
 
-
-    </textarea>
-    <script src="../remark-latest.min.js">
-    </script>
-    <script>
-        // https://github.com/gnab/remark/issues/72
-        remark.macros.scale = function (percentage) {
-            var url = this;
-            return '<div class="center"><img src="' + url + '" style="width: ' + percentage + '" /></div>';
-        };
-        var slideshow = remark.create({
-                    highlightLanguage: 'python',
-                    // highlightStyle: 'obsidian',
-                    highlightStyle: 'github',
-                    highlightLines: true
-                });
-    </script>
-  </body>
-</html>
