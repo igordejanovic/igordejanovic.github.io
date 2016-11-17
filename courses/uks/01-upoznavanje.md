@@ -114,78 +114,17 @@ class: center, middle
 
 ## Projekat - raspodela bodova
 
-<!--
+.medium.center-table[
 | Aktivnost               | Bodovi |
-|-------------------------|--------|
-| <l>                     | <c>    |
-| Model                   | 6      |
-| Implementacija projekta | 20     |
-| Implementacija testova  | 6      |
-| Git                     | 10     |
-| GitHub                  | 10     |
-| SCM                     | 8      |
-|-------------------------|--------|
+|-------------------------|:------:|
+| Model                   |      6 |
+| Implementacija projekta |     20 |
+| Implementacija testova  |      6 |
+| Git                     |     10 |
+| GitHub                  |     10 |
+| SCM                     |      8 |
 | **Ukupno**              | **60** |
--->
-
-<style type="text/css">
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-</style>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-center" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Aktivnost</th>
-<th scope="col" class="org-center">Bodovi</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Model</td>
-<td class="org-center">6</td>
-</tr>
-
-<tr>
-<td class="org-left">Implementacija projekta</td>
-<td class="org-center">20</td>
-</tr>
-
-<tr>
-<td class="org-left">Implementacija testova</td>
-<td class="org-center">6</td>
-</tr>
-
-<tr>
-<td class="org-left">Git</td>
-<td class="org-center">10</td>
-</tr>
-
-<tr>
-<td class="org-left">GitHub</td>
-<td class="org-center">10</td>
-</tr>
-
-<tr>
-<td class="org-left">SCM</td>
-<td class="org-center">8</td>
-</tr>
-</tbody>
-<tbody>
-<tr>
-<td class="org-left"><b>Ukupno</b></td>
-<td class="org-center"><b>60</b></td>
-</tr>
-</tbody>
-</table>
+]
 
 .paznja[I pored timskog rada svi bodovi se dobijaju individualno.]
 
