@@ -39,7 +39,7 @@ layout: true
 
 ---
 
-# Šta je jezik?
+## Šta je jezik?
             
 - Komunikacija misli i osećanja sistemom znakova kao što su zvuci, gestovi ili
   pisani simboli .ref[1].
@@ -53,7 +53,7 @@ layout: true
             
 ---
 
-# Šta je softverski jezik?
+## Šta je softverski jezik?
             
 - Jezik korišćen u komunikaciji čovek-računar ili računar-računar.
 - U varijanti čovek-računar težimo da jezik bude lak za razumevanje od strane
@@ -64,7 +64,7 @@ layout: true
   
 ---
 
-# Šta domen?
+## Šta domen?
 
 - Sfera delovanja, interesa ili funkcije .ref[1].
 - Oblast znanja, uticaja, ili delovanja .ref[2].
@@ -111,7 +111,7 @@ layout: true
 
 ---
 
-# SQL
+## SQL
 
 ```sql
 SELECT player, stadium
@@ -120,7 +120,7 @@ SELECT player, stadium
 
 ---
 
-# JPA mapiranje
+## JPA mapiranje
 
 ```java
 @Entity
@@ -148,23 +148,21 @@ public class Course {
 
 ---
 
-# Build jezici (Ant/Maven/Gradle)
+## Build jezici (Ant/Maven/Gradle)
 
 ![](03-uvod/Ant-Maven-Gradle.png)
 
 ---
 
-# Poslovni procesi - BPMN
+## Poslovni procesi - BPMN
 
 ![](03-uvod/BPMN.png)
 
 ---
 
-# Mobilne aplikacije
+## Mobilne aplikacije
 
-.center[
-  ![:scale 80%](03-uvod/MobilneAplikacije.png)
-]
+![:scale 80%](03-uvod/MobilneAplikacije.png)
 
 .footer[
   Kelly, S. & Tolvanen, J.-P. *Domain-Specific Modeling: Enabling Full Code
@@ -173,29 +171,27 @@ public class Course {
             
 ---
 
-# Ali i...
+## Ali i...
 
 ![](03-uvod/MusicNotation-External.png)
 
 ---
 
-# ili...
+## ili...
 
 ![:scale 90%](03-uvod/ChessNotation.png)
 
 
 ---
 
-# pa čak i...
+## pa čak i...
 
-.center[
 ![:scale 60%](03-uvod/saobracajni-znaci.jpg)
-]
 
 
 ---
 
-# Kada jezik smatramo JSD-om?
+## Kada jezik smatramo JSD-om?
 
 - Zavisi od toga šta nam je domen.
 - Jezik može biti više ili manje prilagođen nekom domenu.
@@ -224,7 +220,7 @@ layout: true
 ---
 
 
-# Uticaj na produktivnost
+## Uticaj na produktivnost
 
 - Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000% .ref[1].
 - Šta je osnovni razlog za povećanje produktivnosti?
@@ -236,7 +232,7 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
   
 ---
 
-# Problem mentalnog mapiranja
+## Problem mentalnog mapiranja
 
 ![](03-uvod/MentalnoMapiranje-1.svg)
 
@@ -247,7 +243,7 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
 
 ---
 
-# Rešenje upotrebom JSD
+## Rešenje upotrebom JSD
 
 ![](03-uvod/MentalnoMapiranje-2.svg)
 
@@ -259,7 +255,7 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
 ---
 
 
-# Zašto JSD?
+## Zašto JSD?
 
 - JSD su koncizniji od jezika opšte namene što omogućava korisnicima da jasnije
   iskažu svoju nameru.
@@ -294,7 +290,7 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
 
 ---
 
-# Uticaj na evoluciju aplikacije
+## Uticaj na evoluciju aplikacije
 
 - Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
   dužim životnim vekom aplikacije.
@@ -318,16 +314,13 @@ layout: true
 
 ## Arhitektura bazirana na prevodiocima
 
-.center[
 ![:scale 60%](03-uvod/Arhitektura-kompajler.svg)
-]
 
 ---
 
 
 ## Arhitektura bazirana na interpreterima
 
-.center[
 ![](03-uvod/Arhitektura-interpreter.svg)
 
 
@@ -355,7 +348,7 @@ Kao i svaki softverski jezik i JSD se sastoji od:
 ---
 
 
-# Apstraktna sintaksa
+## Apstraktna sintaksa
 
 - Određuje pravila validnosti iskaza sa stanovišta njegove strukture.
 - Definiše koncepte domena, njihove osobine i međusobne relacije
@@ -371,9 +364,7 @@ Kao i svaki softverski jezik i JSD se sastoji od:
 
 ## Primer - apstraktna sintaksa jezika za opis konačnih automata
 
-.center[
 ![:scale 90%](03-uvod/StateMachine.svg)
-]
 
 .footer[
   I. Dejanović, *Prilog metodama brzog razvoja softvera na bazi proširivih
@@ -383,7 +374,7 @@ Kao i svaki softverski jezik i JSD se sastoji od:
 
 ---
 
-# Stablo apstraktne sintakse
+## Stablo apstraktne sintakse
 
 - Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
   apstraktne sintakse (*Abstract Syntax Tree*).
@@ -394,9 +385,7 @@ Kao i svaki softverski jezik i JSD se sastoji od:
 
 ## Primer stabla apstraktne sintakse
 
-.center[
 ![:scale 70%](03-uvod/AbstractSyntaxTree.svg)
-]
 
 .footer[
 http://en.wikipedia.org/wiki/Abstract_syntax_tree
@@ -404,7 +393,7 @@ http://en.wikipedia.org/wiki/Abstract_syntax_tree
 
 ---
 
-# Konkretna sintaksa
+## Konkretna sintaksa
 
 - Da bi mogli da prikažemo iskaz na konkretan način potrebna nam je konkretna
   sintaksa.
@@ -416,13 +405,11 @@ http://en.wikipedia.org/wiki/Abstract_syntax_tree
   
 ---
 
-# Konkretna sintaksa
+## Konkretna sintaksa
 
 Primer istog iskaza upotrebom dve različite konkretne sintakse
 
-.center[
 ![:scale 70%](03-uvod/RazliciteSintakse.png)
-]
 
 .footer[
   I. Dejanović, *Prilog metodama brzog razvoja softvera na bazi proširivih
@@ -432,7 +419,7 @@ Primer istog iskaza upotrebom dve različite konkretne sintakse
 
 ---
 
-# Semantika
+## Semantika
 
 - Definiše smisao jezičkih iskaza.
 - Iako postoje i druge tehnike u praksi se najčešće semantika definiše
@@ -472,7 +459,7 @@ layout: true
 ---
 
 
-# Tekstualne sintakse - prednosti i mane
+## Tekstualne sintakse - prednosti i mane
 
 - Programeri se osećaju "kod kuće".
 - Mogu se koristiti regularni tekst editori.
@@ -485,7 +472,7 @@ layout: true
 ---
 
 
-# Grafičke sintakse - prednosti
+## Grafičke sintakse - prednosti
 
 - Razumevanje strukture. Podržano operacijama *zoom*, *pan* i sl.
 - Često razumljivije domenskim ekspertima (najčešće je domenski jezik grafičke
@@ -495,7 +482,7 @@ layout: true
 
 ---
 
-# Grafičke sintakse - mane
+## Grafičke sintakse - mane
 
 - Još uvek složeniji za implementaciju i održavanje.
 - Za serijalizaciju se koristi format koji se razlikuje od prezentacionog.
@@ -505,11 +492,9 @@ layout: true
 
 ---
 
-# Podela prema vrsti domena
+## Podela prema vrsti domena
 
-.center[
 ![:scale 90%](03-uvod/HorizontalniVertikalniDSL.svg)
-]
 
 ---
 
@@ -527,7 +512,7 @@ layout: true
 
 ---
 
-# Interni JSD
+## Interni JSD
 
 - Bazirani na postojećem jeziku i alatima. Najčešće tekstualni.
 - Koriste svu infrastrukturu jezika domaćina (editore, debagere,
@@ -544,7 +529,7 @@ layout: true
 
 ---
 
-# Eksterni JSD
+## Eksterni JSD
 
 - Izrađeni "on nule" -&gt; skuplji razvoj i održavanje.
 - Puna kontrola konkretne sintakse -&gt; bolje prilagođavanje domenskim
@@ -554,7 +539,7 @@ layout: true
 
 ---
 
-# Neki od poznatijih eksternih JSD
+## Neki od poznatijih eksternih JSD
 
 - **SQL**: tekstualni, domen - rad sa relacionim bazama podataka
 - **HTML**: tekstualni, domen - definisanje sadržaja na vebu
@@ -604,7 +589,7 @@ SEND myMail
 ---
 
 
-# Primer
+## Primer
 
 Interni JSD za definisanje grafički korisničkih interfejsa (*Swing*)
 
@@ -633,18 +618,16 @@ public DSLKurs() {
 ---
 
 
-# Primer
+## Primer
 
 Eksterni JSD za definisanje grafički korisničkih interfejsa (*WindowBuilder*)
 
-.center[
 ![:scale 80%](03-uvod/GUIDSL-External.png)
-]
 
 ---
 
 
-# Primer
+## Primer
 
 Interni JSD za definisanje gramatike jezika (*Arpeggio Python*)
 
@@ -660,7 +643,7 @@ def calc():       return OneOrMore(expression), EOF
 ---
 
 
-# Primer
+## Primer
 
 Eksterni JSD za definisanje gramatike jezika (*Arpeggio PEG*)
 
@@ -688,7 +671,7 @@ layout: true
 
 ---
 
-# Jezici pogodni za kreiranje internih JSD
+## Jezici pogodni za kreiranje internih JSD
 
 - Ruby
 - Groovy
@@ -699,7 +682,7 @@ layout: true
 ---
 
 
-# Primer internog JSD (*Ruby Sinatra*)
+## Primer internog JSD (*Ruby Sinatra*)
 
 ```ruby
 get '/dogs' do
@@ -724,7 +707,7 @@ end
 ---
 
 
-# Primer internog JSD (Groovy Gradle)
+## Primer internog JSD (Groovy Gradle)
 
 ```groovy
 repositories {
@@ -757,7 +740,7 @@ layout: true
 
 ---
 
-# Interni JSD za muzičku notaciju
+## Interni JSD za muzičku notaciju
 
 ```java
 Score k = new Score(Tonality.G_major);
@@ -781,7 +764,7 @@ domenskim ekspertima.
 
 ---
 
-# Lilypond note script
+## Lilypond note script
 
 Ali se dešava da i u eksternoj varijanti JSD nije prilagođen domenskim
 ekspertima.
@@ -790,7 +773,7 @@ ekspertima.
 
 ---
 
-# Kritike JDS
+## Kritike JDS
 
 - Skup razvoj i održavanje jezika.
 - Potreba za ekspertima u domenu razvoja jezika koji su istovremeno sposobni da
@@ -821,12 +804,12 @@ layout: true
 ---
 
 
-# Jezičke radionice (*Language Workbenches*)
+## Jezičke radionice (*Language Workbenches*)
 
 - Integrisana okruženja za razvoj, testiranje i evoluciju jezika i alata za
   njihovo efikasno korišćenje (editori, interpreteri, kompajleri i sl.). Koriste
   se kod paradigme razvoja orijentisane ka jezicima (*Language Oriented
-  Programming - LOP*).ref[1]
+  Programming - LOP*).ref[*]
 - Rešavaju problem brzine razvoja i lakoće održavanja JSD.
 - Primeri jezičkih radionica:
   - Meta Programming System (MPS)
@@ -834,15 +817,15 @@ layout: true
   - Spoofax
 
 .footer[
-    M. Fowler, *Language workbenches: The killer-app for domain specific
-        languages*, Online
-        http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
+\* M. Fowler, *Language workbenches: The killer-app for domain specific
+   languages*, Online
+   http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
 ]
 
 
 ---
 
-# Pristupi
+## Pristupi
 
 - Projekcione - editori manipulišu direktno apstraktnom reprezentacijom (stablom
   apstraktne sintakse).
@@ -850,7 +833,7 @@ layout: true
 
 ---
 
-# *Meta Programming System (MPS)*
+## *Meta Programming System (MPS)*
 
 - JetBrains - http://www.jetbrains.com/mps/
 - Podrška za različite konkretne sintakse (notacije): tabelarne, tekstualne,
@@ -862,11 +845,9 @@ layout: true
 
 ---
 
-# *Meta Programming System* - karakterističan izgled
+## *Meta Programming System* - karakterističan izgled
 
-.center[
 ![:scale 80%](03-uvod/MPS.png)
-]
 
 .footer[
 http://www.jetbrains.com/mps/docs/tutorial.html
@@ -874,7 +855,7 @@ http://www.jetbrains.com/mps/docs/tutorial.html
 
 ---
 
-# Xtext
+## Xtext
 
 - Nastao kao deo projekta slobodnog softvera - *openArchitectureWare*.
 - Iza razvoja u najvećoj meri stoji nemačka
@@ -919,13 +900,13 @@ http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise
 
 ---
 
-# Xtext - primeri
+## Xtext - primeri
 
 Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati http://www.eclipse.org/Xtext/7languagesDoc.html
 
 ---
 
-# Spoofax
+## Spoofax
 
 - Kao i Xtext baziran na parsiranju i tekstualnim sintaksama. Kreira punu
   podršku za jezik u vidu Eclipse priključaka.
@@ -939,13 +920,13 @@ Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati http://www
 
 ---
 
-# Spoofax - karakterističan izgled
+## Spoofax - karakterističan izgled
 
 ![](03-uvod/Spoofax-prikaz.png)
 
 ---
 
-# Inženjerstvo softverskih jezika
+## Inženjerstvo softverskih jezika
 
 - *Software Language Engineering - SLE*.
 - Pravac i pogled na razvoj softverskih jezika koji pokušava da ujedini sve
@@ -962,7 +943,7 @@ Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati http://www
 
 ---
 
-# Literatura
+## Literatura
 
 - M. Völter, [DSL Engineering: Designing, Implementing and Using
   Domain-Specific Languages](http://dslbook.org/). 2013
