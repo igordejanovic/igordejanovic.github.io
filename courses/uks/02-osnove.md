@@ -139,10 +139,11 @@ layout: true
 
 ## Struktura CM procesa
 
-![](02-osnove/SCM-LogicalStructure.svg)
+![:scale 90%](02-osnove/SCM-LogicalStructure.svg)
 
 .footer[
-Anne Mette Jonassen Hass, *Configuration Management Principles and Practice*, 
+Anne Mette Jonassen Hass, *Configuration Management Principles and Practice*,
+Addison-Wesley Professional, 2003.
 ]
 
 ---
