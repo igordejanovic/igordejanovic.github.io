@@ -14,7 +14,7 @@ class: center, middle
 
 name: sadrzaj
 
-# Sadržaj
+## Sadržaj
 
 - [Kratak pregled jezika](#pregled)
 - [Leksičke konvencije i sintaksa](#sintaksa)
@@ -40,7 +40,7 @@ layout: true
 
 ---
 
-# Python
+## Python
 
 - Razvoj započet 1989 u Holandiji kao hobi projekat Gvida Van Rosuma. Danas
   jedan od najpopularnijih jezika.
@@ -57,7 +57,7 @@ layout: true
 
 ---
 
-# Zen of Python
+## Zen of Python
 
 ```nohiglight
 >>> import this
@@ -85,7 +85,7 @@ Namespaces are one honking great idea -- let's do more of those!
 ---
 
 
-# Implementacije Python-a
+## Implementacije Python-a
 
 - CPython
 - PyPy
@@ -97,7 +97,7 @@ Namespaces are one honking great idea -- let's do more of those!
 ---
 
 
-# Python konzola
+## Python konzola
 
 - Pokreće se pozivom Python interpretera bez parametara.
 
@@ -118,7 +118,7 @@ Hello World!
 
 ---
 
-# Jednostavan program na Python-u
+## Jednostavan program na Python-u
 
 ```python
 principal = 1000    # Početni iznos
@@ -137,7 +137,7 @@ while year <= numyears:
 
 ---
 
-# print i formatiranje izlaza
+## print i formatiranje izlaza
 
 - Slično `printf` funkciji u C-u.
 - Upotrebom string interpolacije (operator %)
@@ -160,7 +160,7 @@ print("{0:3d} {1:0.2f}".format(year,principal)) # Python 3
 
 ---
 
-# Uslovi
+## Uslovi
 
 .multicode[
 ```python
@@ -200,7 +200,7 @@ else:
 
 ---
 
-# Fajl ulaz/izlaz
+## Fajl ulaz/izlaz
 
 .medium[
 
@@ -237,7 +237,7 @@ f.close()
 
 ---
 
-# Stringovi
+## Stringovi
 
 ```python
 a = "Hello World"
@@ -263,7 +263,7 @@ z = int(x) + int(y)     # z = 79 (Integer +)
 
 ---
 
-# Liste
+## Liste
 
 - Liste su sekvence proizvoljnih objekata (referenci)
 
@@ -292,7 +292,7 @@ a[3][3][1]      # 101
 
 ---
 
-# List comprehensions
+## List comprehensions
 
 ```python
 import sys                # Učitavanje sys modula
@@ -313,7 +313,7 @@ print "The maximum value is ", max(fvalues)
 
 ---
 
-# N-torke (*Tuples*)
+## N-torke (*Tuples*)
 
 - Nepromenjiva struktura - *immutable*
 
@@ -340,7 +340,7 @@ first_name, last_name, phone = person
 
 ---
 
-# Primer upotrebe n-torki i lista
+## Primer upotrebe n-torki i lista
 
 .medium[
 
@@ -380,7 +380,7 @@ for name, shares, price in portfolio:
 
 ---
 
-# Skupovi (*sets*)
+## Skupovi (*sets*)
 
 .multicode[.size-85[
 
@@ -414,7 +414,7 @@ t.remove('H')             # Uklanjanje elementa
 
 ---
 
-# Rečnici (*dictionaries*)
+## Rečnici (*dictionaries*)
 
 - Asocijativni niz objekata indeksiranih ključevima.
 - Ključ može biti bilo koji nepromenjivi objekat (*immutable*).
@@ -444,7 +444,7 @@ stock["date"] = "June 7, 2007"
 
 ---
 
-# Rečnici - nastavak
+## Rečnici - nastavak
 
 ```python
 # Mogu se koristiti za brzo pronalaženje podataka
@@ -473,7 +473,7 @@ syms = prices.keys()
 
 ---
 
-# Iteracija i petlje
+## Iteracija i petlje
 
 ```python
 for n in [1,2,3,4,5,6,7,8,9]:
@@ -493,7 +493,7 @@ for i in xrange(100000000):       # i = 0,1,2,...,99999999
 
 ---
 
-# Iteracija i petlje (2)
+## Iteracija i petlje (2)
 
 - Iterator protokol
 - Stringovi su sekvence - podržavaju iterator protokol
@@ -516,7 +516,7 @@ for name in b:
 
 ---
 
-# Iteracija i petlje (3)
+## Iteracija i petlje (3)
 
 
 - I mape
@@ -541,7 +541,7 @@ for line in f:
 
 ---
 
-# Funkcije
+## Funkcije
 
 - Kreiraju se ključnom rečju `def`
 - Ukoliko funkcija nema povratnu vrednost implicitno vraća `None`
@@ -569,7 +569,7 @@ def f(a, b=5):
 
 ---
 
-# Funkcije (2)
+## Funkcije (2)
 
 .medium[
 
@@ -604,7 +604,7 @@ c 89
 
 ---
 
-# Funkcije (3)
+## Funkcije (3)
 
 
 - Sve reference unutar funkcije su unutar opsega funkcije (scope)
@@ -624,7 +624,7 @@ def foo2():
 
 ---
 
-# Generatori
+## Generatori
 
 
 Umesto jedne vrednosti funkcija može generisati sekvencu vrednosti.
@@ -642,7 +642,7 @@ def countdown(n):
 
 ---
 
-# Generatori - upotreba
+## Generatori - upotreba
 
 ```python
 >>> c = countdown(5)
@@ -668,7 +668,7 @@ kao generator.
 
 ---
 
-# Korutine (*coroutines*)
+## Korutine (*coroutines*)
 
 .size-90[
 
@@ -699,7 +699,7 @@ niti i višenitnog programiranja.
 
 ---
 
-# Objekti i klase
+## Objekti i klase
 
 .size-85[
 
@@ -732,7 +732,7 @@ Brojevi su objekti
 
 ---
 
-# Objekti i klase (2)
+## Objekti i klase (2)
 
 Funkcije su objekti
 
@@ -756,7 +756,7 @@ Liste su objekti
 
 ---
 
-# Objekti i klase (3)
+## Objekti i klase (3)
 
 
 - Specijalne metode su oblika `__xxx__`
@@ -775,7 +775,7 @@ Klasa može da proizvoljno redefiniše specijalne metode.
 
 ---
 
-# Objekti i klase (4)
+## Objekti i klase (4)
 
 .medium[
 
@@ -810,7 +810,7 @@ del s
 
 ---
 
-# Objekti i klase (5)
+## Objekti i klase (5)
 
 Pošto je stek vrlo sličan Python listi možemo direktno naslediti ugrađenu
 listu.
@@ -839,7 +839,7 @@ Ovako kreirana klasa ima sve osobine liste.
 
 ---
 
-# Objekti i klase
+## Objekti i klase
 
 Klasa može da definiše različite vrste metoda.
 
@@ -858,7 +858,7 @@ EventHandler.dispatcherThread()   # Poziv static metode kao da je funkcija
 
 ---
 
-# Izuzeci
+## Izuzeci
 
 Ukoliko dođe do graške u programu javlja se izuzetak
 
@@ -872,7 +872,7 @@ IOError: [Errno 2] No such file or directory: 'file.txt'
 
 ---
 
-# Izuzeci (2)
+## Izuzeci (2)
 
 Izuzeci se mogu uhvatiti i obraditi.
 
@@ -897,7 +897,7 @@ raise RuntimeError("Computer says no")
 
 ---
 
-# Izuzeci - konteksti
+## Izuzeci - konteksti
 
 - Upotreba nekog resursa uvek zahteva njegovo oslobađanje (zatvaranje) po
   završetku upotrebe.
@@ -919,7 +919,7 @@ with message_lock:
 
 ---
 
-# Moduli
+## Moduli
 
 - Veće programe je poželjno razbiti u više fajlova/modula.
 - Python omogućava import-ovanje definicija iz drugih fajlova/modula.
@@ -964,7 +964,7 @@ from div import *
 
 ---
 
-# Moduli (2)
+## Moduli (2)
 
 I moduli su objekti
 
@@ -992,7 +992,7 @@ layout: true
 
 ---
 
-# Struktura linije i indentacija
+## Struktura linije i indentacija
 
 ```python
 a = math.cos(3 * (x - n)) + \
@@ -1022,7 +1022,7 @@ else:
 
 ---
 
-# Struktura linije i indentacija (2)
+## Struktura linije i indentacija (2)
 
 - Nije propisana širina uvlačenja ali mora biti konzistentan.
 - Preporučeno je 4 *space* karaktera za uvlačenje.
@@ -1030,7 +1030,7 @@ else:
 
 ---
 
-# String literali
+## String literali
 
 - Navode se unutar jednostrukih ili dvostrukih znakova navoda ili trostrukih za
   višelinijske stringove.
@@ -1041,7 +1041,7 @@ else:
 
 ---
 
-# Kontejneri
+## Kontejneri
 
 - Vrednosti koje se navode unutar zagrada `[...], (...), {...}`
   predstavljaju kolekciju objekata koja se nalazi unutar liste, n-torke
@@ -1078,7 +1078,7 @@ layout: true
 
 ---
 
-# Terminologija
+## Terminologija
 
 - Svi podaci Python programa su objekti.
 - Objekti imaju identitet, tip i vrednost.
@@ -1105,7 +1105,7 @@ layout: true
 
 ---
 
-# Terminologija (2)
+## Terminologija (2)
 
 - Objekti koji sadrže reference na druge objekte se nazivaju kontejneri ili
   kolekcije.
@@ -1122,7 +1122,7 @@ b.append(7)     # Dodavanje novog elementa upotrebom append metode
 
 ---
 
-# *Duck Typing*
+## *Duck Typing*
 
 - Metode i atributi objekta definišu njegovu semantiku a ne pripadnost
   određenom tipu tj. nasleđivanje određene klase
@@ -1147,7 +1147,7 @@ Hello world!
 
 ---
 
-# Protokoli
+## Protokoli
 - Koncept tesno povezan sa *duck typing*.
 - Predstavlja određeno ponašanje objekta (skup metoda, atributa i njihove
   semantike).
@@ -1158,7 +1158,7 @@ Hello world!
 
 ---
 
-# Identitet i tip objekta
+## Identitet i tip objekta
 
 ```python
 # Poređenje dva objekta
@@ -1193,7 +1193,7 @@ if isinstance(d,dict):
 
 ---
 
-# Brojanje referenci
+## Brojanje referenci
 
 ```python
 a = 37        # Kreira objekat sa vrednošću 37
@@ -1215,7 +1215,7 @@ c[0] = 2.0    # - II -
 
 ---
 
-# Reference i kopije
+## Reference i kopije
 
 ```python
 >>> a = [1,2,3,4]
@@ -1230,7 +1230,7 @@ True
 
 ---
 
-# Plitko i duboko kopiranje
+## Plitko i duboko kopiranje
 
 .lcol[
 ```python
@@ -1268,7 +1268,7 @@ False
 ---
 
 
-# *First-Class Objects*
+## *First-Class Objects*
 
 - Svi objekti u Python-u su "prvog reda" (*first-class*)
 - Ovo znači da svi objekti koji se mogu imenovati (referencirati) imaju isti
@@ -1314,7 +1314,7 @@ Couldn't convert
 
 ---
 
-# Ugrađeni tipovi za podatke
+## Ugrađeni tipovi za podatke
 
 - None: NoneType
 - Brojevi: int, long, float, complex, bool
@@ -1324,7 +1324,7 @@ Couldn't convert
 
 ---
 
-# Sekvence
+## Sekvence
 
 - Uređena kolekcija objekata indeksirana nenegativnim rednim brojem.
 - Stringovi - nepromenjiva sekvenca karaktera.
@@ -1333,7 +1333,7 @@ Couldn't convert
 
 ---
 
-# Operacije nad sekvencama
+## Operacije nad sekvencama
 
 ```python
 s[i]              # Indeksni pristup
@@ -1350,7 +1350,7 @@ for a in s:       # iteracija
 
 ---
 
-# Operacije nad promenjivim sekvencama
+## Operacije nad promenjivim sekvencama
 
 ```python
 s[i] = v
@@ -1363,7 +1363,7 @@ del s[i:j:korak]
 
 ---
 
-# Liste
+## Liste
 
 - Liste su sekvence.
 - Svaka sekvenca se može konvertovati u listu sa <code>list(s)</code>.
@@ -1380,7 +1380,7 @@ del s[i:j:korak]
 
 ---
 
-# Stringovi
+## Stringovi
 
 .size-90[
 
@@ -1411,7 +1411,7 @@ string
 
 ---
 
-# Stringovi (2)
+## Stringovi (2)
 
 - Stringovi su nepromenjivi objekti (*immutable*). Sve metode stringa koje
   vraćaju string kreiraju novi string.
@@ -1430,7 +1430,7 @@ s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
 
 ---
 
-# Stringovi - formatiranje
+## Stringovi - formatiranje
 
 - Tri načina:
   - Konkatanacija - operator `+` - izbegavati.
@@ -1457,7 +1457,7 @@ s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
 
 ---
 
-# Mape
+## Mape
 
 .size-90[
 - Promenjive, neuređene kolekcije proizvoljnih objekata indeksirane
@@ -1485,7 +1485,7 @@ m[42] = 'Odgovor' # Ključevi i vrednosti mogu biti
 
 ---
 
-# Mape (2)
+## Mape (2)
 
 ```python
 len(m)              # Broj elemenata rečnika
@@ -1506,7 +1506,7 @@ m.pop(k[, default]) # Uklanja i vraća m[k] ukoliko postoji ili
 
 ---
 
-# *Dict comprehensions*
+## *Dict comprehensions*
 
 Treba da kreiramo mapu od sekvence ključeva i vrednosti
 
@@ -1524,7 +1524,7 @@ mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
 
 ---
 
-# Skupovi
+## Skupovi
 
 - Neuređene kolekcije jedinstvenih elemenata.
 - Elementi nisu indeksirani. Ne postoji slice operator.
@@ -1541,7 +1541,7 @@ f = frozenset(['a',37,'hello'])
 
 ---
 
-# Skupovi - operacije
+## Skupovi - operacije
 
 ```python
 len(s)                    # Broj elemenata
@@ -1564,7 +1564,7 @@ s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
 
 ---
 
-# Callables
+## Callables
 
 .size-85[
 - Objekti koji podržavaju semantiku poziva.
@@ -1621,7 +1621,7 @@ layout: true
 
 ---
 
-# Struktura programa
+## Struktura programa
 
 - Svaki iskaz se tretira na isti način. Nema specijalnih iskaza.
 - Svaki iskaz se može pojaviti bilo gde u programu.
@@ -1639,7 +1639,7 @@ else:
 
 ---
 
-# Uslovno izvršavanje
+## Uslovno izvršavanje
 
 ```python
 if expression:
@@ -1655,7 +1655,7 @@ else:
 
 ---
 
-# Petlje i iteracije
+## Petlje i iteracije
 
 .medium[
 
@@ -1687,7 +1687,7 @@ while True:
 
 ---
 
-# Raspakivanje elemenata
+## Raspakivanje elemenata
 
 
 Ukoliko su svim elementi kolekcije sekvence iste dužine moguće je uraditi
@@ -1701,7 +1701,7 @@ for x,y,z in s:
 
 ---
 
-# Indeks u for petlji
+## Indeks u for petlji
 
 - Kada se iterira kroz elemente kolekcije nekad je potrebno znati indeks.
 
@@ -1718,7 +1718,7 @@ for i,x in enumerate(s):
 
 ---
 
-# Paralelna iteracija
+## Paralelna iteracija
 
 Često je potrebno iterirati paralelno kroz više kolekcija.
 
@@ -1741,7 +1741,7 @@ for x,y in zip(s,t):
 
 ---
 
-# For-else, break, continue
+## For-else, break, continue
 
 - Iz `for` petlje može prevremeno da se izađe upotrebom `break` iskaza.
 
@@ -1761,7 +1761,7 @@ else:
 
 ---
 
-# For-else, break, continue
+## For-else, break, continue
 
 - Sa `continue` se može direktno preći na sledeći ciklus iteracije.
 
@@ -1787,7 +1787,7 @@ layout: true
 
 ---
 
-# Osnove
+## Osnove
 
 
 Definisanje funkcije
@@ -1807,7 +1807,7 @@ l = lambda x, y: x + y
 
 ---
 
-# Podrazumevana vrednost parametara
+## Podrazumevana vrednost parametara
 
 ```python
 def split(line, delimiter=','):
@@ -1827,7 +1827,7 @@ foo()     # Vraća 10 (podrazumevana vrednost nije promenjena)
 
 ---
 
-# Napomena kod *mutable* tipova
+## Napomena kod *mutable* tipova
 
 Problem
 ```python
@@ -1852,7 +1852,7 @@ def foo(x, items=None):
 
 ---
 
-# Promenjiv broj argumenata - po poziciji
+## Promenjiv broj argumenata - po poziciji
 
 .medium[
 
@@ -1884,7 +1884,7 @@ print f(*a)   # n-torka a se "razlaže" i prosleđuje poziciono
 
 ---
 
-# Prosleđivanje parametara po nazivu
+## Prosleđivanje parametara po nazivu
 
 ```python
 def foo(x, y, z, w):
@@ -1912,7 +1912,7 @@ foo('hello', 3, z=[1,2], y=22)
 
 ---
 
-# Promenjiv broj argumenata - imenovani parametri
+## Promenjiv broj argumenata - imenovani parametri
 
 ```python
 def make_table(data, **parms):
@@ -1932,7 +1932,7 @@ make_table(items, fgcolor="black", bgcolor="white", border=1,
 
 ---
 
-# Promenjiv broj argumenata - kombinovan prenos
+## Promenjiv broj argumenata - kombinovan prenos
 
 Mogu se kombinovati pozicioni i imenovani parametri dok god se imenovani (`**`)
 nalaze na kraju
@@ -1957,7 +1957,7 @@ def callfunc(*args, **kwargs):
 
 ---
 
-# Prenos parametara i povratne vrednosti
+## Prenos parametara i povratne vrednosti
 
 .medium[
 
@@ -1989,7 +1989,7 @@ x, y = factor(1234)
 
 ---
 
-# Opseg važenja (*scoping rules*) - lokalne i globalne varijable
+## Opseg važenja (*scoping rules*) - lokalne i globalne varijable
 
 ```python
 a = 42
@@ -2010,7 +2010,7 @@ foo()
 
 ---
 
-# Opseg važenja (*scoping rules*) - ne-lokalne varijable
+## Opseg važenja (*scoping rules*) - ne-lokalne varijable
 
 .lcol[
 ```python
@@ -2044,7 +2044,7 @@ def countdown(start):
 
 ---
 
-# Dekoratori
+## Dekoratori
 
 - Dekorator obrazac.
 - Funkcije koje prihvataju kao parametar funkciju (ili uopšte
@@ -2087,7 +2087,7 @@ def trace(func):
 
 ---
 
-# Dekoratori (2)
+## Dekoratori (2)
 
 Mogu da se stekuju.
 
@@ -2109,7 +2109,7 @@ grok = foo(bar(spam(grok)))
 
 ---
 
-# Dekoratori (3)
+## Dekoratori (3)
 
 Mogu da imaju parametre
 
@@ -2146,7 +2146,7 @@ def eventhandler(event):
 
 ---
 
-# *List comprehensions* opet
+## *List comprehensions* opet
 
 .medium[
 .lcol-narrow[
@@ -2185,7 +2185,7 @@ for item1 in iterable1:
 
 ---
 
-# *List comprehensions* primeri
+## *List comprehensions* primeri
 
 ```python
 a = [-3, 5, 2, -10, 7, 8]
@@ -2205,7 +2205,7 @@ g = [math.sqrt(x * x + y * y)       # g = [2.23606, 5.0, 7.81024]
 
 ---
 
-# Generator izrazi
+## Generator izrazi
 
 Slično kao *list comprehensions* ali ne kreiraju listu već generator objekat
 koji izračunava vrednosti na zahtev (lenja evaluacija).
@@ -2238,7 +2238,7 @@ koji izračunava vrednosti na zahtev (lenja evaluacija).
 
 ---
 
-# Generator izrazi - primer
+## Generator izrazi - primer
 
 
 ```python
@@ -2256,7 +2256,7 @@ clist = list(comments)
 
 ---
 
-# `lambda` iskaz
+## `lambda` iskaz
 
 
 Kreiranje anonimne funkcije.
@@ -2295,7 +2295,7 @@ layout: true
 
 ---
 
-# Klase
+## Klase
   
 - Kolekcija funkcija (metoda), varijabli (atributa) i dinamičkih
   atributa(*properties*).
@@ -2324,7 +2324,7 @@ class Account(object):
 
 ---
 
-# `class` iskaz
+## `class` iskaz
 - Klasa je python objekat koji se kreira kada interpreter naiđe na `class`
   iskaz i uspešno ga obradi.
 - Referenca na ovaj objekat je ime klase.
@@ -2345,7 +2345,7 @@ id(k) != id(m)          # ali nova
 
 ---
 
-# Instanciranje
+## Instanciranje
 
 - Istanciranje objekta se obavlja pozivom klase.
 - Klasa je *callable*.
@@ -2357,7 +2357,7 @@ b = Account("Bill", 10.00)
 
 ---
 
-# Referenciranje atributa i metoda
+## Referenciranje atributa i metoda
 
 ```python
 a.deposit(100.00)       # Poziva Account.deposit(a, 100.00)
@@ -2367,7 +2367,7 @@ name = a.name           # Pristup 'name' atributu
 
 ---
 
-# Opseg važenja (<i>scoping</i>)
+## Opseg važenja (<i>scoping</i>)
 
 - Klase definišu prostor imena (*namespace*) ali metode nemaju prostor
   imena.
@@ -2388,7 +2388,7 @@ class Foo(object):
 
 ---
 
-# Nasleđivanje
+## Nasleđivanje
 
 ```python
 import random
@@ -2409,7 +2409,7 @@ available = c.inquiry()
 
 ---
 
-# Nasleđivanje (2)
+## Nasleđivanje (2)
 
 - Naslednica može da doda nove atribute.
 
@@ -2429,7 +2429,7 @@ class EvilAccount(Account):
 
 ---
 
-# `super` funkcija
+## `super` funkcija
 
 ```python
 class MoreEvilAccount(EvilAccount):
@@ -2452,7 +2452,7 @@ class MoreEvilAccount(EvilAccount):
 
 ---
 
-# Višestruko nasleđivanje
+## Višestruko nasleđivanje
 
 .lcol-narrow[
 ```python
@@ -2495,7 +2495,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 ---
 
-# Višestruko nasleđivanje - MRO
+## Višestruko nasleđivanje - MRO
 
 - *Method Resolution Order* - MRO
 
@@ -2512,7 +2512,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 ---
 
-# Polimorfizam, dinamičko povezivanje, *duck typing*
+## Polimorfizam, dinamičko povezivanje, *duck typing*
 
 - Korišćenje objekta bez obzira na njegov konkretni tip.
 - Dovoljno je samo da ima određene atribute i metode tj. određeno ponašanje.
@@ -2521,7 +2521,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 ---
 
-# *Static* metode
+## *Static* metode
 
 ```python
 class Foo(object):
@@ -2534,7 +2534,7 @@ x = Foo.add(3,4)
 
 ---
 
-# *Static* metode (2)
+## *Static* metode (2)
 
 ```python
 class Date(object):
@@ -2560,7 +2560,7 @@ c = Date.tomorrow() # Poziva static metodu tomorrow()
 
 ---
 
-# *class* metode
+## *class* metode
 
 - Metode klase koje primaju `class` objekat klase nad kojom su
   pozvane.
@@ -2581,7 +2581,7 @@ x = TwoTimes.mul(4)     # Poziva Times.mul(TwoTimes, 4) -&gt; 8
 
 ---
 
-# Primer upotrebe *class* metode - problem
+## Primer upotrebe *class* metode - problem
 
 ```python
 class EuroDate(Date):
@@ -2596,7 +2596,7 @@ class EuroDate(Date):
 
 ---
 
-# Primer upotrebe *class* metode - rešenje
+## Primer upotrebe *class* metode - rešenje
 
 ```python
 class Date(object):
@@ -2621,7 +2621,7 @@ b = d.now()         # Poziva Date.now(Date)
 ---
 
 
-# *Properties*
+## *Properties*
 
 - Specijalna vrsta atributa koja dinamički izračunava svoju vrednost.
 
@@ -2660,7 +2660,7 @@ AttributeError: can't set attribute
 
 ---
 
-# *Properties* - *setters*
+## *Properties* - *setters*
 
 ```python
 class Foo(object):
@@ -2687,7 +2687,7 @@ del f.name        # Poziva deleter name(f) -&gt; TypeError
 
 ---
 
-# Enakpsulacija i privatni atributi
+## Enakpsulacija i privatni atributi
 
 ```python
 class A(object):
@@ -2709,7 +2709,7 @@ class B(A):
 
 ---
 
-# Redefinisanje operatora (*operator overloading*)
+## Redefinisanje operatora (*operator overloading*)
 
 .medium[
 - Svi operatori korišćeni u Python-u (npr. `+, -, *, /, in, []...`) su opisani
@@ -2738,7 +2738,7 @@ class Complex(object):
 
 ---
 
-# Pripadnost klasi ili tipu
+## Pripadnost klasi ili tipu
 
 ```python
 class A(object): pass
@@ -2774,7 +2774,7 @@ layout: true
 
 ---
 
-# Moduli i `import` iskaz
+## Moduli i `import` iskaz
 
 
 - Svaki pajton fajl može da se koristi kao modul.
@@ -2810,7 +2810,7 @@ s.grok()
 
 ---
 
-# `import` - razni oblici
+## `import` - razni oblici
 
 ```python
 import socket, os, re
@@ -2834,7 +2834,7 @@ data = reader.read_data(filename)
 
 ---
 
-# `import` - razni oblici (2)
+## `import` - razni oblici (2)
 
 Import samo određenog objekta.
 
@@ -2861,7 +2861,7 @@ s = Sp()
 
 ---
 
-# `import` - razni oblici (3)
+## `import` - razni oblici (3)
 
 .medium[
 Import svih definicija u tekući prostor imena.
@@ -2893,7 +2893,7 @@ bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
 
 ---
 
-# Izvršavanje glavnog programa
+## Izvršavanje glavnog programa
 
 .medium[
 - `import` iskaz izvršava kod u prostoru imena pozivaoca.
@@ -2933,7 +2933,7 @@ layout: true
 
 ---
 
-# IPython
+## IPython
 
 - Interaktivni *shell* sličan standardnom
 - Read-Eval-Print-Loop
@@ -2941,7 +2941,7 @@ layout: true
 
 ---
 
-# IPython mogućnosti
+## IPython mogućnosti
 
 
 - Dopuna sa TAB tasterom
@@ -2952,7 +2952,7 @@ layout: true
 
 ---
 
-# Primer sesije
+## Primer sesije
 
 
 ```python
@@ -2974,7 +2974,7 @@ In [2]:
 
 ---
 
-# Dopuna koda
+## Dopuna koda
 
 
 Pritisak na taster TAB
@@ -2991,7 +2991,7 @@ In [5]: os.pa
 
 ---
 
-# Informacije o objektima
+## Informacije o objektima
 
 Iza naziva reference staviti znak "?"
 
@@ -3016,7 +3016,7 @@ In [8]:
 
 ---
 
-# Proširene informacije o objektima
+## Proširene informacije o objektima
 
 
 Iza naziva reference staviti znak "??"
@@ -3044,7 +3044,7 @@ return normpath(path)
 
 ---
 
-# *paste* više linija koda
+## *paste* više linija koda
 
 
 - Ponekad je zgodno u cilju testiranja *paste*-ovati blok koda na konzolu
@@ -3064,9 +3064,7 @@ def napravi_klasu():
 
 ---
 
-
-
-# Reload modula
+## Reload modula
 
 
 - Problem kod izmene koda posle import-a.
@@ -3084,8 +3082,7 @@ def napravi_klasu():
 
 ---
 
-
-# Zadatak
+## Zadatak
 
 Upotrebom IPython konzole:
 
@@ -3105,14 +3102,14 @@ Pomoć: `random` modul
 
 ---
 
-# [PyCharm](http://www.jetbrains.com/pycharm/)
+## [PyCharm](http://www.jetbrains.com/pycharm/)
 
 
 ![PyCharm](Python/PyCharm.png)
 
 ---
 
-# PyCharm - osobine
+## PyCharm - osobine
 
 - Osnovne IDE operacije: navigacija, bojenje i dopuna koda, prikaz strukture
   koda...
@@ -3124,14 +3121,14 @@ Pomoć: `random` modul
 
 ---
 
-# [Eclipse PyDev](http://pydev.org/)
+## [Eclipse PyDev](http://pydev.org/)
 
 ![PyDev](Python/PyDev.png)
 
 
 ---
 
-# PyDev - osobine
+## PyDev - osobine
 
 - Slobodan softver otvorenog koda.
 - Dostupan kao skup plugin-a za Eclipse
@@ -3144,7 +3141,7 @@ Pomoć: `random` modul
 
 ---
 
-# Editori
+## Editori
 
 - vim, neovim
 - emacs
@@ -3168,7 +3165,7 @@ layout: true
 
 ---
 
-# Pakovanje i distribucija aplikacija u Python-u
+## Pakovanje i distribucija aplikacija u Python-u
 
 - Distutils
 - setuptools
@@ -3179,14 +3176,14 @@ layout: true
 
 ---
 
-# Distutils
+## Distutils
 
 - Standardna biblioteka za upravljanje paketima.
 - Dolazi uz instalaciju Pythona.
 
 ---
 
-# Setuptools
+## Setuptools
               
 - Naprednija verzija biblioteke za upravljanje paketima.
 - Dobrim delom kompatiblina sa Distutils
@@ -3194,7 +3191,7 @@ layout: true
 
 ---
 
-# `setup.py` fajl
+## `setup.py` fajl
               
 - Metapodaci python paketa + informacije za *build*.
 - Primer:
@@ -3218,7 +3215,7 @@ setup(name='ImePaketa',
 
 ---
           
-# Instalacija iz setup.py
+## Instalacija iz setup.py
               
 Instalacija iz izvornog koda sa setup.py fajlom se obavlja komandom:
 
@@ -3228,7 +3225,7 @@ $  python setup.py install
 
 ---
 
-# Instalacija za razvoj
+## Instalacija za razvoj
 
 Ukoliko k&ocirc;d koji želimo da instaliramo još uvek razvijamo a želimo da
 izbegnemo ponovnu instalaciju posle svake izmene potrebno je da instaliramo
@@ -3247,7 +3244,7 @@ $ python setup.py develop --uninstall
 
 ---
 
-# Zadatak
+## Zadatak
 
 - Kreirati fajl `gsearch.py` sa sadržajem sa sledećeg slajda.
 - Napraviti `setup.py` za njega i instalirati ga u *develop* modu.
@@ -3258,7 +3255,7 @@ $ python setup.py develop --uninstall
 
 ---
 
-# Primer
+## Primer
 
 .medium[
 
@@ -3296,7 +3293,7 @@ if __name__=="__main__":
 
 ---
 
-# Kreiranje distribucija iz `setup.py`
+## Kreiranje distribucija iz `setup.py`
 
 - Kreiranje *source* distribucije:
 
@@ -3319,7 +3316,7 @@ $ python setup.py bdist_wininst
 
 ---
 
-# Python wheels
+## Python wheels
 
 - Novi način distribucije paketa.
 - C ekstenzije su prekompajlirane za ciljnu platformu.
@@ -3333,7 +3330,7 @@ $ python setup.py bdist_wheel
 
 ---
 
-# Python Package Index - PyPI
+## Python Package Index - PyPI
 
 - PyPI (**Py**thon **P**ackage **I**ndex) predstavlja repozitorijum python
   paketa.
@@ -3343,7 +3340,7 @@ $ python setup.py bdist_wheel
 
 ---
 
-# `pip` alat
+## `pip` alat
 
 
 Osnovne komande:
@@ -3374,7 +3371,7 @@ Osnovne komande:
 
 ---
 
-# virtualenv
+## virtualenv
 
 - Problem sa zavisnošću i kolizijom između verzija.
 - `virtualenv` omogućava kreiranje izolovanih Python okruženja sa svojim skupom
@@ -3394,7 +3391,7 @@ $
 
 ---
 
-# Aktivacija virtuelnog okruženja
+## Aktivacija virtuelnog okruženja
 
 
 ```bash
@@ -3417,7 +3414,7 @@ wheel (0.30.0a0)
 
 ---
 
-# Instalacija paketa u virtuelno okruženje
+## Instalacija paketa u virtuelno okruženje
 
 
 .medium[
@@ -3451,7 +3448,7 @@ wheel (0.30.0a0)
 
 ---
 
-# Zadatak
+## Zadatak
               
 - Kreirati novo virtuelno okruženje <em>JSD</em>
 - Aktivirati ga
@@ -3471,7 +3468,7 @@ import arpeggio
 
 ---
 
-# Reference
+## Reference
 
 - Beazley, David M. *Python essential reference*. Addison-Wesley Professional, 2009.
 - [Python dokumentacija](https://docs.python.org/3/)
