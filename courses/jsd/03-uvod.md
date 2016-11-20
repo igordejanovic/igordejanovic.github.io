@@ -827,9 +827,21 @@ layout: true
 
 ## Pristupi
 
-- Projekcione - editori manipulišu direktno apstraktnom reprezentacijom (stablom
-  apstraktne sintakse).
-- Bazirane na parserima.
+.medium[
+- Projekcione radionice - direktna izmena apstraktne reprezentacije.
+ 
+  ![:scale 60%](03-uvod/projekcija.svg)
+  
+- Bazirane na parserima - izmena se vrši nad tekstom koji se parsira da bi se
+  dobila apstraktna reprezentacija.
+
+  ![:scale 90%](03-uvod/parseri.svg)
+
+]
+
+.footer[
+.small[Eye icon designed by Freepik. Hand icon by Yannick Lung.]
+]
 
 ---
 
