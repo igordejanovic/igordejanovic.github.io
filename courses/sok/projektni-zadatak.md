@@ -1,24 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>SOK - Projektni zadatak</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../remarkslides.css">
-    <style>
-    </style>
-    <!-- google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-68681917-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </head>
-  <body>
-    <textarea id="source">
-
 class: center, middle
 
 # Softverski obrasci i komponente
@@ -29,7 +8,7 @@ class: center, middle
 .small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
 .small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.created[20.11.2016 u 11:25]
+.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
 
 
 ---
@@ -96,23 +75,3 @@ class: center, middle
   - Mehanizmi kreiranja objektnih grafova.
 
 
-
-    </textarea>
-    <script src="../remark-latest.min.js">
-    </script>
-    <script>
-        // https://github.com/gnab/remark/issues/72
-        remark.macros.scale = function (percentage) {
-            var url = this;
-            return '<div class="center"><img src="'
-                 + url + '" style="width: ' + percentage + '" /></div>';
-        };
-        var slideshow = remark.create({
-                    highlightLanguage: 'python',
-                    // highlightStyle: 'obsidian',
-                    highlightStyle: 'github',
-                    highlightLines: true
-                });
-    </script>
-  </body>
-</html>
