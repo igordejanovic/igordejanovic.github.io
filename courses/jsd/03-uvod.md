@@ -531,9 +531,8 @@ layout: true
 
 ## Eksterni JSD
 
-- Izrađeni "on nule" -&gt; skuplji razvoj i održavanje.
-- Puna kontrola konkretne sintakse -&gt; bolje prilagođavanje domenskim
-  ekspertima.
+- Izrađeni "on nule" - skuplji razvoj i održavanje.
+- Puna kontrola konkretne sintakse - bolje prilagođavanje domenskim ekspertima.
 - Editori i svi propratni alati takođe moraju da se prave "od nule"...
 - ...mada danas postoje alati koji nam taj posao olakšavaju.
 
