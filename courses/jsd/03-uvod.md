@@ -827,12 +827,13 @@ layout: true
 ## Pristupi
 
 .medium[
-- Projekcione radionice - direktna izmena apstraktne reprezentacije.
+- Projekcione radionice - direktna izmena apstraktne reprezentacije kroz
+  projekciju.
  
   ![:scale 60%](03-uvod/projekcija.svg)
   
-- Bazirane na parserima - izmena se vrši nad tekstom koji se parsira da bi se
-  dobila apstraktna reprezentacija.
+- Bazirane na parserima - izmena se vrši posredno kroz tekst koji se parsira da
+  bi se dobila apstraktna reprezentacija.
 
   ![:scale 90%](03-uvod/parseri.svg)
 
@@ -844,14 +845,47 @@ layout: true
 
 ---
 
+## Projekcione radionice
+
+- Prednosti:
+  - Moguće višestruke konkretne sintakse (tekstualne, grafičke, tabelarne...) -
+    bolje prilagođavanje konkretnom domenu.
+  - Sintakse se mogu "u letu" menjati.
+  - Kontrola validnosti izraza u vreme izmene modela.
+
+- Mane:
+  - Složenost alata.
+  - Format za perzistenciju nije u vezi sa konkretnim sintaksama koje korisnik
+    koristi. Nemoguće je koristiti standardne sisteme za kontrolu verzija
+    bazirane na tekstu.
+  - Moraju se razviti namenski generički editori za svaku klasu konkretnih sintaksi.
+  
+---
+
+## Radionice bazirane na parserima
+
+- Prednosti:
+  - Jednostavnije za izradu i održavanje.
+  - Teorija parsiranja dobro ustanovljena. Veliki broj biblioteka za parsiranje.
+  - Moguće koristiti obične tekstualne editore.
+  - Moguće koristiti standardne sisteme za kontrolu verzija (npr. git,
+    subversion).
+  - Jednostavno kopiranje i lepljenje (eng. *copy/paste*).
+
+- Mane:
+  - Moguća samo tekstualna sintaksa -> ograničeno prilagođavanje domenu.
+  - Provera validnosti se odlaže do faze parsiranja.
+  
+---
+
 ## *Meta Programming System (MPS)*
 
 - JetBrains - http://www.jetbrains.com/mps/
-- Podrška za različite konkretne sintakse (notacije): tabelarne, tekstualne,
-  bazirani na ćelijama, grafičke.
 - Projekciona jezička radionica - editori manipulišu direktno apstraktnom
   reprezentacijom (stablom apstraktne sintakse). Čak i u slučaju tekstualnih
   notacija.
+- Podrška za različite konkretne sintakse (notacije): tabelarne, tekstualne,
+  bazirani na ćelijama, grafičke.
 - Podrška za kontrolu verzija.
 
 ---
