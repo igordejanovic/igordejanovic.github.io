@@ -17,7 +17,7 @@ layout: page
 5. [Obrasci ponašanja](sok/obrasci-ponasanja.html)
 6. [Dependency Injection](tech/dependency-injection.html)
 7. [Razvoj baziran na komponentama](sok/razvoj-baziran-na-komponentama.html)
-8. [Komponentni razvoj u Python-u](tech/pkg_resources.html)
+8. [Komponentni razvoj u Python-u](tech/setuptools.html)
 9. [Projektni zadatak](sok/projektni-zadatak.html)
 10. [Git](tech/git.html)
 
