@@ -2918,6 +2918,10 @@ else:
 ```
 ]
 
+.footer[
+Za više informacija videti [relativni import i ime paketa na SO](http://stackoverflow.com/questions/14132789/relative-imports-for-the-billionth-time)
+]
+
 
 ---
 layout: false
