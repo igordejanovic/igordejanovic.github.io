@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../remarkslides.css">
+    <style>
+#sets circle {
+  fill: none;
+  fill-opacity: .2;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+#sets {
+    font: 14px sans-serif;
+}
+    </style>
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <textarea id="source">
+
+{{content}}
+
+    </textarea>
+    <script src="../remark-latest.min.js"> </script>
+    <script src="../d3.v4.min.js"></script>
+    <script>
+        // https://github.com/gnab/remark/issues/72
+        remark.macros.scale = function (percentage) {
+            var url = this;
+            return '<div class="center"><img src="'
+                 + url + '" style="width: ' + percentage + '" /></div>';
+        };
+        var slideshow = remark.create({
+                    highlightLanguage: 'python',
+                    // highlightStyle: 'obsidian',
+                    highlightStyle: 'github',
+                    highlightLines: true
+                });
+
+        var test_data = [8, 16, 23];
+        d3.select("#p-with-font")
+        .selectAll("p")
+        .data(test_data)
+        .enter().append("p")
+            .text(function(d) { return "I’m number " + d + "!"; })
+            .style("font-size", function(d){ return d + "px"; });
+
+        var circle = d3.selectAll("#circle-bluesteel  circle");
+        circle.style("fill", "steelblue");
+        circle.attr("r", 30);
+
+        d3.select('#circle-random-start').on("click",  function(){
+            d3.selectAll("#circle-random circle")
+            .attr("cx", function() { return Math.random() * 720; });
+            });
+
+        d3.select('#circle-binding-start').on("click",  function(){
+                var circle = d3.selectAll("#circle-binding circle");
+                circle.data([32, 57, 112]);
+                circle.attr("r", function(d) { return Math.sqrt(d); });
+            });
+
+        d3.select('#circle-enter-start').on("click", function(){
+            var svg = d3.select("#circle-enter");
+            svg.selectAll("circle")
+                .data([32, 57, 112, 293])
+            .enter().append("circle")
+                .attr("cy", 60)
+                .attr("cx", function(d, i) { return i * 100 + 30; })
+                .attr("r", function(d) { return Math.sqrt(d); })
+                .style("fill", "steelblue");
+        });
+
+
+        d3.select('#circle-exit-start').on("click", function(){
+            var svg = d3.select("#circle-exit");
+            svg.selectAll("circle")
+                .data([32, 57]).exit().remove();
+        });
+
+
+        d3.select('#circle-joins-start-left').on("click", function(){
+            var svg = d3.select("#circle-joins");
+            svg.selectAll("circle")
+            .data([60, 100, 140])
+            .enter().append("circle")
+                .attr("cx", function(d, i) { 
+                    return i * 100 + 30; })
+                .attr("cy", 60)
+                .attr("fill", "steelblue")
+                .transition()
+                .duration(1000)
+                .attr("r", 20);
+        });
+
+        d3.select('#circle-joins-start-right').on("click", function(){
+            var svg = d3.select("#circle-joins");
+            svg.selectAll("circle")
+            .data([60])
+            .exit()
+                .transition()
+                .duration(1000)
+                .attr("r", 0).remove();
+        });
+
+    </script>
+  </body>
+</html>
+
