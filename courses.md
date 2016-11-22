@@ -20,7 +20,7 @@ order: 2
 - [textX](courses/tech/textX.html)
 - [Arpeggio](courses/tech/Arpeggio.html)
 - [Programski jezik Python](courses/tech/Python.html)
-- [Django](courses/tech/Django.html)
+- [Django](courses/tech/django.html)
 - [Docker](courses/tech/Docker.html)
 - [SWT & JFace](courses/tech/SWT-JFace.html)
   - [SWT&JFace examples](courses/tech/SWT-JFace/STW-JFace-examples.tar.gz)
