@@ -20,6 +20,7 @@ layout: page
 1. [Komponentni razvoj u Python-u](tech/setuptools.html)
 1. [Projektni zadatak](sok/projektni-zadatak.html)
 1. [Django](tech/django.html)
+1. [D3](tech/d3.html)
 1. [Git](tech/git.html)
 
 <!--
