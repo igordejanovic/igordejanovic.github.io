@@ -22,6 +22,8 @@ layout: page
 1. Dizajn jezika specifičnih za domen
 
 ## U pripremi
+1. Rascal
+1. MPS
 1. Evolucija jezika specifičnih za domen
 1. Upravljanje verzijama
 

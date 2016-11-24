@@ -1,16 +1,5 @@
-class: center, middle
-
-# Programski jezik Python
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
-
----
+{% extends "base_slides.md" %}
+{% block slides %}
 
 name: sadrzaj
 
@@ -3478,3 +3467,5 @@ import arpeggio
 - [Python dokumentacija](https://docs.python.org/3/)
 - [virtualenv dokumentacija](http://virtualenv.readthedocs.org/en/latest/virtualenv.html)
 - [pip dokumentacija](https://pip.readthedocs.org/en/latest/)</a>
+
+{% endblock %}

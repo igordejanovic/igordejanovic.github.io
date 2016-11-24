@@ -1,17 +1,5 @@
-class: center, middle
-
-# setuptools & pkg_resources
-## Komponentni razvoj na programskom jeziku Python
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
-
----
+{% extends "base_slides.md" %}
+{% block slides %}
 
 name: sadrzaj
 
@@ -533,5 +521,4 @@ drwxr-xr-x  2 igor users 4096 Nov 20 14:39 tests
 ```
 ]
 
-
-
+{% endblock %}

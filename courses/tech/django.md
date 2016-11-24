@@ -1,19 +1,7 @@
-class: center, middle
-
-# Django
-## veb okvir za Python
-### bazirano na Django tutorijalu i verziji 1.8.6
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
+{% extends "base_slides.md" %}
+{% block slides %}
 
 {% raw %}
----
 
 name: sadrzaj
 
@@ -1420,3 +1408,5 @@ layout: false
 - [Django dokumentacija](https://docs.djangoproject.com/en/1.10/)
 
 {% endraw %}
+
+{% endblock %}

@@ -1,18 +1,5 @@
-class: center, middle
-
-# Git DVCS
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.small[Slajdovi u izradi]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
-
----
+{% extends "base_slides.md" %}
+{% block slides %}
 
 name: sadrzaj
 
@@ -1734,3 +1721,4 @@ Prvi commit.
   Dostupna na: https://git-scm.com/book/en/v2
 - Git dokumentacija - https://git-scm.com/doc
 
+{% endblock %}

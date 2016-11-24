@@ -1,16 +1,5 @@
-class: center, middle
-
-# Umetanje zavisnosti - *Dependency Injection*
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
-
----
+{% extends "base_slides.md" %}
+{% block slides %}
 
 name: sadrzaj
 
@@ -772,3 +761,5 @@ layout: false
 - [Google Guice Wiki](https://github.com/google/guice/wiki)
 - [`Injector` dokumentacija](http://injector.readthedocs.io/en/latest/)
 - [`Flask Injector` projekat](https://github.com/alecthomas/flask_injector)
+
+{% endblock %}

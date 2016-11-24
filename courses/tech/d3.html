@@ -4,6 +4,7 @@
     <title>D3</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../remarkslides.css">
+    
     <style>
 #sets circle {
   fill: none;
@@ -15,6 +16,7 @@
     font: 14px sans-serif;
 }
     </style>
+
     <!-- google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -30,17 +32,22 @@
 
 class: center, middle
 
-# Vizualizacija podataka sa D3
+# D3
 
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
+## Vizualizacija podataka
 
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
 
-.created[22.11.2016 u 20:12]
+.author[[Igor Dejanović](http://igordejanovic.net/)]
+
+.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)</br> [Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
+
+.small[Slajdovi u izradi]
+
+.created[24.11.2016 u 15:33]
 
 
 ---
+
 
 name: sadrzaj
 
@@ -219,9 +226,10 @@ circle.attr("r", 30);
 
 ```javascript
 d3.select('button').on("click",
-*  function(){
+  function(){
     d3.selectAll("circle")
-    .attr("cx", function() { return Math.random() * 720; });
+    .attr("cx",
+*         function() { return Math.random() * 720; });
   }
 );
 ```
@@ -390,9 +398,10 @@ layout: false
 
 - Knjiga: [D3 Tips and Tricks v4.x](https://leanpub.com/d3-t-and-t-v4)
 
+
+
     </textarea>
-    <script src="../remark-latest.min.js"> </script>
-    <script src="../d3.v4.min.js"></script>
+    <script src="../remark-latest.min.js"></script>
     <script>
         // https://github.com/gnab/remark/issues/72
         remark.macros.scale = function (percentage) {
@@ -406,7 +415,10 @@ layout: false
                     highlightStyle: 'github',
                     highlightLines: true
                 });
-
+    </script>
+    
+    <script src="../d3.v4.min.js"></script>
+    <script>
         var test_data = [8, 16, 23];
         d3.select("#p-with-font")
         .selectAll("p")
@@ -474,5 +486,6 @@ layout: false
         });
 
     </script>
+
   </body>
 </html>
