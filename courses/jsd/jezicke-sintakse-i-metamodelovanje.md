@@ -62,7 +62,7 @@ layout: true
 
 - Nastaje iz niske simbola (ulaznog stringa) procesom skeniranja (tokenizacije
   ili leksičke analize) i parsiranja.
-- Čvorovi stabla su tokeni prepoznati od strane skenera dok je struktura stabla
+- Listovi stabla su tokeni prepoznati od strane skenera dok je struktura stabla
   određena gramatikom jezika.
 - Stablo parsiranja reflektuje sintaksnu strukturu ulaznog stringa na bazi
   unapred definisane formalne gramatike.
