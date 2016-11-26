@@ -1,9 +1,8 @@
 class: center, middle
 
 # {{ title }}
-{% if subtitle %}
-## {{ subtitle }}
-{% endif %}
+{% if subtitle %}## {{ subtitle }}{% endif %}
+{% if subsubtitle %}### {{ subsubtitle }}{% endif %}
 
 .author[{{ author }}]
 

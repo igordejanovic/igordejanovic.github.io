@@ -1,18 +1,5 @@
-class: center, middle
-
-# Upravljanje konfiguracijom softvera
-## Osnove
-
-.author[ [Igor Dejanović](http://igordejanovic.net/) ]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)] </br>
-.small[[Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-.created[{{now|dtformat("%d.%m.%Y u %H:%M")}}]
-
-
----
-
+{% extends "base_slides.md" %}
+{% block slides %}
 name: sadrzaj
 
 ## Sadržaj
@@ -106,7 +93,7 @@ layout: true
 
 ## Stavka konfiguracije i promene - životni ciklus
 
-![](02-osnove/ConfigurationItem-Cycle.png)
+![](osnove/ConfigurationItem-Cycle.png)
 
 - Stavka konfiguracije nastaje iz plana.
 - Kasnije verzije nastaju kao proizvod zahteva za promenom.
@@ -139,7 +126,7 @@ layout: true
 
 ## Struktura CM procesa
 
-![:scale 90%](02-osnove/SCM-LogicalStructure.svg)
+![:scale 90%](osnove/SCM-LogicalStructure.svg)
 
 .footer[
 Anne Mette Jonassen Hass, *Configuration Management Principles and Practice*,
@@ -150,7 +137,7 @@ Addison-Wesley Professional, 2003.
 
 ## Arhitektura CM sistema
 
-![:scale 70%](02-osnove/SCM-architecture.png)
+![:scale 70%](osnove/SCM-architecture.png)
 
 
 ---
@@ -172,7 +159,7 @@ Addison-Wesley Professional, 2003.
 
 ## Identifikacija u kontekstu
 
-![:scale 60%](02-osnove/Identification.png)
+![:scale 60%](osnove/Identification.png)
 
 .medium[
 - Proces identifikacije započinje u dva slučaja: prvobitno kreiranje stavke
@@ -197,7 +184,7 @@ Addison-Wesley Professional, 2003.
 
 ## Upravljanje promenama u kontekstu
 
-![:scale 50%](02-osnove/ChangeControl.png)
+![:scale 50%](osnove/ChangeControl.png)
 
 - Upravljanje promenama je inicirano događajem.
 - Izlaz aktivnosti upravljanja promenama je dokumentovan događaj kao i zahtevi
@@ -254,7 +241,7 @@ Addison-Wesley Professional, 2003.
 
 ## Praćenje statusa u kontekstu
 
-![:scale 80%](02-osnove/StatusAccounting.png)
+![:scale 80%](osnove/StatusAccounting.png)
 
 - Praćenje statusa i izveštavanje može se obaviti u bilo kom trenutku.
 - Izlaz ove aktivnosti je izveštaj prema zadatim kriterijumima.
@@ -458,3 +445,5 @@ sledeće aktivnosti:
    ed., 2010.
 
 
+
+{% endblock %}
