@@ -30,7 +30,7 @@ class: center, middle
 
 
 
-.created[27.11.2016 u 17:10]
+.created[28.11.2016 u 20:03]
 
 
 ---
@@ -102,10 +102,10 @@ Osnovne klase alata:
 
 ## Stablo parsiranja
 
-- Nastaje iz niske simbola (ulaznog stringa) procesom <em>skeniranja</em>
-  (tokenizacije ili leksičke analize) i *parsiranja*.
+- Nastaje iz niske simbola (ulaznog stringa) procesom *skeniranja* (tokenizacije
+  ili leksičke analize) i *parsiranja*.
 - Listovi stabla su tokeni prepoznati od strane skenera (*terminali*) dok su
-  čvorovi grananja (*neterminali*) definisani gramatikom jezika.
+  unutrašnji čvorovi stabla (*neterminali*) definisani gramatikom jezika.
 - Stablo parsiranja reflektuje sintaksnu strukturu ulaznog stringa na bazi
   unapred definisane formalne gramatike.
   
@@ -124,6 +124,8 @@ Osnovne klase alata:
   apstraktne sintakse (*Abstract Syntax Tree*).
 - AST je usmereno labelirano stablo gde čvorovi stabla predstavljaju instance
   koncepata apstraktne sintakse.
+- AST ne sadrži elemente koje ne doprinose semantici kao što su ključne reči,
+  zagrade, "prazni" karakteri i komentari.
   
 ---
 
@@ -149,12 +151,6 @@ Osnovne klase alata:
 
 ---
 
-## Graf apstraktne semantike
-
-- Često ulazni fajl opisuje strukturu koja je u opštem slučaju tipa grafa.
-- Ovakvu strukturu nazivamo grafom apstraktne semantike (ASG - *Abstract
-  Semantic Graph*).
-  
 
 ---
 name: formalne-gramatike
@@ -363,7 +359,7 @@ https://en.wikipedia.org/wiki/Context-free_grammar
   različitih levih izvođenja.
 - Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa
   više različitih stabala parsiranja.
-- Klasičan primer je "viseći else".ref[1]:
+- Klasičan primer je "viseći else":
 
 ```
 if a then if b then s else s2
@@ -374,12 +370,9 @@ if a then (if b then s else s2)
 ```
 - Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
   izbegava višeznačnost. Na primer, za kod `if-else` klauzule može se dodati
-  `endif`.
+  ključna reč `endif`.
 ]
 
-.footer[
-1. http://en.wikipedia.org/wiki/Unambiguous_grammar#Dangling_else
-]
 
 ---
 
@@ -403,7 +396,8 @@ if a then (if b then s else s2)
 - Često se gramatika može refaktorisati da ne bude višeznačna.
 - Određeni parseri omogućavaju dodatna pravila (npr. *pravilo prioriteta*) koje
   pomaže u izboru produkcije koju treba primeniti.
-- Parseri će najčešće detektovati višeznačnost i prijaviti grešku.
+- Parser generatori će najčešće detektovati višeznačnost i prijaviti grešku.
+- Generalizovani parseri dozvoljavaju 
 - Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
   parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
   navođenja (s leva na desno).
@@ -624,13 +618,13 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 ## GLR
 
 - **G**eneralized **LR** parser.
-- Parsiranje nederminističkih i višeznačnih gramatika.
+- Parsiranje višeznačnih gramatika.
 - Efektivno radi kao LR parser ali u svakom stanju dozvoljava dozvoljava više
-  prelaza čime simulira neterministički algoritam.
-- Kod višeznačnih stringova vraća skup stabala parsiranja (šumu parsiranja -
-  *Parse Forest*).
-- Na korisniku da odredi ispravno stablo - najčešće dodatnim pravilima (npr.
-  prioritet, asicijativnost).
+  prelaza čime simulira nedeterministički algoritam.
+- Kod višeznačnih ulaza vraća skup stabala parsiranja (šumu parsiranja - *Parse
+  Forest*).
+- Na korisniku je da odredi ispravno stablo - najčešće dodatnim pravilima (npr.
+  prioritet, asocijativnost).
 - Bison u novijim verzijama može da generiše GLR parser.
 - SDF parser, Elkhound, DParser.
 
@@ -665,9 +659,9 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
   parser with backtracking*). Orijentisan je ka prepoznavanju ulaznog teksta.
 - Ideje datiraju unazad u ’70 godine prošlog veka.ref[1,2].
 - Rekurzivni silazni parseri nisu imali veću popularnost u 20. veku jer vreme
-  parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika memoizacije
-  u kom slučaju je linearno ali je potreban značajan memorijski prostor koji
-  direktno zavisi od veličine ulaza.
+  parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika
+  *memoizacije* u kom slučaju je linearno ali je potreban značajan memorijski
+  prostor koji direktno zavisi od veličine ulaza.
 - Bryan Ford je obnovio interesovanje za TDPL (*Top-Down Parsing Language*)
   fomalizam za opis gramatika.ref[3].
 - Gramatike koje opisuju TDPL Ford naziva gramatikama izraza za parsiranje
@@ -739,7 +733,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 
 ## Parser generatori
 
-- Na osnovu formalne gramatike <em>generišu programski kod</em> parsera koji će
+- Na osnovu formalne gramatike *generišu programski kod* parsera koji će
   prepoznavati rečenice na datom jeziku i pretvarati ulazne stringove u stabla
   parsiranja.
 - Često implementiraju mehanizam za obilazak stabla parsiranja i njegovu
