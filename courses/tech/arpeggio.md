@@ -551,6 +551,7 @@ parser = ParserPython(calc, debug=True)
 
 ## Vizuelizacija
 
+.medium[
 - U režimu za debagovanje kreiraju se `dot` fajlovi i za model parsera i za
   stablo parsiranja (ako nema sintaksnih grešaka).
 - Koristimo `dot` alat (deo GraphViz alata) za konverziju u grafičke formate.
@@ -558,7 +559,7 @@ parser = ParserPython(calc, debug=True)
 ```
 $ dot -Tpng -O calc_parser_model.dot
 ```
-
+]
 ![:scale 30%](arpeggio/calc_parser_model.dot.svg)
 
 

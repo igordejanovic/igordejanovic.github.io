@@ -11,7 +11,7 @@ layout: page
 1. [Jezičke sintakse i metamodelovanje](jsd/jezicke-sintakse-i-metamodelovanje.html)
 1. [Tekstualne sintakse](jsd/tekstualne-sintakse.html)
 1. [Arpeggio](tech/arpeggio.html)
-1. [textX](tech/textX.html)
+1. [textX](tech/textx.html)
 1. [Xtext](jsd/06-Xtext.html)
 
 ## Slajdovi na enastava.io (uskoro ovde)

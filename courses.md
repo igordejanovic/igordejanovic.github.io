@@ -17,7 +17,7 @@ order: 2
 
 ## Tehnologije
 
-- [textX](courses/tech/textX.html)
+- [textX](courses/tech/textx.html)
 - [Arpeggio](courses/tech/arpeggio.html)
 - [Programski jezik Python](courses/tech/Python.html)
 - [Django](courses/tech/django.html)
