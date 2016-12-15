@@ -897,13 +897,19 @@ $ git push origin --delete udaljena_grana
 
 ---
 
-# TODO: Poređenje grana (*commit*-a)
+# Poređenje grana (*commit*-a)
 
 Da bi videli koji fajlovi su promenjeni između dve grane uz ignorisanje
-*whitespace* karaktera:
+*whitespace* karaktera (`-w`):
 
 ```
 $ git diff -w --name-status master..integration
+```
+
+Da vidimo promene između vrhova dve grane:
+
+```
+$ git diff master..integration | kompare -
 ```
 
 Da vidimo vizuelno sve izmene nad fajlovima u folderu `src`:
@@ -912,7 +918,17 @@ Da vidimo vizuelno sve izmene nad fajlovima u folderu `src`:
 $ git diff -w --diff-filter=M master..integration src/ | kompare -
 ```
 
+Šta imamo na `integration` što nije uključeno na `master` (**tri tačke!**):
+```
+$ git diff master...integration | kompare -
+```
+
 Poređenje možemo obaviti između bilo koja dva *commit*-a (po *hash* *id*-u).
+
+---
+
+# Poređenje grana
+
 
 
 ---
