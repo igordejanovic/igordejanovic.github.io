@@ -21,7 +21,7 @@ order: 2
 - [Arpeggio](courses/tech/arpeggio.html)
 - [Programski jezik Python](courses/tech/Python.html)
 - [Django](courses/tech/django.html)
-- [Docker](courses/tech/Docker.html)
+- [Docker](courses/tech/docker.html)
 - [D3](courses/tech/d3.html)
 - [SWT & JFace](courses/tech/SWT-JFace.html)
   - [SWT&JFace examples](courses/tech/SWT-JFace/STW-JFace-examples.tar.gz)
