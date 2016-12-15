@@ -5,6 +5,9 @@ name: sadrzaj
 # Sadržaj
 
 - [Uvod](#uvod)
+- [Rad sa kontejnerima](#rad-sa-kontejnerima)
+- [Rad sa slikama](#rad-sa-slikama)
+- [Vizuelizacija](#vizuelizacija)
 
 ---
 name: uvod
@@ -59,16 +62,16 @@ https://docs.docker.com/engine/introduction/understanding-docker/
 ]
 
 ---
-name: hello-world
+name: rad-sa-kontejnerima
 class: center, middle
 layout: false
 
-# Hello World
+# Rad sa kontejnerima
 
 ---
 layout: true
 
-.section[[Hello World](#sadrzaj)]
+.section[[Kontejneri](#sadrzaj)]
 
 ---
 
@@ -126,18 +129,6 @@ CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PO
 
 
 - `-d` | `--detach` - ne "kačiti" se za STDOUT
-
----
-name: jednostavna-aplikacija
-class: center, middle
-layout: false
-
-# Jednostavna aplikacija
-
----
-layout: true
-
-.section[[Jednostavna aplikacija](#sadrzaj)]
 
 ---
 
@@ -311,7 +302,7 @@ layout: false
 ---
 layout: true
 
-.section[[Rad sa slikama](#sadrzaj)]
+.section[[Slike](#sadrzaj)]
 
 ---
 
@@ -600,7 +591,7 @@ layout: false
 
 
 ---
-name: vizuelizacija-doker-kontejnera
+name: vizuelizacija
 class: center, middle
 layout: false
 
@@ -609,7 +600,7 @@ layout: false
 ---
 layout: true
 
-.section[[Vizuelizacija doker kontejnera](#sadrzaj)]
+.section[[Vizuelizacija](#sadrzaj)]
 
 ---
 
@@ -670,6 +661,7 @@ $ dockviz images -t -i
             
 
 ---
+layout: false
 
 ## Reference
 
