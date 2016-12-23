@@ -13,10 +13,10 @@ layout: page
 1. [Arpeggio](tech/arpeggio.html)
 1. [textX](tech/textx.html)
 1. [Xtext](jsd/06-Xtext.html)
+1. [Generisanje programskog koda](jsd/generisanje-programskog-koda.html)
 1. [Anatomija jednog DSL-a](jsd/anatomija-dsla.html)
 
 ## Slajdovi na enastava.io (uskoro ovde)
-1. Generisanje programskog koda i interpretacija
 1. Spoofax
 1. Grafičke sintakse i alati
 1. Dizajn jezika specifičnih za domen
