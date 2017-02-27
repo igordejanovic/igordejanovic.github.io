@@ -6,7 +6,7 @@ layout: page
 ---
 
 
-1. [O predmetu](sok/1-upoznavanje.html)
+1. [O predmetu](sok/upoznavanje.html)
 1. [Uvod](sok/2-uvod.html)
 1. [Fundamentalni i kreacioni obrasci](sok/3-fundamentalni-i-kreacioni-obrasci.html)
     - [Factory Method primer](sok/primeri/creational.factorymethod.zip)
