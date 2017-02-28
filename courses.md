@@ -15,6 +15,8 @@ order: 2
 
 - [Softverski obrasci i komponente](courses/sok.html)
 
+- [Napredne tehnike programiranja](courses/ntp.html)
+
 ## Tehnologije
 
 - [textX](courses/tech/textx.html)
