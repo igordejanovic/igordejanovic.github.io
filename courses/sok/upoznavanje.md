@@ -126,14 +126,12 @@
 - Opciono: konzola za upravljanje platformom: izmena sintaksi,
     izmena modela itd
 - Tehnologije:
-
   - Integraciona platforma – Python setuptools
   - Server strana: [Django](https://www.djangoproject.com/)
   - Baza: [MongoDB](https://www.mongodb.com/), [SQLite](https://www.sqlite.org/)
     ili [PostgreSQL](https://www.postgresql.org/)
   - GUI – HTML, CSS, JavaScript
   - Vizualizacija grafova – [D3.js](https://d3js.org/)
-  - I naravno: git i GitLab
 
 ---
 ## Literatura
