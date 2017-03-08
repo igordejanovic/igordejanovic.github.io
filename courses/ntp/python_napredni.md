@@ -7,6 +7,7 @@ name: sadrzaj
 - [Specijalne metode](#specijalne-metode)
 - [Properties](#properties)
 - [Descriptors](#descriptors)
+- [Decorators](#decorators)
 - [functools](#functools)
 - [itertools](#itertools)
 - [collections](#collections)
@@ -319,7 +320,7 @@ layout: true
 ---
 ## Problem sa *properties*
 
-.small[
+.medium[
 ```python
 class Movie(object):
     def __init__(self, title, rating, runtime, budget, gross):
@@ -427,6 +428,120 @@ except ValueError:
 .footer.small[
 Chris Beaumont: [Python Descriptors Demystified](http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb)
 ]
+
+
+---
+name: decorators
+class: center, middle
+layout: false
+
+# Dekoratori(*Decorators*)
+
+---
+layout: true
+
+.section[[Decorators](#sadrzaj)]
+
+---
+
+## Dekoratori
+
+- Dekorator obrazac.
+- Funkcije koje prihvataju kao parametar funkciju (ili uopšte
+  `callable`) i vraćaju izmenjenu verziju.
+
+.lcol-narrow[
+```python
+@trace
+def square(x):
+  return x*x
+
+# Ovo je ekvivalentno sa
+def square(x):
+  return x*x
+square = trace(square)
+```
+]
+
+.rcol-wide[
+```python
+enable_tracing = True
+if enable_tracing:
+  debug_log = open("debug.log","w")
+def trace(func):
+  if enable_tracing:
+    def callf(*args,**kwargs):
+      debug_log.write("Calling %s: %s, %s\n" %
+              (func._ _name_ _, args, kwargs))
+      r = func(*args,**kwargs)
+      debug_log.write("%s returned %s\n" %
+                      (func._ _name, r))
+      return r
+    return callf
+  else:
+    return func
+```
+]
+
+
+---
+
+## Dekoratori (2)
+
+Mogu da se stekuju.
+
+```python
+@foo
+@bar
+@spam
+def grok(x):
+  pass
+```
+
+je isto što i
+```python
+def grok(x):
+  pass
+grok = foo(bar(spam(grok)))
+```
+
+
+---
+
+## Dekoratori (3)
+
+Mogu da imaju parametre
+
+.lcol[
+```python
+@eventhandler('BUTTON')
+def handle_button(msg):
+  ...
+
+@eventhandler('RESET')
+def handle_reset(msg):
+  ...
+
+# Sto je ekvivalentno sa
+def handle_button(msg):
+...
+temp = eventhandler('BUTTON')
+handle_button = temp(handle_button)
+```
+]
+
+.rcol[
+```python
+# Event handler decorator
+event_handlers = { }
+def eventhandler(event):
+  def register_function(f):
+    event_handlers[event] = f
+    return f
+  return register_function
+```
+]
+
 
 ---
 layout: false
