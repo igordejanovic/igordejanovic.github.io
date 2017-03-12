@@ -518,10 +518,10 @@ name: textX
 class: center, middle
 layout: false
 
-# [textX](../tech/textX.html)
+# [textX](../tech/textx.html)
 
 
 .footer[
-Prati [textX link](../tech/textX.html).
+Prati [textX link](../tech/textx.html).
 ]
 {% endblock %}
