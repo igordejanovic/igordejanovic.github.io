@@ -94,12 +94,12 @@ Informacije o promenama se izračunavaju po potrebi.
 ---
 
 # Veza radnog stabla, indeksa i repozitorijuma
-![Veza radnog stabla, indeksa i repozitorijuma](git/Workflow.svg)
+![:scale 80%](git/Workflow.svg)
 
 ---
 
 # Životni ciklus fajla u git repozitorijumu
-![Životni ciklus fajla u git repozitorijumu](git/FileLifecycle.svg)
+![:scale 80%](git/FileLifecycle.svg)
 
 ---
 
@@ -686,7 +686,7 @@ layout: true
 ![:scale 70%](git/DAG.svg)
 ]
 
-.medium[
+.small[
 - grane su reference(*refs*) na poslednji *commit* alternativnog toka.
 - `nova_grana` je lokalna grana na kojoj se radno stablo trenutno nalazi (`HEAD`
   pokazuje na ovu granu).
@@ -819,6 +819,7 @@ Objavljivanje/kreiranje grane na udaljenom repozitorijumu se radi na sledeći
 način:
 ```
 $ git push origin moja_grana
+$ git push -u origin moja_grana    # sa podešavanjem upstream grane
 ```
 
 Ili ako želite da se na udaljenom repo-u zove drugačije
@@ -841,7 +842,7 @@ $ git push origin '*:*'
 A ako želimo da lokalne grane ujedno postanu tracking za
 upravo objavljene grane
 ```
-$ git push --set-upstream --all origin
+$ git push -u --all origin
 ```
 
 Naravno preduslov je da je `origin` udaljeni repozitorijum
@@ -899,6 +900,7 @@ $ git push origin --delete udaljena_grana
 
 # Poređenje grana (*commit*-a)
 
+.medium[
 Da bi videli koji fajlovi su promenjeni između dve grane uz ignorisanje
 *whitespace* karaktera (`-w`):
 
@@ -924,10 +926,7 @@ $ git diff master...integration | kompare -
 ```
 
 Poređenje možemo obaviti između bilo koja dva *commit*-a (po *hash* *id*-u).
-
----
-
-# Poređenje grana
+]
 
 
 
@@ -1003,7 +1002,7 @@ način.
 
 Drugi mehanizam spajanja promena sa druge grane je *rebase*.
 
-![Rebase](git/Merge-rebase.svg)
+![:scale 90%](git/Merge-rebase.svg)
 
 .attention[
   **Važno**: Nikada ne raditi *rebase* promena koje ste poslali u drugi repozitorijum.
@@ -1187,8 +1186,6 @@ Imamo sledeće situacije:
 
 ## Odustajanje od lokalnih promena
 
-.medium[
-
 Izmenili smo indeks ili smo izmenili fajlove u lokalnom stablu. Ukoliko želimo
 da poništimo sadržaj index-a i/ili lokalnog stabla koristimo komandu `reset`.
 `reset` komanda može da, opciono, "premota" `HEAD` pokazivač tekuće grane na
@@ -1200,6 +1197,10 @@ nema razlika.
 ```
 $ git reset --hard HEAD
 ```
+
+---
+
+## Odustajanje od lokalnih promena
 
 Samo želimo da premotamo tekući `HEAD` jednu verziju unazad ali ne želimo da
 promenimo indeks i radno stablo. Promene obeležene za dodavanje ostaju.
@@ -1213,9 +1214,8 @@ ponašanje (`--mixed` može da se izostavi).
 ```
 $ git reset --mixed HEAD
 ```
-]
 
-.attention.small[
+.attention[
   **Napomena**: Pomeranjem `HEAD`-a git pamti prethodni u `ORIG_HEAD` tako da možemo uvek da
   poništimo efekat `reset` komande.
 ]
@@ -1700,13 +1700,13 @@ Prvi commit.
 # Prvi *commit*
 
 
-.center[![:scale 40%](git/prvi-commit.svg)]
+.center[![:scale 35%](git/prvi-commit.svg)]
 
 ---
 
 # Drugi *commit*
 
-.center[![:scale 80%](git/drugi-commit.svg)]
+.center[![:scale 65%](git/drugi-commit.svg)]
 
 ---
 
