@@ -8,7 +8,7 @@ layout: page
 
 1. [O predmetu](sok/upoznavanje.html)
 1. [Uvod](sok/2-uvod.html)
-1. [Fundamentalni i kreacioni obrasci](sok/3-fundamentalni-i-kreacioni-obrasci.html)
+1. [Fundamentalni i kreacioni obrasci](sok/kreacioni.html)
     - [Factory Method primer](sok/primeri/creational.factorymethod.zip)
     - [Prototype primer](sok/primeri/creational.prototype.zip)
 1. [Strukturalni obrasci](sok/4-strukturalni-obrasci.html)
