@@ -6,7 +6,7 @@ order: 2
 ---
 
 ---
-
+ 
 ## Slajdovi za predavanja
 
 - [Jezici specifični za domen (Domain-Specific Languages)](courses/jsd.html)
