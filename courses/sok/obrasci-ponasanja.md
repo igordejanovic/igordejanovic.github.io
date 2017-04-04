@@ -278,7 +278,7 @@ layout: true
 
 # Saradnja učesnika
 
-![Observer saradnja](obrasci-ponasanja/Observer-Sequence.png)
+![:scale 90%](obrasci-ponasanja/Observer-Sequence.png)
 
 ---
 
@@ -446,7 +446,7 @@ layout: true
 
 # Struktura obrasca
 
-![Template method struktura](obrasci-ponasanja/TemplateMethod-Abstract.png)
+![:scale 70%](obrasci-ponasanja/TemplateMethod-Abstract.png)
 
 ---
 
@@ -493,7 +493,7 @@ layout: true
 
 # Struktura
 
-![Visitor struktura](obrasci-ponasanja/Visitor-Abstract.png)
+![:scale 90%](obrasci-ponasanja/Visitor-Abstract.png)
 
 ---
 
@@ -554,8 +554,7 @@ zahtev (izvrši obradu).
 
 # Struktura
 
-![Chain of Responsibility
-struktura](obrasci-ponasanja/ChainOfResponsibility-Abstract.png)
+![:scale 70%](obrasci-ponasanja/ChainOfResponsibility-Abstract.png)
 
 ---
 
