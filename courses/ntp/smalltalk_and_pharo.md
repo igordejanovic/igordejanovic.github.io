@@ -151,7 +151,7 @@ exampleWithNumber: x
 ## Napisan u samom sebi
 
 - Sve je napisano u Pharo!
-- Jednostavna sintaks/model za pristup svemu.
+- Jednostavna sintaksa/model za pristup svemu.
 
 ![:scale 40%](smalltalk_and_pharo/hands.jpg)
 
@@ -1311,6 +1311,50 @@ Point class >> x: xInteger y: yInteger
 ```
 ]
 
+---
+## Česta greška
+
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+```
+
+- `Counter withValue: 10` vraća `Counter` klasu umesto njenu instancu.
+
+---
+## Zašto?
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+```
+
+je ekvivalentno sa:
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself.
+  ^self
+```
+
+Gde je `self` prijemnik poruke `withValue:` tj. klasa `Counter`.
+
+---
+## Rešenje
+
+```smalltalk
+Counter class >> withValue: anInteger
+  ^self new
+  value: anInteger;
+  yourself
+```
 
 
 ---
