@@ -7,14 +7,14 @@ name: sadrzaj
 - [Smalltalk](#smalltalk)
 - [Pharo uvod](#pharo_uvod)
 - [Poruke](#poruke)
-- [Petlje i iteracije](#iteracija)
 - [Blokovi](#blokovi)
+- [Petlje i iteracije](#iteracija)
 - [Bulovi izrazi i uslovi](#bulovi-izrazi)
 - [Klase i metode](#klase-i-metode)
 - [yourself](#yourself)
-- [Dispatch](#dispatch)
+- [Nasleđivanje i pretraga metoda](#nasleđivanje)
+- [Implementacija Boolean tipa](#dispatch)
 - [Klase i kolekcije](#kolekcije)
-- [Nasleđivanje i pretraga metoda](#nasledjivanje)
 - [Izuzeci, debagovanje i refleksija](#izuzeci)
 
 ---
@@ -119,6 +119,19 @@ layout: true
 - 100% MIT
 
 ---
+## Pharo instalacija
+
+- http://get.pharo.org
+
+```shell
+mkdir pharo
+cd pharo
+curl get.pharo.org | bash 
+ili
+wget -O- get.pharo.org | bash 
+```
+
+---
 ## Cela sintaksa
 
 Staje na jedan slajd:
@@ -136,8 +149,8 @@ exampleWithNumber: x
                        show: (each printString);
                        show: ' '].
     ^x < y
-
 ```
+
 ---
 ## Model
 
@@ -383,6 +396,7 @@ prikazali u prozoru.
 [ :x | x + 2 ] value: 5
 => 7
 ```
+
 
 ---
 name: poruke
@@ -745,114 +759,6 @@ OrderedCollection new
   porukom `new`.
 
 
-
----
-name: iteracija
-class: center, middle
-layout: false
-
-# Petlje i iteracije 
-
----
-layout: true
-
-.section[[Petlje i iteracije](#sadrzaj)]
-
----
-## Petlje su takođe implementirane kao poruke
-
-```smalltalk
-1 to: 4 do: [ :i | Transcript << i ]
-> 1
-> 2
-> 3
-> 4
-```
-- `to:do:` je poruka poslata broju (instanci `Integer` klase)
-
----
-## Petlje su takođe implementirane kao poruke
-
-- Mnoge druge vrste petlji: `timesRepeat:`, `to:by:do:`, `whileTrue:`,
-  `whileFalse:`...
-
-```smalltalk
-4 timesRepeat: [self doSomething ]
-
-0 to: 100 by: 3 do: [ :i | ... ]
-
-```
-
-- Možete lako napraviti novu vrstu petlje koja se neće razlikovati od sistemske.
-
----
-## `whileTrue:`
-
-```smalltalk
-[ ... ] whileTrue: [ ... ]
-```
-
-Izvršava argument dok god je vrednost prijemnika `true`
-
-```smalltalk
-Color >> atLeastAsLuminentAs: aFloat
-  | revisedColor |
-  revisedColor := self.
-  [ revisedColor luminance < aFloat ]
-    whileTrue: [ revisedColor := revisedColor slightlyLighter ].
-  ^ revisedColor
-```
-
----
-## `whileTrue`
-
-Izvršava blok prijemnik sve dok je vrednost `true`:
-```smalltalk
-[ ... ] whileTrue
-
-```
-
-Analogno, postoje i `whileFalse` i `whileFalse:`
-
-
----
-## Iteracije
-
-Implementirane kao poruke.
-
-Pitamo kolekciju da uradi iteraciju svojih elemenata:
-
-```smalltalk
-#(1 2 -4 -86) do: [ :each | Transcript show: each abs printString; cr ]
-> 1
-> 2
-> 4
-> 86
-```
-
----
-## Osnovne iteracije definisane nad kolekcijama
-
-- `do:` - iteracija
-- `collect:` - iteracija i mapiranje elemenata
-- `select:` - selekcija elemenata na osnovu predikata
-- `reject:` - eliminacija elemenata na osnovu predikata
-- `detect:` - vraća prvi koji zadovoljava uslov
-- `detect:ifNone:` - vraća prvi koji zadovoljava uslov ili podrazumevanu
-vrednost ukoliko takvog nema u kolekciji
-- `includes:` - test da li elemenat pripada kolekciji
-- ... mnogi drugi
-
-```smalltalk
-#(2 3 7) collect: [ :each | each raisedTo: 2 ]
-> #(4 9 49)
-
-#(2 9 7) detect: [ :i | (i \\ 3) = 0 ]
-> 9
-```
-
-
-
 ---
 name: blokovi
 class: center, middle
@@ -1072,6 +978,114 @@ Integer>>factorial
 - Definisati klasu umesto bloka za više parametara
 
 
+---
+name: iteracija
+class: center, middle
+layout: false
+
+# Petlje i iteracije 
+
+---
+layout: true
+
+.section[[Petlje i iteracije](#sadrzaj)]
+
+---
+## Petlje su takođe implementirane kao poruke
+
+```smalltalk
+1 to: 4 do: [ :i | Transcript << i ]
+> 1
+> 2
+> 3
+> 4
+```
+- `to:do:` je poruka poslata broju (instanci `Integer` klase)
+
+---
+## Petlje su takođe implementirane kao poruke
+
+- Mnoge druge vrste petlji: `timesRepeat:`, `to:by:do:`, `whileTrue:`,
+  `whileFalse:`...
+
+```smalltalk
+4 timesRepeat: [self doSomething ]
+
+0 to: 100 by: 3 do: [ :i | ... ]
+
+```
+
+- Možete lako napraviti novu vrstu petlje koja se neće razlikovati od sistemske.
+
+---
+## `whileTrue:`
+
+```smalltalk
+[ ... ] whileTrue: [ ... ]
+```
+
+Izvršava argument dok god je vrednost prijemnika `true`
+
+```smalltalk
+Color >> atLeastAsLuminentAs: aFloat
+  | revisedColor |
+  revisedColor := self.
+  [ revisedColor luminance < aFloat ]
+    whileTrue: [ revisedColor := revisedColor slightlyLighter ].
+  ^ revisedColor
+```
+
+---
+## `whileTrue`
+
+Izvršava blok prijemnik sve dok je vrednost `true`:
+```smalltalk
+[ ... ] whileTrue
+
+```
+
+Analogno, postoje i `whileFalse` i `whileFalse:`
+
+
+---
+## Iteracije
+
+Implementirane kao poruke.
+
+Pitamo kolekciju da uradi iteraciju svojih elemenata:
+
+```smalltalk
+#(1 2 -4 -86) do: [ :each | Transcript show: each abs printString; cr ]
+> 1
+> 2
+> 4
+> 86
+```
+
+---
+## Osnovne iteracije definisane nad kolekcijama
+
+- `do:` - iteracija
+- `collect:` - iteracija i mapiranje elemenata
+- `select:` - selekcija elemenata na osnovu predikata
+- `reject:` - eliminacija elemenata na osnovu predikata
+- `detect:` - vraća prvi koji zadovoljava uslov
+- `detect:ifNone:` - vraća prvi koji zadovoljava uslov ili podrazumevanu
+vrednost ukoliko takvog nema u kolekciji
+- `includes:` - test da li elemenat pripada kolekciji
+- ... mnogi drugi
+
+```smalltalk
+#(2 3 7) collect: [ :each | each raisedTo: 2 ]
+> #(4 9 49)
+
+#(2 9 7) detect: [ :i | (i \\ 3) = 0 ]
+> 9
+```
+
+
+
+
 
 ---
 ## Interesantni primeri
@@ -1159,14 +1173,6 @@ Weather isRaining
 - Konceptualno `ifTrue:ifFalse` je poruka koja se šalje objektu koji ima Bulovu
   vrednost (ili je `true` ili je `false`).
 - Optimizovano od strane kompajlera.
-
----
-## Implementacija `Boolean` tipa
-
-- `true` je jedinstvena instanca klase `True`
-- `false` je jedinstvena instanca klase `False`
-
-![:scale 40%](smalltalk_and_pharo/boolean.png)
 
 ---
 ## `ifTrue` i `ifTrue:ifFalse:`
@@ -1311,51 +1317,6 @@ Point class >> x: xInteger y: yInteger
 ```
 ]
 
----
-## Česta greška
-
-
-```smalltalk
-Counter class >> withValue: anInteger
-  self new
-  value: anInteger;
-  yourself
-```
-
-- `Counter withValue: 10` vraća `Counter` klasu umesto njenu instancu.
-
----
-## Zašto?
-
-```smalltalk
-Counter class >> withValue: anInteger
-  self new
-  value: anInteger;
-  yourself
-```
-
-je ekvivalentno sa:
-
-```smalltalk
-Counter class >> withValue: anInteger
-  self new
-  value: anInteger;
-  yourself.
-  ^self
-```
-
-Gde je `self` prijemnik poruke `withValue:` tj. klasa `Counter`.
-
----
-## Rešenje
-
-```smalltalk
-Counter class >> withValue: anInteger
-  ^self new
-  value: anInteger;
-  yourself
-```
-
 
 ---
 name: yourself
@@ -1430,24 +1391,215 @@ Set new
 - Poruke `add:` i `yourself` se šalju skupu
 - kaskada `;` vraća objekat koji vraća poruka `yourself` - u našem slučaju skup.
 
+---
+## Česta greška
+
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+```
+
+- `Counter withValue: 10` vraća `Counter` klasu umesto njenu instancu.
+
+---
+## Zašto?
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+```
+
+je ekvivalentno sa:
+
+```smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself.
+  ^self
+```
+
+Gde je `self` prijemnik poruke `withValue:` tj. klasa `Counter`.
+
+---
+## Rešenje
+
+```smalltalk
+Counter class >> withValue: anInteger
+  ^self new
+  value: anInteger;
+  yourself
+```
+
+
+---
+name: nasleđivanje
+class: center, middle
+layout: false
+
+# Nasleđivanje i pretraga metoda (*Method Lookup*)
+
+---
+layout: true
+
+.section[[Nasleđivanje i pretraga metoda](#sadrzaj)]
+
+---
+
+## Osnove
+
+.lcol-wide[
+Podklasa:
+- Može da doda stanje i ponašanje
+- Može da koristi stanje i ponašanje nadklase 
+- Može da izvrši specijalizaciju i redefiniciju ponašanja nadklase
+]
+.rcol-narrow[
+![:scale 70%](smalltalk_and_pharo/inheritance.png)
+]
+
+---
+## Koren hijerarhije nasleđivanja
+
+.lcol-wide[
+- Možemo smatrati da je klasa `Object` korenska klasa svake klase.
+- Postoji i klasa `ProtoObject` ali je njena upotreba specijalna pa je nećemo
+  razmatrati.
+]
+.rcol-narrow[
+![:scale 70%](smalltalk_and_pharo/hierarchy.png)
+]
+
+---
+## Osnove nasleđivanja
+
+Nasleđivanje je:
+- Statičko za stanje (u vreme definisanja klase).
+- Dinamičko za ponašanje (u vreme izvršavanja).
+
+---
+## Nasleđivanje varijabli instanci klasa
+
+.lcol-wide[
+- Dešava se za vreme definicije klase.
+- Izračunava se na osnovu:
+  - Varijabli posmatrane klase.
+  - Varijabli svih nadklasa.
+]
+
+.rcol-narrow[
+![:scale 70%](smalltalk_and_pharo/inheritance.png)
+]
+
+
+---
+## Nasleđivanje ponašanja
+
+.lcol-wide[
+- Dešava se u vreme izvršavanja
+- Metoda se traži:
+  - Počevši od klase objekta prijemnika
+  - Zatim u svim nadklasama uz lanac nasleđivanja.
+]
+
+.rcol-narrow[
+![:scale 90%](smalltalk_and_pharo/method_lookup.png)
+]
+
+---
+## Slanje i obrada poruka
+
+.lcol[
+Obrada poruke se obavlja u dva koraka:
+1. Pretraga odgovarajuće metode.
+2. Izvršavanje metode na objektu prijemniku.
+]
+
+.rcol[
+![:scale 90%](smalltalk_and_pharo/message_sending.png)
+]
+
+
+---
+## Semantika `self` ključne reči
+
+- `self` ključna reč se koristi u implementaciji metoda i *uvek* predstavlja
+  objekat prijemnik.
+
+![:scale 50%](smalltalk_and_pharo/self_example.png)
+
+- Šta je rezultat izraza `A new foo` a šta izraza `B new foo`?
+- Šta je rezultat izraza `A new bar` a šta izraza `B new bar`?
+
+---
+## Semantika `super` ključne reči
+
+
+![:scale 50%](smalltalk_and_pharo/super_example.png)
+
+- `super` predstavlja objekat prijemnik ali pretraga poruka započinje u nadklasi
+  klase u kojoj se `super` nalazi.
+- Šta su rezultati izraza `A new bar`, `B new bar` i `C new bar`?
+
+---
+## `self` se određuje dinamički
+
+.lcol[
+![:scale 90%](smalltalk_and_pharo/self_example.png)
+]
+
+.rcol[
+U metodi `A>>bar` kod `^self foo` ne znamo do vremena izvršavanja na koji `foo`
+se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
+]
+
+---
+## `super` se određuje statički
+
+
+.lcol[
+![:scale 70%](smalltalk_and_pharo/super_static.png)
+]
+
+.rcol[
+- U vreme kompajliranja znamo da metoda `B>>foo` referencira `A>>foo` putem `super`.
+- Uvek počinjemo pretragu u nadklasi klase koja sadrži metodu koja koristi `super`.
+]
+
+---
+## Poruke koje nemaju odgovarajuću metodu
+
+- Ukoliko metoda nije pronađena standardnim mehanizmom pretrage, prijemniku se
+  šalje poruka `doesNotUnderstand`
+- Podrazumevana implementacija u `Object` klasi signalizira izuzetak
+  `MessageNotUndertood`.
+  
+![:scale 45%](smalltalk_and_pharo/doesNotUnderstand.png)
+
+
 
 ---
 name: dispatch
 class: center, middle
 layout: false
 
-# Dispatch
+# Implementacija `Boolean` tipa
 
 ---
 layout: true
 
-.section[[Dispatch](#sadrzaj)]
+.section[[Implementacija `Boolean` tip](#sadrzaj)]
 
 ---
 
-## Konteks: implementacija Boolean tipa
+## Implementacija Boolean tipa
 
-U Pharo Boolean tip ima odličnan dizajn:
+U Pharo Boolean tip ima odličan dizajn:
 
 - `&, |, not` - *eager*
 - `or:, and:` - *lazy*
@@ -1623,34 +1775,43 @@ True >> | aBoolean
 ```
 
 
----
-## Knjige
-
-- http://books.pharo.org
-
----
-## Download
-
-- http://get.pharo.org
-
-mkdir pharo
-cd pharo
-wget -O- get.pharo.org | bash
+- [Klase i kolekcije](#kolekcije)
+- [Izuzeci, debagovanje i refleksija](#izuzeci)
 
 
 
 ---
-# Reference
+name: klase-i-kolekcije
+class: center, middle
+layout: false
 
-- Bazirano na [Pharo MOOC](http://mooc.pharo.org)
+# Klase i kolekcije (TODO)
+
+---
+layout: true
+
+.section[[Klase i kolekcije](#sadrzaj)]
+
+---
+name: izuzeci
+class: center, middle
+layout: false
+
+# Izuzeci, debagovanje i reflekcija (TODO)
+
+---
+layout: true
+
+.section[[Izuzeci, debagovanje i reflekcija](#sadrzaj)]
+
+---
+layout: false
+## Reference
+
+- Pharo MOOC - http://mooc.pharo.org
 - [Video lekcije](http://rmod-pharo-mooc.lille.inria.fr/MOOC/WebPortal/co/pharo.html)
-
-
-http://amber-lang.net/
-
-http://worrydream.com/EarlyHistoryOfSmalltalk/
-
-http://themoosebook.org/
+- Pharo knjige - http://books.pharo.org
+- Client-side smalltalk - Amber - http://amber-lang.net/
 
 
 {% endblock %}
