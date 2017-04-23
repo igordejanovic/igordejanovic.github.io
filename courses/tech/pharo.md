@@ -83,7 +83,7 @@ layout: true
 ---
 ## Familija Smalltalk i vezanih jezika
 
-![:scale 80%](smalltalk_and_pharo/smalltalk-history.png)
+![:scale 80%](pharo/smalltalk-history.png)
 
 .footer[
 http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro.html
@@ -166,7 +166,7 @@ exampleWithNumber: x
 - Sve je napisano u Pharo!
 - Jednostavna sintaksa/model za pristup svemu.
 
-![:scale 40%](smalltalk_and_pharo/hands.jpg)
+![:scale 40%](pharo/hands.jpg)
 
 ---
 ## Introspekcija
@@ -176,7 +176,7 @@ exampleWithNumber: x
   "naživo".
 - Npr. Alt+Shift+Click -> Halo hendleri!
 
-![:scale 20%](smalltalk_and_pharo/halo.png)
+![:scale 20%](pharo/halo.png)
 
 
 ---
@@ -186,7 +186,7 @@ exampleWithNumber: x
 - Sa alatima *Spotter* (`Shift+Enter`) i *Finder* možete pronaći implementaciju
   bilo koje klase/poruke sistema.
 
-![:scale 80%](smalltalk_and_pharo/finder_spotter.png)
+![:scale 80%](pharo/finder_spotter.png)
 
 - *Finder* ima interesantnu opciju pretrage po primeru.
 
@@ -196,7 +196,7 @@ exampleWithNumber: x
 
 - Kompletan kod je dostupan za analizu.
 
-![:scale 80%](smalltalk_and_pharo/browse.png)
+![:scale 80%](pharo/browse.png)
 
 ---
 ## Samo objekti, poruke...
@@ -1233,13 +1233,13 @@ layout: true
 ---
 ## System Browser
 
-![:scale 80%](smalltalk_and_pharo/browser.png)
+![:scale 80%](pharo/browser.png)
 
 
 ---
 ## Kreiranje klase
 
-![:scale 80%](smalltalk_and_pharo/point_class.png)
+![:scale 80%](pharo/point_class.png)
 
 
 ## Kreiranje klase
@@ -1271,7 +1271,7 @@ messageSelectorAndArgumentNames
 ---
 ## Primer definicije metode
 
-![:scale 80%](smalltalk_and_pharo/method_definition.png)
+![:scale 80%](pharo/method_definition.png)
 
 
 ---
@@ -1299,7 +1299,7 @@ Game >> initializePlayers
 
 
 .lcol[
-![:scale 100%](smalltalk_and_pharo/class_methods.png)
+![:scale 100%](pharo/class_methods.png)
 ]
 
 .rcol[
@@ -1460,7 +1460,7 @@ Podklasa:
 - Može da izvrši specijalizaciju i redefiniciju ponašanja nadklase
 ]
 .rcol-narrow[
-![:scale 70%](smalltalk_and_pharo/inheritance.png)
+![:scale 70%](pharo/inheritance.png)
 ]
 
 ---
@@ -1472,7 +1472,7 @@ Podklasa:
   razmatrati.
 ]
 .rcol-narrow[
-![:scale 70%](smalltalk_and_pharo/hierarchy.png)
+![:scale 70%](pharo/hierarchy.png)
 ]
 
 ---
@@ -1493,7 +1493,7 @@ Nasleđivanje je:
 ]
 
 .rcol-narrow[
-![:scale 70%](smalltalk_and_pharo/inheritance.png)
+![:scale 70%](pharo/inheritance.png)
 ]
 
 
@@ -1508,7 +1508,7 @@ Nasleđivanje je:
 ]
 
 .rcol-narrow[
-![:scale 90%](smalltalk_and_pharo/method_lookup.png)
+![:scale 90%](pharo/method_lookup.png)
 ]
 
 ---
@@ -1521,7 +1521,7 @@ Obrada poruke se obavlja u dva koraka:
 ]
 
 .rcol[
-![:scale 90%](smalltalk_and_pharo/message_sending.png)
+![:scale 90%](pharo/message_sending.png)
 ]
 
 
@@ -1531,7 +1531,7 @@ Obrada poruke se obavlja u dva koraka:
 - `self` ključna reč se koristi u implementaciji metoda i *uvek* predstavlja
   objekat prijemnik.
 
-![:scale 50%](smalltalk_and_pharo/self_example.png)
+![:scale 50%](pharo/self_example.png)
 
 - Šta je rezultat izraza `A new foo` a šta izraza `B new foo`?
 - Šta je rezultat izraza `A new bar` a šta izraza `B new bar`?
@@ -1540,7 +1540,7 @@ Obrada poruke se obavlja u dva koraka:
 ## Semantika `super` ključne reči
 
 
-![:scale 50%](smalltalk_and_pharo/super_example.png)
+![:scale 50%](pharo/super_example.png)
 
 - `super` predstavlja objekat prijemnik ali pretraga poruka započinje u nadklasi
   klase u kojoj se `super` nalazi.
@@ -1550,7 +1550,7 @@ Obrada poruke se obavlja u dva koraka:
 ## `self` se određuje dinamički
 
 .lcol[
-![:scale 90%](smalltalk_and_pharo/self_example.png)
+![:scale 90%](pharo/self_example.png)
 ]
 
 .rcol[
@@ -1563,7 +1563,7 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 
 
 .lcol[
-![:scale 70%](smalltalk_and_pharo/super_static.png)
+![:scale 70%](pharo/super_static.png)
 ]
 
 .rcol[
@@ -1579,7 +1579,7 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 - Podrazumevana implementacija u `Object` klasi signalizira izuzetak
   `MessageNotUndertood`.
   
-![:scale 45%](smalltalk_and_pharo/doesNotUnderstand.png)
+![:scale 45%](pharo/doesNotUnderstand.png)
 
 
 
@@ -1643,7 +1643,7 @@ Uslovi bi svakako morali da budu bazirani na Bulovom tipu.
 - `true` je singlton instanca klase `True`
 - `false` je singlton instanca klase `False`
 
-![:scale 40%](smalltalk_and_pharo/boolean.png)
+![:scale 40%](pharo/boolean.png)
 
 ---
 ## Kako iskazujemo izbor u OOP?
@@ -1681,12 +1681,12 @@ True >> not
 ---
 ## Hijerarhija implementacije 
 
-![](smalltalk_and_pharo/boolean_not_hierarchy.png)
+![](pharo/boolean_not_hierarchy.png)
 
 ---
 ## Pretraga poruke (*message lookup*) je izbor prave metode
 
-![:scale 80%](smalltalk_and_pharo/boolean_not_lookup.png)
+![:scale 80%](pharo/boolean_not_lookup.png)
 
 
 ---
