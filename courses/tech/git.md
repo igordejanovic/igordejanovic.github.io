@@ -1005,7 +1005,7 @@ Drugi mehanizam spajanja promena sa druge grane je *rebase*.
 ![:scale 90%](git/Merge-rebase.svg)
 
 .attention[
-  **Važno**: Nikada ne raditi *rebase* promena koje ste poslali u drugi repozitorijum.
+  **Važno**: *rebase* menja istoriju. Ne raditi na udaljenim deljenim granama.
 ]
 
 ---
@@ -1279,8 +1279,9 @@ $ git commit
 # Izmena istorije
 
 .attention.small[
-   **Napomena**: Ovo se može raditi samo sa lokalnim granama ili izmenama na
-   tracking granama koje još nisu poslate na udaljeni repozitorijum!!!
+   **Napomena**: Ovo se radi samo sa lokalnim granama, izmenama na
+   tracking granama koje još nisu poslate na udaljeni repozitorijum, ili u
+   dogovoru sa ostatkom tima!!!
 ]
 
 .medium[
@@ -1328,6 +1329,22 @@ Zatim nastavljamo `rebase` sa:
 
 ```
 $ git rebase ––continue
+```
+
+---
+# Izmena istorije sa *git rebase --onto*
+
+Ukoliko želimo da deo grane preselimo na drugu granu koristimo
+*git rebase --onto*.
+
+Dva oblika:
+
+```
+git rebase --onto new_base old_base
+```
+
+```
+git rebase --onto new_base old_base target_ref
 ```
 
 ---
