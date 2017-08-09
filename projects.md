@@ -24,6 +24,18 @@ expressions on your language and automatically build a graph of Python objects
 Read more information [here](textX/) or see the project on
 [GitHub](https://github.com/igordejanovic/textX).
 
+
+### [parglare](../parglare/)
+
+Parglare is a modern approach to old-school parsing algorithms - LR and GLR. It
+uses integrated scanner (a.k.a scannerless parsing), have an extensive support
+for debugging, tracing and visualization. For grammar specification a BNF-like
+notation is used.
+
+Read more information [here](parglare/) or see the project
+on [GitHub](https://github.com/igordejanovic/parglare/).
+
+
 ### [Arpeggio](../Arpeggio/)
 
 Arpeggio is recursive descent parser with backtracking and memoization (a.k.a.
