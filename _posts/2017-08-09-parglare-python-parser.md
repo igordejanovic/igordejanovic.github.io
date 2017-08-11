@@ -106,8 +106,8 @@ are specifically crafted to confuse GLR parser.
 
 
 Describing everything that can be done with parglare would make this post too
-long, so I suggest if you've got interested to take a look
-at [the docs](http://www.igordejanovic.net/parglare/).
+long, so if I've got you interested, you can find more info
+in [the docs](http://www.igordejanovic.net/parglare/).
 
 
 ## Where is it heading?
@@ -121,4 +121,4 @@ be tackled from time to time.
 
 But I'll definitely try to keep the core simple and all additions optional.
 
-If you have feedback, ideas, advices or comments please use comment section bellow.
+If you have ideas, advices or any other feedback please use comment section bellow.
