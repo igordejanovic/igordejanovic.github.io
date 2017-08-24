@@ -22,6 +22,12 @@ page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
 
 You can follow me on [twitter](https://twitter.com/{{ site.twitter }}).
 
+My linkedin page is [here](https://goo.gl/8eCVuh).
+
+My e-mail address is my first name, dot, my last name (replace ć with c) at
+gmail.
+
+
 ## OpenPGP info
 
 Key ID: 0x40E22A6D
