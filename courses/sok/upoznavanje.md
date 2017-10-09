@@ -13,8 +13,10 @@
 - Materijali su dostupni na sajtu enastava.io i na ovom sajtu
 - Komunikacija se obavlja preko google grupe:
   - https://groups.google.com/d/forum/sok-e2-2017 za E2
-  - https://groups.google.com/d/forum/sok-siit-2016 za SIIT u NS
-  - https://groups.google.com/d/forum/sok-siit-loz-2016 za SIIT u Loznici
+  - https://groups.google.com/d/forum/sok-siit-2017 za SIIT u NS
+- Informacije o ispitima:
+  - https://groups.google.com/d/forum/dejanovic-ispiti
+
   
 ---
 
@@ -115,6 +117,8 @@
 
 ## Generacija 2016-
 
+.medium[
+
 - **Ex**tensible **P**latform for **S**tructure **V**isualization and
     **N**avigation (**ExP**re**S**si**V**e**N**ess)
 - Vizualizacija i navigacija nad strukturama tipa grafa
@@ -132,6 +136,8 @@
     ili [PostgreSQL](https://www.postgresql.org/)
   - GUI – HTML, CSS, JavaScript
   - Vizualizacija grafova – [D3.js](https://d3js.org/)
+  
+]
 
 ---
 ## Literatura
