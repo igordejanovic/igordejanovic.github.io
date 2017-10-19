@@ -9,6 +9,7 @@
   uns ac rs)
 - Predmetni asistent: MSc. Miloš Simić (milossimicsimo na gmail)
 - Stranica predmeta: http://informatika.ftn.uns.ac.rs/UKS
+- Google grupa: https://groups.google.com/forum/#!forum/kzi-uks
 - Konsultacije se obavljaju po potrebi uz najavu na email
 
 ---

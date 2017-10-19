@@ -8,7 +8,8 @@
 - Predmetni nastavnik: [dr Igor Dejanović](http://igordejanovic.net) (igord na
   uns ac rs)
 - Predmetni asistent: MSc. Renata Vaderna (renatav na uns ac rs)
-- Stranica predmeta: [http://www.informatika.ftn.uns.ac.rs/JSD]()
+- Stranica predmeta: http://www.informatika.ftn.uns.ac.rs/JSD
+- Google grupa: https://groups.google.com/forum/#!forum/kzi-jsd
 - Konsultacije se obavljaju po potrebi uz najavu na email
 
 ---
