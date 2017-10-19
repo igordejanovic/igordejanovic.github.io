@@ -981,6 +981,9 @@ Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati http://www
   Domain-Specific Languages](http://dslbook.org/). 2013
 - S. Kelly and J.-P. Tolvanen, *Domain-Specific Modeling: Enabling Full Code
   Generation*. Wiley-IEEE Computer Society Pr, March 2008
+- Federico Tomassetti, [*The complete guide to (external) Domain Specific
+  Languages*](https://tomassetti.me/domain-specific-languages/), published
+  on [the author's blog](https://tomassetti.me/), February 2017.
 - I.
   Dejanović,
   [Prilog metodama brzog razvoja softvera na bazi proširivih jezičkih specifikacija](http://doiserbia.nb.rs/phd/fulltext/NS20110103DEJANOVIC.pdf).
