@@ -150,17 +150,19 @@ layout: true
 
 ## Arhitekture sistema za kontrolu verzija
 
-.medium[
+.lcol[
 - Centralizovana ili *client-server* arhitektura.
   - Sva istorija je u repozitorijumu centralnog servera. Klijenti imaju samo
     tekuću verziju.
 
-![:scale 30%](upravljanje-izvornim-kodom/Centralizovana-arhitektura.svg)
+![:scale 70%](upravljanje-izvornim-kodom/Centralizovana-arhitektura.svg)
 
+]
+.rcol[
 - Distribuirana ili *peer-to-peer* arhitektura.
   - Svaki klijent ima punu istoriju izmena.
   
-![:scale 30%](upravljanje-izvornim-kodom/Distribuirana-arhitektura.svg)
+![:scale 70%](upravljanje-izvornim-kodom/Distribuirana-arhitektura.svg)
 ]
 
 

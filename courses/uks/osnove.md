@@ -93,7 +93,7 @@ layout: true
 
 ## Stavka konfiguracije i promene - životni ciklus
 
-![](osnove/ConfigurationItem-Cycle.png)
+![:scale 60%](osnove/ConfigurationItem-Cycle.png)
 
 - Stavka konfiguracije nastaje iz plana.
 - Kasnije verzije nastaju kao proizvod zahteva za promenom.
@@ -124,6 +124,7 @@ layout: true
 
 ---
 
+{#
 ## Struktura CM procesa
 
 ![:scale 90%](osnove/SCM-LogicalStructure.svg)
@@ -141,6 +142,7 @@ Addison-Wesley Professional, 2003.
 
 
 ---
+#}
 
 ## Identifikacija konfiguracije (*Configuration Identification*)
 
@@ -156,7 +158,7 @@ Addison-Wesley Professional, 2003.
   dokumentima.
 
 ---
-
+{#
 ## Identifikacija u kontekstu
 
 ![:scale 60%](osnove/Identification.png)
@@ -172,6 +174,7 @@ Addison-Wesley Professional, 2003.
 ]
 
 ---
+#}
 
 ## Upravljanje promenama (*Change Control*)
 
@@ -181,7 +184,7 @@ Addison-Wesley Professional, 2003.
   na osnovu zahteva.
   
 ---
-
+{#
 ## Upravljanje promenama u kontekstu
 
 ![:scale 50%](osnove/ChangeControl.png)
@@ -191,6 +194,7 @@ Addison-Wesley Professional, 2003.
   za promenama koji su rezultat tog događaja.
 
 ---
+#}
 
 ## Događaji
 
@@ -238,7 +242,7 @@ Addison-Wesley Professional, 2003.
   stavkama konfiguracije i promenama na zahtevani način.
 
 ---
-
+{#
 ## Praćenje statusa u kontekstu
 
 ![:scale 80%](osnove/StatusAccounting.png)
@@ -247,6 +251,7 @@ Addison-Wesley Professional, 2003.
 - Izlaz ove aktivnosti je izveštaj prema zadatim kriterijumima.
 
 ---
+#}
 
 ## Revizija i verifikacija (*Configuration Verification and Audit*)
 
