@@ -599,8 +599,9 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 
 - Kod LL parsera problem je određivanje produkcije koju treba primeniti nad
   neterminalom.
-- Kod LR parsera problem je kada uraditi REDUCE operaciju i na koji neterminal,
-  odnosno kada uraditi SHIFT.
+- Kod većine LR parsera (implementiranih kao SHIFT-REDUCE) problem je kada
+  uraditi REDUCE operaciju i na koji neterminal redukovati, odnosno kada uraditi
+  SHIFT.
 - I kod jednog i kod drugog algoritma generiše se tablica koja pomaže parseru da
   donese odluku u toku parsiranja.
   
