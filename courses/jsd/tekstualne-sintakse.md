@@ -116,9 +116,6 @@ Osnovne klase alata:
 
 
 ---
-
-
----
 name: formalne-gramatike
 class: center, middle
 layout: false
@@ -363,7 +360,8 @@ if a then (if b then s else s2)
 - Određeni parseri omogućavaju dodatna pravila (npr. *pravilo prioriteta*) koje
   pomaže u izboru produkcije koju treba primeniti.
 - Parser generatori će najčešće detektovati višeznačnost i prijaviti grešku.
-- Generalizovani parseri dozvoljavaju 
+- Generalizovani parseri dozvoljavaju višeznačne gramatike. Ukoliko postoje
+  različite interpretacije ulaza biće vraćena sva moguća stabla/interpretacije.
 - Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
   parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
   navođenja (s leva na desno).
@@ -568,6 +566,7 @@ http://stackoverflow.com/questions/5975741/what-is-the-difference-between-ll-and
   navoditi rekurzivne produkcije.
 - Podvarijante: LALR (*Look-Ahead*), SLR (*Simple*), GLR (*Generalized LR*).
 - Generatori: yacc, GNU Bison, Elkhound...
+- Interpreteri: parglare
 
 ---
 
@@ -592,7 +591,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 - Na korisniku je da odredi ispravno stablo - najčešće dodatnim pravilima (npr.
   prioritet, asocijativnost).
 - Bison u novijim verzijama može da generiše GLR parser.
-- SDF parser, Elkhound, DParser.
+- SDF parser, Elkhound, DParser, parglare.
 
 ---
 
@@ -723,7 +722,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 - Konfigurišu se gramatikom u vreme izvršavanja (*run-time*) tj. *interpretiraju
   gramatiku*.
 - Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike "u letu".
-- Arpeggio radi kao interpreter.
+- Arpeggio, parglare i textX rade kao interpreteri.
 
 
 
