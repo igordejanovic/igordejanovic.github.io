@@ -230,7 +230,7 @@ end
 ## Definisanje gramatike - eksterni DSL
 
 ```
-program = 'begin' (command)* 'end' EOF
+program = 'begin' command* 'end' EOF
 command = UP/DOWN/LEFT/RIGHT
 UP = 'up'
 DOWN = 'down'
@@ -260,6 +260,12 @@ parser = ParserPEG(grammar)
 
 ![](arpeggio/robot_parser_model.dot.svg)
 
+```
+from arpeggio import ParserPython
+...
+parser = ParserPython(robot, debug=True)
+```
+
 
 ---
 
@@ -276,6 +282,7 @@ begin
 end
 """
 parse_tree = parser.parse(prog_src)
+
 ```
 
 ![](arpeggio/robot_parse_tree.dot.svg)
