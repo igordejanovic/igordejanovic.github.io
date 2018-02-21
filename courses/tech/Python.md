@@ -3384,6 +3384,29 @@ $
 
 ---
 
+## virtualenvwrapper
+
+- Skup proširenja `virtualenv` alata.
+- Upravljanje virtualnim okruženjima.
+
+```
+mkvirtualenv typhoon
+```
+
+Aktivacija:
+```
+workon typhoon
+pip install ...
+pip list ...
+```
+
+Brisanje:
+```
+rmvirtualenv typhoon
+```
+
+---
+
 ## Aktivacija virtuelnog okruženja
 
 

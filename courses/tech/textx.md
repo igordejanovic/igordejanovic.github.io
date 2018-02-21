@@ -72,7 +72,7 @@ Who:
 ```
 
 ```python
-from textx.metamodel import metamodel_from_file
+from textx import metamodel_from_file
 hello_meta = metamodel_from_file('hello.tx')
 ```
 
@@ -159,7 +159,7 @@ end
 
 
 ```python
-from textx.metamodel import metamodel_from_file
+from textx import metamodel_from_file
 robot_mm = metamodel_from_file('robot.tx')
 
 ```

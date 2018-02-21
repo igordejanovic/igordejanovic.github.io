@@ -9,10 +9,9 @@
 - Predmetni
   asistent: [MSc. Novak Boškov](http://informatika.ftn.uns.ac.rs/NovakBoskov/)
   (gnovak.boskov na gmail)
-- Stranica predmeta: [http://www.informatika.ftn.uns.ac.rs/NTP]()
-- Grupna komunikacija putem Google grupe:
-  - https://groups.google.com/forum/#!forum/ntp-siit-2017
-- Materijali će biti dostupni na enastava sajtu
+- Stranica predmeta: [http://naprednetehnikeprogramiranja.tk/](http://naprednetehnikeprogramiranja.tk/)
+- Komunikacija:
+  - https://enastava.ftninformatika.com/
 - Konsultacije se obavljaju po potrebi uz najavu na email
 
 ---

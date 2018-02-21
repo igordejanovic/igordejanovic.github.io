@@ -800,7 +800,7 @@ def imap(function, *iterables):
 ```
 
 ---
-## `izip/map`
+## `izip/zip`
 
 - Kreira iterator koji istovremeno iterira kroz više iterabilnih objekata
   vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu.
