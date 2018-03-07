@@ -669,6 +669,38 @@ amul(range(1, 100))
 ```
 
 ---
+## `update_wrapper` i `wraps`
+
+- Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
+  originalna.
+
+.medium[
+```python
+>>> from functools import wraps
+>>> def my_decorator(f):
+...     @wraps(f)
+...     def wrapper(*args, **kwds):
+...         print 'Calling decorated function'
+...         return f(*args, **kwds)
+...     return wrapper
+...
+>>> @my_decorator
+... def example():
+...     """Docstring"""
+...     print 'Called example function'
+...
+>>> example()
+Calling decorated function
+Called example function
+>>> example.__name__
+'example'
+>>> example.__doc__
+'Docstring'
+```
+]
+
+
+---
 ## `total_ordering`
 
 - "Dopuna" specijalnih metoda za poređenje. Koristi se kao dekorator klase.
@@ -690,17 +722,6 @@ class Student:
 .footer.small[
 https://docs.python.org/2/library/functools.html
 ]
-
----
-## `update_wrapper` i `wraps`
-
-- Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
-  originalna.
-  
-```python
-
-```
-
 
 ---
 name: itertools
