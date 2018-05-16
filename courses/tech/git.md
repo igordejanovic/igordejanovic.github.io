@@ -51,7 +51,7 @@ layout: true
 - Pisan najvećim delom u C-u, ali su delovi pisani u Perl-u, bash-u itd.
 - Komande niskog nivoa (*plumbing*). Komande visokog nivoa (*porcelain*).
 - Ne prati fajlove već sadržaj. Izmene se eksplicitno dodaju pre *commit*-a.
-- Kriptografska autentifikacija istorije promena.
+- Kriptografska autentikacija istorije promena.
             
 ---
 

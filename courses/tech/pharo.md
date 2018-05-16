@@ -1775,11 +1775,6 @@ True >> | aBoolean
 ```
 
 
-- [Klase i kolekcije](#kolekcije)
-- [Izuzeci, debagovanje i refleksija](#izuzeci)
-
-
-
 ---
 name: klase-i-kolekcije
 class: center, middle
@@ -1797,12 +1792,12 @@ name: izuzeci
 class: center, middle
 layout: false
 
-# Izuzeci, debagovanje i reflekcija (TODO)
+# Izuzeci, debagovanje i refleksija (TODO)
 
 ---
 layout: true
 
-.section[[Izuzeci, debagovanje i reflekcija](#sadrzaj)]
+.section[[Izuzeci, debagovanje i refleksija](#sadrzaj)]
 
 ---
 layout: false
