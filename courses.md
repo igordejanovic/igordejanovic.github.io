@@ -1,5 +1,6 @@
 ---
-title: Courses/Slides
+title: Courses/Slides (in Serbian)
+side_title: Courses/Slides
 layout: page
 sidebar: true
 order: 2
