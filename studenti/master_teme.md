@@ -53,7 +53,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   <br><https://github.com/textX-tools/textX-vscode>
 
 - Daniel Kupčo: Podrška vizualizaciji jezika kreiranih upotrebom textX
-  biblioteke u okviru Visual Studio Code editora
+  biblioteke u okviru Visual Studio Code editora, septembar 2018.
   <br><https://github.com/textX-tools/viewX-vscode>
 
 - Nemanja Starčev: Podrška vizualizaciji strukture i bojenju koda u Visual
