@@ -52,7 +52,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa.
   <br><https://github.com/zeljko-bal/CID>
 
-## Završene
+## Završene (u 2018)
 
 - Daniel Elero: Server i ekstenzija za VS Code okruženje za podršku jezicima
   baziranim na textX alatu, septembar 2018.
