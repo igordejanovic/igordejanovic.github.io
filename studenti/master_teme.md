@@ -1,8 +1,7 @@
 ---
 title: Master teme
 layout: page
-sidebar: true
-order: 3
+sidebar: false
 ---
 
 Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
