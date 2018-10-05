@@ -9,6 +9,14 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## Slobodne
 
+- Podrška za bojenje koda i navigaciju za ugrađene (*embedded*) editore i jezike
+  bazirane na [textX](https://github.com/igordejanovic/textX) /
+  [parglare](https://github.com/igordejanovic/parglare/) (2 teme - textX, parglare)
+
+  Videti:
+  <br>[QScintilla](https://qscintilla.com/)
+  <br>[Qt for Python - PySide](https://wiki.qt.io/Qt_for_Python)
+
 - Podrška za IntelliSense u jezicima baziranim na [parglare
   biblioteci](https://github.com/igordejanovic/parglare/) u Visual Studio Code.
   
@@ -27,7 +35,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
   Videti:
   <br>[viewX-vscode](https://github.com/textX-tools/viewX-vscode)
-
+  
 - Podrška za [pyFlies DSL](https://github.com/igordejanovic/pyFlies) u Visual
   Studio Code
 
