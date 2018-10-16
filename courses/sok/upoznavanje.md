@@ -7,13 +7,12 @@
 - Fond časova: 3+3
 - Predmetni nastavnik: dr Igor Dejanović, igord na uns.ac.rs
 - Predmetni asistenti: 
-  - MSc Željko Ivković, zeljkoi na uns.ac.rs (za SIIT-NS i E2)
-  - BSc Miloš Simić, milossimicsimo na gmail.com (za SIIT-Loznica)
+  - MSc Željko Ivković, zeljkoi na uns.ac.rs
+  - MSc Miloš Simić, milossimicsimo na gmail.com
 
-- Materijali su dostupni na sajtu enastava.io i na ovom sajtu
-- Komunikacija se obavlja preko google grupe:
-  - https://groups.google.com/d/forum/sok-e2-2017 za E2
-  - https://groups.google.com/d/forum/sok-siit-2017 za SIIT u NS
+- Materijali su dostupni na sajtu https://enastava.ftninformatika.com/ i na ovom
+  sajtu
+- Komunikacija se obavlja preko sajta https://enastava.ftninformatika.com/
 - Informacije o ispitima:
   - https://groups.google.com/d/forum/dejanovic-ispiti
 
