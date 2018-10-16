@@ -8,7 +8,7 @@
 - Predmetni nastavnik: dr Igor Dejanović, igord na uns.ac.rs
 - Predmetni asistenti: 
   - MSc Željko Ivković, zeljkoi na uns.ac.rs
-  - MSc Miloš Simić, milossimicsimo na gmail.com
+  - MSc Miloš Simić, milos.simic na uns.ac.rs
 
 - Materijali su dostupni na sajtu https://enastava.ftninformatika.com/ i na ovom
   sajtu
