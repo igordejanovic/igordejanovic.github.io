@@ -45,12 +45,27 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 ## U izradi
 
 - Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora
+  podataka sa veba
   <br><https://github.com/Pazzo92/scraping-dsl>
 
 - Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
 
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa.
   <br><https://github.com/zeljko-bal/CID>
+  
+- Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
+  (folding) i Intellisense za jezike bazirane na
+  [textX-u](https://github.com/igordejanovic/textX)
+ 
+  Rad započet: oktobar 2018. 
+  <br>Opis: Na osnovu textX gramatike, i dodatnih DSL-ova po potrebi, generisati
+  minimalni web bazirani editor sa bojenjem koda, sklapanjem i komunikacijom sa
+  [Language Server Protocol
+  serverom](https://github.com/textX-tools/textX-languageserver) (podrškom za
+  IntelliSense). Editor treba da ima minimalne zavisnosti tako da se može
+  korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo desktop
+  aplikacija, kao test editor pri razvoju gramatike i sl.)
+
 
 ## Završene (u 2018)
 
