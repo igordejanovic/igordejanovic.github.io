@@ -35,6 +35,11 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   Videti:
   <br>[viewX-vscode](https://github.com/textX-tools/viewX-vscode)
   
+- Debager za [parglare](https://github.com/igordejanovic/parglare/) parser
+
+  Prikaz tekućeg stanja parsera i parcijalnih stabala. Korak po korak
+  izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
+  
 - Podrška za [pyFlies DSL](https://github.com/igordejanovic/pyFlies) u Visual
   Studio Code
 
