@@ -100,7 +100,7 @@ layout: true
 
 ## Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze
 
-![](jezicke-sintakse-i-metamodelovanje/AST-Expression.png)
+![:scale 80%](jezicke-sintakse-i-metamodelovanje/AST-Expression.png)
 
 ---
 
@@ -171,7 +171,7 @@ layout: true
 - Svaki korisnik razvija svoj stil upotrebe sekundarne sintakse što može
   prouzrokovati pogrešno ili otežano tumačenje.
   
-![:scale 90%](jezicke-sintakse-i-metamodelovanje/Sekundarna.png)
+![:scale 80%](jezicke-sintakse-i-metamodelovanje/Sekundarna.png)
 
 .center[Da li su ova dva mograma ista?]
 
@@ -226,12 +226,12 @@ def inner_from_python(expression):
 .medium[
 - Direktna izmena apstraktne reprezentacije kroz projekciju.
  
-  ![:scale 60%](jezicke-sintakse-i-metamodelovanje/projekcija.svg)
+  ![:scale 50%](jezicke-sintakse-i-metamodelovanje/projekcija.svg)
   
 - Parsiranje - izmena se vrši posredno kroz tekst koji se parsira da bi se
   dobila apstraktna reprezentacija.
 
-  ![:scale 90%](jezicke-sintakse-i-metamodelovanje/parseri.svg)
+  ![:scale 80%](jezicke-sintakse-i-metamodelovanje/parseri.svg)
 
 ]
 
@@ -329,7 +329,7 @@ layout: true
 
 ## Primer - meta-model jezika za opis konačnih automata
 
-![](jezicke-sintakse-i-metamodelovanje/StateMachine.svg)
+![:scale 80%](jezicke-sintakse-i-metamodelovanje/StateMachine.svg)
 
 .center[Apstraktna sintaksa je meta-model]
 
@@ -348,7 +348,7 @@ layout: true
 - Jedno od osnovnih oruđa ljudskog intelekta.
 - Proces zanemarivanja nebitnih informacija prilikom kreiranja modela.
 
-![:scale 60%](jezicke-sintakse-i-metamodelovanje/apstrakcija.svg)
+![:scale 50%](jezicke-sintakse-i-metamodelovanje/apstrakcija.svg)
 
 ---
 
@@ -369,7 +369,7 @@ Marijn Haverbeke, *Eloquent JavaScript*, http://eloquentjavascript.net/
 - Objekti realnih sistema, kao i njihovi modeli, se mogu grupisati na osnovu
   zajedničkih osobina.
   
-![](jezicke-sintakse-i-metamodelovanje/klasifikacija.svg)
+![:scale 80%](jezicke-sintakse-i-metamodelovanje/klasifikacija.svg)
 
 ---
 
@@ -445,7 +445,7 @@ layout: true
 
 ## EMOF
 
-![](jezicke-sintakse-i-metamodelovanje/EMOF.png)
+![:scale 80%](jezicke-sintakse-i-metamodelovanje/EMOF.png)
 
 ---
 
@@ -467,7 +467,7 @@ layout: true
 
 ## ECore
 
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/EcoreRelations.png)
+![:scale 70%](jezicke-sintakse-i-metamodelovanje/EcoreRelations.png)
 
 ---
 
@@ -496,7 +496,7 @@ layout: true
 - Implementacija u Javi.ref[1]. U toku port na Python.ref[2] (čim se nađe
   vremena ;) ).
 
-![:scale 60%](jezicke-sintakse-i-metamodelovanje/MoRP.svg)
+![:scale 50%](jezicke-sintakse-i-metamodelovanje/MoRP.svg)
 
 .footer[
 
