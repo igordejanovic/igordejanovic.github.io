@@ -49,10 +49,6 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## U izradi
 
-- Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora
-  podataka sa veba
-  <br><https://github.com/Pazzo92/scraping-dsl>
-
 - Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
 
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa.
@@ -73,6 +69,10 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 
 ## Završene (u 2018)
+
+- Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora
+  podataka sa veba, oktobar 2018.
+  <br><https://github.com/Pazzo92/scraping-dsl>
 
 - Daniel Elero: Server i ekstenzija za VS Code okruženje za podršku jezicima
   baziranim na textX alatu, septembar 2018.
