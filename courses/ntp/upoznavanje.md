@@ -7,7 +7,7 @@
 - Predmetni nastavnik: [prof. dr Igor Dejanović](http://igordejanovic.net) (igord na
   uns ac rs)
 - Predmetni
-  asistent: BSc. Vladimir Inđić, (vladaindjic na icloud com)
+  asistent: BSc. Vladimir Inđić (vladaindjic na uns ac rs)
 - Komunikacija:
   - https://enastava.ftninformatika.com/ (kurs NTP-SIIT-19)
 - Konsultacije se obavljaju po potrebi uz najavu na email
