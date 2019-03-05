@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Napredne tehnike programiranja u Python-u</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///home/igor/repos/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:///home/igor/repos/reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:///home/igor/repos/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Napredne tehnike programiranja u Python-u</h1><h2 class="author">Igor Dejanović</h2><p class="date">Created: 2019-03-05 Tue 21:28</p>
+</section>
+
+<section>
+<section id="slide-org895bd16">
+<h2 id="org895bd16">Specijalne metode</h2>
+<div class="outline-text-2" id="text-org895bd16">
+</div>
+</section>
+<section id="slide-org899481e">
+<h3 id="org899481e">Specijalne metode</h3>
+<ul>
+<li>Često se zovu i <b>magične</b> metode</li>
+<li>Posebno se tretiraju od strane Python interpretera tj. imaju posebnu semantiku</li>
+<li>Format naziva je <code>__xxx__</code></li>
+<li>Neki od primera:
+<ul>
+<li><code>__init__</code></li>
+<li><code>__str__</code></li>
+<li><code>__eq__</code></li>
+<li><code>...</code></li>
+
+</ul></li>
+<li>Implementacija <b>protokola</b></li>
+
+</ul>
+</section>
+<section id="slide-org621071c">
+<h3 id="org621071c">Iterabilni objekti</h3>
+<ul>
+<li><p>
+Moguće ih je koristiti u npr. <code>for</code> pelji.
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >for i in iterabilni_objekat:
+</code></pre>
+</div></li>
+<li>Poziv ugrađene funkcije <code>iter</code> nad iterabilnim objektom vraća iterator
+objekat.</li>
+<li>Kada je potrebna iteracija Python poziva <code>__iter__</code> metodu nad našim objektom.
+Ova funkcija treba da vrati iterator objekat.</li>
+<li>Iterator objekti implementiraju tzv. <code>iterator</code> protokol.
+<ul>
+<li><code>__next__</code> metoda &#x2013; sledeći element ili izuzetak <code>StopIteration</code> ukoliko
+smo stigli do kraja.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org7392e14">
+<h3 id="org7392e14">Iterabilni objekti - primer</h3>
+<ul>
+<li><p>
+Primer <code>TextXMetaModel</code> klasa <a href="https://github.com/igordejanovic/textX">textX</a> projekta.
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def __iter__(self):
+    """
+    Iterate over all classes in the current namespace and imported
+    namespaces.
+    """
+
+    # Current namespace
+    for name in self._current_namespace:
+        yield self._current_namespace[name]
+
+    # Imported namespaces
+    for namespace in \
+            self._imported_namespaces[self._namespace_stack[-1]]:
+        for name in namespace:
+            # yield class
+            yield namespace[name]
+</code></pre>
+</div></li>
+<li>U ovom slučaju <code>__iter__</code> metoda je generator (vraća elemente sa <code>yield</code>).</li>
+
+</ul>
+</section>
+<section id="slide-org8fe3f10">
+<h3 id="org8fe3f10">Provera pripadnosti kolekciji</h3>
+<ul>
+<li><p>
+Operator <code>in</code> služi za testiranje pripadnosti:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >if a in neka_kolekcija:
+</code></pre>
+</div></li>
+<li><p>
+Ukoliko želimo da omogućimo <code>in</code> test sa našim objektima potrebno je
+definisati specijalnu metodu <code>__contains__</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def __contains__(self, name):
+    """
+    Check if given name is contained in the current namespace.
+    The name can be fully qualified.
+    """
+    try:
+        self[name]
+        return True
+    except KeyError:
+        return False
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-orgd8dbafd">
+<h3 id="orgd8dbafd">Pristup elementu kolekcije po ključu</h3>
+<ul>
+<li><p>
+Specijalna metoda <code>__getitem__</code> omogućava upotrebu operatora <code>[]</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >>>> a = [1, 2, 3]
+>>> a.__getitem__(2)
+3
+>>> b = { "foo": 45, "bar": 34}
+>>> b.__getitem__(34)
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+...
+KeyError: 34
+>>> b.__getitem__("foo")
+45
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-orga749bbf">
+<h3 id="orga749bbf">Pristup elementu kolekcije po ključu - primer</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >def __getitem__(self, name):
+    """
+    Search for and return class and peg_rule with the given name.
+    Returns:
+        TextXClass, ParsingExpression
+    """
+    if "." in name:
+        # Name is fully qualified
+        namespace, name = name.rsplit('.', 1)
+        return self.namespaces[namespace][name]
+    else:
+        # If not fully qualified search in the current namespace
+        # and after that in the imported_namespaces
+        if name in self._current_namespace:
+            return self._current_namespace[name]
+
+        for namespace in \
+                self._imported_namespaces[self._namespace_stack[-1]]:
+            if name in namespace:
+                return namespace[name]
+
+        raise KeyError("{} metaclass does not exists in the metamodel "
+                        .format(name))
+</code></pre>
+</div>
+</section>
+<section id="slide-org18f4330">
+<h3 id="org18f4330">Pristup atributu objekta</h3>
+<ul>
+<li><p>
+Dve specijalne metode: <code>__getattr__</code> i <code>__getattribute__</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >obj.neki_atribut
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-org6cc31a1">
+<h3 id="org6cc31a1"><code>__getattr__</code></h3>
+<ul>
+<li><p>
+Poziva se ukoliko standardnim mehanizmima nije pronađen atribut objekta. Kao
+parametar prima ime atributa i vraća njegovu vrednost ukoliko postoji ili
+podiže izuzetak <code>AttributeError</code> ukoliko atribut ne postoji.
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >class A:
+    def __init__(self):
+        self.additional = {'foo': 5, 'bar': 7.4}
+        # .a će biti pronađeno standardnim mehanizmom
+        self.a = 3
+
+    def __getattr__(self, key):
+        if key in self.additional:
+            return self.additional[key]
+        else:
+            raise AttributeError
+
+if __name__ == '__main__':
+    a = A()
+    print(a.a)
+    print(a.foo)
+    print(a.bla)
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-org5432de2">
+<h3 id="org5432de2">Postavljanje vrednosti i brisanje atributa</h3>
+<ul>
+<li><code>object.__setattr__(self, name, value)</code> - kada se pozove <code>object.name = value</code>
+<ul>
+<li>Obratiti pažnju na rekurziju! Ne raditi u telu metode <code>self.name = value</code>
+već <code>self.__dict__[name] = value</code>.</li>
+
+</ul></li>
+<li><code>object.__delattr__(self, name)</code> - kada se pozove <code>del object.name</code></li>
+
+</ul>
+</section>
+<section id="slide-org1281066">
+<h3 id="org1281066"><code>__getattribute__</code></h3>
+<ul>
+<li>Specijalna metoda nižeg nivoa.</li>
+<li>Podrazumevana implementacija obavlja podrazumevanu pretragu:
+<ul>
+<li>Prvo se proverava <code>__dict__</code> rečnik instance a zatim klasa prateći MRO lanac.</li>
+<li>Ukoliko se atribut ne pronađe poziva se <code>__getattr__</code></li>
+
+</ul></li>
+<li>Ovu metodu je retko potrebno redefinisati.</li>
+<li>Paziti prilikom pisanja na beskonačanu rekurziju! Najbolje je pozvati
+na kraju nadimplementaciju <code>object.__getattribute__(self, name)</code></li>
+
+</ul>
+</section>
+<section id="slide-orgad82215">
+<h3 id="orgad82215">Operatori</h3>
+<ul>
+<li>Svi operatori u Python-u su definisani specijalnim metodama. Na primer:
+<ul>
+<li><code>-</code> - <code>__sub__</code></li>
+<li><code>+</code> - <code>__add__</code></li>
+<li><code>*</code> - <code>__mul__</code></li>
+<li><code>+=</code> - <code>__iadd__</code> - (za <b>mutable</b> objekte)</li>
+<li>&#x2026;</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orgd366198">
+<h3 id="orgd366198">Poređenje objekata</h3>
+<ul>
+<li>Ukoliko želimo da instance naše klase mogu da se porede (npr. da bi mogli da
+sortiramo niz objekata) potrebno je implementirati specijalne metode:
+<ul>
+<li><code>__eq__</code> za operator jednakosti <code>==</code></li>
+<li><code>__ne__</code> za operator nejednakosti <code>!=</code></li>
+<li><code>__lt__</code> za operator <b>manje</b> - <code>&lt;</code></li>
+<li><code>__le__</code> za operator <b>manje ili jednako</b> - <code>&lt;=</code></li>
+<li><code>__gt__</code> za operator <b>veće</b> - <code>&gt;</code></li>
+<li><code>__ge__</code> za operator <b>veće ili jednako</b> - <code>&gt;=</code></li>
+
+</ul></li>
+<li>Nije potrebno ručno definisati sve operatore jer su prirodno međuzavisni.
+Python u sklopu modula <code>functools</code> nudi dekorator <code>total_ordering</code> (videti u
+sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore poređenja.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org3272136">
+<h2 id="org3272136"><b>Properties</b></h2>
+<div class="outline-text-2" id="text-org3272136">
+</div>
+</section>
+<section id="slide-org8b47ae3">
+<h3 id="org8b47ae3"><b>Properties</b></h3>
+<ul>
+<li>Tzv. kalkulisani ili izvedeni atributi.</li>
+<li>Generalizacija <b>getter</b> i <b>setter</b> mehanizma.</li>
+<li>Sintaksa ostaje kao kod direktnog pristupa atributu.</li>
+
+</ul>
+</section>
+<section id="slide-org668e672">
+<h3 id="org668e672"><b>Properties</b> - primer</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class ...:
+...
+    @property
+    def full_file_name(self):
+        return os.path.join(self.file_path, self.file_name)
+
+    @full_file_name.setter
+    def full_file_name(self, filename):
+        path_name, file_name = os.path.split(filename)
+        self.file_path = path_name
+        self.file_name = file_name
+        model_name, __ = os.path.splitext(file_name)
+        self.name = model_name
+</code></pre>
+</div>
+
+<p>
+<b>Property</b> atributima se pristupa kao običnim atributima:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >obj.full_file_name = '/neka/putanja/neko_ime.ext'
+</code></pre>
+</div>
+
+<ul>
+<li>Objekat čuva atribute <code>file_path</code> i <code>file_name</code>.</li>
+<li>Atribut <code>full_file_name</code> je izveden.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org3d99e71">
+<h2 id="org3d99e71">Deskriptori</h2>
+<div class="outline-text-2" id="text-org3d99e71">
+</div>
+</section>
+<section id="slide-org6545b02">
+<h3 id="org6545b02"><b>Descriptors</b></h3>
+<ul>
+<li>Generalizacija prilagođavanja pristupu atributima objekata.</li>
+<li>Npr. <b>properties</b> iz prethodne sekcije su implementirani mehanizmom
+deskriptora.</li>
+<li>Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
+koji ima neku od metoda <code>__get__</code>, <code>__set__</code>, <code>__del__</code> tada će ovim metodama
+biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.</li>
+
+</ul>
+</section>
+<section id="slide-org4071fdc">
+<h3 id="org4071fdc">Problem sa <b>properties</b></h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class Movie(object):
+    def __init__(self, title, rating, runtime, budget, gross):
+        self._budget = None
+
+        self.title = title
+        self.rating = rating
+        self.runtime = runtime
+        self.gross = gross
+        self.budget = budget
+
+    @property
+    def budget(self):
+        return self._budget
+
+    @budget.setter
+    def budget(self, value):
+        if value < 0:
+            raise ValueError("Negative value not allowed: %s" % value)
+        self._budget = value
+
+    def profit(self):
+        return self.gross - self.budget
+
+
+m = Movie('Casablanca', 97, 102, 964000, 1300000)
+print m.budget       # calls m.budget(), returns result
+try:
+    m.budget = -100  # calls budget.setter(-100), and raises ValueError
+except ValueError:
+    print "Woops. Not allowed"
+</code></pre>
+</div>
+
+<p>
+Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
+</p>
+</section>
+<section id="slide-orgf61abae">
+<h3 id="orgf61abae"><code>__setattr__</code> i <code>@property</code></h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class A:
+ @property
+ def a(self):
+     return 5
+ @a.setter
+ def a(self, val):
+     print("set")
+
+ def __setattr__(self, name, value):
+     if name == 'a':
+         print('setattr')
+     super().__setattr__(name, value)
+a = A()
+out = a.a
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" python >class A:
+ def __setattr__(self, name, value):
+     if name == 'a':
+         print('setattr')
+     super().__setattr__(name, value)
+ @property
+ def a(self):
+     return 5
+ @a.setter
+ def a(self, val):
+     print("set")
+
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org963d9d6">
+<h3 id="org963d9d6">Rešenje upotrebom deskriptora (1)</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >from weakref import WeakKeyDictionary
+
+class NonNegative(object):
+    """A descriptor that forbids negative values"""
+    def __init__(self, default):
+        self.default = default
+        self.data = WeakKeyDictionary()
+
+    def __get__(self, instance, owner):
+        # we get here when someone calls x.d, and d is a NonNegative instance
+        # instance = x
+        # owner = type(x)
+        return self.data.get(instance, self.default)
+
+    def __set__(self, instance, value):
+        # we get here when someone calls x.d = val, and d is a NonNegative instance
+        # instance = x
+        # value = val
+        if value < 0:
+            raise ValueError("Negative value not allowed: %s" % value)
+        self.data[instance] = value
+</code></pre>
+</div>
+
+<p>
+Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
+</p>
+
+</section>
+<section id="slide-org0becca3">
+<h3 id="org0becca3">Rešenje upotrebom deskriptora (2)</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class Movie(object):
+
+    #always put descriptors at the class-level
+    rating = NonNegative(0)
+    runtime = NonNegative(0)
+    budget = NonNegative(0)
+    gross = NonNegative(0)
+
+    def __init__(self, title, rating, runtime, budget, gross):
+        self.title = title
+        self.rating = rating
+        self.runtime = runtime
+        self.budget = budget
+        self.gross = gross
+
+    def profit(self):
+        return self.gross - self.budget
+
+
+m = Movie('Casablanca', 97, 102, 964000, 1300000)
+print m.budget  # calls Movie.budget.__get__(m, Movie)
+m.rating = 100  # calls Movie.budget.__set__(m, 100)
+try:
+    m.rating = -1   # calls Movie.budget.__set__(m, -100)
+except ValueError:
+    print "Woops, negative value"
+</code></pre>
+</div>
+
+<p>
+Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfd45185">
+<h2 id="orgfd45185">Dekoratori(<b>Decorators</b>)</h2>
+<div class="outline-text-2" id="text-orgfd45185">
+</div>
+</section>
+<section id="slide-orga3b349b">
+<h3 id="orga3b349b">Dekoratori</h3>
+<ul>
+<li>Dekorator obrazac.</li>
+<li><p>
+Funkcije koje prihvataju kao parametar funkciju (ili uopšte
+<code>callable</code>) i vraćaju izmenjenu verziju.
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >@trace
+def square(x):
+  return x*x
+
+# Ovo je ekvivalentno sa
+def square(x):
+  return x*x
+square = trace(square)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" python >enable_tracing = True
+if enable_tracing:
+  debug_log = open("debug.log","w")
+def trace(func):
+  if enable_tracing:
+    def callf(*args,**kwargs):
+      debug_log.write("Calling %s: %s, %s\n" %
+              (func._ _name_ _, args, kwargs))
+      r = func(*args,**kwargs)
+      debug_log.write("%s returned %s\n" %
+                      (func._ _name, r))
+      return r
+    return callf
+  else:
+    return func
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-orgaf0a3a6">
+<h3 id="orgaf0a3a6">Dekoratori (2)</h3>
+<p>
+Mogu da se stekuju.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >@foo
+@bar
+@spam
+def grok(x):
+  pass
+</code></pre>
+</div>
+
+<p>
+je isto što i
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >def grok(x):
+  pass
+grok = foo(bar(spam(grok)))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org355b7ae">
+<h3 id="org355b7ae">Dekoratori (3)</h3>
+<p>
+Mogu da imaju parametre
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >@eventhandler('BUTTON')
+def handle_button(msg):
+  ...
+
+@eventhandler('RESET')
+def handle_reset(msg):
+  ...
+
+# Sto je ekvivalentno sa
+def handle_button(msg):
+...
+temp = eventhandler('BUTTON')
+handle_button = temp(handle_button)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" python ># Event handler decorator
+event_handlers = { }
+def eventhandler(event):
+  def register_function(f):
+    event_handlers[event] = f
+    return f
+  return register_function
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgcfca518">
+<h2 id="orgcfca518"><code>functools</code> modul - podrška za funkcije višeg reda.</h2>
+<div class="outline-text-2" id="text-orgcfca518">
+</div>
+</section>
+<section id="slide-org9238990">
+<h3 id="org9238990"><code>partial</code></h3>
+<ul>
+<li>Delimična (parcijalna) primena funkcije.</li>
+<li>Određeni parametri se <b>zamrzavaju</b>. Nova funkcija prihvata manji broj
+parametara.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> from functools import partial
+>>> basetwo = partial(int, base=2)
+>>> basetwo.__doc__ = 'Konverzija stringa broja u bazi 2 u int.'
+>>> basetwo('10010')
+18
+
+>>> stepen = lambda a, b: a ** b
+>>> kvadrat = partial(stepen, b=2)
+>>> kvadrat(5)
+25
+>>> kub = partial(stepen, b=3)
+>>> kub(5)
+125
+
+>>> from operator import mul
+>>> dvaputa = partial(mul, 2)
+>>> dvaputa(10)
+20
+>>> triputa = partial(mul, 3)
+>>> triputa(5)
+15
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7df82ff">
+<h3 id="org7df82ff"><code>reduce</code></h3>
+<ul>
+<li>Primena date funkcije koja prima dva parametra na iterabilnu kolekciju s leva
+na desno tako što se kao prvi parametar koristi rezultat prethodne evaluacije
+dok se kao drugi parametar koristi sledeći element kolekcije.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+</code></pre>
+</div>
+
+<p>
+izračunava
+</p>
+
+<pre  class="example">
+(((1+2)+3)+4)+5)
+</pre>
+
+<ul>
+<li>Postoji i kao ugrađena (<b>build-in</b>) funkcija u Python 2.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0801acf">
+<h3 id="org0801acf"><code>reduce</code> ekvivalentan Python kod</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >def reduce(function, iterable, initializer=None):
+    it = iter(iterable)
+    if initializer is None:
+        try:
+            initializer = next(it)
+        except StopIteration:
+            raise TypeError('reduce() of empty sequence with no initial value')
+    accum_value = initializer
+    for x in it:
+        accum_value = function(accum_value, x)
+    return accum_value
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org2c4a4a6">
+<h3 id="org2c4a4a6">Primer: množenje niza elemenata</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >niz = range(1, 10)
+</code></pre>
+</div>
+
+<p>
+<code>for</code> petlja:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >proizvod = 1
+for elem in niz:
+    proizvod *= elem
+</code></pre>
+</div>
+
+<p>
+<code>reduce</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >proizvod = reduce(lambda x, y: x*y, niz)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3658567">
+<h3 id="org3658567">Kreiranje funkcije za množenje niza elemenata</h3>
+<p>
+Kompozicija funkcija <code>partial</code> + <code>reduce</code> (funkcionalno):
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >from functools import reduce, partial
+amul = partial(reduce, lambda x, y: x*y)
+# ili upotrebom mul operatora
+from operator import mul
+amul = partial(reduce, mul)
+</code></pre>
+</div>
+
+<p>
+Sa <code>for</code> petljom (imperativno):
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def amul(niz):
+  proizvod = 1
+  for elem in niz:
+      proizvod *= elem
+  return proizvod
+</code></pre>
+</div>
+
+<p>
+Oba primera kreiraju funkciju <code>amul</code> koja množi elemente prosleđenog iterabilnog
+objekta:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >amul(range(1, 100))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org2b5a593">
+<h3 id="org2b5a593"><code>update_wrapper</code> i <code>wraps</code></h3>
+<ul>
+<li>Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
+originalna.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> from functools import wraps
+>>> def my_decorator(f):
+...     @wraps(f)
+...     def wrapper(*args, **kwds):
+...         print 'Calling decorated function'
+...         return f(*args, **kwds)
+...     return wrapper
+...
+>>> @my_decorator
+... def example():
+...     """Docstring"""
+...     print 'Called example function'
+...
+>>> example()
+Calling decorated function
+Called example function
+>>> example.__name__
+'example'
+>>> example.__doc__
+'Docstring'
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org619db79">
+<h3 id="org619db79"><code>total_ordering</code></h3>
+<ul>
+<li>"Dopuna" specijalnih metoda za poređenje. Koristi se kao dekorator klase.</li>
+<li>Klasa treba da definiše jednu od <code>__lt__</code>, <code>__le__</code>, <code>__gt__</code>, ili <code>__ge__()</code>
+metoda uz <code>__eq__</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >@total_ordering
+class Student:
+    def __eq__(self, other):
+        return ((self.lastname.lower(), self.firstname.lower()) ==
+                (other.lastname.lower(), other.firstname.lower()))
+    def __lt__(self, other):
+        return ((self.lastname.lower(), self.firstname.lower()) <
+                (other.lastname.lower(), other.firstname.lower()))
+</code></pre>
+</div>
+
+
+<p>
+<a href="https://docs.python.org/2/library/functools.html">https://docs.python.org/2/library/functools.html</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org07d102e">
+<h2 id="org07d102e"><code>itertools</code> modul - pomoćne funkcije za iteraciju</h2>
+<div class="outline-text-2" id="text-org07d102e">
+</div>
+</section>
+<section id="slide-org249c83f">
+<h3 id="org249c83f"><code>chain</code></h3>
+<ul>
+<li>Iteracije kroz više iterabilnih objekata prema zadatom redosledu.</li>
+<li>Tretiranje niza sekvenci kao jedne sekvence.</li>
+
+</ul>
+
+<p>
+Ekvivalentno sa sledećim Python kodom:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def chain(*iterables):
+    for it in iterables:
+        for element in it:
+            yield element
+</code></pre>
+</div>
+
+<p>
+Upotreba:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >a = [1, 2, 3]
+b = 'abc'
+for i in chain(a, b):
+    print(i)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga557f16">
+<h3 id="orga557f16"><code>cycle</code></h3>
+<ul>
+<li>Beskonačna iteracija kroz zadati iterabilni objekat <b>u krug</b>.</li>
+
+</ul>
+
+<p>
+Ekvivalentno sa:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def cycle(iterable):
+    # cycle('ABCD') --> A B C D A B C D A B C D ...
+    saved = []
+    for element in iterable:
+        yield element
+        saved.append(element)
+    while saved:
+        for element in saved:
+              yield element
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org67bc80e">
+<h3 id="org67bc80e"><code>ifilter/filter</code></h3>
+<ul>
+<li>Kreira iterator koji filtrira i vraća samo one elemente zadatog iterabilnog
+objekta koji zadovoljavaju određeni predikat.</li>
+<li>U Python 3 <code>ifilter</code> je izbačen jer ugrađena funkcija <code>filter</code> radi na isti
+način (kao generator).</li>
+
+</ul>
+
+<p>
+Ekvivalentno sa:
+</p>
+<div class="org-src-container">
+
+<pre><code class="" python >def ifilter(predicate, iterable):
+    # ifilter(lambda x: x%2, range(10)) --> 1 3 5 7 9
+    if predicate is None:
+        predicate = bool
+    for x in iterable:
+        if predicate(x):
+            yield x
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9c36629">
+<h3 id="org9c36629"><code>imap/map</code></h3>
+<ul>
+<li>Kreira iterator koji vraća vrednost zadate funkcije gde se parametri uzimaju
+iz zadatih iterabilnih objekata.</li>
+<li>U Python 3 <code>imap</code> je izbačen jer ugrađena funkcija <code>map</code> radi na isti način
+(kao generator).</li>
+
+</ul>
+
+<p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" python >def imap(function, *iterables):
+    # imap(pow, (2,3,10), (5,2,3)) --> 32 9 1000
+    iterables = map(iter, iterables)
+    while True:
+        args = [next(it) for it in iterables]
+        if function is None:
+            yield tuple(args)
+        else:
+            yield function(*args)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1bb04cc">
+<h3 id="org1bb04cc"><code>izip/zip</code></h3>
+<ul>
+<li>Kreira iterator koji istovremeno iterira kroz više iterabilnih objekata
+vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu.</li>
+<li>U Python 3 <code>izip</code> je izbačen jer ugrađena funkcija <code>zip</code> radi na isti način
+(kao generator).</li>
+<li>Ekvivalentno sa:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >def izip(*iterables):
+    # izip('ABCD', 'xy') --> Ax By
+    iterators = map(iter, iterables)
+    while iterators:
+        yield tuple(map(next, iterators))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org71018a0">
+<h3 id="org71018a0"><code>groupby</code></h3>
+<ul>
+<li>Kreira iterator koji vraća grupe elemenata prema zadato <code>key</code> funkciji.</li>
+<li>Kolekcija nad kojom pozivamo <code>groupby</code> mora biti sortirana prema istoj <code>key</code>
+funkciji.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >groups = []
+uniquekeys = []
+data = sorted(data, key=keyfunc)
+for k, g in groupby(data, keyfunc):
+    groups.append(list(g))      # Store group iterator as a list
+    uniquekeys.append(k)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7dc1dcc">
+<h3 id="org7dc1dcc"><code>dropwhile</code></h3>
+<ul>
+<li>Iterator koji odbacuje prve elemente za koje je dati predikat istinit i zatim
+vraća sve preostale redom.</li>
+<li>Ekvivalentno sa:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >def dropwhile(predicate, iterable):
+    # dropwhile(lambda x: x<5, [1,4,6,4,1]) --> 6 4 1
+    iterable = iter(iterable)
+    for x in iterable:
+        if not predicate(x):
+            yield x
+            break
+    for x in iterable:
+        yield x
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7a4bb7b">
+<h3 id="org7a4bb7b"><code>takewhile</code></h3>
+<ul>
+<li>Iterator koji vraća elemente dok je predikat zadovoljen.</li>
+<li>Ekvivalentno sa:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="" python >def takewhile(predicate, iterable):
+    # takewhile(lambda x: x<5, [1,4,6,4,1]) --> 1 4
+    for x in iterable:
+        if predicate(x):
+            yield x
+        else:
+            break
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org581c7a7">
+<h3 id="org581c7a7"><code>tee</code></h3>
+<ul>
+<li>Deli dati iterabilni objekat na više.</li>
+<li>Ekvivalentno sa:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="" python >def tee(iterable, n=2):
+    it = iter(iterable)
+    deques = [collections.deque() for i in range(n)]
+    def gen(mydeque):
+        while True:
+            if not mydeque:             # when the local deque is empty
+                try:
+                    newval = next(it)   # fetch a new value and
+                except StopIteration:
+                    return
+                for d in deques:        # load it to all the deques
+                    d.append(newval)
+            yield mydeque.popleft()
+    return tuple(gen(d) for d in deques)
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdb03e7f">
+<h2 id="orgdb03e7f"><code>collections</code> - high-performance container datatypes</h2>
+<div class="outline-text-2" id="text-orgdb03e7f">
+</div>
+</section>
+<section id="slide-org78b8120">
+<h3 id="org78b8120">OrderedDict</h3>
+<ul>
+<li>Nasleđuje <code>dict</code> i dodaje osobinu uređenosti. Iteracija vraća ključeve u
+redosledu u kom su dodavani u kolekciju.</li>
+<li>Dodaje metodu <code>move_to_end(key, last=True)</code> koja postojeći ključ pomera na
+kraj kolekcije.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> d = OrderedDict.fromkeys('abcde')
+>>> d.move_to_end('b')
+>>> ''.join(d.keys())
+'acdeb'
+>>> d.move_to_end('b', last=False)
+>>> ''.join(d.keys())
+'bacde'
+
+>>> # regular unsorted dictionary
+>>> d = {'banana': 3, 'apple': 4, 'pear': 1, 'orange': 2}
+
+>>> # dictionary sorted by key
+>>> OrderedDict(sorted(d.items(), key=lambda t: t[0]))
+OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
+
+>>> # dictionary sorted by value
+>>> OrderedDict(sorted(d.items(), key=lambda t: t[1]))
+OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
+
+>>> # dictionary sorted by length of the key string
+>>> OrderedDict(sorted(d.items(), key=lambda t: len(t[0])))
+OrderedDict([('pear', 1), ('apple', 4), ('orange', 2), ('banana', 3)])
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org326f4ab">
+<h3 id="org326f4ab">namedtuple</h3>
+<ul>
+<li>N-torke slične tipu <code>tuple</code> ali sa mogućnošću pristupa poljima po imenu kao
+kod atributa objekta.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> # Basic example
+>>> Point = namedtuple('Point', ['x', 'y'])
+>>> p = Point(11, y=22)     # instantiate with positional or keyword arguments
+>>> p[0] + p[1]             # indexable like the plain tuple (11, 22)
+33
+>>> x, y = p                # unpack like a regular tuple
+>>> x, y
+(11, 22)
+>>> p.x + p.y               # fields also accessible by name
+33
+>>> p                       # readable __repr__ with a name=value style
+Point(x=11, y=22)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org5657452">
+<h3 id="org5657452">deque</h3>
+<ul>
+<li>Linearna struktura sa efikasnim <code>O(1)</code> ubacivanjem i uzimanjem elementa sa obe
+strane.</li>
+<li>Slično <code>list</code> tipu ali <code>list</code> tip ima složenost <code>O(n)</code> za ubacivanje i
+izbacivanje elementa sa početka liste.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> from collections import deque
+>>> d = deque('ghi')                 # make a new deque with three items
+>>> for elem in d:                   # iterate over the deque's elements
+...     print(elem.upper())
+G
+H
+I
+
+>>> d.append('j')                    # add a new entry to the right side
+>>> d.appendleft('f')                # add a new entry to the left side
+>>> d                                # show the representation of the deque
+deque(['f', 'g', 'h', 'i', 'j'])
+
+>>> d.pop()                          # return and remove the rightmost item
+'j'
+>>> d.popleft()                      # return and remove the leftmost item
+'f'
+>>> list(d)                          # list the contents of the deque
+['g', 'h', 'i']
+>>> d[0]                             # peek at leftmost item
+'g'
+>>> d[-1]                            # peek at rightmost item
+'i'
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb760eca">
+<h3 id="orgb760eca">Counter</h3>
+<ul>
+<li>Podklasa <code>dict</code> tipa za prebrojavanje objekta koji mogu da se <b>heširaju</b>.</li>
+<li>Ključevi su objekti a vrednosti su njihov ukupan broj.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> c = Counter()                           # a new, empty counter
+>>> c = Counter('gallahad')                 # a new counter from an iterable
+>>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+>>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+
+>>> c = Counter(['eggs', 'ham'])
+>>> c['bacon']                              # count of a missing element is zero
+0
+
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> sorted(c.elements())
+['a', 'a', 'a', 'a', 'b', 'b']
+
+>>> Counter('abracadabra').most_common(3)  
+[('a', 5), ('r', 2), ('b', 2)]
+
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> d = Counter(a=1, b=2, c=3, d=4)
+>>> c.subtract(d)
+>>> c
+Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1dd5c89">
+<h3 id="org1dd5c89">defaultdict</h3>
+<ul>
+<li>Nasleđuje <code>dict</code> i omogućava kreiranje elementa sa podrazumevanom vrednošću
+ukoliko se pokuša pristup nepostojećem elementu.</li>
+<li>Kao parametar prima <code>default_factory</code> što mora biti <code>callable</code> koji će se
+pozvati da kreira novi element.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+>>> d = defaultdict(list)
+>>> for k, v in s:
+...     d[k].append(v)
+...
+>>> sorted(d.items())
+[('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc352d9f">
+<h2 id="orgc352d9f">Višestruko nasleđivanje i MRO</h2>
+<div class="outline-text-2" id="text-orgc352d9f">
+</div>
+</section>
+<section id="slide-org7cfc4b2">
+<h3 id="org7cfc4b2">Višestruko nasleđivanje</h3>
+<ul>
+<li>Python podržava višestruko nasleđivanje.</li>
+<li>Problem razrešavanja metode/atributa iz nadklasa.</li>
+<li><b>Diamond problem</b>.</li>
+<li>Problem kod naivnog pretraživanja "po dubini".</li>
+
+</ul>
+
+
+<div class="figure">
+<p><object type="image/svg+xml" data="./slike/Diamond_inheritance.svg" class="org-svg" width="30%">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+<p class="footer">
+<a href="https://en.wikipedia.org/wiki/Multiple_inheritance" class="footer">Wikipedia: Multiple inheritance</a>
+</p>
+
+</section>
+<section id="slide-orgdbfac7a">
+<h3 id="orgdbfac7a"><b>Method Resolution Order</b> (MRO)</h3>
+<ul>
+<li>Mehanizam/algoritam za razrešavanje u kontekstu višestrukog nasleđivanja</li>
+<li>C3 linearizacija</li>
+<li>Programski jezik <b>Dylan</b></li>
+<li>Dva pravila:
+<ul>
+<li>Podklase se pretražuju pre nadklasa</li>
+<li>Pretražuju se u redosledu navođenja</li>
+
+</ul></li>
+<li>Za primer sa prethodnog slajda: D B C A</li>
+
+</ul>
+
+</section>
+<section id="slide-orgde6ef0a">
+<h3 id="orgde6ef0a"><code>super</code></h3>
+<ul>
+<li>Dinamički određuje metodu/atribut na osnovu MRO.</li>
+<li>Klase koje koriste višestruko nasleđivanje treba da se pišu na određeni način.</li>
+<li>Obavezno koristiti `super` umesto direktnog navođenja klase.</li>
+
+</ul>
+</section>
+<section id="slide-orgca84d15">
+<h3 id="orgca84d15"><code>super</code></h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class LoggingDict(dict):
+    def __setitem__(self, key, value):
+        logging.info('Setting %r to %r' % (key, value))
+        super().__setitem__(key, value)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" python >class LoggingOD(LoggingDict, collections.OrderedDict):
+    pass
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> pprint(LoggingOD.__mro__)
+(<class '__main__.LoggingOD'>,
+ <class '__main__.LoggingDict'>,
+ <class 'collections.OrderedDict'>,
+ <class 'dict'>,
+ <class 'object'>)
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
+</p>
+
+</section>
+<section id="slide-org23bc1b4">
+<h3 id="org23bc1b4">Parametri metoda</h3>
+<ul>
+<li>Situacija u kojoj signature metoda nisu iste.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >class Shape:
+    def __init__(self, shapename, **kwds):
+        self.shapename = shapename
+        super().__init__(**kwds)        
+
+class ColoredShape(Shape):
+    def __init__(self, color, **kwds):
+        self.color = color
+        super().__init__(**kwds)
+
+cs = ColoredShape(color='red', shapename='circle')
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
+</p>
+
+</section>
+<section id="slide-org0434907">
+<h3 id="org0434907">Pretraga metoda</h3>
+<ul>
+<li>Obratiti pažnju da <code>super</code> poziv traži metodu uz MRO lanac.</li>
+<li>Što znači da metoda mora postojati u nadklasi ili će doći do pojave izuzetka.</li>
+<li>Kod primera sa konstruktorom <code>__init__</code> metoda postoji i u <code>object</code> korenskoj
+klasi. Izuzetak se može pojaviti ukoliko nismo iscrpeli sve parametre u
+<code>**kwds</code> što je svakako greška.</li>
+
+</ul>
+</section>
+<section id="slide-org9669efe">
+<h3 id="org9669efe">Pretraga metoda</h3>
+<ul>
+<li>Ukoliko metoda ne postoji u korenskoj <code>object</code> klasi najbolje je kreirati
+koren naše hijerarhije sa datom metodom.</li>
+<li>Ova korenska metoda biće kraj pretrage.</li>
+<li>Dodatno možemo osigurati da klase niz MRO lanac slučajno ne implementiraju
+ciljnu metodu.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >class Root:
+    def draw(self):
+        # the delegation chain stops here
+        assert not hasattr(super(), 'draw')
+
+class Shape(Root):
+    def __init__(self, shapename, **kwds):
+        self.shapename = shapename
+        super().__init__(**kwds)
+    def draw(self):
+        print('Drawing.  Setting shape to:', self.shapename)
+        super().draw()
+
+class ColoredShape(Shape):
+    def __init__(self, color, **kwds):
+        self.color = color
+        super().__init__(**kwds)
+    def draw(self):
+        print('Drawing.  Setting color to:', self.color)
+        super().draw()
+
+cs = ColoredShape(color='blue', shapename='square')
+cs.draw()
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
+</p>
+
+</section>
+<section id="slide-org96b92f6">
+<h3 id="org96b92f6">Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class Moveable:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def draw(self):
+        print('Drawing at position:', self.x, self.y)
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
+</p>
+
+</section>
+<section id="slide-orgfc40afa">
+<h3 id="orgfc40afa">Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >class MoveableAdapter(Root):
+
+    def __init__(self, x, y, **kwds):
+        self.movable = Moveable(x, y)
+        super().__init__(**kwds)
+
+    def draw(self):
+        self.movable.draw()
+        super().draw()
+
+class MovableColoredShape(ColoredShape, MoveableAdapter):
+    pass
+
+MovableColoredShape(color='red', shapename='triangle',
+                    x=10, y=20).draw()
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4ea5acc">
+<h2 id="org4ea5acc">async/await</h2>
+<div class="outline-text-2" id="text-org4ea5acc">
+</div>
+</section>
+<section id="slide-org89453ef">
+<h3 id="org89453ef">Asinhrono programiranje</h3>
+<ul>
+<li>Klasično sekvencijalno izvršavanje podrazumeva da je svaka instrukcija
+blokirajuća pa i I/O.</li>
+<li>Gubimo dragoceno vreme dok čekamo na npr. završetak mrežnog zahteva ili
+učitavanje podataka sa diska.</li>
+<li>Kod asynhronog programiranja registrujemo tzv. <i>callback</i> funkcije koje se
+izvršavaju kada su podaci zahtevani I/O pozivom spremni.</li>
+
+</ul>
+
+</section>
+<section id="slide-org7a0bab6">
+<h3 id="org7a0bab6">Coroutines</h3>
+<blockquote>
+<p>
+Coroutines are computer program components that generalize subroutines for
+non-preemptive multitasking, by allowing execution to be suspended and resumed.
+Coroutines are well-suited for implementing familiar program components such as
+cooperative tasks, exceptions, event loops, iterators, infinite lists and pipes.
+</p>
+</blockquote>
+
+<p class="footer">
+<a href="https://en.wikipedia.org/wiki/Coroutine" class="footer">From Wikipedia, the free encyclopedia</a> 
+</p>
+
+</section>
+<section id="slide-org29f23ff">
+<h3 id="org29f23ff">Coroutines in Python</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >def jumping_range(up_to):
+    """Generator for the sequence of integers from 0 to up_to, exclusive.
+
+    Sending a value into the generator will shift the sequence by that amount.
+    """
+    index = 0
+    while index < up_to:
+        jump = yield index
+        if jump is None:
+            jump = 1
+        index += jump
+
+
+if __name__ == '__main__':
+    iterator = jumping_range(5)
+    print(next(iterator))  # 0
+    print(iterator.send(2))  # 2
+    print(next(iterator))  # 3
+    print(iterator.send(-1))  # 2
+    for x in iterator:
+        print(x)  # 3, 4
+
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/" class="footer">How the heck does async/await work in Python 3.5?</a> 
+</p>
+
+</section>
+<section id="slide-orgcb67dcf">
+<h3 id="orgcb67dcf"><code>yield from</code></h3>
+<ul>
+<li>Omogućava ulančavanje generatora/koorutina.</li>
+<li>Implementacija <i>producer-consumer</i> i <i>pipes</i> obrazaca.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >def lazy_range(up_to):
+    """Generator to return the sequence of integers from 0 to up_to, exclusive."""
+    index = 0
+    def gratuitous_refactor():
+        nonlocal index
+        while index < up_to:
+            yield index
+            index += 1
+    yield from gratuitous_refactor()
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/" class="footer">How the heck does async/await work in Python 3.5?</a> 
+</p>
+
+</section>
+<section id="slide-org9bc9168">
+<h3 id="org9bc9168"><i>Event loop</i></h3>
+<blockquote>
+<p>
+In computer science, the event loop, message dispatcher, message loop, message
+pump, or run loop is a programming construct that waits for and dispatches
+events or messages in a program. It works by making a request to some internal
+or external "event provider" (that generally blocks the request until an event
+has arrived), and then it calls the relevant event handler ("dispatches the
+event").
+</p>
+</blockquote>
+
+<p class="footer">
+<a href="https://en.wikipedia.org/wiki/Event_loop" class="footer">From Wikipedia, the free encyclopedia</a> 
+</p>
+
+</section>
+<section id="slide-orgd229e67">
+<h3 id="orgd229e67">Async kod sa <code>time.sleep()</code></h3>
+<div class="org-src-container">
+
+<pre><code class=" id="time-sleep"" python >import asyncio  
+import time  
+from datetime import datetime
+
+
+async def custom_sleep():  
+    print('SLEEP', datetime.now())
+    time.sleep(1)
+
+async def factorial(name, number):  
+    f = 1
+    for i in range(2, number+1):
+        print('Task {}: Compute factorial({})'.format(name, i))
+        await custom_sleep()
+        f *= i
+    print('Task {}: factorial({}) is {}n'.format(name, number, f))
+
+
+start = time.time()  
+loop = asyncio.get_event_loop()
+
+tasks = [  
+    asyncio.ensure_future(factorial("A", 3)),
+    asyncio.ensure_future(factorial("B", 4)),
+]
+loop.run_until_complete(asyncio.wait(tasks))  
+loop.close()
+
+end = time.time()  
+print("Total time: {}".format(end - start))
+</code></pre>
+</div>
+
+
+<p class="footer">
+<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a> 
+</p>
+
+</section>
+<section id="slide-org98afbdd">
+<h3 id="org98afbdd">Async kod sa <code>time.sleep()</code> - rezultati</h3>
+<pre class="example">
+Task A: Compute factorial(2)
+SLEEP 2019-03-05 21:28:01.766954
+Task A: Compute factorial(3)
+SLEEP 2019-03-05 21:28:02.768167
+Task A: factorial(3) is 6n
+Task B: Compute factorial(2)
+SLEEP 2019-03-05 21:28:03.769672
+Task B: Compute factorial(3)
+SLEEP 2019-03-05 21:28:04.771378
+Task B: Compute factorial(4)
+SLEEP 2019-03-05 21:28:05.772861
+Task B: factorial(4) is 24n
+Total time: 5.0081658363342285
+</pre>
+
+
+</section>
+<section id="slide-orgc3ebc17">
+<h3 id="orgc3ebc17">Async kod sa <code>asyncio.sleep(1)</code></h3>
+<div class="org-src-container">
+
+<pre><code class=" id="async-sleep"" python >import asyncio  
+import time  
+from datetime import datetime
+
+
+async def custom_sleep():  
+    print('SLEEP {}n'.format(datetime.now()))
+    await asyncio.sleep(1)
+
+async def factorial(name, number):  
+    f = 1
+    for i in range(2, number+1):
+        print('Task {}: Compute factorial({})'.format(name, i))
+        await custom_sleep()
+        f *= i
+    print('Task {}: factorial({}) is {}n'.format(name, number, f))
+
+
+start = time.time()  
+loop = asyncio.get_event_loop()
+
+tasks = [  
+    asyncio.ensure_future(factorial("A", 3)),
+    asyncio.ensure_future(factorial("B", 4)),
+]
+loop.run_until_complete(asyncio.wait(tasks))  
+loop.close()
+
+end = time.time()  
+print("Total time: {}".format(end - start))
+</code></pre>
+</div>
+
+
+<p class="footer">
+<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a> 
+</p>
+
+</section>
+<section id="slide-org3df01db">
+<h3 id="org3df01db">Async kod sa <code>asyncio.sleep(1)</code> - rezultati</h3>
+<pre class="example">
+Task A: Compute factorial(2)
+SLEEP 2019-03-05 21:28:06.855877n
+Task B: Compute factorial(2)
+SLEEP 2019-03-05 21:28:06.855908n
+Task A: Compute factorial(3)
+SLEEP 2019-03-05 21:28:07.857750n
+Task B: Compute factorial(3)
+SLEEP 2019-03-05 21:28:07.857899n
+Task A: factorial(3) is 6n
+Task B: Compute factorial(4)
+SLEEP 2019-03-05 21:28:08.859696n
+Task B: factorial(4) is 24n
+Total time: 3.0062172412872314
+</pre>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgd388e0d">
+<h2 id="orgd388e0d">Metaklase</h2>
+<div class="outline-text-2" id="text-orgd388e0d">
+</div>
+</section>
+<section id="slide-orga4e7df2">
+<h3 id="orga4e7df2">Metaklase</h3>
+<ul>
+<li>Python klase predstavljaju "šablon" za kreiranje objekata.</li>
+<li>I same klase su objekti. Šta je njihov šablon? Ko je zadužen za njihovo
+kreiranje?</li>
+<li>Klase imaju svoje "klase" koje nazivamo metaklasama.</li>
+
+</ul>
+</section>
+<section id="slide-org0abd8a9">
+<h3 id="org0abd8a9">Metaklase</h3>
+<ul>
+<li>Python ima podrazumevanu metaklasu <code>type</code> koju interpreter koristi kada naiđe
+na definiciju klase.</li>
+<li><code>type</code> klasa je svoj sopstveni tip</li>
+<li>Podrazumevanu klasu možemo promeniti i time uticati na kreiranje klase.</li>
+<li>Pri kreiranju metaklase nasleđujemo <code>type</code></li>
+<li>Kao što za instanciranje objekta Python poziva klasu, za kreiranje klase
+poziva metaklasu.</li>
+<li>Pojednostavljeno gledano <code>class</code> iskaz možemo smatrati lepšom sintaksom
+(<b>Syntactic sugar</b>) za poziv <code>type</code> ili neke druge metaklase.</li>
+
+</ul>
+
+</section>
+<section id="slide-org1031877">
+<h3 id="org1031877"><code>type</code></h3>
+<ul>
+<li><code>type</code> može da se koristi i kao funkcija koja vraća tip nekog objekta.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" python >>>> class Foobar:
+...     pass
+...
+>>> type(Foobar)
+<class 'type'>
+>>> foo = Foobar()
+>>> type(foo)
+<class '__main__.Foobar'>
+
+>>> isinstance(foo, Foobar)
+True
+>>> isinstance(Foobar, type)
+True
+</code></pre>
+</div>
+
+<p class="footer">
+<a href="https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/" class="footer">Ionel Cristian Mărieș: Understanding Python metaclasses</a> 
+</p>
+
+</section>
+<section id="slide-orga740ba4">
+<h3 id="orga740ba4">Ili predstavljeno dijagramom</h3>
+
+<div class="figure">
+<p><img src="./slike/metaclass.png" alt="metaclass.png" />
+</p>
+</div>
+
+<p class="footer">
+<a href="https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/" class="footer">Ionel Cristian Mărieș: Understanding Python metaclasses</a> 
+</p>
+
+</section>
+<section id="slide-org7aef8f8">
+<h3 id="org7aef8f8">Kreiranje klase sa <code>type</code></h3>
+<div class="org-src-container">
+
+<pre><code class="" python >MyClass = type('MyClass', (object,), {'a':5})
+print(MyClass.a)
+print(type(MyClass))
+</code></pre>
+</div>
+
+<pre class="example">
+5
+&lt;class 'type'&gt;
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class="" python >MyClass2 = type('MyClass2', (MyClass,), {'b': True})
+print(type(MyClass2))
+print(dir(MyClass2))
+print(MyClass2.__mro__)
+
+</code></pre>
+</div>
+
+<pre class="example">
+&lt;class 'type'&gt;
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'a', 'b']
+(&lt;class '__main__.MyClass2'&gt;, &lt;class '__main__.MyClass'&gt;, &lt;class 'object'&gt;)
+</pre>
+
+</section>
+<section id="slide-orgd3c22ca">
+<h3 id="orgd3c22ca">Korisnička metaklasa</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >>>> class Meta(type):
+...     pass
+
+>>> class Complex(metaclass=Meta):
+...     pass
+>>> type(Complex)
+<class '__main__.Meta'>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgebdd695">
+<h3 id="orgebdd695">Specijalne metode</h3>
+<ul>
+<li><code>__new__</code> - konstruktor objekta</li>
+<li><code>__init__</code> - inicijalizator</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///home/igor/repos/reveal.js/lib/js/head.min.js"></script>
+<script src="file:///home/igor/repos/reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:///home/igor/repos/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
