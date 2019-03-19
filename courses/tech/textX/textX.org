@@ -1,0 +1,363 @@
+#+TITLE: textX
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Osnovne osobine
+
+- 100% Python kod
+- MIT licenca
+- Istovremeno definisanje gramatike i meta-modela - inspirisan sa [[https://www.eclipse.org/Xtext/][Xtext]]
+- Automatska konstrukcija modela - podrška za razrešavane referenci
+- Podrška za veze tipa celina-deo
+- Kontrola parsiranja (*whitespaces, case, keywords*...)
+- Postprocesiranje objekata modela ili celog modela
+- Modularizacija gramatika - import
+- Vizualizacija modela i meta-modela 
+- Dokumentacija i tutorijali dostupni na https://textx.github.io/textX/
+
+* Arhitektura
+
+[[./slike/textX.png]]
+
+* Instalacija
+** Instalacija
+
+ - Sa PyPI
+ #+BEGIN_SRC
+ $ mkdir ntp 
+ $ cd ntp    
+ $ python -m venv venv
+ $ source venv/bin/activate
+ $ pip install textX  
+ Looking in indexes: https://pypi.python.org/simple/
+ Collecting textX
+   Using cached https://files.pythonhosted.org/packages/ff/df/33442dfb9ddfc2a9a84d60915ccf0602a5b04fdc46f523a7e939e588cd59/textX-1.8.0-py2.py3-none-any.whl
+ Collecting Arpeggio>=1.9.0 (from textX)
+   Using cached https://files.pythonhosted.org/packages/ec/5c/9cccf42a59406476f81993158376947a1487e3fcd84c01914c1ad17e54e1/Arpeggio-1.9.0-py2.py3-none-any.whl
+ Installing collected packages: Arpeggio, textX
+ Successfully installed Arpeggio-1.9.0 textX-1.8.0
+ #+END_SRC
+
+** Instalacija razvojne verzije
+  
+ #+BEGIN_SRC
+ $ mkdir ntp 
+ $ cd ntp    
+ $ python -m venv venv
+ $ source venv/bin/activate
+ $ pip install https://github.com/textX/textX/archive/master.zip                                                                                                                                         1 ↵
+ Looking in indexes: https://pypi.python.org/simple/
+ Collecting https://github.com/textX/textX/archive/master.zip
+   Downloading https://github.com/textX/textX/archive/master.zip
+      / 6.3MB 6.0MB/s
+ Collecting Arpeggio>=1.9.0 (from textX==1.8.0)
+   Using cached https://files.pythonhosted.org/packages/ec/5c/9cccf42a59406476f81993158376947a1487e3fcd84c01914c1ad17e54e1/Arpeggio-1.9.0-py2.py3-none-any.whl
+ Collecting click==7.0 (from textX==1.8.0)
+   Using cached https://files.pythonhosted.org/packages/fa/37/45185cb5abbc30d7257104c434fe0b07e5a195a6847506c074527aa599ec/Click-7.0-py2.py3-none-any.whl
+ Installing collected packages: Arpeggio, click, textX
+   Running setup.py install for textX ... done
+ Successfully installed Arpeggio-1.9.0 click-7.0 textX-1.8.0
+ #+END_SRC
+
+** Instalacija razvojne verzije - za razvoj
+  
+ #+BEGIN_SRC
+ $ mkdir ntp 
+ $ cd ntp    
+ $ python -m venv venv
+ $ source venv/bin/activate
+ $ git clone git@github.com:textX/textX.git                     
+ Cloning into 'textX'...
+ Enter passphrase for key '/home/igor/.ssh/id_rsa': 
+ remote: Enumerating objects: 65, done.
+ remote: Counting objects: 100% (65/65), done.
+ remote: Compressing objects: 100% (56/56), done.
+ remote: Total 7649 (delta 23), reused 32 (delta 9), pack-reused 7584
+ Receiving objects: 100% (7649/7649), 9.20 MiB | 2.21 MiB/s, done.
+ Resolving deltas: 100% (4657/4657), done.
+ $ pip install -e textX                                             
+ Looking in indexes: https://pypi.python.org/simple/
+ Obtaining file:///home/igor/ntp/textX
+ Requirement already satisfied: Arpeggio>=1.9.0 in ./venv/lib/python3.7/site-packages (from textX==1.8.0) (1.9.0)
+ Requirement already satisfied: click==7.0 in ./venv/lib/python3.7/site-packages (from textX==1.8.0) (7.0)
+ Installing collected packages: textX
+   Found existing installation: textX 1.8.0
+     Uninstalling textX-1.8.0:
+       Successfully uninstalled textX-1.8.0
+   Running setup.py develop for textX
+ Successfully installed textX
+ #+END_SRC
+
+* Upotreba
+** Gramatika = meta-model + konkretna sintaksa
+
+ #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+ #+BEGIN_SRC
+ HelloWorldModel:
+   'hello' to_greet+=Who[',']
+ ;
+
+ Who:
+   name = /[^,]*/
+ ;
+ #+END_SRC
+ #+REVEAL_HTML: </div>
+
+ #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+ #+BEGIN_SRC python
+ from textx import metamodel_from_file
+ hello_meta = metamodel_from_file('hello.tx')
+ #+END_SRC
+ #+REVEAL_HTML: </div>
+
+
+
+ #+attr_html: :width 60%
+ [[./slike/hello_meta.dot.png]]
+
+** Model = program
+
+#+BEGIN_SRC
+hello World, Solar System, Universe
+#+END_SRC
+
+[[./slike/hello_parts.png]]
+
+** Parsiranje - instanciranje modela
+
+#+BEGIN_SRC python
+example_hello_model = hello_meta.model_from_file('example.hello')
+#+END_SRC
+
+[[./slike/example.dot.png]]
+
+
+- Model je graf Python objekata čija struktura je u skladu sa gramatikom (npr.
+  ~HelloWorldModel~ objekat sadrži Python listu ~to_greet~).
+- Model možemo dalje interpretirati, analizirati, generisati kod...
+
+** Provera i vizualizacija meta-modela
+
+- textX će pri parsiraju gramatike prijaviti sintaksne greške.
+- Ako želimo možemo proveriti gramatiku u toku razvoja:
+
+  #+BEGIN_SRC bash
+  $ textx check hello.tx
+  Meta-model OK.
+  #+END_SRC
+
+- U slučaju greške biće prijavljena tačna lokacija.
+
+  #+BEGIN_SRC
+  Error in meta-model file.
+  Expected 'abstract_rule_ref' at position (6, 9) => ':   name |*= /[^,]*/ '.
+  #+END_SRC
+
+- ili vizualizovati
+
+  #+BEGIN_SRC
+  $ textx visualize hello.tx
+  Meta-model OK.
+  Generating 'hello.tx.dot' file for meta-model.
+  To convert to png run 'dot -Tpng -O hello.tx.dot'
+  $ dot -Tpng -O hello.tx.dot
+  #+END_SRC
+
+** Robot primer
+   
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+[[./slike/robot_grammar.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+BEGIN_SRC
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+** Instanciranje meta-modela
+
+#+BEGIN_SRC python
+from textx import metamodel_from_file
+robot_mm = metamodel_from_file('robot.tx')
+#+END_SRC
+
+[[./slike/robot.tx.dot.png]]
+
+** Parsiranje i instanciranje modela
+
+  #+BEGIN_SRC python
+  robot_model = robot_mm.model_from_file('program.rbt')
+  #+END_SRC
+
+  #+BEGIN_SRC 
+  begin
+      initial 3, 1
+      up 4
+      left 9
+      down
+      right 1
+  end
+  #+END_SRC
+
+[[./slike/program.rbt.dot.png]]
+
+** Šta raditi sa modelom?
+
+- Interpretiranje
+- Generisanje koda
+- Razne vrste analize i transformacije
+
+** Interpretiranje Robot modela
+
+#+BEGIN_SRC python :class python
+class Robot(object):
+
+  def __init__(self):
+    # Initial position is (0,0)
+    self.x = 0
+    self.y = 0
+
+  def __str__(self):
+    return "Robot position is {}, {}.".format(self.x, self.y)
+#+END_SRC
+
+** Interpretiranje Robot modela
+
+#+BEGIN_SRC python :class python
+def interpret(self, model):
+
+    # model is an instance of Program
+    for c in model.commands:
+
+        if c.__class__.__name__ == "InitialCommand":
+            print("Setting position to: {}, {}".format(c.x, c.y))
+            self.x = c.x
+            self.y = c.y
+        else:
+            dir = c.direction
+            print("Going {} for {} step(s).".format(dir, c.steps))
+
+            move = {
+                "up": (0, 1),
+                "down": (0, -1),
+                "left": (-1, 0),
+                "right": (1, 0)
+            }[dir]
+
+            # Calculate new robot position
+            self.x += c.steps * move[0]
+            self.y += c.steps * move[1]
+
+        print(self)
+#+END_SRC
+
+** Interpretacija Robot modela
+
+#+BEGIN_SRC python
+robot = Robot()
+robot.interpret(robot_model)
+#+END_SRC
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+#+END_SRC
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+BEGIN_SRC
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 0 step(s).
+Robot position is -6, 5.
+Going right for 1 step(s).
+Robot position is -5, 5.
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+attr_html: :style clear: both;
+**Problem:** Ako ne zadamo korak podrazumevano je 0 (textX definiše /default/
+vrednosti za bazične tipove).
+
+** Object processor
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC python
+def move_command_processor(move_cmd):
+
+  if move_cmd.steps == 0:
+    move_cmd.steps = 1
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+[[./slike/move_command.png]]
+#+REVEAL_HTML: </div>
+
+#+attr_html: :style clear: both;
+Registracija procesora na meta-modelu:
+
+#+BEGIN_SRC python
+robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
+#+END_SRC
+
+Sada se robot ponaša ispravno.
+
+#+BEGIN_SRC
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 1 step(s).
+Robot position is -6, 4.
+Going right for 1 step(s).
+Robot position is -5, 4.
+#+END_SRC
+
+* Primeri
+** Generisanje koda - Entity primer
+
+- Referenciranje drugih objekata.
+- Upotreba obrađivača šablona (*Template Engines*) za generisanje koda.
+- http://textx.github.io/textX/stable/tutorials/entity/
+
+** State Machine
+
+- Video tutorial
+- http://textx.github.io/textX/stable/tutorials/state_machine/
+
+** Izrada mini kompajlera - ppci
+
+- [[http://www.windel.nl/][Windel Bouwman]]
+- https://ppci.readthedocs.io/en/latest/howto/toy.html
+
+* Napredne tehnike - [[https://github.com/igordejanovic/pyFlies][pyFlies]]
+* Podrška u editorima
+  - Visual Studio Code (/IntelliSense/, /Outline/, /Code highlighting/)
+    - [[https://github.com/textX/textX-LS][Tekući razvoj]] - /Language Server Protocol/
+  - [[https://github.com/textX/textx-mode][Mod za Emacs]]
+  - [[https://github.com/textX/textX-ninja][Ninja IDE]]
+* Veče džeza i slobodnih formi - improvizacije
+              
+
+          
