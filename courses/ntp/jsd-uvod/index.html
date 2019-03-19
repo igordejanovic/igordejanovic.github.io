@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Uvod u jezike specifične za domen</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Uvod u jezike specifične za domen</h1>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano: 2019-03-19 Tue 19:06</p>
+</section>
+
+<section>
+<section id="slide-orgc868284">
+<h2 id="orgc868284">Jezici specifični za domen</h2>
+<div class="outline-text-2" id="text-orgc868284">
+</div>
+</section>
+<section id="slide-org0eb57be">
+<h3 id="org0eb57be">Jezici specifični za domen - JSD (<b>Domain-Specific Languages - DSL</b>)</h3>
+<ul>
+<li>Jezici specifični za domen (JSD, eng. <i>Domain-Specific Languages - DSL</i>)
+su jezici prilagođeni i ograničeni na određeni domen problema.</li>
+<li>Za razliku od jezika opšte namene (JON, eng. <i>General Purpose Language -
+GPL</i>), nude povećanje ekspresivnosti kroz upotrebu koncepata i notacija
+prilagođenih domenu problema i domenskim ekspertima.</li>
+<li>Nazivaju se još i <i>mali jezici</i> (eng. <i>little languages</i>).</li>
+<li>Uspešan JSD je fokusiran na uzak, dobro definisan domen i pokriva ga na
+odgovarajući način.</li>
+<li>Domen često ima svoj jezik korišćen od strane domenskih eksperata iako ne
+postoji njegova implementacija na računaru.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org9119cf6">
+<h2 id="org9119cf6">Primeri JSD</h2>
+<div class="outline-text-2" id="text-org9119cf6">
+</div>
+</section>
+<section id="slide-orgb27896b">
+<h3 id="orgb27896b">SQL</h3>
+<div class="org-src-container">
+
+<pre><code class="" sql >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgfaa3d95">
+<h3 id="orgfaa3d95">JPA mapiranje</h3>
+<div class="org-src-container">
+
+<pre><code class="" java >@Entity
+@Table(name="COURSES")
+public class Course {
+
+  private long courseId;
+  private String courseName;
+
+  public Course() {
+  }
+
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+
+  @Id
+  @GeneratedValue
+  @Column(name="COURSE_ID")
+  public long getCourseId() {
+    return this.courseId;
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga7558d9">
+<h3 id="orga7558d9">Build jezici (Ant/Maven/Gradle)</h3>
+
+<div class="figure">
+<p><img src="./slike/Ant-Maven-Gradle.png" alt="Ant-Maven-Gradle.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orge2e41c7">
+<h3 id="orge2e41c7">Poslovni procesi - BPMN</h3>
+
+<div class="figure">
+<p><img src="./slike/BPMN.png" alt="BPMN.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org311b57f">
+<h3 id="org311b57f">Mobilne aplikacije</h3>
+
+<div class="figure">
+<p><img src="./slike/MobilneAplikacije.png" alt="MobilneAplikacije.png" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Kelly, S. &amp; Tolvanen, J.-P. <i>Domain-Specific Modeling: Enabling Full Code
+Generation</i>, Wiley-IEEE Computer Society Pr, 2008
+</p>
+
+</section>
+<section id="slide-org86fb961">
+<h3 id="org86fb961">Ali i&#x2026;</h3>
+
+<div class="figure">
+<p><img src="./slike/MusicNotation-External.png" alt="MusicNotation-External.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org202d688">
+<h3 id="org202d688">ili&#x2026;</h3>
+
+<div class="figure">
+<p><img src="./slike/ChessNotation.png" alt="ChessNotation.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org5209406">
+<h2 id="org5209406">Prednosti upotrebe</h2>
+<div class="outline-text-2" id="text-org5209406">
+</div>
+</section>
+<section id="slide-org5010424">
+<h3 id="org5010424">Uticaj na produktivnost</h3>
+<ul>
+<li>Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%<sup>1</sup>.</li>
+<li>Šta je osnovni razlog za povećanje produktivnosti?</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>MetaCase, <i>Nokia case study</i>, tech. rep., MetaCase, 2007</li>
+
+</ol>
+
+</section>
+<section id="slide-org1917b04">
+<h3 id="org1917b04">Problem mentalnog mapiranja</h3>
+
+<div class="figure">
+<p><img src="./slike/MentalnoMapiranje-1.png" alt="MentalnoMapiranje-1.png" width="100%" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+
+</section>
+<section id="slide-org7b09f95">
+<h3 id="org7b09f95">Rešenje upotrebom JSD</h3>
+
+<div class="figure">
+<p><img src="./slike/MentalnoMapiranje-2.png" alt="MentalnoMapiranje-2.png" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+
+</section>
+<section id="slide-org005406c">
+<h3 id="org005406c">Zašto JSD?</h3>
+<ul>
+<li>JSD su koncizniji od jezika opšte namene što omogućava korisnicima da jasnije
+iskažu svoju nameru.</li>
+<li>JSD sintaksa, bilo tekstualna ili grafička, može se prilagoditi i
+približiti domenskim ekspertima.</li>
+<li>Koncepti korišćeni u JSD su koncepti problemskog (poslovnog) domena što
+pod određenim uslovima omogućava da domenski eksperti direktno koriste JSD bez
+posredovanja programera.</li>
+<li>Upotrebom koncepata problemskog domena izbegava se ručno mapiranje na koncepte
+ciljne implementacione platforme. Taj posao se obavlja automatski upotrebom
+JSD prevodioca (kompajlera ili generatora koda).</li>
+<li>Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
+dužim životnim vekom aplikacije.</li>
+<li>Samodokumentujući jezički iskazi.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgfab63a2">
+<h2 id="orgfab63a2">Arhitekture</h2>
+<div class="outline-text-2" id="text-orgfab63a2">
+</div>
+</section>
+<section id="slide-org0c01bf2">
+<h3 id="org0c01bf2">Arhitektura bazirana na prevodiocima</h3>
+
+<div class="figure">
+<p><img src="./slike/Arhitektura-kompajler.png" alt="Arhitektura-kompajler.png" width="55%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org22f795c">
+<h3 id="org22f795c">Arhitektura bazirana na interpreterima</h3>
+
+<div class="figure">
+<p><img src="./slike/Arhitektura-interpreter.png" alt="Arhitektura-interpreter.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4284cfe">
+<h2 id="org4284cfe">Tehnologije za parsiranje</h2>
+<div class="outline-text-2" id="text-org4284cfe">
+</div>
+</section>
+<section id="slide-orge40041e">
+<h3 id="orge40041e">Tehnologije za parsiranje</h3>
+<ul>
+<li>Arpeggio</li>
+<li>parglare</li>
+<li>textX</li>
+
+</ul>
+
+</section>
+<section id="slide-orga6026fc">
+<h3 id="orga6026fc">Arpeggio</h3>
+<ul>
+<li>100% Python kod</li>
+<li>MIT licenca</li>
+<li>Definisanje gramatike putem Python izraza ili putem PEG notacije</li>
+<li>Puna podrška za semantičku analizu</li>
+<li>Dobra podrška za debagovanje</li>
+<li>Vizualizacija stabla parsiranja i modela parsera upotrebom GraphViz biblioteke.</li>
+<li>Dobra prijava grešaka</li>
+<li>Mogućnost višestruke analize istog stabla parsiranja</li>
+<li><a href="https://github.com/igordejanovic/arpeggio/">https://github.com/igordejanovic/arpeggio/</a></li>
+
+</ul>
+
+</section>
+<section id="slide-orgad56b3b">
+<h3 id="orgad56b3b">Arpeggio</h3>
+
+<div class="figure">
+<p><img src="./slike/Arpeggio.png" alt="Arpeggio.png" width="80%" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf63787d">
+<h3 id="orgf63787d">parglare</h3>
+<ul>
+<li>100% Python kod</li>
+<li>Najmlađi projekat od sva tri - Jan. 2017.</li>
+<li>LR(1)/GLR parser.</li>
+<li>Gramatika se zadaje tekstualnim DSL-om.</li>
+<li>Podrška za asocijativnost i prioritet.</li>
+<li>Podrška za upravljanje white-space i komentarima.</li>
+
+</ul>
+
+</section>
+<section id="slide-org9f9e10d">
+<h3 id="org9f9e10d">parglare - primer gramatike</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >from parglare import Parser, Grammar
+
+grammar = r"""
+E = E '+' E  {left, 1}
+  | E '-' E  {left, 1}
+  | E '*' E  {left, 2}
+  | E '/' E  {left, 2}
+  | E '^' E  {right, 3}
+  | '(' E ')';
+E = number;
+number = /\d+(\.\d+)?/;
+"""
+
+actions = {
+    "E:0": lambda _, nodes: nodes[0] + nodes[2],
+    "E:1": lambda _, nodes: nodes[0] - nodes[2],
+    "E:2": lambda _, nodes: nodes[0] * nodes[2],
+    "E:3": lambda _, nodes: nodes[0] / nodes[2],
+    "E:4": lambda _, nodes: nodes[0] ** nodes[2],
+    "E:5": lambda _, nodes: nodes[1],
+    "E:6": lambda _, nodes: nodes[0],
+    "number": lambda _, value: float(value),
+}
+
+g = Grammar.from_string(grammar)
+parser = Parser(g, debug=True, actions=actions)
+
+result = parser.parse("34 + 4.6 / 2 * 4^2^2 + 78")
+
+print("Result = ", result)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orge04af4a">
+<h3 id="orge04af4a">textX</h3>
+<ul>
+<li>100% Python kod</li>
+<li>MIT licenca</li>
+<li>Istovremeno definisanje gramatike i meta-modela -
+inspirisan <a href="https://eclipse.org/Xtext/">Xtext</a></li>
+<li>Automatska konstrukcija modela - podrška za razrešavane referenci</li>
+<li>Podrška za veze tipa celina-deo</li>
+<li>Kontrola parsiranja (<b>whitespaces, case, keywords</b>&#x2026;)</li>
+<li>Postprocesiranje objekata modela ili celog modela</li>
+<li>Modularizacija gramatika - import</li>
+<li>Vizualizacija modela i meta-modela</li>
+<li>"Najmoćniji" i najpopularniji alat od sva tri.</li>
+<li>Dokumentacija i tutorijali dostupni na <a href="http://igordejanovic.net/textX/">http://igordejanovic.net/textX/</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org0ca84d6">
+<h3 id="org0ca84d6">textX</h3>
+
+<div class="figure">
+<p><img src="./slike/textX.png" alt="textX.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org0022c0d">
+<h2 id="org0022c0d">Primeri upotrebe</h2>
+<div class="outline-text-2" id="text-org0022c0d">
+</div>
+</section>
+<section id="slide-orgf350d04">
+<h3 id="orgf350d04">pyFlies - DSL za kognitivne eksperimente</h3>
+
+<div class="figure">
+<p><img src="./slike/pyFliesGUI.png" alt="pyFliesGUI.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4780968">
+<h3 id="org4780968">pyFlies - DSL za kognitivne eksperimente</h3>
+
+<div class="figure">
+<p><img src="./slike/pyFliesArchitecture.png" alt="pyFliesArchitecture.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org7eaeb23">
+<h3 id="org7eaeb23">pyTabs - DSL za gitarske tablature</h3>
+
+<div class="figure">
+<p><img src="./slike/pyTabs.png" alt="pyTabs.png" width="50%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org26e12a9">
+<h3 id="org26e12a9">Energetska elektronika</h3>
+<p>
+Specifikacija komponenti i šema.
+</p>
+
+
+<div class="figure">
+<p><img src="./slike/schematic_editor.png" alt="schematic_editor.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org1216961">
+<h3 id="org1216961">Analiza <i>legacy</i> koda</h3>
+
+<div class="figure">
+<p><img src="./slike/atf.png" alt="atf.png" width="75%" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org51c9cda">
+<h2 id="org51c9cda"><a href="../tech/textx.html">textX</a></h2>
+<p class="footer" style="clear: both;">
+Prati <a href="../tech/textx.html" class="footer" style="clear: both;">textX link</a>
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+#+TITLE: Uvod u jezike specifične za domen
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+# Change noexport to nil to export all slides
+#+EXCLUDE_TAGS: noexport
+
+* Jezici specifični za domen
+** Jezici specifični za domen - JSD (*Domain-Specific Languages - DSL*)
+
+- Jezici specifični za domen (JSD, eng. /Domain-Specific Languages - DSL/)
+  su jezici prilagođeni i ograničeni na određeni domen problema.
+- Za razliku od jezika opšte namene (JON, eng. /General Purpose Language -
+  GPL/), nude povećanje ekspresivnosti kroz upotrebu koncepata i notacija
+  prilagođenih domenu problema i domenskim ekspertima.
+- Nazivaju se još i /mali jezici/ (eng. /little languages/).
+- Uspešan JSD je fokusiran na uzak, dobro definisan domen i pokriva ga na
+  odgovarajući način.
+- Domen često ima svoj jezik korišćen od strane domenskih eksperata iako ne
+  postoji njegova implementacija na računaru.
+
+* Primeri JSD
+** SQL
+   
+#+BEGIN_SRC sql
+SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+#+END_SRC
+
+** JPA mapiranje
+   
+#+BEGIN_SRC java
+@Entity
+@Table(name="COURSES")
+public class Course {
+
+  private long courseId;
+  private String courseName;
+
+  public Course() {
+  }
+
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+
+  @Id
+  @GeneratedValue
+  @Column(name="COURSE_ID")
+  public long getCourseId() {
+    return this.courseId;
+  }
+}
+#+END_SRC
+
+** Build jezici (Ant/Maven/Gradle)
+   
+[[./slike/Ant-Maven-Gradle.png]]
+
+** Poslovni procesi - BPMN
+   
+[[./slike/BPMN.png]]
+
+** Mobilne aplikacije
+
+[[./slike/MobilneAplikacije.png]]
+
+#+attr_html: :class footer :style clear: both;
+Kelly, S. & Tolvanen, J.-P. /Domain-Specific Modeling: Enabling Full Code
+Generation/, Wiley-IEEE Computer Society Pr, 2008
+
+** Ali i...
+   
+[[./slike/MusicNotation-External.png]]
+
+** ili...
+   
+[[./slike/ChessNotation.png]]
+
+** Kada jezik smatramo JSD-om?                                     :noexport:
+
+- Zavisi od toga šta nam je domen.
+- Jezik može biti više ili manje prilagođen nekom domenu.
+- U ekstremnom slučaju i opšti jezik kao što je Java možemo smatrati JSD-om ako
+  nam je domen "razvoj softvera". Naravno, iako tačno u teorijskom smislu, u
+  praktičnom gubimo sve prednosti JSD.
+- Dobar JSD pokriva uzak, dobro definisan domen (domen problema). Koristi samo
+  koncepte ciljnog domena, ograničen je na dati domen i samim tim je iskazivanje
+  rešenja jezgrovitije i jasnije domenskim ekspertima.
+- Čest je slučaj da jezik nastane kao JSD ali se vremenom proširi do te mere da
+  ga možemo smatrati JON.
+
+* Prednosti upotrebe
+** Uticaj na produktivnost
+
+- Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%^1.
+- Šta je osnovni razlog za povećanje produktivnosti?
+
+#+attr_html: :class footer :style clear: both;
+1. MetaCase, /Nokia case study/, tech. rep., MetaCase, 2007
+  
+** Problem mentalnog mapiranja
+
+#+attr_html: :width 100%
+[[./slike/MentalnoMapiranje-1.png]]
+
+#+attr_html: :class footer :style clear: both;
+Dmitriev, S. /Language oriented programming: The next programming paradigm/,
+JetBrains onBoard, 2004.
+
+** Rešenje upotrebom JSD
+
+[[./slike/MentalnoMapiranje-2.png]]
+
+#+attr_html: :class footer :style clear: both;
+Dmitriev, S. /Language oriented programming: The next programming paradigm/,
+JetBrains onBoard, 2004.
+
+** Zašto JSD?
+
+- JSD su koncizniji od jezika opšte namene što omogućava korisnicima da jasnije
+  iskažu svoju nameru.
+- JSD sintaksa, bilo tekstualna ili grafička, može se prilagoditi i
+  približiti domenskim ekspertima.
+- Koncepti korišćeni u JSD su koncepti problemskog (poslovnog) domena što
+  pod određenim uslovima omogućava da domenski eksperti direktno koriste JSD bez
+  posredovanja programera.
+- Upotrebom koncepata problemskog domena izbegava se ručno mapiranje na koncepte
+  ciljne implementacione platforme. Taj posao se obavlja automatski upotrebom
+  JSD prevodioca (kompajlera ili generatora koda).
+- Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
+  dužim životnim vekom aplikacije.
+- Samodokumentujući jezički iskazi.
+
+** Uticaj na kvalitet softvera                                     :noexport:
+
+- Korišćenje koncepata domena problema dovodi do smanjenja broja linija koda (u
+  terminologiji tekstualnih notacija), što ima pozitivan uticaj na brzinu
+  razvoja i jednostavnost odžavanja.
+- Smanjenje broja linija koda ide i do **50 puta** u pojedinim domenima primene.
+  Gustina softverskih grešaka (broj softverskih grešaka na hiljadu linija koda)
+  ne zavisi značajno od jezika koji se koristi.
+- Iz toga se može zaključiti da JSD kroz smanjenje broja linija koda posredno
+  utiču na smanjenje apsolutnog broja softverskih grešaka što povećava kvalitet
+  softverskog proizvoda i smanjuje cenu održavanja.
+- Prevođenje koda na ciljnu platformu (kompajliranje) će rezultovati
+  konzistentnim kodom.
+
+** Uticaj na evoluciju aplikacije                                  :noexport:
+
+- Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
+  dužim životnim vekom aplikacije.
+- Nije potrebno menjati jezičke iskaze (programe/modele) kada dođe do promene
+  tehnologije. Potrebno je promenu uneti u generator koda.
+  
+* Arhitekture
+** Arhitektura bazirana na prevodiocima
+
+#+attr_html: :width 55%
+[[./slike/Arhitektura-kompajler.png]]
+
+** Arhitektura bazirana na interpreterima
+
+[[./slike/Arhitektura-interpreter.png]]
+
+* Gradivni elementi                                                :noexport:
+** Gradivni elementi JSD
+
+Kao i svaki softverski jezik i JSD se sastoji od:
+- Apstraktne sintakse
+- Jedne ili više konkretnih sintaksi
+- Semantike
+
+** Apstraktna sintaksa
+
+- Određuje pravila validnosti iskaza sa stanovišta njegove strukture.
+- Definiše koncepte domena, njihove osobine i međusobne relacije
+- Jezici za definisanje apstraktnih sintaksi jezika se u domenu modelovanja
+  nazivaju meta-meta-modelima^1.
+
+#+attr_html: :class footer :style clear: both;
+1. Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
+   čine i konkretne sintakse i semantika.
+
+** Primer - apstraktna sintaksa jezika za opis konačnih automata
+
+[[./slike/StateMachine.png]]
+
+#+attr_html: :class footer :style clear: both;
+I. Dejanović, /Prilog metodama brzog razvoja softvera na bazi proširivih
+jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University of
+Novi Sad, January 2012
+
+** Stablo apstraktne sintakse
+
+- Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
+  apstraktne sintakse (/Abstract Syntax Tree/).
+- Konkretna sintaksa nije važna u tom slučaju (na primer, ako posmatramo program
+  na Javi tada ključne reči nisu deo stabla apstraktne sintakse).
+
+** Primer stabla apstraktne sintakse
+
+#+attr_html: :width 60%
+[[./slike/AbstractSyntaxTree.png]]
+
+#+attr_html: :class footer :style clear: both;
+http://en.wikipedia.org/wiki/Abstract_syntax_tree
+
+** Konkretna sintaksa
+
+- Da bi mogli da prikažemo iskaz na konkretan način potrebna nam je konkretna
+  sintaksa.
+- Konkretna sintaksa definiše /izgled/ iskaza na nekom jeziku, odnosno u
+  širem smislu definiše i načine interakcije korisnika sa jezičkim iskazima tj.
+  predstavlja interfejs jezik-korisnik.
+- Iako nam je dovoljna jedna konkretna sintaksa za jedan jezik, možemo ih imati
+  više.
+  
+** Konkretna sintaksa
+
+Primer istog iskaza upotrebom dve različite konkretne sintakse
+
+[[./slike/RazliciteSintakse.png]]
+
+#+attr_html: :class footer :style clear: both;
+I. Dejanović, /Prilog metodama brzog razvoja softvera na bazi proširivih
+jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University of
+Novi Sad, January 2012
+
+** Semantika
+
+- Definiše smisao jezičkih iskaza.
+- Iako postoje i druge tehnike u praksi se najčešće semantika definiše
+  prevođenjem (kompajliranjem tj. generisanjem koda) na jezik koji već ima
+  definisanu semantiku putem prevodioca na niže jezike ili interpretera (npr.
+  virtualne mašine).
+- Najčešće su ciljni jezici na koje se JSD prevodi jezici opšte namene.
+- *Primer:* generisanje Java programskog koda iz JSD jezičkog iskaza.
+- Jezici se prevode na sve "niže" i "niže". Gde je kraj prevođenju? Mašinski
+  jezik. Definisan u hardveru računara (procesoru).
+  
+* Tehnologije za parsiranje
+
+** Tehnologije za parsiranje
+
+- Arpeggio
+- parglare
+- textX
+
+** Arpeggio
+
+- 100% Python kod
+- MIT licenca
+- Definisanje gramatike putem Python izraza ili putem PEG notacije
+- Puna podrška za semantičku analizu
+- Dobra podrška za debagovanje
+- Vizualizacija stabla parsiranja i modela parsera upotrebom GraphViz biblioteke.
+- Dobra prijava grešaka
+- Mogućnost višestruke analize istog stabla parsiranja
+- http://textx.github.io/Arpeggio/
+
+** Arpeggio
+
+#+attr_html: :width 80%
+[[./slike/Arpeggio.png]]
+
+** parglare
+
+- 100% Python kod
+- Najmlađi projekat od sva tri - Jan. 2017.
+- LR(1)/GLR parser.
+- Gramatika se zadaje tekstualnim DSL-om.
+- Podrška za asocijativnost i prioritet.
+- Podrška za upravljanje white-space i komentarima.
+
+** parglare - primer gramatike
+
+#+BEGIN_SRC python
+from parglare import Parser, Grammar
+
+grammar = r"""
+E = E '+' E  {left, 1}
+  | E '-' E  {left, 1}
+  | E '*' E  {left, 2}
+  | E '/' E  {left, 2}
+  | E '^' E  {right, 3}
+  | '(' E ')';
+E = number;
+number = /\d+(\.\d+)?/;
+"""
+
+actions = {
+    "E:0": lambda _, nodes: nodes[0] + nodes[2],
+    "E:1": lambda _, nodes: nodes[0] - nodes[2],
+    "E:2": lambda _, nodes: nodes[0] * nodes[2],
+    "E:3": lambda _, nodes: nodes[0] / nodes[2],
+    "E:4": lambda _, nodes: nodes[0] ** nodes[2],
+    "E:5": lambda _, nodes: nodes[1],
+    "E:6": lambda _, nodes: nodes[0],
+    "number": lambda _, value: float(value),
+}
+
+g = Grammar.from_string(grammar)
+parser = Parser(g, debug=True, actions=actions)
+
+result = parser.parse("34 + 4.6 / 2 * 4^2^2 + 78")
+
+print("Result = ", result)
+#+END_SRC
+
+** textX
+
+- 100% Python kod
+- MIT licenca
+- Istovremeno definisanje gramatike i meta-modela -
+  inspirisan [[https://eclipse.org/Xtext/][Xtext]]
+- Automatska konstrukcija modela - podrška za razrešavane referenci
+- Podrška za veze tipa celina-deo
+- Kontrola parsiranja (*whitespaces, case, keywords*...)
+- Postprocesiranje objekata modela ili celog modela
+- Modularizacija gramatika - import
+- Vizualizacija modela i meta-modela 
+- Najpopularniji alat od sva tri.
+- Dokumentacija i tutorijali dostupni na https://textx.github.io/textX/
+
+** textX
+   
+[[./slike/textX.png]]
+
+* Primeri upotrebe
+** pyFlies - DSL za kognitivne eksperimente
+
+[[./slike/pyFliesGUI.png]]
+
+** pyFlies - DSL za kognitivne eksperimente
+
+[[./slike/pyFliesArchitecture.png]]
+
+** pyTabs - DSL za gitarske tablature
+
+#+attr_html: :width 50%
+[[./slike/pyTabs.png]]
+
+** Energetska elektronika
+
+Specifikacija komponenti i šema.
+
+[[./slike/schematic_editor.png]]
+
+** Analiza /legacy/ koda
+
+#+attr_html: :width 75%
+[[./slike/atf.png]]
+
+* [[../tech/textx.html][textX]]
+
+#+attr_html: :class footer :style clear: both;
+Prati [[../tech/textx.html][textX link]]
