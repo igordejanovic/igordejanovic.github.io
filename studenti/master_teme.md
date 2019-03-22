@@ -8,52 +8,54 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## Slobodne
 
+- Podrška za AST->text transformacije (2 teme - [textX], [parglare]) 
+  <br> Videti [textX#36](https://github.com/textX/textX/issues/36)
+
+- Podrška za *indentation/column-based* jezike
+  <br> Videti
+  [textX#44](https://github.com/textX/textX/issues/44),
+  [parglare#5](https://github.com/igordejanovic/parglare/issues/5)
+
 - Podrška za bojenje koda i navigaciju za ugrađene (*embedded*) editore i jezike
-  bazirane na [textX](https://github.com/igordejanovic/textX) /
-  [parglare](https://github.com/igordejanovic/parglare/) (2 teme - textX, parglare)
+  bazirane na [textX] / [parglare] (2 teme - textX, parglare)
 
   Videti:
   <br>[QScintilla](https://qscintilla.com/)
   <br>[Qt for Python - PySide](https://wiki.qt.io/Qt_for_Python)
 
-- Podrška za IntelliSense u jezicima baziranim na [parglare
-  biblioteci](https://github.com/igordejanovic/parglare/) u Visual Studio Code.
+- Podrška za IntelliSense u jezicima baziranim na [parglare] biblioteci u Visual
+  Studio Code.
   
   Videti:
-  <br>[textX-vscode](https://github.com/textX-tools/textX-vscode)
+  <br>[textX-vscode]
 
-- Podrška za strukturu i bojenje koda u jezicima baziranim na [parglare
-  biblioteci](https://github.com/igordejanovic/parglare/) u Visual Studio Code.
-
-  Videti:
-  <br>[textX-extensions](https://github.com/textX-tools/textX-extensions)
-  <br>[textX-vscode](https://github.com/textX-tools/textX-vscode)
-
-- Podrška za vizualizaciju jezika baziranih na [parglare
-  biblioteci](https://github.com/igordejanovic/parglare/)
+- Podrška za strukturu i bojenje koda u jezicima baziranim na [parglare]
+  biblioteci u Visual Studio Code.
 
   Videti:
-  <br>[viewX-vscode](https://github.com/textX-tools/viewX-vscode)
+  <br>[textX-extensions]
+  <br>[textX-vscode]
+
+- Podrška za vizualizaciju jezika baziranih na [parglare] biblioteci.
+
+  Videti:
+  <br>[viewX-vscode]
   
-- Debager za [parglare](https://github.com/igordejanovic/parglare/) parser
+- Debager za [parglare] parser
 
   Prikaz tekućeg stanja parsera i parcijalnih stabala. Korak po korak
   izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
   
-- Podrška za [pyFlies DSL](https://github.com/igordejanovic/pyFlies) u Visual
-  Studio Code
+- Podrška za [pyFlies DSL] u Visual Studio Code
 
   Videti:
-  <br>[textX](https://github.com/igordejanovic/textX)
-  <br>[textX-vscode](https://github.com/textX-tools/textX-vscode)
+  <br>[textX]
+  <br>[textX-vscode]
 
 ## U izradi
 
 - Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
 
-- Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa.
-  <br><https://github.com/zeljko-bal/CID>
-  
 - Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
   (folding) i Intellisense za jezike bazirane na
   [textX-u](https://github.com/igordejanovic/textX)
@@ -67,7 +69,12 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo desktop
   aplikacija, kao test editor pri razvoju gramatike i sl.)
 
+## Završene (u 2019)
 
+- Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa,
+  mart 2019. 
+  <br><https://github.com/zeljko-bal/CID>
+  
 ## Završene (u 2018)
 
 - Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora
@@ -86,3 +93,11 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 - Nemanja Starčev: Podrška vizualizaciji strukture i bojenju koda u Visual
   Studio Code editoru za jezike bazirane na textX alatu, jun 2018.
   <br><https://github.com/textX-tools/textX-extensions>
+
+
+[textX]: https://github.com/textX/textX
+[parglare]: https://github.com/igordejanovic/parglare
+[textX-vscode]: https://github.com/textX/textX-vscode
+[textX-extensions]: https://github.com/textX/textX-extensions
+[viewX-vscode]: https://github.com/textX/viewX-vscode
+[pyFlies DSL]: https://github.com/igordejanovic/pyFlies
