@@ -69,14 +69,12 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo desktop
   aplikacija, kao test editor pri razvoju gramatike i sl.)
 
-## Završene (u 2019)
+## Završene
 
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa,
   mart 2019. 
   <br><https://github.com/zeljko-bal/CID>
   
-## Završene (u 2018)
-
 - Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora
   podataka sa veba, oktobar 2018.
   <br><https://github.com/Pazzo92/scraping-dsl>
