@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Pharo</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Pharo</h1>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano: 2019-03-23 Sat 21:00</p>
+</section>
+
+<section>
+<section id="slide-orgd336f10">
+<h2 id="orgd336f10">Smalltalk</h2>
+<div class="outline-text-2" id="text-orgd336f10">
+</div>
+</section>
+<section id="slide-org8bbcc69">
+<h3 id="org8bbcc69">Smalltalk</h3>
+<blockquote>
+<p>
+Smalltalk is dangerous. It is a drug. My advice to you would be don't try it; it
+could ruin your life. Once you take the time to learn it (to REALLY learn it)
+you will see that there is still nothing out there that can quite touch it.
+</p>
+
+<p>
+&#x2013; Andy Bower
+</p>
+</blockquote>
+</section>
+<section id="slide-orgc3eb940">
+<h3 id="orgc3eb940">Šta je Smalltalk?</h3>
+<ul>
+<li>Objektno-orijentisani dinamički reflektivni jezik.</li>
+<li>Xerox PARC - Alan Kay, Dan Ingalls i drugi - tokom 70-ih.</li>
+<li>Uticao na razvoj Actor model obrasca.</li>
+<li>Nastao pod uticajem Simule (prvi OO jezik, Norwegian Computing Center u Oslu -
+60-te).</li>
+<li>Jedan od najuticajnijih jezika.</li>
+<li>Napredni koncepti: sve je objekat, razmena poruka, "živ" sistem, virtualna
+mašina.</li>
+<li>Konstrukcionistički pristup programiranju.</li>
+
+</ul>
+</section>
+<section id="slide-org2339a1f">
+<h3 id="org2339a1f">Istorijat</h3>
+<ul>
+<li>Razvijen u par dana 1971 godine (<i>Smalltalk-71</i>) zbog opklade (Alan Kay).</li>
+<li>Kasnija verzija <i>Smalltalk-72</i> je korišćena u istraživanjima.</li>
+<li><i>Smalltalk-76</i> - nasleđivanje klasa, razvojno okruženje</li>
+<li>Najpoznatija verzija Smalltalk-80 - meta-klase. Prva verzija dostupna van
+PARC-a (Apple, HP, DEC, UC Berkeley)</li>
+<li>Standardizovan - ANSI 1998</li>
+
+</ul>
+</section>
+<section id="slide-orgc48091b">
+<h3 id="orgc48091b">Smalltalk implementacije</h3>
+<ul>
+<li>Komercijalne
+<ul>
+<li><i>Smalltalk-80</i> (PARC)</li>
+<li><i>VisualWorks</i> (ParcPlace Systems, prodato 1999 firmi Cincom)</li>
+<li><i>IBM VisualAge</i> - napušteno u korist Jave. Današnji Eclipse je započeo kao
+VisualAge Smalltalk okruženje. Jedno vreme je i Java podrška bila
+implementirana u Smalltalk-u.</li>
+
+</ul></li>
+
+<li>FLOSS:
+<ul>
+<li>Squeak (moderna verzija Smalltalk-80) - Apple -&gt; Disney -&gt; HP Labs -&gt; SAP Labs
+-&gt; Y Combinator</li>
+<li>Pharo - fork Squeak-a (2008) sa ciljem upotrebe u istraživanju i komercijalnim
+projektima (Pharo consortium, Pharo association)</li>
+<li>Amber Smalltalk - Smalltalk u JavaScipt-u</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-orga3859b8">
+<h3 id="orga3859b8">Familija Smalltalk i vezanih jezika</h3>
+
+<div class="figure">
+<p><img src="./slike/smalltalk-history.png" alt="smalltalk-history.png" width="120%" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+<a href="http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro.html" class="footer" style="clear: both;">http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro.html</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5ab3b7b">
+<h2 id="org5ab3b7b">Pharo uvod</h2>
+<div class="outline-text-2" id="text-org5ab3b7b">
+</div>
+</section>
+<section id="slide-org64f9ddd">
+<h3 id="org64f9ddd">Pharo</h3>
+<ul>
+<li>Pravi OO jezik ("sve je objekat") + IDE!</li>
+<li>Inspirisan Smalltalk-om</li>
+<li>Aktivna zajednica</li>
+<li>"Živ" sistem.</li>
+<li>Jednostavan i moćan objektni model</li>
+<li>Radi na Mac OSX, Linux, iOS, Android, Windows, Pi.</li>
+<li>100% MIT</li>
+
+</ul>
+</section>
+<section id="slide-orgdc732f1">
+<h3 id="orgdc732f1">Pharo instalacija</h3>
+<ul>
+<li><a href="http://get.pharo.org">http://get.pharo.org</a></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" shell >mkdir pharo
+cd pharo
+curl get.pharo.org | bash 
+ili
+wget -O- get.pharo.org | bash 
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga5d3ef4">
+<h3 id="orga5d3ef4">Cela sintaksa</h3>
+<p>
+Staje na jedan slajd:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >exampleWithNumber: x
+    "A method that illustrates every part of Smalltalk method syntax."
+    &lt;menu&gt;
+    | y |
+    true &amp; false not &amp; (nil isNil) ifFalse: [self halt].
+    y := self size + super size.
+    #($a #a "a" 1 1.0)
+        do: [ :each |
+            Transcript show: (each class name);
+                       show: (each printString);
+                       show: ' '].
+    ^x &lt; y
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1da2cb7">
+<h3 id="org1da2cb7">Model</h3>
+<ul>
+<li>Dinamički tipiziran</li>
+<li>Sve je objekat tj. instanca klase</li>
+<li>Sve metode su javne i virtualne</li>
+<li>Svi atributi su zaštićeni</li>
+<li>Jednostruko nasleđivanje (<i>Single inheritance</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-orge7fd467">
+<h3 id="orge7fd467">Napisan u samom sebi</h3>
+<ul>
+<li>Sve je napisano u Pharo!</li>
+<li><p>
+Jednostavna sintaksa/model za pristup svemu.
+</p>
+
+
+<div class="figure">
+<p><img src="./slike/hands.jpg" alt="hands.jpg" />
+</p>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-org7c8fab2">
+<h3 id="org7c8fab2">Introspekcija</h3>
+<ul>
+<li>Pharo nije "crna kutija".</li>
+<li>Sve što vidite su objekti sa kojima možete stupiti u interakciju i menjati ih
+"naživo".</li>
+<li><p>
+Npr. <code>Alt+Shift+Click</code> -&gt; Halo hendleri!
+</p>
+
+
+<div class="figure">
+<p><img src="./slike/halo.png" alt="halo.png" />
+</p>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-org37449f5">
+<h3 id="org37449f5">Samo objekti, poruke&#x2026;</h3>
+<ul>
+<li><i>Objekti</i>: mouse pointer, booleans, arrays, numbers, strings, windows, files,
+sound, url, socket, font, text, streams&#x2026;</li>
+<li><i>Poruke (messages)</i>: <code>size</code>, <code>+</code>, <code>at:put:</code>, <code>do:</code>, <code>collect:</code>,
+<code>ifTrue:ifFalse:</code>&#x2026;</li>
+<li>Poruke predstavljaju <b><b>nameru</b></b> (šta treba uraditi). Metode opisuju kako treba
+nešto uraditi.</li>
+<li>Objekat koji prima poruku zovemo "prijemnikom" (<i>receiver</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc630c4b">
+<h3 id="orgc630c4b">&#x2026; i blokovi (<i>Block Closures</i>)</h3>
+<ul>
+<li>Blokovi su vrsta anonimnih metoda.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >4 timesRepeat:
+    [ Transcript show: 'Hello World!']
+</code></pre>
+</div>
+
+<ul>
+<li>Blokovi se navode unutar <code>[]</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0392192">
+<h3 id="org0392192">Jednostavan, elegantan i uniforman model</h3>
+<ul>
+<li><i>Sve</i> je objekat tj. instanca klase.
+<ul>
+<li>Klase i poruke su takođe objekti.</li>
+
+</ul></li>
+<li>Svo procesiranje se obavlja <b><b>razmenom poruka</b></b> (<i>message passing</i>) između
+objekata.</li>
+
+<li>Koristimo izraz <b><b>slanje poruke</b></b> jer:
+<ul>
+<li>metode se određuju dinamički</li>
+<li><b><b>kasno povezivanje</b></b> (<i>late binding</i>), samo virtuelni pozivi</li>
+
+</ul></li>
+
+<li>Postoji <b><b>samo jedan</b></b> mehanizam za pretragu metoda za sve objekte.</li>
+
+</ul>
+
+</section>
+<section id="slide-org33375d8">
+<h3 id="org33375d8">Pharo objektni model</h3>
+<ul>
+<li>Atributi instanci (<i>instance variables</i>) su zaštićeni (<i>protected</i>):
+<ul>
+<li>Privatni za objekat</li>
+<li>Dostupni podklasama</li>
+
+</ul></li>
+<li>Metode su javne (<i>public</i>) i virtualne.</li>
+<li>Jednostruko nasleđivanje klasa.</li>
+
+</ul>
+
+</section>
+<section id="slide-org9a1f33c">
+<h3 id="org9a1f33c">Slanje poruka</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Date today
+
+Date today + 3 days
+
+2 + 3
+
+(point1 x * point2 y) - (point1 y * point2 x)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgf3ed386">
+<h3 id="orgf3ed386">Kreiranje objekata</h3>
+<p>
+Obavlja se slanjem poruke drugom objektu
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >10@20
+</code></pre>
+</div>
+
+<p>
+Nova instanca klase <code>Point</code> se kreira:
+</p>
+
+<ul>
+<li>slanjem poruke <code>@</code></li>
+<li>objektu <code>10</code> (<code>SmallInteger</code>)</li>
+<li>sa argumentom <code>20</code> (<code>SmallInteger</code>)</li>
+
+</ul>
+
+</section>
+<section id="slide-orge7c26cf">
+<h3 id="orge7c26cf">Kreiranje objekata - String</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >'Pharo', 'is cool!'
+=&gt; 'Pharo is cool!'
+</code></pre>
+</div>
+
+<p>
+Novi string se kreira spajanjem dva stringa tako što:
+</p>
+<ul>
+<li>se šalje poruka <code>,</code></li>
+<li>stringu <code>'Pharo'</code></li>
+<li>sa parametrom <code>'is cool!'</code></li>
+
+</ul>
+
+</section>
+<section id="slide-org6073783">
+<h3 id="org6073783">Kreiranje objekata</h3>
+<p>
+Slanjem poruke <code>new</code> ili <code>new:</code> klasi
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Monster new
+=&gt; aMonster
+</code></pre>
+</div>
+
+<p>
+U prethodnom primeru <code>Monster</code> je ime klase a <code>new</code> je poruka koja se šalje ovoj
+klasi. Rezultat je nova instanca klase <code>Monster</code>.
+</p>
+
+<p>
+Kreiranje niza dužine 6.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Array new: 6
+=&gt; #(nil nil nil nil nil nil)
+</code></pre>
+</div>
+
+<p>
+Slanjem poruke klasi izvšava se metoda klase (<i>class method</i>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Tamagoshi withHunger: 10
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org6b068bc">
+<h3 id="org6b068bc">Less is more!</h3>
+<ul>
+<li>Bez konstruktora</li>
+<li>Bez statičkih metoda</li>
+<li>Bez deklaracije tipova</li>
+<li>Bez interfejsa</li>
+<li>Bez <i>package/private/protected</i> modifikatora</li>
+<li>Bez parametrizovanih tipova</li>
+<li>Bez boxing-a</li>
+<li>Ali i dalje vrlo moćan jezik!</li>
+
+</ul>
+
+</section>
+<section id="slide-org43ff7bf">
+<h3 id="org43ff7bf">Hello world</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >'Hello World' asMorph openInWindow
+</code></pre>
+</div>
+
+<p>
+Šaljemo poruku <code>asMorph</code> stringu <code>Hello World</code> i dobijamo grafički element
+(<i>Morph</i>). Dobijenom grafičkom elementu šaljemo poruku <code>openInWindow</code> da bi ga
+prikazali u prozoru.
+</p>
+
+</section>
+<section id="slide-org665db22">
+<h3 id="org665db22">Primer - preuzimanje slike sa web-a</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(ZnEasy getPng: 'http://pharo.org/web/files/pharo.png') asMorph openInWindow
+</code></pre>
+</div>
+
+<ul>
+<li><code>ZnEasy</code> je ime klase. Klase su globalno dostupe i nazivi počinju sa velikim
+slovom.</li>
+<li><code>getPng:</code> je poruka koju šaljemo klasi <code>ZnEasy</code>. Ova poruka ima argument. U
+ovom slučaju to je string <code>'http://pharo.org/web/files/pharo.png'</code>
+<ul>
+<li>Poruke koje imaju argumente se pišu sa <code>:</code> na kraju naziva i mogu biti
+višesložne. Ovakve poruke nazivamo <code>keyword message</code>.</li>
+
+</ul></li>
+
+<li>Poruka <code>asMorph</code> šalje se objektu koji vraća poruka <code>getPng:</code>. Ovo je obična
+unarna poruka bez argumenata.</li>
+
+<li>Poruka <code>openInWindow</code> se šalje objektu koji vraća poruka <code>asMorph</code>.</li>
+
+<li>Ove dve unarne poruke se primenjuju s leva na desno.</li>
+
+</ul>
+
+</section>
+<section id="slide-org1ca8e2c">
+<h3 id="org1ca8e2c">Sintaksni elementi jezika</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Vrsta</th>
+<th scope="col" class="org-left">Primer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Komentar</td>
+<td class="org-left"><code>"Ovo je komentar"</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Karakteri</td>
+<td class="org-left"><code>$c</code> <code>$#</code> <code>$@</code></td>
+</tr>
+
+<tr>
+<td class="org-left">String</td>
+<td class="org-left"><code>'Ovo je string'</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Simbol (jedinstveni string)</td>
+<td class="org-left"><code>#prvi</code> <code>#+</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Literal niz</td>
+<td class="org-left"><code>#(23 56 89)</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Integer</td>
+<td class="org-left"><code>45</code>, <code>2r10100</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Real</td>
+<td class="org-left"><code>1.5</code>, <code>6.03e-34</code>, <code>4</code>, <code>2.4e7</code></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgb6ced47">
+<h3 id="orgb6ced47">Sintaksni elementi jezika</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Vrsta</th>
+<th scope="col" class="org-left">Primer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Boolean</td>
+<td class="org-left"><code>true</code>, <code>false</code></td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(instanca <code>True</code> i <code>False</code>)</td>
+</tr>
+
+<tr>
+<td class="org-left">Undefined</td>
+<td class="org-left"><code>nil</code> (instanca UndefinedObject)</td>
+</tr>
+
+<tr>
+<td class="org-left">Point</td>
+<td class="org-left"><code>10@120</code></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orge144699">
+<h3 id="orge144699">Osnovne jezičke konstrukcije</h3>
+<ul>
+<li>Deklaracija privremene varijable: <code>| var |</code></li>
+<li>Dodela vrednosti varijabli: <code>var :</code> aValue=</li>
+<li>Separator iskaza: <code>obj1 message1. obj2 message2.</code></li>
+<li>Povratak vrednosti iz metode: <code>^ aValue</code></li>
+<li>Blokovi (leksička zatvorenja ili anonimne metode)</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :x | x + 2 ] value: 5
+=&gt; 7
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org8d06fd3">
+<h2 id="org8d06fd3">Poruke</h2>
+<div class="outline-text-2" id="text-org8d06fd3">
+</div>
+</section>
+<section id="slide-orgc3a19fa">
+<h3 id="orgc3a19fa">Tri vrste poruka</h3>
+<ol>
+<li><p>
+Unarne poruke:
+</p>
+<ul>
+<li>Sintaksa: <code>receiver selector</code></li>
+<li>Primeri:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >9 squared
+Date today
+</code></pre>
+</div></li>
+
+<li><p>
+Binarne poruke:
+</p>
+<ul>
+<li>Sintaksa: <code>receiver selector argument</code></li>
+<li>Primeri:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >2 + 3
+3 @ 4
+</code></pre>
+</div></li>
+
+<li><p>
+<i>Keyword</i> poruke:
+</p>
+<ul>
+<li>Sintaksa: <code>receiver key1: arg1 key2: arg2</code></li>
+<li>Primeri:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >2 between: 10 and: 20
+5 to: 10 do: [ :i | Transcript show: i ]
+</code></pre>
+</div></li>
+
+</ol>
+
+</section>
+<section id="slide-org62aeb81">
+<h3 id="org62aeb81">Prioriteti poruka</h3>
+<div class="org-src-container">
+
+<pre><code class="" python >(Msg) > Unary > Binary > Keywords
+</code></pre>
+</div>
+
+<p>
+Ova pravila redukuju potrebu za navođenjem zagrada.
+</p>
+
+</section>
+<section id="slide-org73348cb">
+<h3 id="org73348cb">Slanje unarne poruke</h3>
+<pre  class="example">
+receiver selector
+</pre>
+
+<p>
+Primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >10000 factorial
+</code></pre>
+</div>
+
+
+<p>
+Šaljemo poruku <code>factorial</code> objektu <code>10000</code>.
+</p>
+
+</section>
+<section id="slide-org118ae0a">
+<h3 id="org118ae0a">Slanje binarne poruke</h3>
+<pre  class="example">
+receiver selector argument
+</pre>
+
+<p>
+Primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1 + 3
+</code></pre>
+</div>
+
+<p>
+Šaljemo poruku <code>+</code> objektu <code>1</code> sa parametrom <code>3</code>.
+</p>
+
+</section>
+<section id="slide-org16e4c51">
+<h3 id="org16e4c51">Slanje <i>keyword</i> poruke</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >receiver keyword1: arg1 keyword2: arg2
+</code></pre>
+</div>
+
+<p>
+Ekvivalentno u Javi ili C-like jezicima:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" java >receiver.keyword1keyword2(arg1, arg2)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgddb991c">
+<h3 id="orgddb991c"><i>Keyword</i> poruke za Java programere</h3>
+<p>
+U Javi
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" java >postman.send(mail, recipient);
+</code></pre>
+</div>
+
+<pre  class="fragment roll-in">
+postman . send ( mail , recipient );
+</pre>
+
+<pre  class="fragment roll-in">
+postman send mail recipient
+</pre>
+
+<pre  class="fragment roll-in">
+postman send mail to recipient
+</pre>
+
+<p data-fragment-index="3" class="fragment roll-in">
+U Pharo/Smalltalk-u
+</p>
+
+<div class="org-src-container">
+
+<pre class="fragment roll-in" data-fragment-index="4"><code class="" smalltalk >postman send: mail to: recipient
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgfa6a1fe">
+<h3 id="orgfa6a1fe">Primer: slanje HTTP zahteva</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >ZnClient new
+  url: 'https://en.wikipedia.org/w/index.php';
+  queryAt:'title' put:'Pharo';
+  queryAt:'action' put:'edit';
+  get
+</code></pre>
+</div>
+
+<ul>
+<li><code>new</code> je unarna poruka koja se šalje klasi <code>ZnClient</code></li>
+<li><code>queryAt:put:</code> je <i>keyword</i> poruka sa dva argumenta</li>
+<li><code>get</code> je unarna poruka</li>
+<li><code>;</code> je specijalan operator koji zovemo kaskada (<i>cascade</i>) - šaljemo poruku
+istom objektu primaocu.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgb893e07">
+<h3 id="orgb893e07">Poruke su svuda</h3>
+<ul>
+<li>Uslovi</li>
+<li>Petlje</li>
+<li>Iteracije</li>
+<li>Konkurencija</li>
+<li>&#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-org75fd4e3">
+<h3 id="org75fd4e3">Primer - <b>Integer&gt;&gt;factorial</b></h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >factorial
+  "Answer the factorial of the receiver."
+
+  self = 0 ifTrue: [^ 1].
+  self &gt; 0 ifTrue: [^ self * (self - 1) factorial].
+  self error: 'Not valid for negative integers'
+</code></pre>
+</div>
+
+<ul>
+<li><code>ifTrue:</code> je poruka koja se šalje <code>Boolean</code> objektu koji vraća poruka <code>=</code>
+poslata objektu <code>self</code> sa parametrom <code>0</code>.</li>
+<li>Postoje i <code>ifTrue:ifFalse:</code>, <code>ifFalse:ifTrue:</code> i <code>ifFalse:</code></li>
+<li>Implementirane su u klasama <code>True</code> i <code>False</code> i možete ih pročitati. Ne postoji
+ništa specijalno u vezi ovih poruka!</li>
+
+</ul>
+
+</section>
+<section id="slide-org98a52cb">
+<h3 id="org98a52cb">Kompozicija poruka - s leva na desno</h3>
+<p>
+Šta se dešava kada imamo sukcesivne poruke istog tipa?
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1000 factorial class name
+&gt; 'LargePositiveInteger'
+</code></pre>
+</div>
+
+<p>
+ekvivalentno je sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(((1000 factorial) class) name)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org5819f98">
+<h3 id="org5819f98">Prioritet primeri</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(Msg) &gt; unarne &gt; binarne &gt; keyword
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >2 + 3 squared
+&gt; 2 + 9
+&gt; 11
+</code></pre>
+</div>
+
+<ul>
+<li>Prvo unarna <code>squared</code></li>
+<li>Zatim binarna <code>+</code></li>
+
+</ul>
+
+</section>
+<section id="slide-org13e6e9b">
+<h3 id="org13e6e9b">Prioritet primeri</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >2 raisedTo: 3 + 2
+&gt; 2 raisedTo: 5
+&gt; 32
+</code></pre>
+</div>
+
+<ul>
+<li>Prvo binarna <code>+</code></li>
+<li>Zatim <i>keyword</i> <code>raisedTo:</code></li>
+
+</ul>
+
+</section>
+<section id="slide-org5617f78">
+<h3 id="org5617f78">Prioritet primeri</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Color gray - Color white = Color black
+&gt; aGray - aWhite = aBlack
+&gt; aBlack = aBlack
+&gt; true
+</code></pre>
+</div>
+
+<ul>
+<li>Prvo unarne</li>
+<li>Zatim binarne s leva na desno: <code>-</code> pa onda <code>=</code></li>
+
+</ul>
+
+</section>
+<section id="slide-org643a018">
+<h3 id="org643a018">Prioritet primeri</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1 class maxVal + 1
+&gt; 1073741824
+</code></pre>
+</div>
+
+<ul>
+<li>unarna <code>class</code>, unarna <code>maxVal</code>, binarna <code>+</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1 class
+&gt; SmallInteger
+
+1 class maxVal
+&gt; 1073741823
+
+1 class maxVal + 1
+&gt; 1073741824
+
+(1 class maxVal + 1) class
+&gt; LargePositiveInteger
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org79bb27c">
+<h3 id="org79bb27c">Upotreba zagrada kod prioriteta</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >0@0 extent: 100@100 bottomRight
+&gt; Message not understood
+&gt; 100 does not understand bottomRight
+</code></pre>
+</div>
+
+<p>
+Moramo koristiti zagrade:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(0@0 extent: 100@100) bottomRight
+&gt; (aPoint extent: anotherPoint) bottomRight
+&gt; aRectangle bottomRight
+&gt; 100@100
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org4b3a18d">
+<h3 id="org4b3a18d">Cena jednostavnosti/uniformnosti</h3>
+<p>
+Samo poruke:
+</p>
+
+<ul>
+<li><code>+</code>
+<ul>
+<li>je poruka (nije operacija), ne postoji specijalno definisani prioritet</li>
+<li>možemo je redefinisati za različite domene</li>
+
+</ul></li>
+<li>Jednostavnost</li>
+<li>Ograničenje: nemamo definisan matematički prioritet operacija</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf222223">
+<h3 id="orgf222223">Nema prioriteta aritmetičkih operacija</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >3 + 2 * 10
+&gt; 5 * 10
+&gt; 50
+</code></pre>
+</div>
+
+<p>
+Moramo pisati sa zagradama:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >3 + (2 * 10)
+&gt; 3 + 20
+&gt; 23
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga77457e">
+<h3 id="orga77457e">Nema prioriteta aritmetičkih operacija</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1/3 + 2/3
+&gt; 7/3 /3
+&gt; 7/9
+</code></pre>
+</div>
+
+<p>
+Moramo pisati:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(1/3) + (2/3)
+&gt;1
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-orgfe8b623">
+<h3 id="orgfe8b623">Sekvenca izraza</h3>
+<p>
+<code>.</code> je separator:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >expression1.
+expression2.
+expression3
+</code></pre>
+</div>
+
+<p>
+Primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Transcript cr.
+Transcript show: 1.
+Transcript show: 2
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga0b2517">
+<h3 id="orga0b2517">Sekvenca izraza</h3>
+<ul>
+<li><code>.</code> je separator a ne terminacija.</li>
+<li>Nema potrebe da se stavlja na kraju niza izraza.</li>
+<li>Ne stavlja se posle deklaracije privremenih promenjivih.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >| macNode pcNode |
+macNode := Workstation withName: #mac.
+macNode sendPacket: 'Hello World'
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-org7ca8198">
+<h3 id="org7ca8198">Slanje više poruka istom objektu - kaskada (<code>;</code>)</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >|c|
+c := OrderedCollection new.
+c add: 1.
+c add: 2
+</code></pre>
+</div>
+
+<p>
+Ekvivalentno je sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >OrderedCollection new
+   add: 1;
+   add: 2
+</code></pre>
+</div>
+
+<ul>
+<li><code>add: 2</code> se šaljem istom prijemniku poruke <code>add: 1</code> a to je objekat vraćen
+porukom <code>new</code>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org0d248c8">
+<h2 id="org0d248c8">Blokovi</h2>
+<div class="outline-text-2" id="text-org0d248c8">
+</div>
+</section>
+<section id="slide-org137105b">
+<h3 id="org137105b">Blokovi izgledaju kao funkcije</h3>
+<p>
+fct(x) = x*x + 3
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >fct := [ :x | x * x + 3 ]
+</code></pre>
+</div>
+
+<p>
+fct(2)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >fct value: 2
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org94e6777">
+<h3 id="org94e6777">Blokovi</h3>
+<ul>
+<li>Anonimne metode</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :each | Transcript show: each abs printString; cr ]
+</code></pre>
+</div>
+
+<ul>
+<li>Leksička "zatvorenja" (<i>closures</i>)</li>
+<li>Takođe su objekti:
+<ul>
+<li>Mogu se proslediti kao argumenti poruka</li>
+<li>Mogu se dodeliti varijablama</li>
+<li>Mogu biti povratne vrednosti metoda</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orge9254af">
+<h3 id="orge9254af">Upotreba blokova</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >#(1 2 -4 -86) do: [ :each | Transcript show: each abs printString; cr ]
+&gt; 1
+&gt; 2
+&gt; 4
+&gt; 86
+</code></pre>
+</div>
+
+<ul>
+<li>Pišu se unutar <code>[]</code></li>
+<li>Mogu imati parametre - navode se kao simboli pre <code>|</code> (<code>:each</code>)</li>
+<li>U ovom primeru blok se evaluira za svaki element niza. <code>:each</code> dobija redom
+vrednosti niza.</li>
+<li><code>value:</code> poruka se koristi za evaluaciju bloka.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgfa2f8fc">
+<h3 id="orgfa2f8fc">Definicija bloka ne izvršava kod</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >(1/0)
+-&gt; Greška
+</code></pre>
+</div>
+
+<p>
+Ali nema greške pri definiciji bloka:
+</p>
+<ul>
+<li>Definicija bloka ne izvršava kod</li>
+<li>Definicija bloka "zamrzava" izračunavanje definisano telom bloka.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[1/0]
+&gt; [1/0]
+
+[1/0].
+1 + 2
+&gt; 3
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org6af8483">
+<h3 id="org6af8483">Izvršavanje blokova</h3>
+<p>
+Obavlja se eksplicitno slanjem poruke <code>value</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[2 + 6] value
+&gt; 8
+
+[1/0] value
+&gt; Error
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1b14572">
+<h3 id="org1b14572">Blok sa jednim argumentom</h3>
+<p>
+Blokovi mogu imati argumente (kao i metode):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :x | x + 2 ]
+</code></pre>
+</div>
+
+<ul>
+<li><code>:x</code> predstavlja argument bloka</li>
+<li><code>x + 2</code> je telo bloka</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :x | x + 2 ] value: 5
+&gt; 7
+</code></pre>
+</div>
+
+<ul>
+<li>Poruka <code>value:</code> izvršava blok sa parametrom <code>5</code>.
+<ul>
+<li><code>x</code> dobija vrednost <code>5</code> za vreme izvršavanja bloka.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgfebd51f">
+<h3 id="orgfebd51f">Vrednost evaluacije bloka</h3>
+<p>
+Evaluacija bloka vraća vrednost poslednjeg izraza u bloku:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[:x|
+ x + 33.
+ x + 2] value: 5
+&gt; 7
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgf73e90a">
+<h3 id="orgf73e90a">Blokovi se mogu sačuvati</h3>
+<ul>
+<li>Blok se može sačuvati kao vrednost varijable</li>
+<li>Blok se može evaluirati više puta</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >| add2 |
+add2 := [ :x | x + 2 ].
+add2 value: 5.
+&gt;7
+
+add2 value: 33
+&gt; 35
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org4e6d748">
+<h3 id="org4e6d748">Blokovi mogu imati više argumenata</h3>
+<p>
+Primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :x :y | x + y ]
+</code></pre>
+</div>
+
+<p>
+<code>:x :y</code> su argumenti bloka.
+</p>
+
+<p>
+Kako se izvršava blok sa dva argumenta?
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ :x :y | x + y ] ??? 5 7
+&gt; 12
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="fragment (roll-in)"><code class="" smalltalk >[ :x :y | x + y ] value: 5 value: 7
+&gt; 12
+</code></pre>
+</div>
+
+<ul>
+<li class="fragment roll-in"><code>value:value:</code> je poruka sa dva argumenta koja se šalje bloku sa parametrima
+<code>5</code> i <code>7</code></li>
+
+</ul>
+
+</section>
+<section id="slide-orgd22cf21">
+<h3 id="orgd22cf21">Blokovi sa privremenim varijablama</h3>
+<p>
+Blokovi mogu definisati lokalne privremene varijable (kao i metode):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Collection&gt;&gt;affect: anObject when: aBoolean
+  self do: [ :index | | args |
+            args := ....
+            aBoolean
+            ifTrue: [ anObject do: args ]
+            ifFalse: [ anObject doDifferently: args ] ].
+
+</code></pre>
+</div>
+
+<ul>
+<li><code>| args |</code> definiše privremenu varijablu <code>args</code></li>
+<li><code>args</code> postoji samo za vreme izvršavanja bloka</li>
+
+</ul>
+
+</section>
+<section id="slide-org6e83aac">
+<h3 id="org6e83aac">Povratak iz bloka izaziva povratak iz metode</h3>
+<p>
+Kada se <code>^</code> izvrši unutar bloka dolazi do povratka iz metode u kojoj je blok
+definisan:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Integer&gt;&gt;factorial
+  "Answer the factorial of the receiver."
+
+  self = 0 ifTrue: [ ^ 1 ].
+  self &gt; 0 ifTrue: [ ^ self * (self − 1) factorial ].
+  self error: 'Not valid for negative integers'
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >0 factorial
+&gt;1
+
+42 factorial
+&gt;1405006117752879898543142606244511569936384000000000
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgd4d557b">
+<h3 id="orgd4d557b">Dizajn saveti za upotrebu blokova</h3>
+<ul>
+<li>Koristi blokove sa najviše 2 ili 3 parametra</li>
+<li>Definisati klasu umesto bloka za više parametara</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org0633c02">
+<h2 id="org0633c02">Petlje i iteracije</h2>
+<div class="outline-text-2" id="text-org0633c02">
+</div>
+</section>
+<section id="slide-org9f0e48e">
+<h3 id="org9f0e48e">Petlje su takođe implementirane kao poruke</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >1 to: 4 do: [ :i | Transcript &lt;&lt; i ]
+&gt; 1
+&gt; 2
+&gt; 3
+&gt; 4
+</code></pre>
+</div>
+
+<ul>
+<li><code>to:do:</code> je poruka poslata broju (instanci <code>Integer</code> klase)</li>
+
+</ul>
+
+</section>
+<section id="slide-org3f4d624">
+<h3 id="org3f4d624">Petlje su takođe implementirane kao poruke</h3>
+<ul>
+<li>Mnoge druge vrste petlji: <code>timesRepeat:</code>, <code>to:by:do:</code>, <code>whileTrue:</code>,
+<code>whileFalse:</code>&#x2026;</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >4 timesRepeat: [self doSomething ]
+
+0 to: 100 by: 3 do: [ :i | ... ]
+</code></pre>
+</div>
+
+<ul>
+<li>Možete lako napraviti novu vrstu petlje koja se neće razlikovati od sistemske.</li>
+
+</ul>
+
+</section>
+<section id="slide-org3703bab">
+<h3 id="org3703bab"><code>whileTrue:</code></h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ ... ] whileTrue: [ ... ]
+</code></pre>
+</div>
+
+<p>
+Izvršava argument dok god je vrednost prijemnika <code>true</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Color &gt;&gt; atLeastAsLuminentAs: aFloat
+  | revisedColor |
+  revisedColor := self.
+  [ revisedColor luminance &lt; aFloat ]
+    whileTrue: [ revisedColor := revisedColor slightlyLighter ].
+  ^ revisedColor
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org888f33f">
+<h3 id="org888f33f"><code>whileTrue</code></h3>
+<p>
+Izvršava blok prijemnik sve dok je vrednost <code>true</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >[ ... ] whileTrue
+
+</code></pre>
+</div>
+
+<p>
+Analogno, postoje i <code>whileFalse</code> i <code>whileFalse:</code>
+</p>
+
+</section>
+<section id="slide-org1cbcd7c">
+<h3 id="org1cbcd7c">Iteracije</h3>
+<p>
+Implementirane kao poruke.
+</p>
+
+<p>
+Pitamo kolekciju da uradi iteraciju svojih elemenata:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >#(1 2 -4 -86) do: [ :each | Transcript show: each abs printString; cr ]
+&gt; 1
+&gt; 2
+&gt; 4
+&gt; 86
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org8d46094">
+<h3 id="org8d46094">Osnovne iteracije definisane nad kolekcijama</h3>
+<ul>
+<li><code>do:</code> - iteracija</li>
+<li><code>collect:</code> - iteracija i mapiranje elemenata</li>
+<li><code>select:</code> - selekcija elemenata na osnovu predikata</li>
+<li><code>reject:</code> - eliminacija elemenata na osnovu predikata</li>
+<li><code>detect:</code> - vraća prvi koji zadovoljava uslov</li>
+<li><code>detect:ifNone:</code> - vraća prvi koji zadovoljava uslov ili podrazumevanu</li>
+
+</ul>
+<p>
+vrednost ukoliko takvog nema u kolekciji
+</p>
+<ul>
+<li><code>includes:</code> - test da li elemenat pripada kolekciji</li>
+<li>&#x2026; mnogi drugi</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >#(2 3 7) collect: [ :each | each raisedTo: 2 ]
+&gt; #(4 9 49)
+
+#(2 9 7) detect: [ :i | (i \\ 3) = 0 ]
+&gt; 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgf249f9b">
+<h3 id="orgf249f9b">Interesantni primeri</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >3 timesRepeat: [ Transcript show: 'Hello' ; cr ].
+
+Date now + 12 days.
+
+Point linesOfCode.
+
+Smalltalk allClasses size.
+
+Smalltalk allClasses inject: 0 into: [ :sum :each | sum + each linesOfCode ].
+
+VGTigerDemo runDemo.
+
+SystemNavigation new browseAllSelect:
+       [:m| m primitive isZero and: [m pragmas notEmpty]].
+</code></pre>
+</div>
+
+<ul>
+<li>World - inspect (GTInspector settings, step update/refresh)</li>
+
+</ul>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org092adbb">
+<h2 id="org092adbb">Bulovi izrazi i uslovi</h2>
+<div class="outline-text-2" id="text-org092adbb">
+</div>
+</section>
+<section id="slide-org78680a9">
+<h3 id="org78680a9">Bulovi izrazi</h3>
+<ul>
+<li><code>true</code> je jedinstvena instanca klase <code>True</code></li>
+<li><code>false</code> je jedinstvena instanca klase <code>False</code></li>
+<li>Klase <code>True</code> i <code>False</code> nasleđuju klasu <code>Boolean</code></li>
+
+</ul>
+
+<p>
+U Pharo Bulovi izrazi nisu ništa specijalno:
+</p>
+<ul>
+<li><code>&amp; | not</code></li>
+<li><code>or:</code> <code>and:</code> - lazy</li>
+<li><code>xor:</code></li>
+<li><code>ifTrue:ifFalse:</code></li>
+<li><code>ifFalse:ifTrue:</code></li>
+<li>&#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-org7d562ea">
+<h3 id="org7d562ea"><i>Eager</i> i <i>lazy</i> evaluacija izraza</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >false &amp; (1 error: 'crazy')
+−&gt; an error
+</code></pre>
+</div>
+
+<p>
+Argument <code>(1 error: 'crazy')</code> se evaluira jer ova operacija ne koristi "lenju
+evaluaciju" (<i>lazy</i>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >false and: [ 1 error: 'crazy' ]
+−&gt; false "no error!"
+</code></pre>
+</div>
+
+<p>
+Argument <code>[ 1 error: 'crazy' ]</code> se ne evaluira jer nije neophodno za određivanje
+vrednosti izraza - koristi se "lenja evaluacija".
+</p>
+
+</section>
+<section id="slide-orgbd3d748">
+<h3 id="orgbd3d748">Uslovi</h3>
+<p>
+U Pharo uslovi su poruke koje se šalju Bulovim vrednostima i blokovima.
+</p>
+
+</section>
+<section id="slide-org0d3b5a2">
+<h3 id="org0d3b5a2"><code>ifTrue:ifFalse</code> je poruka</h3>
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >Weather isRaining
+  ifTrue: [ self takeMyUmbrella ]
+  ifFalse: [ self takeMySunglasses ]
+</code></pre>
+</div>
+
+<ul>
+<li>Konceptualno <code>ifTrue:ifFalse</code> je poruka koja se šalje objektu koji ima Bulovu
+vrednost (ili je <code>true</code> ili je <code>false</code>).</li>
+<li>Optimizovano od strane kompajlera.</li>
+
+</ul>
+
+</section>
+<section id="slide-org4a96c3c">
+<h3 id="org4a96c3c"><code>ifTrue</code> i <code>ifTrue:ifFalse:</code></h3>
+<p>
+<code>ifTrue: []</code> i <code>ifTrue: [] ifFalse: []</code> su različite poruke.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >forceItalicOrOblique
+  self slantValue = 0
+  ifTrue: [ slantValue := 1 ]
+</code></pre>
+</div>
+
+<p>
+Analogno, <code>ifFalse:[]</code> i <code>ifFalse: [] ifTrue: []</code> su različite poruke.
+</p>
+
+</section>
+<section id="slide-orgf9872ab">
+<h3 id="orgf9872ab">Uslovi: <code>ifEmpty</code> i <code>ifNotEmpty:</code></h3>
+<p>
+Implementirano za kolekcije.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >myProtocol
+  ifEmpty: [ 'As yet unclassified' ]
+&gt; 'As yet unclassified' ili myProtocol
+
+Implementacija:
+Collection&gt;&gt;ifEmpty: aBlock
+  ^ self isEmpty 
+    ifTrue: [ ^aBlock value ]
+    ifFalse: [ self ]
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="" smalltalk >self listItems
+  ifNotEmpty: [ :aList | aList at: index ]
+&gt; element liste na indeksu "index" ili sama lista ukoliko je prazna
+
+Implementacija:
+Collection&gt;&gt;ifNotEmpty: aBlock
+    ^self isEmpty
+          ifTrue: [self]
+          ifFalse: [aBlock cull: self] 
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'h/v',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
