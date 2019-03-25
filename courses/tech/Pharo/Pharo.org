@@ -123,7 +123,7 @@ exampleWithNumber: x
   =ifTrue:ifFalse:=...
 - Poruke predstavljaju **nameru** (šta treba uraditi). Metode opisuju kako treba
   nešto uraditi.
-- Objekat koji prima poruku zovemo "prijemnikom" (/receiver/).
+- Objekat koji prima poruku zovemo **prijemnikom** (/receiver/).
 
 ** ... i blokovi (/Block Closures/)
 
@@ -265,22 +265,22 @@ prikazali u prozoru.
 
 | Vrsta                       | Primer                          |
 |-----------------------------+---------------------------------|
-| Komentar                    | ="Ovo je komentar"=             |
-| Karakteri                   | =$c= =$#= =$@=                  |
-| String                      | ='Ovo je string'=               |
-| Simbol (jedinstveni string) | =#prvi= =#+=                    |
-| Literal niz                 | =#(23 56 89)=                   |
-| Integer                     | =45=, =2r10100=                 |
-| Real                        | =1.5=, =6.03e-34=, =4=, =2.4e7= |
+| Komentar                    | ~"Ovo je komentar"~             |
+| Karakteri                   | ~$c~ ~$#~ ~$@~                  |
+| String                      | ~'Ovo je string'~               |
+| Simbol (jedinstveni string) | ~#prvi~ ~#+~                    |
+| Literal niz                 | ~#(23 56 89)~                   |
+| Integer                     | ~45~, ~2r10100~                 |
+| Real                        | ~1.5~, ~6.03e-34~, ~4~, ~2.4e7~ |
 
 ** Sintaksni elementi jezika
 
-| Vrsta     | Primer                           |
-|-----------+----------------------------------|
-| Boolean   | =true=, =false=                  |
-|           | (instanca =True= i =False=)      |
-| Undefined | =nil= (instanca UndefinedObject) |
-| Point     | =10@120=                         |
+| Vrsta     | Primer                              |
+|-----------+-------------------------------------|
+| Boolean   | ~true~, ~false~                     |
+|           | (instanca =True= i =False=)         |
+| Undefined | ~nil~ (instanca ~UndefinedObject~ ) |
+| Point     | ~10@120~                            |
 
 ** Osnovne jezičke konstrukcije
 
@@ -426,7 +426,7 @@ ZnClient new
 - Konkurencija
 - ...
 
-** Primer - *Integer>>factorial*
+** Primer - =Integer>>factorial=
 
 #+BEGIN_SRC smalltalk
 factorial
@@ -933,7 +933,6 @@ SystemNavigation new browseAllSelect:
 
 - World - inspect (GTInspector settings, step update/refresh)
 
-
 * Bulovi izrazi i uslovi
 ** Bulovi izrazi
 
@@ -1022,4 +1021,455 @@ Collection>>ifNotEmpty: aBlock
           ifTrue: [self]
           ifFalse: [aBlock cull: self] 
 #+END_SRC
+
+* Klase i metode
+** System Browser
+   
+[[./slike/browser.png]]
+
+** Kreiranje klase
+   
+[[./slike/point_class.png]]
+
+** Kreiranje klase
+
+Slanje poruke nadklasi
+
+#+BEGIN_SRC smalltalk
+Object subclass: #Point
+  instanceVariableNames: 'x y'
+  classVariableNames: ''
+  package: 'Kernel-BasicObjects'
+#+END_SRC
+
+** Definicija metoda
+
+- Metode su javne (/public/)
+- Metode su virtualne (tj. pronalaze se u vreme izvršavanja)
+- Podrazumevano vraćaju =self=
+
+#+BEGIN_SRC smalltalk
+messageSelectorAndArgumentNames
+  "comment stating purpose of message"
+  
+  | temporary variable names |
+  statements
+#+END_SRC
+
+** Primer definicije metode
+   
+[[./slike/method_definition.png]]
+
+** Metoda podrazumevano vraća =self=
+
+#+BEGIN_SRC smalltalk
+Game >> initializePlayers
+  self players
+  at: 'tileAction'
+  put: ( MITileAction director: self )
+#+END_SRC
+
+je ekvivalentno sa:
+
+#+BEGIN_SRC smalltalk
+Game >> initializePlayers
+  self players
+  at: 'tileAction'
+  put: ( MITileAction director: self ).
+  ^ self "<−− optional"
+#+END_SRC
+
+** Metode klase
+
+#+attr_html: :width 60%
+[[./slike/class_methods.png]]
+
+- Dugme =Class= služi za pregled i definiciju metoda klase.
+- Metode na nivou klase. Odgovor na poruke koje se šalju klasi.
+
+#+BEGIN_SRC smalltalk
+Point class >> x: xInteger y: yInteger
+  "Answer an instance of me with coordinates xInteger and yInteger."
+
+  ^ self basicNew setX: xInteger setY: yInteger
+#+END_SRC
+* yourself
+** Problem
+
+Dodajemo 2 u skup:
+
+#+BEGIN_SRC smalltalk
+Set new add: 2
+>2
+#+END_SRC
+
+Rezultat izraza je 2 a ne skup!
+
+** Zašto?
+   
+#+BEGIN_SRC smalltalk
+Set>>add: newObject
+  "Include newObject as one of the receiver's elements, but
+  only if not already present. Answer newObject."
+  [...]
+  ^ newObject
+#+END_SRC
+
+- Metod =add:= vraća argument a ne objekat
+
+#+BEGIN_SRC smalltalk
+Set new add: 2
+>2
+#+END_SRC
+
+** Moguće rešenje
+   
+#+BEGIN_SRC smalltalk
+|s|
+s := Set new.
+s add: 2.
+s
+#+END_SRC
+
+** Kraće rešenje - =yourself=
+
+#+BEGIN_SRC smalltalk
+Object >> yourself
+^ self
+#+END_SRC
+
+#+BEGIN_SRC smalltalk
+Set new
+  add: 2;
+  yourself
+> aSet
+#+END_SRC
+
+- Poruke =add:= i =yourself= se šalju skupu
+- kaskada =;= vraća objekat koji vraća poruka =yourself= - u našem slučaju skup.
+
+** Česta greška
+
+#+BEGIN_SRC smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+#+END_SRC
+
+- =Counter withValue: 10= vraća =Counter= klasu umesto njenu instancu.
+
+** Zašto?
+
+#+BEGIN_SRC smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself
+#+END_SRC
+
+je ekvivalentno sa:
+
+#+BEGIN_SRC smalltalk
+Counter class >> withValue: anInteger
+  self new
+  value: anInteger;
+  yourself.
+  ^self
+#+END_SRC
+
+Gde je =self= prijemnik poruke =withValue:= tj. klasa =Counter=.
+
+** Rešenje
+
+#+BEGIN_SRC smalltalk
+Counter class >> withValue: anInteger
+  ^self new
+  value: anInteger;
+  yourself
+#+END_SRC
+
+* Nasleđivanje i pretraga metoda (/Method Lookup/)
+** Osnove
+   
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+Podklasa:
+- Može da doda stanje i ponašanje
+- Može da koristi stanje i ponašanje nadklase 
+- Može da izvrši specijalizaciju i redefiniciju ponašanja nadklase
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[./slike/inheritance.png]]
+#+REVEAL_HTML: </div>
+
+** Koren hijerarhije nasleđivanja
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+- Možemo smatrati da je klasa =Object= korenska klasa svake klase.
+- Postoji i klasa =ProtoObject= ali je njena upotreba specijalna pa je nećemo
+  razmatrati.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[./slike/hierarchy.png]]
+#+REVEAL_HTML: </div>
+
+** Osnove nasleđivanja
+
+Nasleđivanje je:
+- Statičko za stanje (u vreme definisanja klase).
+- Dinamičko za ponašanje (u vreme izvršavanja).
+
+** Nasleđivanje varijabli instanci klasa
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+- Dešava se za vreme definicije klase.
+- Izračunava se na osnovu:
+  - Varijabli posmatrane klase.
+  - Varijabli svih nadklasa.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[./slike/inheritance.png]]
+#+REVEAL_HTML: </div>
+
+** Nasleđivanje ponašanja
+   
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+- Dešava se u vreme izvršavanja
+- Metoda se traži:
+  - Počevši od klase objekta prijemnika
+  - Zatim u svim nadklasama uz lanac nasleđivanja.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+[[./slike/method_lookup.png]]
+#+REVEAL_HTML: </div>
+
+** Slanje i obrada poruka
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+Obrada poruke se obavlja u dva koraka:
+1. Pretraga odgovarajuće metode.
+2. Izvršavanje metode na objektu prijemniku.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+[[./slike/message_sending.png]]
+#+REVEAL_HTML: </div>
+
+** Semantika =self= ključne reči
+
+- =self= ključna reč se koristi u implementaciji metoda i *uvek* predstavlja
+  objekat prijemnik.
+
+[[./slike/self_example.png]]
+
+- Šta je rezultat izraza =A new foo= a šta izraza =B new foo=?
+- Šta je rezultat izraza =A new bar= a šta izraza =B new bar=?
+
+** Semantika =super= ključne reči
+
+[[./slike/super_example.png]]
+
+- =super= predstavlja objekat prijemnik ali pretraga poruka započinje u nadklasi
+  klase u kojoj se =super= nalazi.
+- Šta su rezultati izraza =A new bar=, =B new bar= i =C new bar=?
+
+** =self= se određuje dinamički
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+[[./slike/self_example.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+U metodi =A>>bar= kod =^self foo= ne znamo do vremena izvršavanja na koji =foo=
+se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
+#+REVEAL_HTML: </div>
+
+** =super= se određuje statički
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+[[./slike/super_static.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+- U vreme kompajliranja znamo da metoda =B>>foo= referencira =A>>foo= putem =super=.
+- Uvek počinjemo pretragu u nadklasi klase koja sadrži metodu koja koristi =super=.
+#+REVEAL_HTML: </div>
+
+** Poruke koje nemaju odgovarajuću metodu
+
+- Ukoliko metoda nije pronađena standardnim mehanizmom pretrage, prijemniku se
+  šalje poruka =doesNotUnderstand=
+- Podrazumevana implementacija u =Object= klasi signalizira izuzetak
+  =MessageNotUndertood=.
+ 
+[[./slike/doesNotUnderstand.png]]
+
+* Implementacija `Boolean` tipa
+** Implementacija Boolean tipa
+
+U Pharo Boolean tip ima odličan dizajn:
+
+- =&, |, not= - /eager/
+- =or:, and:= - /lazy/
+- =ifTrue:, ifTrue:ifFalse, ...=
+
+** Za razmišljanje
+
+U svetu gde imate samo dve vrednosti: =true= i =false= i razmenu poruka
+
+- kako implementirati =not=?
+- kako implementirati =or=?
+
+** =not=
+
+#+BEGIN_SRC smalltalk
+false not
+> true
+#+END_SRC
+
+#+BEGIN_SRC smalltalk
+true not
+> false
+#+END_SRC
+
+** Bez upotrebe uslova
+
+Rešenje ne koristi uslove.
+
+Uslovi bi svakako morali da budu bazirani na Bulovom tipu.
+
+** Rešenje koristi tri klase
+
+- =Boolean= (apstraktna), =True= i =False=
+- =true= je singlton instanca klase =True=
+- =false= je singlton instanca klase =False=
+
+[[./slike/boolean.png]]
+
+** Kako iskazujemo izbor u OOP?
+
+U OOP, izbor iskazujemo:
+
+- Definisanjem klasa sa kompatibilnim metodama
+- Slanjem poruke instanci takve klase
+
+Primer:
+
+#+BEGIN_SRC smalltalk
+x open
+#+END_SRC
+
+- =x= može biti fajl, prozor, alat...
+- Metod se selektuje u zavisnosti od klase objekta =x=
+- U Python-u poznato kao /Duck Typing/
+
+** Implementacija =not= operacije
+
+#+BEGIN_SRC smalltalk
+False >> not
+  "Negation −− answer true since the receiver is false."
+  ^ true
+#+END_SRC
+
+#+BEGIN_SRC smalltalk
+True >> not
+  "Negation −− answer false since the receiver is true."
+  ^ false
+#+END_SRC
+
+** Hijerarhija implementacije 
+
+[[./slike/boolean_not_hierarchy.png]]
+
+** Pretraga poruke (/message lookup/) je izbor prave metode
+
+[[./slike/boolean_not_lookup.png]]
+
+** Implementacija =Boolean= klase
+
+- =Boolean= je abstraktna klasa
+- Podklase su =True= i =False= koje implementiraju:
+  - logičke operacije =&= i =not=
+  - kontrolne strukture =and:=, =or:=, =ifTrue:=, =ifFalse:=, =ifTrue:ifFalse:=,
+    =ifFalse:ifTrue:=
+  
+#+BEGIN_SRC smalltalk
+Boolean>>not
+  "Abstract method. Negation: Answer true if the receiver is
+   false, answer false if the receiver is true."
+
+  self subclassResponsibility
+#+END_SRC 
+
+** Ponašanje =Or= operacije
+
+#+BEGIN_SRC
+true | true −> true
+true | false −> true
+true | anything −> true
+#+END_SRC
+
+#+BEGIN_SRC
+false | true −> true
+false | false −> false
+false | anything −> anything
+#+END_SRC
+
+** Implementacija =Or= operacije u =Boolean= klasi
+
+#+BEGIN_SRC smalltalk
+Boolean >> | aBoolean
+  "Abstract method. Evaluating Or: Evaluate the argument.
+   Answer true if either the receiver or the argument is true."
+
+  self subclassResponsibility
+#+END_SRC
+
+** Implementacija =Or= operacije u klasi =False=
+
+#+BEGIN_SRC
+false | true −> true
+false | false −> false
+false | anything −> anything
+#+END_SRC
+
+#+BEGIN_SRC smalltalk
+False >> | aBoolean
+  "Evaluating Or −− answer with the argument, aBoolean."
+  ^aBoolean
+#+END_SRC
+
+** Implementacija =Or= operacije u klasi =True=
+
+#+BEGIN_SRC
+true | true −> true
+true | false −> true
+true | anything −> true
+#+END_SRC
+
+#+BEGIN_SRC smalltalk
+True >> | aBoolean
+  "Evaluating Or −− answer true since the receiver is true."
+  ^true
+#+END_SRC
+
+A pošto je prijemnik =true= možemo uraditi sledeće:
+
+#+BEGIN_SRC smalltalk
+True >> | aBoolean
+  "Evaluating Or −− answer true since the receiver is true."
+  ^self
+#+END_SRC
+
+* Reference
+
+- [[http://mooc.pharo.org][Pharo MOOC]]
+- [[http://rmod-pharo-mooc.lille.inria.fr/MOOC/WebPortal/co/pharo.html][Video lekcije]]
+- [[http://books.pharo.org][Pharo knjige]]
+- [[http://amber-lang.net/][Client-side smalltalk - Amber]]
+
 
