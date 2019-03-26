@@ -54,6 +54,7 @@ http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro
 
 * Pharo uvod
 ** Pharo
+   
 - Pravi OO jezik ("sve je objekat") + IDE!
 - Inspirisan Smalltalk-om
 - Aktivna zajednica
@@ -61,17 +62,51 @@ http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro
 - Jednostavan i moćan objektni model
 - Radi na Mac OSX, Linux, iOS, Android, Windows, Pi.
 - 100% MIT
+ 
 ** Pharo instalacija
+   
+- Preporučena upotreba [[http://get.pharo.org][Pharo Launcher]] alata
+  - Instalacija i upravljanje slikama i virtualnim mašinama
 
-- http://get.pharo.org
+- Alternativno:
 
 #+BEGIN_SRC shell
+# 64bit version
 mkdir pharo
 cd pharo
-curl get.pharo.org | bash 
-ili
-wget -O- get.pharo.org | bash 
+curl -L https://get.pharo.org/64/ | bash
+# or if curl is not available:
+wget -O- https://get.pharo.org/64 | bash
 #+END_SRC
+
+#+BEGIN_SRC shell
+# 32bit version
+curl -L https://get.pharo.org | bash
+# or if curl is not available:
+wget -O- https://get.pharo.org | bash
+#+END_SRC
+
+** Pharo fajl komponente
+
+#+BEGIN_SRC
+pharo
+Pharo7.0-32bit-890f474.sources
+Pharo.changes
+Pharo.image
+pharo-ui
+pharo-vm
+#+END_SRC
+
+- =pharo-vm= - Pharo virtuelna mašina (/OS-specific/)
+- =Pharo.image= - Perzistirano stanje/objekti
+- =Pharo...sources= - Izvorni kod izdanja
+- =Pharo.changes= - Promene u izvornom kodu od početka upotrebe
+
+#+REVEAL: split
+
+- =Pharo.image= i =Pharo.changes= su fajlovi gde dolazi do promena
+- =Pharo.changes= se menja kada menjamo kod
+- =Pharo.image= se menja kada eksplicitno tražimo perzistenciju stanja
 
 ** Cela sintaksa
 
@@ -286,7 +321,7 @@ prikazali u prozoru.
 ** Osnovne jezičke konstrukcije
 
 - Deklaracija privremene varijable: =| var |=
-- Dodela vrednosti varijabli: =var := aValue=
+- Dodela vrednosti varijabli: ~var := aValue~
 - Separator iskaza: =obj1 message1. obj2 message2.=
 - Povratak vrednosti iz metode: =^ aValue=
 - Blokovi (leksička zatvorenja ili anonimne metode)
@@ -898,7 +933,7 @@ Pitamo kolekciju da uradi iteraciju svojih elemenata:
 - =reject:= - eliminacija elemenata na osnovu predikata
 - =detect:= - vraća prvi koji zadovoljava uslov
 - =detect:ifNone:= - vraća prvi koji zadovoljava uslov ili podrazumevanu
-vrednost ukoliko takvog nema u kolekciji
+  vrednost ukoliko takvog nema u kolekciji
 - =includes:= - test da li elemenat pripada kolekciji
 - ... mnogi drugi
 
@@ -1306,7 +1341,7 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
  
 [[./slike/doesNotUnderstand.png]]
 
-* Implementacija `Boolean` tipa
+* Implementacija =Boolean= tipa
 ** Implementacija Boolean tipa
 
 U Pharo Boolean tip ima odličan dizajn:

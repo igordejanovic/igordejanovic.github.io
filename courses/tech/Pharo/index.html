@@ -33,17 +33,17 @@
 <h1 class="title">Pharo</h1>
 <h2 class="subtitle">Bazirano na <a href="http://mooc.pharo.org">Pharo MOOC</a></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-03-26 Tue 09:19, pritisni ESC za mapu</p>
+<p class="date">Kreirano 2019-03-26 Tue 22:29, pritisni ESC za mapu</p>
 </section>
 
 <section>
-<section id="slide-org6a38429">
-<h2 id="org6a38429">Smalltalk</h2>
-<div class="outline-text-2" id="text-org6a38429">
+<section id="slide-orgd5bbb1d">
+<h2 id="orgd5bbb1d">Smalltalk</h2>
+<div class="outline-text-2" id="text-orgd5bbb1d">
 </div>
 </section>
-<section id="slide-org2332698">
-<h3 id="org2332698">Smalltalk</h3>
+<section id="slide-org218e748">
+<h3 id="org218e748">Smalltalk</h3>
 <blockquote>
 <p>
 Smalltalk is dangerous. It is a drug. My advice to you would be don't try it; it
@@ -56,8 +56,8 @@ you will see that there is still nothing out there that can quite touch it.
 </p>
 </blockquote>
 </section>
-<section id="slide-org13de8b2">
-<h3 id="org13de8b2">Šta je Smalltalk?</h3>
+<section id="slide-org1142552">
+<h3 id="org1142552">Šta je Smalltalk?</h3>
 <ul>
 <li>Objektno-orijentisani dinamički reflektivni jezik.</li>
 <li>Xerox PARC - Alan Kay, Dan Ingalls i drugi - tokom 70-ih.</li>
@@ -71,8 +71,8 @@ mašina.</li>
 
 </ul>
 </section>
-<section id="slide-org8c1720b">
-<h3 id="org8c1720b">Istorijat</h3>
+<section id="slide-org264334a">
+<h3 id="org264334a">Istorijat</h3>
 <ul>
 <li>Razvijen u par dana 1971 godine (<i>Smalltalk-71</i>) zbog opklade (Alan Kay).</li>
 <li>Kasnija verzija <i>Smalltalk-72</i> je korišćena u istraživanjima.</li>
@@ -83,8 +83,8 @@ PARC-a (Apple, HP, DEC, UC Berkeley)</li>
 
 </ul>
 </section>
-<section id="slide-orgfc4c23f">
-<h3 id="orgfc4c23f">Smalltalk implementacije</h3>
+<section id="slide-org26966bd">
+<h3 id="org26966bd">Smalltalk implementacije</h3>
 <ul>
 <li>Komercijalne
 <ul>
@@ -108,8 +108,8 @@ projektima (Pharo consortium, Pharo association)</li>
 
 </ul>
 </section>
-<section id="slide-orgef53445">
-<h3 id="orgef53445">Familija Smalltalk i vezanih jezika</h3>
+<section id="slide-org1724885">
+<h3 id="org1724885">Familija Smalltalk i vezanih jezika</h3>
 
 <div class="figure">
 <p><img src="./slike/smalltalk-history.png" alt="smalltalk-history.png" width="120%" />
@@ -123,13 +123,13 @@ projektima (Pharo consortium, Pharo association)</li>
 </section>
 </section>
 <section>
-<section id="slide-org340a93e">
-<h2 id="org340a93e">Pharo uvod</h2>
-<div class="outline-text-2" id="text-org340a93e">
+<section id="slide-org170e3f8">
+<h2 id="org170e3f8">Pharo uvod</h2>
+<div class="outline-text-2" id="text-org170e3f8">
 </div>
 </section>
-<section id="slide-orgb4ce4a2">
-<h3 id="orgb4ce4a2">Pharo</h3>
+<section id="slide-org5de5c17">
+<h3 id="org5de5c17">Pharo</h3>
 <ul>
 <li>Pravi OO jezik ("sve je objekat") + IDE!</li>
 <li>Inspirisan Smalltalk-om</li>
@@ -140,27 +140,74 @@ projektima (Pharo consortium, Pharo association)</li>
 <li>100% MIT</li>
 
 </ul>
+
 </section>
-<section id="slide-org6ebdec7">
-<h3 id="org6ebdec7">Pharo instalacija</h3>
+<section id="slide-org166dba7">
+<h3 id="org166dba7">Pharo instalacija</h3>
 <ul>
-<li><a href="http://get.pharo.org">http://get.pharo.org</a></li>
+<li>Preporučena upotreba <a href="http://get.pharo.org">Pharo Launcher</a> alata
+<ul>
+<li>Instalacija i upravljanje slikama i virtualnim mašinama</li>
+
+</ul></li>
+
+<li>Alternativno:</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" shell" >mkdir pharo
+<pre><code class=" shell" ># 64bit version
+mkdir pharo
 cd pharo
-curl get.pharo.org | bash 
-ili
-wget -O- get.pharo.org | bash 
+curl -L https://get.pharo.org/64/ | bash
+# or if curl is not available:
+wget -O- https://get.pharo.org/64 | bash
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" shell" ># 32bit version
+curl -L https://get.pharo.org | bash
+# or if curl is not available:
+wget -O- https://get.pharo.org | bash
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orgf9a3826">
-<h3 id="orgf9a3826">Cela sintaksa</h3>
+<section id="slide-org1996598">
+<h3 id="org1996598">Pharo fajl komponente</h3>
+<pre  class="example">
+pharo
+Pharo7.0-32bit-890f474.sources
+Pharo.changes
+Pharo.image
+pharo-ui
+pharo-vm
+</pre>
+
+<ul>
+<li><code>pharo-vm</code> - Pharo virtuelna mašina (<i>OS-specific</i>)</li>
+<li><code>Pharo.image</code> - Perzistirano stanje/objekti</li>
+<li><code>Pharo...sources</code> - Izvorni kod izdanja</li>
+<li><code>Pharo.changes</code> - Promene u izvornom kodu od početka upotrebe</li>
+
+</ul>
+
+</section>
+<section >
+
+<ul>
+<li><code>Pharo.image</code> i <code>Pharo.changes</code> su fajlovi gde dolazi do promena</li>
+<li><code>Pharo.changes</code> se menja kada menjamo kod</li>
+<li><code>Pharo.image</code> se menja kada eksplicitno tražimo perzistenciju stanja</li>
+
+</ul>
+
+</section>
+<section id="slide-orgff2d67c">
+<h3 id="orgff2d67c">Cela sintaksa</h3>
 <p>
 Staje na jedan slajd:
 </p>
@@ -183,8 +230,8 @@ Staje na jedan slajd:
 </div>
 
 </section>
-<section id="slide-orgafb05a4">
-<h3 id="orgafb05a4">Model</h3>
+<section id="slide-org6b52d33">
+<h3 id="org6b52d33">Model</h3>
 <ul>
 <li>Dinamički tipiziran</li>
 <li>Sve je objekat tj. instanca klase</li>
@@ -195,8 +242,8 @@ Staje na jedan slajd:
 </ul>
 
 </section>
-<section id="slide-org32b9637">
-<h3 id="org32b9637">Napisan u samom sebi</h3>
+<section id="slide-org877af67">
+<h3 id="org877af67">Napisan u samom sebi</h3>
 <ul>
 <li>Sve je napisano u Pharo!</li>
 <li><p>
@@ -212,8 +259,8 @@ Jednostavna sintaksa/model za pristup svemu.
 </ul>
 
 </section>
-<section id="slide-org492cc0c">
-<h3 id="org492cc0c">Introspekcija</h3>
+<section id="slide-org17bd613">
+<h3 id="org17bd613">Introspekcija</h3>
 <ul>
 <li>Pharo nije "crna kutija".</li>
 <li>Sve što vidite su objekti sa kojima možete stupiti u interakciju i menjati ih
@@ -231,8 +278,8 @@ Npr. <code>Alt+Shift+Click</code> -&gt; Halo hendleri!
 </ul>
 
 </section>
-<section id="slide-orgc008bd4">
-<h3 id="orgc008bd4">Samo objekti, poruke&#x2026;</h3>
+<section id="slide-orgca0fcc3">
+<h3 id="orgca0fcc3">Samo objekti, poruke&#x2026;</h3>
 <ul>
 <li><i>Objekti</i>: mouse pointer, booleans, arrays, numbers, strings, windows, files,
 sound, url, socket, font, text, streams&#x2026;</li>
@@ -245,8 +292,8 @@ nešto uraditi.</li>
 </ul>
 
 </section>
-<section id="slide-org8cf0e64">
-<h3 id="org8cf0e64">&#x2026; i blokovi (<i>Block Closures</i>)</h3>
+<section id="slide-org8c8db9a">
+<h3 id="org8c8db9a">&#x2026; i blokovi (<i>Block Closures</i>)</h3>
 <ul>
 <li>Blokovi su vrsta anonimnih metoda.</li>
 
@@ -265,8 +312,8 @@ nešto uraditi.</li>
 </ul>
 
 </section>
-<section id="slide-orgedcab10">
-<h3 id="orgedcab10">Jednostavan, elegantan i uniforman model</h3>
+<section id="slide-org4256334">
+<h3 id="org4256334">Jednostavan, elegantan i uniforman model</h3>
 <ul>
 <li><i>Sve</i> je objekat tj. instanca klase.
 <ul>
@@ -288,8 +335,8 @@ objekata.</li>
 </ul>
 
 </section>
-<section id="slide-orgd4cd42b">
-<h3 id="orgd4cd42b">Pharo objektni model</h3>
+<section id="slide-org97c5a84">
+<h3 id="org97c5a84">Pharo objektni model</h3>
 <ul>
 <li>Atributi instanci (<i>instance variables</i>) su zaštićeni (<i>protected</i>):
 <ul>
@@ -303,8 +350,8 @@ objekata.</li>
 </ul>
 
 </section>
-<section id="slide-org8af81d3">
-<h3 id="org8af81d3">Slanje poruka</h3>
+<section id="slide-org2344f68">
+<h3 id="org2344f68">Slanje poruka</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Date today
@@ -318,8 +365,8 @@ Date today + 3 days
 </div>
 
 </section>
-<section id="slide-orgbeb057d">
-<h3 id="orgbeb057d">Kreiranje objekata</h3>
+<section id="slide-orgb0666b7">
+<h3 id="orgb0666b7">Kreiranje objekata</h3>
 <p>
 Obavlja se slanjem poruke drugom objektu
 </p>
@@ -342,8 +389,8 @@ Nova instanca klase <code>Point</code> se kreira:
 </ul>
 
 </section>
-<section id="slide-org8e69696">
-<h3 id="org8e69696">Kreiranje objekata - String</h3>
+<section id="slide-orgcdef731">
+<h3 id="orgcdef731">Kreiranje objekata - String</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >'Pharo', 'is cool!'
@@ -362,8 +409,8 @@ Novi string se kreira spajanjem dva stringa tako što:
 </ul>
 
 </section>
-<section id="slide-org551c77b">
-<h3 id="org551c77b">Kreiranje objekata</h3>
+<section id="slide-org249b929">
+<h3 id="org249b929">Kreiranje objekata</h3>
 <p>
 Slanjem poruke <code>new</code> ili <code>new:</code> klasi
 </p>
@@ -402,8 +449,8 @@ Slanjem poruke klasi izvšava se metoda klase (<i>class method</i>).
 </div>
 
 </section>
-<section id="slide-org039c33f">
-<h3 id="org039c33f">Less is more!</h3>
+<section id="slide-orgcc13a56">
+<h3 id="orgcc13a56">Less is more!</h3>
 <ul>
 <li>Bez konstruktora</li>
 <li>Bez statičkih metoda</li>
@@ -417,8 +464,8 @@ Slanjem poruke klasi izvšava se metoda klase (<i>class method</i>).
 </ul>
 
 </section>
-<section id="slide-org5d9106a">
-<h3 id="org5d9106a">Hello world</h3>
+<section id="slide-org2acb65d">
+<h3 id="org2acb65d">Hello world</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >'Hello World' asMorph openInWindow
@@ -432,8 +479,8 @@ prikazali u prozoru.
 </p>
 
 </section>
-<section id="slide-org07f6c94">
-<h3 id="org07f6c94">Primer - preuzimanje slike sa web-a</h3>
+<section id="slide-orgc295ff1">
+<h3 id="orgc295ff1">Primer - preuzimanje slike sa web-a</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >(ZnEasy getPng: 'http://pharo.org/web/files/pharo.png') asMorph openInWindow
@@ -461,8 +508,8 @@ unarna poruka bez argumenata.</li>
 </ul>
 
 </section>
-<section id="slide-org0ced7f2">
-<h3 id="org0ced7f2">Sintaksni elementi jezika</h3>
+<section id="slide-org57d161b">
+<h3 id="org57d161b">Sintaksni elementi jezika</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -516,8 +563,8 @@ unarna poruka bez argumenata.</li>
 </table>
 
 </section>
-<section id="slide-org76e27fb">
-<h3 id="org76e27fb">Sintaksni elementi jezika</h3>
+<section id="slide-org7f42a72">
+<h3 id="org7f42a72">Sintaksni elementi jezika</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -556,11 +603,11 @@ unarna poruka bez argumenata.</li>
 </table>
 
 </section>
-<section id="slide-orgf533710">
-<h3 id="orgf533710">Osnovne jezičke konstrukcije</h3>
+<section id="slide-orgb5ef34f">
+<h3 id="orgb5ef34f">Osnovne jezičke konstrukcije</h3>
 <ul>
 <li>Deklaracija privremene varijable: <code>| var |</code></li>
-<li>Dodela vrednosti varijabli: <code>var :</code> aValue=</li>
+<li>Dodela vrednosti varijabli: <code>var := aValue</code></li>
 <li>Separator iskaza: <code>obj1 message1. obj2 message2.</code></li>
 <li>Povratak vrednosti iz metode: <code>^ aValue</code></li>
 <li>Blokovi (leksička zatvorenja ili anonimne metode)</li>
@@ -577,13 +624,13 @@ unarna poruka bez argumenata.</li>
 </section>
 </section>
 <section>
-<section id="slide-orgf4835fc">
-<h2 id="orgf4835fc">Poruke</h2>
-<div class="outline-text-2" id="text-orgf4835fc">
+<section id="slide-org6087ecd">
+<h2 id="org6087ecd">Poruke</h2>
+<div class="outline-text-2" id="text-org6087ecd">
 </div>
 </section>
-<section id="slide-org3939c26">
-<h3 id="org3939c26">Tri vrste poruka</h3>
+<section id="slide-orge210c07">
+<h3 id="orge210c07">Tri vrste poruka</h3>
 <ol>
 <li><p>
 Unarne poruke:
@@ -633,8 +680,8 @@ Binarne poruke:
 </ol>
 
 </section>
-<section id="slide-orgbed5462">
-<h3 id="orgbed5462">Prioriteti poruka</h3>
+<section id="slide-org24c3dda">
+<h3 id="org24c3dda">Prioriteti poruka</h3>
 <div class="org-src-container">
 
 <pre><code class=" python" >(Msg) > Unary > Binary > Keywords
@@ -646,8 +693,8 @@ Ova pravila redukuju potrebu za navođenjem zagrada.
 </p>
 
 </section>
-<section id="slide-orgd2f4825">
-<h3 id="orgd2f4825">Slanje unarne poruke</h3>
+<section id="slide-org01cabef">
+<h3 id="org01cabef">Slanje unarne poruke</h3>
 <pre  class="example">
 receiver selector
 </pre>
@@ -668,8 +715,8 @@ Primer:
 </p>
 
 </section>
-<section id="slide-org0686ed7">
-<h3 id="org0686ed7">Slanje binarne poruke</h3>
+<section id="slide-orgd402601">
+<h3 id="orgd402601">Slanje binarne poruke</h3>
 <pre  class="example">
 receiver selector argument
 </pre>
@@ -689,8 +736,8 @@ Primer:
 </p>
 
 </section>
-<section id="slide-orgca8bc63">
-<h3 id="orgca8bc63">Slanje <i>keyword</i> poruke</h3>
+<section id="slide-org1944155">
+<h3 id="org1944155">Slanje <i>keyword</i> poruke</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >receiver keyword1: arg1 keyword2: arg2
@@ -708,8 +755,8 @@ Ekvivalentno u Javi ili C-like jezicima:
 </div>
 
 </section>
-<section id="slide-org351e25b">
-<h3 id="org351e25b"><i>Keyword</i> poruke za Java programere</h3>
+<section id="slide-orga191d1f">
+<h3 id="orga191d1f"><i>Keyword</i> poruke za Java programere</h3>
 <p>
 U Javi
 </p>
@@ -743,8 +790,8 @@ U Pharo/Smalltalk-u
 </div>
 
 </section>
-<section id="slide-orgba733d3">
-<h3 id="orgba733d3">Primer: slanje HTTP zahteva</h3>
+<section id="slide-org70ee31f">
+<h3 id="org70ee31f">Primer: slanje HTTP zahteva</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >ZnClient new
@@ -765,8 +812,8 @@ istom objektu primaocu.</li>
 </ul>
 
 </section>
-<section id="slide-orgae16307">
-<h3 id="orgae16307">Poruke su svuda</h3>
+<section id="slide-orgbed7556">
+<h3 id="orgbed7556">Poruke su svuda</h3>
 <ul>
 <li>Uslovi</li>
 <li>Petlje</li>
@@ -777,8 +824,8 @@ istom objektu primaocu.</li>
 </ul>
 
 </section>
-<section id="slide-org4e128d8">
-<h3 id="org4e128d8">Primer - <code>Integer&gt;&gt;factorial</code></h3>
+<section id="slide-org128fa47">
+<h3 id="org128fa47">Primer - <code>Integer&gt;&gt;factorial</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >factorial
@@ -800,8 +847,8 @@ ništa specijalno u vezi ovih poruka!</li>
 </ul>
 
 </section>
-<section id="slide-org7f0e4da">
-<h3 id="org7f0e4da">Kompozicija poruka - s leva na desno</h3>
+<section id="slide-orgda2619a">
+<h3 id="orgda2619a">Kompozicija poruka - s leva na desno</h3>
 <p>
 Šta se dešava kada imamo sukcesivne poruke istog tipa?
 </p>
@@ -824,8 +871,8 @@ ekvivalentno je sa:
 </div>
 
 </section>
-<section id="slide-orgd969b2c">
-<h3 id="orgd969b2c">Prioritet primeri</h3>
+<section id="slide-orga145d39">
+<h3 id="orga145d39">Prioritet primeri</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >(Msg) &gt; unarne &gt; binarne &gt; keyword
@@ -847,8 +894,8 @@ ekvivalentno je sa:
 </ul>
 
 </section>
-<section id="slide-orgb172f45">
-<h3 id="orgb172f45">Prioritet primeri</h3>
+<section id="slide-orgbbc16d8">
+<h3 id="orgbbc16d8">Prioritet primeri</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >2 raisedTo: 3 + 2
@@ -864,8 +911,8 @@ ekvivalentno je sa:
 </ul>
 
 </section>
-<section id="slide-orgd6cfe6f">
-<h3 id="orgd6cfe6f">Prioritet primeri</h3>
+<section id="slide-org82a721d">
+<h3 id="org82a721d">Prioritet primeri</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Color gray - Color white = Color black
@@ -882,8 +929,8 @@ ekvivalentno je sa:
 </ul>
 
 </section>
-<section id="slide-org8f2a88d">
-<h3 id="org8f2a88d">Prioritet primeri</h3>
+<section id="slide-org2eef503">
+<h3 id="org2eef503">Prioritet primeri</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >1 class maxVal + 1
@@ -913,8 +960,8 @@ ekvivalentno je sa:
 </div>
 
 </section>
-<section id="slide-org416e1f0">
-<h3 id="org416e1f0">Upotreba zagrada kod prioriteta</h3>
+<section id="slide-orgcb49c66">
+<h3 id="orgcb49c66">Upotreba zagrada kod prioriteta</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >0@0 extent: 100@100 bottomRight
@@ -937,8 +984,8 @@ Moramo koristiti zagrade:
 </div>
 
 </section>
-<section id="slide-org40ed142">
-<h3 id="org40ed142">Cena jednostavnosti/uniformnosti</h3>
+<section id="slide-org6861be4">
+<h3 id="org6861be4">Cena jednostavnosti/uniformnosti</h3>
 <p>
 Samo poruke:
 </p>
@@ -956,8 +1003,8 @@ Samo poruke:
 </ul>
 
 </section>
-<section id="slide-org7964ca9">
-<h3 id="org7964ca9">Nema prioriteta aritmetičkih operacija</h3>
+<section id="slide-orgcfffb84">
+<h3 id="orgcfffb84">Nema prioriteta aritmetičkih operacija</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >3 + 2 * 10
@@ -979,8 +1026,8 @@ Moramo pisati sa zagradama:
 </div>
 
 </section>
-<section id="slide-org737bf39">
-<h3 id="org737bf39">Nema prioriteta aritmetičkih operacija</h3>
+<section id="slide-orgda4fa21">
+<h3 id="orgda4fa21">Nema prioriteta aritmetičkih operacija</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >1/3 + 2/3
@@ -1001,8 +1048,8 @@ Moramo pisati:
 </div>
 
 </section>
-<section id="slide-orge96362e">
-<h3 id="orge96362e">Sekvenca izraza</h3>
+<section id="slide-org77f981b">
+<h3 id="org77f981b">Sekvenca izraza</h3>
 <p>
 <code>.</code> je separator:
 </p>
@@ -1028,8 +1075,8 @@ Transcript show: 2
 </div>
 
 </section>
-<section id="slide-org04d5f81">
-<h3 id="org04d5f81">Sekvenca izraza</h3>
+<section id="slide-orgef604d6">
+<h3 id="orgef604d6">Sekvenca izraza</h3>
 <ul>
 <li><code>.</code> je separator a ne terminacija.</li>
 <li>Nema potrebe da se stavlja na kraju niza izraza.</li>
@@ -1046,8 +1093,8 @@ macNode sendPacket: 'Hello World'
 </div>
 
 </section>
-<section id="slide-org30f0315">
-<h3 id="org30f0315">Slanje više poruka istom objektu - kaskada (<code>;</code>)</h3>
+<section id="slide-org089dd84">
+<h3 id="org089dd84">Slanje više poruka istom objektu - kaskada (<code>;</code>)</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >|c|
@@ -1078,13 +1125,13 @@ porukom <code>new</code>.</li>
 </section>
 </section>
 <section>
-<section id="slide-org232d5b1">
-<h2 id="org232d5b1">Blokovi</h2>
-<div class="outline-text-2" id="text-org232d5b1">
+<section id="slide-org3d99632">
+<h2 id="org3d99632">Blokovi</h2>
+<div class="outline-text-2" id="text-org3d99632">
 </div>
 </section>
-<section id="slide-org72f931e">
-<h3 id="org72f931e">Blokovi izgledaju kao funkcije</h3>
+<section id="slide-orge54bc9c">
+<h3 id="orge54bc9c">Blokovi izgledaju kao funkcije</h3>
 <p>
 fct(x) = x*x + 3
 </p>
@@ -1106,8 +1153,8 @@ fct(2)
 </div>
 
 </section>
-<section id="slide-org9a39eec">
-<h3 id="org9a39eec">Blokovi</h3>
+<section id="slide-orgf85a3a0">
+<h3 id="orgf85a3a0">Blokovi</h3>
 <ul>
 <li>Anonimne metode</li>
 
@@ -1132,8 +1179,8 @@ fct(2)
 </ul>
 
 </section>
-<section id="slide-org7955de2">
-<h3 id="org7955de2">Upotreba blokova</h3>
+<section id="slide-orgbbfb77f">
+<h3 id="orgbbfb77f">Upotreba blokova</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >#(1 2 -4 -86) do: [ :each | Transcript show: each abs printString; cr ]
@@ -1154,8 +1201,8 @@ vrednosti niza.</li>
 </ul>
 
 </section>
-<section id="slide-org8599cf2">
-<h3 id="org8599cf2">Definicija bloka ne izvršava kod</h3>
+<section id="slide-org843a9ca">
+<h3 id="org843a9ca">Definicija bloka ne izvršava kod</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >(1/0)
@@ -1184,8 +1231,8 @@ Ali nema greške pri definiciji bloka:
 </div>
 
 </section>
-<section id="slide-org074b5a1">
-<h3 id="org074b5a1">Izvršavanje blokova</h3>
+<section id="slide-org26a4260">
+<h3 id="org26a4260">Izvršavanje blokova</h3>
 <p>
 Obavlja se eksplicitno slanjem poruke <code>value</code>.
 </p>
@@ -1201,8 +1248,8 @@ Obavlja se eksplicitno slanjem poruke <code>value</code>.
 </div>
 
 </section>
-<section id="slide-org2304858">
-<h3 id="org2304858">Blok sa jednim argumentom</h3>
+<section id="slide-org0ee67ae">
+<h3 id="org0ee67ae">Blok sa jednim argumentom</h3>
 <p>
 Blokovi mogu imati argumente (kao i metode):
 </p>
@@ -1236,8 +1283,8 @@ Blokovi mogu imati argumente (kao i metode):
 </ul>
 
 </section>
-<section id="slide-orgb037c12">
-<h3 id="orgb037c12">Vrednost evaluacije bloka</h3>
+<section id="slide-org2dd94de">
+<h3 id="org2dd94de">Vrednost evaluacije bloka</h3>
 <p>
 Evaluacija bloka vraća vrednost poslednjeg izraza u bloku:
 </p>
@@ -1252,8 +1299,8 @@ Evaluacija bloka vraća vrednost poslednjeg izraza u bloku:
 </div>
 
 </section>
-<section id="slide-org528b541">
-<h3 id="org528b541">Blokovi se mogu sačuvati</h3>
+<section id="slide-org87a5e2e">
+<h3 id="org87a5e2e">Blokovi se mogu sačuvati</h3>
 <ul>
 <li>Blok se može sačuvati kao vrednost varijable</li>
 <li>Blok se može evaluirati više puta</li>
@@ -1273,8 +1320,8 @@ add2 value: 33
 </div>
 
 </section>
-<section id="slide-orgda3d6d8">
-<h3 id="orgda3d6d8">Blokovi mogu imati više argumenata</h3>
+<section id="slide-org8b00277">
+<h3 id="org8b00277">Blokovi mogu imati više argumenata</h3>
 <p>
 Primer:
 </p>
@@ -1314,8 +1361,8 @@ Kako se izvršava blok sa dva argumenta?
 </ul>
 
 </section>
-<section id="slide-org4b00586">
-<h3 id="org4b00586">Blokovi sa privremenim varijablama</h3>
+<section id="slide-org713c890">
+<h3 id="org713c890">Blokovi sa privremenim varijablama</h3>
 <p>
 Blokovi mogu definisati lokalne privremene varijable (kao i metode):
 </p>
@@ -1339,8 +1386,8 @@ Blokovi mogu definisati lokalne privremene varijable (kao i metode):
 </ul>
 
 </section>
-<section id="slide-org91dc764">
-<h3 id="org91dc764">Povratak iz bloka izaziva povratak iz metode</h3>
+<section id="slide-org20c2af2">
+<h3 id="org20c2af2">Povratak iz bloka izaziva povratak iz metode</h3>
 <p>
 Kada se <code>^</code> izvrši unutar bloka dolazi do povratka iz metode u kojoj je blok
 definisan:
@@ -1368,8 +1415,8 @@ definisan:
 </div>
 
 </section>
-<section id="slide-orgf878a86">
-<h3 id="orgf878a86">Dizajn saveti za upotrebu blokova</h3>
+<section id="slide-orgf35428b">
+<h3 id="orgf35428b">Dizajn saveti za upotrebu blokova</h3>
 <ul>
 <li>Koristi blokove sa najviše 2 ili 3 parametra</li>
 <li>Definisati klasu umesto bloka za više parametara</li>
@@ -1379,13 +1426,13 @@ definisan:
 </section>
 </section>
 <section>
-<section id="slide-org5825f8c">
-<h2 id="org5825f8c">Petlje i iteracije</h2>
-<div class="outline-text-2" id="text-org5825f8c">
+<section id="slide-org2ccdf91">
+<h2 id="org2ccdf91">Petlje i iteracije</h2>
+<div class="outline-text-2" id="text-org2ccdf91">
 </div>
 </section>
-<section id="slide-org54b9706">
-<h3 id="org54b9706">Petlje su takođe implementirane kao poruke</h3>
+<section id="slide-orgb1583b8">
+<h3 id="orgb1583b8">Petlje su takođe implementirane kao poruke</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >1 to: 4 do: [ :i | Transcript &lt;&lt; i ]
@@ -1402,8 +1449,8 @@ definisan:
 </ul>
 
 </section>
-<section id="slide-org0689e3c">
-<h3 id="org0689e3c">Petlje su takođe implementirane kao poruke</h3>
+<section id="slide-org3bcb302">
+<h3 id="org3bcb302">Petlje su takođe implementirane kao poruke</h3>
 <ul>
 <li>Mnoge druge vrste petlji: <code>timesRepeat:</code>, <code>to:by:do:</code>, <code>whileTrue:</code>,
 <code>whileFalse:</code>&#x2026;</li>
@@ -1424,8 +1471,8 @@ definisan:
 </ul>
 
 </section>
-<section id="slide-org6decc2f">
-<h3 id="org6decc2f"><code>whileTrue:</code></h3>
+<section id="slide-orgb03ffcc">
+<h3 id="orgb03ffcc"><code>whileTrue:</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >[ ... ] whileTrue: [ ... ]
@@ -1448,8 +1495,8 @@ Izvršava argument dok god je vrednost prijemnika <code>true</code>
 </div>
 
 </section>
-<section id="slide-org88d9864">
-<h3 id="org88d9864"><code>whileTrue</code></h3>
+<section id="slide-orgcb891f0">
+<h3 id="orgcb891f0"><code>whileTrue</code></h3>
 <p>
 Izvršava blok prijemnik sve dok je vrednost <code>true</code>:
 </p>
@@ -1466,8 +1513,8 @@ Analogno, postoje i <code>whileFalse</code> i <code>whileFalse:</code>
 </p>
 
 </section>
-<section id="slide-orgc09e892">
-<h3 id="orgc09e892">Iteracije</h3>
+<section id="slide-orgdd13e13">
+<h3 id="orgdd13e13">Iteracije</h3>
 <p>
 Implementirane kao poruke.
 </p>
@@ -1487,21 +1534,16 @@ Pitamo kolekciju da uradi iteraciju svojih elemenata:
 </div>
 
 </section>
-<section id="slide-org0c23585">
-<h3 id="org0c23585">Osnovne iteracije definisane nad kolekcijama</h3>
+<section id="slide-org76cd660">
+<h3 id="org76cd660">Osnovne iteracije definisane nad kolekcijama</h3>
 <ul>
 <li><code>do:</code> - iteracija</li>
 <li><code>collect:</code> - iteracija i mapiranje elemenata</li>
 <li><code>select:</code> - selekcija elemenata na osnovu predikata</li>
 <li><code>reject:</code> - eliminacija elemenata na osnovu predikata</li>
 <li><code>detect:</code> - vraća prvi koji zadovoljava uslov</li>
-<li><code>detect:ifNone:</code> - vraća prvi koji zadovoljava uslov ili podrazumevanu</li>
-
-</ul>
-<p>
-vrednost ukoliko takvog nema u kolekciji
-</p>
-<ul>
+<li><code>detect:ifNone:</code> - vraća prvi koji zadovoljava uslov ili podrazumevanu
+vrednost ukoliko takvog nema u kolekciji</li>
 <li><code>includes:</code> - test da li elemenat pripada kolekciji</li>
 <li>&#x2026; mnogi drugi</li>
 
@@ -1518,8 +1560,8 @@ vrednost ukoliko takvog nema u kolekciji
 </div>
 
 </section>
-<section id="slide-orgdd36932">
-<h3 id="orgdd36932">Interesantni primeri</h3>
+<section id="slide-org130d540">
+<h3 id="org130d540">Interesantni primeri</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >3 timesRepeat: [ Transcript show: 'Hello' ; cr ].
@@ -1547,13 +1589,13 @@ SystemNavigation new browseAllSelect:
 </section>
 </section>
 <section>
-<section id="slide-org5872f8a">
-<h2 id="org5872f8a">Bulovi izrazi i uslovi</h2>
-<div class="outline-text-2" id="text-org5872f8a">
+<section id="slide-orgd328f39">
+<h2 id="orgd328f39">Bulovi izrazi i uslovi</h2>
+<div class="outline-text-2" id="text-orgd328f39">
 </div>
 </section>
-<section id="slide-org53e89b7">
-<h3 id="org53e89b7">Bulovi izrazi</h3>
+<section id="slide-org948a9cf">
+<h3 id="org948a9cf">Bulovi izrazi</h3>
 <ul>
 <li><code>true</code> je jedinstvena instanca klase <code>True</code></li>
 <li><code>false</code> je jedinstvena instanca klase <code>False</code></li>
@@ -1575,8 +1617,8 @@ U Pharo Bulovi izrazi nisu ništa specijalno:
 </ul>
 
 </section>
-<section id="slide-orgfd34a22">
-<h3 id="orgfd34a22"><i>Eager</i> i <i>lazy</i> evaluacija izraza</h3>
+<section id="slide-orgc83474d">
+<h3 id="orgc83474d"><i>Eager</i> i <i>lazy</i> evaluacija izraza</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >false &amp; (1 error: 'crazy')
@@ -1602,15 +1644,15 @@ vrednosti izraza - koristi se "lenja evaluacija".
 </p>
 
 </section>
-<section id="slide-org1c46117">
-<h3 id="org1c46117">Uslovi</h3>
+<section id="slide-org8d2abba">
+<h3 id="org8d2abba">Uslovi</h3>
 <p>
 U Pharo uslovi su poruke koje se šalju Bulovim vrednostima i blokovima.
 </p>
 
 </section>
-<section id="slide-orga72d103">
-<h3 id="orga72d103"><code>ifTrue:ifFalse</code> je poruka</h3>
+<section id="slide-org3241c42">
+<h3 id="org3241c42"><code>ifTrue:ifFalse</code> je poruka</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Weather isRaining
@@ -1627,8 +1669,8 @@ vrednost (ili je <code>true</code> ili je <code>false</code>).</li>
 </ul>
 
 </section>
-<section id="slide-orgf7468bc">
-<h3 id="orgf7468bc"><code>ifTrue</code> i <code>ifTrue:ifFalse:</code></h3>
+<section id="slide-org9196ca1">
+<h3 id="org9196ca1"><code>ifTrue</code> i <code>ifTrue:ifFalse:</code></h3>
 <p>
 <code>ifTrue: []</code> i <code>ifTrue: [] ifFalse: []</code> su različite poruke.
 </p>
@@ -1646,8 +1688,8 @@ Analogno, <code>ifFalse:[]</code> i <code>ifFalse: [] ifTrue: []</code> su razli
 </p>
 
 </section>
-<section id="slide-orgaf3a6c0">
-<h3 id="orgaf3a6c0">Uslovi: <code>ifEmpty</code> i <code>ifNotEmpty:</code></h3>
+<section id="slide-org390962c">
+<h3 id="org390962c">Uslovi: <code>ifEmpty</code> i <code>ifNotEmpty:</code></h3>
 <p>
 Implementirano za kolekcije.
 </p>
@@ -1683,13 +1725,13 @@ Collection&gt;&gt;ifNotEmpty: aBlock
 </section>
 </section>
 <section>
-<section id="slide-orgffce358">
-<h2 id="orgffce358">Klase i metode</h2>
-<div class="outline-text-2" id="text-orgffce358">
+<section id="slide-org8ccb9a7">
+<h2 id="org8ccb9a7">Klase i metode</h2>
+<div class="outline-text-2" id="text-org8ccb9a7">
 </div>
 </section>
-<section id="slide-org162b638">
-<h3 id="org162b638">System Browser</h3>
+<section id="slide-orgefbafb2">
+<h3 id="orgefbafb2">System Browser</h3>
 
 <div class="figure">
 <p><img src="./slike/browser.png" alt="browser.png" />
@@ -1697,8 +1739,8 @@ Collection&gt;&gt;ifNotEmpty: aBlock
 </div>
 
 </section>
-<section id="slide-org10ca736">
-<h3 id="org10ca736">Kreiranje klase</h3>
+<section id="slide-orgc4c4de2">
+<h3 id="orgc4c4de2">Kreiranje klase</h3>
 
 <div class="figure">
 <p><img src="./slike/point_class.png" alt="point_class.png" />
@@ -1706,8 +1748,8 @@ Collection&gt;&gt;ifNotEmpty: aBlock
 </div>
 
 </section>
-<section id="slide-orgaad4b8c">
-<h3 id="orgaad4b8c">Kreiranje klase</h3>
+<section id="slide-org3a47f18">
+<h3 id="org3a47f18">Kreiranje klase</h3>
 <p>
 Slanje poruke nadklasi
 </p>
@@ -1722,8 +1764,8 @@ Slanje poruke nadklasi
 </div>
 
 </section>
-<section id="slide-orgbca1e00">
-<h3 id="orgbca1e00">Definicija metoda</h3>
+<section id="slide-org108159c">
+<h3 id="org108159c">Definicija metoda</h3>
 <ul>
 <li>Metode su javne (<i>public</i>)</li>
 <li>Metode su virtualne (tj. pronalaze se u vreme izvršavanja)</li>
@@ -1742,8 +1784,8 @@ Slanje poruke nadklasi
 </div>
 
 </section>
-<section id="slide-orgdffe3d7">
-<h3 id="orgdffe3d7">Primer definicije metode</h3>
+<section id="slide-org0239655">
+<h3 id="org0239655">Primer definicije metode</h3>
 
 <div class="figure">
 <p><img src="./slike/method_definition.png" alt="method_definition.png" />
@@ -1751,8 +1793,8 @@ Slanje poruke nadklasi
 </div>
 
 </section>
-<section id="slide-orgccdab06">
-<h3 id="orgccdab06">Metoda podrazumevano vraća <code>self</code></h3>
+<section id="slide-orgfcd8463">
+<h3 id="orgfcd8463">Metoda podrazumevano vraća <code>self</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Game &gt;&gt; initializePlayers
@@ -1777,8 +1819,8 @@ je ekvivalentno sa:
 </div>
 
 </section>
-<section id="slide-orgfa54d66">
-<h3 id="orgfa54d66">Metode klase</h3>
+<section id="slide-org8f5a72b">
+<h3 id="org8f5a72b">Metode klase</h3>
 
 <div class="figure">
 <p><img src="./slike/class_methods.png" alt="class_methods.png" width="60%" />
@@ -1802,13 +1844,13 @@ je ekvivalentno sa:
 </section>
 </section>
 <section>
-<section id="slide-org5473e9a">
-<h2 id="org5473e9a">yourself</h2>
-<div class="outline-text-2" id="text-org5473e9a">
+<section id="slide-org105fb6b">
+<h2 id="org105fb6b">yourself</h2>
+<div class="outline-text-2" id="text-org105fb6b">
 </div>
 </section>
-<section id="slide-org96fb202">
-<h3 id="org96fb202">Problem</h3>
+<section id="slide-orge22c7a4">
+<h3 id="orge22c7a4">Problem</h3>
 <p>
 Dodajemo 2 u skup:
 </p>
@@ -1825,8 +1867,8 @@ Rezultat izraza je 2 a ne skup!
 </p>
 
 </section>
-<section id="slide-org45e943b">
-<h3 id="org45e943b">Zašto?</h3>
+<section id="slide-org19fdf8d">
+<h3 id="org19fdf8d">Zašto?</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Set&gt;&gt;add: newObject
@@ -1850,8 +1892,8 @@ Rezultat izraza je 2 a ne skup!
 </div>
 
 </section>
-<section id="slide-org395c3c1">
-<h3 id="org395c3c1">Moguće rešenje</h3>
+<section id="slide-org5ccd125">
+<h3 id="org5ccd125">Moguće rešenje</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >|s|
@@ -1862,8 +1904,8 @@ s
 </div>
 
 </section>
-<section id="slide-org5a55478">
-<h3 id="org5a55478">Kraće rešenje - <code>yourself</code></h3>
+<section id="slide-orgff4ec04">
+<h3 id="orgff4ec04">Kraće rešenje - <code>yourself</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Object &gt;&gt; yourself
@@ -1887,8 +1929,8 @@ s
 </ul>
 
 </section>
-<section id="slide-orgfd58d81">
-<h3 id="orgfd58d81">Česta greška</h3>
+<section id="slide-org594d455">
+<h3 id="org594d455">Česta greška</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Counter class &gt;&gt; withValue: anInteger
@@ -1904,8 +1946,8 @@ s
 </ul>
 
 </section>
-<section id="slide-org442c547">
-<h3 id="org442c547">Zašto?</h3>
+<section id="slide-org19e278d">
+<h3 id="org19e278d">Zašto?</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Counter class &gt;&gt; withValue: anInteger
@@ -1934,8 +1976,8 @@ Gde je <code>self</code> prijemnik poruke <code>withValue:</code> tj. klasa <cod
 </p>
 
 </section>
-<section id="slide-orgbd53ae4">
-<h3 id="orgbd53ae4">Rešenje</h3>
+<section id="slide-orgc7af6c6">
+<h3 id="orgc7af6c6">Rešenje</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Counter class &gt;&gt; withValue: anInteger
@@ -1948,13 +1990,13 @@ Gde je <code>self</code> prijemnik poruke <code>withValue:</code> tj. klasa <cod
 </section>
 </section>
 <section>
-<section id="slide-orgf2979d9">
-<h2 id="orgf2979d9">Nasleđivanje i pretraga metoda (<i>Method Lookup</i>)</h2>
-<div class="outline-text-2" id="text-orgf2979d9">
+<section id="slide-org5c483dd">
+<h2 id="org5c483dd">Nasleđivanje i pretraga metoda (<i>Method Lookup</i>)</h2>
+<div class="outline-text-2" id="text-org5c483dd">
 </div>
 </section>
-<section id="slide-org88e808e">
-<h3 id="org88e808e">Osnove</h3>
+<section id="slide-org6073a55">
+<h3 id="org6073a55">Osnove</h3>
 <div class="column" style="float:left; width: 70%">
 <p>
 Podklasa:
@@ -1976,8 +2018,8 @@ Podklasa:
 </div>
 
 </section>
-<section id="slide-orgadba05b">
-<h3 id="orgadba05b">Koren hijerarhije nasleđivanja</h3>
+<section id="slide-org64e70b4">
+<h3 id="org64e70b4">Koren hijerarhije nasleđivanja</h3>
 <div class="column" style="float:left; width: 70%">
 <ul>
 <li>Možemo smatrati da je klasa <code>Object</code> korenska klasa svake klase.</li>
@@ -1996,8 +2038,8 @@ razmatrati.</li>
 </div>
 
 </section>
-<section id="slide-orga245c29">
-<h3 id="orga245c29">Osnove nasleđivanja</h3>
+<section id="slide-org5e56055">
+<h3 id="org5e56055">Osnove nasleđivanja</h3>
 <p>
 Nasleđivanje je:
 </p>
@@ -2008,8 +2050,8 @@ Nasleđivanje je:
 </ul>
 
 </section>
-<section id="slide-orgb1691a9">
-<h3 id="orgb1691a9">Nasleđivanje varijabli instanci klasa</h3>
+<section id="slide-orgbbf95d9">
+<h3 id="orgbbf95d9">Nasleđivanje varijabli instanci klasa</h3>
 <div class="column" style="float:left; width: 70%">
 <ul>
 <li>Dešava se za vreme definicije klase.</li>
@@ -2032,8 +2074,8 @@ Nasleđivanje je:
 </div>
 
 </section>
-<section id="slide-orgd4b07e5">
-<h3 id="orgd4b07e5">Nasleđivanje ponašanja</h3>
+<section id="slide-org452aa21">
+<h3 id="org452aa21">Nasleđivanje ponašanja</h3>
 <div class="column" style="float:left; width: 70%">
 <ul>
 <li>Dešava se u vreme izvršavanja</li>
@@ -2056,8 +2098,8 @@ Nasleđivanje je:
 </div>
 
 </section>
-<section id="slide-org0d20d64">
-<h3 id="org0d20d64">Slanje i obrada poruka</h3>
+<section id="slide-org36955bb">
+<h3 id="org36955bb">Slanje i obrada poruka</h3>
 <div class="column" style="float:left; width: 50%">
 <p>
 Obrada poruke se obavlja u dva koraka:
@@ -2078,8 +2120,8 @@ Obrada poruke se obavlja u dva koraka:
 </div>
 
 </section>
-<section id="slide-orgb9aee11">
-<h3 id="orgb9aee11">Semantika <code>self</code> ključne reči</h3>
+<section id="slide-orgabd4a24">
+<h3 id="orgabd4a24">Semantika <code>self</code> ključne reči</h3>
 <ul>
 <li><code>self</code> ključna reč se koristi u implementaciji metoda i <b>uvek</b> predstavlja
 objekat prijemnik.</li>
@@ -2099,8 +2141,8 @@ objekat prijemnik.</li>
 </ul>
 
 </section>
-<section id="slide-org3a88d64">
-<h3 id="org3a88d64">Semantika <code>super</code> ključne reči</h3>
+<section id="slide-org34b681e">
+<h3 id="org34b681e">Semantika <code>super</code> ključne reči</h3>
 
 <div class="figure">
 <p><img src="./slike/super_example.png" alt="super_example.png" />
@@ -2115,8 +2157,8 @@ klase u kojoj se <code>super</code> nalazi.</li>
 </ul>
 
 </section>
-<section id="slide-org9c43ba3">
-<h3 id="org9c43ba3"><code>self</code> se određuje dinamički</h3>
+<section id="slide-orgce40501">
+<h3 id="orgce40501"><code>self</code> se određuje dinamički</h3>
 <div class="column" style="float:left; width: 50%">
 
 <div class="figure">
@@ -2133,8 +2175,8 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 </div>
 
 </section>
-<section id="slide-orgfebf51a">
-<h3 id="orgfebf51a"><code>super</code> se određuje statički</h3>
+<section id="slide-org7846040">
+<h3 id="org7846040"><code>super</code> se određuje statički</h3>
 <div class="column" style="float:left; width: 50%">
 
 <div class="figure">
@@ -2152,8 +2194,8 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 </div>
 
 </section>
-<section id="slide-org21b6dbf">
-<h3 id="org21b6dbf">Poruke koje nemaju odgovarajuću metodu</h3>
+<section id="slide-org111f55a">
+<h3 id="org111f55a">Poruke koje nemaju odgovarajuću metodu</h3>
 <ul>
 <li>Ukoliko metoda nije pronađena standardnim mehanizmom pretrage, prijemniku se
 šalje poruka <code>doesNotUnderstand</code></li>
@@ -2171,13 +2213,13 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 </section>
 </section>
 <section>
-<section id="slide-orgfe11f5c">
-<h2 id="orgfe11f5c">Implementacija `Boolean` tipa</h2>
-<div class="outline-text-2" id="text-orgfe11f5c">
+<section id="slide-org6cfc516">
+<h2 id="org6cfc516">Implementacija <code>Boolean</code> tipa</h2>
+<div class="outline-text-2" id="text-org6cfc516">
 </div>
 </section>
-<section id="slide-orge986c04">
-<h3 id="orge986c04">Implementacija Boolean tipa</h3>
+<section id="slide-org2b401ac">
+<h3 id="org2b401ac">Implementacija Boolean tipa</h3>
 <p>
 U Pharo Boolean tip ima odličan dizajn:
 </p>
@@ -2190,8 +2232,8 @@ U Pharo Boolean tip ima odličan dizajn:
 </ul>
 
 </section>
-<section id="slide-orgdb6fbba">
-<h3 id="orgdb6fbba">Za razmišljanje</h3>
+<section id="slide-org9f01b46">
+<h3 id="org9f01b46">Za razmišljanje</h3>
 <p>
 U svetu gde imate samo dve vrednosti: <code>true</code> i <code>false</code> i razmenu poruka
 </p>
@@ -2203,8 +2245,8 @@ U svetu gde imate samo dve vrednosti: <code>true</code> i <code>false</code> i r
 </ul>
 
 </section>
-<section id="slide-org1e21403">
-<h3 id="org1e21403"><code>not</code></h3>
+<section id="slide-org7ca43ed">
+<h3 id="org7ca43ed"><code>not</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >false not
@@ -2220,8 +2262,8 @@ U svetu gde imate samo dve vrednosti: <code>true</code> i <code>false</code> i r
 </div>
 
 </section>
-<section id="slide-orgb8d1674">
-<h3 id="orgb8d1674">Bez upotrebe uslova</h3>
+<section id="slide-org8e4567d">
+<h3 id="org8e4567d">Bez upotrebe uslova</h3>
 <p>
 Rešenje ne koristi uslove.
 </p>
@@ -2231,8 +2273,8 @@ Uslovi bi svakako morali da budu bazirani na Bulovom tipu.
 </p>
 
 </section>
-<section id="slide-orgf888943">
-<h3 id="orgf888943">Rešenje koristi tri klase</h3>
+<section id="slide-orgad243a2">
+<h3 id="orgad243a2">Rešenje koristi tri klase</h3>
 <ul>
 <li><code>Boolean</code> (apstraktna), <code>True</code> i <code>False</code></li>
 <li><code>true</code> je singlton instanca klase <code>True</code></li>
@@ -2247,8 +2289,8 @@ Uslovi bi svakako morali da budu bazirani na Bulovom tipu.
 </div>
 
 </section>
-<section id="slide-org669d4e0">
-<h3 id="org669d4e0">Kako iskazujemo izbor u OOP?</h3>
+<section id="slide-org21c8253">
+<h3 id="org21c8253">Kako iskazujemo izbor u OOP?</h3>
 <p>
 U OOP, izbor iskazujemo:
 </p>
@@ -2277,8 +2319,8 @@ Primer:
 </ul>
 
 </section>
-<section id="slide-org44879d9">
-<h3 id="org44879d9">Implementacija <code>not</code> operacije</h3>
+<section id="slide-org5b268ce">
+<h3 id="org5b268ce">Implementacija <code>not</code> operacije</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >False &gt;&gt; not
@@ -2296,8 +2338,8 @@ Primer:
 </div>
 
 </section>
-<section id="slide-org17a381d">
-<h3 id="org17a381d">Hijerarhija implementacije</h3>
+<section id="slide-org6d65c0d">
+<h3 id="org6d65c0d">Hijerarhija implementacije</h3>
 
 <div class="figure">
 <p><img src="./slike/boolean_not_hierarchy.png" alt="boolean_not_hierarchy.png" />
@@ -2305,8 +2347,8 @@ Primer:
 </div>
 
 </section>
-<section id="slide-org377e255">
-<h3 id="org377e255">Pretraga poruke (<i>message lookup</i>) je izbor prave metode</h3>
+<section id="slide-orga0747cf">
+<h3 id="orga0747cf">Pretraga poruke (<i>message lookup</i>) je izbor prave metode</h3>
 
 <div class="figure">
 <p><img src="./slike/boolean_not_lookup.png" alt="boolean_not_lookup.png" />
@@ -2314,8 +2356,8 @@ Primer:
 </div>
 
 </section>
-<section id="slide-org53153fc">
-<h3 id="org53153fc">Implementacija <code>Boolean</code> klase</h3>
+<section id="slide-org71c1927">
+<h3 id="org71c1927">Implementacija <code>Boolean</code> klase</h3>
 <ul>
 <li><code>Boolean</code> je abstraktna klasa</li>
 <li>Podklase su <code>True</code> i <code>False</code> koje implementiraju:
@@ -2339,8 +2381,8 @@ Primer:
 </div>
 
 </section>
-<section id="slide-org4997275">
-<h3 id="org4997275">Ponašanje <code>Or</code> operacije</h3>
+<section id="slide-org4525834">
+<h3 id="org4525834">Ponašanje <code>Or</code> operacije</h3>
 <pre  class="example">
 true | true −&gt; true
 true | false −&gt; true
@@ -2354,8 +2396,8 @@ false | anything −&gt; anything
 </pre>
 
 </section>
-<section id="slide-org64c0344">
-<h3 id="org64c0344">Implementacija <code>Or</code> operacije u <code>Boolean</code> klasi</h3>
+<section id="slide-org69efcce">
+<h3 id="org69efcce">Implementacija <code>Or</code> operacije u <code>Boolean</code> klasi</h3>
 <div class="org-src-container">
 
 <pre><code class=" smalltalk" >Boolean &gt;&gt; | aBoolean
@@ -2367,8 +2409,8 @@ false | anything −&gt; anything
 </div>
 
 </section>
-<section id="slide-org94d3acc">
-<h3 id="org94d3acc">Implementacija <code>Or</code> operacije u klasi <code>False</code></h3>
+<section id="slide-orgcf44491">
+<h3 id="orgcf44491">Implementacija <code>Or</code> operacije u klasi <code>False</code></h3>
 <pre  class="example">
 false | true −&gt; true
 false | false −&gt; false
@@ -2384,8 +2426,8 @@ false | anything −&gt; anything
 </div>
 
 </section>
-<section id="slide-orgec3aec7">
-<h3 id="orgec3aec7">Implementacija <code>Or</code> operacije u klasi <code>True</code></h3>
+<section id="slide-org00bec4f">
+<h3 id="org00bec4f">Implementacija <code>Or</code> operacije u klasi <code>True</code></h3>
 <pre  class="example">
 true | true −&gt; true
 true | false −&gt; true
@@ -2415,8 +2457,8 @@ A pošto je prijemnik <code>true</code> možemo uraditi sledeće:
 </section>
 </section>
 <section>
-<section id="slide-org3b2c3cb">
-<h2 id="org3b2c3cb">Reference</h2>
+<section id="slide-orgb2415fa">
+<h2 id="orgb2415fa">Reference</h2>
 <ul>
 <li><a href="http://mooc.pharo.org">Pharo MOOC</a></li>
 <li><a href="http://rmod-pharo-mooc.lille.inria.fr/MOOC/WebPortal/co/pharo.html">Video lekcije</a></li>
