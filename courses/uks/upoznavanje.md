@@ -16,7 +16,7 @@
 
 ## Šta predstavlja upravljanje konfiguracijom softvera?
 
-- Upravljanje konifiguracijom softvera (*Software Configuration Management*)
+- Upravljanje konfiguracijom softvera (*Software Configuration Management*)
   predstavlja disciplinu koja se bavi kontrolisanom evolucijom složenih
   softverskih sistema.
 
