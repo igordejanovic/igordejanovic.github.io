@@ -54,7 +54,13 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## U izradi
 
-- Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
+- Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
+  baziranih aplikacija
+  
+  Rad započet: april 2019.
+  <br>Opis: Kreirati DSL (tekstualni i opciono grafički) za definisanje REST
+  baziranih procesa i integraciju automatizaciju REST servisa. Implementaciju
+  uraditi uz oslonac na [textX] i [VS Code]. Primer: [Zapier](https://zapier.com/).
 
 - Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
   (folding) i Intellisense za jezike bazirane na
@@ -68,6 +74,11 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   IntelliSense). Editor treba da ima minimalne zavisnosti tako da se može
   korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo desktop
   aplikacija, kao test editor pri razvoju gramatike i sl.)
+
+- Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
+
+  Rad započet: avgust 2018.
+
 
 ## Završene
 
@@ -99,3 +110,4 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 [textX-extensions]: https://github.com/textX/textX-extensions
 [viewX-vscode]: https://github.com/textX/viewX-vscode
 [pyFlies DSL]: https://github.com/igordejanovic/pyFlies
+[VS Code]: https://code.visualstudio.com/
