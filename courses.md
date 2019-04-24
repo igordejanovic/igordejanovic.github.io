@@ -24,6 +24,7 @@ order: 2
 - [Arpeggio](courses/tech/arpeggio.html)
 - [Programski jezik Python](courses/tech/Python.html)
 - [Pharo/Smalltalk](courses/tech/Pharo/index.html)
+- [Go](courses/tech/GoLang/index.html)
 - [Django](courses/tech/django.html)
 - [Docker](courses/tech/docker.html)
 - [D3](courses/tech/d3.html)
