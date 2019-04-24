@@ -11,3 +11,4 @@ layout: page
 1. [Uvod u jezike specifične za domen](ntp/jsd-uvod/index.html)
 1. [textX](tech/textX/index.html)
 1. [Pharo/Smalltalk](tech/Pharo/index.html)
+1. [Programski jezik Go](tech/GoLang/index.html)
