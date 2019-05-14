@@ -336,7 +336,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
      preuzimaju
    - Za više informacija videti =go help importpath=
 
-
 * Go Tour
   
   Interaktivno učenje Go jezika:
@@ -1133,8 +1132,827 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
    - Više detalja možete naći u [[https://blog.golang.org/defer-panic-and-recover][ovom blog post-u]]
 
-* TODO =struct=, =slice= i =map=
+* =struct=, =slice= i =map=
+** Pokazivači (=Pointers=)
+   
+   - Memorijska adresa vrednosti varijable
+   - =*T= je pokazivač na vrednost tipa =T=
+   - =&= operator vraća pokazivač na zadati argument/vrednost
+
+      #+BEGIN_SRC go
+      i := 42
+      p = &i  // p je pokazivač na vrednost 42
+      #+END_SRC
+   
+   - =*= operator označava vrednost na koju pokazivač pokazuje
+
+      #+BEGIN_SRC go
+      fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
+      *p = 21         // postavljanje i vrednosti kroz pokazivač p
+      #+END_SRC
+      
+     - Ovo se još naziva i /dereferenciranje/ ili /indirekcija/
+     - Za razliku od jezika C, Go nema pokazivačku aritmetiku
+
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      i, j := 42, 2701
+
+      p := &i         // point to i
+      fmt.Println(*p) // read i through the pointer
+      *p = 21         // set i through the pointer
+      fmt.Println(i)  // see the new value of i
+
+      p = &j         // point to j
+      *p = *p / 37   // divide j through the pointer
+      fmt.Println(j) // see the new value of j
+    }
+   #+END_SRC
+   
+** Strukture (=struct=)
+   
+   - Kolekcija polja
+
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      X int
+      Y int
+    }
+
+    func main() {
+      fmt.Println(Vertex{1, 2})
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   - Poljima se pristupa upotrebom =.= operatora
+
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      X int
+      Y int
+    }
+
+    func main() {
+      v := Vertex{1, 2}
+      v.X = 4
+      fmt.Println(v.X)
+    }
+   #+END_SRC
+
+** Pokazivači na strukture
+   
+   - Poljima strukture se može pristupiti preko pokazivača na strukturu
+   - Sintaksno, ako imamo pokazivač =p= na strukturu, polju =X= bi mogli
+     pristupiti sa =(*p).X= 
+   - Pošto je ovakva sintaksa teža za korišćenje uvedena je prečica =p.X= tj.
+     nije potrebno eksplicitno dereferenciranje
+     
+     #+BEGIN_SRC go
+      package main
+
+      import "fmt"
+
+      type Vertex struct {
+        X int
+        Y int
+      }
+
+      func main() {
+        v := Vertex{1, 2}
+        p := &v
+        p.X = 1e9
+        fmt.Println(v)
+      }
+     #+END_SRC
+
+** =struct= literali
+   
+   - Kreiranje strukture listanjem vrednosti njenih polja
+   - Moguće je koristiti sintaksu =Name:= za postavljanje vrednosti polja i u
+     tom slučaju redosled je irelevantan
+   - Ukoliko se koristi operator =&= vraća se pokazivač na strukturu
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      X, Y int
+    }
+
+    var (
+      v1 = Vertex{1, 2}  // has type Vertex
+      v2 = Vertex{X: 1}  // Y:0 is implicit
+      v3 = Vertex{}      // X:0 and Y:0
+      p  = &Vertex{1, 2} // has type *Vertex
+    )
+
+    func main() {
+      fmt.Println(v1, p, v2, v3)
+    }
+   #+END_SRC
+
+** Nizovi (=Arrays=)
+   
+   - =[n]T= -- niz od =n= elemenata tipa =T=
+   - =var a [10]int= -- niz od 10 elemenata tipa =int=
+   - Nizovi su fiksne veličine
+ 
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      var a [2]string
+      a[0] = "Hello"
+      a[1] = "World"
+      fmt.Println(a[0], a[1])
+      fmt.Println(a)
+
+      primes := [6]int{2, 3, 5, 7, 11, 13}
+      fmt.Println(primes)
+    }
+   #+END_SRC
+
+** Isečci (=Slices=)
+   
+   - Niz je fiksne dužine
+   - Isečak je "prozor" na niz koji ima dinamičku veličinu
+   - =[]T= -- isečak tipa =T=
+   - Isečak se formira iznad niza na sledeći način:
+     
+     #+BEGIN_SRC go
+     a[low : high]
+     #+END_SRC
+     
+   - Ovo formira polu-otvoren interval elemenata uključujući prvi ali
+     isključujući poslednji
+     
+     #+BEGIN_SRC go
+      package main
+
+      import "fmt"
+
+      func main() {
+        primes := [6]int{2, 3, 5, 7, 11, 13}
+
+        var s []int = primes[1:4]
+        fmt.Println(s)
+      }
+     #+END_SRC
+
+** Isečci kao pokazivači
+   
+   - Isečci se ponašaju kao pokazivači na nizove ispod njih
+   - Izmena elementa kroz isečak menja elemente niza
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      names := [4]string{
+        "John",
+        "Paul",
+        "George",
+        "Ringo",
+      }
+      fmt.Println(names)
+
+      a := names[0:2]
+      b := names[1:3]
+      fmt.Println(a, b)
+
+      b[0] = "XXX"
+      fmt.Println(a, b)
+      fmt.Println(names)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    [John Paul George Ringo]
+    [John Paul] [Paul George]
+    [John XXX] [XXX George]
+    [John XXX George Ringo]
+   #+END_SRC
+
+** Literali za isečke
+   
+   #+BEGIN_SRC go
+   [3]bool{true, true, false}
+   #+END_SRC
+   
+   #+BEGIN_SRC go
+   []bool{true, true, false}
+   #+END_SRC
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      q := []int{2, 3, 5, 7, 11, 13}
+      fmt.Println(q)
+
+      r := []bool{true, false, true, true, false, true}
+      fmt.Println(r)
+
+      s := []struct {
+        i int
+        b bool
+      }{
+        {2, true},
+        {3, false},
+        {5, true},
+        {7, true},
+        {11, false},
+        {13, true},
+      }
+      fmt.Println(s)
+    }
+   #+END_SRC
+
+** Podrazumevane granice intervala
+   
+   - Kada se kreira isečak niza moguće je izostaviti bilo koju granicu.
+   - Podrazumevana donja granica je =0=
+   - Podrazumevana gornja granica je dužina niza
+   - Ekvivalentni izrazi:
+
+     #+BEGIN_SRC go
+      a[0:10]
+      a[:10]
+      a[0:]
+      a[:]
+     #+END_SRC
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      s := []int{2, 3, 5, 7, 11, 13}
+
+      s = s[1:4]
+      fmt.Println(s)
+
+      s = s[:2]
+      fmt.Println(s)
+
+      s = s[1:]
+      fmt.Println(s)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    [3 5 7]
+    [3 5]
+    [5]
+   #+END_SRC
+
+** Dužina i kapacitet isečka
+   
+   - Isečak ima /dužinu/ i /kapacitet/
+   - Dužina je broj elemenata isečka. Kapacitet je broj elemenata počevši od
+     prvog elementa isečka do poslednjeg elementa potpornog niza.
+   - dužina i kapacitet isečka =s=: =len(s)=, =cap(s)=
+   - Dužina isečka se može povećati ponovnim isecanjem (/reslicing/) u skladu sa
+     kapacitetom
+    
+   #+REVEAL: split
+     
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      s := []int{2, 3, 5, 7, 11, 13}
+      printSlice(s)
+
+      // Slice the slice to give it zero length.
+      s = s[:0]
+      printSlice(s)
+
+      // Extend its length.
+      s = s[:4]
+      printSlice(s)
+
+      // Drop its first two values.
+      s = s[2:]
+      printSlice(s)
+    }
+
+    func printSlice(s []int) {
+      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    len=6 cap=6 [2 3 5 7 11 13]
+    len=0 cap=6 []
+    len=4 cap=6 [2 3 5 7]
+    len=2 cap=4 [5 7]
+   #+END_SRC
+
+   
+** Prazni (/nil/) isečci
+   
+   - /Nula/ vrednost za isečak je =nil=
+   - Ovakav isečak ima dužinu i kapacitet =0= i nema potporni niz
+ 
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      var s []int
+      fmt.Println(s, len(s), cap(s))
+      if s == nil {
+        fmt.Println("nil!")
+      }
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    [] 0 0
+    nil!
+   #+END_SRC
+
+** Kreiranje isečaka sa =make=
+   
+   - =make= funkcija alocira niz sa nultim vrednostima i vraća njegov isečak
+     
+     #+BEGIN_SRC go
+     a := make([]int, 5)  // len(a)=5
+     #+END_SRC
+     
+   - moguće je definisati i kapacitet
+
+     #+BEGIN_SRC go
+        b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+
+       b = b[:cap(b)] // len(b)=5, cap(b)=5
+       b = b[1:]      // len(b)=4, cap(b)=4
+     #+END_SRC
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      a := make([]int, 5)
+      printSlice("a", a)
+
+      b := make([]int, 0, 5)
+      printSlice("b", b)
+
+      c := b[:2]
+      printSlice("c", c)
+
+      d := c[2:5]
+      printSlice("d", d)
+    }
+
+    func printSlice(s string, x []int) {
+      fmt.Printf("%s len=%d cap=%d %v\n",
+        s, len(x), cap(x), x)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    a len=5 cap=5 [0 0 0 0 0]
+    b len=0 cap=5 []
+    c len=2 cap=5 [0 0]
+    d len=3 cap=3 [0 0 0]
+   #+END_SRC
+
+** Isečak isečaka
+   
+   - Isečak može da sadrži bilo koji tip, uključujući i druge isečke
+ 
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "strings"
+    )
+
+    func main() {
+      // Create a tic-tac-toe board.
+      board := [][]string{
+        []string{"_", "_", "_"},
+        []string{"_", "_", "_"},
+        []string{"_", "_", "_"},
+      }
+
+      // The players take turns.
+      board[0][0] = "X"
+      board[2][2] = "O"
+      board[1][2] = "X"
+      board[1][0] = "O"
+      board[0][2] = "X"
+
+      for i := 0; i < len(board); i++ {
+        fmt.Printf("%s\n", strings.Join(board[i], " "))
+      }
+    }
+   #+END_SRC
+
+** Dodavanje na isečak
+   
+   #+BEGIN_SRC go
+    func append(s []T, vs ...T) []T
+   #+END_SRC
+   
+   - Prvi parametar je isečak, ostali su vrednosti koje se dodaju
+   - Povratna vrednost je novi isečak koji sadrži nove elemente
+   - Ako potporni niz nema dovoljan kapacitet alocira se novi
+   
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      var s []int
+      printSlice(s)
+
+      // append works on nil slices.
+      s = append(s, 0)
+      printSlice(s)
+
+      // The slice grows as needed.
+      s = append(s, 1)
+      printSlice(s)
+
+      // We can add more than one element at a time.
+      s = append(s, 2, 3, 4)
+      printSlice(s)
+    }
+
+    func printSlice(s []int) {
+      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    len=0 cap=0 []
+    len=1 cap=1 [0]
+    len=2 cap=2 [0 1]
+    len=5 cap=6 [0 1 2 3 4]
+   #+END_SRC
+
+** =range=
+   
+   - =range= forma =for= petlje iterira kroz elemente isečaka ili mape
+ 
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+
+    func main() {
+      for i, v := range pow {
+        fmt.Printf("2**%d = %d\n", i, v)
+      }
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   - Ukoliko ne koristite indeks pri iteraciji moguće ga je ignorisati
+     upotrebom specijalnog imena =_=
+     
+     #+BEGIN_SRC go
+      for i, _ := range pow
+      for _, value := range pow
+     #+END_SRC
+     
+   - Ako vam treba samo indeks možete izostaviti drugu varijablu:
+
+     #+BEGIN_SRC go
+      for i := range pow
+     #+END_SRC
+     
+     #+BEGIN_SRC go
+      package main
+
+      import "fmt"
+
+      func main() {
+        pow := make([]int, 10)
+        for i := range pow {
+          pow[i] = 1 << uint(i) // == 2**i
+        }
+        for _, value := range pow {
+          fmt.Printf("%d\n", value)
+        }
+      }
+     #+END_SRC
+     
+** Mape
+   
+   - Mapiranje ključeva na vrednosti -- asocijativni niz
+   - Nula vrednost je =nil=
+   - =nil= mapa nema ključeve niti se ključevi mogu dodati
+   - =make= funkcija vraća inicijalizovanu mapu spremnu za upotrebu
+ 
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      Lat, Long float64
+    }
+
+    var m map[string]Vertex
+
+    func main() {
+      m = make(map[string]Vertex)
+      m["Bell Labs"] = Vertex{
+        40.68433, -74.39967,
+      }
+      fmt.Println(m["Bell Labs"])
+    }
+   #+END_SRC
+
+** Literali za mape
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      Lat, Long float64
+    }
+
+    var m = map[string]Vertex{
+      "Bell Labs": Vertex{
+        40.68433, -74.39967,
+      },
+      "Google": Vertex{
+        37.42202, -122.08408,
+      },
+    }
+
+    func main() {
+      fmt.Println(m)
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   - Ime tipa literala se može izostaviti:
+
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      Lat, Long float64
+    }
+
+    var m = map[string]Vertex{
+      "Bell Labs": {40.68433, -74.39967},
+      "Google":    {37.42202, -122.08408},
+    }
+
+    func main() {
+      fmt.Println(m)
+    }
+   #+END_SRC
+   
+** Izmena vrednosti mapa
+
+   - postavljanje vrednosti
+   #+BEGIN_SRC go
+    m[key] = elem
+   #+END_SRC
+   
+   - čitanje vrednosti
+   #+BEGIN_SRC go
+    elem = m[key]
+   #+END_SRC
+   
+   - brisanje
+   #+BEGIN_SRC go
+    delete(m, key)
+   #+END_SRC
+   
+   - čitanje i provera da li element postoji
+   #+BEGIN_SRC go
+     elem, ok = m[key]
+   #+END_SRC
+   Ako element postoji =ok= će imati vrednost =true= inače =false=
+   
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      m := make(map[string]int)
+
+      m["Answer"] = 42
+      fmt.Println("The value:", m["Answer"])
+
+      m["Answer"] = 48
+      fmt.Println("The value:", m["Answer"])
+
+      delete(m, "Answer")
+      fmt.Println("The value:", m["Answer"])
+
+      v, ok := m["Answer"]
+      fmt.Println("The value:", v, "Present?", ok)
+    }
+   #+END_SRC
+   
+** Funkcije kao vrednosti
+   
+   - Funkcije se u Go-u vrednosti takođe.
+   - Mogu se čuvati kao varijable, prosleđivati kao parametri funkcije ili
+     dobijati nazad kao povratne vrednosti
+     
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    func compute(fn func(float64, float64) float64) float64 {
+      return fn(3, 4)
+    }
+
+    func main() {
+      hypot := func(x, y float64) float64 {
+        return math.Sqrt(x*x + y*y)
+      }
+      fmt.Println(hypot(5, 12))
+
+      fmt.Println(compute(hypot))
+      fmt.Println(compute(math.Pow))
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    13
+    5
+    81
+   #+END_SRC
+
+** Zatvorenja (/Closures/)
+   
+   - Go funkcije mogu biti /zatvorenja/ u smislu da funkcija može da referencira
+     vrednosti koje se nalaze izvan nje na mestu njenog kreiranja čak i kada se
+     pozove sa drugog mesta. Kažemo da su referencirane vrednosti "vezane" za
+     funkciju (/bounded/)
+     
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func adder() func(int) int {
+      sum := 0
+      return func(x int) int {
+        sum += x
+        return sum
+      }
+    }
+
+    func main() {
+      pos, neg := adder(), adder()
+      for i := 0; i < 10; i++ {
+        fmt.Println(
+          pos(i),
+          neg(-2*i),
+        )
+      }
+    }
+   #+END_SRC
+
 * TODO Metode i interfejsi
+** Metode i interfejsi
+   
+   - Go nema klase ali se mogu definisati metode nad tipovima
+   - Metoda je funkcija koja ima specijalni /receiver/ parametar
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func adder() func(int) int {
+      sum := 0
+      return func(x int) int {
+        sum += x
+        return sum
+      }
+    }
+
+    func main() {
+      pos, neg := adder(), adder()
+      for i := 0; i < 10; i++ {
+        fmt.Println(
+          pos(i),
+          neg(-2*i),
+        )
+      }
+    }
+   #+END_SRC
+   
+** Metode su funkcije
+   
+   - Metode se u osnovi ponašaju kao obične funkcije
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func Abs(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+
+    func main() {
+      v := Vertex{3, 4}
+      fmt.Println(Abs(v))
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   - Metode se ne moraju definisati samo nad strukturama. Na primer:
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    type MyFloat float64
+
+    func (f MyFloat) Abs() float64 {
+      if f < 0 {
+        return float64(-f)
+      }
+      return float64(f)
+    }
+
+    func main() {
+      f := MyFloat(-math.Sqrt2)
+      fmt.Println(f.Abs())
+    }
+   #+END_SRC
+   
 * TODO Konkurencija
 * Reference
   
