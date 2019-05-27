@@ -1,5 +1,5 @@
 #+TITLE: Programski jezik Go
-#+SUBTITLE: U izradi. Bazirano na Go verziji 1.12.4 i [[https://tour.golang.org/][A Tour of Go]]
+#+SUBTITLE: Bazirano na Go verziji 1.12.4 i [[https://tour.golang.org/][A Tour of Go]]
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: ../../courses-startup.org
 
@@ -1871,7 +1871,7 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
     }
    #+END_SRC
 
-* TODO Metode i interfejsi
+* Metode i interfejsi
 ** Metode i interfejsi
    
    - Go nema klase ali se mogu definisati metode nad tipovima
@@ -1879,24 +1879,22 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
    #+BEGIN_SRC go
     package main
 
-    import "fmt"
+    import (
+      "fmt"
+      "math"
+    )
 
-    func adder() func(int) int {
-      sum := 0
-      return func(x int) int {
-        sum += x
-        return sum
-      }
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
     }
 
     func main() {
-      pos, neg := adder(), adder()
-      for i := 0; i < 10; i++ {
-        fmt.Println(
-          pos(i),
-          neg(-2*i),
-        )
-      }
+      v := Vertex{3, 4}
+      fmt.Println(v.Abs())
     }
    #+END_SRC
    
@@ -1953,7 +1951,1050 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
     }
    #+END_SRC
    
-* TODO Konkurencija
+** Pokazivački prijemnici (/Pointer receivers/)
+   
+   - "Prijemnik" može biti pokazivačkog tipa
+   - U tom slučaju metoda može ažurirati vrednost prijemnika
+   - S obzirom da je ovo često potrebno, a i performanse su bolje jer nema
+     kopiranja, pokazivački prijemnici su češći
+     
+     #+BEGIN_SRC go
+      package main
+
+      import (
+        "fmt"
+        "math"
+      )
+
+      type Vertex struct {
+        X, Y float64
+      }
+
+      func (v Vertex) Abs() float64 {
+        return math.Sqrt(v.X*v.X + v.Y*v.Y)
+      }
+
+      func (v *Vertex) Scale(f float64) {
+        v.X = v.X * f
+        v.Y = v.Y * f
+      }
+
+      func main() {
+        v := Vertex{3, 4}
+        v.Scale(10)
+        fmt.Println(v.Abs())
+      }
+     #+END_SRC
+
+** Pokazivači i funkcije
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func Abs(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+
+    func Scale(v *Vertex, f float64) {    // ako uklonimo `*`?
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
+
+    func main() {
+      v := Vertex{3, 4}
+      Scale(&v, 10)
+      fmt.Println(Abs(v))
+    }
+   #+END_SRC
+
+** Metode i indirekcija pokazivača
+   
+   - Funkcija sa pokazivačkim arugmentom mora primiti pokazivač
+ 
+     #+BEGIN_SRC go
+      var v Vertex
+      ScaleFunc(v, 5)  // Compile error!
+      ScaleFunc(&v, 5) // OK
+     #+END_SRC
+     
+   - ali metode mogu primiti bilo vrednosti bilo pokazivače kao prijemnike
+
+     #+BEGIN_SRC go
+      var v Vertex
+      v.Scale(5)  // OK
+      p := &v
+      p.Scale(10) // OK
+     #+END_SRC
+     
+   - Za iskaz =v.Scale(5)= Go će pozvati metodu sa pokazivačkim prijemnikom iako
+     =v= u ovom slučaju može biti vrednost a ne pokazivač
+   - Odnosno Go će automatski interpretirati iskaz kao =(&v).Scale(5)= pošto
+     =Scale= metoda ima pokazivački prijemnik
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func (v *Vertex) Scale(f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
+
+    func ScaleFunc(v *Vertex, f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
+
+    func main() {
+      v := Vertex{3, 4}
+      v.Scale(2)
+      ScaleFunc(&v, 10)
+
+      p := &Vertex{4, 3}
+      p.Scale(3)
+      ScaleFunc(p, 8)
+
+      fmt.Println(v, p)
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   - Isto imamo i u suprotnom smeru
+   - Funkcije koje primaju vrednosne arugmente ne mogu prihvatiti pokazivač
+
+   #+BEGIN_SRC go
+    var v Vertex
+    fmt.Println(AbsFunc(v))  // OK
+    fmt.Println(AbsFunc(&v)) // Compile error!
+   #+END_SRC
+   
+   - ali metode sa vrednosnim prijemnikom mogu prihvatiti bilo vrednosti bilo pokazivače
+
+     
+   #+BEGIN_SRC go
+    var v Vertex
+    fmt.Println(v.Abs()) // OK
+    p := &v
+    fmt.Println(p.Abs()) // OK
+   #+END_SRC
+   
+   - Go će u ovom slučaju interpretirati =p.Abs()= kao =(*p).Abs()=
+
+     
+   #+REVEAL: split
+
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func (v Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+
+    func AbsFunc(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+
+    func main() {
+      v := Vertex{3, 4}
+      fmt.Println(v.Abs())
+      fmt.Println(AbsFunc(v))
+
+      p := &Vertex{4, 3}
+      fmt.Println(p.Abs())
+      fmt.Println(AbsFunc(*p))
+    }
+   #+END_SRC
+
+** Kada koristiti vrednosni a kada pokazivački prijemnik?
+   
+   - Dva razloga za upotrebu pokazivačkog prijemnika:
+
+     1. Kada metoda treba da modifikuje prijemnik
+     2. Izbegavanje kopiranja prijemnika
+
+        
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "math"
+    )
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func (v *Vertex) Scale(f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
+
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+
+    func main() {
+      v := &Vertex{3, 4}
+      fmt.Printf("Before scaling: %+v, Abs: %v\n", v, v.Abs())
+      v.Scale(5)
+      fmt.Printf("After scaling: %+v, Abs: %v\n", v, v.Abs())
+    }
+   #+END_SRC
+   
+** Interfejsi
+   
+   - Interfejs tip je definisan skupom signatura metoda
+   - Kažemo da tip implementira interfejs ako implementira skup metoda koje
+     interfejs definiše (implicitno)
+   - Varijabla tipa interfejsa može sadžati bilo koju vrednost koja implementira
+     dati skup metoda interfejsa
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    type Abser interface {
+      Abs() float64
+    }
+
+    func main() {
+      var a Abser
+      f := MyFloat(-math.Sqrt2)
+      v := Vertex{3, 4}
+      a = f  // a MyFloat implements Abser
+      a = &v // a *Vertex implements Abser
+      a = v                // In this line, v is a Vertex (not *Vertex)
+      fmt.Println(a.Abs()) // and does NOT implement Abser.
+    }
+
+    type MyFloat float64
+    
+    func (f MyFloat) Abs() float64 {
+      if f < 0 {
+        return float64(-f)
+      }
+      return float64(f)
+    }
+
+    type Vertex struct {
+      X, Y float64
+    }
+
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+   ./compile7.go:22:4: cannot use v (type Vertex) as type Abser in assignment:
+	 Vertex does not implement Abser (Abs method has pointer receiver)
+   #+END_SRC
+   
+** Interfejsi se implementiraju implicitno
+   
+   - Tip implementira interfejs tako što implementira metode interfejsa
+   - Ne postoji =implements= ključna reč
+   - Implicitni interfejsi razdvajaju definiciju od implementacije
+
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type I interface {
+      M()
+    }
+
+    type T struct {
+      S string
+    }
+
+    // This method means type T implements the interface I,
+    // but we don't need to explicitly declare that it does so.
+    func (t T) M() {
+      fmt.Println(t.S)
+    }
+
+    func main() {
+      var i I = T{"hello"}
+      i.M()
+    }
+   #+END_SRC
+
+** Interfejs vrednosti
+   
+   - Interfejs vrednosti možemo zamisliti kao uređeni par vrednosti i konkretnog
+     tipa:
+
+     #+BEGIN_SRC
+     (value, type)
+     #+END_SRC
+     
+   - Interfejs vrednost čuva konretnu vrednost tipa koji implementira dati
+     interfejs
+   - Poziv metode interfejsa izvršava poziv metode tipa vrednosti nad sadržanom
+     vrednošću
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    type I interface {
+      M()
+    }
+
+    type T struct {
+      S string
+    }
+    func (t *T) M() {
+      fmt.Println(t.S)
+    }
+
+    type F float64
+    func (f F) M() {
+      fmt.Println(f)
+    }
+
+    func main() {
+      var i I
+      i = &T{"Hello"}
+      describe(i)
+      i.M()
+      i = F(math.Pi)
+      describe(i)
+      i.M()
+    }
+
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    (&{Hello}, *main.T)
+    Hello
+    (3.141592653589793, main.F)
+    3.141592653589793
+   #+END_SRC
+
+** interfejs vrednosti sa =nil= sadržanom vrednošću
+   
+   - Ako je vrednost sadržana u interfejsu =nil= metoda se poziva sa =nil= prijemnikom
+   - Iako interfejs sadrži =nil= vrednost on nije =nil= interfejs
+   - U Go-u je normalno da se metoda pozove sa =nil= prijemnikom
+
+   #+REVEAL: split
+   
+    #+BEGIN_SRC go
+    type I interface {
+      M()
+    }
+
+    type T struct {
+      S string
+    }
+
+    func (t *T) M() {
+      if t == nil {
+        fmt.Println("<nil>")
+        return
+      }
+      fmt.Println(t.S)
+    }
+
+    func main() {
+      var i I
+      var t *T
+      i = t
+      describe(i)
+      i.M()
+      i = &T{"hello"}
+      describe(i)
+      i.M()
+    }
+
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
+    #+END_SRC
+
+    #+BEGIN_SRC
+    (<nil>, *main.T)
+    <nil>
+    (&{hello}, *main.T)
+    hello
+    #+END_SRC
+    
+** =nil= interfejs vrednost
+   
+   - =nil= interfejs ne sadrži ni vrednost ni tip
+   - Pozivanje metode nad =nil= interfejsom je /run-time/ greška jer ne znamo
+     tip koji bi odredio metodu koju treba pozvati
+     
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    type I interface {
+      M()
+    }
+
+    func main() {
+      var i I
+      describe(i)
+      i.M()
+    }
+
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    (<nil>, <nil>)
+    panic: runtime error: invalid memory address or nil pointer dereference
+    [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x488ac1]
+
+    goroutine 1 [running]:
+    main.main()
+      /tmp/compile12.go:12 +0x91
+   #+END_SRC
+
+** Prazan interfejs
+   
+   - Tip interfejsa bez ijedne metode je poznat kao "prazan interfejs" (/empty
+     interface/)
+
+   #+BEGIN_SRC go
+    interface{}
+   #+END_SRC
+   
+   - Prazan interfejs može sadržati vrednost bilo kog tipa (svaki tip
+     implementira 0 metoda)
+   - Koriste se za čuvanje vrednosti nepoznatog tipa
+   - Npr. =fmt.Print= prihvata proizvoljan broj argumenata tipa =interface{}=
+   
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      var i interface{}
+      describe(i)
+
+      i = 42
+      describe(i)
+
+      i = "hello"
+      describe(i)
+    }
+
+    func describe(i interface{}) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
+   #+END_SRC
+
+   #+BEGIN_SRC
+    (<nil>, <nil>)
+    (42, int)
+    (hello, string)
+   #+END_SRC
+
+** /Type assertions/
+   
+   - Omogućava pristup tipu vrednosti sadržane u interfejsu
+ 
+      #+BEGIN_SRC go
+        t := i.(T)
+      #+END_SRC
+   
+   - Prethodni iskaz tvrdi da =i= sadrži vrednost tipa =T= i dodeljuje tu
+     vrednost varijabli =t= tipa =T=
+   - Ukoliko =i= ne sadrži vrednost tipa =T= program se prekida uz =panic=
+     grešku
+   - Za proveru da li interfejs sadrži vrednost određenog tipa koristi se
+     /comma-ok/ iskaz
+     
+     #+BEGIN_SRC go
+      t, ok := i.(T)
+     #+END_SRC
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      var i interface{} = "hello"
+
+      s := i.(string)
+      fmt.Println(s)
+
+      s, ok := i.(string)
+      fmt.Println(s, ok)
+
+      f, ok := i.(float64)
+      fmt.Println(f, ok)
+
+      f = i.(float64) // panic
+      fmt.Println(f)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    hello
+    hello true
+    0 false
+    panic: interface conversion: interface {} is string, not float64
+   #+END_SRC
+     
+** /Type switches/
+   
+   - Omogućava više /type assertions/ u nizu
+   - Slično običnom =switch= iskazu ali svaki =case= navodi tip a ne vrednost
+
+   #+BEGIN_SRC go
+    switch v := i.(type) {
+    case T:
+        // here v has type T
+    case S:
+        // here v has type S
+    default:
+        // no match; here v has the same type as i
+    }
+   #+END_SRC
+   
+   - Vrednost u zaglavlju se navodi slično kao /type assertion/ ali se umesto
+     tipa piše ključna reč =type=
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func do(i interface{}) {
+      switch v := i.(type) {
+      case int:
+        fmt.Printf("Twice %v is %v\n", v, v*2)
+      case string:
+        fmt.Printf("%q is %v bytes long\n", v, len(v))
+      default:
+        fmt.Printf("I don't know about type %T!\n", v)
+      }
+    }
+
+    func main() {
+      do(21)
+      do("hello")
+      do(true)
+    }
+   #+END_SRC
+
+** /Stringers/
+   
+   - Jedan od najviše korišćenih interfajsa je =Stringer= definisan u =fmt=
+     paketu
+ 
+   #+BEGIN_SRC go
+    type Stringer interface {
+        String() string
+    }
+   #+END_SRC
+   
+   - =Stringer= je tip koji može da se transformiše u string
+   - =fmt= paket (i mnogi drugi) zahtevaju ovaj interfejs kada štampaju
+     vrednosti
+
+   #+REVEAL: split
+   
+  #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  type Person struct {
+    Name string
+    Age  int
+  }
+
+  func (p Person) String() string {
+    return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+  }
+
+  func main() {
+    a := Person{"Arthur Dent", 42}
+    z := Person{"Zaphod Beeblebrox", 9001}
+    fmt.Println(a, z)
+  }
+  #+END_SRC
+  
+  #+BEGIN_SRC
+  Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
+  #+END_SRC
+ 
+** Greške
+   
+   - Greške se opisuju sa =error= vrednostima
+   - =error= tip je ugrađeni interfejs
+ 
+     #+BEGIN_SRC go
+      type error interface {
+          Error() string
+      }
+     #+END_SRC
+     
+   - Funkcije često vraćaju =error= vrednosti i pozivaoci bi trebali da
+     proveravaju da li je greška =nil=
+     
+     #+BEGIN_SRC go
+      i, err := strconv.Atoi("42")
+      if err != nil {
+          fmt.Printf("couldn't convert number: %v\n", err)
+          return
+      }
+      fmt.Println("Converted integer:", i)
+     #+END_SRC
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "time"
+    )
+
+    type MyError struct {
+      When time.Time
+      What string
+    }
+
+    func (e *MyError) Error() string {
+      return fmt.Sprintf("at %v, %s",
+        e.When, e.What)
+    }
+
+    func run() error {
+      return &MyError{
+        time.Now(),
+        "it didn't work",
+      }
+    }
+
+    func main() {
+      if err := run(); err != nil {
+        fmt.Println(err)
+      }
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
+   #+END_SRC
+
+** /Readers/
+   
+   - =io= paket definiše =io.Reader= interfejs
+
+     #+BEGIN_SRC go
+      func (T) Read(b []byte) (n int, err error)
+     #+END_SRC
+     
+   - Ovaj interfejs implementiraju mnogi tipovi: fajlovi, mrežne konekcije,
+     kompresori itd.
+   - =Read= metoda puni zadati =byte= isečak sa podacima i vraća broj bajtova
+     koji su upisani i grešku ukoliko je ima. Specijalna greška =io.EOF=
+     označava da se došlo do kraja.
+     
+   #+REVEAL: split
+   
+   - Sledeći kod kreira =strings.Reader= i vrši čitanje po 8 bajtova odjednom
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "io"
+      "strings"
+    )
+
+    func main() {
+      r := strings.NewReader("Hello, Reader!")
+
+      b := make([]byte, 8)
+      for {
+        n, err := r.Read(b)
+        fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+        fmt.Printf("b[:n] = %q\n", b[:n])
+        if err == io.EOF {
+          break
+        }
+      }
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    n = 8 err = <nil> b = [72 101 108 108 111 44 32 82]
+    b[:n] = "Hello, R"
+    n = 6 err = <nil> b = [101 97 100 101 114 33 32 82]
+    b[:n] = "eader!"
+    n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
+    b[:n] = ""
+   #+END_SRC
+
+* Konkurencija
+** Go rutine /Goroutines/
+   
+   - Go rutina je nit (/thread/) kreirana i upravljana od strane Go izvršnog
+     okruženja (/runtime/)
+     
+     #+BEGIN_SRC go
+      go f(x, y, z)
+     #+END_SRC
+     
+     startuje novu Go rutinu koja izvršava
+     
+     #+BEGIN_SRC go
+      f(x, y, z)
+     #+END_SRC
+     
+   - Evaluacija =f=, =x=, =y= i =z= se dešava u tekućoj Go rutini dok se
+     izvršavanje funkcije =f= odvija u novoj Go rutini
+
+   - Izvršavanje svih Go rutina odvija se u istom adresnom prostoru tako da
+     pristup deljenoj memoriji mora biti sinhronizovan. Paket =sync= definiše
+     korisne primitive za sinhronizaciju iako u Go-u ovo često nije neophodno.
+
+   #+REVEAL: split
+
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "time"
+    )
+
+    func say(s string) {
+      for i := 0; i < 5; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+      }
+    }
+
+    func main() {
+      go say("world")
+      say("hello")
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    hello
+    world
+    world
+    hello
+    world
+    ...
+   #+END_SRC
+
+** Kanali (/Channels/)
+   
+   - Tipizirane veze preko kojih se mogu slati vrednosti upotrebom operatora
+     kanala (/channel operator/) - =<-=
+     
+     #+BEGIN_SRC go
+      ch <- v    // Send v to channel ch.
+      v := <-ch  // Receive from ch, and assign value to v.
+     #+END_SRC
+     
+   - Tok podataka je u smeru strelice
+
+   - Kanali se kreiraju dinamički upotrebom =make= funkcije
+
+     #+BEGIN_SRC go
+      ch := make(chan int)
+     #+END_SRC
+     
+   - Podrazumevano čitanje i pisanje u kanal je blokirajuće dok druga strana ne
+     obavi suprotnu operaciju. Ovo omogućava implicitnu sinhronizaciju Go
+     rutina.
+     
+   #+REVEAL: split
+   
+   - Sledeći primer vrši sumiranje brojeva isečka tako što se posao deli između
+     dve Go rutine
+     
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func sum(s []int, c chan int) {
+      sum := 0
+      for _, v := range s {
+        sum += v
+      }
+      c <- sum // send sum to c
+    }
+
+    func main() {
+      s := []int{7, 2, 8, -9, 4, 0}
+
+      c := make(chan int)
+      go sum(s[:len(s)/2], c)
+      go sum(s[len(s)/2:], c)
+      x, y := <-c, <-c // receive from c
+
+      fmt.Println(x, y, x+y)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+    -5 17 12
+   #+END_SRC
+
+** Baferovani kanali
+   
+   - Kanali mogu biti baferovani i u tom slučaju pisanje se blokira samo ukoliko
+     je kanal pun. Čitanje se blokira samo ukoliko je kanal prazan.
+     
+   - Kreiranje bafera omogućeno je drugim parametrom =make= funkcije
+
+     #+BEGIN_SRC go
+      ch := make(chan int, 100)
+     #+END_SRC
+     
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func main() {
+      ch := make(chan int, 2)
+      ch <- 1
+      ch <- 2
+      ch <- 3   // overflow blocks current Go rutine!
+      fmt.Println(<-ch)
+      fmt.Println(<-ch)
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+   fatal error: all goroutines are asleep - deadlock!
+   #+END_SRC
+
+** Zatvaranje kanala
+   
+   - Go rutina koja šalje podatke može zatvoriti kanal =close= funkcijom da
+     signalizira da neće više slati podatke
+   - Go rutina koja prima podatke koristi /comma-ok/ idiom da testira da li je
+     kanal zatvoren
+     
+     #+BEGIN_SRC go
+      v, ok := <-ch
+     #+END_SRC
+     
+     =ok= će biti =false= ako više nema podataka i kanal je zatvoren
+     
+   - Petlja ~for i := range c~ prihvata podatke sa kanala =c= sve dok se ne
+     kanal ne zatvori
+     
+   - *Napomena*: samo pošiljalac zatvara kanal, nikada rutina koja prihvata
+     podatke. Slanje na zatvoren kanal izaziva =panic=.
+
+   - *Napomena 2*: Kanale nije neophodno zatvoriti. To se radi samo ukoliko je
+     potrebno signalizirati prijemniku da nema više podataka, npr. kada se
+     koristi =range= petlja
+     
+
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+    )
+
+    func fibonacci(n int, c chan int) {
+      x, y := 0, 1
+      for i := 0; i < n; i++ {
+        c <- x
+        x, y = y, x+y
+      }
+      close(c)
+    }
+
+    func main() {
+      c := make(chan int, 10)
+      go fibonacci(cap(c), c)
+      for i := range c {
+        fmt.Println(i)
+      }
+    }
+   #+END_SRC
+
+** =select=
+   
+   - =select= iskaz omogućava Go rutini da čeka na više komunikacionih operacija
+   - =select= blokira dok jedna od grana nije u mogućnosti da se izvrši. Ukoliko
+     je više u mogućnosti da se izvrši izbor se vrši slučajno
+     
+   #+BEGIN_SRC go
+    package main
+
+    import "fmt"
+
+    func fibonacci(c, quit chan int) {
+      x, y := 0, 1
+      for {
+        select {
+        case c <- x:
+          x, y = y, x+y
+        case <-quit:
+          fmt.Println("quit")
+          return
+        }
+      }
+    }
+
+    func main() {
+      c := make(chan int)
+      quit := make(chan int)
+      go func() {
+        for i := 0; i < 10; i++ {
+          fmt.Println(<-c)
+        }
+        quit <- 0
+      }()
+      fibonacci(c, quit)
+    }
+   #+END_SRC
+
+** =select/default=
+   
+   - =default= grana =select= iskaza se izvršava ukoliko nijedna druga nije spremna
+   - Koristite =default= da čitate ili pišete bez blokiranja
+
+   #+BEGIN_SRC go
+    select {
+    case i := <-c:
+        // use i
+    default:
+        // receiving from c would block
+    }
+   #+END_SRC
+   
+   #+REVEAL: split
+   
+   #+BEGIN_SRC go
+    package main
+
+    import (
+      "fmt"
+      "time"
+    )
+
+    func main() {
+      tick := time.Tick(100 * time.Millisecond)
+      boom := time.After(500 * time.Millisecond)
+      for {
+        select {
+        case <-tick:
+          fmt.Println("tick.")
+        case <-boom:
+          fmt.Println("BOOM!")
+          return
+        default:
+          fmt.Println("    .")
+          time.Sleep(50 * time.Millisecond)
+        }
+      }
+    }
+   #+END_SRC
+   
+   #+BEGIN_SRC
+      .
+      .
+  tick.
+    ...
+  BOOM!
+   #+END_SRC
+
+** =sync.Mutex=
+   
+  - Ukoliko nam je potreban isključiv pristup deljenim podacima
+  - Kod koji pristupa pišemo između =Lock/Unlock= poziva
+
+  #+BEGIN_SRC go
+    // SafeCounter is safe to use concurrently.
+    type SafeCounter struct {
+      v   map[string]int
+      mux sync.Mutex
+    }
+    // Inc increments the counter for the given key.
+    func (c *SafeCounter) Inc(key string) {
+      c.mux.Lock()
+      // Lock so only one goroutine at a time can access the map c.v.
+      c.v[key]++
+      c.mux.Unlock()
+    }
+
+    // Value returns the current value of the counter for the given key.
+    func (c *SafeCounter) Value(key string) int {
+      c.mux.Lock()
+      // Lock so only one goroutine at a time can access the map c.v.
+      defer c.mux.Unlock()
+      return c.v[key]
+    }
+
+    func main() {
+      c := SafeCounter{v: make(map[string]int)}
+      for i := 0; i < 1000; i++ {
+        go c.Inc("somekey")
+      }
+      time.Sleep(time.Second)
+      fmt.Println(c.Value("somekey"))
+    }
+  #+END_SRC
+
 * Reference
   
   - [[https://golang.org/doc/][Go Documentation]]
