@@ -1969,11 +1969,9 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
       type Vertex struct {
         X, Y float64
       }
-
       func (v Vertex) Abs() float64 {
         return math.Sqrt(v.X*v.X + v.Y*v.Y)
       }
-
       func (v *Vertex) Scale(f float64) {
         v.X = v.X * f
         v.Y = v.Y * f
@@ -2088,14 +2086,14 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
    - ali metode sa vrednosnim prijemnikom mogu prihvatiti bilo vrednosti bilo pokazivače
 
      
-   #+BEGIN_SRC go
-    var v Vertex
-    fmt.Println(v.Abs()) // OK
-    p := &v
-    fmt.Println(p.Abs()) // OK
-   #+END_SRC
+     #+BEGIN_SRC go
+       var v Vertex
+       fmt.Println(v.Abs()) // OK
+       p := &v
+       fmt.Println(p.Abs()) // OK
+     #+END_SRC
    
-   - Go će u ovom slučaju interpretirati =p.Abs()= kao =(*p).Abs()=
+     Go će u ovom slučaju interpretirati =p.Abs()= kao =(*p).Abs()=
 
      
    #+REVEAL: split
@@ -2133,10 +2131,10 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
 ** Kada koristiti vrednosni a kada pokazivački prijemnik?
    
-   - Dva razloga za upotrebu pokazivačkog prijemnika:
+   Dva razloga za upotrebu pokazivačkog prijemnika:
 
-     1. Kada metoda treba da modifikuje prijemnik
-     2. Izbegavanje kopiranja prijemnika
+   1. Kada metoda treba da modifikuje prijemnik
+   2. Izbegavanje kopiranja prijemnika
 
         
    #+BEGIN_SRC go
@@ -2878,10 +2876,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
      je više u mogućnosti da se izvrši izbor se vrši slučajno
      
    #+BEGIN_SRC go
-    package main
-
-    import "fmt"
-
     func fibonacci(c, quit chan int) {
       x, y := 0, 1
       for {
@@ -2976,7 +2970,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
       c.v[key]++
       c.mux.Unlock()
     }
-
     // Value returns the current value of the counter for the given key.
     func (c *SafeCounter) Value(key string) int {
       c.mux.Lock()
