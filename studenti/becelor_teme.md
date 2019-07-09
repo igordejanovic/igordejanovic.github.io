@@ -12,14 +12,16 @@ sidebar: false
   <br><https://github.com/igordejanovic/pyFlies>
   <br><https://www.psychopy.org/>
 
-- Web aplikacija za merenje reakcionog vremena
+
+## U izradi
+
+- Web aplikacija za merenje reakcionog vremena 
+  <br> Simona Prokić, april 2019.
+  <br> Vukašin Janković, april 2019.
 
   Videti:
   <br><https://en.wikipedia.org/wiki/Mental_chronometry>
   <br><https://www.humanbenchmark.com/tests/reactiontime>
-
-
-## U izradi
 
 - Desktop aplikacija za merenje reakcionog vremena
   <br> Nikola Stajić, april 2019.
