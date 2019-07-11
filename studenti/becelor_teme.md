@@ -6,14 +6,17 @@ sidebar: false
 
 ## Slobodne
 
+Trenutno nema slobodnih tema.
+
+
+## U izradi
+
 - pyFlies generator za PsychoPy 3.0
+  <br>Dejan Šorgić, jul 2019.
 
   Videti:
   <br><https://github.com/igordejanovic/pyFlies>
   <br><https://www.psychopy.org/>
-
-
-## U izradi
 
 - Web aplikacija za merenje reakcionog vremena 
   <br> Simona Prokić, april 2019.
