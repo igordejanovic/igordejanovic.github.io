@@ -19,7 +19,7 @@ Trenutno nema slobodnih tema.
   <br><https://www.psychopy.org/>
 
 - Web aplikacija za merenje reakcionog vremena 
-  <br> Simona Prokić, april 2019.
+  <br> Simona Prokić (Vue.js, React, MongoDB), april 2019.
   <br> Vukašin Janković, april 2019.
 
   Videti:
