@@ -1,0 +1,90 @@
+#+TITLE: Generating program code for psychological experiments from high-level descriptions
+#+AUTHOR: Igor Dejanović^1, Mirjana Dejanović^2
+#+SUBTITLE: University of Novi Sad^1, University of Priština^2
+#+DATE: September, 2019 @ ERK Portorož Slovenia
+# #+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../startup.org
+
+* Introduction
+** Experimental Psychology
+   :PROPERTIES:
+   :REVEAL_EXTRA_ATTR: class="large-title"
+   :BEAMER_env: fullframe
+   :END:
+   
+   #+latex: \begin{center}\Huge{Experimental Psychology}\end{center}
+   
+*** Notes                                                          :noexport:
+   - Experiments run on desktop computers
+   - Reaction time experiments
+
+** An example -- the Simon effect test
+   #+attr_latex: :width 1\textwidth
+  [[./images/simon_experiment.png]] 
+** Motivation
+   :PROPERTIES:
+   :REVEAL_EXTRA_ATTR: class="large-title"
+   :BEAMER_env: fullframe
+   :END:
+   #+latex: \begin{center}\Huge{Motivation}\end{center}
+   
+*** Notes                                                          :noexport:
+   - Psychologist programmers -- general-purpose languages
+   - Current state of the art
+
+* Domain-Specific Languages
+** What are they?
+   
+** textX
+   :PROPERTIES:
+   :REVEAL_EXTRA_ATTR: class="remove-title"
+   :BEAMER_env: fullframe
+   :END:
+   #+attr_latex: :width 1\textwidth
+   #+latex: \vfill
+   #+attr_html: :width 60%
+  [[./images/textX.png]] 
+#+REVEAL_HTML: <div style="font-size: 60%;">
+#+latex: \begin{center}
+#+latex: \fontsize{9pt}\selectfont
+https://github.com/textX/textX
+#+latex: \end{center}
+#+latex: \fontsize{6pt}\selectfont
+#+BEGIN_QUOTE
+I. Dejanović, R. Vaderna, G. Milosavljević, Ž. Vuković, TextX: A Python tool for
+Domain-Specific Languages implementation, Knowledge-Based Systems 115,
+1-4, 2017.
+#+END_QUOTE
+#+REVEAL_HTML: </div>
+* pyFlies
+** pyFlies code for the Simon effect test
+   #+BEGIN_SRC text
+test Simon {
+  conditions {
+    position  color  congruency   response
+
+    left      green  congruent    left
+    left      red    incongruent  right
+    right     green  incongruent  left
+    right     red    congruent    right
+  }
+  
+  stimuli{
+    all: shape(rectangle, position position,
+               color color)
+    error: sound(1000)
+    fixation: shape(cross)
+  }
+}
+   #+END_SRC
+
+** Target code generators
+   #+attr_latex: :width 1\textwidth
+  [[./images/architecture.png]] 
+   
+** Template engines
+   #+attr_latex: :width 1\textwidth
+  [[./images/template_engine.png]] 
+   
+* Conclusion
+* Thanks! Q&A?

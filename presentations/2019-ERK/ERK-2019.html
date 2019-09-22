@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Generating program code for psychological experiments from high-level descriptions</title>
+<meta name="author" content="Igor Dejanović^1, Mirjana Dejanović^2"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Generating program code for psychological experiments from high-level descriptions</h1>
+<h2 class="subtitle">University of Novi Sad<sup>1</sup>, University of Priština<sup>2</sup></h2>
+<h2 class="author"> Igor Dejanović<sup>1</sup>, Mirjana Dejanović<sup>2</sup></h2>
+<p class="date">September, 2019 @ ERK Portorož Slovenia</p>
+<p class="created">Created 2019-09-22 Sun 09:19, press ESC for overview</p>
+</section>
+
+<section>
+<section id="slide-org7ec045d">
+<h2 id="org7ec045d">Introduction</h2>
+<div class="outline-text-2" id="text-org7ec045d">
+</div>
+</section>
+<section id="slide-orgb7a7980" class="large-title">
+<h3 id="orgb7a7980">Experimental Psychology</h3>
+
+</section>
+<section id="slide-orgad3c53e">
+<h3 id="orgad3c53e">An example &#x2013; the Simon effect test</h3>
+
+<div class="figure">
+<p><img src="./images/simon_experiment.png" alt="simon_experiment.png" /> 
+</p>
+</div>
+</section>
+<section id="slide-orga18bb61" class="large-title">
+<h3 id="orga18bb61">Motivation</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org52e4a1e">
+<h2 id="org52e4a1e">Domain-Specific Languages</h2>
+<div class="outline-text-2" id="text-org52e4a1e">
+</div>
+</section>
+<section id="slide-org602fb6c">
+<h3 id="org602fb6c">What are they?</h3>
+
+</section>
+<section id="slide-org6eda27f" class="remove-title">
+<h3 id="org6eda27f">textX</h3>
+
+<div class="figure">
+<p><img src="./images/textX.png" alt="textX.png" width="60%" /> 
+</p>
+</div>
+<div style="font-size: 60%;">
+<p>
+<a href="https://github.com/textX/textX">https://github.com/textX/textX</a>
+</p>
+<blockquote>
+<p>
+I. Dejanović, R. Vaderna, G. Milosavljević, Ž. Vuković, TextX: A Python tool for
+Domain-Specific Languages implementation, Knowledge-Based Systems 115,
+1-4, 2017.
+</p>
+</blockquote>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org21bbdf8">
+<h2 id="org21bbdf8">pyFlies</h2>
+<div class="outline-text-2" id="text-org21bbdf8">
+</div>
+</section>
+<section id="slide-orgc512b98">
+<h3 id="orgc512b98">pyFlies code for the Simon effect test</h3>
+<div class="org-src-container">
+
+<pre><code class=" text" >test Simon {
+  conditions {
+    position  color  congruency   response
+
+    left      green  congruent    left
+    left      red    incongruent  right
+    right     green  incongruent  left
+    right     red    congruent    right
+  }
+
+  stimuli{
+    all: shape(rectangle, position position,
+               color color)
+    error: sound(1000)
+    fixation: shape(cross)
+  }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgc33eb9e">
+<h3 id="orgc33eb9e">Target code generators</h3>
+
+<div class="figure">
+<p><img src="./images/architecture.png" alt="architecture.png" /> 
+</p>
+</div>
+
+</section>
+<section id="slide-org0b35858">
+<h3 id="org0b35858">Template engines</h3>
+
+<div class="figure">
+<p><img src="./images/template_engine.png" alt="template_engine.png" /> 
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org3f2893c">
+<h2 id="org3f2893c">Conclusion</h2>
+</section>
+</section>
+<section>
+<section id="slide-org51f8205">
+<h2 id="org51f8205">Thanks! Q&amp;A?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="../reveal.js/lib/js/head.min.js"></script>
+<script src="../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'h/v',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: '../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
