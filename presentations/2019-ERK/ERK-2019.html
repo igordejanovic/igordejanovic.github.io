@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Generating program code for psychological experiments from high-level descriptions</title>
-<meta name="author" content="Igor Dejanović^1, Mirjana Dejanović^2"/>
+<meta name="author" content="University of Novi Sad^1, University of Priština^2"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
@@ -31,53 +31,86 @@
 <div class="slides">
 <section id="sec-title-slide">
 <h1 class="title">Generating program code for psychological experiments from high-level descriptions</h1>
-<h2 class="subtitle">University of Novi Sad<sup>1</sup>, University of Priština<sup>2</sup></h2>
-<h2 class="author"> Igor Dejanović<sup>1</sup>, Mirjana Dejanović<sup>2</sup></h2>
+<h2 class="subtitle">Igor Dejanović<sup>1</sup>, Mirjana Dejanović<sup>2</sup></h2>
+<h2 class="author"> University of Novi Sad<sup>1</sup>, University of Priština<sup>2</sup></h2>
 <p class="date">September, 2019 @ ERK Portorož Slovenia</p>
-<p class="created">Created 2019-09-22 Sun 09:19, press ESC for overview</p>
+<p class="created">Created 2019-09-23 Mon 00:12, press ESC for overview</p>
 </section>
 
 <section>
-<section id="slide-org7ec045d">
-<h2 id="org7ec045d">Introduction</h2>
-<div class="outline-text-2" id="text-org7ec045d">
+<section id="slide-org4a51856">
+<h2 id="org4a51856">Introduction</h2>
+<div class="outline-text-2" id="text-org4a51856">
 </div>
 </section>
-<section id="slide-orgb7a7980" class="large-title">
-<h3 id="orgb7a7980">Experimental Psychology</h3>
+<section id="slide-org2ebfe6f" class="large-title">
+<h3 id="org2ebfe6f">Experiments in Psychology</h3>
 
 </section>
-<section id="slide-orgad3c53e">
-<h3 id="orgad3c53e">An example &#x2013; the Simon effect test</h3>
+<section id="slide-org23a288a">
+<h3 id="org23a288a">An example &#x2013; the Simon effect test</h3>
 
 <div class="figure">
 <p><img src="./images/simon_experiment.png" alt="simon_experiment.png" /> 
 </p>
 </div>
 </section>
-<section id="slide-orga18bb61" class="large-title">
-<h3 id="orga18bb61">Motivation</h3>
+<section id="slide-org8e8b1ee" class="large-title">
+<h3 id="org8e8b1ee">Motivation</h3>
 
 </section>
 </section>
 <section>
-<section id="slide-org52e4a1e">
-<h2 id="org52e4a1e">Domain-Specific Languages</h2>
-<div class="outline-text-2" id="text-org52e4a1e">
+<section id="slide-orge1ed7cc">
+<h2 id="orge1ed7cc">Domain-Specific Languages</h2>
+<div class="outline-text-2" id="text-orge1ed7cc">
 </div>
 </section>
-<section id="slide-org602fb6c">
-<h3 id="org602fb6c">What are they?</h3>
+<section id="slide-org6b76ac1">
+<h3 id="org6b76ac1">SQL</h3>
+<div class="org-src-container">
+
+<pre><code class=" sql" >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
 
 </section>
-<section id="slide-org6eda27f" class="remove-title">
-<h3 id="org6eda27f">textX</h3>
+<section id="slide-orga30021b">
+<h3 id="orga30021b">Business processes - BPMN</h3>
+
+<div class="figure">
+<p><img src="./images/BPMN.png" alt="BPMN.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org8844e8e">
+<h3 id="org8844e8e">But also&#x2026;</h3>
+
+<div class="figure">
+<p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgfdcb2fe">
+<h3 id="orgfdcb2fe">Or&#x2026;</h3>
+
+<div class="figure">
+<p><img src="./images/ChessNotation.png" alt="ChessNotation.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org9ae5b44" class="remove-title">
+<h3 id="org9ae5b44">textX</h3>
 
 <div class="figure">
 <p><img src="./images/textX.png" alt="textX.png" width="60%" /> 
 </p>
 </div>
-<div style="font-size: 60%;">
+<div style="font-size: 40%;">
 <p>
 <a href="https://github.com/textX/textX">https://github.com/textX/textX</a>
 </p>
@@ -92,13 +125,22 @@ Domain-Specific Languages implementation, Knowledge-Based Systems 115,
 </section>
 </section>
 <section>
-<section id="slide-org21bbdf8">
-<h2 id="org21bbdf8">pyFlies</h2>
-<div class="outline-text-2" id="text-org21bbdf8">
+<section id="slide-org59f5960">
+<h2 id="org59f5960">pyFlies</h2>
+<div class="outline-text-2" id="text-org59f5960">
 </div>
 </section>
-<section id="slide-orgc512b98">
-<h3 id="orgc512b98">pyFlies code for the Simon effect test</h3>
+<section id="slide-org1b8b64d">
+<h3 id="org1b8b64d">pyFlies - DSL for psychological RT experiments</h3>
+
+<div class="figure">
+<p><img src="./images/pyFliesGUI.png" alt="pyFliesGUI.png" width="80%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4cfd113">
+<h3 id="org4cfd113">pyFlies code for the Simon effect test</h3>
 <div class="org-src-container">
 
 <pre><code class=" text" >test Simon {
@@ -120,10 +162,25 @@ Domain-Specific Languages implementation, Knowledge-Based Systems 115,
 }
 </code></pre>
 </div>
+</section>
+<section id="slide-orge64aa40">
+<h3 id="orge64aa40">Connecting stimuli and conditions</h3>
+<div class="org-src-container">
+
+<pre><code class=" text" >position=left and color=red
+</code></pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/stimuli-conditions.png" alt="stimuli-conditions.png" />
+</p>
+</div>
+
 
 </section>
-<section id="slide-orgc33eb9e">
-<h3 id="orgc33eb9e">Target code generators</h3>
+<section id="slide-org18d8443">
+<h3 id="org18d8443">Target code generators</h3>
 
 <div class="figure">
 <p><img src="./images/architecture.png" alt="architecture.png" /> 
@@ -131,8 +188,8 @@ Domain-Specific Languages implementation, Knowledge-Based Systems 115,
 </div>
 
 </section>
-<section id="slide-org0b35858">
-<h3 id="org0b35858">Template engines</h3>
+<section id="slide-org961beb0">
+<h3 id="org961beb0">Template engines</h3>
 
 <div class="figure">
 <p><img src="./images/template_engine.png" alt="template_engine.png" /> 
@@ -142,13 +199,13 @@ Domain-Specific Languages implementation, Knowledge-Based Systems 115,
 </section>
 </section>
 <section>
-<section id="slide-org3f2893c">
-<h2 id="org3f2893c">Conclusion</h2>
+<section id="slide-org3ec952a">
+<h2 id="org3ec952a">Conclusion</h2>
 </section>
 </section>
 <section>
-<section id="slide-org51f8205">
-<h2 id="org51f8205">Thanks! Q&amp;A?</h2>
+<section id="slide-orgb19ebda">
+<h2 id="orgb19ebda">Thanks! Q&amp;A?</h2>
 </section>
 </section>
 </div>
