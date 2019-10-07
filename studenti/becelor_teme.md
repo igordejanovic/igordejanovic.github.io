@@ -6,7 +6,11 @@ sidebar: false
 
 ## Slobodne
 
-Trenutno nema slobodnih tema.
+- Genarator upitnika
+  
+  Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
+  osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
+  pdf formatu (upotrebom LateX-a).
 
 
 ## U izradi
@@ -19,7 +23,6 @@ Trenutno nema slobodnih tema.
   <br><https://www.psychopy.org/>
 
 - Web aplikacija za merenje reakcionog vremena 
-  <br> Simona Prokić (Vue.js, Express, MongoDB), april 2019.
   <br> Vukašin Janković, april 2019.
 
   Videti:
@@ -31,3 +34,14 @@ Trenutno nema slobodnih tema.
 
 - Aplikacija za praćenje vremena provedenog u upotrebi mobilnog telefona
   <br>Nemanja Žunić, oktobar 2018.
+  
+
+## Završene
+
+- Web aplikacija za merenje reakcionog vremena 
+  <br> Simona Prokić (Vue.js, Express, MongoDB), april 2019.
+  <br> Odbranjeno: septembar 2019.
+
+  Videti:
+  <br><https://en.wikipedia.org/wiki/Mental_chronometry>
+  <br><https://www.humanbenchmark.com/tests/reactiontime>
