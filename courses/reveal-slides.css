@@ -1,3 +1,15 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+.reveal, .reveal div { font-family: 'Roboto'; }
+.reveal h1, .reveal h2, .reveal h3 {
+    font-family: 'Roboto Condensed';
+    font-weight: normal;
+}
+.reveal a { color: #2c495b; text-decoration: none; }
+.reveal em { color: #c63235 }
+
 .reveal .footer {
     font-size: 20px;
 }
@@ -21,7 +33,7 @@
 }
 
 .reveal .subtitle {
-    font-size: 40px;
+    font-size: 70px;
 }
 
 .reveal .author {
@@ -33,7 +45,90 @@
     margin: 0 auto;
 }
 
+.reveal .org-center {
+    text-align: center;
+}
 
-.reveal {
-    font-family: "Open Sans", sans-serif;
+/* Tables */
+/* Tables */
+/* Code below taken from: https://github.com/yahoo/pure/blob/master/src/tables/css/tables.css  and adapted */
+
+.reveal table {
+    /* Remove spacing between table cells (from Normalize.css) */
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+
+.reveal table caption {
+    color: #000;
+    font: italic 85%/1 arial, sans-serif;
+    padding: 1em 0;
+    text-align: center;
+}
+
+.reveal table td,
+.reveal table th {
+    border: 1px solid #cbcbcb;/*  inner column border */
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em; /* cell padding */
+}
+
+/* Consider removing this next declaration block, as it causes problems when
+there's a rowspan on the first cell. Case added to the tests. issue#432 */
+.reveal table td:first-child,
+.reveal table th:first-child {
+    border-left-width: 0;
+}
+
+.reveal table thead {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+/*
+striping:
+   even - #fff (white)
+   odd  - #f2f2f2 (light gray)
+*/
+.reveal table td {
+    background-color: transparent;
+}
+.reveal table-odd td {
+    background-color: #f2f2f2;
+}
+
+/* nth-child selector for modern browsers */
+.reveal table tr:nth-child(2n-1) td {
+    background-color: #f2f2f2;
+}
+
+/* BORDERED TABLES */
+.reveal table td {
+    border-bottom: 1px solid #cbcbcb;
+}
+.reveal table tbody > tr:last-child > td {
+    border-bottom-width: 0;
+}
+
+
+/* HORIZONTAL BORDERED TABLES */
+
+.reveal table-horizontal td,
+.reveal table-horizontal th {
+    border-width: 0 0 1px 0;
+    border-bottom: 1px solid #cbcbcb;
+}
+.reveal table-horizontal tbody > tr:last-child > td {
+    border-bottom-width: 0;
+}
+
+.reveal table {
+    border: 1px solid #cbcbcb;
 }
