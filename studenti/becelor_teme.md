@@ -11,11 +11,19 @@ sidebar: false
   Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
   osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
   pdf formatu (upotrebom LateX-a).
+  
+- Generisanje liste autora (*contributors*) iz git repozitorijuma
+
+  Opis: Kreirati alat koji će analizirati istoriju zadatog git repozitorijuma i
+  kreirati listu autora sa dodatnim informacijama (broj commit-a, broj
+  dodatih/obrisanih linija koda). Omogućiti zadavanje putanje i/ili fajl
+  ekstenzije nad kojom se izveštaj traži. Ideja je da se alat koristi kao
+  jednostavan generator `CONTRIBUTORS.md` fajlova.
 
 
 ## U izradi
 
-- pyFlies generator za PsychoPy 3.0
+- Migracija pyFlies jezika na textX 2 i PsychoPy 3
   <br>Dejan Šorgić, jul 2019.
 
   Videti:
