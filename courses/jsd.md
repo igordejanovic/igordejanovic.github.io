@@ -3,6 +3,10 @@ title: Jezici specifični za domen
 layout: page
 ---
 
+> "Granice mog jezika su granice mog sveta."
+> 
+> --- Ludwig Wittgenstein
+
 ---
 
 1. [O predmetu](jsd/upoznavanje.html)
