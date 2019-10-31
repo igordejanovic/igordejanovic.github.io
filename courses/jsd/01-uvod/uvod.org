@@ -1,81 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Uvod u JSD</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../remarkslides.css">
-    
-    <!-- google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-68681917-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </head>
-  <body>
-    <textarea id="source">
-
-class: center, middle
-
-# Uvod u JSD
+#+TITLE: Jezici specifični za domen
+#+SUBTITLE: Uvod
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
 
 
-
-.author[[Igor Dejanović](http://igordejanovic.net/)]
-
-.small[[Fakultet tehničkih nauka u Novom Sadu](http://ftn.uns.ac.rs/)</br> [Katedra za informatiku](http://informatika.ftn.uns.ac.rs/)]
-
-
-
-.created[19.10.2017 u 17:54]
+* Sadržaj
+   :PROPERTIES:
+   :UNNUMBERED: notoc
+   :END:
+#+REVEAL_TOC: headlines 1
 
 
----
-
-
-name: sadrzaj
-
-# Sadržaj
-
-- [Problem i motivacija](#motivacija)
-- [Primeri](#primeri)
-- [Prednosti](#prednosti)
-- [Arhitekture](#arhitekture)
-- [Gradivni elementi](#gradivni)
-- [Klasifikacija](#klasifikacija)
-- [Jezičke radionice](#radionice)
-
----
-name: motivacija
-class: center, middle
-
-# Problem i motivacija
-
----
-layout: true
-
-.section[[Motivacija](#sadrzaj)]
-
----
-
-## Šta je jezik?
+* Problem i motivacija
+** Šta je jezik?
             
 - Komunikacija misli i osećanja sistemom znakova kao što su zvuci, gestovi ili
-  pisani simboli .ref[1].
-- Sistem znakova, simbola, gestova i pravila koji se koriste u komunikaciji
-  .ref[2].
+  pisani simboli^{1}.
+- Sistem znakova, simbola, gestova i pravila koji se koriste u komunikaciji^{2}.
   
-.footer[
+#+attr_html: :class footer :style clear: both;
 1. http://www.thefreedictionary.com/language
 2. http://oxforddictionaries.com/definition/english/language
-]
             
----
-
-## Šta je softverski jezik?
+** Šta je softverski jezik?
             
 - Jezik korišćen u komunikaciji čovek-računar ili računar-računar.
 - U varijanti čovek-računar težimo da jezik bude lak za razumevanje od strane
@@ -84,12 +31,10 @@ layout: true
   - *preskriptivna* - za opis budućih sistema
   - *deskriptivna* - za opis postojećih sistema
   
----
+** Šta domen?
 
-## Šta domen?
-
-- Sfera delovanja, interesa ili funkcije .ref[1].
-- Oblast znanja, uticaja, ili delovanja .ref[2].
+- Sfera delovanja, interesa ili funkcije^{1}.
+- Oblast znanja, uticaja, ili delovanja^{2}.
 - Da bi se domensko znanje moglo procesirati i da bi mogli komunicirati u
   određenom domenu korisno je definisati ontologiju domena koja opisuje koncepte
   domena i njihove međusobne veze.
@@ -98,53 +43,35 @@ layout: true
   osiguranje, poddomeni mogu biti životno osiguranje, osiguranje vozila,
   osiguranje nekretnina i sl.
 
-.footer[
+#+attr_html: :class footer :style clear: both;
 1. http://www.thefreedictionary.com/domain
 2. http://www.merriam-webster.com/dictionary/domain
-]
 
----
+** Jezici specifični za domen - JSD (*Domain-Specific Languages - DSL*)
 
-## Jezici specifični za domen - JSD (*Domain-Specific Languages - DSL*)
-
-- Jezici specifični za domen (JSD, eng. *Domain-Specific Languages - DSL*)
+- Jezici specifični za domen (JSD, eng. /Domain-Specific Languages - DSL/)
   su jezici prilagođeni i ograničeni na određeni domen problema.
-- Za razliku od jezika opšte namene (JON, eng. *General Purpose Language -
-  GPL*), nude povećanje ekspresivnosti kroz upotrebu koncepata i notacija
+- Za razliku od jezika opšte namene (JON, eng. /General Purpose Language -
+  GPL/), nude povećanje ekspresivnosti kroz upotrebu koncepata i notacija
   prilagođenih domenu problema i domenskim ekspertima.
-- Nazivaju se još i *mali jezici* (eng. *little languages*).
+- Nazivaju se još i /mali jezici/ (eng. /little languages/).
 - Uspešan JSD je fokusiran na uzak, dobro definisan domen i pokriva ga na
   odgovarajući način.
 - Domen često ima svoj jezik korišćen od strane domenskih eksperata iako ne
   postoji njegova implementacija na računaru.
 
   
----
-name: primeri
-layout: false
-class: center, middle
+* Primeri
+** SQL
 
-# Primeri
-
----
-layout: true
-
-.section[[Primeri](#sadrzaj)]
-
----
-
-## SQL
-
-```sql
+#+BEGIN_SRC sql
 SELECT player, stadium
     FROM game JOIN goal ON (id=matchid)
-```
+#+END_SRC
 
----
+** JPA mapiranje
 
-## JPA mapiranje
-
-```java
+#+BEGIN_SRC java
 @Entity
 @Table(name="COURSES")
 public class Course {
@@ -166,54 +93,44 @@ public class Course {
     return this.courseId;
   }
 }
-```
+#+END_SRC
 
----
+** Build jezici (Ant/Maven/Gradle)
 
-## Build jezici (Ant/Maven/Gradle)
+#+ATTR_ORG: :width 100%
+[[./images/Ant-Maven-Gradle.png]]
 
-![](uvod/Ant-Maven-Gradle.png)
+** Poslovni procesi - BPMN
 
----
+#+ATTR_ORG: :width 100%
+[[./images/BPMN.png]]
 
-## Poslovni procesi - BPMN
+** Mobilne aplikacije
 
-![](uvod/BPMN.png)
+#+ATTR_ORG: :width 100%
+[[./images/MobilneAplikacije.png]]
 
----
 
-## Mobilne aplikacije
-
-![:scale 70%](uvod/MobilneAplikacije.png)
-
-.footer[
-  Kelly, S. & Tolvanen, J.-P. *Domain-Specific Modeling: Enabling Full Code
-    Generation*, Wiley-IEEE Computer Society Pr, 2008
-]
+#+attr_html: :class footer :style clear: both;
+Kelly, S. & Tolvanen, J.-P. /Domain-Specific Modeling: Enabling Full Code
+Generation/, Wiley-IEEE Computer Society Pr, 2008
             
----
+** Ali i...
 
-## Ali i...
+#+ATTR_ORG: :width 100%
+[[./images/MusicNotation-External.png]]
 
-![:scale 70%](uvod/MusicNotation-External.png)
+** ili...
 
----
+#+ATTR_ORG: :width 100%
+[[./images/ChessNotation.png]]
 
-## ili...
+** pa čak i...
 
-![:scale 70%](uvod/ChessNotation.png)
+#+ATTR_ORG: :width 100%
+[[./images/saobracajni-znaci.jpg]]
 
-
----
-
-## pa čak i...
-
-![:scale 50%](uvod/saobracajni-znaci.jpg)
-
-
----
-
-## Kada jezik smatramo JSD-om?
+** Kada jezik smatramo JSD-om?
 
 - Zavisi od toga šta nam je domen.
 - Jezik može biti više ili manje prilagođen nekom domenu.
@@ -226,58 +143,36 @@ public class Course {
 - Čest je slučaj da jezik nastane kao JSD ali se vremenom proširi do te mere da
   ga možemo smatrati JON.
 
+  
+* Prednosti
+** Uticaj na produktivnost
 
----
-name: prednosti
-layout: false
-class: center, middle
-
-# Prednosti
-
----
-layout: true
-
-.section[[Prednosti](#sadrzaj)]
-
----
-
-
-## Uticaj na produktivnost
-
-- Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000% .ref[1].
+- Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%^{1}.
 - Šta je osnovni razlog za povećanje produktivnosti?
- 
-.footer[
-MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
-]
+
+#+attr_html: :class footer :style clear: both;
+1. MetaCase, /Nokia case study/, tech. rep., MetaCase, 2007
   
-  
----
+** Problem mentalnog mapiranja
 
-## Problem mentalnog mapiranja
+#+ATTR_ORG: :width 100%
+[[./images/MentalnoMapiranje-1.svg]]
 
-![](uvod/MentalnoMapiranje-1.svg)
+#+attr_html: :class footer :style clear: both;
+Dmitriev, S. /Language oriented programming: The next programming paradigm/,
+JetBrains onBoard, 2004.
 
-.footer[
-  Dmitriev, S. *Language oriented programming: The next programming
-    paradigm *, JetBrains onBoard, 2004.
-]
+** Rešenje upotrebom JSD
 
----
-
-## Rešenje upotrebom JSD
-
-![](uvod/MentalnoMapiranje-2.svg)
-
-.footer[
-  Dmitriev, S. *Language oriented programming: The next programming
-    paradigm *, JetBrains onBoard, 2004.
-]
-
----
+#+ATTR_ORG: :width 100%
+[[./images/MentalnoMapiranje-2.svg]]
 
 
-## Zašto JSD?
+#+attr_html: :class footer :style clear: both;
+Dmitriev, S. /Language oriented programming: The next programming paradigm/,
+JetBrains onBoard, 2004.
+
+** Zašto JSD?
 
 - JSD su koncizniji od jezika opšte namene što omogućava korisnicima da jasnije
   iskažu svoju nameru.
@@ -293,14 +188,12 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
   dužim životnim vekom aplikacije.
 - Samodokumentujući jezički iskazi.
 
----
-
-## Uticaj na kvalitet softvera
+** Uticaj na kvalitet softvera
 
 - Korišćenje koncepata domena problema dovodi do smanjenja broja linija koda (u
   terminologiji tekstualnih notacija), što ima pozitivan uticaj na brzinu
   razvoja i jednostavnost odžavanja.
-- Smanjenje broja linija koda ide i do **50 puta** u pojedinim domenima primene.
+- Smanjenje broja linija koda ide i do *50 puta* u pojedinim domenima primene.
   Gustina softverskih grešaka (broj softverskih grešaka na hiljadu linija koda)
   ne zavisi značajno od jezika koji se koristi.
 - Iz toga se može zaključiti da JSD kroz smanjenje broja linija koda posredno
@@ -309,113 +202,72 @@ MetaCase, *Nokia case study*, tech. rep., MetaCase, 2007
 - Prevođenje koda na ciljnu platformu (kompajliranje) će rezultovati
   konzistentnim kodom.
 
-
----
-
-## Uticaj na evoluciju aplikacije
+** Uticaj na evoluciju aplikacije
 
 - Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
   dužim životnim vekom aplikacije.
 - Nije potrebno menjati jezičke iskaze (programe/modele) kada dođe do promene
   tehnologije. Potrebno je promenu uneti u generator koda.
   
+  
+* Arhitekture
+** Arhitektura bazirana na prevodiocima
 
----
-name: arhitekture
-layout: false
-class: center, middle
+#+ATTR_ORG: :width 100%
+[[./images/Arhitektura-kompajler.svg]]
 
-# Arhitekture
+** Arhitektura bazirana na interpreterima
 
----
-layout: true
-
-.section[[Arhitekture](#sadrzaj)]
-
----
-
-## Arhitektura bazirana na prevodiocima
-
-![:scale 60%](uvod/Arhitektura-kompajler.svg)
-
----
+#+ATTR_ORG: :width 100%
+[[./images/Arhitektura-interpreter.svg]]
 
 
-## Arhitektura bazirana na interpreterima
-
-![](uvod/Arhitektura-interpreter.svg)
-
-
----
-name: gradivni
-layout: false
-class: center, middle
-
-# Gradivni elementi
-
----
-layout: true
-
-.section[[Gradivni elementi](#sadrzaj)]
-
----
-
-## Gradivni elementi JSD
+* Gradivni elementi
+** Gradivni elementi JSD
 
 Kao i svaki softverski jezik i JSD se sastoji od:
 - Apstraktne sintakse
 - Jedne ili više konkretnih sintaksi
 - Semantike
 
----
-
-
-## Apstraktna sintaksa
+** Apstraktna sintaksa
 
 - Određuje pravila validnosti iskaza sa stanovišta njegove strukture.
 - Definiše koncepte domena, njihove osobine i međusobne relacije
 - Jezici za definisanje apstraktnih sintaksi jezika se u domenu modelovanja
-  nazivaju meta-meta-modelima.ref[1].
+  nazivaju meta-meta-modelima^{1}.
 
-.footer[
-1. Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
-    čine i konkretne sintakse i semantika.
-]
+#+attr_html: :class footer :style clear: both;
+1. Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još čine
+   i konkretne sintakse i semantika.
 
----
+** Primer - apstraktna sintaksa jezika za opis konačnih automata
 
-## Primer - apstraktna sintaksa jezika za opis konačnih automata
+#+ATTR_ORG: :width 200%
+[[./images/StateMachine.svg]]
 
-![:scale 90%](uvod/StateMachine.svg)
+#+attr_html: :class footer :style clear: both;
+I. Dejanović, /Prilog metodama brzog razvoja softvera na bazi proširivih
+jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University of
+Novi Sad, January 2012
 
-.footer.small[
-  I. Dejanović, *Prilog metodama brzog razvoja softvera na bazi proširivih
-  jezičkih specifikacija*. PhD thesis, Faculty of Technical Sciences, University of
-  Novi Sad, January 2012
-]
-
----
-
-## Stablo apstraktne sintakse
+** Stablo apstraktne sintakse
 
 - Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
   apstraktne sintakse (*Abstract Syntax Tree*).
 - Konkretna sintaksa nije važna u tom slučaju (na primer, ako posmatramo program
   na Javi tada ključne reči nisu deo stabla apstraktne sintakse).
 
----
+** Primer stabla apstraktne sintakse
 
-## Primer stabla apstraktne sintakse
+#+ATTR_ORG: :width 100%
+[[./images/AbstractSyntaxTree.png]]
 
-![:scale 60%](uvod/AbstractSyntaxTree.svg)
 
-.footer[
+#+attr_html: :class footer :style clear: both; margin-top: 0;
 http://en.wikipedia.org/wiki/Abstract_syntax_tree
-]
 
----
-
-## Konkretna sintaksa
+** Konkretna sintaksa
 
 - Da bi mogli da prikažemo iskaz na konkretan način potrebna nam je konkretna
   sintaksa.
@@ -425,23 +277,20 @@ http://en.wikipedia.org/wiki/Abstract_syntax_tree
 - Iako nam je dovoljna jedna konkretna sintaksa za jedan jezik, možemo ih imati
   više.
   
----
-
-## Konkretna sintaksa
+** Konkretna sintaksa
 
 Primer istog iskaza upotrebom dve različite konkretne sintakse
 
-![:scale 70%](uvod/RazliciteSintakse.png)
+#+ATTR_ORG: :width 100%
+[[./images/RazliciteSintakse.png]]
 
-.footer.small[
-  I. Dejanović, *Prilog metodama brzog razvoja softvera na bazi proširivih
-  jezičkih specifikacija*. PhD thesis, Faculty of Technical Sciences, University of
-  Novi Sad, January 2012
-]
 
----
+#+attr_html: :class footer :style clear: both;
+I. Dejanović, /Prilog metodama brzog razvoja softvera na bazi proširivih
+jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University of
+Novi Sad, January 2012
 
-## Semantika
+** Semantika
 
 - Definiše smisao jezičkih iskaza.
 - Iako postoje i druge tehnike u praksi se najčešće semantika definiše
@@ -454,22 +303,8 @@ Primer istog iskaza upotrebom dve različite konkretne sintakse
   jezik. Definisan u hardveru računara (procesoru).
   
 
-
----
-name: klasifikacija
-layout: false
-class: center, middle
-
-# Klasifikacija
-
----
-layout: true
-
-.section[[Klasifikacija](#sadrzaj)]
-
----
-
-## Podela JSD prema vrsti konkretne sintakse
+* Klasifikacija
+** Podela JSD prema vrsti konkretne sintakse
 
 - Tekstualni
 - Grafički
@@ -478,10 +313,7 @@ layout: true
 - ...
 - Hibridni - kombinacija više osnovnih
 
----
-
-
-## Tekstualne sintakse - prednosti i mane
+** Tekstualne sintakse - prednosti i mane
 
 - Programeri se osećaju "kod kuće".
 - Mogu se koristiti regularni tekst editori.
@@ -491,10 +323,7 @@ layout: true
 - Mana: Nije pogodna za opis i razumevanje strukture koja nije linearne prirode
   (grafovi, tabele itd.).
   
----
-
-
-## Grafičke sintakse - prednosti
+** Grafičke sintakse - prednosti
 
 - Razumevanje strukture. Podržano operacijama *zoom*, *pan* i sl.
 - Često razumljivije domenskim ekspertima (najčešće je domenski jezik grafičke
@@ -502,9 +331,7 @@ layout: true
 - Intuitivniji i lakši za učenje - učenje kroz isprobavanje (paleta sa alatima i
   konceptima, onemogućavanje kreiranje nevalidnih konstrukcija itd.).
 
----
-
-## Grafičke sintakse - mane
+** Grafičke sintakse - mane
 
 - Još uvek složeniji za implementaciju i održavanje.
 - Za serijalizaciju se koristi format koji se razlikuje od prezentacionog.
@@ -512,29 +339,23 @@ layout: true
   Potrebno je razviti poseban VCS alat.
 - Zahteva namenske editore.
 
----
+** Podela prema vrsti domena
 
-## Podela prema vrsti domena
+#+ATTR_ORG: :width 100%
+[[./images/HorizontalniVertikalniDSL.svg]]
 
-![:scale 90%](uvod/HorizontalniVertikalniDSL.svg)
+** Podela JSD prema načinu implementacije
 
----
-
-## Podela JSD prema načinu implementacije
-
-- **Interni** - Nastali su na bazi već postojećih programskih jezika (najčešće
+- *Interni* - Nastali su na bazi već postojećih programskih jezika (najčešće
   JON).
-- **Eksterni** - Izrađeni "on nule" definisanjem sintakse i implementacijom
+- *Eksterni* - Izrađeni "on nule" definisanjem sintakse i implementacijom
   kompajlera koji prevodi programe pisane na ovom jeziku na neki drugi jezik
   (najčešće JON) ili se program direktno interpretira.
   
-.footer[
-  M. Fowler, *Domain-Specific Languages*. Addison-Wesley Professional, 1 ed., Oct. 2010
-]
+#+attr_html: :class footer :style clear: both;
+M. Fowler, /Domain-Specific Languages/. Addison-Wesley Professional, 1 ed., Oct. 2010
 
----
-
-## Interni JSD
+** Interni JSD
 
 - Bazirani na postojećem jeziku i alatima. Najčešće tekstualni.
 - Koriste svu infrastrukturu jezika domaćina (editore, debagere,
@@ -548,35 +369,26 @@ layout: true
 - Svaka namenska biblioteka može se smatrati internim JSD (API bazirani)...
 - ... ali konkretna sintaksa takvog jezika nije prilagođena domenu.
 
-
----
-
-## Eksterni JSD
-
+** Eksterni JSD
+   
 - Izrađeni "on nule" - skuplji razvoj i održavanje.
 - Puna kontrola konkretne sintakse - bolje prilagođavanje domenskim ekspertima.
 - Editori i svi propratni alati takođe moraju da se prave "od nule"...
 - ...mada danas postoje alati koji nam taj posao olakšavaju.
 
----
+** Neki od poznatijih eksternih JSD
 
-## Neki od poznatijih eksternih JSD
+- *SQL*: tekstualni, domen - rad sa relacionim bazama podataka
+- *HTML*: tekstualni, domen - definisanje sadržaja na vebu
+- *CSS*: tekstualni, domen - stilizovanje sadržaja
+- *make*: tekstualni, domen - izgradnja aplikacije (build)
+- *LaTeX*: tekstualni, domen: kreiranje štampanih materijala (/typesetting/)
+- *Window Builder*: GUI baziran, domen - izgradnja interfejsa
+- *R*: tekstualni, domen - statistička obrada podataka
 
-- **SQL**: tekstualni, domen - rad sa relacionim bazama podataka
-- **HTML**: tekstualni, domen - definisanje sadržaja na vebu
-- **CSS**: tekstualni, domen - stilizovanje sadržaja
-- **make**: tekstualni, domen - izgradnja aplikacije (build)
-- **LaTeX**: tekstualni, domen: kreiranje štampanih materijala (*typesetting*)
-- **Window Builder**: GUI baziran, domen - izgradnja interfejsa
-- **R**: tekstualni, domen - statistička obrada podataka
+** Primer: Interni JSD za definisanje email-a (*JavaMail API*)
 
-
----
-
-
-## Primer: Interni JSD za definisanje email-a (*JavaMail API*)
-
-```java
+#+BEGIN_SRC java
 MimeMessage message = new MimeMessage(session);
 
 message.setFrom(new InternetAddress(from));
@@ -588,14 +400,11 @@ message.setSubject("Greetings from Novi Sad");
 message.setText("Enjoying my stay in Novi Sad! See you soon!");
 
 Transport.send(message);
-```
+#+END_SRC
 
----
+** Primer: Hipotetički eksterni JSD za definisanje email-a
 
-
-## Primer: Hipotetički eksterni JSD za definisanje email-a
-
-```
+#+BEGIN_SRC
 BEGIN myMail
   FROM me@myself.com
   TO myfriend@somewhere.org
@@ -605,16 +414,13 @@ Enjoying my stay in Novi Sad! See you soon!
 
 END
 SEND myMail
-```
+#+END_SRC
 
----
-
-
-## Primer
+** Primer
 
 Interni JSD za definisanje grafički korisničkih interfejsa (*Swing*)
 
-```java
+#+BEGIN_SRC java
 public DSLKurs() {
     setBounds(100, 100, 450, 300);
     getContentPane().setLayout(new BorderLayout());
@@ -633,66 +439,48 @@ public DSLKurs() {
                   FormFactory.RELATED_GAP_ROWSPEC,
                   FormFactory.DEFAULT_ROWSPEC,}));
     ....
-    
-```
+#+END_SRC
 
----
+** Primer
 
+Eksterni JSD za definisanje grafički korisničkih interfejsa (/WindowBuilder/)
 
-## Primer
+#+ATTR_ORG: :width 180%
+[[./images/GUIDSL-External.png]]
 
-Eksterni JSD za definisanje grafički korisničkih interfejsa (*WindowBuilder*)
-
-![:scale 70%](uvod/GUIDSL-External.png)
-
----
-
-
-## Primer
+** Primer
 
 Interni JSD za definisanje gramatike jezika (*Arpeggio Python*)
 
-```python
+#+BEGIN_SRC python
 def number():     return _(r'\d*\.\d*|\d+')
 def factor():     return Optional(["+","-"]), [number,
                           ("(", expression, ")")]
 def term():       return factor, ZeroOrMore(["*","/"], factor)
 def expression(): return term, ZeroOrMore(["+", "-"], term)
 def calc():       return OneOrMore(expression), EOF
-```
+#+END_SRC
 
----
-
-
-## Primer
+** Primer
 
 Eksterni JSD za definisanje gramatike jezika (*Arpeggio PEG*)
 
-```
+#+BEGIN_SRC
 number = r'\d*\.\d*|\d+'
 factor = ("+" / "-")?
         (number / "(" expression ")")
 term = factor (( "*" / "/") factor)*
 expression = term (("+" / "-") term)*
 calc = expression+ EOF
-```
+#+END_SRC
 
----
-layout: false
-class: center, middle
-
-# Konkretna sintaksa je važna!!!
-
-## Neki jezici su pogodniji za kreiranje internih JSD
-
----
-layout: true
-
-.section[[Klasifikacija](#sadrzaj)]
-
----
-
-## Jezici pogodni za kreiranje internih JSD
+** Konkretna sintaksa je važna!!!
+*** Neki jezici su pogodniji za kreiranje internih JSD
+    :PROPERTIES:
+    :UNNUMBERED: notoc
+    :NOSLIDE:  t
+    :END:
+** Jezici pogodni za kreiranje internih JSD
 
 - Ruby
 - Groovy
@@ -702,10 +490,9 @@ layout: true
 
 ---
 
+** Primer internog JSD (/Ruby Sinatra/)
 
-## Primer internog JSD (*Ruby Sinatra*)
-
-```ruby
+#+BEGIN_SRC ruby
 get '/dogs' do
     # get a listing of all the dogs
 end
@@ -723,14 +510,11 @@ end
 delete '/dog/:id' do
     # HTTP DELETE request method to remove a dog who's been sold!
 end
-```
+#+END_SRC
 
----
+** Primer internog JSD (/Groovy Gradle/)
 
-
-## Primer internog JSD (Groovy Gradle)
-
-```groovy
+#+BEGIN_SRC groovy
 repositories {
     mavenCentral()
 }
@@ -745,129 +529,85 @@ dependencies {
     }
     testCompile 'org.spockframework:spock­core:0.6­groovy­1.8'
 }
-```
+#+END_SRC
 
----
-layout: false
-class: center, middle
+** Eksterni JSD omogućavaju potpuno prilagođavanje domenu.
+** Interni JSD za muzičku notaciju
 
-# Eksterni JSD omogućavaju potpuno prilagođavanje domenu.
-
-
----
-layout: true
-
-.section[[Klasifikacija](#sadrzaj)]
-
----
-
-## Interni JSD za muzičku notaciju
-
-```java
+#+BEGIN_SRC java
 Score k = new Score(Tonality.G_major);
 Bar bar = new Bar(BarType.4_4);
 t.addPause(Duration.1_4);
 t.addNote(NoteType.A3, Duration.1_4);
 t.addNote(NoteType.C2, Duration.1_4);
 k.addBar(bar);
-```
+#+END_SRC
 
----
-
-## Eksterni JSD za muzičku notaciju
+** Eksterni JSD za muzičku notaciju
 
 U eksternoj varijanti možemo u potpunosti prilagoditi konkretnu sintaksu
 domenskim ekspertima.
 
-.center[
-![:scale 80%](uvod/MusicNotation-External.png)
-]
+#+ATTR_ORG: :width 100%
+[[./images/MusicNotation-External.png]]
 
----
-
-## Lilypond note script
+** Lilypond note script
 
 Ali se dešava da i u eksternoj varijanti JSD nije prilagođen domenskim
 ekspertima.
 
-![](uvod/Lilypond.png)
+#+ATTR_ORG: :width 100%
+[[./images/Lilypond.png]]
 
----
-
-## Kritike JDS
+** Kritike JDS
 
 - Skup razvoj i održavanje jezika.
 - Potreba za ekspertima u domenu razvoja jezika koji su istovremeno sposobni da
   analiziraju domen primene.
-- Jezička "kakofonija" (*Language Cacophony* .ref[1])i potreba da programeri
-  poznaju veliki broj jezika (poseban jezik za svaki tehnički i/ili poslovni
-  domen).
+- Jezička "kakofonija" (/Language Cacophony/)^{1} i potreba da programeri poznaju
+  veliki broj jezika (poseban jezik za svaki tehnički i/ili poslovni domen).
 
-.footer[
-    M. Fowler, *Language workbenches: The killer-app for domain specific
-        languages*, Online
-        http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
-]
+#+attr_html: :class footer :style clear: both;
+1. M. Fowler, /Language workbenches: The killer-app for domain specific
+   languages/, Online http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
 
-
----
-name: radionice
-layout: false
-class: center, middle
-
-# Jezičke radionice
-
----
-layout: true
-
-.section[[Jezičke radionice](#sadrzaj)]
-
----
-
-
-## Jezičke radionice (*Language Workbenches*)
+   
+* Jezičke radionice (/Language Workbenches/)
+** Jezičke radionice (/Language Workbenches/)
 
 - Integrisana okruženja za razvoj, testiranje i evoluciju jezika i alata za
   njihovo efikasno korišćenje (editori, interpreteri, kompajleri i sl.). Koriste
-  se kod paradigme razvoja orijentisane ka jezicima (*Language Oriented
-  Programming - LOP*).ref[*]
+  se kod paradigme razvoja orijentisane ka jezicima (/Language Oriented
+  Programming - LOP/)^{1}.
 - Rešavaju problem brzine razvoja i lakoće održavanja JSD.
 - Primeri jezičkih radionica:
   - Meta Programming System (MPS)
   - Xtext
   - Spoofax
 
-.footer[
-\* M. Fowler, *Language workbenches: The killer-app for domain specific
-   languages*, Online
-   http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
-]
+#+attr_html: :class footer :style clear: both;
+1. M. Fowler, /Language workbenches: The killer-app for domain specific languages/, Online http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
 
+** Pristupi
 
----
-
-## Pristupi
-
-.medium[
 - Projekcione radionice - direktna izmena apstraktne reprezentacije kroz
   projekciju.
  
-  ![:scale 45%](uvod/projekcija.svg)
-  
+  #+ATTR_ORG: :width 100%
+  #+ATTR_HTML: :style height: 270px;
+  [[./images/projekcija.png]]
+
 - Bazirane na parserima - izmena se vrši posredno kroz tekst koji se parsira da
   bi se dobila apstraktna reprezentacija.
 
-  ![:scale 80%](uvod/parseri.svg)
+  #+ATTR_ORG: :width 100%
+  #+ATTR_HTML: :style height: 270px;
+  [[./images/parseri.png]]
 
-]
+#+attr_html: :class footer :style clear: both; margin-top: 0px;
+Eye icon designed by Freepik. Hand icon by Yannick Lung.
 
-.footer[
-.small[Eye icon designed by Freepik. Hand icon by Yannick Lung.]
-]
-
----
-
-## Projekcione radionice
+** Projekcione radionice
 
 - Prednosti:
   - Moguće višestruke konkretne sintakse (tekstualne, grafičke, tabelarne...) -
@@ -882,9 +622,7 @@ layout: true
     bazirane na tekstu.
   - Moraju se razviti namenski generički editori za svaku klasu konkretnih sintaksi.
   
----
-
-## Radionice bazirane na parserima
+** Radionice bazirane na parserima
 
 - Prednosti:
   - Jednostavnije za izradu i održavanje.
@@ -892,15 +630,13 @@ layout: true
   - Moguće koristiti obične tekstualne editore.
   - Moguće koristiti standardne sisteme za kontrolu verzija (npr. git,
     subversion).
-  - Jednostavno kopiranje i lepljenje (eng. *copy/paste*).
+  - Jednostavno kopiranje i lepljenje (eng. /copy/paste/).
 
 - Mane:
   - Moguća samo tekstualna sintaksa -> ograničeno prilagođavanje domenu.
   - Provera validnosti se odlaže do faze parsiranja.
   
----
-
-## *Meta Programming System (MPS)*
+** /Meta Programming System (MPS)/
 
 - JetBrains - http://www.jetbrains.com/mps/
 - Projekciona jezička radionica - editori manipulišu direktno apstraktnom
@@ -910,139 +646,92 @@ layout: true
   bazirani na ćelijama, grafičke.
 - Podrška za kontrolu verzija.
 
----
+** /Meta Programming System/ - karakterističan izgled
 
-## *Meta Programming System* - karakterističan izgled
+#+ATTR_ORG: :width 100%
+[[./images/MPS.png]]
 
-![:scale 70%](uvod/MPS.png)
-
-.footer[
+#+attr_html: :class footer :style clear: both;
 http://www.jetbrains.com/mps/docs/tutorial.html
-]
 
----
+** Xtext
 
-## Xtext
-
-- Nastao kao deo projekta slobodnog softvera - *openArchitectureWare*.
-- Iza razvoja u najvećoj meri stoji nemačka
-  firma [Itemis](https://www.itemis.com/en/).
+- Nastao kao deo projekta slobodnog softvera - /openArchitectureWare/.
+- Iza razvoja u najvećoj meri stoji nemačka firma [[https://www.itemis.com/en/][Itemis]].
 - Postao deo Eclipse projekta.
 - Tekstualne sintakse. EBNF-like gramatika.
-- Upotreba ECore meta-metamodela.ref[1]. Meta-model se generiše iz gramatike a
-  može da koristi i već postojeći meta-model.
+- Upotreba ECore meta-metamodela^{1}. Meta-model se generiše iz gramatike a može
+  da koristi i već postojeći meta-model.
 - Generisanje Eclipse editora sa podrškom za bojenje sintakse, navigaciju,
-  *outline* pogled itd.
+  /outline/ pogled itd.
 - Xtext bazirani JSD se duboko integriše u Eclipse okruženje i teško je uočiti
   razliku sa podrškom za bilo koji drugi jezik sa Eclipse podrškom (npr. Java).
 
-.footer[
-http://www.eclipse.org/modeling/emf/
-]
+#+attr_html: :class footer :style clear: both;
+1. http://www.eclipse.org/modeling/emf/
 
----
+** Xtext - /Little tortoise/ jezik
 
-## Xtext - *Little tortoise* jezik
+#+ATTR_ORG: :width 100%
+[[./images/xText-tortoise.png]]
 
-.center[
-![:scale 70%](uvod/xText-tortoise.png)
-]
-
-.footer[
+#+attr_html: :class footer :style clear: both;
 http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise
-]
 
----
+** Xtext - /Little tortoise/ gramatika
 
+#+ATTR_ORG: :width 100%
+[[./images/xText-grammar.png]]
 
-## Xtext - *Little tortoise* gramatika
-
-.center[
-![:scale 75%](uvod/xText-grammar.png)
-]
-
-.footer[
+#+attr_html: :class footer :style clear: both;
 http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise
-]
 
----
+** Xtext - primeri
 
-## Xtext - primeri
+Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati
+http://www.eclipse.org/Xtext/7languagesDoc.html
 
-Za dokumentaciju sa primerom izgradnje 7 različitih jezika pogledati http://www.eclipse.org/Xtext/7languagesDoc.html
-
----
-
-## Spoofax
+** Spoofax
 
 - Kao i Xtext baziran na parsiranju i tekstualnim sintaksama. Kreira punu
   podršku za jezik u vidu Eclipse priključaka.
 - Istraživački projekat na TU Delft u Holandiji.
-- Gramatika jezika se definiše meta-jezikom SDF (*Syntax Definition Formalism*).
-- Parser koristi SGLR algoritam (*Scanerless GLR*) i omogućava parsiranje punog
+- Gramatika jezika se definiše meta-jezikom SDF (/Syntax Definition Formalism/).
+- Parser koristi SGLR algoritam (/Scanerless GLR/) i omogućava parsiranje punog
   skupa kontekstno slobodnih gramatika. U slučaju neodređenosti parser vraća
-  šumu parsiranja (*parse forest*) dok u slučaju determinističke gramatike vraća
-  uvek stablo parsiranja (*parse tree*).
-- Za tranformaciju programa i prepisivanje stabala koristi se JSD *Stratego*.
+  šumu parsiranja (/parse forest/) dok u slučaju determinističke gramatike vraća
+  uvek stablo parsiranja (/parse tree/).
+- Za tranformaciju programa i prepisivanje stabala koristi se JSD /Stratego/.
 
----
+** Spoofax - karakterističan izgled
 
-## Spoofax - karakterističan izgled
+#+ATTR_ORG: :width 100%
+[[./images/Spoofax-prikaz.png]]
 
-![:scale 80%](uvod/Spoofax-prikaz.png)
+** Inženjerstvo softverskih jezika
 
----
-
-## Inženjerstvo softverskih jezika
-
-- *Software Language Engineering - SLE*.
+- /Software Language Engineering - SLE/.
 - Pravac i pogled na razvoj softverskih jezika koji pokušava da ujedini sve
   druge pravce koji u osnovi imaju razvoj i upotrebu softverskih jezika
-  (*MDE/MDA/DSM*.., ontologije, *grammarware*, *Language Oriented
-  Programming*...).
+  (/MDE/MDA/DSM/.., ontologije, /grammarware/, /Language Oriented
+  Programming/...).
 - Jedna od ideja je izjednačavanje modela i programa - kao jedinstven naziv
-  predložen je *mogram*.ref[*].
+  predložen je /mogram/^{*}.
 
-.footer[
-  `*` A. Kleppe, *Software language engineering: creating domain-specific
-  languages using metamodels*. Addison-Wesley, 2009
-]
-
----
-
-## Literatura
-
-- M. Völter, [DSL Engineering: Designing, Implementing and Using
-  Domain-Specific Languages](http://dslbook.org/). 2013
-- S. Kelly and J.-P. Tolvanen, *Domain-Specific Modeling: Enabling Full Code
-  Generation*. Wiley-IEEE Computer Society Pr, March 2008
-- Federico Tomassetti, [*The complete guide to (external) Domain Specific
-  Languages*](https://tomassetti.me/domain-specific-languages/), published
-  on [the author's blog](https://tomassetti.me/), February 2017.
-- I.
-  Dejanović,
-  [Prilog metodama brzog razvoja softvera na bazi proširivih jezičkih specifikacija](http://doiserbia.nb.rs/phd/fulltext/NS20110103DEJANOVIC.pdf).
-  PhD thesis, Faculty of Technical Sciences, University of Novi Sad, January
-  2012
+#+attr_html: :class footer :style clear: both;
+=*= A. Kleppe, /Software language engineering: creating domain-specific
+languages using metamodels/. Addison-Wesley, 2009
 
 
+* Literatura
 
-    </textarea>
-    <script src="../remark-latest.min.js"></script>
-    <script>
-        // https://github.com/gnab/remark/issues/72
-        remark.macros.scale = function (percentage) {
-            var url = this;
-            return '<div class="center"><img src="'
-                 + url + '" style="width: ' + percentage + '" /></div>';
-        };
-        var slideshow = remark.create({
-                    highlightLanguage: 'python',
-                    // highlightStyle: 'obsidian',
-                    highlightStyle: 'github',
-                    highlightLines: true
-                });
-    </script>
-    
-  </body>
-</html>
+- M. Völter, [[http://dslbook.org/][/DSL Engineering: Designing, Implementing and Using Domain-Specific
+  Languages/]]. 2013
+- S. Kelly and J.-P. Tolvanen, /Domain-Specific Modeling: Enabling Full Code
+  Generation/. Wiley-IEEE Computer Society Pr, March 2008
+- Federico Tomassetti, [[https://tomassetti.me/domain-specific-languages/][/The complete guide to (external) Domain Specific
+  Languages/]], published on [[https://tomassetti.me/][the author's blog]], February 2017.
+- I. Dejanović, [[http://doiserbia.nb.rs/phd/fulltext/NS20110103DEJANOVIC.pdf][/Prilog metodama brzog razvoja softvera na bazi proširivih
+  jezičkih specifikacija/]]. PhD thesis, Faculty of Technical Sciences, University
+  of Novi Sad, January 2012.
+  

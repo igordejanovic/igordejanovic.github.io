@@ -1,37 +1,21 @@
-{% extends "base_slides.md" %}
-{% block slides %}
-name: sadrzaj
+#+TITLE: Jezici specifični za domen
+#+SUBTITLE: Jezičke sintakse i meta-modelovanje
+#+SETUPFILE: ../../courses-startup.org
 
-# Sadržaj
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
 
-- [Sintakse](#sintakse)
-- [Sekundarna sintaksa](#sekundarna)
-- [Meta-modelovanje](#meta-modelovanje)
-- [Meta-metamodeli](#meta-metamodeli)
-- [Stek za meta-modelovanje](#stek)
-
----
-name: pregled
-class: center, middle
-
-# Sintakse
-
----
-layout: true
-
-.section[[Sintakse](#sadrzaj)]
-
----
-
-## Tehnike i tehnologije za implementaciju DSL-ova
+* Sintakse
+** Tehnike i tehnologije za implementaciju DSL-ova
 
 - Parser generatori/interpreteri
 - Meta-modelovanje
 - Druge tehnike: ontologije, XML tehnologije...
 
----
-
-## Konkretna sintaksa
+** Konkretna sintaksa
 
 - Da bi mogram prikazali korisniku potrebna nam je konkretna sintaksa.
 - Konkretna sintaksa definiše "izgled" iskaza na nekom jeziku, odnosno u širem
@@ -42,23 +26,18 @@ layout: true
 - Konkretne sintakse mogu biti tekstualne, grafičke, tabelarne, tipa stabla,
   bazirane na dijalozima ...
 
----
+** Primer istog iskaza upotrebom dve različite konkretne sintakse
 
-## Primer istog iskaza upotrebom dve različite konkretne sintakse
+#+ATTR_ORG: :width 100%
+[[./images/RazliciteSintakse.png]]
 
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/RazliciteSintakse.png)
-
----
-
-## Parsiranje - sintaksna analiza
+** Parsiranje - sintaksna analiza
 
 - Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
   gramatike jezika.
 - Transformacija ulaznog stringa u stablo parsiranja.
 
----
-
-## Stablo parsiranja
+** Stablo parsiranja
 
 - Nastaje iz niske simbola (ulaznog stringa) procesom skeniranja (tokenizacije
   ili leksičke analize) i parsiranja.
@@ -67,59 +46,50 @@ layout: true
 - Stablo parsiranja reflektuje sintaksnu strukturu ulaznog stringa na bazi
   unapred definisane formalne gramatike.
   
----
+** Stablo parsiranja - Primer
 
-## Stablo parsiranja - Primer
+#+ATTR_ORG: :width 100%
+[[./images/calc_parse_tree.svg]]
 
-![](jezicke-sintakse-i-metamodelovanje/calc_parse_tree.svg)
-
----
-
-## Apstraktna sintaksa
+** Apstraktna sintaksa
 
 - Određuje pravila validnosti jezičkih iskaza sa stanovišta njegove strukture
   bez razmatranja konkretne reprezentacije iskaza (konkretne sintakse).
 - Definiše strukture validnih rečenica sa stanovišta jezika.
 - Sadrži koncepte domena, njihove osobine i međusobne relacije.
 - Jezici za definisanje apstraktnih sintaksi jezika se u domenu modelovanja
-  nazivaju meta-meta-modelima.ref[*].
-  
-.footer[
-\* Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
-   čine i konkretne sintakse i semantika. 
-]
+  nazivaju meta-meta-modelima^{*}.
 
----
+#+attr_html: :class footer :style clear: both;
+=*= Preciznije, meta-metamodel je apstraktna sintaksa takvog jezika. Jezik još
+čine i konkretne sintakse i semantika.
 
-## Primer - apstraktna sintaksa jezika za opis konačnih automata
+** Primer - apstraktna sintaksa jezika za opis konačnih automata
 
-![](jezicke-sintakse-i-metamodelovanje/StateMachine.svg)
+#+ATTR_ORG: :width 100%
+#+ATTR_HTML: :style height: 700px;
+[[./images/StateMachine.svg]]
 
+** Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze
 
----
+#+ATTR_ORG: :width 100%
+#+ATTR_HTML: :style height: 700px;
+[[./images/AST-Expression.png]]
 
-## Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze
-
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/AST-Expression.png)
-
----
-
-## Stablo apstraktne sintakse
+** Stablo apstraktne sintakse
 
 - Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
-  apstraktne sintakse (*Abstract Syntax Tree*).
+  apstraktne sintakse (/Abstract Syntax Tree/).
 - AST je usmereno labelirano stablo gde čvorovi stabla predstavljaju instance
   koncepata apstraktne sintakse.
   
----
+** Primer stabla apstraktne sintakse
 
-## Primer stabla apstraktne sintakse
+#+ATTR_ORG: :width 100%
+#+ATTR_HTML: :style height: 800px;
+[[./images/AST.svg]]
 
-![](jezicke-sintakse-i-metamodelovanje/AST.svg)
-
----
-
-## Razlike između stabla apstraktne i konkretne sintakse
+** Razlike između stabla apstraktne i konkretne sintakse
 
 - Stablo konkretne sintakse je bazirano na formalnoj gramatici koja opisuje
   detalje zapisa u tekstualnom obliku.
@@ -127,80 +97,60 @@ layout: true
 - Možemo imati više gramatika za isti jezik odnosno jedno stablo apstraktne
   sintakse možemo zapisati na više različitih načina što rezultuje različitim
   stablima konkretne sintakse.
-- **Primer:** Izraz `-(4-1)*5/(2+4.67)` možemo u postfiksnoj notaciji zapisati
-  kao `4 1 - 5 * 2 4.67 + / -`. Ovo će rezultovati različitim stablima
-  parsiranja ali je suština izraza ista i može rezultovati istim stablom
-  apstraktne sintakse.
+- *Primer:* Izraz =-(4-1)*5/(2+4.67)= možemo u postfiksnoj notaciji zapisati kao
+  =4 1 - 5 * 2 4.67 + / -=. Ovo će rezultovati različitim stablima parsiranja
+  ali je suština izraza ista i može rezultovati istim stablom apstraktne
+  sintakse.
 
-
----
-name: sekundarna-sintaksa
-class: center, middle
-layout: false
-
-# Sekundarna sintaksa
-
----
-layout: true
-
-.section[[Sekundarna sintaksa](#sadrzaj)]
-
----
-
-## Sekundarna sintaksa
-
+* Sekundarna sintaksa
+** Sekundarna sintaksa
 
 - Iako konkretna sintaksa nameće svoja pravila, gotovo uvek postoji određena
   sloboda koja se ostavlja korisniku i koja omogućava da se mogram koji je isti
   sa stanoviša apstraktne sintakse (isto stablo apstraktne sintakse) prezentuje
   na različite načine.
 - Primeri:
-
-  - "Prazni" karakteri kod tekstualnih sintaksi (*white-spaces*) najčešće nemaju
+  - "Prazni" karakteri kod tekstualnih sintaksi (/white-spaces/) najčešće nemaju
     semantičkog značaja pa se mogu koristiti na različite načine (kod se može
     nazubljivati na više načina).
   - Položaji, boja i veličine simbola kod grafičkih sintaksi najčešće nemaju
     semantičkog značenja pa korisnik može da iskoristi ove osobine da enkoduje
     neko svoje značenje.
     
----
-
-## Problemi sa sekundarnom sintaksom
+** Problemi sa sekundarnom sintaksom
 
 - Sekundarna sintaksa se može koristiti na proizvoljan način.
 - Svaki korisnik razvija svoj stil upotrebe sekundarne sintakse što može
   prouzrokovati pogrešno ili otežano tumačenje.
-  
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/Sekundarna.png)
 
-.center[Da li su ova dva mograma ista?]
+#+ATTR_ORG: :width 100%
+[[./images/Sekundarna.png]]
 
----
+#+ATTR_HTML: :style text-align: center;
+Da li su ova dva mograma ista?
 
-## Problemi sa sekundarnom sintaksom
+** Problemi sa sekundarnom sintaksom
 
-![](jezicke-sintakse-i-metamodelovanje/Sekundarna2.png)
+#+ATTR_ORG: :width 100%
+[[./images/Sekundarna2.png]]
 
-.center[A sada?]
+#+ATTR_HTML: :style text-align: center;
+A sada?
 
----
+** Moguća rešenja
 
-## Moguća rešenja
-
-- Definisanje stila kodiranja - *coding style* (kod tekstualnih) koga se
+- Definisanje stila kodiranja - /coding style/ (kod tekstualnih) koga se
   pridržavaju svi programeri. Potrebna je određena doza discipline.
 - Smanjenje korisničke slobode - ugrađivanje mogućih elemenata sekundarne
   sintakse u formalni jezik. Alati će sprečiti neispravnu upotrebu.
   
----
-
-## Primer - Python
+** Primer - Python
 
 - Python koristi identaciju koda za kontrolu toka programa.
 - Jedan od razloga čitljivosti Python koda - svi programeri moraju ispravno da
-  *nazubljuju* kod.
+  /nazubljuju/ kod.
 
-```python
+#+BEGIN_SRC python
 def inner_from_python(expression):
     retval = None
     if isinstance(expression, types.FunctionType):
@@ -217,45 +167,29 @@ def inner_from_python(expression):
                           .format(c_rule.target_rule_name))
             return c_rule
         ...
-```
+#+END_SRC
 
----
+** Pristupi u realizaciji editora za DSL-ove
 
-## Pristupi u realizaciji editora za DSL-ove
-
-.medium[
-- Direktna izmena apstraktne reprezentacije kroz projekciju.
+- Projekcione radionice - direktna izmena apstraktne reprezentacije kroz
+  projekciju.
  
-  ![:scale 50%](jezicke-sintakse-i-metamodelovanje/projekcija.svg)
-  
-- Parsiranje - izmena se vrši posredno kroz tekst koji se parsira da bi se
-  dobila apstraktna reprezentacija.
+  #+ATTR_ORG: :width 100%
+  #+ATTR_HTML: :style height: 270px;
+  [[./images/projekcija.png]]
 
-  ![:scale 80%](jezicke-sintakse-i-metamodelovanje/parseri.svg)
+- Bazirane na parserima - izmena se vrši posredno kroz tekst koji se parsira da
+  bi se dobila apstraktna reprezentacija.
 
-]
+  #+ATTR_ORG: :width 100%
+  #+ATTR_HTML: :style height: 270px;
+  [[./images/parseri.png]]
 
-.footer[
-.small[Eye icon designed by Freepik. Hand icon by Yannick Lung.]
-]
+#+attr_html: :class footer :style clear: both; margin-top: 0px;
+Eye icon designed by Freepik. Hand icon by Yannick Lung.
 
-
-
----
-name: meta-modelovanje
-class: center, middle
-layout: false
-
-# Meta-modelovanje
-
----
-layout: true
-
-.section[[Meta-modelovanje](#sadrzaj)]
-
----
-
-## Model
+* Meta-modelovanje
+** Model
 
 - Modelovanje je esencijalno za ljudsku aktivnost jer svakoj akciji prethodi,
   eksplicitno ili implicitno, kreiranje modela.
@@ -264,38 +198,29 @@ layout: true
   da se izgradi.
 - Model predstavlja opis, ili specifikaciju sistema i njegovog okruženja kreiran
   za određenu namenu. Najčešće je model predstavljen kao kombinacija crteža i
-  teksta. Tekst može biti zadat jezikom za modelovanje ili prirodnim jezikom
-  .ref[*].
+  teksta. Tekst može biti zadat jezikom za modelovanje ili prirodnim jezikom^{*}.
 
-.footer[
-\* J. Miller, J. Mukerji, et al., *MDA Guide Version 1.0.1*, Object
-   Management Group, vol. 234, 2003
-]
+#+attr_html: :class footer :style clear: both;
+=*= J. Miller, J. Mukerji, et al., /MDA Guide Version 1.0.1/, Object Management
+Group, vol. 234, 2003
 
----
+** Model - drugi pokušaj
 
-## Model - drugi pokušaj
+#+BEGIN_QUOTE
+Model predstavlja /pojednostavljenje sistema/ sa određenim ciljem. Model
+treba da odgovori na pitanja umesto stvarnog sistema. /Odgovori/ dobijeni od
+modela /moraju da budu isti/ kao i oni dobijeni od realnog sistema, pod uslovom
+da se pitanja nalaze u domenu definisanom ciljem modela. Da bi bio koristan,
+model mora biti /jednostavniji za upotrebu/ od realnog sistema. Da bi se ovo
+postiglo, mnogi detalji realnog sistema su /apstrahovani/ i izostavljeni. Ovo
+pojednostavljenje je srž modelovanja.
+#+END_QUOTE
 
-.medium[
+#+attr_html: :class footer :style clear: both;
+J. Bézivin and O. Gerbé, /Towards a precise definition of the OMG/MDA
+framework/, in ase, p. 273, Published by the IEEE Computer Society, 2001
 
-> ...Model predstavlja **pojednostavljenje sistema** sa određenim ciljem. Model
-> treba da odgovori na pitanja umesto stvarnog sistema. **Odgovori** dobijeni od
-> modela **moraju da budu isti** kao i oni dobijeni od realnog sistema, pod
-> uslovom da se pitanja nalaze u domenu definisanom ciljem modela. Da bi bio
-> koristan, model mora biti **jednostavniji za upotrebu** od realnog sistema. Da
-> bi se ovo postiglo, mnogi detalji realnog sistema su **apstrahovani** i
-> izostavljeni. Ovo pojednostavljenje je srž modelovanja...
-
-]
-            
-.footer[
-  J. Bézivin and O. Gerbé, *Towards a precise definition of the OMG/MDA
-  framework*, in ase, p. 273, Published by the IEEE Computer Society, 2001
-]
-
----
-
-## Osnovne karakteristike modela
+** Osnovne karakteristike modela
 
 - Model ne predstavljaju samo crteži i tekstualni opisi. Model može imati
   materijalnu formu npr. može biti model/maketa aviona, pojednostavljena verzija
@@ -306,90 +231,75 @@ layout: true
   kao modelovani sistem ali možemo očekivati da razlike (greške) budu u
   projektovanim granicama.
   
----
-
-## Meta-model
+** Meta-model
 
 - Kada kreiramo model sistema moramo poštovati određena pravila odnosno moramo
   koristiti određeni jezik za modelovanje.
 - Jezik može biti opšte namene (npr. UML) ili specifičan za domen.
 - Takav jezik predstavlja eksplicitnu specifikaciju korišćene apstrakcije pri
-  modelovanju.ref[*].
+  modelovanju^{*}.
 - Apstraktna sintaksa datog jezika u svetu modelovanja je takođe predstavljena
   kao model. Ovakav model nazivamo meta-modelom.
 - Meta-model sadrži koncepte domena, njihove međusobne veze i ograničenja.
 
+#+attr_html: :class footer :style clear: both;
+=*= J. Bézivin and O. Gerbé, /Towards a precise definition of the OMG/MDA
+framework/, in ase, p. 273, Published by the IEEE Computer Society, 2001
 
-.footer[
-\* J. Bézivin and O. Gerbé, *Towards a precise definition of the OMG/MDA
-   framework*, in ase, p. 273, Published by the IEEE Computer Society, 2001
-]
+** Primer - meta-model jezika za opis konačnih automata
 
----
+#+ATTR_ORG: :width 100%
+#+ATTR_HTML: :style height: 700px;
+[[./images/StateMachine.svg]]
 
-## Primer - meta-model jezika za opis konačnih automata
+#+ATTR_HTML: :style text-align: center;
+Apstraktna sintaksa je meta-model
 
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/StateMachine.svg)
-
-.center[Apstraktna sintaksa je meta-model]
-
----
-
-## Operacije koje koristimo pri (meta)modelovanju
+** Operacije koje koristimo pri (meta)modelovanju
 
 - Apstrakcija
 - Klasifikacija
 - Generalizacija
 
----
-
-## Apstrakcija
+** Apstrakcija
 
 - Jedno od osnovnih oruđa ljudskog intelekta.
 - Proces zanemarivanja nebitnih informacija prilikom kreiranja modela.
 
-![:scale 50%](jezicke-sintakse-i-metamodelovanje/apstrakcija.svg)
+#+ATTR_ORG: :width 100%
+[[./images/apstrakcija.svg]]
 
----
+** Apstrakcija
 
-## Apstrakcija
+#+BEGIN_QUOTE
+If you assume a certain basic knowledge in the audience, you can talk in a
+language that deals with bigger concepts, and express things in a much shorter
+and clearer way. This, more or less, is what abstraction is.
+#+END_QUOTE
 
-> If you assume a certain basic knowledge in the audience, you can talk in a
-> language that deals with bigger concepts, and express things in a much shorter
-> and clearer way. This, more or less, is what abstraction is.
+#+attr_html: :class footer :style clear: both;
+- Marijn Haverbeke: [[http://eloquentjavascript.net/][/Eloquent JavaScript/]].
 
-.footer[
-Marijn Haverbeke, *Eloquent JavaScript*, http://eloquentjavascript.net/
-]
-
----
-
-## Klasifikacija
+** Klasifikacija
 
 - Objekti realnih sistema, kao i njihovi modeli, se mogu grupisati na osnovu
   zajedničkih osobina.
-  
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/klasifikacija.svg)
+ 
+#+ATTR_ORG: :width 100%
+[[./images/klasifikacija.svg]]
 
----
-
-## Token modeli i modeli tipova
+** Token modeli i modeli tipova
 
 - Prvi ih je definisao Čarls Sanders Pirs.
 - Token modeli:
-
   - Modeli konkretnih pojedinačnih pojava realnog sveta.
   - Nastaju isključivo procesom apstrakcije.
   - Primer: geografska mapa, maketa aviona...
-
 - Modeli tipova:
-
   - Nastaju procesom klasifikacije modela tokena na osnovu zajedničkih osobina.
   - Ovakav model opisuje klasu pojava realnog sveta.
   
----
-
-## Generalizacija
+** Generalizacija
 
 - Predstavlja dalji proces klasifikacije modela tipova na osnovu zajedničkih
   osobina.
@@ -398,23 +308,8 @@ Marijn Haverbeke, *Eloquent JavaScript*, http://eloquentjavascript.net/
   generalizuju posmatrani skup koncepata, odnosno posmatrani skup koncepata se
   nasleđuje iz generalizovanog koncepta.
   
-
-
----
-name: meta-metamodeli
-class: center, middle
-layout: false
-
-# Meta-metamodeli
-
----
-layout: true
-
-.section[[Meta-metamodeli](#sadrzaj)]
-
----
-
-## Meta-metamodel
+* Meta-metamodeli
+** Meta-metamodel
 
 - Kreiranje jezika predstavlja domen sa svojim konceptima i pravilima.
 - Jezik ovog domena (jezik za opis jezika) nazivamo meta-jezikom.
@@ -423,114 +318,79 @@ layout: true
 - Meta-metamodelom možemo opisati apstraktnu sintaksu bilo kog jezika pa i
   meta-jezika. Stoga kažemo da je meta-metamodel samodefinišući.
   
----
+** MOF
 
-## MOF
-
-- MOF (*Meta-Object Facility*).ref[1] je meta-metamodel i industrijski
-  standard koji se razvija pod okriljem OMG (*Object Management Group*)
-  konzorcijuma.
-- Predstavlja osnovnu integracionu platformu MDA (*Model-Driven
-  Architecture*) pravca i omogućava interoperabilnost UML baziranih alata.
+- MOF (/Meta-Object Facility/)^{1} je meta-metamodel i industrijski standard
+  koji se razvija pod okriljem OMG (/Object Management Group/) konzorcijuma.
+- Predstavlja osnovnu integracionu platformu MDA (/Model-Driven Architecture/)
+  pravca i omogućava interoperabilnost UML baziranih alata.
 - Nastao je na bazi UML-a i u MOF-u se danas opisuju OMG jezici za modelovanje,
   između ostalog i UML
-- MOF je podeljen na EMOF (*Essential MOF*), CMOF(*Complete MOF*) i
-  SMOF(*Semantic MOF*).
+- MOF je podeljen na EMOF (/Essential MOF/), CMOF(/Complete MOF/) i
+  SMOF(/Semantic MOF/).
 
-.footer[
-1.  http://www.omg.org/mof/
-]
+#+attr_html: :class footer :style clear: both;
+1. http://www.omg.org/mof/
 
----
+** EMOF
 
-## EMOF
+#+ATTR_ORG: :width 100%
+#+ATTR_HTML: :style height: 700px;
+[[./images/EMOF.png]]
 
-![:scale 80%](jezicke-sintakse-i-metamodelovanje/EMOF.png)
-
----
-
-## ECore
+** ECore
 
 - ECore je meta-metamodel čiji je razvoj započeo IBM a kasnije je razvijan u
-  okviru Eclipse EMF (*Eclipse Modeling Framework*).ref[1] projekta.
+  okviru Eclipse EMF (/Eclipse Modeling Framework/)^{1} projekta.
 - Baziran na programskom jeziku Java. Pod licencom slobodnog softvera
-  (*Eclipse Public License*).
+  (/Eclipse Public License/).
 - U osnovi predstavlja efikasnu implementaciju EMOF meta-metamodela.
 - Industrijski standard, dokazan i testiran kroz višegodišnju upotrebu na
   realnim projektima.
 
-.footer[
+#+attr_html: :class footer :style clear: both;
 1. http://www.eclipse.org/modeling/emf/
-]
 
----
+** ECore
 
-## ECore
+#+ATTR_ORG: :width 100%
+[[./images/EcoreRelations.png]]
 
-![:scale 70%](jezicke-sintakse-i-metamodelovanje/EcoreRelations.png)
-
----
-
-## GOPPRR
+** GOPPRR
 
 - Ime predstavlja skraćenicu reči koje opisuju osnovne koncepte jezika:
-  **G**raph, **O**bject, **P**roperty, **P**ort, **R**ole, **R**elationship.
-- Vlasnički softver. Okosnica MetaEdit+ alata.ref[1]. Nastao je od
-  ranijih verzija koje su nosile naziv GOPRR i OPRR.ref[2].
+  *G* raph, *O* bject, *P* roperty, *P* ort, *R* ole, *R* elationship.
+- Vlasnički softver. Okosnica MetaEdit+ alata^{1}. Nastao je od ranijih verzija
+  koje su nosile naziv GOPRR i OPRR^{2}.
 
-.footer[
-   
+#+attr_html: :class footer :style clear: both;
 1. http://www.metacase.com/products.html
-2. S. Kelly, *Towards a comprehensive MetaCASE and CAME environment:
-   conceptual, architectural, functional and usability advances in
-   MetaEdit+*. PhD thesis, University of Jyväskylä, 1997
+2. S. Kelly, /Towards a comprehensive MetaCASE and CAME environment: conceptual,
+   architectural, functional and usability advances in MetaEdit+/. PhD thesis,
+   University of Jyväskylä, 1997
 
-]
-
----
-
-## MoRP
+** MoRP
 
 - Razvijen na Katedri za informatiku.
 - Jednostavan - mali broj koncepata.
-- Implementacija u Javi.ref[1]. U toku port na Python.ref[2] (čim se nađe
-  vremena ;) ).
+- Implementacija u Javi^{1}. U toku port na Python^{2} (čim se nađe vremena ;)
+  ).
 
-![:scale 50%](jezicke-sintakse-i-metamodelovanje/MoRP.svg)
+#+ATTR_ORG: :width 100%
+[[./images/MoRP.svg]]
 
-.footer[
 
+#+attr_html: :class footer :style clear: both;
 1. https://github.com/igordejanovic/MoRP
 2. https://github.com/igordejanovic/MoRPy
 
-]
+* Stek za metamodelovanje
+** Stek za metamodelovanje
 
+#+ATTR_ORG: :width 100%
+[[./images/Metanivoi.svg]]
 
+** Primer - Mogram, jezik, meta-jezik
 
----
-name: stek-za-metamodelovanje
-class: center, middle
-layout: false
-
-# Stek za metamodelovanje
-
----
-layout: true
-
-.section[[Stek za metamodelovanje](#sadrzaj)]
-
----
-
-## Stek za metamodelovanje
-
-![](jezicke-sintakse-i-metamodelovanje/Metanivoi.svg)
-
----
-
-## Primer - Mogram, jezik, meta-jezik
-
-![](jezicke-sintakse-i-metamodelovanje/Kapija-StateMachine-MoRP.svg)
-
-
-
-{% endblock %}
+#+ATTR_ORG: :width 100%
+[[./images/Kapija-StateMachine-MoRP.svg]]
