@@ -9,7 +9,7 @@ layout: page
 
 ---
 
-1. [O predmetu](jsd/00-upoznavanje/upoznavanje.html)
+1. [O predmetu](jsd/00-upoznavanje/index.html)
 1. [Programski jezik Python](tech/Python.html)
 1. [Uvod u jezike specifične za domen](jsd/01-uvod/index.html)
 1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/index.html)
