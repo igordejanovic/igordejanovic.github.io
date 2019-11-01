@@ -6,15 +6,15 @@ layout: page
 ---
 
 
-1. [O predmetu](sok/upoznavanje/index.html)
-1. [Uvod](sok/uvod.html)
-1. [Fundamentalni i kreacioni obrasci](sok/kreacioni.html)
+1. [O predmetu](sok/00-upoznavanje/index.html)
+1. [Uvod](sok/01-uvod/index.html)
+1. [Fundamentalni i kreacioni obrasci](sok/02-kreacioni/index.html)
     - [Factory Method primer](sok/primeri/creational.factorymethod.zip)
     - [Prototype primer](sok/primeri/creational.prototype.zip)
-1. [Strukturalni obrasci](sok/4-strukturalni-obrasci.html)
+1. [Strukturalni obrasci](sok/03-strukturalni/index.html)
     - [Composite primer](sok/primeri/structural.composite.zip)
     - [Proxy primer](sok/primeri/structural.proxy.zip)
-1. [Obrasci ponašanja](sok/obrasci-ponasanja.html)
+1. [Obrasci ponašanja](sok/04-obrasci-ponasanja/index.html)
 1. [Dependency Injection](tech/dependency-injection.html)
 1. [Razvoj baziran na komponentama](sok/razvoj-baziran-na-komponentama.html)
 1. [Komponentni razvoj u Python-u](tech/setuptools.html)

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Softverski obrasci i komponente</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Softverski obrasci i komponente</h1>
+<h2 class="subtitle">Kreacioni obrasci</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2019-11-01 Fri 18:56, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org2d816ff">
+<h2 id="org2d816ff">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgbc870bc">Fundamentalni obrasci</a></li>
+<li><a href="#/slide-org7c48d98">Delegation</a></li>
+<li><a href="#/slide-org99e0282">Interface</a></li>
+<li><a href="#/slide-org5da29a5">Interface and Abstract Class</a></li>
+<li><a href="#/slide-orgddb864e">Kreacioni obrasci</a></li>
+<li><a href="#/slide-org7d091e7">Factory Method</a></li>
+<li><a href="#/slide-orgf2a9a73">Abstract Factory</a></li>
+<li><a href="#/slide-org06ece45">Prototype</a></li>
+<li><a href="#/slide-org127ab22">Builder</a></li>
+<li><a href="#/slide-org5876055">Singleton</a></li>
+<li><a href="#/slide-org53833ab">Literatura</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgbc870bc">
+<h2 id="orgbc870bc">Fundamentalni obrasci</h2>
+<div class="outline-text-2" id="text-orgbc870bc">
+</div>
+</section>
+<section id="slide-org94cdd77">
+<h3 id="org94cdd77">Fundamentalni obrasci</h3>
+<ul>
+<li>Obrasci koji se koriste za izgradnju složenijih obrazaca.</li>
+<li>Često podržani programskim jezikom.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org7c48d98">
+<h2 id="org7c48d98">Delegation</h2>
+<div class="outline-text-2" id="text-org7c48d98">
+</div>
+</section>
+<section id="slide-org3b4c203">
+<h3 id="org3b4c203">Delegation</h3>
+<ul>
+<li>Opšti način proširenja funkcionalnosti klase ili objekta.</li>
+<li>Koristi se u situacijama kada nasleđivanje nije dovoljno fleksibilno, posebno
+u situaciji kada programski jezik omogućava samo jednostruko nasleđivanje.</li>
+<li>Dinamičko proširenje pri instanciranju klase definisanjem delegata.</li>
+
+</ul>
+
+</section>
+<section id="slide-org833b209">
+<h3 id="org833b209">Primer problema</h3>
+
+<div class="figure">
+<p><img src="./images/Delegation-concreteBad.png" alt="Delegation-concreteBad.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgb4b7212">
+<h3 id="orgb4b7212">Primer rešenja</h3>
+
+<div class="figure">
+<p><img src="./images/Delegation-concreteGood.png" alt="Delegation-concreteGood.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org24b17a9">
+<h3 id="org24b17a9">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Delegation-abstract.png" alt="Delegation-abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org1840d7b">
+<h3 id="org1840d7b">Primer</h3>
+<div class="org-src-container">
+
+<pre><code class=" java" >interface I {
+    void f();
+    void g();
+}
+class A implements I {
+    public void f() { System.out.println("A: doing f()"); }
+    public void g() { System.out.println("A: doing g()"); }
+}
+class B implements I {
+    public void f() { System.out.println("B: doing f()"); }
+    public void g() { System.out.println("B: doing g()"); }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class=" java" >class C implements I {
+    // delegation
+    I i = new A();
+
+    public void f() { i.f(); }
+    public void g() { i.g(); }
+}
+
+// normal attributes
+public void toA() { i = new A(); }
+public void toB() { i = new B(); }
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.f();
+        // output: A: doing f()
+        c.g();
+        // output: A: doing g()
+        c.toB();
+        c.f();
+        // output: B: doing f()
+        c.g();
+        // output: B: doing g()
+    }
+}
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Izvor: Wikipedia</li>
+
+</ul>
+
+</section>
+<section id="slide-orga20b217">
+<h3 id="orga20b217">Kada koristiti?</h3>
+<ul>
+<li>Nasleđivanje je statička veza. Potrebno je da objekat <i>menja klasu</i> u vreme
+izvršavanja.</li>
+<li>Potrebno je simulirati višestruko nasleđivanje. Delegator može imati više
+delegata.</li>
+<li>Želimo da nasledimo određenu klasu ali ona nije pod našom kontrolom.
+Delegacija je u tom slučaju bezbednija jer nas štiti od nekompatibilnih
+promena nadklase.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org99e0282">
+<h2 id="org99e0282">Interface</h2>
+<div class="outline-text-2" id="text-org99e0282">
+</div>
+</section>
+<section id="slide-orge800a60">
+<h3 id="orge800a60">Interface</h3>
+<ul>
+<li>Želimo da učinimo klijenta nezavisnim od klasa koje obezbeđuju servis tako da
+možemo izmeniti klase bez uticaja na klijenta.</li>
+<li>Servisne klase već nasleđuju neke klase a višestruko nasleđivanje nije
+podržano.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdb91c0f">
+<h3 id="orgdb91c0f">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Interface-Abstract.png" alt="Interface-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org85742ab">
+<h3 id="org85742ab">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/Interface-Concrete.png" alt="Interface-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org00dae7b">
+<h3 id="org00dae7b">Šta dobijamo?</h3>
+<ul>
+<li>Servisna klasa može biti zamenjena bez uticaja na klijenta.</li>
+<li>Servisna klasa može implementirati više interfejsa i nasleđivati proizvoljnu
+klasu.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5da29a5">
+<h2 id="org5da29a5">Interface and Abstract Class</h2>
+<div class="outline-text-2" id="text-org5da29a5">
+</div>
+</section>
+<section id="slide-org1f6ca06">
+<h3 id="org1f6ca06">Interface and Abstract Class</h3>
+<ul>
+<li>Proširenje Interface obrasca.</li>
+<li>Želimo da klijenta učinimo nezavisnim od hijerarhije klasa koje implementiraju
+servis na takav način da možemo menjati klase koje implementiraju servis bez
+uticaja na klijenta.</li>
+<li>Istovremeno želimo da definišemo apstraktnu implementaciju servisa tako da
+konkretni servisi mogu da redefinišu/dopune baznu implementaciju.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgcd3f097">
+<h3 id="orgcd3f097">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/IntAndAbsCls-Abstract.png" alt="IntAndAbsCls-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org5f41496">
+<h3 id="org5f41496">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/IntAndAbsCls-Concrete.png" alt="IntAndAbsCls-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org7b3a15b">
+<h3 id="org7b3a15b">Šta dobijamo?</h3>
+<ul>
+<li>Konkretan servis može biti baziran na apstraktnoj implementaciji ali i ne
+mora. Dovoljno je da implementira interfejs servisa.</li>
+<li>Servisna klasa može implementirati više interfejsa i može nasleđivati
+proizvoljnu klasu.</li>
+<li>Apstraktna klasa obezbeđuje bazičnu implementaciju čime se razvoj novih
+servisnih klasa ubrzava.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgddb864e">
+<h2 id="orgddb864e">Kreacioni obrasci</h2>
+<div class="outline-text-2" id="text-orgddb864e">
+</div>
+</section>
+<section id="slide-orgcd7d7be">
+<h3 id="orgcd7d7be">Kreacioni obrasci</h3>
+<ul>
+<li>Apstrakcija i lokalizacija procesa instanciranja objekata.</li>
+<li>Čine sistem nezavisnim od načina kreiranja i kompozicije objekata.</li>
+
+</ul>
+
+</section>
+<section id="slide-org839b791">
+<h3 id="org839b791">Bazične osobine</h3>
+<p>
+Bazične osobine kreacionih obrazaca su sledeće:
+</p>
+
+<ul>
+<li>Enkapsuliraju znanje o konkretnim klasama koje sistem koristi.</li>
+<li>Skrivaju način na koji se vrši instaciranje klasa i kompozicija objekata.</li>
+
+</ul>
+
+</section>
+<section id="slide-org378082a">
+<h3 id="org378082a">Katalog kreacionih obrazaca</h3>
+<p>
+Prema [1] kreacioni obrasci su sledeći:
+</p>
+
+<ul>
+<li>Factory Method</li>
+<li>Abstract Factory</li>
+<li>Prototype</li>
+<li>Builder</li>
+<li>Singleton</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org7d091e7">
+<h2 id="org7d091e7">Factory Method</h2>
+<div class="outline-text-2" id="text-org7d091e7">
+</div>
+</section>
+<section id="slide-org2504c9c">
+<h3 id="org2504c9c">Factory Method</h3>
+<ul>
+<li>Želimo da odvojimo klijenta od konkretne implementacije putem Interfejsa.</li>
+<li>Želimo da klijent kreira objekte na takav način da "ne zna" koju konkretnu
+klasu instancira.</li>
+
+</ul>
+
+</section>
+<section id="slide-org8fb72c2">
+<h3 id="org8fb72c2">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/FactoryMethod.png" alt="FactoryMethod.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org43d17a2">
+<h3 id="org43d17a2">Šta dobijamo?</h3>
+<ul>
+<li>Instanciranje konkretnih objekata je lokalizovano. Programski kod nije jako
+spregnut sa tipom konkretnih instanci.</li>
+<li>Klasa može delegirati kreiranje konkretnih objekata koje koristi na svoje
+podklase čime se postiže veća fleksibilnost.</li>
+
+</ul>
+
+</section>
+<section id="slide-org39affc5">
+<h3 id="org39affc5">A šta gubimo?</h3>
+<ul>
+<li>Relativno veliki broj klasa.</li>
+<li>Svaki novi Proizvod zahteva novog Kreatora.</li>
+
+</ul>
+
+</section>
+<section id="slide-org8901057">
+<h3 id="org8901057">Demonstracija obrasca <i>Factory Method</i> na primeru u Javi</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf2a9a73">
+<h2 id="orgf2a9a73">Abstract Factory</h2>
+<div class="outline-text-2" id="text-orgf2a9a73">
+</div>
+</section>
+<section id="slide-org73962b6">
+<h3 id="org73962b6">Abstract Factory</h3>
+<ul>
+<li>Proširenje <i>Factory Method</i> obrasca.</li>
+<li>Kreiranje familije objekata sličnih po funkciji koju vrše u aplikaciji pri
+čemu klijent (objekat koji ih koristi) "ne zna" konkrente klase objekata.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc182b7a">
+<h3 id="orgc182b7a">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/AbstractFactory.png" alt="AbstractFactory.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org0571e2f">
+<h3 id="org0571e2f">Šta dobijamo?</h3>
+<ul>
+<li>Instanciranje familije konkretnih objekata je lokalizovano.</li>
+<li>Programski kod nije jako spregnut sa tipom konkretnih instanci.</li>
+<li>Promena familije konkretnih instanci moguća je izmenom programskog koda na
+mestu gde se instancira konkretna fabrika objekata (najčešće jedna linija
+koda).</li>
+<li>U određenim slučajevima moguća je dinamička promena fabrike objekata (npr.
+<a href="https://en.wikipedia.org/wiki/Pluggable_look_and_feel">Swing PLAF</a>).</li>
+
+</ul>
+
+</section>
+<section id="slide-org86b6f1e">
+<h3 id="org86b6f1e">A šta gubimo?</h3>
+<ul>
+<li>Relativno veliki broj klasa.</li>
+<li>Svaki novi Proizvod zahteva novu metodu u svim Kreatorima i svaka nova
+familija proizvoda zahteva novog konkretnog Kreatora i nove konkretne
+proizvode.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org06ece45">
+<h2 id="org06ece45">Prototype</h2>
+<div class="outline-text-2" id="text-org06ece45">
+</div>
+</section>
+<section id="slide-org4d4720c">
+<h3 id="org4d4720c">Prototype</h3>
+<p>
+Kreiranje objekta kopiranjem već postojeće instance.
+</p>
+
+</section>
+<section id="slide-orgb992679">
+<h3 id="orgb992679">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/Prototype.png" alt="Prototype.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4a596bd">
+<h3 id="org4a596bd">Šta dobijamo?</h3>
+<ul>
+<li>Eliminišemo potrebu za postojanjem kreator klasa i njenih naslednica pri
+korišćenju Factory Method dizajn šablona - smanjuje se broj potrebnih klasa.</li>
+<li>Ako je instanciranje objekata previše "skupo" sa stanovišta potrošnje
+procesorskog vremena i memorije, kloniranje već kreiranih objekata može
+dovesti do ubrzanja i smanjenja potrošnje memorije.</li>
+<li>Ukoliko nam trebaju instance objekata čije stanje se razlikuje od inicijalnog
+ali je slično već postojećim jednostavnije je kloniranje postojećeg, sličnog,
+objekta i izmena potrebnih atributa od kreiranja i pune inicijalizacije novog
+objekta.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgaf5064c">
+<h3 id="orgaf5064c">Na šta treba obratiti pažnju?</h3>
+<ul>
+<li>Kloniranje se najčešće realizuje tzv. "dubokim kopiranjem" (eng. <i>deep copy</i>).</li>
+<li>Javina clone operacija je realizovana kao "plitko kopiranje" (eng. <i>shallow
+copy</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-org455eb22">
+<h3 id="org455eb22">Demonstracija obrasca <i>Prototype</i> na primeru u Javi</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org127ab22">
+<h2 id="org127ab22">Builder</h2>
+<div class="outline-text-2" id="text-org127ab22">
+</div>
+</section>
+<section id="slide-org81a0460">
+<h3 id="org81a0460">Builder</h3>
+<p>
+Konstrukcija složenih objekata podelom nadležnosti na onoga ko "zna" kako treba
+napraviti strukturu složenog objekta i onoga ko "zna" kako treba kreirati
+pojedinačne delove.
+</p>
+
+</section>
+<section id="slide-orgbfbe0a3">
+<h3 id="orgbfbe0a3">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/Builder.png" alt="Builder.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org972afcf">
+<h3 id="org972afcf">Šta dobijamo?</h3>
+<p>
+Razdvajamo konstrukciju složenog objekta (najčešće Composite) od njegove
+reprezentacije tako da isti postupak izgradnje može rezultovati različitim
+reprezentacijama.
+</p>
+
+</section>
+<section id="slide-org5158209">
+<h3 id="org5158209">Kada koristiti?</h3>
+<ul>
+<li>Ako je potrebno učiniti algoritam za kreiranje složenih objekata nezavisnim od
+konkretnih delova koji sačinjavaju objekat.</li>
+<li>Ako proces konstrukcije mora obezbediti različite reprezentacije objekta koji
+se izgrađuje.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5876055">
+<h2 id="org5876055">Singleton</h2>
+<div class="outline-text-2" id="text-org5876055">
+</div>
+</section>
+<section id="slide-org90f07b3">
+<h3 id="org90f07b3">Singleton</h3>
+<ul>
+<li>Potrebno je da postoji samo jedna instanca klase u sistemu. Na primer: logger,
+registar, jedinstvena konekcija ka bazi i sl.</li>
+<li>Jedinična instanca mora biti dostupna svim klijentima.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc4f0798">
+<h3 id="orgc4f0798">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/Singleton.png" alt="Singleton.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org674311a">
+<h3 id="org674311a">Šta dobijamo?</h3>
+<ul>
+<li>Kontrolisani pristup jedinstvenoj instanci.</li>
+<li>Nasleđivanje klase jedinstvene instance i omogućavanje rekonfiguracije sistema
+i u vreme izvršavanja (<i>run-time</i>).</li>
+<li>Ako je naknadno potrebno, može se obezbediti postojanje više od jedne
+instance. Na primer, <i>Connection Pool</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0b62824">
+<h3 id="org0b62824">Napomena</h3>
+<ul>
+<li><i>Singleton</i> se danas smatra anti-obrascem.</li>
+<li>Dva glavna razloga:
+
+<ul>
+<li><i>Singleton</i> je globalni objekat – globalne varijable loše utiču na kvalitet
+dizajna i na konkurentnost u kontekstu višenitnog programiranja.</li>
+<li><i>Singleton</i> se teško <i>mock-up</i>-uje (klijentski kod je čvrsto spregnut sa
+<i>Singleton</i> objektom) pa je testiranje koda koji ga koristi veoma teško.
+Ovaj problem se može rešiti korišćenjem <i>Dependency Injection</i> obrasca.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org53833ab">
+<h2 id="org53833ab">Literatura</h2>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

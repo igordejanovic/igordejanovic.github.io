@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Softverski obrasci i komponente</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Softverski obrasci i komponente</h1>
+<h2 class="subtitle">Obrasci ponašanja</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2019-11-01 Fri 19:39, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org51578b6">
+<h2 id="org51578b6">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgad33f85">Obrasci ponašanja</a></li>
+<li><a href="#/slide-org59adf53">Iterator</a></li>
+<li><a href="#/slide-org28ea14b">Command</a></li>
+<li><a href="#/slide-org6308d8b">Mediator</a></li>
+<li><a href="#/slide-org3ad5d42">Memento</a></li>
+<li><a href="#/slide-orgd02487b">Observer</a></li>
+<li><a href="#/slide-org654a4f3">State</a></li>
+<li><a href="#/slide-org7f9c56f">Strategy</a></li>
+<li><a href="#/slide-org65c1aec">Template Method</a></li>
+<li><a href="#/slide-org2eff832">Visitor</a></li>
+<li><a href="#/slide-org4d89b9b">Chain of Responsibility</a></li>
+<li><a href="#/slide-orgc97b253">Literatura</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgad33f85">
+<h2 id="orgad33f85">Obrasci ponašanja</h2>
+<ul>
+<li>Bave se algoritmima i raspodelom odgovornosti između objekata.</li>
+<li>Ne definišu samo obrazac strukture već i obrazac komunikacije između objekata.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org59adf53">
+<h2 id="org59adf53">Iterator</h2>
+<div class="outline-text-2" id="text-org59adf53">
+</div>
+</section>
+<section id="slide-org7459a31">
+<h3 id="org7459a31">Iterator</h3>
+<p>
+Omogućava pristup elementima kolekcije sekvencijalno bez otkrivanja konkretne
+reprezentacije kolekcije.
+</p>
+
+</section>
+<section id="slide-org1ba7782">
+<h3 id="org1ba7782">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Iterator-Abstract.png" alt="Iterator-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org20dce88">
+<h3 id="org20dce88">Java implementacija</h3>
+<p>
+Iterator obrazac je direktno podržan u javinim standardnim bibliotekama –
+Interfejsi <code>Iterable&lt;E&gt;</code> i <code>Iterator&lt;E&gt;</code>.
+</p>
+
+</section>
+<section id="slide-org89f10e3">
+<h3 id="org89f10e3">Java implementacija</h3>
+
+<div class="figure">
+<p><img src="./images/Iterator-Java.png" alt="Iterator-Java.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgfb46bdd">
+<h3 id="orgfb46bdd">Java implementacija - While petlja</h3>
+<div class="org-src-container">
+
+<pre><code class=" java" >List&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;();
+Iterator&lt;Integer&gt; i = intList.iterator();
+while(i.hasNext()){
+    Integer a = i.next();
+    System.out.println(a);
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgbaed83a">
+<h3 id="orgbaed83a">Java implementacija - ForEach petalja</h3>
+<p>
+Iteratori su podržani direktno u Java programskom jeziku. <i>For-each</i> petlja u
+javi se može koristiti za bilo koji objekat koji implementira <code>Iterable&lt;E&gt;</code>
+interfejs ili za java nizove.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" java" >List&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;();
+for(Integer i: intList){
+    System.out.println(i);
+}
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org28ea14b">
+<h2 id="org28ea14b">Command</h2>
+<div class="outline-text-2" id="text-org28ea14b">
+</div>
+</section>
+<section id="slide-org3a735c1">
+<h3 id="org3a735c1">Command</h3>
+<ul>
+<li>Enkapsulacija zahteva za obradom u vidu objekta.</li>
+<li>Omogućava kreiranje redova za obradu (<i>Queues</i>) kao i <b>undo</b> operacije.</li>
+<li>Poznat i pod nazivima <i>Action</i> i <i>Transaction</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org7046abf">
+<h3 id="org7046abf">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Command-Abstract.png" alt="Command-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4203a0e">
+<h3 id="org4203a0e">Saradnja učesnika</h3>
+
+<div class="figure">
+<p><img src="./images/Command-Sequence.png" alt="Command-Sequence.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgaf6b97b">
+<h3 id="orgaf6b97b">Šta dobijamo?</h3>
+<ul>
+<li>Razdvajamo objekat koji inicira izvršavanje operacija od onoga koji "zna"
+kako operaciju treba izvršiti.</li>
+<li><i>Command</i> objekti su objekti prvog reda. Mogu se tretirati kao i svi drugi
+objekti.</li>
+<li>Komande se mogu komponovati (upotrebom <i>Composite</i> obrasca) i formirati
+složenije komande – makro komande.</li>
+<li>Nove komande se lako dodaju – nije potrebno izmeniti postojeće klase.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org6308d8b">
+<h2 id="org6308d8b">Mediator</h2>
+<div class="outline-text-2" id="text-org6308d8b">
+</div>
+</section>
+<section id="slide-org1ee4dea">
+<h3 id="org1ee4dea">Mediator</h3>
+<ul>
+<li>Objekat koji enkapsulira znanje o interakciji grupe objekata.</li>
+<li>Omogućava slabo sprezanje (<i>loose coupling</i>) objekata tako što objekti ne
+referenciraju jedni druge direktno.</li>
+
+</ul>
+
+</section>
+<section id="slide-org6ae8bae">
+<h3 id="org6ae8bae">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Mediator-Abstract.png" alt="Mediator-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org889cc41">
+<h3 id="org889cc41">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/Mediator-Concrete.png" alt="Mediator-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgbb64e95">
+<h3 id="orgbb64e95">Saradnja učesnika</h3>
+
+<div class="figure">
+<p><img src="./images/Mediator-Sequence.png" alt="Mediator-Sequence.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd9f0ceb">
+<h3 id="orgd9f0ceb">Šta dobijamo?</h3>
+<ul>
+<li>Složena interakcija objekata je centralizovana – izmena se vrši nasleđivanjem
+jedne klase.</li>
+<li>Objekti koji stupaju u interakciju su slabo spregnuti – objekte i medijator
+možemo menjati nezavisno.</li>
+<li>Jednostavniji protokol – veze više-na-više zamenjene vezama jedan-na-više
+koje su lakše za razumevanje i izmenu.</li>
+<li>Logika interakcije objekata je odvojena od njihovog individualnog ponašanja –
+inerakcija se lakše analizira.</li>
+<li>Problem koji može nastati – monolitan i previše kompleksan medijator objekat.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org3ad5d42">
+<h2 id="org3ad5d42">Memento</h2>
+<div class="outline-text-2" id="text-org3ad5d42">
+</div>
+</section>
+<section id="slide-orgf9cae19">
+<h3 id="orgf9cae19">Memento</h3>
+<ul>
+<li>Bez narušavanja enkapsulacije beleži i eksternalizuje interno stanje objekta
+tako da se objekat može kasnije vratiti u identično stanje.</li>
+<li>Poznat i pod nazivom <i>Token</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org2d63263">
+<h3 id="org2d63263">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Memento-Abstract.png" alt="Memento-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org5198315">
+<h3 id="org5198315">Saradnja učesnika</h3>
+
+<div class="figure">
+<p><img src="./images/Memento-Sequence.png" alt="Memento-Sequence.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org79d2a2f">
+<h3 id="org79d2a2f">Šta dobijamo?</h3>
+<ul>
+<li>Očuvavamo enkapsulaciju – memento ne otkriva detalje interne implementacije
+<i>Originator</i> objekta iako se njegovo stanje čuva van njega. Pristup <i>Memento</i>
+objektu je moguć samo od strane Originator objekta.</li>
+<li>Pojednostavljen dizajn <i>Originator</i> objekta – klijenti čuvaju stanje objekta
+kroz <i>Memento</i> objekat.</li>
+<li>Bolja skalabilnost - čuvanje stanja se prepušta klijentima.</li>
+<li>Korišćenje <i>Memento</i> objekata može biti problematično ukoliko je stanje
+<i>Originator</i>-a definisano velikom količinom podataka.</li>
+<li>U nekim programskim jezicima je teško sprečiti pristup internoj strukturi
+<i>Memento</i> objekta od strane drugih objekata u sistemu.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd02487b">
+<h2 id="orgd02487b">Observer</h2>
+<div class="outline-text-2" id="text-orgd02487b">
+</div>
+</section>
+<section id="slide-org173d059">
+<h3 id="org173d059">Observer</h3>
+<ul>
+<li>Definiše međuzavisnost objekata tako da kada se stanje jednog objekta promeni
+svi zavisni objekti se automatski obaveštavaju.</li>
+<li>Poznat i pod nazivom <i>Publish-Subscribe</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org044e1ec">
+<h3 id="org044e1ec">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Observer-Abstract.png" alt="Observer-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd167dee">
+<h3 id="orgd167dee">Saradnja učesnika</h3>
+
+<div class="figure">
+<p><img src="./images/Observer-Sequence.png" alt="Observer-Sequence.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org54632bf">
+<h3 id="org54632bf">Podrška u Javi</h3>
+<ul>
+<li>Interfejs <code>Observer</code> i klasa <code>Observable</code> u paketu <code>java.util</code>.</li>
+<li>Mehanizam <i>Listener</i>-a u <i>Swing</i>-u prati ovaj obrazac.</li>
+
+</ul>
+
+</section>
+<section id="slide-org304f6ee">
+<h3 id="org304f6ee">Šta dobijamo?</h3>
+<ul>
+<li>Apstraktno sprezanje <i>Observer</i> i <i>Observable</i> objekata. <i>Observable</i> ne zna
+konkretne klase <i>Observer</i> objekata već komunicira sa njima putem
+jednostavnog interfejsa.</li>
+<li><i>Broadcast</i> stil komunikacije. <i>Observable</i> javlja da se promena dogodila. Ne
+mora se navoditi primalac poruke. Svi zainteresovani osluškivači će dobiti
+notifikaciju o promeni.</li>
+<li>Ukoliko <i>Observable</i> ne navodi u pozivu poruke šta je promenjeno,
+<i>Observer</i>-i moraju to sami da ispitaju što može biti "skupo".</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdbf5ba9">
+<h3 id="orgdbf5ba9">Napomene</h3>
+<ul>
+<li>Ukoliko <i>Observer</i> posmatra više <i>Observable</i> objekata potrebno je
+identifikovati objekat koji šalje poruku o promeni – slanje reference na
+objekat kao parametra.</li>
+<li>Izmena stanja <i>Observable</i> objekta prilikom obrade notifikacije može dovesti
+do beskonačne rekurzije.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org654a4f3">
+<h2 id="org654a4f3">State</h2>
+<div class="outline-text-2" id="text-org654a4f3">
+</div>
+</section>
+<section id="slide-org51e51ff">
+<h3 id="org51e51ff">State</h3>
+<p>
+Izmena ponašanja objekta prilikom promene njegovog internog stanja. Objekat se
+ponaša kao da je promenio klasu.
+</p>
+
+</section>
+<section id="slide-org66f6871">
+<h3 id="org66f6871">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/State-Abstract.png" alt="State-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org99ad959">
+<h3 id="org99ad959">Saradnja učesnika</h3>
+<ul>
+<li>Context delegira operacije zavisne od stanja objektu state
+(<i>ConcreteStateX</i>).</li>
+<li>Context može proslediti sebe u zahtevu ukoliko stanje treba da mu pristupa.</li>
+<li>Klijenti koriste isključivo <i>Context</i>, mada mogu, ukoliko je potrebno,
+postaviti tekuće stanje.</li>
+<li>Odluku o prelasku u novo stanje može doneti <i>Context</i> ili tekući state
+objekat.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgea79558">
+<h3 id="orgea79558">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/State-Concrete.png" alt="State-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org6c26ae8">
+<h3 id="org6c26ae8">Šta dobijamo?</h3>
+<ul>
+<li>Lokalizacija koda specifičnog za određeno stanje u jednu klasu - izbegavanje
+velikih <i>switch/if-else</i> iskaza.</li>
+<li>Eksplicitan prelazak između stanja.</li>
+
+</ul>
+
+</section>
+<section id="slide-org72abe1f">
+<h3 id="org72abe1f">Napomene</h3>
+<ul>
+<li>Promena stanja: <i>Context</i> ili <i>ConcreteStateX</i>?
+<ul>
+<li>Ukoliko menja <i>ConcreteStateX</i> potrebno je da pristupa <i>Context</i>-u preko
+interfejsa za promenu stanja.</li>
+<li>Negativno: stanja moraju da znaju jedna za druge.</li>
+<li>Ukoliko <i>Context</i> menja stanje – kod može biti dosta kompleksan kod većeg
+broja stanja.</li>
+
+</ul></li>
+<li>Kreiranje i uništavanje <i>State</i> objekata: jednom pri inicijalizaciji ili pri
+svakoj promeni stanja.</li>
+<li>Određeni programski jezici podržavaju oblik dinamičkog nasleđivanja –
+prirodna podrška za <i>State</i> obrazac.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org7f9c56f">
+<h2 id="org7f9c56f">Strategy</h2>
+<div class="outline-text-2" id="text-org7f9c56f">
+</div>
+</section>
+<section id="slide-orge4424fe">
+<h3 id="orge4424fe">Strategy</h3>
+<p>
+Definisanje familije algoritama i omogućavanje njihove izmene bez uticaja na
+klijenta.
+</p>
+
+</section>
+<section id="slide-orgbdc303f">
+<h3 id="orgbdc303f">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/Strategy-Abstract.png" alt="Strategy-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orge6caa8f">
+<h3 id="orge6caa8f">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/Strategy-Concrete.png" alt="Strategy-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgcea3722">
+<h3 id="orgcea3722">Šta dobijamo?</h3>
+<ul>
+<li>Definisanje familije algoritama. Nasleđivanje strategija se može koristiti za
+implementaciju zajedničke funkcionalnosti algoritama.</li>
+<li>Izmena ponašanja objekta dinamički. Nasleđivanjem kontekst klase može se
+postići izmena funkcionalnosti ali je ona statičke prirode.</li>
+<li>Eliminacija iskaza uslova (<i>if-else, switch</i>).</li>
+<li>Omogućavamo klijentu izbor algoritma i njegovih performansi (npr. manji
+utrošak memorije ili brže izvršavanje).</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org65c1aec">
+<h2 id="org65c1aec">Template Method</h2>
+<div class="outline-text-2" id="text-org65c1aec">
+</div>
+</section>
+<section id="slide-orgc828192">
+<h3 id="orgc828192">Template Method</h3>
+<ul>
+<li>Definisanje strukture algoritma pri čemu se definisanje određenih koraka
+ostavlja klasama naslednicama.</li>
+<li>Struktura algoritma je nepromenjiva ali se određeni koraci mogu promeniti.</li>
+
+</ul>
+
+</section>
+<section id="slide-org44da4a8">
+<h3 id="org44da4a8">Struktura obrasca</h3>
+
+<div class="figure">
+<p><img src="./images/TemplateMethod-Abstract.png" alt="TemplateMethod-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgeae2980">
+<h3 id="orgeae2980">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/TemplateMethod-Concrete.png" alt="TemplateMethod-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org4c8c695">
+<h3 id="org4c8c695">Šta dobijamo?</h3>
+<ul>
+<li>Mogućnost definisanja invarijantnih delova algoritma u apstraktnoj klasi a
+varijabilnih delova u podklasama – sprečava se dupliranje koda.</li>
+<li><p>
+Invertovanje kontrole – <i>Hollywood principle</i>
+</p>
+
+<blockquote>
+<p>
+Don’t call us, we’ll call you
+</p>
+</blockquote></li>
+
+<li>Definisanje tzv. hook operacija. Najčešće su prazne ali mogu imati definisano
+i standardno ponašanje. Za razliku od apstraktnih operacija, hook operacije
+su opcione (ne moraju se redefinisati).</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2eff832">
+<h2 id="org2eff832">Visitor</h2>
+<div class="outline-text-2" id="text-org2eff832">
+</div>
+</section>
+<section id="slide-org947952f">
+<h3 id="org947952f">Visitor</h3>
+<ul>
+<li>Razdvajanje algoritma od strukture podataka nad kojim operiše.</li>
+<li>Lokalizacija implementacije operacije koja se izvršava nad elementima složene
+strukture podataka (npr. čvorovima stabla).</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc5d19bf">
+<h3 id="orgc5d19bf">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/Visitor-Abstract.png" alt="Visitor-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org92f7537">
+<h3 id="org92f7537">Saradnja učesnika</h3>
+
+<div class="figure">
+<p><img src="./images/Visitor-Sequence.png" alt="Visitor-Sequence.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org87cb212">
+<h3 id="org87cb212">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/Visitor-Concrete.png" alt="Visitor-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org666ee8c">
+<h3 id="org666ee8c">Kada koristiti?</h3>
+<ul>
+<li>Objektna struktura sadrži elemente različitih klasa a potrebno je izvršiti
+operaciju koja zavisi od konkretne klase objekta.</li>
+<li>Više različitih, nesrodnih operacija je potrebno izvršiti nad elementima
+složene strukture a želimo izbeći "zagađivanje", svih klasa čiji objekti čine
+složenu strukturu, sa novom metodom za svaku operaciju.</li>
+<li>Hijerarhija klasa objektne strukture se retko menja dok dodavanje novih
+operacija nad strukturom može biti česta operacija.</li>
+
+</ul>
+
+</section>
+<section id="slide-org841b8ae">
+<h3 id="org841b8ae">Napomene</h3>
+<ul>
+<li>Visitor predstavlja implementaciju <i>Double Dispatch</i> mehanizma. Pozvana
+operacija zavisi istovremeno od tipa konkretnog <i>Visitor</i> objekta kao i
+od tipa konkretnog elementa strukture nad kojom se operacija vrši.</li>
+<li>Srodne operacije su lokalizovane u jednoj klasi.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org4d89b9b">
+<h2 id="org4d89b9b">Chain of Responsibility</h2>
+<div class="outline-text-2" id="text-org4d89b9b">
+</div>
+</section>
+<section id="slide-org08e8c2a">
+<h3 id="org08e8c2a">Chain of Responsibility</h3>
+<p>
+Izbegavanje jakog sprezanja objekta koji šalje zahtev od objekta koji vrši
+obradu zahteva tako što se objekti koji vrše obradu uvezuju u listu i daje se
+šansa svakom u nizu da obradi događaj sve dok neko ne odgovori pozitivno na
+zahtev (izvrši obradu).
+</p>
+
+</section>
+<section id="slide-orga9496cc">
+<h3 id="orga9496cc">Struktura</h3>
+
+<div class="figure">
+<p><img src="./images/ChainOfResponsibility-Abstract.png" alt="ChainOfResponsibility-Abstract.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-org3791b1c">
+<h3 id="org3791b1c">Primer</h3>
+
+<div class="figure">
+<p><img src="./images/ChainOfResponsibility-Concrete.png" alt="ChainOfResponsibility-Concrete.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc052184">
+<h3 id="orgc052184">Kada koristiti?</h3>
+<ul>
+<li>Više od jednog objekta može da obradi zahtev a obrađivač nije poznat unapred.</li>
+<li>Želimo da uputimo zahtev jednom iz grupe objekata a da ne navodimo konkretnog
+obrađivača eksplicitno.</li>
+<li>Lista mogućih obrađivača može dinamički da se menja u vreme izvršavanja.</li>
+
+</ul>
+
+</section>
+<section id="slide-org23c2eaf">
+<h3 id="org23c2eaf">Napomene</h3>
+<ul>
+<li>Dve vrste: prosleđivanje zahteva niz lanac i posle obrade ili prekid
+prosleđivanja.</li>
+<li>Objekat koji vrši obradu nije eksplicitno definisan pa ne postoji garancija
+da će zahtev biti obrađen.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc97b253">
+<h2 id="orgc97b253">Literatura</h2>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>
