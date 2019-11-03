@@ -9,11 +9,11 @@ layout: page
 
 ---
 
-1. [O predmetu](jsd/00-upoznavanje/index.html)
+1. [O predmetu](jsd/00-upoznavanje/)
 1. [Programski jezik Python](tech/Python.html)
-1. [Uvod u jezike specifične za domen](jsd/01-uvod/index.html)
-1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/index.html)
-1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/index.html)
+1. [Uvod u jezike specifične za domen](jsd/01-uvod/)
+1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/)
+1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/)
 1. [Arpeggio](tech/arpeggio.html)
 1. parglare - u pripremi
 1. [textX](tech/textx.html)
