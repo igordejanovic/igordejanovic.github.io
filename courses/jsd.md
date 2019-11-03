@@ -13,7 +13,7 @@ layout: page
 1. [Programski jezik Python](tech/Python.html)
 1. [Uvod u jezike specifične za domen](jsd/01-uvod/index.html)
 1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/index.html)
-1. [Tekstualne sintakse](jsd/tekstualne-sintakse.html)
+1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/index.html)
 1. [Arpeggio](tech/arpeggio.html)
 1. parglare - u pripremi
 1. [textX](tech/textx.html)
