@@ -52,6 +52,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   <br>[textX]
   <br>[textX-vscode]
 
+
 ## U izradi
 
 - Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
@@ -75,12 +76,12 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo desktop
   aplikacija, kao test editor pri razvoju gramatike i sl.)
 
-- Milorad Vojnović: DSL za generisanje API testova za GraphQL upite
-
-  Rad započet: avgust 2018.
-
 
 ## Završene
+
+- Milorad Vojnović: DSL za generisanje API testova za GraphQL upite.
+  <br>Rad započet: avgust 2018.
+  <br>Odbranjeno: septembar 2019.
 
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa,
   mart 2019. 
