@@ -6,12 +6,6 @@ sidebar: false
 
 ## Slobodne
 
-- Genarator upitnika
-  
-  Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
-  osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
-  pdf formatu (upotrebom LateX-a).
-  
 - Generisanje liste autora (*contributors*) iz git repozitorijuma
 
   Opis: Kreirati alat koji će analizirati istoriju zadatog git repozitorijuma i
@@ -23,13 +17,13 @@ sidebar: false
 
 ## U izradi
 
-- Migracija pyFlies jezika na textX 2 i PsychoPy 3
-  <br>Dejan Šorgić, jul 2019.
-
-  Videti:
-  <br><https://github.com/igordejanovic/pyFlies>
-  <br><https://www.psychopy.org/>
-
+- Genarator upitnika
+  <br>Dimitrije Mihajloviski, oktobar 2019.
+  
+  Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
+  osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
+  pdf formatu (upotrebom LateX-a).
+  
 - Web aplikacija za merenje reakcionog vremena 
   <br> Vukašin Janković, april 2019.
 
@@ -45,6 +39,14 @@ sidebar: false
   
 
 ## Završene
+
+- Migracija pyFlies jezika na textX 2 i PsychoPy 3
+  <br>Dejan Šorgić, jul 2019.
+  <br>Odbranjeno: oktobar 2019.
+
+  Videti:
+  <br><https://github.com/igordejanovic/pyFlies>
+  <br><https://www.psychopy.org/>
 
 - Web aplikacija za merenje reakcionog vremena 
   <br> Simona Prokić (Vue.js, Express, MongoDB), april 2019.
