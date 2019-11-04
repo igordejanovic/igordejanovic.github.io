@@ -18,6 +18,8 @@ order: 2
 
 - [Napredne tehnike programiranja](courses/ntp.html)
 
+- [Projektovanje softvera, 2. deo, generacija 2019/20](courses/ps.html)
+
 ## Tehnologije
 
 - [textX](/courses/tech/textX/index.html)
