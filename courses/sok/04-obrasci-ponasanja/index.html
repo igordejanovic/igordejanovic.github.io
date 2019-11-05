@@ -35,34 +35,34 @@
 <h1 class="title">Softverski obrasci i komponente</h1>
 <h2 class="subtitle">Obrasci ponašanja</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-01 Fri 19:39, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2019-11-05 Tue 22:25, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org51578b6">
-<h2 id="org51578b6">Sadržaj</h2>
+<section id="slide-orgf1bdf5d">
+<h2 id="orgf1bdf5d">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-orgad33f85">Obrasci ponašanja</a></li>
-<li><a href="#/slide-org59adf53">Iterator</a></li>
-<li><a href="#/slide-org28ea14b">Command</a></li>
-<li><a href="#/slide-org6308d8b">Mediator</a></li>
-<li><a href="#/slide-org3ad5d42">Memento</a></li>
-<li><a href="#/slide-orgd02487b">Observer</a></li>
-<li><a href="#/slide-org654a4f3">State</a></li>
-<li><a href="#/slide-org7f9c56f">Strategy</a></li>
-<li><a href="#/slide-org65c1aec">Template Method</a></li>
-<li><a href="#/slide-org2eff832">Visitor</a></li>
-<li><a href="#/slide-org4d89b9b">Chain of Responsibility</a></li>
-<li><a href="#/slide-orgc97b253">Literatura</a></li>
+<li><a href="#/slide-1">1. Obrasci ponašanja</a></li>
+<li><a href="#/slide-2">2. Iterator</a></li>
+<li><a href="#/slide-3">3. Command</a></li>
+<li><a href="#/slide-4">4. Mediator</a></li>
+<li><a href="#/slide-5">5. Memento</a></li>
+<li><a href="#/slide-6">6. Observer</a></li>
+<li><a href="#/slide-7">7. State</a></li>
+<li><a href="#/slide-8">8. Strategy</a></li>
+<li><a href="#/slide-9">9. Template Method</a></li>
+<li><a href="#/slide-10">10. Visitor</a></li>
+<li><a href="#/slide-11">11. Chain of Responsibility</a></li>
+<li><a href="#/slide-12">12. Literatura</a></li>
 </ul>
 </div>
 
 </section>
 </section>
 <section>
-<section id="slide-orgad33f85">
-<h2 id="orgad33f85">Obrasci ponašanja</h2>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Obrasci ponašanja</h2>
 <ul>
 <li>Bave se algoritmima i raspodelom odgovornosti između objekata.</li>
 <li>Ne definišu samo obrazac strukture već i obrazac komunikacije između objekata.</li>
@@ -72,47 +72,47 @@
 </section>
 </section>
 <section>
-<section id="slide-org59adf53">
-<h2 id="org59adf53">Iterator</h2>
-<div class="outline-text-2" id="text-org59adf53">
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Iterator</h2>
+<div class="outline-text-2" id="text-2">
 </div>
 </section>
-<section id="slide-org7459a31">
-<h3 id="org7459a31">Iterator</h3>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Iterator</h3>
 <p>
 Omogućava pristup elementima kolekcije sekvencijalno bez otkrivanja konkretne
 reprezentacije kolekcije.
 </p>
 
 </section>
-<section id="slide-org1ba7782">
-<h3 id="org1ba7782">Struktura obrasca</h3>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Iterator-Abstract.png" alt="Iterator-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Iterator-Abstract.png" alt="Iterator-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org20dce88">
-<h3 id="org20dce88">Java implementacija</h3>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> Java implementacija</h3>
 <p>
 Iterator obrazac je direktno podržan u javinim standardnim bibliotekama –
 Interfejsi <code>Iterable&lt;E&gt;</code> i <code>Iterator&lt;E&gt;</code>.
 </p>
 
 </section>
-<section id="slide-org89f10e3">
-<h3 id="org89f10e3">Java implementacija</h3>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4</span> Java implementacija</h3>
 
 <div class="figure">
-<p><img src="./images/Iterator-Java.png" alt="Iterator-Java.png" style="height: 700px;" />
+<p><img src="./images/Iterator-Java.png" alt="Iterator-Java.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgfb46bdd">
-<h3 id="orgfb46bdd">Java implementacija - While petlja</h3>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5</span> Java implementacija - While petlja</h3>
 <div class="org-src-container">
 
 <pre><code class=" java" >List&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;();
@@ -125,8 +125,8 @@ while(i.hasNext()){
 </div>
 
 </section>
-<section id="slide-orgbaed83a">
-<h3 id="orgbaed83a">Java implementacija - ForEach petalja</h3>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6</span> Java implementacija - ForEach petalja</h3>
 <p>
 Iteratori su podržani direktno u Java programskom jeziku. <i>For-each</i> petlja u
 javi se može koristiti za bilo koji objekat koji implementira <code>Iterable&lt;E&gt;</code>
@@ -145,13 +145,13 @@ for(Integer i: intList){
 </section>
 </section>
 <section>
-<section id="slide-org28ea14b">
-<h2 id="org28ea14b">Command</h2>
-<div class="outline-text-2" id="text-org28ea14b">
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Command</h2>
+<div class="outline-text-2" id="text-3">
 </div>
 </section>
-<section id="slide-org3a735c1">
-<h3 id="org3a735c1">Command</h3>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Command</h3>
 <ul>
 <li>Enkapsulacija zahteva za obradom u vidu objekta.</li>
 <li>Omogućava kreiranje redova za obradu (<i>Queues</i>) kao i <b>undo</b> operacije.</li>
@@ -160,26 +160,26 @@ for(Integer i: intList){
 </ul>
 
 </section>
-<section id="slide-org7046abf">
-<h3 id="org7046abf">Struktura obrasca</h3>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Command-Abstract.png" alt="Command-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Command-Abstract.png" alt="Command-Abstract.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org4203a0e">
-<h3 id="org4203a0e">Saradnja učesnika</h3>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3</span> Saradnja učesnika</h3>
 
 <div class="figure">
-<p><img src="./images/Command-Sequence.png" alt="Command-Sequence.png" style="height: 700px;" />
+<p><img src="./images/Command-Sequence.png" alt="Command-Sequence.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgaf6b97b">
-<h3 id="orgaf6b97b">Šta dobijamo?</h3>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4</span> Šta dobijamo?</h3>
 <ul>
 <li>Razdvajamo objekat koji inicira izvršavanje operacija od onoga koji "zna"
 kako operaciju treba izvršiti.</li>
@@ -194,13 +194,13 @@ složenije komande – makro komande.</li>
 </section>
 </section>
 <section>
-<section id="slide-org6308d8b">
-<h2 id="org6308d8b">Mediator</h2>
-<div class="outline-text-2" id="text-org6308d8b">
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> Mediator</h2>
+<div class="outline-text-2" id="text-4">
 </div>
 </section>
-<section id="slide-org1ee4dea">
-<h3 id="org1ee4dea">Mediator</h3>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1</span> Mediator</h3>
 <ul>
 <li>Objekat koji enkapsulira znanje o interakciji grupe objekata.</li>
 <li>Omogućava slabo sprezanje (<i>loose coupling</i>) objekata tako što objekti ne
@@ -209,35 +209,35 @@ referenciraju jedni druge direktno.</li>
 </ul>
 
 </section>
-<section id="slide-org6ae8bae">
-<h3 id="org6ae8bae">Struktura obrasca</h3>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Mediator-Abstract.png" alt="Mediator-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Mediator-Abstract.png" alt="Mediator-Abstract.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org889cc41">
-<h3 id="org889cc41">Primer</h3>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/Mediator-Concrete.png" alt="Mediator-Concrete.png" style="height: 700px;" />
+<p><img src="./images/Mediator-Concrete.png" alt="Mediator-Concrete.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgbb64e95">
-<h3 id="orgbb64e95">Saradnja učesnika</h3>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4</span> Saradnja učesnika</h3>
 
 <div class="figure">
-<p><img src="./images/Mediator-Sequence.png" alt="Mediator-Sequence.png" style="height: 700px;" />
+<p><img src="./images/Mediator-Sequence.png" alt="Mediator-Sequence.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgd9f0ceb">
-<h3 id="orgd9f0ceb">Šta dobijamo?</h3>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5</span> Šta dobijamo?</h3>
 <ul>
 <li>Složena interakcija objekata je centralizovana – izmena se vrši nasleđivanjem
 jedne klase.</li>
@@ -254,13 +254,13 @@ inerakcija se lakše analizira.</li>
 </section>
 </section>
 <section>
-<section id="slide-org3ad5d42">
-<h2 id="org3ad5d42">Memento</h2>
-<div class="outline-text-2" id="text-org3ad5d42">
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5</span> Memento</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 </section>
-<section id="slide-orgf9cae19">
-<h3 id="orgf9cae19">Memento</h3>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1</span> Memento</h3>
 <ul>
 <li>Bez narušavanja enkapsulacije beleži i eksternalizuje interno stanje objekta
 tako da se objekat može kasnije vratiti u identično stanje.</li>
@@ -269,26 +269,26 @@ tako da se objekat može kasnije vratiti u identično stanje.</li>
 </ul>
 
 </section>
-<section id="slide-org2d63263">
-<h3 id="org2d63263">Struktura obrasca</h3>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Memento-Abstract.png" alt="Memento-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Memento-Abstract.png" alt="Memento-Abstract.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org5198315">
-<h3 id="org5198315">Saradnja učesnika</h3>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3</span> Saradnja učesnika</h3>
 
 <div class="figure">
-<p><img src="./images/Memento-Sequence.png" alt="Memento-Sequence.png" style="height: 700px;" />
+<p><img src="./images/Memento-Sequence.png" alt="Memento-Sequence.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org79d2a2f">
-<h3 id="org79d2a2f">Šta dobijamo?</h3>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4</span> Šta dobijamo?</h3>
 <ul>
 <li>Očuvavamo enkapsulaciju – memento ne otkriva detalje interne implementacije
 <i>Originator</i> objekta iako se njegovo stanje čuva van njega. Pristup <i>Memento</i>
@@ -306,13 +306,13 @@ kroz <i>Memento</i> objekat.</li>
 </section>
 </section>
 <section>
-<section id="slide-orgd02487b">
-<h2 id="orgd02487b">Observer</h2>
-<div class="outline-text-2" id="text-orgd02487b">
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6</span> Observer</h2>
+<div class="outline-text-2" id="text-6">
 </div>
 </section>
-<section id="slide-org173d059">
-<h3 id="org173d059">Observer</h3>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1</span> Observer</h3>
 <ul>
 <li>Definiše međuzavisnost objekata tako da kada se stanje jednog objekta promeni
 svi zavisni objekti se automatski obaveštavaju.</li>
@@ -321,26 +321,26 @@ svi zavisni objekti se automatski obaveštavaju.</li>
 </ul>
 
 </section>
-<section id="slide-org044e1ec">
-<h3 id="org044e1ec">Struktura obrasca</h3>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Observer-Abstract.png" alt="Observer-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Observer-Abstract.png" alt="Observer-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgd167dee">
-<h3 id="orgd167dee">Saradnja učesnika</h3>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3</span> Saradnja učesnika</h3>
 
 <div class="figure">
-<p><img src="./images/Observer-Sequence.png" alt="Observer-Sequence.png" style="height: 700px;" />
+<p><img src="./images/Observer-Sequence.png" alt="Observer-Sequence.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org54632bf">
-<h3 id="org54632bf">Podrška u Javi</h3>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4</span> Podrška u Javi</h3>
 <ul>
 <li>Interfejs <code>Observer</code> i klasa <code>Observable</code> u paketu <code>java.util</code>.</li>
 <li>Mehanizam <i>Listener</i>-a u <i>Swing</i>-u prati ovaj obrazac.</li>
@@ -348,8 +348,8 @@ svi zavisni objekti se automatski obaveštavaju.</li>
 </ul>
 
 </section>
-<section id="slide-org304f6ee">
-<h3 id="org304f6ee">Šta dobijamo?</h3>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5</span> Šta dobijamo?</h3>
 <ul>
 <li>Apstraktno sprezanje <i>Observer</i> i <i>Observable</i> objekata. <i>Observable</i> ne zna
 konkretne klase <i>Observer</i> objekata već komunicira sa njima putem
@@ -363,8 +363,8 @@ notifikaciju o promeni.</li>
 </ul>
 
 </section>
-<section id="slide-orgdbf5ba9">
-<h3 id="orgdbf5ba9">Napomene</h3>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6</span> Napomene</h3>
 <ul>
 <li>Ukoliko <i>Observer</i> posmatra više <i>Observable</i> objekata potrebno je
 identifikovati objekat koji šalje poruku o promeni – slanje reference na
@@ -377,30 +377,30 @@ do beskonačne rekurzije.</li>
 </section>
 </section>
 <section>
-<section id="slide-org654a4f3">
-<h2 id="org654a4f3">State</h2>
-<div class="outline-text-2" id="text-org654a4f3">
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7</span> State</h2>
+<div class="outline-text-2" id="text-7">
 </div>
 </section>
-<section id="slide-org51e51ff">
-<h3 id="org51e51ff">State</h3>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1</span> State</h3>
 <p>
 Izmena ponašanja objekta prilikom promene njegovog internog stanja. Objekat se
 ponaša kao da je promenio klasu.
 </p>
 
 </section>
-<section id="slide-org66f6871">
-<h3 id="org66f6871">Struktura obrasca</h3>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/State-Abstract.png" alt="State-Abstract.png" style="height: 700px;" />
+<p><img src="./images/State-Abstract.png" alt="State-Abstract.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org99ad959">
-<h3 id="org99ad959">Saradnja učesnika</h3>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3</span> Saradnja učesnika</h3>
 <ul>
 <li>Context delegira operacije zavisne od stanja objektu state
 (<i>ConcreteStateX</i>).</li>
@@ -413,17 +413,17 @@ objekat.</li>
 </ul>
 
 </section>
-<section id="slide-orgea79558">
-<h3 id="orgea79558">Primer</h3>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/State-Concrete.png" alt="State-Concrete.png" style="height: 700px;" />
+<p><img src="./images/State-Concrete.png" alt="State-Concrete.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org6c26ae8">
-<h3 id="org6c26ae8">Šta dobijamo?</h3>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5</span> Šta dobijamo?</h3>
 <ul>
 <li>Lokalizacija koda specifičnog za određeno stanje u jednu klasu - izbegavanje
 velikih <i>switch/if-else</i> iskaza.</li>
@@ -432,8 +432,8 @@ velikih <i>switch/if-else</i> iskaza.</li>
 </ul>
 
 </section>
-<section id="slide-org72abe1f">
-<h3 id="org72abe1f">Napomene</h3>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6</span> Napomene</h3>
 <ul>
 <li>Promena stanja: <i>Context</i> ili <i>ConcreteStateX</i>?
 <ul>
@@ -454,39 +454,39 @@ prirodna podrška za <i>State</i> obrazac.</li>
 </section>
 </section>
 <section>
-<section id="slide-org7f9c56f">
-<h2 id="org7f9c56f">Strategy</h2>
-<div class="outline-text-2" id="text-org7f9c56f">
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8</span> Strategy</h2>
+<div class="outline-text-2" id="text-8">
 </div>
 </section>
-<section id="slide-orge4424fe">
-<h3 id="orge4424fe">Strategy</h3>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1</span> Strategy</h3>
 <p>
 Definisanje familije algoritama i omogućavanje njihove izmene bez uticaja na
 klijenta.
 </p>
 
 </section>
-<section id="slide-orgbdc303f">
-<h3 id="orgbdc303f">Struktura obrasca</h3>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/Strategy-Abstract.png" alt="Strategy-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Strategy-Abstract.png" alt="Strategy-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orge6caa8f">
-<h3 id="orge6caa8f">Primer</h3>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/Strategy-Concrete.png" alt="Strategy-Concrete.png" style="height: 700px;" />
+<p><img src="./images/Strategy-Concrete.png" alt="Strategy-Concrete.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgcea3722">
-<h3 id="orgcea3722">Šta dobijamo?</h3>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4</span> Šta dobijamo?</h3>
 <ul>
 <li>Definisanje familije algoritama. Nasleđivanje strategija se može koristiti za
 implementaciju zajedničke funkcionalnosti algoritama.</li>
@@ -501,13 +501,13 @@ utrošak memorije ili brže izvršavanje).</li>
 </section>
 </section>
 <section>
-<section id="slide-org65c1aec">
-<h2 id="org65c1aec">Template Method</h2>
-<div class="outline-text-2" id="text-org65c1aec">
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9</span> Template Method</h2>
+<div class="outline-text-2" id="text-9">
 </div>
 </section>
-<section id="slide-orgc828192">
-<h3 id="orgc828192">Template Method</h3>
+<section id="slide-9-1">
+<h3 id="9-1"><span class="section-number-3">9.1</span> Template Method</h3>
 <ul>
 <li>Definisanje strukture algoritma pri čemu se definisanje određenih koraka
 ostavlja klasama naslednicama.</li>
@@ -516,26 +516,26 @@ ostavlja klasama naslednicama.</li>
 </ul>
 
 </section>
-<section id="slide-org44da4a8">
-<h3 id="org44da4a8">Struktura obrasca</h3>
+<section id="slide-9-2">
+<h3 id="9-2"><span class="section-number-3">9.2</span> Struktura obrasca</h3>
 
 <div class="figure">
-<p><img src="./images/TemplateMethod-Abstract.png" alt="TemplateMethod-Abstract.png" style="height: 700px;" />
+<p><img src="./images/TemplateMethod-Abstract.png" alt="TemplateMethod-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgeae2980">
-<h3 id="orgeae2980">Primer</h3>
+<section id="slide-9-3">
+<h3 id="9-3"><span class="section-number-3">9.3</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/TemplateMethod-Concrete.png" alt="TemplateMethod-Concrete.png" style="height: 700px;" />
+<p><img src="./images/TemplateMethod-Concrete.png" alt="TemplateMethod-Concrete.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-org4c8c695">
-<h3 id="org4c8c695">Šta dobijamo?</h3>
+<section id="slide-9-4">
+<h3 id="9-4"><span class="section-number-3">9.4</span> Šta dobijamo?</h3>
 <ul>
 <li>Mogućnost definisanja invarijantnih delova algoritma u apstraktnoj klasi a
 varijabilnih delova u podklasama – sprečava se dupliranje koda.</li>
@@ -558,13 +558,13 @@ su opcione (ne moraju se redefinisati).</li>
 </section>
 </section>
 <section>
-<section id="slide-org2eff832">
-<h2 id="org2eff832">Visitor</h2>
-<div class="outline-text-2" id="text-org2eff832">
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10</span> Visitor</h2>
+<div class="outline-text-2" id="text-10">
 </div>
 </section>
-<section id="slide-org947952f">
-<h3 id="org947952f">Visitor</h3>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1</span> Visitor</h3>
 <ul>
 <li>Razdvajanje algoritma od strukture podataka nad kojim operiše.</li>
 <li>Lokalizacija implementacije operacije koja se izvršava nad elementima složene
@@ -573,35 +573,35 @@ strukture podataka (npr. čvorovima stabla).</li>
 </ul>
 
 </section>
-<section id="slide-orgc5d19bf">
-<h3 id="orgc5d19bf">Struktura</h3>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2</span> Struktura</h3>
 
 <div class="figure">
-<p><img src="./images/Visitor-Abstract.png" alt="Visitor-Abstract.png" style="height: 700px;" />
+<p><img src="./images/Visitor-Abstract.png" alt="Visitor-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org92f7537">
-<h3 id="org92f7537">Saradnja učesnika</h3>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3</span> Saradnja učesnika</h3>
 
 <div class="figure">
-<p><img src="./images/Visitor-Sequence.png" alt="Visitor-Sequence.png" style="height: 700px;" />
+<p><img src="./images/Visitor-Sequence.png" alt="Visitor-Sequence.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org87cb212">
-<h3 id="org87cb212">Primer</h3>
+<section id="slide-10-4">
+<h3 id="10-4"><span class="section-number-3">10.4</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/Visitor-Concrete.png" alt="Visitor-Concrete.png" style="height: 700px;" />
+<p><img src="./images/Visitor-Concrete.png" alt="Visitor-Concrete.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org666ee8c">
-<h3 id="org666ee8c">Kada koristiti?</h3>
+<section id="slide-10-5">
+<h3 id="10-5"><span class="section-number-3">10.5</span> Kada koristiti?</h3>
 <ul>
 <li>Objektna struktura sadrži elemente različitih klasa a potrebno je izvršiti
 operaciju koja zavisi od konkretne klase objekta.</li>
@@ -614,8 +614,8 @@ operacija nad strukturom može biti česta operacija.</li>
 </ul>
 
 </section>
-<section id="slide-org841b8ae">
-<h3 id="org841b8ae">Napomene</h3>
+<section id="slide-10-6">
+<h3 id="10-6"><span class="section-number-3">10.6</span> Napomene</h3>
 <ul>
 <li>Visitor predstavlja implementaciju <i>Double Dispatch</i> mehanizma. Pozvana
 operacija zavisi istovremeno od tipa konkretnog <i>Visitor</i> objekta kao i
@@ -627,13 +627,13 @@ od tipa konkretnog elementa strukture nad kojom se operacija vrši.</li>
 </section>
 </section>
 <section>
-<section id="slide-org4d89b9b">
-<h2 id="org4d89b9b">Chain of Responsibility</h2>
-<div class="outline-text-2" id="text-org4d89b9b">
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11</span> Chain of Responsibility</h2>
+<div class="outline-text-2" id="text-11">
 </div>
 </section>
-<section id="slide-org08e8c2a">
-<h3 id="org08e8c2a">Chain of Responsibility</h3>
+<section id="slide-11-1">
+<h3 id="11-1"><span class="section-number-3">11.1</span> Chain of Responsibility</h3>
 <p>
 Izbegavanje jakog sprezanja objekta koji šalje zahtev od objekta koji vrši
 obradu zahteva tako što se objekti koji vrše obradu uvezuju u listu i daje se
@@ -642,26 +642,26 @@ zahtev (izvrši obradu).
 </p>
 
 </section>
-<section id="slide-orga9496cc">
-<h3 id="orga9496cc">Struktura</h3>
+<section id="slide-11-2">
+<h3 id="11-2"><span class="section-number-3">11.2</span> Struktura</h3>
 
 <div class="figure">
-<p><img src="./images/ChainOfResponsibility-Abstract.png" alt="ChainOfResponsibility-Abstract.png" style="height: 700px;" />
+<p><img src="./images/ChainOfResponsibility-Abstract.png" alt="ChainOfResponsibility-Abstract.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org3791b1c">
-<h3 id="org3791b1c">Primer</h3>
+<section id="slide-11-3">
+<h3 id="11-3"><span class="section-number-3">11.3</span> Primer</h3>
 
 <div class="figure">
-<p><img src="./images/ChainOfResponsibility-Concrete.png" alt="ChainOfResponsibility-Concrete.png" style="height: 700px;" />
+<p><img src="./images/ChainOfResponsibility-Concrete.png" alt="ChainOfResponsibility-Concrete.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgc052184">
-<h3 id="orgc052184">Kada koristiti?</h3>
+<section id="slide-11-4">
+<h3 id="11-4"><span class="section-number-3">11.4</span> Kada koristiti?</h3>
 <ul>
 <li>Više od jednog objekta može da obradi zahtev a obrađivač nije poznat unapred.</li>
 <li>Želimo da uputimo zahtev jednom iz grupe objekata a da ne navodimo konkretnog
@@ -671,8 +671,8 @@ obrađivača eksplicitno.</li>
 </ul>
 
 </section>
-<section id="slide-org23c2eaf">
-<h3 id="org23c2eaf">Napomene</h3>
+<section id="slide-11-5">
+<h3 id="11-5"><span class="section-number-3">11.5</span> Napomene</h3>
 <ul>
 <li>Dve vrste: prosleđivanje zahteva niz lanac i posle obrade ili prekid
 prosleđivanja.</li>
@@ -684,8 +684,8 @@ da će zahtev biti obrađen.</li>
 </section>
 </section>
 <section>
-<section id="slide-orgc97b253">
-<h2 id="orgc97b253">Literatura</h2>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12</span> Literatura</h2>
 <ul>
 <li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
 of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
