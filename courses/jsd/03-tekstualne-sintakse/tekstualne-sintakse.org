@@ -24,15 +24,16 @@ Osnovne klase alata:
 - Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
   gramatike jezika.
 - Transformacija ulaznog stringa u /stablo parsiranja/ ili neku drugu strukturu
-  podatka.
-
+  podataka.
+  
 ** Leksička analiza
 
 - Svaki jezik poseduje /alfabet mogućih karaktera/ koji se mogu pojaviti u
   sklopu validnih rečenica. Kod računarskih jezika određene kombinacije simbola
   se tretiraju kao jedinstveni entitet - /token/.^{1}
-- /Proces grupisanja/ niza uzastopnih karaktera ulaznog stringa u tokene.
-  Tekstualni blok koji odgovara tokenu naziva se još i /leksema/.
+- Leksička analiza je /proces grupisanja/ niza uzastopnih karaktera ulaznog
+  stringa u tokene. Tekstualni blok koji odgovara tokenu naziva se još i
+  /leksema/.
 - Program koji vrši leksičku analizu naziva se /lekser/, /skener/ ili
   /tokenizator/.
 - Leksička analiza /prethodi procesu parsiranja/ tako što se karakteri sa ulaza
@@ -57,7 +58,7 @@ Osnovne klase alata:
   
 ** Stablo parsiranja - primer
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 600px;
 [[./images/calc_parse_tree.svg]]
 
@@ -75,7 +76,7 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
   
 ** Primer stabla apstraktne sintakse
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/AST.svg]]
 
@@ -135,8 +136,10 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 - Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
   /efikasnih algoritama za parsiranje/.
 - Generišu jezike koje nazivamo kontekstno slobodnim jezicima.
-- /Earley parser/ - algoritam za parsiranje koji prihvata ceo skup CFG. U praksi
-  se češće koriste jednostavniji algoritmi koji prihvataju samo podskup CFG.
+- Postoje algoritmi za parsiranje koji prihvataju ceo skup CFG (npr. /Earley/,
+  /GLR/).
+- U praksi se češće koriste jednostavniji algoritmi koji prihvataju samo podskup
+  CFG.
 - Jezik za definisanje CFG - /(Extended) Backus-Naur Form (EBNF)/.
 
 ** Primer kontekstno slobodne gramatike
@@ -240,13 +243,13 @@ https://en.wikipedia.org/wiki/Context-free_grammar
 
 - /Levo izvođenje/ - uvek se prvo razrešava levi neterminal.
 - /Desno izvođenje/ - uvek se prvo razrešava desni neterminal.
-- Strategija izvođenja je bitna kod parsera koji izvšavaju određene akcije kod
+- Strategija izvođenja je bitna kod parsera koji izvršavaju određene akcije kod
   svake primene produkcije jer se redosled primene razlikuje iako mogu
   rezultovati istim stablima parsiranja.
   
 ** Levo izvođenje - primer
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/LeftDerivation.svg]]
 
@@ -273,7 +276,7 @@ if a then (if b then s else s2)
 
 ** Višeznačna gramatika - primer
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/Ambiguous.svg]]
 
@@ -282,7 +285,7 @@ if a then (if b then s else s2)
 #+ATTR_HTML: :style text-align: center;
 Stablo koje oslikava prioritet i asocijativnost operacija
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/Ambiguous2.svg]]
 
@@ -466,7 +469,7 @@ http://stackoverflow.com/questions/5975741/what-is-the-difference-between-ll-and
 
 ** LR parsiranje - primer
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/LR-Primer.png]]
 
@@ -551,7 +554,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 
 ** Refaktorisanje gramatike za PEG parsere
 
-#+ATTR_ORG: :width 100%
+#+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/PEGPrioritet.svg]]
 
@@ -593,4 +596,4 @@ Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
 - Konfigurišu se gramatikom u vreme izvršavanja (/run-time/) tj. /interpretiraju
   gramatiku/.
 - Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike "u letu".
-- Arpeggio, parglare i textX rade kao interpreteri.
+- [[https://github.com/textX/Arpeggio][Arpeggio]], [[https://github.com/igordejanovic/parglare][parglare]], i [[https://github.com/textX/textX][textX]] rade kao interpreteri.

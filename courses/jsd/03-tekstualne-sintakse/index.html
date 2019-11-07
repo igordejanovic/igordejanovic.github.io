@@ -35,12 +35,12 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-03 Sun 18:13, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2019-11-07 Thu 21:12, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orgb5c4b8b">
-<h2 id="orgb5c4b8b">Sadržaj</h2>
+<section id="slide-org20688d7">
+<h2 id="org20688d7">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -78,7 +78,7 @@ Osnovne klase alata:
 <li>Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
 gramatike jezika.</li>
 <li>Transformacija ulaznog stringa u <i>stablo parsiranja</i> ili neku drugu strukturu
-podatka.</li>
+podataka.</li>
 
 </ul>
 
@@ -89,8 +89,9 @@ podatka.</li>
 <li>Svaki jezik poseduje <i>alfabet mogućih karaktera</i> koji se mogu pojaviti u
 sklopu validnih rečenica. Kod računarskih jezika određene kombinacije simbola
 se tretiraju kao jedinstveni entitet - <i>token</i>.<sup>1</sup></li>
-<li><i>Proces grupisanja</i> niza uzastopnih karaktera ulaznog stringa u tokene.
-Tekstualni blok koji odgovara tokenu naziva se još i <i>leksema</i>.</li>
+<li>Leksička analiza je <i>proces grupisanja</i> niza uzastopnih karaktera ulaznog
+stringa u tokene. Tekstualni blok koji odgovara tokenu naziva se još i
+<i>leksema</i>.</li>
 <li>Program koji vrši leksičku analizu naziva se <i>lekser</i>, <i>skener</i> ili
 <i>tokenizator</i>.</li>
 <li>Leksička analiza <i>prethodi procesu parsiranja</i> tako što se karakteri sa ulaza
@@ -245,8 +246,10 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 <li>Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
 <i>efikasnih algoritama za parsiranje</i>.</li>
 <li>Generišu jezike koje nazivamo kontekstno slobodnim jezicima.</li>
-<li><i>Earley parser</i> - algoritam za parsiranje koji prihvata ceo skup CFG. U praksi
-se češće koriste jednostavniji algoritmi koji prihvataju samo podskup CFG.</li>
+<li>Postoje algoritmi za parsiranje koji prihvataju ceo skup CFG (npr. <i>Earley</i>,
+<i>GLR</i>).</li>
+<li>U praksi se češće koriste jednostavniji algoritmi koji prihvataju samo podskup
+CFG.</li>
 <li>Jezik za definisanje CFG - <i>(Extended) Backus-Naur Form (EBNF)</i>.</li>
 
 </ul>
@@ -378,7 +381,7 @@ sdesna).</li>
 <ul>
 <li><i>Levo izvođenje</i> - uvek se prvo razrešava levi neterminal.</li>
 <li><i>Desno izvođenje</i> - uvek se prvo razrešava desni neterminal.</li>
-<li>Strategija izvođenja je bitna kod parsera koji izvšavaju određene akcije kod
+<li>Strategija izvođenja je bitna kod parsera koji izvršavaju određene akcije kod
 svake primene produkcije jer se redosled primene razlikuje iako mogu
 rezultovati istim stablima parsiranja.</li>
 
@@ -865,7 +868,7 @@ implementiran na programskom jeziku Java.</li>
 <li>Konfigurišu se gramatikom u vreme izvršavanja (<i>run-time</i>) tj. <i>interpretiraju
 gramatiku</i>.</li>
 <li>Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike "u letu".</li>
-<li>Arpeggio, parglare i textX rade kao interpreteri.</li>
+<li><a href="https://github.com/textX/Arpeggio">Arpeggio</a>, <a href="https://github.com/igordejanovic/parglare">parglare</a>, i <a href="https://github.com/textX/textX">textX</a> rade kao interpreteri.</li>
 
 </ul>
 </section>
