@@ -1,0 +1,613 @@
+#+TITLE: Umetanje zavisnosti - /Dependency Injection/
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
+
+
+* Motivacija
+** Motivacija
+
+ - Objekti iole složenijih aplikacija formiraju složene grafove zavisnosti.
+ - Kako objekat "dobija" reference na zavisne objekte?
+
+** Motivacija
+
+#+ATTR_ORG: :width 300px
+[[./images/Motivation.png]]
+
+** Klasičan pristup dobavljanja referenci
+
+ #+BEGIN_SRC java
+ public class RealBillingService implements BillingService {
+
+   @Override
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+       CreditCardProcessor processor = new PaypalCreditCardProcessor();
+       TransactionLog transactionLog = new DatabaseTransactionLog();
+
+       try {
+         ChargeResult result = processor.charge(creditCard, order.getAmount());
+         transactionLog.logChargeResult(result);
+
+         return result.wasSuccessful()
+             ? Receipt.forSuccessfulCharge(order.getAmount())
+             : Receipt.forDeclinedCharge(result.getDeclineMessage());
+        } catch (UnreachableException e) {
+         transactionLog.logConnectException(e);
+         return Receipt.forSystemFailure(e.getMessage());
+       }
+   }
+ }
+ #+END_SRC
+
+** Upotreba /Singleton/Factory/ obrasca
+
+ Objekat se sam brine o dobavljanju referenci ali to čini posredstvom globalne
+ deljene reference.
+
+#+BEGIN_SRC java
+ public class RealBillingService implements BillingService {
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     CreditCardProcessor processor = CreditCardProcessorFactory.getInstance();
+     TransactionLog transactionLog = TransactionLogFactory.getInstance();
+
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful() ?
+             Receipt.forSuccessfulCharge(order.getAmount()) :
+             Receipt.forDeclinedCharge(result.getDeclineMessage());
+     } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+#+END_SRC
+
+** /Singleton/Factory/ - testiranje
+
+#+BEGIN_SRC java
+ public class RealBillingServiceTest extends TestCase {
+
+   private final PizzaOrder order = new PizzaOrder(100);
+   private final CreditCard creditCard = new CreditCard(5000);
+   private final InMemoryTransactionLog transactionLog = new InMemoryTransactionLog();
+   private final FakeCreditCardProcessor creditCardProcessor = new FakeCreditCardProcessor();
+
+   @Override
+   public void setUp() {
+     TransactionLogFactory.setInstance(transactionLog);
+     CreditCardProcessorFactory.setInstance(creditCardProcessor);
+   }
+
+   @Override
+   public void tearDown() {
+     TransactionLogFactory.setInstance(null);
+     CreditCardProcessorFactory.setInstance(null);
+   }
+
+   public void testSuccessfulCharge() {
+     RealBillingService billingService = new RealBillingService();
+     Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+     assertTrue(receipt.hasSuccessfulCharge());
+     assertEquals(100.0, receipt.getAmount(), 0.001);
+     assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+     assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+     assertTrue(transactionLog.wasSuccessLogged());
+   }
+ }
+#+END_SRC
+
+** Upotreba /Singleton/Factory/ obrasca - problemi
+
+ - Deljena referenca - moramo posebno da pazimo da je postavljamo na prave
+   vrednosti.
+ - Nemoguće paralelizovati testove.
+
+* /Dependency Injection/
+** Umetanje zavisnosti - /Dependency Injection/
+
+ - Izmeštanje nadležnosti za dobavljanje referenci van objekta - neko drugi će
+   se brinuti da "umetne" reference pre njihove upotrebe.
+ - Prednosti:
+   - Kod se pojednostavljuje. Zavisnost između klasa je bazirana na apstraktnim
+     interfejsima što pozitivno utiče na održavanje (/maintability/), ponovnu
+     iskoristljivost (/reusability/) i podelu posla i nadležnosti.
+   - Objekat će do trenutka poziva njegovih servisnih metoda već biti na
+     odgovarajući način inicijalizovan. Smanjuje se tzv. /boilerplate/ kod.
+   - Testiranje je daleko jednostavnije. Kreiranje "lažnih" objekata (/mockup/)
+     je moguće i jednostavno se izvodi. Moguća paralelizacija testova.
+            
+** Mehanizmi umetanja zavisnosti
+
+ - Putem parametara konstruktora.
+ - Putem mutator metoda (/setters/).
+ - Putem implementiranog interfejsa.
+
+** Injekcija putem parametara konstruktora
+
+#+BEGIN_SRC java
+ Client(Service service) {
+     this.service = service;
+ }
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+- Wikipedia: [[http://en.wikipedia.org/wiki/Dependency_injection][Dependency Injection]]
+
+** Injekcija putem /setter/ metoda
+
+#+BEGIN_SRC java
+ public void setService(Service service) {
+     this.service = service;
+ }
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+- Wikipedia: [[http://en.wikipedia.org/wiki/Dependency_injection][Dependency Injection]]
+
+** Injekcija putem interfejsa
+
+#+BEGIN_SRC java
+ public interface ServiceSetter {
+     public void setService(Service service);
+ }
+ public class client implements ServiceSetter {
+
+     private Service service;
+
+     @Override
+     public void setService(Service service) {
+         this.service = service;
+     }
+ }
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+- Wikipedia: [[http://en.wikipedia.org/wiki/Dependency_injection][Dependency Injection]]
+
+** Upotreba DI
+
+#+BEGIN_SRC java
+ public class RealBillingService implements BillingService {
+   private final CreditCardProcessor processor;
+   private final TransactionLog transactionLog;
+
+   public RealBillingService(CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     this.processor = processor;
+     this.transactionLog = transactionLog;
+   }
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful() ?
+            Receipt.forSuccessfulCharge(order.getAmount()) :
+            Receipt.forDeclinedCharge(result.getDeclineMessage());
+     } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+#+END_SRC
+
+** Upotreba DI - testiranje
+
+#+BEGIN_SRC java
+ public class RealBillingServiceTest extends TestCase {
+
+   private final PizzaOrder order = new PizzaOrder(100);
+   private final CreditCard creditCard = new CreditCard(5000);
+
+   private final InMemoryTransactionLog transactionLog =
+                                              new InMemoryTransactionLog();
+   private final FakeCreditCardProcessor creditCardProcessor =
+                                              new FakeCreditCardProcessor();
+
+   public void testSuccessfulCharge() {
+     RealBillingService billingService = new RealBillingService(
+         creditCardProcessor, transactionLog);
+     Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+     assertTrue(receipt.hasSuccessfulCharge());
+     assertEquals(100.0, receipt.getAmount(), 0.001);
+     assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+     assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+     assertTrue(transactionLog.wasSuccessLogged());
+   }
+ }
+#+END_SRC
+
+** DI kontejneri
+
+ - DI se može implementirati i bez posebnog alata/okvira.
+ - DI kontejneri omogućavaju nametanje određenih konvencija za primenu ovog
+   obrasca.
+ - Korišćenje DI kontejera donosi određene prednosti:
+   - Upotreba najbolje prakse
+   - Standardizacija
+
+** DI kontejneri za Javu
+
+ - Google Guice
+ - PicoContainer
+ - Spring
+ - ...
+
+** Standardizacija za programski jezik Java
+
+ - JSR-330^{1}
+ - Definiše skup standardnih Java anotacija za DI:
+   - =Provider<T>= - Provides instances of T
+   - =Inject= - Identifies injectable constructors, methods, and fields.
+   - =Named= - String-based qualifier.
+   - =Qualifier= - Identifies qualifier annotations.
+   - =Scope= - Identifies scope annotations.
+   - =Singleton= - Identifies a type that the injector only instantiates once.
+
+#+attr_html: :class footer :style clear: both;
+1. https://code.google.com/p/atinject/
+
+* Google Guice
+** Google Guice
+
+ - /Lightweight/ okvir za DI u Javi.
+ - Razvijen od strane Google-a.
+ - Konfiguracija bazirana na Java anotacijama.
+
+** Injekcija putem konstruktora
+
+#+BEGIN_SRC java
+ public class RealBillingService implements BillingService {
+   private final CreditCardProcessor processor;
+   private final TransactionLog transactionLog;
+
+   @Inject
+   public RealBillingService(CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     this.processor = processor;
+     this.transactionLog = transactionLog;
+   }
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful()
+           ? Receipt.forSuccessfulCharge(order.getAmount())
+           : Receipt.forDeclinedCharge(result.getDeclineMessage());
+      } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+#+END_SRC
+
+** Konfiguracija za povezivanje - /binding/wiring/
+
+#+BEGIN_SRC java
+ public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+     bind(CreditCardProcessor.class).to(PaypalCreditCardProcessor.class);
+     bind(BillingService.class).to(RealBillingService.class);
+   }
+ }
+#+END_SRC
+
+** Upotreba kontejnera
+
+#+BEGIN_SRC java
+ public static void main(String[] args) {
+   Injector injector = Guice.createInjector(new BillingModule());
+   BillingService billingService = injector.getInstance(BillingService.class);
+   Receipt result = billingService.chargeOrder(new PizzaOrder(100),
+                                               new CreditCard(500));
+   System.out.println(result.hasSuccessfulCharge());
+ }
+#+END_SRC
+
+** /Linked Bindings/
+
+#+BEGIN_SRC java
+ public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+     bind(DatabaseTransactionLog.class).to(MySqlDatabaseTransactionLog.class);
+   }
+ }
+#+END_SRC
+
+** /Custom Bindings Annotations/
+
+#+BEGIN_SRC java
+ package example.pizza;
+ import com.google.inject.BindingAnnotation;
+ import java.lang.annotation.Target;
+ import java.lang.annotation.Retention;
+ import static java.lang.annotation.RetentionPolicy.RUNTIME;
+ import static java.lang.annotation.ElementType.PARAMETER;
+ import static java.lang.annotation.ElementType.FIELD;
+ import static java.lang.annotation.ElementType.METHOD;
+
+ @BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
+ public @interface PayPal {}
+ ...
+ public class RealBillingService implements BillingService {
+
+   @Inject
+   public RealBillingService(@PayPal CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     ...
+   }
+ ...
+     bind(CreditCardProcessor.class)
+         .annotatedWith(PayPal.class)
+         .to(PayPalCreditCardProcessor.class);
+#+END_SRC
+
+** /@Named Binding Annotation/
+
+#+BEGIN_SRC java
+ public class RealBillingService implements BillingService {
+
+   @Inject
+   public RealBillingService(@Named("Checkout") CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     ...
+   }
+  ...
+  ...
+     bind(CreditCardProcessor.class)
+         .annotatedWith(Names.named("Checkout"))
+         .to(CheckoutCreditCardProcessor.class);
+#+END_SRC
+
+** /Instance Bindings/
+
+#+BEGIN_SRC java
+ bind(String.class)
+     .annotatedWith(Names.named("JDBC URL"))
+     .toInstance("jdbc:mysql://localhost/pizza");
+ bind(Integer.class)
+     .annotatedWith(Names.named("login timeout seconds"))
+     .toInstance(10);
+#+END_SRC
+
+** /@Provides Methods/
+
+#+BEGIN_SRC java
+ public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     ...
+   }
+
+   @Provides
+   TransactionLog provideTransactionLog() {
+     DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+     transactionLog.setJdbcUrl("jdbc:mysql://localhost/pizza");
+     transactionLog.setThreadPoolSize(30);
+     return transactionLog;
+   }
+ }
+ ...
+   @Provides @PayPal
+   CreditCardProcessor providePayPalCreditCardProcessor(
+       @Named("PayPal API key") String apiKey) {
+     PayPalCreditCardProcessor processor = new PayPalCreditCardProcessor();
+     processor.setApiKey(apiKey);
+     return processor;
+   }
+#+END_SRC
+
+** /Provider Bindings/
+
+#+BEGIN_SRC java
+ public class DatabaseTransactionLogProvider 
+       implements Provider<TransactionLog> {
+   private final Connection connection;
+
+   @Inject
+   public DatabaseTransactionLogProvider(Connection connection) {
+     this.connection = connection;
+   }
+
+   public TransactionLog get() {
+     DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+     transactionLog.setConnection(connection);
+     return transactionLog;
+   }
+ }
+ ...
+ public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class)
+         .toProvider(DatabaseTransactionLogProvider.class);
+   }
+ }
+#+END_SRC
+
+** /Scopes/
+
+#+BEGIN_SRC java
+ @Singleton
+ public class InMemoryTransactionLog implements TransactionLog {
+   /* everything here should be threadsafe! */
+ }
+ ...
+ bind(TransactionLog.class)
+   .to(InMemoryTransactionLog.class).in(Singleton.class);
+ ...
+ @Provides @Singleton
+ TransactionLog provideTransactionLog() {
+   ...
+ }
+ ...
+ bind(Bar.class).to(Applebees.class).in(Singleton.class);
+ bind(Grill.class).to(Applebees.class).in(Singleton.class);
+#+END_SRC
+
+* Injector
+** Injector
+
+ - https://github.com/alecthomas/injector
+ - Python biblioteka za DI modelovana prema /Google Guice/ ali sa /Pythonic
+   API/.
+
+** Jednostavan primer
+
+#+BEGIN_SRC python
+ >>> from injector import Injector, inject
+ >>> class Inner(object):
+ ...     def __init__(self):
+ ...         self.forty_two = 42
+ ...
+ >>> class Outer(object):
+ ...     @inject
+ ...     def __init__(self, inner: Inner):
+ ...         self.inner = inner
+ ...
+ >>> injector = Injector()
+ >>> outer = injector.get(Outer)
+ >>> outer.inner.forty_two
+ 42
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+- Python type hints - https://docs.python.org/3/library/typing.html
+
+** Složeniji primer
+
+#+BEGIN_SRC python
+ from injector import Key
+ Name = Key('name')
+ Description = Key('description')
+#+END_SRC
+
+#+BEGIN_SRC python
+ from injector import inject, provider, Module
+
+ class User(object):
+     @inject
+     def __init__(self, name: Name, description: Description):
+         self.name = name
+         self.description = description
+
+
+ class UserModule(Module):
+     def configure(self, binder):
+        binder.bind(User)
+
+
+ class UserAttributeModule(Module):
+     def configure(self, binder):
+         binder.bind(Name, to='Sherlock')
+
+     @provider
+     def describe(self, name: Name) -> Description:
+         return '%s is a man of astounding insight' % name
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+http://injector.readthedocs.io/en/latest/terminology.html#injection
+
+** Složeniji primer
+
+#+BEGIN_SRC python
+ from injector import Injector
+ injector = Injector([UserModule(), UserAttributeModule()])
+#+END_SRC
+
+ili
+
+#+BEGIN_SRC python
+ injector = Injector([UserModule, UserAttributeModule])
+#+END_SRC
+
+ Upotreba:
+ 
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC python
+ >>> injector.get(Name)
+ 'Sherlock'
+ >>> injector.get(Description)
+ 'Sherlock is a man of astounding insight'
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+BEGIN_SRC python
+ >>> user = injector.get(User)
+ >>> isinstance(user, User)
+ True
+ >>> user.name
+ 'Sherlock'
+ >>> user.description
+ 'Sherlock is a man of astounding insight'
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+* Flask injector
+** Flask injector
+
+ - Veza između =injector= biblioteke i =Flask= okvira za razvoj.
+
+** Primer upotrebe
+
+#+BEGIN_SRC python
+ import sqlite3
+ from flask import Flask, Config
+ from flask.views import View
+ from flask_injector import FlaskInjector
+ from injector import inject
+
+ app = Flask(__name__)
+
+ @app.route("/bar")
+ def bar():
+     return render("bar.html")
+
+ @app.route("/foo")
+ @inject(db=sqlite3.Connection)
+ def foo(db):
+     users = db.execute('SELECT * FROM users').all()
+     return render("foo.html")
+    
+ def configure(binder):
+     binder.bind(
+         sqlite3.Connection,
+         to=sqlite3.Connection(':memory:'),
+         scope=request,
+     )
+
+ FlaskInjector(app=app, modules=[configure])
+
+ app.run()
+#+END_SRC
+
+* Reference
+
+- [[https://en.wikipedia.org/wiki/Dependency_injection][Dependency Injection on Wikipedia]]
+- Martin Fowler, [[http://www.martinfowler.com/articles/injection.html][Inversion of Control Containers and the Dependency Injection pattern]], January 2004.
+- [[https://github.com/google/guice/wiki][Google Guice Wiki]]
+- [[http://injector.readthedocs.io/en/latest/][=Injector= dokumentacija]]
+- [[https://github.com/alecthomas/flask_injector][=Flask Injector= projekat]]
