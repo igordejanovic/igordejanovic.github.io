@@ -23,7 +23,7 @@ order: 2
 ## Tehnologije
 
 - [textX](/courses/tech/textX/index.html)
-- [Arpeggio](courses/tech/arpeggio.html)
+- [Arpeggio](courses/tech/arpeggio/)
 - [Programski jezik Python](courses/tech/Python/)
 - [Pharo/Smalltalk](courses/tech/Pharo/index.html)
 - [Go](courses/tech/GoLang/index.html)
