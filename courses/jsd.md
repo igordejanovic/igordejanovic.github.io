@@ -1,5 +1,5 @@
 ---
-title: Jezici specifični za domen (*Domain-Specific Languages*)
+title: Jezici specifični za domen (Domain-Specific Languages)
 layout: page
 ---
 
