@@ -10,7 +10,7 @@ layout: page
 1. [Osnove upravljanja konfiguracijom softvera](uks/01-osnove/)
 1. [Upravljanje izvornim kodom](uks/02-upravljanje-izvornim-kodom/)
 1. [Sistemi za kontrolu verzija - Uvod](tech/sistemi-za-kontrolu-verzija.html)
-1. [Git](tech/git.html)
+1. [Git](tech/git/)
 1. [Django](tech/django.html)
 1. [Docker](tech/docker.html)
 
