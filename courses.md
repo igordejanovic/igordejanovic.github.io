@@ -34,7 +34,7 @@ order: 2
   - [SWT&JFace examples](courses/tech/SWT-JFace/STW-JFace-examples.tar.gz)
 - Sistemi za kontrolu verzija
   - [Uvod](courses/tech/sistemi-za-kontrolu-verzija.html)
-  - [Git](courses/tech/git.html)
+  - [Git](courses/tech/git/)
 - [Eclipse RCP](courses/tech/EclipseRCP.html)
 
 
