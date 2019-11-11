@@ -16,7 +16,7 @@ layout: page
 1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/)
 1. [Arpeggio](tech/arpeggio/)
 1. parglare - u pripremi
-1. [textX](tech/textx/)
+1. [textX](tech/textX/)
 1. [Xtext](jsd/06-Xtext.html)
 1. [Generisanje programskog koda](jsd/generisanje-programskog-koda.html)
 1. [Anatomija jednog DSL-a](jsd/anatomija-dsla.html)
