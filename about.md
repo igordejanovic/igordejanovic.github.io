@@ -14,8 +14,9 @@ that the future of programming is in languages fit for the purpose, with both
 abstract and concrete syntaxes fully aligned with the domain. I always strive
 for simplicity - simple tools, simple processes.
 
-I am user, supporter, and developer of Free/Libre Open-Source Software. Check
-out my FLOSS projects at [github](https://github.com/{{ site.github }}).
+I am user, supporter, and developer of Free/Libre Open-Source Software. Some of
+my FLOSS projects are described [here](projects.html). Check it out at
+[github](https://github.com/{{ site.github }}).
 
 Some of my research is listed at [my university
 page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).

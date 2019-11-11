@@ -7,8 +7,9 @@ order: 1
 
 ---
 
-Here are short descriptions of some of my FLOSS projects I like to hack on.  I
-use these tools in teaching [Domain-Specific Languages](courses.html) course.  
+Here are short descriptions of some of my FLOSS projects I like to hack on. I
+use these tools in my work, research and teaching [Domain-Specific
+Languages](courses.html) course.
 
 ### [textX](http://textx.github.io/textX/)
 
