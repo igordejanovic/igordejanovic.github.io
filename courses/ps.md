@@ -11,8 +11,8 @@ layout: page
     - [Composite primer](sok/primeri/structural.composite.zip)
     - [Proxy primer](sok/primeri/structural.proxy.zip)
 1. [Obrasci ponašanja](sok/04-obrasci-ponasanja/)
-1. [Dependency Injection](tech/dependency-injection.html)
-1. [Git](tech/git.html)
+1. [Dependency Injection](tech/dependency-injection/)
+1. [Git](tech/git/)
 
 
 ## Literatura
