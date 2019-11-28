@@ -15,7 +15,7 @@ layout: page
 1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/)
 1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/)
 1. [Arpeggio](tech/arpeggio/)
-1. parglare - u pripremi
+1. [parglare](tech/parglare/)
 1. [textX](tech/textX/)
 1. [Xtext](jsd/06-Xtext.html)
 1. [Generisanje programskog koda](jsd/generisanje-programskog-koda.html)
