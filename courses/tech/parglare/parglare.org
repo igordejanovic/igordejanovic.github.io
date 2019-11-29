@@ -94,7 +94,6 @@ Successfully installed parglare
    
 #+BEGIN_SRC python :results none :session intro
 grammar = r"""
-S: E EOF;
 E: E '+' E
  | E '-' E
  | E '*' E
@@ -107,13 +106,12 @@ number: /\d+(\.\d+)?/;
 """
 
 actions = {
-    "S": lambda _, nodes: nodes[0],
-    "E": [lambda _, nodes: nodes[0] + nodes[2],
-          lambda _, nodes: nodes[0] - nodes[2],
-          lambda _, nodes: nodes[0] * nodes[2],
-          lambda _, nodes: nodes[0] / nodes[2],
-          lambda _, nodes: nodes[1],
-          lambda _, nodes: nodes[0]],
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
     "number": lambda _, value: float(value),
 }
 
@@ -151,7 +149,7 @@ print("Result = ", result)
 #+BEGIN_SRC python :session intro :results output
 from parglare import GLRParser, Grammar
 g = Grammar.from_string(grammar)
-parser = GLRParser(g, actions=actions)
+parser = GLRParser(g, consume_input=True, actions=actions)
 
 result = parser.parse("2 * 3 + 4 / 2 / 2")
 
@@ -178,7 +176,6 @@ print("Broj interpretacija = ", len(result))
 
 #+BEGIN_SRC python :results none :session intro
 grammar = r"""
-S: E EOF;
 E: E '+' E {left}
  | E '-' E {left}
  | E '*' E {left}
@@ -215,7 +212,6 @@ print("Result = ", result)
    
 #+BEGIN_SRC python :results none :session intro
 grammar = r"""
-S: E EOF;
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -377,7 +373,6 @@ $ pglr trace calc.pg -i "2 + 3 * 5"
     
 #+BEGIN_SRC python :session intro :results none
 grammar = r"""
-S: E EOF;
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -390,13 +385,12 @@ number: /\d+(\.\d+)?/;
 """
 
 actions = {
-    "S": lambda _, nodes: nodes[0],
-    "E": [lambda _, nodes: nodes[0] + nodes[2],
-          lambda _, nodes: nodes[0] - nodes[2],
-          lambda _, nodes: nodes[0] * nodes[2],
-          lambda _, nodes: nodes[0] / nodes[2],
-          lambda _, nodes: nodes[1],
-          lambda _, nodes: nodes[0]],
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
     "number": lambda _, value: float(value),
 }
 #+END_SRC

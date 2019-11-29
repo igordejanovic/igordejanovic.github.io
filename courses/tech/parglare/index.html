@@ -35,12 +35,12 @@
 <h1 class="title">parglare parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-28 Thu 17:27, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2019-11-29 Fri 10:30, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org8919402">
-<h2 id="org8919402">Sadržaj</h2>
+<section id="slide-orgc138508">
+<h2 id="orgc138508">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
@@ -168,7 +168,6 @@ Successfully installed parglare
 <div class="org-src-container">
 
 <pre><code class=" python" >grammar = r"""
-S: E EOF;
 E: E '+' E
  | E '-' E
  | E '*' E
@@ -181,13 +180,12 @@ number: /\d+(\.\d+)?/;
 """
 
 actions = {
-    "S": lambda _, nodes: nodes[0],
-    "E": [lambda _, nodes: nodes[0] + nodes[2],
-          lambda _, nodes: nodes[0] - nodes[2],
-          lambda _, nodes: nodes[0] * nodes[2],
-          lambda _, nodes: nodes[0] / nodes[2],
-          lambda _, nodes: nodes[1],
-          lambda _, nodes: nodes[0]],
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
     "number": lambda _, value: float(value),
 }
 
@@ -240,7 +238,7 @@ tako što preferira <i>Shift</i> operaciju (videti <a href="http://www.igordejan
 
 <pre><code class=" python" >from parglare import GLRParser, Grammar
 g = Grammar.from_string(grammar)
-parser = GLRParser(g, actions=actions)
+parser = GLRParser(g, consume_input=True, actions=actions)
 
 result = parser.parse("2 * 3 + 4 / 2 / 2")
 
@@ -279,7 +277,6 @@ operacija u izrazu.
 <div class="org-src-container">
 
 <pre><code class=" python" >grammar = r"""
-S: E EOF;
 E: E '+' E {left}
  | E '-' E {left}
  | E '*' E {left}
@@ -327,7 +324,6 @@ koja znači levu asocijativnost).</li>
 <div class="org-src-container">
 
 <pre><code class=" python" >grammar = r"""
-S: E EOF;
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -530,7 +526,6 @@ $ pglr trace calc.pg -i "2 + 3 * 5"
 <div class="org-src-container">
 
 <pre><code class=" python" >grammar = r"""
-S: E EOF;
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -543,13 +538,12 @@ number: /\d+(\.\d+)?/;
 """
 
 actions = {
-    "S": lambda _, nodes: nodes[0],
-    "E": [lambda _, nodes: nodes[0] + nodes[2],
-          lambda _, nodes: nodes[0] - nodes[2],
-          lambda _, nodes: nodes[0] * nodes[2],
-          lambda _, nodes: nodes[0] / nodes[2],
-          lambda _, nodes: nodes[1],
-          lambda _, nodes: nodes[0]],
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
     "number": lambda _, value: float(value),
 }
 </code></pre>
