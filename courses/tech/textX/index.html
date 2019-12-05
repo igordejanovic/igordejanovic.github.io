@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="../../highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
+
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
     if( window.location.search.match( /print-pdf/gi ) ) {
@@ -25,26 +26,47 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<base target="_blank">
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide">
 <h1 class="title">textX</h1>
+<h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano: 2019-03-19 Tue 20:16</p>
+<p class="date">Kreirano 2019-12-05 Thu 20:32, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
+
 <section>
-<section id="slide-org3fb96fc">
-<h2 id="org3fb96fc">Osnovne osobine</h2>
+<section id="slide-orgca2605e">
+<h2 id="orgca2605e">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Osnovne osobine</a></li>
+<li><a href="#/slide-2">2. Arhitektura</a></li>
+<li><a href="#/slide-3">3. Instalacija</a></li>
+<li><a href="#/slide-4">4. Upotreba</a></li>
+<li><a href="#/slide-5">5. Primeri</a></li>
+<li><a href="#/slide-6">6. Napredne tehnike - pyFlies</a></li>
+<li><a href="#/slide-7">7. Podrška u editorima</a></li>
+<li><a href="#/slide-8">8. Veče džeza i slobodnih formi - improvizacije</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Osnovne osobine</h2>
 <ul>
 <li>100% Python kod</li>
 <li>MIT licenca</li>
 <li>Istovremeno definisanje gramatike i meta-modela - inspirisan sa <a href="https://www.eclipse.org/Xtext/">Xtext</a></li>
 <li>Automatska konstrukcija modela - podrška za razrešavane referenci</li>
 <li>Podrška za veze tipa celina-deo</li>
-<li>Kontrola parsiranja (<b>whitespaces, case, keywords</b>&#x2026;)</li>
+<li>Kontrola parsiranja (<i>whitespaces, case, keywords</i>&#x2026;)</li>
 <li>Postprocesiranje objekata modela ili celog modela</li>
 <li>Modularizacija gramatika - import</li>
 <li>Vizualizacija modela i meta-modela</li>
@@ -55,8 +77,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orgb582fb7">
-<h2 id="orgb582fb7">Arhitektura</h2>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Arhitektura</h2>
 
 <div class="figure">
 <p><img src="./slike/textX.png" alt="textX.png" />
@@ -66,13 +88,13 @@
 </section>
 </section>
 <section>
-<section id="slide-org59cf080">
-<h2 id="org59cf080">Instalacija</h2>
-<div class="outline-text-2" id="text-org59cf080">
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Instalacija</h2>
+<div class="outline-text-2" id="text-3">
 </div>
 </section>
-<section id="slide-org4739cc6">
-<h3 id="org4739cc6">Instalacija</h3>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Instalacija</h3>
 <ul>
 <li>Sa PyPI</li>
 
@@ -93,8 +115,8 @@ Successfully installed Arpeggio-1.9.0 textX-1.8.0
 </pre>
 
 </section>
-<section id="slide-org6c8e7da">
-<h3 id="org6c8e7da">Instalacija razvojne verzije</h3>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> Instalacija razvojne verzije</h3>
 <pre  class="example">
 $ mkdir ntp 
 $ cd ntp    
@@ -115,8 +137,8 @@ Successfully installed Arpeggio-1.9.0 click-7.0 textX-1.8.0
 </pre>
 
 </section>
-<section id="slide-org8f0dc08">
-<h3 id="org8f0dc08">Instalacija razvojne verzije - za razvoj</h3>
+<section id="slide-installation">
+<h3 id="installation"><span class="section-number-3">3.3</span> Instalacija za razvoj</h3>
 <pre  class="example">
 $ mkdir ntp 
 $ cd ntp    
@@ -147,67 +169,70 @@ Successfully installed textX
 </section>
 </section>
 <section>
-<section id="slide-org1c1ad6b">
-<h2 id="org1c1ad6b">Upotreba</h2>
-<div class="outline-text-2" id="text-org1c1ad6b">
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> Upotreba</h2>
+<div class="outline-text-2" id="text-4">
 </div>
 </section>
-<section id="slide-org397d87e">
-<h3 id="org397d87e">Gramatika = meta-model + konkretna sintaksa</h3>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1</span> Gramatika = meta-model + konkretna sintaksa</h3>
 <div class="column" style="float:left; width: 50%">
-<pre  class="example">
-HelloWorldModel:
+<div class="org-src-container">
+
+<pre><code class=" textx" >HelloWorldModel:
   'hello' to_greet+=Who[',']
 ;
 
 Who:
   name = /[^,]*/
 ;
-</pre>
+</code></pre>
+</div>
 </div>
 
 <div class="column" style="float:right; width: 50%">
 <div class="org-src-container">
 
-<pre><code class="" python >from textx import metamodel_from_file
+<pre><code class=" python" >from textx import metamodel_from_file
 hello_meta = metamodel_from_file('hello.tx')
 </code></pre>
 </div>
+
 </div>
 
 
-
-
 <div class="figure">
-<p><img src="./slike/hello_meta.dot.png" alt="hello_meta.dot.png" width="60%" />
+<p><img src="./hello.dot.png" alt="hello.dot.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgaf0e95f">
-<h3 id="orgaf0e95f">Model = program</h3>
-<pre  class="example">
-hello World, Solar System, Universe
-</pre>
-
-
-<div class="figure">
-<p><img src="./slike/hello_parts.png" alt="hello_parts.png" />
-</p>
-</div>
-
-</section>
-<section id="slide-org69ba06d">
-<h3 id="org69ba06d">Parsiranje - instanciranje modela</h3>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2</span> Model = program</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >example_hello_model = hello_meta.model_from_file('example.hello')
+<pre><code class=" example" >hello World, Solar System, Universe
 </code></pre>
 </div>
 
 
 <div class="figure">
-<p><img src="./slike/example.dot.png" alt="example.dot.png" />
+<p><img src="./slike/hello_parts.png" alt="hello_parts.png" style="height: 300px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3</span> Parsiranje - instanciranje modela</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >example_hello_model = hello_meta.model_from_file('example.hello')
+</code></pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./example.dot.png" alt="example.dot.png" style="height: 300px;" />
 </p>
 </div>
 
@@ -220,8 +245,8 @@ hello World, Solar System, Universe
 </ul>
 
 </section>
-<section id="slide-org07df068">
-<h3 id="org07df068">Provera i vizualizacija meta-modela</h3>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4</span> Provera i vizualizacija meta-modela</h3>
 <ul>
 <li>textX će pri parsiraju gramatike prijaviti sintaksne greške.</li>
 <li><p>
@@ -230,10 +255,13 @@ Ako želimo možemo proveriti gramatiku u toku razvoja:
 
 <div class="org-src-container">
 
-<pre><code class="" bash >$ textx check hello.tx
-Meta-model OK.
+<pre><code class=" bash" >textx check hello.tx
 </code></pre>
-</div></li>
+</div>
+
+<pre class="example">
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx: OK.
+</pre></li>
 
 <li><p>
 U slučaju greške biće prijavljena tačna lokacija.
@@ -248,61 +276,120 @@ Expected 'abstract_rule_ref' at position (6, 9) =&gt; ':   name |*= /[^,]*/ '.
 ili vizualizovati
 </p>
 
-<pre  class="example">
-$ textx visualize hello.tx
-Meta-model OK.
-Generating 'hello.tx.dot' file for meta-model.
-To convert to png run 'dot -Tpng -O hello.tx.dot'
-$ dot -Tpng -O hello.tx.dot
+<div class="org-src-container">
+
+<pre><code class=" bash" >textx list-generators
+</code></pre>
+</div>
+
+<pre class="example">
+any -&gt; dot                    textX                         Generating dot visualizations from arbitrary models
+textX -&gt; dot                  textX                         Generating dot visualizations from textX grammars
+textX -&gt; PlantUML             textX                         Generating PlantUML visualizations from textX grammars
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class=" bash" >textx generate hello.tx --target dot
+</code></pre>
+</div>
+
+<pre class="example">
+Generating dot target from models:
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
+-&gt; /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
+   To convert to png run "dot -Tpng -O hello.dot"
 </pre></li>
 
 </ul>
 
-</section>
-<section id="slide-org8149a86">
-<h3 id="org8149a86">Robot primer</h3>
-<div class="column" style="float:left; width: 50%">
 
-<div class="figure">
-<p><img src="./slike/robot_grammar.png" alt="robot_grammar.png" />
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5</span> Robot primer</h3>
+<div class="column" style="float:left; width: 50%">
+<p>
+fajl <code>robot.tx</code>
 </p>
+<div class="org-src-container">
+
+<pre><code class=" textx" >Program:
+  'begin'
+    commands*=Command
+  'end'
+;
+
+Command:
+  InitialCommand | MoveCommand
+;
+
+InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+
+MoveCommand:
+  direction=Direction (steps=INT)?
+;
+
+Direction:
+  "up"|"down"|"left"|"right"
+;
+
+Comment:
+  /\/\/.*$/
+;
+</code></pre>
 </div>
+
 </div>
 
 <div class="column" style="float:right; width: 50%">
-<pre  class="example">
-begin
+<p>
+fajl <code>program.rbt</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class=" example" >begin
     initial 3, 1
     up 4
     left 9
     down
     right 1
 end
-</pre>
+</code></pre>
+</div>
 </div>
 
 </section>
-<section id="slide-org2ce53dc">
-<h3 id="org2ce53dc">Instanciranje meta-modela</h3>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6</span> Instanciranje meta-modela</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >from textx import metamodel_from_file
+<pre><code class=" python" >from textx import metamodel_from_file
 robot_mm = metamodel_from_file('robot.tx')
 </code></pre>
 </div>
 
 
 <div class="figure">
-<p><img src="./slike/robot.tx.dot.png" alt="robot.tx.dot.png" />
+<p><img src="./robot.dot.png" alt="robot.dot.png" style="height: 500px;" />
 </p>
 </div>
 
-</section>
-<section id="slide-orgf86c8e3">
-<h3 id="orgf86c8e3">Parsiranje i instanciranje modela</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >robot_model = robot_mm.model_from_file('program.rbt')
+<pre><code class=" bash" >textx generate robot.tx --target dot
+dot -Tpng -O robot.dot
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7</span> Parsiranje i instanciranje modela</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >robot_model = robot_mm.model_from_file('program.rbt')
 </code></pre>
 </div>
 
@@ -318,13 +405,20 @@ end
 
 
 <div class="figure">
-<p><img src="./slike/program.rbt.dot.png" alt="program.rbt.dot.png" />
+<p><img src="./program.dot.png" alt="program.dot.png" style="height: 300px;" />
 </p>
 </div>
 
+<div class="org-src-container">
+
+<pre><code class=" bash" >textx generate program.rbt --grammar robot.tx --target dot
+dot -Tpng -O program.dot
+</code></pre>
+</div>
+
 </section>
-<section id="slide-org29b82f7">
-<h3 id="org29b82f7">Šta raditi sa modelom?</h3>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8</span> Šta raditi sa modelom?</h3>
 <ul>
 <li>Interpretiranje</li>
 <li>Generisanje koda</li>
@@ -333,28 +427,28 @@ end
 </ul>
 
 </section>
-<section id="slide-orga8807c3">
-<h3 id="orga8807c3">Interpretiranje Robot modela</h3>
+<section id="slide-4-9">
+<h3 id="4-9"><span class="section-number-3">4.9</span> Interpretiranje Robot modela</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >class Robot(object):
+<pre><code class=" python" >class Robot(object):
 
-  def __init__(self):
-    # Initial position is (0,0)
-    self.x = 0
-    self.y = 0
+    def __init__(self):
+        # Initial position is (0,0)
+        self.x = 0
+        self.y = 0
 
-  def __str__(self):
-    return "Robot position is {}, {}.".format(self.x, self.y)
+    def __str__(self):
+        return "Robot position is {}, {}.".format(self.x, self.y)
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orgc65f0df">
-<h3 id="orgc65f0df">Interpretiranje Robot modela</h3>
+<section id="slide-4-10">
+<h3 id="4-10"><span class="section-number-3">4.10</span> Interpretiranje Robot modela</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >def interpret(self, model):
+<pre><code class=" python" >def interpret(self, model):
 
     # model is an instance of Program
     for c in model.commands:
@@ -377,17 +471,15 @@ end
             # Calculate new robot position
             self.x += c.steps * move[0]
             self.y += c.steps * move[1]
-
-        print(self)
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orge963dcf">
-<h3 id="orge963dcf">Interpretacija Robot modela</h3>
+<section id="slide-4-11">
+<h3 id="4-11"><span class="section-number-3">4.11</span> Interpretacija Robot modela</h3>
 <div class="org-src-container">
 
-<pre><code class="" python >robot = Robot()
+<pre><code class=" python" >robot = Robot()
 robot.interpret(robot_model)
 </code></pre>
 </div>
@@ -402,11 +494,11 @@ begin
     right 1
 end
 </pre>
-
 </div>
 
 <div class="column" style="float:right; width: 50%">
-<pre  class="example">
+
+<pre class="example">
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -420,30 +512,37 @@ Robot position is -5, 5.
 </pre>
 </div>
 
-<p style="clear: both;">
-<b><b>Problem:</b></b> Ako ne zadamo korak podrazumevano je 0 (textX definiše <i>default</i>
+<p class="attention" style="clear: both;">
+<b>Problem:</b> Ako ne zadamo korak podrazumevano je 0 (textX definiše <i>default</i>
 vrednosti za bazične tipove).
 </p>
 
 </section>
-<section id="slide-orge894920">
-<h3 id="orge894920">Object processor</h3>
-<div class="column" style="float:left; width: 50%">
+<section id="slide-4-12">
+<h3 id="4-12"><span class="section-number-3">4.12</span> Object processor</h3>
+<div class="column" style="float:left; width: 60%">
 <div class="org-src-container">
 
-<pre><code class="" python >def move_command_processor(move_cmd):
+<pre><code class=" python" >def move_command_processor(move_cmd):
+    """
+    This is object processor for MoveCommand instances.
+    It implements a default step of 1 in case not given
+    in the program.
+    """
 
-  if move_cmd.steps == 0:
-    move_cmd.steps = 1
+    if move_cmd.steps == 0:
+        move_cmd.steps = 1
 </code></pre>
 </div>
 </div>
 
-<div class="column" style="float:right; width: 50%">
+<div class="column" style="float:right; width: 40%">
+<div class="org-src-container">
 
-<div class="figure">
-<p><img src="./slike/move_command.png" alt="move_command.png" />
-</p>
+<pre><code class=" textx" >MoveCommand:
+  direction=Direction (steps=INT)?
+;
+</code></pre>
 </div>
 </div>
 
@@ -453,7 +552,8 @@ Registracija procesora na meta-modelu:
 
 <div class="org-src-container">
 
-<pre><code class="" python >robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
+<pre><code class=" python" ># Register object processor for MoveCommand
+robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
 </code></pre>
 </div>
 
@@ -461,7 +561,7 @@ Registracija procesora na meta-modelu:
 Sada se robot ponaša ispravno.
 </p>
 
-<pre  class="example">
+<pre class="example">
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -474,16 +574,18 @@ Going right for 1 step(s).
 Robot position is -5, 4.
 </pre>
 
+
+
 </section>
 </section>
 <section>
-<section id="slide-org421266a">
-<h2 id="org421266a">Primeri</h2>
-<div class="outline-text-2" id="text-org421266a">
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5</span> Primeri</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 </section>
-<section id="slide-org38dde03">
-<h3 id="org38dde03">Generisanje koda - Entity primer</h3>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1</span> Generisanje koda - Entity primer</h3>
 <ul>
 <li>Referenciranje drugih objekata.</li>
 <li>Upotreba obrađivača šablona (<b>Template Engines</b>) za generisanje koda.</li>
@@ -492,8 +594,8 @@ Robot position is -5, 4.
 </ul>
 
 </section>
-<section id="slide-org361dd8e">
-<h3 id="org361dd8e">State Machine</h3>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2</span> State Machine</h3>
 <ul>
 <li>Video tutorial</li>
 <li><a href="http://textx.github.io/textX/stable/tutorials/state_machine/">http://textx.github.io/textX/stable/tutorials/state_machine/</a></li>
@@ -501,8 +603,8 @@ Robot position is -5, 4.
 </ul>
 
 </section>
-<section id="slide-org73d65dd">
-<h3 id="org73d65dd">Izrada mini kompajlera - ppci</h3>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3</span> Izrada mini kompajlera - ppci</h3>
 <ul>
 <li><a href="http://www.windel.nl/">Windel Bouwman</a></li>
 <li><a href="https://ppci.readthedocs.io/en/latest/howto/toy.html">https://ppci.readthedocs.io/en/latest/howto/toy.html</a></li>
@@ -512,13 +614,13 @@ Robot position is -5, 4.
 </section>
 </section>
 <section>
-<section id="slide-orgc9276fe">
-<h2 id="orgc9276fe">Napredne tehnike - <a href="https://github.com/igordejanovic/pyFlies">pyFlies</a></h2>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6</span> Napredne tehnike - <a href="https://github.com/igordejanovic/pyFlies">pyFlies</a></h2>
 </section>
 </section>
 <section>
-<section id="slide-orgebba0d2">
-<h2 id="orgebba0d2">Podrška u editorima</h2>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7</span> Podrška u editorima</h2>
 <ul>
 <li>Visual Studio Code (<i>IntelliSense</i>, <i>Outline</i>, <i>Code highlighting</i>)
 <ul>
@@ -532,8 +634,8 @@ Robot position is -5, 4.
 </section>
 </section>
 <section>
-<section id="slide-org123921e">
-<h2 id="org123921e">Veče džeza i slobodnih formi - improvizacije</h2>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8</span> Veče džeza i slobodnih formi - improvizacije</h2>
 </section>
 </section>
 </div>
@@ -549,11 +651,12 @@ controls: true,
 progress: true,
 history: false,
 center: true,
-slideNumber: 'h/v',
+slideNumber: 'c/t',
 rollingLinks: false,
 keyboard: true,
 mouseWheel: false,
 fragmentInURL: true,
+hashOneBasedIndex: false,
 pdfSeparateFragments: true,
 
 overview: true,
@@ -563,18 +666,17 @@ minScale: 0.30,
 maxScale: 4.00,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
 transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
 
-// Optional libraries used to extend on reveal.js
+// Optional libraries used to extend reveal.js
 dependencies: [
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
-});
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>
 </body>
 </html>

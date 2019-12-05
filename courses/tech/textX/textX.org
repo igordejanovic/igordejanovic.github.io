@@ -2,6 +2,13 @@
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: ../../courses-startup.org
 
+
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
+
 * Osnovne osobine
 
 - 100% Python kod
@@ -9,7 +16,7 @@
 - Istovremeno definisanje gramatike i meta-modela - inspirisan sa [[https://www.eclipse.org/Xtext/][Xtext]]
 - Automatska konstrukcija modela - podrška za razrešavane referenci
 - Podrška za veze tipa celina-deo
-- Kontrola parsiranja (*whitespaces, case, keywords*...)
+- Kontrola parsiranja (/whitespaces, case, keywords/...)
 - Postprocesiranje objekata modela ili celog modela
 - Modularizacija gramatika - import
 - Vizualizacija modela i meta-modela 
@@ -59,7 +66,10 @@
  Successfully installed Arpeggio-1.9.0 click-7.0 textX-1.8.0
  #+END_SRC
 
-** Instalacija razvojne verzije - za razvoj
+** Instalacija za razvoj
+   :PROPERTIES:
+   :CUSTOM_ID: installation
+   :END:
   
  #+BEGIN_SRC
  $ mkdir ntp 
@@ -90,37 +100,44 @@
 
 * Upotreba
 ** Gramatika = meta-model + konkretna sintaksa
+   
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+BEGIN_SRC textx :tangle hello.tx
+HelloWorldModel:
+  'hello' to_greet+=Who[',']
+;
 
- #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
- #+BEGIN_SRC
- HelloWorldModel:
-   'hello' to_greet+=Who[',']
- ;
+Who:
+  name = /[^,]*/
+;
+#+END_SRC
+#+REVEAL_HTML: </div>
 
- Who:
-   name = /[^,]*/
- ;
- #+END_SRC
- #+REVEAL_HTML: </div>
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+BEGIN_SRC python :session hello :results none
+from textx import metamodel_from_file
+hello_meta = metamodel_from_file('hello.tx')
+#+END_SRC
 
- #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
- #+BEGIN_SRC python
- from textx import metamodel_from_file
- hello_meta = metamodel_from_file('hello.tx')
- #+END_SRC
- #+REVEAL_HTML: </div>
+#+REVEAL_HTML: </div>
 
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :style height: 500px;
+[[./hello.dot.png]]
 
-
- #+attr_html: :width 60%
- [[./slike/hello_meta.dot.png]]
+*** Kreiranje slike                                                :noexport:
+    
+#+BEGIN_SRC bash :exports none :results none
+textx generate hello.tx --target dot && dot -Tpng -O hello.dot
+#+END_SRC
 
 ** Model = program
 
-#+BEGIN_SRC
+#+BEGIN_SRC example :tangle example.hello :results none
 hello World, Solar System, Universe
 #+END_SRC
 
+#+ATTR_HTML: :style height: 300px;
 [[./slike/hello_parts.png]]
 
 ** Parsiranje - instanciranje modela
@@ -129,22 +146,31 @@ hello World, Solar System, Universe
 example_hello_model = hello_meta.model_from_file('example.hello')
 #+END_SRC
 
-[[./slike/example.dot.png]]
+#+ATTR_ORG: :width 300px
+#+ATTR_HTML: :style height: 300px;
+[[./example.dot.png]]
 
 
 - Model je graf Python objekata čija struktura je u skladu sa gramatikom (npr.
   ~HelloWorldModel~ objekat sadrži Python listu ~to_greet~).
 - Model možemo dalje interpretirati, analizirati, generisati kod...
 
+*** Kreiranje slike                                                :noexport:
+#+BEGIN_SRC bash :results none
+textx generate example.hello --grammar hello.tx --target dot && dot -Tpng -O example.dot
+#+END_SRC
+
 ** Provera i vizualizacija meta-modela
 
 - textX će pri parsiraju gramatike prijaviti sintaksne greške.
 - Ako želimo možemo proveriti gramatiku u toku razvoja:
 
-  #+BEGIN_SRC bash
-  $ textx check hello.tx
-  Meta-model OK.
+  #+BEGIN_SRC bash :results output
+  textx check hello.tx
   #+END_SRC
+
+  #+RESULTS:
+  : /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx: OK.
 
 - U slučaju greške biće prijavljena tačna lokacija.
 
@@ -155,22 +181,63 @@ example_hello_model = hello_meta.model_from_file('example.hello')
 
 - ili vizualizovati
 
-  #+BEGIN_SRC
-  $ textx visualize hello.tx
-  Meta-model OK.
-  Generating 'hello.tx.dot' file for meta-model.
-  To convert to png run 'dot -Tpng -O hello.tx.dot'
-  $ dot -Tpng -O hello.tx.dot
+  #+BEGIN_SRC bash :results output
+  textx list-generators
   #+END_SRC
+
+  #+RESULTS:
+  : any -> dot                    textX                         Generating dot visualizations from arbitrary models
+  : textX -> dot                  textX                         Generating dot visualizations from textX grammars
+  : textX -> PlantUML             textX                         Generating PlantUML visualizations from textX grammars
+  
+  #+BEGIN_SRC bash :results output
+  textx generate hello.tx --target dot
+  #+END_SRC
+
+  #+RESULTS:
+  : Generating dot target from models:
+  : /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
+  : -> /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
+  :    To convert to png run "dot -Tpng -O hello.dot"
+
 
 ** Robot primer
    
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-[[./slike/robot_grammar.png]]
+fajl =robot.tx=
+#+BEGIN_SRC textx :tangle robot.tx
+Program:
+  'begin'
+    commands*=Command
+  'end'
+;
+
+Command:
+  InitialCommand | MoveCommand
+;
+
+InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+
+MoveCommand:
+  direction=Direction (steps=INT)?
+;
+
+Direction:
+  "up"|"down"|"left"|"right"
+;
+
+Comment:
+  /\/\/.*$/
+;
+#+END_SRC
+
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
-#+BEGIN_SRC
+fajl =program.rbt=
+#+BEGIN_SRC example :tangle program.rbt
 begin
     initial 3, 1
     up 4
@@ -183,30 +250,34 @@ end
 
 ** Instanciranje meta-modela
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :session robot :results none
 from textx import metamodel_from_file
 robot_mm = metamodel_from_file('robot.tx')
 #+END_SRC
 
-[[./slike/robot.tx.dot.png]]
+#+ATTR_HTML: :style height: 500px;
+[[./robot.dot.png]]
+
+#+BEGIN_SRC bash :results none
+textx generate robot.tx --target dot
+dot -Tpng -O robot.dot
+#+END_SRC
 
 ** Parsiranje i instanciranje modela
 
-  #+BEGIN_SRC python
+  #+BEGIN_SRC python :session robot
   robot_model = robot_mm.model_from_file('program.rbt')
   #+END_SRC
+  
+  #+INCLUDE: "program.rbt" src example
 
-  #+BEGIN_SRC 
-  begin
-      initial 3, 1
-      up 4
-      left 9
-      down
-      right 1
-  end
-  #+END_SRC
+#+ATTR_HTML: :style height: 300px;
+[[./program.dot.png]]
 
-[[./slike/program.rbt.dot.png]]
+#+BEGIN_SRC bash :results none
+textx generate program.rbt --grammar robot.tx --target dot
+dot -Tpng -O program.dot
+#+END_SRC
 
 ** Šta raditi sa modelom?
 
@@ -216,70 +287,24 @@ robot_mm = metamodel_from_file('robot.tx')
 
 ** Interpretiranje Robot modela
 
-#+BEGIN_SRC python :class python
-class Robot(object):
-
-  def __init__(self):
-    # Initial position is (0,0)
-    self.x = 0
-    self.y = 0
-
-  def __str__(self):
-    return "Robot position is {}, {}.".format(self.x, self.y)
-#+END_SRC
+#+INCLUDE: "robot.py" src python :lines "17-26"
 
 ** Interpretiranje Robot modela
 
-#+BEGIN_SRC python :class python
-def interpret(self, model):
-
-    # model is an instance of Program
-    for c in model.commands:
-
-        if c.__class__.__name__ == "InitialCommand":
-            print("Setting position to: {}, {}".format(c.x, c.y))
-            self.x = c.x
-            self.y = c.y
-        else:
-            dir = c.direction
-            print("Going {} for {} step(s).".format(dir, c.steps))
-
-            move = {
-                "up": (0, 1),
-                "down": (0, -1),
-                "left": (-1, 0),
-                "right": (1, 0)
-            }[dir]
-
-            # Calculate new robot position
-            self.x += c.steps * move[0]
-            self.y += c.steps * move[1]
-
-        print(self)
-#+END_SRC
+#+INCLUDE: "robot.py" src python :lines "27-51" :results output
 
 ** Interpretacija Robot modela
 
-#+BEGIN_SRC python
-robot = Robot()
-robot.interpret(robot_model)
-#+END_SRC
+#+INCLUDE: "robot.py" src python :lines "69-71"
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-#+BEGIN_SRC
-begin
-    initial 3, 1
-    up 4
-    left 9
-    down
-    right 1
-end
-#+END_SRC
-
+#+INCLUDE: "program.rbt" src example
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
-#+BEGIN_SRC
+
+#+RESULTS: robot-no-move
+#+begin_example
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -290,38 +315,40 @@ Going down for 0 step(s).
 Robot position is -6, 5.
 Going right for 1 step(s).
 Robot position is -5, 5.
-#+END_SRC
+#+end_example
 #+REVEAL_HTML: </div>
 
-#+attr_html: :style clear: both;
-**Problem:** Ako ne zadamo korak podrazumevano je 0 (textX definiše /default/
+#+ATTR_HTML: :class attention :style clear: both;
+*Problem:* Ako ne zadamo korak podrazumevano je 0 (textX definiše /default/
 vrednosti za bazične tipove).
+
+*** Robot output                                                   :noexport:
+    
+#+NAME: robot-no-move
+#+BEGIN_SRC shell :results output :exports results
+python robot.py
+#+END_SRC
 
 ** Object processor
 
-#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-#+BEGIN_SRC python
-def move_command_processor(move_cmd):
-
-  if move_cmd.steps == 0:
-    move_cmd.steps = 1
-#+END_SRC
+#+REVEAL_HTML: <div class="column" style="float:left; width: 60%">
+#+INCLUDE: "robot.py" src python :lines "6-15"
 #+REVEAL_HTML: </div>
 
-#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
-[[./slike/move_command.png]]
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+ATTR_HTML: :style font-size: 150%;
+#+INCLUDE: "robot.tx" src textx :lines "15-18"
 #+REVEAL_HTML: </div>
 
 #+attr_html: :style clear: both;
 Registracija procesora na meta-modelu:
 
-#+BEGIN_SRC python
-robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
-#+END_SRC
+#+INCLUDE: "robot.py" src python :lines "63-65"
 
 Sada se robot ponaša ispravno.
 
-#+BEGIN_SRC
+#+RESULTS: robot-move
+#+begin_example
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -332,7 +359,16 @@ Going down for 1 step(s).
 Robot position is -6, 4.
 Going right for 1 step(s).
 Robot position is -5, 4.
+#+end_example
+
+*** Robot output                                                   :noexport:
+
+#+NAME: robot-move    
+#+BEGIN_SRC shell :results output
+python robot.py move
 #+END_SRC
+
+
 
 * Primeri
 ** Generisanje koda - Entity primer
