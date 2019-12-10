@@ -824,7 +824,174 @@ def results(request, question_id):
 </ul>
 #+END_SRC
 
-* TODO Generički pogledi
+* Pogledi bazirani na klasama /Class-Based Views/
+** Upotreba klase za definisanje pogleda
+   
+#+BEGIN_SRC python
+from django.http import HttpResponse
+
+def my_view(request):
+    if request.method == 'GET':
+        # <view logic>
+        return HttpResponse('result')
+#+END_SRC
+
+Postaje:
+
+#+BEGIN_SRC python
+from django.http import HttpResponse
+from django.views import View
+
+class MyView(View):
+    def get(self, request):
+        # <view logic>
+        return HttpResponse('result')
+#+END_SRC
+
+Fajl =urls.py=:
+#+BEGIN_SRC python
+from django.urls import path
+from myapp.views import MyView
+
+urlpatterns = [
+    path('about/', MyView.as_view()),
+#+END_SRC
+
+** Nasleđivanje
+
+#+BEGIN_SRC python
+from django.http import HttpResponse
+from django.views import View
+
+class GreetingView(View):
+    greeting = "Good Day"
+
+    def get(self, request):
+        return HttpResponse(self.greeting)
+#+END_SRC
+
+#+BEGIN_SRC python
+class MorningGreetingView(GreetingView):
+    greeting = "Morning to ya"
+#+END_SRC
+
+Fajl =urls.py=:
+#+BEGIN_SRC python
+urlpatterns = [
+    path('about/', GreetingView.as_view(greeting="G'day")),
+]
+#+END_SRC
+
+** Podrška za forme
+   
+#+BEGIN_SRC python
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from .forms import MyForm
+
+def myview(request):
+    if request.method == "POST":
+        form = MyForm(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+    else:
+        form = MyForm(initial={'key': 'value'})
+
+    return render(request, 'form_template.html', {'form': form})
+#+END_SRC
+
+#+REVEAL: split
+
+Postaje:
+#+BEGIN_SRC python
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views import View
+
+from .forms import MyForm
+
+class MyFormView(View):
+    form_class = MyForm
+    initial = {'key': 'value'}
+    template_name = 'form_template.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            return HttpResponseRedirect('/success/')
+
+        return render(request, self.template_name, {'form': form})
+#+END_SRC
+
+** Dekoracija pogleda
+
+Fajl =urls.py=:
+#+BEGIN_SRC python
+from django.contrib.auth.decorators import login_required, permission_required
+from django.views.generic import TemplateView
+
+from .views import VoteView
+
+urlpatterns = [
+    path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),
+    path('vote/', permission_required('polls.can_vote')(VoteView.as_view())),
+]
+#+END_SRC
+
+Ili na nivou metoda klase:
+
+#+BEGIN_SRC python
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
+
+class ProtectedView(TemplateView):
+    template_name = 'secret.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+- Za više informacija videti [[https://docs.djangoproject.com/en/3.0/topics/class-based-views/intro/][Introduction to class-based views]] 
+
+** Podrška za HTTP metode
+   
+#+BEGIN_SRC python
+from django.urls import path
+from books.views import BookListView
+
+urlpatterns = [
+    path('books/', BookListView.as_view()),
+]
+#+END_SRC
+
+#+BEGIN_SRC python
+from django.http import HttpResponse
+from django.views.generic import ListView
+from books.models import Book
+
+class BookListView(ListView):
+    model = Book
+
+    def head(self, *args, **kwargs):
+        last_book = self.get_queryset().latest('publication_date')
+        response = HttpResponse()
+        # RFC 1123 date format
+        response['Last-Modified'] = \
+            last_book.publication_date.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        return response
+#+END_SRC
+
+* Generički pogledi
 ** Generički pogledi
 
 - Prethodno prikazani pogledi su često korišćeni u web aplikacijama
@@ -835,70 +1002,184 @@ def results(request, question_id):
 - Generički pogledi upravo predstavljaju ovaj obrazac koda.
 - Dva generička pogleda: =ListView= i =DetailsView=.
 
-** Prerada polls =urls.py=
-
-Fajl =polls/urls.py=:
-
+** Korišćeni primer
+   
 #+BEGIN_SRC python
-from django.conf.urls import patterns, url
+class Publisher(models.Model):
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=60)
+    state_province = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    website = models.URLField()
 
-from polls import views
+    class Meta:
+        ordering = ["-name"]
 
-urlpatterns = patterns('',
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^(?P<pk>\d+)/$', views.DetailView.as_view(), name='detail'),
-    url(r'^(?P<pk>\d+)/results/$', views.ResultsView.as_view(),
-          name='results'),
-    url(r'^(?P<question_id>\d+)/vote/$', views.vote, name='vote'),
-)
+    def __str__(self):
+        return self.name
+
+class Author(models.Model):
+    salutation = models.CharField(max_length=10)
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    headshot = models.ImageField(upload_to='author_headshots')
+
+    def __str__(self):
+        return self.name
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField('Author')
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publication_date = models.DateField()
 #+END_SRC
 
-** Prerada pogleda
+** Pogled
+   
+#+BEGIN_SRC python
+# views.py
+from django.views.generic import ListView
+from books.models import Publisher
 
-Fajl =polls/views.py=:
+class PublisherList(ListView):
+    model = Publisher
+#+END_SRC
 
 #+BEGIN_SRC python
-...
+# urls.py
+from django.urls import path
+from books.views import PublisherList
 
-class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+urlpatterns = [
+    path('publishers/', PublisherList.as_view()),
+]
+#+END_SRC
+
+- ako nismo zadali =template_name= atribut klase pogleda Django će konstruisati
+  podrazumevano, u ovom slučaju =books/publisher_list.html=.
+  
+#+REVEAL: split
+
+Fajl =books/.html=:
+#+BEGIN_SRC jinja2
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Publishers</h2>
+    <ul>
+        {% for publisher in object_list %}
+            <li>{{ publisher.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+#+END_SRC
+
+- Kontekst je u šablonu dostupan pod imenom =object_list=. Bolje je učiniti ga
+  specifičnim za konkretan model.
+  
+** Definisanje boljeg imena za kontekst šablona
+   
+#+BEGIN_SRC python
+# views.py
+from django.views.generic import ListView
+from books.models import Publisher
+
+class PublisherList(ListView):
+    model = Publisher
+    context_object_name = 'my_favorite_publishers'
+#+END_SRC
+
+** Dodavanje novih informacija u kontekst
+  
+Na primer, ako želimo da detaljni pregled izdavača sadrži i spisak knjiga:
+#+BEGIN_SRC python
+from django.views.generic import DetailView
+from books.models import Book, Publisher
+
+class PublisherDetail(DetailView):
+
+    model = Publisher
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['book_list'] = Book.objects.all()
+        return context
+#+END_SRC
+
+** Pregled samo podskupa objekata
+   
+Možemo da koristimo =queryset= atribut klase pogleda da definišemo proizvoljan upit.
+   
+#+BEGIN_SRC python
+from django.views.generic import DetailView
+from books.models import Publisher
+
+class PublisherDetail(DetailView):
+
+    context_object_name = 'publisher'
+    queryset = Publisher.objects.all()
+#+END_SRC
+
+#+BEGIN_SRC python
+from django.views.generic import ListView
+from books.models import Book
+
+class BookList(ListView):
+    queryset = Book.objects.order_by('-publication_date')
+    context_object_name = 'book_list'
+#+END_SRC
+
+#+BEGIN_SRC python
+from django.views.generic import ListView
+from books.models import Book
+
+class AcmeBookList(ListView):
+
+    context_object_name = 'book_list'
+    queryset = Book.objects.filter(publisher__name='ACME Publishing')
+    template_name = 'books/acme_list.html'
+#+END_SRC
+
+** Dinamičko filtriranje
+   
+#+BEGIN_SRC python
+# views.py
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
+from books.models import Book, Publisher
+
+class PublisherBookList(ListView):
+
+    template_name = 'books/books_by_publisher.html'
 
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
-
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = 'polls/detail.html'
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'polls/results.html'
-...
+        self.publisher = get_object_or_404(Publisher, name=self.kwargs['publisher'])
+        return Book.objects.filter(publisher=self.publisher)
 #+END_SRC
 
-** =ListView=
+** Izmena objekata
+   
+#+BEGIN_SRC python
+from django.utils import timezone
+from django.views.generic import DetailView
+from books.models import Author
 
-- Prikaz liste objekata.
-- Podrazumevani šablon je oblika =<app name>/<model name>_list.html=
-- To se može promeniti navođenjem atributa =template_name=
-- U kontekst šablona listi objekata se pristupa preko reference
-  =<model_name>_list= pri čemu je ime modela u /lowercase-u/ (npr.
-  =question_list=)
-- Ovo se menja preko =context_object_name=.
-- Podrazumevano je listanje svih objekata modela. Ovo se može promenitit
-  navođenjem metode =get_queryset(self)=.
-  
-** =DetailsView=
+class AuthorDetailView(DetailView):
 
-- Prikaz detalja pojedinačnog objekta.
-- =id= objekta se iz URL-a prosleđuje pod imenom =pk=.
-- Važe ista pravila za određivanje šablona pri čemu je ime oblika
-  =<app name>/<model name>_detail.html=
-- U kontekstu šablona instanci se pristupa po imenu modela u /lowercase-u/.
+    queryset = Author.objects.all()
 
-* TODO Šabloni detaljnije
+    def get_object(self):
+        obj = super().get_object()
+        # Record the last accessed date
+        obj.last_accessed = timezone.now()
+        obj.save()
+        return obj
+#+END_SRC
+
+* Šabloni detaljnije
 ** Šabloni
 
 - Tekstualni fajlovi koji imaju fiksne i varijablne delove.
@@ -929,18 +1210,21 @@ class ResultsView(generic.DetailView):
 ** Varijable konteksta
 
 - Navode se u obliku ={{ varijabla  }}=.
-- Može se koristiti dot notacija za pristup atributima varijable pri čemu
+- Može se koristiti =dot= notacija za pristup atributima varijable pri čemu
   je semantika sledeća:
 
   - Prvo se pokušava po ključu rečnika
   - Zatim pristup atributu ili metodi
   - Na kraju se pokušava pristup po numeričkom indeksu (deo iza tačke mora biti
     numerički)
+    
+    Primer:
+    #+BEGIN_SRC jinja2
+    {{ my_dict.key }}
+    {{ my_object.attribute }}
+    {{ my_list.0 }}
+    #+END_SRC
 
-- Ukoliko varijabla ne postoji u kontekstu referenca će biti renerovana na
-  osnovu podešavanja =TEMPLATE_STRING_IF_INVALID= što je podrazumevano prazan
-  string.
-  
 ** Filteri
 
 Na prikaz varijable se može uticati filterima.

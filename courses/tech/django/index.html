@@ -35,12 +35,12 @@
 <h1 class="title">Django</h1>
 <h2 class="subtitle">bazirano na tutorijalu i verziji 3.0</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-12-10 Tue 11:16, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2019-12-10 Tue 12:38, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org16f47da">
-<h2 id="org16f47da">Sadržaj</h2>
+<section id="slide-org66f8e93">
+<h2 id="org66f8e93">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Kreiranje i podešavanje projekta</a></li>
@@ -48,9 +48,10 @@
 <li><a href="#/slide-3">3. Podešavanje admin aplikacije</a></li>
 <li><a href="#/slide-4">4. Pogledi - <i>Views</i></a></li>
 <li><a href="#/slide-5">5. Forme</a></li>
-<li><a href="#/slide-6">6. <span class="todo TODO">TODO</span> Generički pogledi</a></li>
-<li><a href="#/slide-7">7. <span class="todo TODO">TODO</span> Šabloni detaljnije</a></li>
-<li><a href="#/slide-8">8. Reference</a></li>
+<li><a href="#/slide-6">6. Pogledi bazirani na klasama <i>Class-Based Views</i></a></li>
+<li><a href="#/slide-7">7. Generički pogledi</a></li>
+<li><a href="#/slide-8">8. Šabloni detaljnije</a></li>
+<li><a href="#/slide-9">9. Reference</a></li>
 </ul>
 </div>
 
@@ -1167,12 +1168,229 @@ def results(request, question_id):
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> Generički pogledi</h2>
+<h2 id="6"><span class="section-number-2">6</span> Pogledi bazirani na klasama <i>Class-Based Views</i></h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
 <section id="slide-6-1">
-<h3 id="6-1"><span class="section-number-3">6.1</span> Generički pogledi</h3>
+<h3 id="6-1"><span class="section-number-3">6.1</span> Upotreba klase za definisanje pogleda</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+
+def my_view(request):
+    if request.method == 'GET':
+        # &lt;view logic&gt;
+        return HttpResponse('result')
+</code></pre>
+</div>
+
+<p>
+Postaje:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+from django.views import View
+
+class MyView(View):
+    def get(self, request):
+        # &lt;view logic&gt;
+        return HttpResponse('result')
+</code></pre>
+</div>
+
+<p>
+Fajl <code>urls.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.urls import path
+from myapp.views import MyView
+
+urlpatterns = [
+    path('about/', MyView.as_view()),
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2</span> Nasleđivanje</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+from django.views import View
+
+class GreetingView(View):
+    greeting = "Good Day"
+
+    def get(self, request):
+        return HttpResponse(self.greeting)
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >class MorningGreetingView(GreetingView):
+    greeting = "Morning to ya"
+</code></pre>
+</div>
+
+<p>
+Fajl <code>urls.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >urlpatterns = [
+    path('about/', GreetingView.as_view(greeting="G'day")),
+]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3</span> Podrška za forme</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
+from .forms import MyForm
+
+def myview(request):
+    if request.method == "POST":
+        form = MyForm(request.POST)
+        if form.is_valid():
+            # &lt;process form cleaned data&gt;
+            return HttpResponseRedirect('/success/')
+    else:
+        form = MyForm(initial={'key': 'value'})
+
+    return render(request, 'form_template.html', {'form': form})
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Postaje:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views import View
+
+from .forms import MyForm
+
+class MyFormView(View):
+    form_class = MyForm
+    initial = {'key': 'value'}
+    template_name = 'form_template.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # &lt;process form cleaned data&gt;
+            return HttpResponseRedirect('/success/')
+
+        return render(request, self.template_name, {'form': form})
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4</span> Dekoracija pogleda</h3>
+<p>
+Fajl <code>urls.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.contrib.auth.decorators import login_required, permission_required
+from django.views.generic import TemplateView
+
+from .views import VoteView
+
+urlpatterns = [
+    path('about/', login_required(TemplateView.as_view(template_name="secret.html"))),
+    path('vote/', permission_required('polls.can_vote')(VoteView.as_view())),
+]
+</code></pre>
+</div>
+
+<p>
+Ili na nivou metoda klase:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
+
+class ProtectedView(TemplateView):
+    template_name = 'secret.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Za više informacija videti <a href="https://docs.djangoproject.com/en/3.0/topics/class-based-views/intro/">Introduction to class-based views</a></li>
+
+</ul>
+
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5</span> Podrška za HTTP metode</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.urls import path
+from books.views import BookListView
+
+urlpatterns = [
+    path('books/', BookListView.as_view()),
+]
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+from django.views.generic import ListView
+from books.models import Book
+
+class BookListView(ListView):
+    model = Book
+
+    def head(self, *args, **kwargs):
+        last_book = self.get_queryset().latest('publication_date')
+        response = HttpResponse()
+        # RFC 1123 date format
+        response['Last-Modified'] = \
+            last_book.publication_date.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        return response
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7</span> Generički pogledi</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1</span> Generički pogledi</h3>
 <ul>
 <li>Prethodno prikazani pogledi su često korišćeni u web aplikacijama
 
@@ -1188,96 +1406,234 @@ def results(request, question_id):
 </ul>
 
 </section>
-<section id="slide-6-2">
-<h3 id="6-2"><span class="section-number-3">6.2</span> Prerada polls <code>urls.py</code></h3>
-<p>
-Fajl <code>polls/urls.py</code>:
-</p>
-
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2</span> Korišćeni primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.conf.urls import patterns, url
+<pre><code class=" python" >class Publisher(models.Model):
+    name = models.CharField(max_length=30)
+    address = models.CharField(max_length=50)
+    city = models.CharField(max_length=60)
+    state_province = models.CharField(max_length=30)
+    country = models.CharField(max_length=50)
+    website = models.URLField()
 
-from polls import views
+    class Meta:
+        ordering = ["-name"]
 
-urlpatterns = patterns('',
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^(?P&lt;pk&gt;\d+)/$', views.DetailView.as_view(), name='detail'),
-    url(r'^(?P&lt;pk&gt;\d+)/results/$', views.ResultsView.as_view(),
-          name='results'),
-    url(r'^(?P&lt;question_id&gt;\d+)/vote/$', views.vote, name='vote'),
-)
+    def __str__(self):
+        return self.name
+
+class Author(models.Model):
+    salutation = models.CharField(max_length=10)
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    headshot = models.ImageField(upload_to='author_headshots')
+
+    def __str__(self):
+        return self.name
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    authors = models.ManyToManyField('Author')
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    publication_date = models.DateField()
 </code></pre>
 </div>
 
 </section>
-<section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3</span> Prerada pogleda</h3>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3</span> Pogled</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" ># views.py
+from django.views.generic import ListView
+from books.models import Publisher
+
+class PublisherList(ListView):
+    model = Publisher
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" python" ># urls.py
+from django.urls import path
+from books.views import PublisherList
+
+urlpatterns = [
+    path('publishers/', PublisherList.as_view()),
+]
+</code></pre>
+</div>
+
+<ul>
+<li>ako nismo zadali <code>template_name</code> atribut klase pogleda Django će konstruisati
+podrazumevano, u ovom slučaju <code>books/publisher_list.html</code>.</li>
+
+</ul>
+
+</section>
+<section>
+
 <p>
-Fajl <code>polls/views.py</code>:
+Fajl <code>books/.html</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% extends "base.html" %}
+
+{% block content %}
+    &lt;h2&gt;Publishers&lt;/h2&gt;
+    &lt;ul&gt;
+        {% for publisher in object_list %}
+            &lt;li&gt;{{ publisher.name }}&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+{% endblock %}
+</code></pre>
+</div>
+
+<ul>
+<li>Kontekst je u šablonu dostupan pod imenom <code>object_list</code>. Bolje je učiniti ga
+specifičnim za konkretan model.</li>
+
+</ul>
+
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4</span> Definisanje boljeg imena za kontekst šablona</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" ># views.py
+from django.views.generic import ListView
+from books.models import Publisher
+
+class PublisherList(ListView):
+    model = Publisher
+    context_object_name = 'my_favorite_publishers'
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5</span> Dodavanje novih informacija u kontekst</h3>
+<p>
+Na primer, ako želimo da detaljni pregled izdavača sadrži i spisak knjiga:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.views.generic import DetailView
+from books.models import Book, Publisher
+
+class PublisherDetail(DetailView):
+
+    model = Publisher
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['book_list'] = Book.objects.all()
+        return context
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6</span> Pregled samo podskupa objekata</h3>
+<p>
+Možemo da koristimo <code>queryset</code> atribut klase pogleda da definišemo proizvoljan upit.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >...
+<pre><code class=" python" >from django.views.generic import DetailView
+from books.models import Publisher
 
-class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+class PublisherDetail(DetailView):
+
+    context_object_name = 'publisher'
+    queryset = Publisher.objects.all()
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.views.generic import ListView
+from books.models import Book
+
+class BookList(ListView):
+    queryset = Book.objects.order_by('-publication_date')
+    context_object_name = 'book_list'
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.views.generic import ListView
+from books.models import Book
+
+class AcmeBookList(ListView):
+
+    context_object_name = 'book_list'
+    queryset = Book.objects.filter(publisher__name='ACME Publishing')
+    template_name = 'books/acme_list.html'
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7</span> Dinamičko filtriranje</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" ># views.py
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
+from books.models import Book, Publisher
+
+class PublisherBookList(ListView):
+
+    template_name = 'books/books_by_publisher.html'
 
     def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
-
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = 'polls/detail.html'
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'polls/results.html'
-...
+        self.publisher = get_object_or_404(Publisher, name=self.kwargs['publisher'])
+        return Book.objects.filter(publisher=self.publisher)
 </code></pre>
 </div>
 
 </section>
-<section id="slide-6-4">
-<h3 id="6-4"><span class="section-number-3">6.4</span> <code>ListView</code></h3>
-<ul>
-<li>Prikaz liste objekata.</li>
-<li>Podrazumevani šablon je oblika <code>&lt;app name&gt;/&lt;model name&gt;_list.html</code></li>
-<li>To se može promeniti navođenjem atributa <code>template_name</code></li>
-<li>U kontekst šablona listi objekata se pristupa preko reference
-<code>&lt;model_name&gt;_list</code> pri čemu je ime modela u <i>lowercase-u</i> (npr.
-<code>question_list</code>)</li>
-<li>Ovo se menja preko <code>context_object_name</code>.</li>
-<li>Podrazumevano je listanje svih objekata modela. Ovo se može promenitit
-navođenjem metode <code>get_queryset(self)</code>.</li>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8</span> Izmena objekata</h3>
+<div class="org-src-container">
 
-</ul>
+<pre><code class=" python" >from django.utils import timezone
+from django.views.generic import DetailView
+from books.models import Author
 
-</section>
-<section id="slide-6-5">
-<h3 id="6-5"><span class="section-number-3">6.5</span> <code>DetailsView</code></h3>
-<ul>
-<li>Prikaz detalja pojedinačnog objekta.</li>
-<li><code>id</code> objekta se iz URL-a prosleđuje pod imenom <code>pk</code>.</li>
-<li>Važe ista pravila za određivanje šablona pri čemu je ime oblika
-<code>&lt;app name&gt;/&lt;model name&gt;_detail.html</code></li>
-<li>U kontekstu šablona instanci se pristupa po imenu modela u <i>lowercase-u</i>.</li>
+class AuthorDetailView(DetailView):
 
-</ul>
+    queryset = Author.objects.all()
+
+    def get_object(self):
+        obj = super().get_object()
+        # Record the last accessed date
+        obj.last_accessed = timezone.now()
+        obj.save()
+        return obj
+</code></pre>
+</div>
 
 </section>
 </section>
 <section>
-<section id="slide-7">
-<h2 id="7"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Šabloni detaljnije</h2>
-<div class="outline-text-2" id="text-7">
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8</span> Šabloni detaljnije</h2>
+<div class="outline-text-2" id="text-8">
 </div>
 </section>
-<section id="slide-7-1">
-<h3 id="7-1"><span class="section-number-3">7.1</span> Šabloni</h3>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1</span> Šabloni</h3>
 <ul>
 <li>Tekstualni fajlovi koji imaju fiksne i varijablne delove.</li>
 <li>Koriste se za generisanje proizvoljnog tekstualnog sadržaja: HTML, JSON, XML,
@@ -1286,8 +1642,8 @@ CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 </ul>
 
 </section>
-<section id="slide-7-2">
-<h3 id="7-2"><span class="section-number-3">7.2</span> Primer</h3>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2</span> Primer</h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >{% extends "base_generic.html" %}
@@ -1310,30 +1666,39 @@ CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 </div>
 
 </section>
-<section id="slide-7-3">
-<h3 id="7-3"><span class="section-number-3">7.3</span> Varijable konteksta</h3>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3</span> Varijable konteksta</h3>
 <ul>
 <li>Navode se u obliku <code>{{ varijabla  }}</code>.</li>
-<li>Može se koristiti dot notacija za pristup atributima varijable pri čemu
+<li>Može se koristiti <code>dot</code> notacija za pristup atributima varijable pri čemu
 je semantika sledeća:
 
 <ul>
 <li>Prvo se pokušava po ključu rečnika</li>
 <li>Zatim pristup atributu ili metodi</li>
-<li>Na kraju se pokušava pristup po numeričkom indeksu (deo iza tačke mora biti
-numerički)</li>
+<li><p>
+Na kraju se pokušava pristup po numeričkom indeksu (deo iza tačke mora biti
+numerički)
+</p>
+
+<p>
+Primer:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ my_dict.key }}
+{{ my_object.attribute }}
+{{ my_list.0 }}
+</code></pre>
+</div></li>
 
 </ul></li>
-
-<li>Ukoliko varijabla ne postoji u kontekstu referenca će biti renerovana na
-osnovu podešavanja <code>TEMPLATE_STRING_IF_INVALID</code> što je podrazumevano prazan
-string.</li>
 
 </ul>
 
 </section>
-<section id="slide-7-4">
-<h3 id="7-4"><span class="section-number-3">7.4</span> Filteri</h3>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4</span> Filteri</h3>
 <p>
 Na prikaz varijable se može uticati filterima.
 </p>
@@ -1371,8 +1736,8 @@ Mogu imati parametre:
 </div>
 
 </section>
-<section id="slide-7-5">
-<h3 id="7-5"><span class="section-number-3">7.5</span> Tagovi</h3>
+<section id="slide-8-5">
+<h3 id="8-5"><span class="section-number-3">8.5</span> Tagovi</h3>
 <p>
 Složenije konstrukcije oblika:
 </p>
@@ -1389,8 +1754,8 @@ informacija i sl.
 </p>
 
 </section>
-<section id="slide-7-6">
-<h3 id="7-6"><span class="section-number-3">7.6</span> <code>For</code></h3>
+<section id="slide-8-6">
+<h3 id="8-6"><span class="section-number-3">8.6</span> <code>For</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >&lt;ul&gt;
@@ -1402,8 +1767,8 @@ informacija i sl.
 </div>
 
 </section>
-<section id="slide-7-7">
-<h3 id="7-7"><span class="section-number-3">7.7</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
+<section id="slide-8-7">
+<h3 id="8-7"><span class="section-number-3">8.7</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >{% if athlete_list %}
@@ -1427,8 +1792,8 @@ informacija i sl.
 </div>
 
 </section>
-<section id="slide-7-8">
-<h3 id="7-8"><span class="section-number-3">7.8</span> Nasleđivanje šablona</h3>
+<section id="slide-8-8">
+<h3 id="8-8"><span class="section-number-3">8.8</span> Nasleđivanje šablona</h3>
 <ul>
 <li>Najkompleksniji i najmoćniji mehanizam Django obrađivača šablona.</li>
 <li>Omogućava definisanje šablona najvišeg nivoa i zatim redefiniciju i
@@ -1438,8 +1803,8 @@ specijalizaciju za konkretne slučajeve.</li>
 </ul>
 
 </section>
-<section id="slide-7-9">
-<h3 id="7-9"><span class="section-number-3">7.9</span> Nasleđivanje šablona (2)</h3>
+<section id="slide-8-9">
+<h3 id="8-9"><span class="section-number-3">8.9</span> Nasleđivanje šablona (2)</h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >&lt;!DOCTYPE html&gt;
@@ -1468,8 +1833,8 @@ specijalizaciju za konkretne slučajeve.</li>
 </div>
 
 </section>
-<section id="slide-7-10">
-<h3 id="7-10"><span class="section-number-3">7.10</span> Nasleđivanje šablona (3)</h3>
+<section id="slide-8-10">
+<h3 id="8-10"><span class="section-number-3">8.10</span> Nasleđivanje šablona (3)</h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >{% extends "base.html" %}
@@ -1486,8 +1851,8 @@ specijalizaciju za konkretne slučajeve.</li>
 </div>
 
 </section>
-<section id="slide-7-11">
-<h3 id="7-11"><span class="section-number-3">7.11</span> Nasleđivanje šablona (4)</h3>
+<section id="slide-8-11">
+<h3 id="8-11"><span class="section-number-3">8.11</span> Nasleđivanje šablona (4)</h3>
 <ul>
 <li>Roditeljski <code>block</code> tagovi treba da imaju podrazumevani sadržaj.</li>
 <li>Ukoliko primetite da duplirate kod u šablonima to je znak da treba da kreirate
@@ -1508,8 +1873,8 @@ potrebno.</li>
 </div>
 
 </section>
-<section id="slide-7-12">
-<h3 id="7-12"><span class="section-number-3">7.12</span> Automatski HTML <i>escaping</i></h3>
+<section id="slide-8-12">
+<h3 id="8-12"><span class="section-number-3">8.12</span> Automatski HTML <i>escaping</i></h3>
 <ul>
 <li>Sprečavanje <i>Cross Site Scripting (XSS)</i>.</li>
 <li>Django automatski uključuje <i>HTML escaping</i> za sve stringove koje renderuje.</li>
@@ -1529,8 +1894,8 @@ obrađivača.</li>
 </ul>
 
 </section>
-<section id="slide-7-13">
-<h3 id="7-13"><span class="section-number-3">7.13</span> Automatski HTML <i>escaping</i> - varijable</h3>
+<section id="slide-8-13">
+<h3 id="8-13"><span class="section-number-3">8.13</span> Automatski HTML <i>escaping</i> - varijable</h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >This will be escaped: {{ data }}
@@ -1550,8 +1915,8 @@ This will not be escaped: &lt;b&gt;
 </div>
 
 </section>
-<section id="slide-7-14">
-<h3 id="7-14"><span class="section-number-3">7.14</span> Automatski HTML <i>escaping</i> - blokovi</h3>
+<section id="slide-8-14">
+<h3 id="8-14"><span class="section-number-3">8.14</span> Automatski HTML <i>escaping</i> - blokovi</h3>
 <div class="org-src-container">
 
 <pre><code class=" jinja2" >{% autoescape off %}
@@ -1576,8 +1941,8 @@ This will not be escaped: &lt;b&gt;
 </div>
 
 </section>
-<section id="slide-7-15">
-<h3 id="7-15"><span class="section-number-3">7.15</span> Pozivi metoda u šablonima</h3>
+<section id="slide-8-15">
+<h3 id="8-15"><span class="section-number-3">8.15</span> Pozivi metoda u šablonima</h3>
 <ul>
 <li>Moguće je pozivati metode koje nemaju parametre.</li>
 <li>Sintaksa je ista kao za pristup atributima.</li>
@@ -1617,8 +1982,8 @@ Moguće je pozivati i korisničke metode.
 </div>
 
 </section>
-<section id="slide-7-16">
-<h3 id="7-16"><span class="section-number-3">7.16</span> Biblioteke tagova i filtera</h3>
+<section id="slide-8-16">
+<h3 id="8-16"><span class="section-number-3">8.16</span> Biblioteke tagova i filtera</h3>
 <ul>
 <li>Tagovi i filteri se mogu definisati od strane korisnika ili autora aplikacija.</li>
 <li>Učitavaju se sa tagom <code>load</code>.</li>
@@ -1649,8 +2014,8 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 </section>
 </section>
 <section>
-<section id="slide-8">
-<h2 id="8"><span class="section-number-2">8</span> Reference</h2>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9</span> Reference</h2>
 <ul>
 <li><a href="https://docs.djangoproject.com/en/3.0/">Django dokumentacija</a></li>
 
