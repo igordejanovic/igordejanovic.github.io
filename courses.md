@@ -27,7 +27,7 @@ order: 2
 - [Programski jezik Python](courses/tech/Python/)
 - [Pharo/Smalltalk](courses/tech/Pharo/index.html)
 - [Go](courses/tech/GoLang/index.html)
-- [Django](courses/tech/django.html)
+- [Django](courses/tech/django/)
 - [Docker](courses/tech/docker.html)
 - [D3](courses/tech/d3.html)
 - [SWT & JFace](courses/tech/SWT-JFace.html)

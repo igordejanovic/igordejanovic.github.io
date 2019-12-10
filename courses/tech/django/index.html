@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Django</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Django</h1>
+<h2 class="subtitle">bazirano na tutorijalu i verziji 3.0</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2019-12-10 Tue 11:16, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org16f47da">
+<h2 id="org16f47da">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Kreiranje i podešavanje projekta</a></li>
+<li><a href="#/slide-2">2. Django modeli</a></li>
+<li><a href="#/slide-3">3. Podešavanje admin aplikacije</a></li>
+<li><a href="#/slide-4">4. Pogledi - <i>Views</i></a></li>
+<li><a href="#/slide-5">5. Forme</a></li>
+<li><a href="#/slide-6">6. <span class="todo TODO">TODO</span> Generički pogledi</a></li>
+<li><a href="#/slide-7">7. <span class="todo TODO">TODO</span> Šabloni detaljnije</a></li>
+<li><a href="#/slide-8">8. Reference</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Kreiranje i podešavanje projekta</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1</span> Django</h3>
+<ul>
+<li>Python okvir za razvoj veb aplikacija</li>
+<li>BSD licenca</li>
+<li>DRY princip</li>
+<li><i>Full stack</i></li>
+<li><i>Database migration</i></li>
+<li>Modularan - aplikacije</li>
+<li>Automatski admin interfejs</li>
+<li>Velika i aktivna zajednica</li>
+<li><i>Caching, syndication, internationalization&#x2026;</i></li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2</span> Instalacija</h3>
+<pre  class="example">
+$ pip install Django
+</pre>
+
+<p>
+Provera da li je instaliran:
+</p>
+
+<pre  class="example">
+$ python -m django --version
+</pre>
+
+<p class="attention">
+<b>Preporuka:</b> Koristiti <a href="https://docs.python.org/3/library/venv.html" class="attention">virtualno okruženje</a>
+</p>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3</span> Kreiranje projekta</h3>
+<pre  class="example">
+$ django-admin startproject mysite
+</pre>
+
+<p>
+Ovo će kreirati sledeće fajlove i foldere:
+</p>
+
+<pre  class="example">
+mysite/
+    manage.py
+    mysite/
+        __init__.py
+        settings.py
+        urls.py
+        wsgi.py
+</pre>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4</span> Podešavanje sajta</h3>
+<ul>
+<li>Modul <code>mysite/settings.py</code>.</li>
+<li>Običan Python modul sa strukturama podataka za podešavanje svih aspekata sajta
+(baza, aplikacije, middleware&#x2026;)</li>
+<li>Podrazumevano se koristi <code>sqlite3</code> baza što je sasvim dovoljno za razvoj.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >...
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase'),
+    }
+}
+...
+</code></pre>
+</div>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5</span> Pokretanje projekta</h3>
+<pre  class="example">
+$ python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 17 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+
+December 04, 2019 - 19:20:25
+Django version 3.0, using settings 'mysite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CONTROL-C.
+</pre>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6</span> Početna strana</h3>
+
+<div class="figure">
+<p><img src="./images/DjangoStarted.png" alt="DjangoStarted.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7</span> Kreiranje inicijalne šeme baze podataka</h3>
+<pre  class="example">
+$ python manage.py migrate  
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying sessions.0001_initial... OK
+</pre>
+
+<p>
+Inicijalna šema potiče od podrazumevano uključenih aplikacija.
+</p>
+
+</section>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8</span> Admin interfejs</h3>
+<ul>
+<li>Implementiran kao standardna Django aplikacija.</li>
+<li>Podrazumevano aktiviran.</li>
+<li>Potrebno je kreirati <i>admin</i> korisnika.</li>
+
+</ul>
+
+<pre  class="example">
+$ python manage.py createsuperuser
+Username (leave blank to use 'igor'):
+Email address: igord@uns.ac.rs
+Password:
+Password (again):
+Superuser created successfully.
+</pre>
+
+</section>
+<section id="slide-1-9">
+<h3 id="1-9"><span class="section-number-3">1.9</span> Pristup admin interfejsu</h3>
+<ul>
+<li>Posle pokretanja aplikacije moguće je pristupiti admin interfejsu.</li>
+<li>Podrazumevano se pristupa na <a href="http://localhost:8000/admin/">http://localhost:8000/admin/</a></li>
+
+</ul>
+
+
+<div class="figure">
+<p><img src="./images/DjangoAdmin1.png" alt="DjangoAdmin1.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-10">
+<h3 id="1-10"><span class="section-number-3">1.10</span> Projekti i aplikacije</h3>
+<ul>
+<li>Aplikacija je modul koji radi nešto korisno. Na primer, blog sistem,
+aplikacija za glasanje, forum i sl.</li>
+<li>Projekat predstavlja skup aplikacija i konfiguracije za određene web sajtove.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-11">
+<h3 id="1-11"><span class="section-number-3">1.11</span> Kreiranje aplikacije unutar projekta</h3>
+<pre  class="example">
+$ python manage.py startapp polls
+</pre>
+
+<p>
+Kreira fajlove i foldere sledećeg oblika:
+</p>
+
+<pre  class="example">
+polls/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    views.py
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Django modeli</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Django modeli</h3>
+<ul>
+<li>Smešteni su u <code>[app_name]/models.py</code> fajlu</li>
+<li>Predstavljaju definitivan izvor definicije podataka u aplikaciji.</li>
+<li><i>DRY</i> - sve ostalo vezano za podatke se dedukuje iz modela.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.db import models
+
+
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> Aktivacija modela</h3>
+<ul>
+<li>Potrebno je prvo aktivirati aplikaciju. Obavlja se dodavanjem klase
+<code>PollsConfig</code> iz fajla <code>polls/apps.py</code> u <code>settings.py</code> fajl za sajt, n-torka
+<code>INSTALLED_APPS</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >INSTALLED_APPS = (
+    'polls.apps.PollsConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> Kreiranje migracije</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >$ python manage.py makemigrations polls
+Migrations for 'polls':
+  polls/migrations/0001_initial.py:
+    - Create model Choice
+    - Create model Question
+</code></pre>
+</div>
+
+<p>
+Kreiran je fajl <code>polls/migrations/0001_initial.py</code>.
+</p>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4</span> Pregled SQL-a za određenu migraciju</h3>
+<div class="org-src-container">
+
+<pre><code class=" sql" >$ python manage.py sqlmigrate polls 0001
+BEGIN;
+--
+-- Create model Choice
+--
+CREATE TABLE "polls_choice" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "choice_text" varchar(200) NOT NULL,
+    "votes" integer NOT NULL
+);
+--
+-- Create model Question
+--
+CREATE TABLE "polls_question" (
+    "id" serial NOT NULL PRIMARY KEY,
+    "question_text" varchar(200) NOT NULL,
+    "pub_date" timestamp with time zone NOT NULL
+);
+
+...
+
+COMMIT;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5</span> Primena migracije nad bazom</h3>
+<pre  class="example">
+$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  Applying polls.0001_initial... OK
+</pre>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6</span> Migracije - sumarno</h3>
+<p>
+Kod migracije šeme baze podataka uz očuvanje podataka raditi sledeće:
+</p>
+
+<ul>
+<li>Modifikovati <code>model.py</code></li>
+<li>Kreirati migraciju:</li>
+
+</ul>
+
+<pre  class="example">
+$ python manage.py makemigrations
+</pre>
+
+<ul>
+<li>Primeniti migraciju:</li>
+
+</ul>
+
+<pre  class="example">
+$ python manage.py migrate
+</pre>
+
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7</span> Registracija modela u admin interfejsu</h3>
+<ul>
+<li>U fajlu <code>polls/admin.py</code>:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.contrib import admin
+
+from .models import Question, Choice
+
+admin.site.register(Question)
+admin.site.register(Choice)
+</code></pre>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/DjangoAdmin3.png" alt="DjangoAdmin3.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8</span> Model API</h3>
+<pre  class="example">
+$ python manage.py shell
+</pre>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >&gt;&gt;&gt; from polls.models import Question, Choice
+&gt;&gt;&gt; Question.objects.all()
+[]
+&gt;&gt;&gt; from django.utils import timezone
+&gt;&gt;&gt; q = Question(question_text="What's new?", pub_date=timezone.now())
+&gt;&gt;&gt; q.save()
+&gt;&gt;&gt; q.id
+1
+&gt;&gt;&gt; q.question_text
+"What's new?"
+&gt;&gt;&gt; q.pub_date
+datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=&lt;UTC&gt;)
+&gt;&gt;&gt; q.question_text = "What's up?"
+&gt;&gt;&gt; q.save()
+&gt;&gt;&gt; Question.objects.all()
+[&lt;Question: Question object&gt;]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9</span> String reprezentacija instanci modela</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.db import models
+
+class Question(models.Model):
+    # ...
+    def __str__(self):
+        return self.question_text
+
+class Choice(models.Model):
+    # ...
+    def __str__(self):
+        return self.choice_text
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10</span> Korisničke metode nad modelom</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >import datetime
+
+from django.db import models
+from django.utils import timezone
+
+
+class Question(models.Model):
+    # ...
+    def was_published_recently(self):
+        return self.pub_date &gt;= timezone.now() - datetime.timedelta(days=1)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11</span> Model API (2)</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >&gt;&gt;&gt; from polls.models import Question, Choice
+&gt;&gt;&gt; Question.objects.all()
+[&lt;Question: What's up?&gt;]
+
+&gt;&gt;&gt; Question.objects.filter(id=1)
+[&lt;Question: What's up?&gt;]
+&gt;&gt;&gt; Question.objects.filter(question_text__startswith='What')
+[&lt;Question: What's up?&gt;]
+
+&gt;&gt;&gt; from django.utils import timezone
+&gt;&gt;&gt; current_year = timezone.now().year
+&gt;&gt;&gt; Question.objects.get(pub_date__year=current_year)
+&lt;Question: What's up?&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12</span> Model API (3)</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >&gt;&gt;&gt; Question.objects.get(id=2)
+Traceback (most recent call last):
+    ...
+DoesNotExist: Question matching query does not exist.
+
+&gt;&gt;&gt; Question.objects.get(pk=1)
+&lt;Question: What's up?&gt;
+
+&gt;&gt;&gt; q = Question.objects.get(pk=1)
+&gt;&gt;&gt; q.was_published_recently()
+True
+
+&gt;&gt;&gt; q = Question.objects.get(pk=1)
+
+&gt;&gt;&gt; q.choice_set.all()
+[]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13</span> Model API (4)</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >&gt;&gt;&gt; q.choice_set.create(choice_text='Not much', votes=0)
+&lt;Choice: Not much&gt;
+&gt;&gt;&gt; q.choice_set.create(choice_text='The sky', votes=0)
+&lt;Choice: The sky&gt;
+&gt;&gt;&gt; c = q.choice_set.create(choice_text='Just hacking again', votes=0)
+
+&gt;&gt;&gt; c.question
+&lt;Question: What's up?&gt;
+
+&gt;&gt;&gt; q.choice_set.all()
+[&lt;Choice: Not much&gt;, &lt;Choice: The sky&gt;, &lt;Choice: Just hacking again&gt;]
+&gt;&gt;&gt; q.choice_set.count()
+3
+
+&gt;&gt;&gt; Choice.objects.filter(question__pub_date__year=current_year)
+[&lt;Choice: Not much&gt;, &lt;Choice: The sky&gt;, &lt;Choice: Just hacking again&gt;]
+
+&gt;&gt;&gt; c = q.choice_set.filter(choice_text__startswith='Just hacking')
+&gt;&gt;&gt; c.delete()
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Podešavanje admin aplikacije</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Podešavanje admin aplikacije</h3>
+<ul>
+<li>Videti uputstvo <a href="https://docs.djangoproject.com/en/3.0/intro/tutorial02/#introducing-the-django-admin">ovde</a>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> Pogledi - <i>Views</i></h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1</span> Pogledi - <i>Views</i></h3>
+<ul>
+<li>Predstavljaju "vrstu" web stranice: blog home, arhiva po godini&#x2026;</li>
+<li>U <code>polls</code> aplikaciji imaćemo 4 pogleda:
+
+<ul>
+<li><code>Question</code> index stranicu</li>
+<li><code>Question</code> stranicu sa detaljima</li>
+<li><code>Question</code> stranicu sa rezultatima</li>
+<li>Akciju za glasanje</li>
+
+</ul></li>
+
+<li>Pogledi generišu sadržaj koji se dostavlja klijentu na zahtev (URL request).</li>
+<li>Sadržaj mogu biti web stranice ali mogu biti npr. i JSON ili XML stringovi.</li>
+<li>Realizuju se kao python funkcije ili metode klase.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2</span> Prvi pogled</h3>
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+            
+</code></pre>
+</div>
+
+<p>
+Iz pogleda se vraća <code>HttpResponse</code> instanca ili izuzetak.
+</p>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3</span> Rutiranje zahteva</h3>
+<ul>
+<li>Svaki URL zahtev se mapira na odgovarajuću <code>view</code> funkciju posredstvom tzv.
+<code>URLconf</code>-a.</li>
+<li>Kreirati fajl <code>polls/urls.py</code> sa sadržajem:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+</code></pre>
+</div>
+
+<ul>
+<li>Zatim u glavnom <code>URLconf</code> fajlu za sajt <code>mysite/urls.py</code> uključiti <code>URLconf</code>
+aplikacije <code>polls</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('polls/', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4</span> Rutiranje zahteva (2)</h3>
+<p>
+Ako sada odete na adresu <a href="http://localhost:8000/polls/">http://localhost:8000/polls/</a> dobićete string:
+</p>
+
+<p>
+<code>Hello, world. You’re at the polls index.</code>
+</p>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5</span> Dodatni <code>polls</code> pogledi</h3>
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >def detail(request, question_id):
+    return HttpResponse("You're looking at question %s." % question_id)
+
+def results(request, question_id):
+    response = "You're looking at the results of question %s."
+    return HttpResponse(response % question_id)
+
+def vote(request, question_id):
+    return HttpResponse("You're voting on question %s." % question_id)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6</span> Dodatne rute</h3>
+<p>
+Fajl <code>polls/urls.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    # ex: /polls/
+    path('', views.index, name='index'),
+    # ex: /polls/5/
+    path('&lt;int:question_id&gt;/', views.detail, name='detail'),
+    # ex: /polls/5/results/
+    path('&lt;int:question_id&gt;/results/', views.results, name='results'),
+    # ex: /polls/5/vote/
+    path('&lt;int:question_id&gt;/vote/', views.vote, name='vote'),
+]
+</code></pre>
+</div>
+
+<p>
+Primer mapiranja:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" example" >/polls/34   =&gt;   detail(request=&lt;HttpRequest object&gt;, question_id=34)
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7</span> Pogled koji nešto zaista i radi</h3>
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+
+from polls.models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    output = ', '.join([p.question_text for p in latest_question_list])
+    return HttpResponse(output)
+
+# Leave the rest of the views (detail, results, vote) unchanged
+</code></pre>
+</div>
+
+<ul>
+<li>Problem je što je izled vraćene strane hardkodiran u <code>view</code> funkciji.</li>
+<li>Prepustićemo renderovanje stranice Django obrađivaču šablona.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8</span> Šabloni</h3>
+<ul>
+<li>Kreiramo folder <code>templates</code> unutar <code>polls</code> aplikacije.</li>
+<li><p>
+Konfiguracija za šablone je definisana u listi <code>TEMPLATES</code> u <code>settings.py</code>
+modulu:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
+</code></pre>
+</div></li>
+
+<li>Ugrađene vrednosti za <code>BACKEND</code> podešavanje su:
+<ul>
+<li><code>django.template.backends.django.DjangoTemplates</code></li>
+<li><code>django.template.backends.jinja2.Jinja2</code></li>
+
+</ul></li>
+<li>U <code>templates</code> folderu kreiramo <code>polls</code> direktorijum i u njemu fajl
+<code>index.html</code>.</li>
+<li>Putanja je dakle <code>polls/templates/polls/index.html</code></li>
+<li>Iz aplikacije šablon se (zahvaljujući loaderu) referencira sa
+<code>polls/index.html</code></li>
+
+</ul>
+
+</section>
+<section id="slide-4-9">
+<h3 id="4-9"><span class="section-number-3">4.9</span> Prvi šablon</h3>
+<p>
+Fajl <code>polls/templates/polls/index.html</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% if latest_question_list %}
+    &lt;ul&gt;
+    {% for question in latest_question_list %}
+        &lt;li&gt;&lt;a href="/polls/{{ question.id }}/"&gt;
+        {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+{% else %}
+    &lt;p&gt;No polls are available.&lt;/p&gt;
+{% endif %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-10">
+<h3 id="4-10"><span class="section-number-3">4.10</span> Ažuriranje pogleda da koristi šablon</h3>
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse
+from django.template import loader
+
+from .models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    template = loader.get_template('polls/index.html')
+    context = {
+        'latest_question_list': latest_question_list,
+    }
+    return HttpResponse(template.render(context, request))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-11">
+<h3 id="4-11"><span class="section-number-3">4.11</span> Prečica <code>render</code></h3>
+<ul>
+<li>Učitavanje i rederovanje šablona i vraćanje <code>HttpResponse</code> instance
+je čest slučaj.</li>
+<li>Zbog toga postoji funkcija koja obavlja sav taj posao - <code>render()</code></li>
+
+</ul>
+
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.shortcuts import render
+
+from .models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    context = {'latest_question_list': latest_question_list}
+    return render(request, 'polls/index.html', context)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-12">
+<h3 id="4-12"><span class="section-number-3">4.12</span> Greška 404</h3>
+<p>
+Recimo da želimo da renderujemo detalje <code>Question</code> objekta.
+</p>
+
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import Http404
+from django.shortcuts import render
+
+from .models import Question
+# ...
+def detail(request, question_id):
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', {'question': question})
+</code></pre>
+</div>
+
+<p>
+Za sada šablon <code>polls/templates/polls/detail.html</code> može biti prosto:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ question }}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-13">
+<h3 id="4-13"><span class="section-number-3">4.13</span> Prečica <code>get_object_or_404</code></h3>
+<ul>
+<li>Čest obrazac je pronalaženje objekta po id-u i podizanje greške 404 ukoliko ne
+postoji.</li>
+<li>Za to može da se upotrebi prečica <code>get_object_or_404()</code>.</li>
+
+</ul>
+
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.shortcuts import get_object_or_404, render
+
+from polls.models import Question
+# ...
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/detail.html', {'question': question})
+</code></pre>
+</div>
+
+<ul>
+<li>Takođe postoji i <code>get_list_or_404()</code> koja koristi <code>filter</code> i podiže grešku 404
+ukoliko je lista prazna.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-14">
+<h3 id="4-14"><span class="section-number-3">4.14</span> Prepravka <code>details</code> šablona</h3>
+<p>
+Fajl <code>polls/templates/polls/detail.html</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+&lt;ul&gt;
+{% for choice in question.choice_set.all %}
+    &lt;li&gt;{{ choice.choice_text }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-15">
+<h3 id="4-15"><span class="section-number-3">4.15</span> URL-ovi u šablonima</h3>
+<ul>
+<li>Link u <code>index.html</code> šablonu je bio delimično hardkodiran:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;li&gt;
+  &lt;a href="/polls/{{ question.id }}/"&gt;{{ question.question_text}}&lt;/a&gt;
+&lt;/li&gt;
+</code></pre>
+</div>
+
+<ul>
+<li>To nije dobro kod većih aplikacija jer otežava promenu URL šeme.</li>
+<li>Zbog toga je bolje koristiti <code>{% url %}</code> tag.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;li&gt;&lt;a href="{% url 'detail' question.id %}"&gt;
+  {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+</div>
+
+<p>
+U <code>polls.url</code> modulu:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >...
+# the 'name' value as called by the {% url %} template tag
+path('&lt;int:question_id&gt;/', views.detail, name='detail'),
+...
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-16">
+<h3 id="4-16"><span class="section-number-3">4.16</span> <i>Namespaces</i> u URL rutama</h3>
+<ul>
+<li>U prethodnom primeru <code>url</code> tag referencira rutu iz <code>urls.py</code> fajla po imenu.</li>
+<li>Problem je ako imamo rute koje se isto zovu u više aplikacija.</li>
+<li>To se rešava domenom imena (<i>namespace</i>) koji se definiše sa <code>app_name</code> u
+<code>urls.py</code> modulu.</li>
+
+</ul>
+
+<p>
+Fajl <code>polls/urls.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.urls import path
+
+from . import views
+
+app_name = 'polls'
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('&lt;int:question_id&gt;/', views.detail, name='detail'),
+    path('&lt;int:question_id&gt;/results/', views.results, name='results'),
+    path('&lt;int:question_id&gt;/vote/', views.vote, name='vote'),
+]
+</code></pre>
+</div>
+
+<p>
+Fajl <code>polls/templates/polls/index.html</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;li&gt;
+   &lt;a href="{% url 'polls:detail' question.id %}"&gt; {{ question.question_text }}&lt;/a&gt;
+&lt;/li&gt;
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5</span> Forme</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1</span> Pisanje jednostavne forme</h3>
+<p>
+Šablon <code>polls/templates/polls/detail.html</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+
+{% if error_message %}&lt;p&gt;&lt;strong&gt;{{ error_message }}&lt;/strong&gt;&lt;/p&gt;{% endif %}
+
+&lt;form action="{% url 'polls:vote' question.id %}" method="post"&gt;
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    &lt;input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"&gt;
+    &lt;label for="choice{{ forloop.counter }}"&gt;{{ choice.choice_text }}&lt;/label&gt;&lt;br&gt;
+{% endfor %}
+&lt;input type="submit" value="Vote"&gt;
+&lt;/form&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2</span> Pogled</h3>
+<p>
+Fajl <code>polls/urls.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >path('&lt;int:question_id&gt;/vote/', views.vote, name='vote'),
+</code></pre>
+</div>
+
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+
+from .models import Choice, Question
+# ...
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3</span> Rezultati glasanja</h3>
+<p>
+Po uspešnom glasanju (POST forme) vrši se redirekcija na <code>polls:results</code> pogled.
+</p>
+
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.shortcuts import get_object_or_404, render
+
+
+def results(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/results.html', {'question': question})
+</code></pre>
+</div>
+
+<p>
+Šablon <code>polls/templates/polls/results.html</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+
+&lt;ul&gt;
+{% for choice in question.choice_set.all %}
+    &lt;li&gt;{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+
+&lt;a href="{% url 'polls:detail' question.id %}"&gt;Vote again?&lt;/a&gt;
+&lt;/ul&gt;
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> Generički pogledi</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1</span> Generički pogledi</h3>
+<ul>
+<li>Prethodno prikazani pogledi su često korišćeni u web aplikacijama
+
+<ul>
+<li>Učitavanje podataka iz baze na osnovu parametra prosleđenog preko URL-a.</li>
+<li>Renderovanje šablona i vraćanje rezultata.</li>
+
+</ul></li>
+
+<li>Generički pogledi upravo predstavljaju ovaj obrazac koda.</li>
+<li>Dva generička pogleda: <code>ListView</code> i <code>DetailsView</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2</span> Prerada polls <code>urls.py</code></h3>
+<p>
+Fajl <code>polls/urls.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >from django.conf.urls import patterns, url
+
+from polls import views
+
+urlpatterns = patterns('',
+    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^(?P&lt;pk&gt;\d+)/$', views.DetailView.as_view(), name='detail'),
+    url(r'^(?P&lt;pk&gt;\d+)/results/$', views.ResultsView.as_view(),
+          name='results'),
+    url(r'^(?P&lt;question_id&gt;\d+)/vote/$', views.vote, name='vote'),
+)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3</span> Prerada pogleda</h3>
+<p>
+Fajl <code>polls/views.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >...
+
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+...
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4</span> <code>ListView</code></h3>
+<ul>
+<li>Prikaz liste objekata.</li>
+<li>Podrazumevani šablon je oblika <code>&lt;app name&gt;/&lt;model name&gt;_list.html</code></li>
+<li>To se može promeniti navođenjem atributa <code>template_name</code></li>
+<li>U kontekst šablona listi objekata se pristupa preko reference
+<code>&lt;model_name&gt;_list</code> pri čemu je ime modela u <i>lowercase-u</i> (npr.
+<code>question_list</code>)</li>
+<li>Ovo se menja preko <code>context_object_name</code>.</li>
+<li>Podrazumevano je listanje svih objekata modela. Ovo se može promenitit
+navođenjem metode <code>get_queryset(self)</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5</span> <code>DetailsView</code></h3>
+<ul>
+<li>Prikaz detalja pojedinačnog objekta.</li>
+<li><code>id</code> objekta se iz URL-a prosleđuje pod imenom <code>pk</code>.</li>
+<li>Važe ista pravila za određivanje šablona pri čemu je ime oblika
+<code>&lt;app name&gt;/&lt;model name&gt;_detail.html</code></li>
+<li>U kontekstu šablona instanci se pristupa po imenu modela u <i>lowercase-u</i>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Šabloni detaljnije</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1</span> Šabloni</h3>
+<ul>
+<li>Tekstualni fajlovi koji imaju fiksne i varijablne delove.</li>
+<li>Koriste se za generisanje proizvoljnog tekstualnog sadržaja: HTML, JSON, XML,
+CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2</span> Primer</h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% extends "base_generic.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+&lt;h1&gt;{{ section.title }}&lt;/h1&gt;
+
+{% for story in story_list %}
+&lt;h2&gt;
+  &lt;a href="{{ story.get_absolute_url }}"&gt;
+    {{ story.headline|upper }}
+  &lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;{{ story.tease|truncatewords:"100" }}&lt;/p&gt;
+{% endfor %}
+{% endblock %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3</span> Varijable konteksta</h3>
+<ul>
+<li>Navode se u obliku <code>{{ varijabla  }}</code>.</li>
+<li>Može se koristiti dot notacija za pristup atributima varijable pri čemu
+je semantika sledeća:
+
+<ul>
+<li>Prvo se pokušava po ključu rečnika</li>
+<li>Zatim pristup atributu ili metodi</li>
+<li>Na kraju se pokušava pristup po numeričkom indeksu (deo iza tačke mora biti
+numerički)</li>
+
+</ul></li>
+
+<li>Ukoliko varijabla ne postoji u kontekstu referenca će biti renerovana na
+osnovu podešavanja <code>TEMPLATE_STRING_IF_INVALID</code> što je podrazumevano prazan
+string.</li>
+
+</ul>
+
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4</span> Filteri</h3>
+<p>
+Na prikaz varijable se može uticati filterima.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ value|default:"nothing" }}
+  Za value == None -- nothing
+{{ value|length }}
+  Za value == [1, 2, 3] -- 3
+{{ value|filesizeformat }}
+  Za value == 123456789 -- 117.7 MB
+</code></pre>
+</div>
+
+<p>
+Filteri se mogu povezivati:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ text|escape|linebreaks }}
+</code></pre>
+</div>
+
+<p>
+Mogu imati parametre:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ bio|truncatewords:30 }}
+{{ list|join:", " }}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5</span> Tagovi</h3>
+<p>
+Složenije konstrukcije oblika:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% tag %} ... sadržaj... {% endtag %}
+</code></pre>
+</div>
+
+<p>
+Služe za implementaciju kontrole toke (petlji, uslova), učitavanje eksternih
+informacija i sl.
+</p>
+
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6</span> <code>For</code></h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;ul&gt;
+{% for athlete in athlete_list %}
+    &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% if athlete_list %}
+    Number of athletes: {{ athlete_list|length }}
+{% elif athlete_in_locker_room_list %}
+    Athletes should be out of the locker room soon!
+{% else %}
+    No athletes.
+{% endif %}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% if athlete_list|length &amp;gt; 1 %}
+   Team: {% for athlete in athlete_list %} ... {% endfor %}
+{% else %}
+   Athlete: {{ athlete_list.0.name }}
+{% endif %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8</span> Nasleđivanje šablona</h3>
+<ul>
+<li>Najkompleksniji i najmoćniji mehanizam Django obrađivača šablona.</li>
+<li>Omogućava definisanje šablona najvišeg nivoa i zatim redefiniciju i
+specijalizaciju za konkretne slučajeve.</li>
+<li>Ovim se većina konkretnih šablona minimizuje.</li>
+
+</ul>
+
+</section>
+<section id="slide-7-9">
+<h3 id="7-9"><span class="section-number-3">7.9</span> Nasleđivanje šablona (2)</h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="style.css" /&gt;
+    &lt;title&gt;{% block title %}My amazing site{% endblock %}&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;div id="sidebar"&gt;
+        {% block sidebar %}
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="/blog/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        {% endblock %}
+    &lt;/div&gt;
+
+    &lt;div id="content"&gt;
+        {% block content %}{% endblock %}
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-10">
+<h3 id="7-10"><span class="section-number-3">7.10</span> Nasleđivanje šablona (3)</h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% extends "base.html" %}
+
+{% block title %}My amazing blog{% endblock %}
+
+{% block content %}
+{% for entry in blog_entries %}
+    &lt;h2&gt;{{ entry.title }}&lt;/h2&gt;
+    &lt;p&gt;{{ entry.body }}&lt;/p&gt;
+{% endfor %}
+{% endblock %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-11">
+<h3 id="7-11"><span class="section-number-3">7.11</span> Nasleđivanje šablona (4)</h3>
+<ul>
+<li>Roditeljski <code>block</code> tagovi treba da imaju podrazumevani sadržaj.</li>
+<li>Ukoliko primetite da duplirate kod u šablonima to je znak da treba da kreirate
+blok i da ga smestite u roditeljski šablon i onda samo redefinišete gde je
+potrebno.</li>
+<li>Sadržaj roditeljskog bloka se može referencirati iz bloka putem <code>{{
+  block.super }}</code>.</li>
+<li><code>endblock</code> opciono može definisati ime što je zgodno kod većih šablona.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% block content %}
+...
+{% endblock content %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-12">
+<h3 id="7-12"><span class="section-number-3">7.12</span> Automatski HTML <i>escaping</i></h3>
+<ul>
+<li>Sprečavanje <i>Cross Site Scripting (XSS)</i>.</li>
+<li>Django automatski uključuje <i>HTML escaping</i> za sve stringove koje renderuje.</li>
+<li>To je moguće isključiti za pojedine delove šablona ili na nivou celog
+obrađivača.</li>
+<li>Sledeći karakteri se konvertuju:
+
+<ul>
+<li><code>&lt;</code> se konvertuje u <code>&amp;lt;</code></li>
+<li><code>&gt;</code> se konvertuje u <code>&amp;gt;</code></li>
+<li><code>'</code> (jednostruki navodnici) se konvertuju u <code>&amp;#39;</code></li>
+<li><code>"</code> (dvostruki navodnici) se konvertuju u <code>&amp;quot;</code></li>
+<li><code>&amp;</code> se konvertuje u <code>&amp;amp;</code></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-7-13">
+<h3 id="7-13"><span class="section-number-3">7.13</span> Automatski HTML <i>escaping</i> - varijable</h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >This will be escaped: {{ data }}
+This will not be escaped: {{ data|safe }}
+</code></pre>
+</div>
+
+<p>
+Za <code>data</code> vrednost <code>&lt;b&gt;</code> rezultuje sledećim kodom:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >This will be escaped: &amp;lt;b&amp;gt;
+This will not be escaped: &lt;b&gt;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-14">
+<h3 id="7-14"><span class="section-number-3">7.14</span> Automatski HTML <i>escaping</i> - blokovi</h3>
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% autoescape off %}
+    Hello {{ name }}
+{% endautoescape %}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >Auto-escaping is on by default. Hello {{ name }}
+
+{% autoescape off %}
+    This will not be auto-escaped: {{ data }}.
+
+    Nor this: {{ other_data }}
+    {% autoescape on %}
+        Auto-escaping applies again: {{ name }}
+    {% endautoescape %}
+{% endautoescape %}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-15">
+<h3 id="7-15"><span class="section-number-3">7.15</span> Pozivi metoda u šablonima</h3>
+<ul>
+<li>Moguće je pozivati metode koje nemaju parametre.</li>
+<li>Sintaksa je ista kao za pristup atributima.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% for comment in task.comment_set.all %}
+    {{ comment }}
+{% endfor %}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ task.comment_set.all.count }}
+</code></pre>
+</div>
+
+<p>
+Moguće je pozivati i korisničke metode.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class=" python" >class Task(models.Model):
+    def foo(self):
+        return "bar"
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{{ task.foo }}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-16">
+<h3 id="7-16"><span class="section-number-3">7.16</span> Biblioteke tagova i filtera</h3>
+<ul>
+<li>Tagovi i filteri se mogu definisati od strane korisnika ili autora aplikacija.</li>
+<li>Učitavaju se sa tagom <code>load</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% load humanize %}
+
+{{ 45000|intcomma }}
+</code></pre>
+</div>
+
+<ul>
+<li>U ovom slučaju aplikacija <code>django.contrib.humanize</code> mora biti omogućena u
+konfiguraciji <code>INSTALLED_APPS</code>.</li>
+<li>Moguće je istovremeno učitati više biblioteka.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class=" jinja2" >{% load humanize i18n %}
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8</span> Reference</h2>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/">Django dokumentacija</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>
