@@ -1,0 +1,183 @@
+#+TITLE: Anatomija jednog JSD-a
+#+SUBTITLE: Slajdovi u izradi
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
+
+* DOMMLite
+** Šta je DOMMLite?
+
+- DOMMLite^{1} je jezik za opis statičke strukture poslovnih aplikacija.^{2}
+- Opisuje entitete, njihove atribute, validatore, veze između entiteta,
+  primitivne tipove, pakete, servise i sl.
+- Generator koda na osnovu DOMMLite mograma generiše naprednu /CRUD/ aplikaciju
+  sa podrškom za pretrage, filtriranje, sortiranje, definisanje servisnih
+  metoda, validacije itd. Implementiran u xText-u.
+  
+#+attr_html: :class footer :style clear: both;
+1. I. Dejanović, /Metamodel, editor modela i generator poslovnih aplikacija/.
+   magistarska teza, April 2008.
+2. I. Dejanović, G. Milosavljević, B. Perišić, and M. Tumbas, /A domain-specific
+   language for defining static structure of database applications/, Computer
+   Science and Information Systems, vol. 7, pp. 409–440, June 2010. ISSN
+   1820-0214
+
+** Osnovne osobine
+
+- Opis entiteta, ključeva, veza jedan na jedan, jedan na više, više na više.
+- Tekstualna sintaksa. Puna eclipse integracija (dopuna i bojenje koda,
+  strukturni pogled, navigacija, validacija sintakse).
+- Veliki broj standardnih parametarskih validatora uz mogućnost definisanja
+  dodatnih u samom jeziku uz implementaciju na jeziku ciljne platforme.
+- Podrška za definisanje korisničkih tipova podataka, validatora i oznaka.
+- Generator koda za Django web okvir za razvoj^{1}. Generisanje pune CRUD
+  aplikacije sa pretragama, filtriranjem, sortiranjem itd.
+
+#+attr_html: :class footer :style clear: both;
+1. http://www.djangoproject.com
+
+** Model
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/Model.png]]
+
+** Paketi
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/Package.png]]
+
+** Entiteti
+
+#+ATTR_ORG: :width 300px
+[[./images/Entity.png]]
+
+** Konkretna sintaksa
+
+#+ATTR_ORG: :width 300px
+[[./images/BuildIns.png]]
+
+** Odeljci
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 350px;
+[[./images/FeatureCompartment.png]]
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 250px;
+[[./images/OperationCompartment.png]]
+
+** Odeljci - konkretna sintaksa
+
+#+ATTR_ORG: :width 300px
+[[./images/compartments-syntax.png]]
+
+** Odeljci - strukturni prikaz
+
+#+ATTR_ORG: :width 300px
+[[./images/outline.png]]
+
+** Odeljci - mapiranje na ekranske forme
+
+#+ATTR_ORG: :width 300px
+[[./images/django-validatori.png]]
+
+** Atributi i reference
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 300px;
+[[./images/Feature.png]]
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+attr_html: :style height: 300px;
+[[./images/Property.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+attr_html: :style height: 300px;
+[[./images/TypedElement.png]]
+#+REVEAL_HTML: </div>
+
+** Atributi i reference - konkretna sintaksa
+
+#+ATTR_ORG: :width 300px
+[[./images/BuildIns.png]]
+
+
+** Oznake (/Tags/)
+
+- Služe za opis dodatne semantike elementa nad kojim su definisane.
+- DOMMLite poseduje /11 ugrađenih oznaka/ (=plural, searchBy, orderBy, finder,
+  filterFields...=) a korisnik može definisati na nivou mograma i svoje oznake.
+  
+** Primer - podrška za specifičnosti prirodnih jezika
+
+#+ATTR_ORG: :width 300px
+[[./images/Akuzativ.svg]]
+
+** Validatori 
+
+- Definisanje uslova koji mora biti ispunjen da bi se instanca elementa modela
+  nad kojom je primenjen smatrala ispravnom.
+- DOMMLite poseduje /33 ugrađena validatora/ (=isAlphaNumeric, isOnlyDigits,
+  isValidEmail...=) a na nivou mograma mogu biti definisani korisnički.
+
+** Primer upotrebe validatora
+
+#+ATTR_ORG: :width 300px
+[[./images/Validatori.svg]]
+
+** Servisi
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/Service.png]]
+
+
+** Podrška za /finder/ metode
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 400px;
+[[./images/Services.png]]
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 300px;
+[[./images/finder.png]]
+
+** Dopuna koda
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 350px;
+[[./images/DopunaKoda1.png]]
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 350px;
+[[./images/DopunaKoda2.png]]
+
+** Generator koda
+
+#+ATTR_ORG: :width 300px
+[[./images/Generisanje.svg]]
+
+** Prikaz generisane forme
+
+#+ATTR_ORG: :width 300px
+[[./images/django-validatori.png]]
+
+* mobl
+** mobl
+
+#+ATTR_HTML: :style text-align: center;
+TODO
+
+* pyFlies
+** pyFlies
+   
+#+ATTR_HTML: :style text-align: center;
+TODO
