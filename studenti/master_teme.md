@@ -55,6 +55,13 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## U izradi
 
+- Dragutin Marjanović: Upotreba
+  [zio-telemetry](https://github.com/zio/zio-telemetry) za prikupljanje i
+  analizu tragova u distribuiranim sistemima baziranim na mikroservisnim
+  arhitekturama
+  
+  Rad započet: decembar 2019.
+  
 - Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
   baziranih aplikacija
   
