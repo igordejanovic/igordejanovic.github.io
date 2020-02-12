@@ -8,3 +8,5 @@ order: 3
 ## [Master](./master_teme.html)
 
 ## [Bečelor](./becelor_teme.html)
+
+## [Doktorati](./phd_teme.html)
