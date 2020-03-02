@@ -6,7 +6,10 @@ sidebar: false
 
 ## Slobodne
 
+## U izradi
+
 - Generisanje liste autora (*contributors*) iz git repozitorijuma
+  <br>Stevan Šinik, mart 2020.
 
   Opis: Kreirati alat koji će analizirati istoriju zadatog git repozitorijuma i
   kreirati listu autora sa dodatnim informacijama (broj commit-a, broj
@@ -14,8 +17,6 @@ sidebar: false
   ekstenzije nad kojom se izveštaj traži. Ideja je da se alat koristi kao
   jednostavan generator `CONTRIBUTORS.md` fajlova.
 
-
-## U izradi
 
 - Genarator upitnika
   <br>Dimitrije Mihajloviski, oktobar 2019.
