@@ -62,14 +62,6 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   
   Rad započet: decembar 2019.
   
-- Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
-  baziranih aplikacija
-  
-  Rad započet: april 2019.
-  <br>Opis: Kreirati DSL (tekstualni i opciono grafički) za definisanje REST
-  baziranih procesa i integraciju automatizaciju REST servisa. Implementaciju
-  uraditi uz oslonac na [textX] i [VS Code]. Primer: [Zapier](https://zapier.com/).
-
 - Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
   (folding) i Intellisense za jezike bazirane na
   [textX-u](https://github.com/igordejanovic/textX)
@@ -85,6 +77,15 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 
 ## Završene
+
+- Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
+  baziranih aplikacija
+  <br>Rad započet: april 2019.
+  <br>Odbranjeno: mart 2020.
+
+  <br>Opis: Kreirati DSL (tekstualni i opciono grafički) za definisanje REST
+  baziranih procesa i integraciju automatizaciju REST servisa. Implementaciju
+  uraditi uz oslonac na [textX] i [VS Code]. Primer: [Zapier](https://zapier.com/).
 
 - Milorad Vojnović: DSL za generisanje API testova za GraphQL upite.
   <br>Rad započet: avgust 2018.
