@@ -15,6 +15,7 @@
 
 <link rel="stylesheet" href="../../highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
+
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
     if( window.location.search.match( /print-pdf/gi ) ) {
@@ -25,6 +26,7 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<base target="_blank">
 </head>
 <body>
 <div class="reveal">
@@ -33,17 +35,17 @@
 <h1 class="title">Programski jezik Go</h1>
 <h2 class="subtitle">Bazirano na Go verziji 1.12.4 i <a href="https://tour.golang.org/">A Tour of Go</a></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-05-28 Tue 19:02, pritisni ESC za mapu</p>
+<p class="date">Kreirano 2020-03-02 Mon 20:49, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org326e00c">
-<h2 id="org326e00c">Uvod</h2>
-<div class="outline-text-2" id="text-org326e00c">
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Uvod</h2>
+<div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-org6eff843">
-<h3 id="org6eff843">Osnovne osobine</h3>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1</span> Osnovne osobine</h3>
 <ul>
 <li>Statički tipiziran, kompajliran programski jezik</li>
 <li>Google: Robert Griesemer, Rob Pike, i Ken Thompson</li>
@@ -62,13 +64,13 @@ za konkurentno programiranje (<a href="https://en.wikipedia.org/wiki/Communicati
 </section>
 </section>
 <section>
-<section id="slide-orgb96d674">
-<h2 id="orgb96d674">Instalacija i podešavanja</h2>
-<div class="outline-text-2" id="text-orgb96d674">
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Instalacija i podešavanja</h2>
+<div class="outline-text-2" id="text-2">
 </div>
 </section>
-<section id="slide-org3ea5617">
-<h3 id="org3ea5617">Instalacija</h3>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Instalacija</h3>
 <ul>
 <li>Koristiti instaler za OS</li>
 <li>&#x2026;ili raspakovati tarball/zip i podesiti <code>PATH</code> varijablu na <code>go/bin</code> folder</li>
@@ -99,8 +101,8 @@ podesiti <code>PATH</code>:
 </ul>
 
 </section>
-<section id="slide-org8201e5a">
-<h3 id="org8201e5a"><i>Workspace</i> direktorijum</h3>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> <i>Workspace</i> direktorijum</h3>
 <ul>
 <li>Direktorijum za Go kod</li>
 <li>Podrazumevano <code>$HOME/go</code></li>
@@ -109,8 +111,8 @@ podesiti <code>PATH</code>:
 </ul>
 
 </section>
-<section id="slide-org9bb2759">
-<h3 id="org9bb2759">Testiranje instalacije</h3>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> Testiranje instalacije</h3>
 <div class="org-src-container">
 
 <pre><code class=" bash" >$ go version
@@ -131,7 +133,7 @@ Napraviti fajl <code>hello.go</code> sa sadržajem:
 import "fmt"
 
 func main() {
-  fmt.Printf("Здраво, свете!\n")
+	fmt.Printf("Здраво, свете!\n")
 }
 </code></pre>
 </div></li>
@@ -154,13 +156,13 @@ $ ./hello
 </section>
 </section>
 <section>
-<section id="slide-orgefc21c0">
-<h2 id="orgefc21c0">Kako pisati Go kod?</h2>
-<div class="outline-text-2" id="text-orgefc21c0">
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Kako pisati Go kod?</h2>
+<div class="outline-text-2" id="text-3">
 </div>
 </section>
-<section id="slide-orgd56c21d">
-<h3 id="orgd56c21d">Uvod</h3>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Uvod</h3>
 <p>
 Go alati podrazumevaju određene konvencije u organizaciji foldera i
 programskog koda.
@@ -171,8 +173,8 @@ Bazirano na <a href="https://golang.org/doc/code.html">How to Write Go Code</a>
 </p>
 
 </section>
-<section id="slide-orgf6fcadf">
-<h3 id="orgf6fcadf"><i>Workspaces</i></h3>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> <i>Workspaces</i></h3>
 <ul>
 <li>Obično se sav Go kod smešta na jedno mesto koje zovemo <i>workspace</i></li>
 <li>Na ovom mestu se nalazi veći broj repozitorijuma pod sistemima za kontrolu
@@ -184,8 +186,8 @@ verzija (npr. <code>git</code>).</li>
 </ul>
 
 </section>
-<section id="slide-orgd418b74">
-<h3 id="orgd418b74"><i>Workspaces</i></h3>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3</span> <i>Workspaces</i></h3>
 <pre  class="example">
 bin/
     hello                          # command executable
@@ -211,8 +213,8 @@ src/
 
 
 </section>
-<section id="slide-org0ad5c46">
-<h3 id="org0ad5c46"><code>GOPATH</code></h3>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4</span> <code>GOPATH</code></h3>
 <ul>
 <li>Podrazumevano <code>$HOME/go</code> na Unix-like sistemima ili <code>%USERPOFILE%\go</code> na
 Windows-u.</li>
@@ -230,8 +232,8 @@ Da bi instalirani Go programi bili dostupni:
 </ul>
 
 </section>
-<section id="slide-org7d7b1a3">
-<h3 id="org7d7b1a3">Import putanja (<i>import path</i>)</h3>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5</span> Import putanja (<i>import path</i>)</h3>
 <ul>
 <li>Kratke putanje za standardnu biblioteku. Na primer: <code>fmt</code>, <code>net/http</code></li>
 <li>Putanja je relativna u odnosu na <code>$GOPATH/src</code></li>
@@ -246,8 +248,8 @@ $GOPATH/src/github.com/user
 </ul>
 
 </section>
-<section id="slide-orgecff85f">
-<h3 id="orgecff85f">Prvi Go program</h3>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6</span> Prvi Go program</h3>
 <div class="org-src-container">
 
 <pre><code class=" shell" >$ mkdir $GOPATH/src/github.com/user/hello
@@ -315,8 +317,8 @@ $ git commit -m "initial commit"
 </div>
 
 </section>
-<section id="slide-org0449ccf">
-<h3 id="org0449ccf">Prva Go biblioteka</h3>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7</span> Prva Go biblioteka</h3>
 <div class="org-src-container">
 
 <pre><code class=" bash" >$ mkdir $GOPATH/src/github.com/user/stringutil
@@ -398,8 +400,8 @@ src/
 
 
 </section>
-<section id="slide-org85d6ea7">
-<h3 id="org85d6ea7">Imenovanje paketa</h3>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8</span> Imenovanje paketa</h3>
 <ul>
 <li><p>
 Prvi iskaz u svakom Go fajlu mora biti:
@@ -421,8 +423,8 @@ importuju ali se zahteva da putanja bude</li>
 </ul>
 
 </section>
-<section id="slide-orgb0b47d2">
-<h3 id="orgb0b47d2">Promena imena pri <i>import</i>-u paketa</h3>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9</span> Promena imena pri <i>import</i>-u paketa</h3>
 <pre  class="example">
 Import declaration          Local name of Sin
 
@@ -446,8 +448,8 @@ import _ "lib/math"
 </p>
 
 </section>
-<section id="slide-org3a1f552">
-<h3 id="org3a1f552">Testiranje</h3>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10</span> Testiranje</h3>
 <ul>
 <li><i>Lightweight</i> test okvir u paketu <code>testing</code> + <code>go test</code> komanda</li>
 <li>Jedinični test se piše u fajlu koji se završava na <code>_test.go</code> i koji sadrži
@@ -499,8 +501,8 @@ ok  	github.com/user/stringutil 0.165s
 </div>
 
 </section>
-<section id="slide-orgc6076a4">
-<h3 id="orgc6076a4">Udaljeni paketi (<i>Remote packages</i>)</h3>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11</span> Udaljeni paketi (<i>Remote packages</i>)</h3>
 <ul>
 <li>Import putanja može biti u obliku URL-a do repozitorijuma za kontrolu
 verzija (npr. Git ili Mercurial)</li>
@@ -515,8 +517,8 @@ preuzimaju</li>
 </section>
 </section>
 <section>
-<section id="slide-orgee88dc4">
-<h2 id="orgee88dc4">Go Tour</h2>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> Go Tour</h2>
 <p>
 Interaktivno učenje Go jezika:
 </p>
@@ -539,13 +541,13 @@ $ tour
 </section>
 </section>
 <section>
-<section id="slide-orgb748232">
-<h2 id="orgb748232">Paketi, varijable, funkcije</h2>
-<div class="outline-text-2" id="text-orgb748232">
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5</span> Paketi, varijable, funkcije</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 </section>
-<section id="slide-orga51f85e">
-<h3 id="orga51f85e">Paketi</h3>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1</span> Paketi</h3>
 <ul>
 <li>Svaki Go program se sastoji od paketa</li>
 <li>Program počinje izvršavanje u paketu <code>main</code> i funkciji <code>func main()</code></li>
@@ -573,8 +575,8 @@ primeru <code>rand</code>).</li>
 </ul>
 
 </section>
-<section id="slide-org50cea59">
-<h3 id="org50cea59"><code>Import</code> iskaz</h3>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2</span> <code>Import</code> iskaz</h3>
 <ul>
 <li>Navođenje paketa koji se koriste u posmatranom fajlu</li>
 <li>Može se navesti više paketa unutar zagrada (tzv. <i>factored import</i>)</li>
@@ -596,8 +598,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org66d1e0a">
-<h3 id="org66d1e0a">Eksportovana imena</h3>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3</span> Eksportovana imena</h3>
 <p>
 Ime je eksportovano iz paketa (odnosno može se importovati u drugim paketima)
 ako počinje velikim slovom.
@@ -624,8 +626,8 @@ su definisani.
 </p>
 
 </section>
-<section id="slide-org6455a85">
-<h3 id="org6455a85">Funkcije</h3>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4</span> Funkcije</h3>
 <ul>
 <li>Funkcije mogu imati nula ili više argumenata</li>
 
@@ -670,8 +672,8 @@ func main() {
 
 
 </section>
-<section id="slide-org1201268">
-<h3 id="org1201268">Višestruke povratne vrednosti</h3>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5</span> Višestruke povratne vrednosti</h3>
 <ul>
 <li>Funkcije mogu vratiti proizvoljan broj rezultata</li>
 
@@ -694,8 +696,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org7999c73">
-<h3 id="org7999c73">Imenovane povratne vrednosti</h3>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6</span> Imenovane povratne vrednosti</h3>
 <ul>
 <li>Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
 <code>return</code> iskaz bez argumenata (tzv. <i>naked return</i>)</li>
@@ -721,8 +723,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org7fcb6e8">
-<h3 id="org7fcb6e8">Varijable</h3>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7</span> Varijable</h3>
 <ul>
 <li><code>var</code> iskaz definiše varijable. Tip se navodi na kraju</li>
 <li><code>var</code> iskaz se može koristiti na nivou paketa ili funkcije</li>
@@ -745,8 +747,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org5bf8994">
-<h3 id="org5bf8994">Varijable sa inicijalizatorima</h3>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8</span> Varijable sa inicijalizatorima</h3>
 <ul>
 <li><code>var</code> iskaz može imati inicijalizatore, jedan po varijabli</li>
 <li>Ako se koristi inicijalizator, tip može da se izostavi jer može da se
@@ -770,8 +772,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgdffd928">
-<h3 id="orgdffd928">Kratka deklaracija varijabli</h3>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9</span> Kratka deklaracija varijabli</h3>
 <ul>
 <li>Unutar funkcija, kraći oblik deklaracije baziran na <code>:=</code> dodeli može da se
 koristi</li>
@@ -801,8 +803,8 @@ ključnom rečju</li>
 </ul>
 
 </section>
-<section id="slide-orgbe29f21">
-<h3 id="orgbe29f21">Osnovni tipovi</h3>
+<section id="slide-5-10">
+<h3 id="5-10"><span class="section-number-3">5.10</span> Osnovni tipovi</h3>
 <ul>
 <li>Osnovni tipovi u Go-u su:</li>
 
@@ -859,8 +861,8 @@ Type: complex128 Value: (2+3i)
 </pre>
 
 </section>
-<section id="slide-org7459eac">
-<h3 id="org7459eac">Nulte vrednosti</h3>
+<section id="slide-5-11">
+<h3 id="5-11"><span class="section-number-3">5.11</span> Nulte vrednosti</h3>
 <ul>
 <li>Varijable deklarisane bez inicijalizatora se inicijalizuju na podrazumevane
 nulte vrednosti:
@@ -894,8 +896,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-orgea53bb4">
-<h3 id="orgea53bb4">Konverzija tipova</h3>
+<section id="slide-5-12">
+<h3 id="5-12"><span class="section-number-3">5.12</span> Konverzija tipova</h3>
 <ul>
 <li>Izraz oblika <code>T(v)</code> konvertuje vrednost <code>v</code> u tip <code>T</code></li>
 <li>Na primer:</li>
@@ -946,8 +948,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgf4f7519">
-<h3 id="orgf4f7519">Inferencija tipova (<i>Type inference</i>)</h3>
+<section id="slide-5-13">
+<h3 id="5-13"><span class="section-number-3">5.13</span> Inferencija tipova (<i>Type inference</i>)</h3>
 <ul>
 <li>Kada je desna strana iskaza dodele (bilo <code>:=</code> bilo  <code>var =</code>) tipizirana,
 leva strana će biti istog tipa</li>
@@ -976,8 +978,8 @@ g := 0.867 + 0.5i // complex128
 </div>
 
 </section>
-<section id="slide-org1eb71ac">
-<h3 id="org1eb71ac">Konstante</h3>
+<section id="slide-5-14">
+<h3 id="5-14"><span class="section-number-3">5.14</span> Konstante</h3>
 <ul>
 <li>Deklarisane kao varijable ali upotrebom ključne reči <code>const</code></li>
 <li>Mogu biti osnovnih tipova</li>
@@ -1005,8 +1007,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org631c076">
-<h3 id="org631c076">Numeričke konstante</h3>
+<section id="slide-5-15">
+<h3 id="5-15"><span class="section-number-3">5.15</span> Numeričke konstante</h3>
 <ul>
 <li>Vrednosti proizvoljne preciznosti (<i>arbitrary-precision</i>)</li>
 <li>Kod netipiziranih konstanti tip se određuje na osnovu konteksta</li>
@@ -1062,8 +1064,8 @@ fmt.Println(Huge / 1e999)
 </p>
 
 </section>
-<section id="slide-org3a3f56b">
-<h3 id="org3a3f56b">Enumerisane konstante (<code>iota</code>)</h3>
+<section id="slide-5-16">
+<h3 id="5-16"><span class="section-number-3">5.16</span> Enumerisane konstante (<code>iota</code>)</h3>
 <ul>
 <li>Kada nam je potrebna enumeracija</li>
 
@@ -1157,13 +1159,13 @@ const (
 </section>
 </section>
 <section>
-<section id="slide-org99646c2">
-<h2 id="org99646c2">Iskazi kontrole toka: <code>for</code>, <code>if</code>, <code>else</code>, <code>switch</code> i <code>defer</code></h2>
-<div class="outline-text-2" id="text-org99646c2">
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6</span> Iskazi kontrole toka: <code>for</code>, <code>if</code>, <code>else</code>, <code>switch</code> i <code>defer</code></h2>
+<div class="outline-text-2" id="text-6">
 </div>
 </section>
-<section id="slide-org732220a">
-<h3 id="org732220a"><code>For</code> iskaz</h3>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1</span> <code>For</code> iskaz</h3>
 <ul>
 <li>Go ima samo jedan iskaz za petlje &#x2013; <code>for</code></li>
 <li>Tri komponente:
@@ -1225,8 +1227,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orge952a05">
-<h3 id="orge952a05"><code>for</code> je <code>while</code> u Go-u</h3>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2</span> <code>for</code> je <code>while</code> u Go-u</h3>
 <ul>
 <li>Kada nemamo <i>init</i> i <i>post</i> iskaz možemo izostaviti <code>;</code> i dobijamo
 ekvivalent <code>while</code> petlje u drugim jezicima</li>
@@ -1250,8 +1252,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgfb36dd2">
-<h3 id="orgfb36dd2">"Beskonačna" petlja</h3>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3</span> "Beskonačna" petlja</h3>
 <ul>
 <li>Ako se izostavi i uslov dobijamo beskonačnu petlju</li>
 
@@ -1269,8 +1271,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org28f7304">
-<h3 id="org28f7304">Uslovi &#x2013; <code>if</code> iskaz</h3>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4</span> Uslovi &#x2013; <code>if</code> iskaz</h3>
 <ul>
 <li>Kao i kod <code>for</code> i kod <code>if</code> iskaza zagrade nije potrebno navoditi</li>
 
@@ -1299,8 +1301,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org447827f">
-<h3 id="org447827f"><code>if</code> sa kratkim iskazom</h3>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5</span> <code>if</code> sa kratkim iskazom</h3>
 <ul>
 <li>Kao i <code>for</code> i <code>if</code> može da ima kratak iskaz (najčešće <code>:=</code>) koji se
 izvršava pre uslova</li>
@@ -1334,8 +1336,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org980f43a">
-<h3 id="org980f43a"><code>if</code> i <code>else</code></h3>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6</span> <code>if</code> i <code>else</code></h3>
 <ul>
 <li>Varijable deklarisane u <code>if</code> kratkom iskazu su dostupne i u opcionom <code>else</code>
 bloku</li>
@@ -1376,8 +1378,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-orgce52e98">
-<h3 id="orgce52e98"><code>switch</code> iskaz</h3>
+<section id="slide-6-7">
+<h3 id="6-7"><span class="section-number-3">6.7</span> <code>switch</code> iskaz</h3>
 <ul>
 <li>Kraći način pisanja sekvence <code>if/else</code> iskaza. Izvršava prvi <code>case</code> blok
 gde je vrednost jednaka vrednošću izraza uslova</li>
@@ -1418,8 +1420,8 @@ func main() {
 </ul>
 
 </section>
-<section id="slide-org5a416d5">
-<h3 id="org5a416d5">Evaluacija <code>switch</code> iskaza</h3>
+<section id="slide-6-8">
+<h3 id="6-8"><span class="section-number-3">6.8</span> Evaluacija <code>switch</code> iskaza</h3>
 <ul>
 <li>Evaluacija <code>case</code> blokova ide od vrha prema dnu dok se ne nađe prvi blok
 čija vrednost je jednaka zadatom uslovu</li>
@@ -1464,8 +1466,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org95268d5">
-<h3 id="org95268d5"><code>switch</code> bez uslova</h3>
+<section id="slide-6-9">
+<h3 id="6-9"><span class="section-number-3">6.9</span> <code>switch</code> bez uslova</h3>
 <ul>
 <li>Ekvivalentno sa <code>switch true</code></li>
 <li>Ćistiji način pisanja dugih if-then-else lanaca</li>
@@ -1496,8 +1498,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org96ef5e3">
-<h3 id="org96ef5e3"><code>defer</code> iskaz</h3>
+<section id="slide-6-10">
+<h3 id="6-10"><span class="section-number-3">6.10</span> <code>defer</code> iskaz</h3>
 <ul>
 <li>Odlaže izvršavanje funkcije dok se ne vratimo iz funkcije u kojoj se
 nalazimo</li>
@@ -1526,8 +1528,8 @@ world
 </pre>
 
 </section>
-<section id="slide-org69ced46">
-<h3 id="org69ced46">Stekovanje <code>defer</code> poziva</h3>
+<section id="slide-6-11">
+<h3 id="6-11"><span class="section-number-3">6.11</span> Stekovanje <code>defer</code> poziva</h3>
 <ul>
 <li><code>defer</code> pozivi se smeštaju na stek i po povratku funcije se izvršavaju u
 LIFO redosledu</li>
@@ -1568,13 +1570,13 @@ done
 </section>
 </section>
 <section>
-<section id="slide-orgc87bba6">
-<h2 id="orgc87bba6"><code>struct</code>, <code>slice</code> i <code>map</code></h2>
-<div class="outline-text-2" id="text-orgc87bba6">
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7</span> <code>struct</code>, <code>slice</code> i <code>map</code></h2>
+<div class="outline-text-2" id="text-7">
 </div>
 </section>
-<section id="slide-org0c1b47c">
-<h3 id="org0c1b47c">Pokazivači (<code>Pointers</code>)</h3>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1</span> Pokazivači (<code>Pointers</code>)</h3>
 <ul>
 <li>Memorijska adresa vrednosti varijable</li>
 <li><code>*T</code> je pokazivač na vrednost tipa <code>T</code></li>
@@ -1633,8 +1635,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org1c52ae5">
-<h3 id="org1c52ae5">Strukture (<code>struct</code>)</h3>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2</span> Strukture (<code>struct</code>)</h3>
 <ul>
 <li>Kolekcija polja</li>
 
@@ -1685,8 +1687,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org424f5ca">
-<h3 id="org424f5ca">Pokazivači na strukture</h3>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3</span> Pokazivači na strukture</h3>
 <ul>
 <li>Poljima strukture se može pristupiti preko pokazivača na strukturu</li>
 <li>Sintaksno, ako imamo pokazivač <code>p</code> na strukturu, polju <code>X</code> bi mogli
@@ -1719,8 +1721,8 @@ func main() {
 </ul>
 
 </section>
-<section id="slide-orgd977e2d">
-<h3 id="orgd977e2d"><code>struct</code> literali</h3>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4</span> <code>struct</code> literali</h3>
 <ul>
 <li>Kreiranje strukture listanjem vrednosti njenih polja</li>
 <li>Moguće je koristiti sintaksu <code>Name:</code> za postavljanje vrednosti polja i u
@@ -1753,8 +1755,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org25c4e46">
-<h3 id="org25c4e46">Nizovi (<code>Arrays</code>)</h3>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5</span> Nizovi (<code>Arrays</code>)</h3>
 <ul>
 <li><code>[n]T</code> &#x2013; niz od <code>n</code> elemenata tipa <code>T</code></li>
 <li><code>var a [10]int</code> &#x2013; niz od 10 elemenata tipa <code>int</code></li>
@@ -1782,8 +1784,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org559584d">
-<h3 id="org559584d">Isečci (<code>Slices</code>)</h3>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6</span> Isečci (<code>Slices</code>)</h3>
 <ul>
 <li>Niz je fiksne dužine</li>
 <li>Isečak je "prozor" na niz koji ima dinamičku veličinu</li>
@@ -1821,8 +1823,8 @@ func main() {
 </ul>
 
 </section>
-<section id="slide-org0ff1713">
-<h3 id="org0ff1713">Isečci kao pokazivači</h3>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7</span> Isečci kao pokazivači</h3>
 <ul>
 <li>Isečci se ponašaju kao pokazivači na nizove ispod njih</li>
 <li>Izmena elementa kroz isečak menja elemente niza</li>
@@ -1863,8 +1865,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-orga6e097b">
-<h3 id="orga6e097b">Literali za isečke</h3>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8</span> Literali za isečke</h3>
 <div class="org-src-container">
 
 <pre><code class=" go" >[3]bool{true, true, false}
@@ -1907,8 +1909,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org43a3de9">
-<h3 id="org43a3de9">Podrazumevane granice intervala</h3>
+<section id="slide-7-9">
+<h3 id="7-9"><span class="section-number-3">7.9</span> Podrazumevane granice intervala</h3>
 <ul>
 <li>Kada se kreira isečak niza moguće je izostaviti bilo koju granicu.</li>
 <li>Podrazumevana donja granica je <code>0</code></li>
@@ -1959,8 +1961,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-orgfb7c8c4">
-<h3 id="orgfb7c8c4">Dužina i kapacitet isečka</h3>
+<section id="slide-7-10">
+<h3 id="7-10"><span class="section-number-3">7.10</span> Dužina i kapacitet isečka</h3>
 <ul>
 <li>Isečak ima <i>dužinu</i> i <i>kapacitet</i></li>
 <li>Dužina je broj elemenata isečka. Kapacitet je broj elemenata počevši od
@@ -2012,8 +2014,8 @@ len=2 cap=4 [5 7]
 
 
 </section>
-<section id="slide-org53ae3d6">
-<h3 id="org53ae3d6">Prazni (<i>nil</i>) isečci</h3>
+<section id="slide-7-11">
+<h3 id="7-11"><span class="section-number-3">7.11</span> Prazni (<i>nil</i>) isečci</h3>
 <ul>
 <li><i>Nula</i> vrednost za isečak je <code>nil</code></li>
 <li>Ovakav isečak ima dužinu i kapacitet <code>0</code> i nema potporni niz</li>
@@ -2042,8 +2044,8 @@ nil!
 </pre>
 
 </section>
-<section id="slide-org921405b">
-<h3 id="org921405b">Kreiranje isečaka sa <code>make</code></h3>
+<section id="slide-7-12">
+<h3 id="7-12"><span class="section-number-3">7.12</span> Kreiranje isečaka sa <code>make</code></h3>
 <ul>
 <li><p>
 <code>make</code> funkcija alocira niz sa nultim vrednostima i vraća njegov isečak
@@ -2108,8 +2110,8 @@ d len=3 cap=3 [0 0 0]
 </pre>
 
 </section>
-<section id="slide-org0383d5a">
-<h3 id="org0383d5a">Isečak isečaka</h3>
+<section id="slide-7-13">
+<h3 id="7-13"><span class="section-number-3">7.13</span> Isečak isečaka</h3>
 <ul>
 <li>Isečak može da sadrži bilo koji tip, uključujući i druge isečke</li>
 
@@ -2147,8 +2149,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org73e7a46">
-<h3 id="org73e7a46">Dodavanje na isečak</h3>
+<section id="slide-7-14">
+<h3 id="7-14"><span class="section-number-3">7.14</span> Dodavanje na isečak</h3>
 <div class="org-src-container">
 
 <pre><code class=" go" >func append(s []T, vs ...T) []T
@@ -2202,8 +2204,8 @@ len=5 cap=6 [0 1 2 3 4]
 </pre>
 
 </section>
-<section id="slide-org527d051">
-<h3 id="org527d051"><code>range</code></h3>
+<section id="slide-7-15">
+<h3 id="7-15"><span class="section-number-3">7.15</span> <code>range</code></h3>
 <ul>
 <li><code>range</code> forma <code>for</code> petlje iterira kroz elemente isečaka ili mape</li>
 
@@ -2272,8 +2274,8 @@ func main() {
 </ul>
 
 </section>
-<section id="slide-org047f158">
-<h3 id="org047f158">Mape</h3>
+<section id="slide-7-16">
+<h3 id="7-16"><span class="section-number-3">7.16</span> Mape</h3>
 <ul>
 <li>Mapiranje ključeva na vrednosti &#x2013; asocijativni niz</li>
 <li>Nula vrednost je <code>nil</code></li>
@@ -2305,8 +2307,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org151235c">
-<h3 id="org151235c">Literali za mape</h3>
+<section id="slide-7-17">
+<h3 id="7-17"><span class="section-number-3">7.17</span> Literali za mape</h3>
 <div class="org-src-container">
 
 <pre><code class=" go" >package main
@@ -2362,8 +2364,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orga7d8ca6">
-<h3 id="orga7d8ca6">Izmena vrednosti mapa</h3>
+<section id="slide-7-18">
+<h3 id="7-18"><span class="section-number-3">7.18</span> Izmena vrednosti mapa</h3>
 <ul>
 <li>postavljanje vrednosti</li>
 
@@ -2435,8 +2437,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org41ff6b5">
-<h3 id="org41ff6b5">Funkcije kao vrednosti</h3>
+<section id="slide-7-19">
+<h3 id="7-19"><span class="section-number-3">7.19</span> Funkcije kao vrednosti</h3>
 <ul>
 <li>Funkcije se u Go-u vrednosti takođe.</li>
 <li>Mogu se čuvati kao varijable, prosleđivati kao parametri funkcije ili
@@ -2476,8 +2478,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-org86d6c53">
-<h3 id="org86d6c53">Zatvorenja (<i>Closures</i>)</h3>
+<section id="slide-7-20">
+<h3 id="7-20"><span class="section-number-3">7.20</span> Zatvorenja (<i>Closures</i>)</h3>
 <ul>
 <li>Go funkcije mogu biti <i>zatvorenja</i> u smislu da funkcija može da referencira
 vrednosti koje se nalaze izvan nje na mestu njenog kreiranja čak i kada se
@@ -2515,13 +2517,13 @@ func main() {
 </section>
 </section>
 <section>
-<section id="slide-org1abd765">
-<h2 id="org1abd765">Metode i interfejsi</h2>
-<div class="outline-text-2" id="text-org1abd765">
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8</span> Metode i interfejsi</h2>
+<div class="outline-text-2" id="text-8">
 </div>
 </section>
-<section id="slide-org874ab6c">
-<h3 id="org874ab6c">Metode i interfejsi</h3>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1</span> Metode i interfejsi</h3>
 <ul>
 <li>Go nema klase ali se mogu definisati metode nad tipovima</li>
 <li>Metoda je funkcija koja ima specijalni <i>receiver</i> parametar</li>
@@ -2552,8 +2554,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgb2d9c96">
-<h3 id="orgb2d9c96">Metode su funkcije</h3>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2</span> Metode su funkcije</h3>
 <ul>
 <li>Metode se u osnovi ponašaju kao obične funkcije</li>
 
@@ -2617,8 +2619,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org324562b">
-<h3 id="org324562b">Pokazivački prijemnici (<i>Pointer receivers</i>)</h3>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3</span> Pokazivački prijemnici (<i>Pointer receivers</i>)</h3>
 <ul>
 <li>"Prijemnik" može biti pokazivačkog tipa</li>
 <li>U tom slučaju metoda može ažurirati vrednost prijemnika</li>
@@ -2658,8 +2660,8 @@ func main() {
 </ul>
 
 </section>
-<section id="slide-orgfbf74a1">
-<h3 id="orgfbf74a1">Pokazivači i funkcije</h3>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4</span> Pokazivači i funkcije</h3>
 <div class="org-src-container">
 
 <pre><code class=" go" >package main
@@ -2691,8 +2693,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgc16a076">
-<h3 id="orgc16a076">Metode i indirekcija pokazivača</h3>
+<section id="slide-8-5">
+<h3 id="8-5"><span class="section-number-3">8.5</span> Metode i indirekcija pokazivača</h3>
 <ul>
 <li><p>
 Funkcija sa pokazivačkim arugmentom mora primiti pokazivač
@@ -2837,8 +2839,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orga6ded69">
-<h3 id="orga6ded69">Kada koristiti vrednosni a kada pokazivački prijemnik?</h3>
+<section id="slide-8-6">
+<h3 id="8-6"><span class="section-number-3">8.6</span> Kada koristiti vrednosni a kada pokazivački prijemnik?</h3>
 <p>
 Dva razloga za upotrebu pokazivačkog prijemnika:
 </p>
@@ -2882,8 +2884,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgcf7cd9a">
-<h3 id="orgcf7cd9a">Interfejsi</h3>
+<section id="slide-8-7">
+<h3 id="8-7"><span class="section-number-3">8.7</span> Interfejsi</h3>
 <ul>
 <li>Interfejs tip je definisan skupom signatura metoda</li>
 <li>Kažemo da tip implementira interfejs ako implementira skup metoda koje
@@ -2937,8 +2939,8 @@ Vertex does not implement Abser (Abs method has pointer receiver)
 </pre>
 
 </section>
-<section id="slide-orgd4d02a6">
-<h3 id="orgd4d02a6">Interfejsi se implementiraju implicitno</h3>
+<section id="slide-8-8">
+<h3 id="8-8"><span class="section-number-3">8.8</span> Interfejsi se implementiraju implicitno</h3>
 <ul>
 <li>Tip implementira interfejs tako što implementira metode interfejsa</li>
 <li>Ne postoji <code>implements</code> ključna reč</li>
@@ -2974,8 +2976,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org52a77a1">
-<h3 id="org52a77a1">Interfejs vrednosti</h3>
+<section id="slide-8-9">
+<h3 id="8-9"><span class="section-number-3">8.9</span> Interfejs vrednosti</h3>
 <ul>
 <li><p>
 Interfejs vrednosti možemo zamisliti kao uređeni par vrednosti i konkretnog
@@ -3038,8 +3040,8 @@ Hello
 </pre>
 
 </section>
-<section id="slide-org22a136b">
-<h3 id="org22a136b">interfejs vrednosti sa <code>nil</code> sadržanom vrednošću</h3>
+<section id="slide-8-10">
+<h3 id="8-10"><span class="section-number-3">8.10</span> interfejs vrednosti sa <code>nil</code> sadržanom vrednošću</h3>
 <ul>
 <li>Ako je vrednost sadržana u interfejsu <code>nil</code> metoda se poziva sa <code>nil</code> prijemnikom</li>
 <li>Iako interfejs sadrži <code>nil</code> vrednost on nije <code>nil</code> interfejs</li>
@@ -3093,8 +3095,8 @@ hello
 </pre>
 
 </section>
-<section id="slide-orgb77a7ab">
-<h3 id="orgb77a7ab"><code>nil</code> interfejs vrednost</h3>
+<section id="slide-8-11">
+<h3 id="8-11"><span class="section-number-3">8.11</span> <code>nil</code> interfejs vrednost</h3>
 <ul>
 <li><code>nil</code> interfejs ne sadrži ni vrednost ni tip</li>
 <li>Pozivanje metode nad <code>nil</code> interfejsom je <i>run-time</i> greška jer ne znamo
@@ -3135,8 +3137,8 @@ main.main()
 </pre>
 
 </section>
-<section id="slide-orgb422957">
-<h3 id="orgb422957">Prazan interfejs</h3>
+<section id="slide-8-12">
+<h3 id="8-12"><span class="section-number-3">8.12</span> Prazan interfejs</h3>
 <ul>
 <li>Tip interfejsa bez ijedne metode je poznat kao "prazan interfejs" (<i>empty
 interface</i>)</li>
@@ -3190,8 +3192,8 @@ func describe(i interface{}) {
 </pre>
 
 </section>
-<section id="slide-org365050d">
-<h3 id="org365050d"><i>Type assertions</i></h3>
+<section id="slide-8-13">
+<h3 id="8-13"><span class="section-number-3">8.13</span> <i>Type assertions</i></h3>
 <ul>
 <li><p>
 Omogućava pristup tipu vrednosti sadržane u interfejsu
@@ -3255,8 +3257,8 @@ panic: interface conversion: interface {} is string, not float64
 </pre>
 
 </section>
-<section id="slide-org751d132">
-<h3 id="org751d132"><i>Type switches</i></h3>
+<section id="slide-8-14">
+<h3 id="8-14"><span class="section-number-3">8.14</span> <i>Type switches</i></h3>
 <ul>
 <li>Omogućava više <i>type assertions</i> u nizu</li>
 <li>Slično običnom <code>switch</code> iskazu ali svaki <code>case</code> navodi tip a ne vrednost</li>
@@ -3311,8 +3313,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgedc0065">
-<h3 id="orgedc0065"><i>Stringers</i></h3>
+<section id="slide-8-15">
+<h3 id="8-15"><span class="section-number-3">8.15</span> <i>Stringers</i></h3>
 <ul>
 <li>Jedan od najviše korišćenih interfajsa je <code>Stringer</code> definisan u <code>fmt</code>
 paketu</li>
@@ -3365,8 +3367,8 @@ Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
 </pre>
 
 </section>
-<section id="slide-orgc75c483">
-<h3 id="orgc75c483">Greške</h3>
+<section id="slide-8-16">
+<h3 id="8-16"><span class="section-number-3">8.16</span> Greške</h3>
 <ul>
 <li>Greške se opisuju sa <code>error</code> vrednostima</li>
 <li><p>
@@ -3441,8 +3443,8 @@ at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
 </pre>
 
 </section>
-<section id="slide-orga918035">
-<h3 id="orga918035"><i>Readers</i></h3>
+<section id="slide-8-17">
+<h3 id="8-17"><span class="section-number-3">8.17</span> <i>Readers</i></h3>
 <ul>
 <li><p>
 <code>io</code> paket definiše <code>io.Reader</code> interfejs
@@ -3508,13 +3510,13 @@ b[:n] = ""
 </section>
 </section>
 <section>
-<section id="slide-org32aaf7a">
-<h2 id="org32aaf7a">Konkurencija</h2>
-<div class="outline-text-2" id="text-org32aaf7a">
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9</span> Konkurencija</h2>
+<div class="outline-text-2" id="text-9">
 </div>
 </section>
-<section id="slide-org380653f">
-<h3 id="org380653f">Go rutine <i>Goroutines</i></h3>
+<section id="slide-9-1">
+<h3 id="9-1"><span class="section-number-3">9.1</span> Go rutine <i>Goroutines</i></h3>
 <ul>
 <li><p>
 Go rutina je nit (<i>thread</i>) kreirana i upravljana od strane Go izvršnog
@@ -3582,8 +3584,8 @@ world
 </pre>
 
 </section>
-<section id="slide-orgad0c3a3">
-<h3 id="orgad0c3a3">Kanali (<i>Channels</i>)</h3>
+<section id="slide-9-2">
+<h3 id="9-2"><span class="section-number-3">9.2</span> Kanali (<i>Channels</i>)</h3>
 <ul>
 <li><p>
 Tipizirane veze preko kojih se mogu slati vrednosti upotrebom operatora
@@ -3656,8 +3658,8 @@ func main() {
 </pre>
 
 </section>
-<section id="slide-org948e566">
-<h3 id="org948e566">Baferovani kanali</h3>
+<section id="slide-9-3">
+<h3 id="9-3"><span class="section-number-3">9.3</span> Baferovani kanali</h3>
 <ul>
 <li>Kanali mogu biti baferovani i u tom slučaju pisanje se blokira samo ukoliko
 je kanal pun. Čitanje se blokira samo ukoliko je kanal prazan.</li>
@@ -3699,8 +3701,8 @@ fatal error: all goroutines are asleep - deadlock!
 </pre>
 
 </section>
-<section id="slide-org7dc5927">
-<h3 id="org7dc5927">Zatvaranje kanala</h3>
+<section id="slide-9-4">
+<h3 id="9-4"><span class="section-number-3">9.4</span> Zatvaranje kanala</h3>
 <ul>
 <li>Go rutina koja šalje podatke može zatvoriti kanal <code>close</code> funkcijom da
 signalizira da neće više slati podatke</li>
@@ -3763,8 +3765,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-org1b652bf">
-<h3 id="org1b652bf"><code>select</code></h3>
+<section id="slide-9-5">
+<h3 id="9-5"><span class="section-number-3">9.5</span> <code>select</code></h3>
 <ul>
 <li><code>select</code> iskaz omogućava Go rutini da čeka na više komunikacionih operacija</li>
 <li><code>select</code> blokira dok jedna od grana nije u mogućnosti da se izvrši. Ukoliko
@@ -3802,8 +3804,8 @@ func main() {
 </div>
 
 </section>
-<section id="slide-orgb1a058f">
-<h3 id="orgb1a058f"><code>select/default</code></h3>
+<section id="slide-9-6">
+<h3 id="9-6"><span class="section-number-3">9.6</span> <code>select/default</code></h3>
 <ul>
 <li><code>default</code> grana <code>select</code> iskaza se izvršava ukoliko nijedna druga nije spremna</li>
 <li>Koristite <code>default</code> da čitate ili pišete bez blokiranja</li>
@@ -3861,8 +3863,8 @@ BOOM!
 </pre>
 
 </section>
-<section id="slide-org6eee5ba">
-<h3 id="org6eee5ba"><code>sync.Mutex</code></h3>
+<section id="slide-9-7">
+<h3 id="9-7"><span class="section-number-3">9.7</span> <code>sync.Mutex</code></h3>
 <ul>
 <li>Ukoliko nam je potreban isključiv pristup deljenim podacima</li>
 <li>Kod koji pristupa pišemo između <code>Lock/Unlock</code> poziva</li>
@@ -3905,8 +3907,8 @@ func main() {
 </section>
 </section>
 <section>
-<section id="slide-org933adc6">
-<h2 id="org933adc6">Reference</h2>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10</span> Reference</h2>
 <ul>
 <li><a href="https://golang.org/doc/">Go Documentation</a></li>
 <li><a href="https://tour.golang.org/">A Tour of Go</a></li>
@@ -3931,11 +3933,12 @@ controls: true,
 progress: true,
 history: false,
 center: true,
-slideNumber: 'h/v',
+slideNumber: 'c/t',
 rollingLinks: false,
 keyboard: true,
 mouseWheel: false,
 fragmentInURL: true,
+hashOneBasedIndex: false,
 pdfSeparateFragments: true,
 
 overview: true,
@@ -3945,13 +3948,17 @@ minScale: 0.30,
 maxScale: 4.00,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
 transitionSpeed: 'default',
 
-// Optional libraries used to extend on reveal.js
+// Optional libraries used to extend reveal.js
 dependencies: [
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
-});
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>
 </body>
 </html>
