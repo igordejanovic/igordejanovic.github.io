@@ -172,12 +172,13 @@
   Python u sklopu modula ~functools~ nudi dekorator ~total_ordering~ (videti u
   sekciji ~functools~) koji automatski kreira nedostajuće operatore poređenja.
   
-* *Properties*
-** *Properties*
+* /Properties/
+** /Properties/
 - Tzv. kalkulisani ili izvedeni atributi.
-- Generalizacija *getter* i *setter* mehanizma.
+- Generalizacija /getter/ i /setter/ mehanizma.
 - Sintaksa ostaje kao kod direktnog pristupa atributu.
-** *Properties* - primer
+
+** /Properties/ - primer
    #+BEGIN_SRC python
     class ...:
     ...
@@ -194,63 +195,22 @@
             self.name = model_name
    #+END_SRC
 
-*Property* atributima se pristupa kao običnim atributima:
+/Property/ atributima se pristupa kao običnim atributima:
+
 #+BEGIN_SRC python
 obj.full_file_name = '/neka/putanja/neko_ime.ext'
 #+END_SRC
 
 - Objekat čuva atribute ~file_path~ i ~file_name~.
 - Atribut ~full_file_name~ je izveden.
-
-* Deskriptori
-** *Descriptors*
-- Generalizacija prilagođavanja pristupu atributima objekata.
-- Npr. *properties* iz prethodne sekcije su implementirani mehanizmom
-  deskriptora.
-- Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
-  koji ima neku od metoda ~__get__~, ~__set__~, ~__del__~ tada će ovim metodama
-  biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.
-** Problem sa *properties*
-   #+BEGIN_SRC python
-    class Movie(object):
-        def __init__(self, title, rating, runtime, budget, gross):
-            self._budget = None
-
-            self.title = title
-            self.rating = rating
-            self.runtime = runtime
-            self.gross = gross
-            self.budget = budget
-
-        @property
-        def budget(self):
-            return self._budget
-
-        @budget.setter
-        def budget(self, value):
-            if value < 0:
-                raise ValueError("Negative value not allowed: %s" % value)
-            self._budget = value
-
-        def profit(self):
-            return self.gross - self.budget
-
-
-    m = Movie('Casablanca', 97, 102, 964000, 1300000)
-    print m.budget       # calls m.budget(), returns result
-    try:
-        m.budget = -100  # calls budget.setter(-100), and raises ValueError
-    except ValueError:
-        print "Woops. Not allowed"
-   #+END_SRC
-
-Chris Beaumont: [[http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb][Python Descriptors Demystified]]
+  
 ** ~__setattr__~ i ~@property~
    
-   #+BEGIN_SRC python :return out
+   #+BEGIN_SRC python :results output
    class A:
     @property
     def a(self):
+        print("get")
         return 5
     @a.setter
     def a(self, val):
@@ -261,93 +221,119 @@ Chris Beaumont: [[http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont
             print('setattr')
         super().__setattr__(name, value)
    a = A()
+   a.a = 10
    out = a.a
    #+END_SRC
 
    #+RESULTS:
-   : 5
+   : setattr
+   : set
+   : get
 
-   #+BEGIN_SRC python
-   class A:
-    def __setattr__(self, name, value):
-        if name == 'a':
-            print('setattr')
-        super().__setattr__(name, value)
-    @property
-    def a(self):
-        return 5
-    @a.setter
-    def a(self, val):
-        print("set")
+* Deskriptori
+** /Descriptors/
+- Generalizacija prilagođavanja pristupu atributima objekata.
+- Npr. /properties/ iz prethodne sekcije su implementirani mehanizmom
+  deskriptora.
+- Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
+  koji ima neku od metoda ~__get__~, ~__set__~, ~__del__~ tada će ovim metodama
+  biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.
+  
+** Problem sa /properties/
    
+   #+BEGIN_SRC python :results output
+    class Order:
+        def __init__(self, name, price, quantity):
+            self._name = name
+            self.price = price
+            self._quantity = quantity
+
+        @property
+        def quantity(self):
+            return self._quantity
+
+        @quantity.setter
+        def quantity(self, value):
+            if value < 0:
+                raise ValueError('Cannot be negative.')
+            self._quantity = value
+
+        def total(self):
+            return self.price * self.quantity
+
+    apple_order = Order('apple', 1, 10)
+    print(apple_order.total())
+    try:
+        apple_order.quantity = -10
+    except ValueError as e:
+        print('Woops:', str(e))
    #+END_SRC
+
+   #+RESULTS:
+   : 10
+   : Woops: Cannot be negative.
+
+#+attr_html: :class footer :style clear: both;
+https://dev.to/dawranliou/writing-descriptors-in-python-36
 
 ** Rešenje upotrebom deskriptora (1)
    
-   #+BEGIN_SRC python
-    from weakref import WeakKeyDictionary
-
-    class NonNegative(object):
-        """A descriptor that forbids negative values"""
-        def __init__(self, default):
-            self.default = default
-            self.data = WeakKeyDictionary()
-
-        def __get__(self, instance, owner):
-            # we get here when someone calls x.d, and d is a NonNegative instance
-            # instance = x
-            # owner = type(x)
-            return self.data.get(instance, self.default)
-
-        def __set__(self, instance, value):
-            # we get here when someone calls x.d = val, and d is a NonNegative instance
-            # instance = x
-            # value = val
-            if value < 0:
-                raise ValueError("Negative value not allowed: %s" % value)
-            self.data[instance] = value
+   #+BEGIN_SRC python :session :results none
+   class NonNegative:
+   
+    def __get__(self, instance, owner):
+        return instance.__dict__[self.name]
+        
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError('Cannot be negative.')
+        instance.__dict__[self.name] = value
+        
+    def __set_name__(self, owner, name):
+        self.name = name
    #+END_SRC
 
-Chris Beaumont: [[http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb][Python Descriptors Demystified]]
-
+   #+attr_html: :class footer :style clear: both;
+   https://dev.to/dawranliou/writing-descriptors-in-python-36
+   
 ** Rešenje upotrebom deskriptora (2)
    
-   #+BEGIN_SRC python
-    class Movie(object):
+   #+BEGIN_SRC python :session :results output
+   class Order:
+   
+      price = NonNegative()
+      quantity = NonNegative()
 
-        #always put descriptors at the class-level
-        rating = NonNegative(0)
-        runtime = NonNegative(0)
-        budget = NonNegative(0)
-        gross = NonNegative(0)
+      def __init__(self, name, price, quantity):
+          self._name = name
+          self.price = price
+          self.quantity = quantity
 
-        def __init__(self, title, rating, runtime, budget, gross):
-            self.title = title
-            self.rating = rating
-            self.runtime = runtime
-            self.budget = budget
-            self.gross = gross
-
-        def profit(self):
-            return self.gross - self.budget
-
-
-    m = Movie('Casablanca', 97, 102, 964000, 1300000)
-    print m.budget  # calls Movie.budget.__get__(m, Movie)
-    m.rating = 100  # calls Movie.budget.__set__(m, 100)
-    try:
-        m.rating = -1   # calls Movie.budget.__set__(m, -100)
-    except ValueError:
-        print "Woops, negative value"
+      def total(self):
+          return self.price * self.quantity
+        
+   apple_order = Order('apple', 1, 10)
+   print(apple_order.total())
+    
+   try:
+       apple_order.quantity = -10
+   except ValueError as e:
+       print('Woops:', str(e))
    #+END_SRC
 
-Chris Beaumont: [[http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb][Python Descriptors Demystified]]
+   #+RESULTS:
+   : 10
+   : Woops: Cannot be negative.
 
-* Dekoratori(*Decorators*)
+  #+attr_html: :class footer :style clear: both;
+  https://dev.to/dawranliou/writing-descriptors-in-python-36
+
+* Dekoratori(/Decorators/)
 ** Dekoratori
 - Dekorator obrazac.
-- Funkcije koje prihvataju kao parametar funkciju (ili uopšte
-  ~callable~) i vraćaju izmenjenu verziju.
+- Funkcije koje prihvataju kao parametar funkciju (ili uopšte ~callable~) i
+  vraćaju izmenjenu verziju.
+  
   #+BEGIN_SRC python
   @trace
   def square(x):
@@ -376,7 +362,7 @@ Chris Beaumont: [[http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont
     else:
       return func
   #+END_SRC
-
+  
 ** Dekoratori (2)
 
 Mogu da se stekuju.
@@ -399,7 +385,7 @@ grok = foo(bar(spam(grok)))
 
 ** Dekoratori (3)
 
-Mogu da imaju parametre
+Mogu da imaju parametre.
 
 #+BEGIN_SRC python
 @eventhandler('BUTTON')
@@ -573,16 +559,23 @@ Called example function
 #+BEGIN_SRC python
 @total_ordering
 class Student:
+    def _is_valid_operand(self, other):
+        return (hasattr(other, "lastname") and
+                hasattr(other, "firstname"))
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return ((self.lastname.lower(), self.firstname.lower()) ==
                 (other.lastname.lower(), other.firstname.lower()))
     def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return ((self.lastname.lower(), self.firstname.lower()) <
                 (other.lastname.lower(), other.firstname.lower()))
 #+END_SRC
 
-
-https://docs.python.org/2/library/functools.html
+#+attr_html: :class footer :style clear: both;
+https://docs.python.org/3/library/functools.html
 
 * ~itertools~ modul - pomoćne funkcije za iteraciju
 ** ~chain~

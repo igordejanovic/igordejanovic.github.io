@@ -35,18 +35,18 @@
 <h1 class="title">Napredne tehnike programiranja u Python-u</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-03-03 Tue 20:21, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2020-03-04 Wed 00:45, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org147598d">
-<h2 id="org147598d">Sadržaj</h2>
+<section id="slide-orgd067aae">
+<h2 id="orgd067aae">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Specijalne metode</a></li>
-<li><a href="#/slide-2">2. <b>Properties</b></a></li>
+<li><a href="#/slide-2">2. <i>Properties</i></a></li>
 <li><a href="#/slide-3">3. Deskriptori</a></li>
-<li><a href="#/slide-4">4. Dekoratori(<b>Decorators</b>)</a></li>
+<li><a href="#/slide-4">4. Dekoratori(<i>Decorators</i>)</a></li>
 <li><a href="#/slide-5">5. <code>functools</code> modul - podrška za funkcije višeg reda.</a></li>
 <li><a href="#/slide-6">6. <code>itertools</code> modul - pomoćne funkcije za iteraciju</a></li>
 <li><a href="#/slide-7">7. <code>collections</code> - high-performance container datatypes</a></li>
@@ -335,21 +335,22 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> <b>Properties</b></h2>
+<h2 id="2"><span class="section-number-2">2</span> <i>Properties</i></h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> <b>Properties</b></h3>
+<h3 id="2-1"><span class="section-number-3">2.1</span> <i>Properties</i></h3>
 <ul>
 <li>Tzv. kalkulisani ili izvedeni atributi.</li>
-<li>Generalizacija <b>getter</b> i <b>setter</b> mehanizma.</li>
+<li>Generalizacija <i>getter</i> i <i>setter</i> mehanizma.</li>
 <li>Sintaksa ostaje kao kod direktnog pristupa atributu.</li>
 
 </ul>
+
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> <b>Properties</b> - primer</h3>
+<h3 id="2-2"><span class="section-number-3">2.2</span> <i>Properties</i> - primer</h3>
 <div class="org-src-container">
 
 <pre><code class=" python" >class ...:
@@ -369,8 +370,9 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 </div>
 
 <p>
-<b>Property</b> atributima se pristupa kao običnim atributima:
+<i>Property</i> atributima se pristupa kao običnim atributima:
 </p>
+
 <div class="org-src-container">
 
 <pre><code class=" python" >obj.full_file_name = '/neka/putanja/neko_ime.ext'
@@ -384,73 +386,14 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 </ul>
 
 </section>
-</section>
-<section>
-<section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Deskriptori</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-</section>
-<section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> <b>Descriptors</b></h3>
-<ul>
-<li>Generalizacija prilagođavanja pristupu atributima objekata.</li>
-<li>Npr. <b>properties</b> iz prethodne sekcije su implementirani mehanizmom
-deskriptora.</li>
-<li>Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
-koji ima neku od metoda <code>__get__</code>, <code>__set__</code>, <code>__del__</code> tada će ovim metodama
-biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.</li>
-
-</ul>
-</section>
-<section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Problem sa <b>properties</b></h3>
-<div class="org-src-container">
-
-<pre><code class=" python" >class Movie(object):
-    def __init__(self, title, rating, runtime, budget, gross):
-        self._budget = None
-
-        self.title = title
-        self.rating = rating
-        self.runtime = runtime
-        self.gross = gross
-        self.budget = budget
-
-    @property
-    def budget(self):
-        return self._budget
-
-    @budget.setter
-    def budget(self, value):
-        if value &lt; 0:
-            raise ValueError("Negative value not allowed: %s" % value)
-        self._budget = value
-
-    def profit(self):
-        return self.gross - self.budget
-
-
-m = Movie('Casablanca', 97, 102, 964000, 1300000)
-print m.budget       # calls m.budget(), returns result
-try:
-    m.budget = -100  # calls budget.setter(-100), and raises ValueError
-except ValueError:
-    print "Woops. Not allowed"
-</code></pre>
-</div>
-
-<p>
-Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
-</p>
-</section>
-<section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> <code>__setattr__</code> i <code>@property</code></h3>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> <code>__setattr__</code> i <code>@property</code></h3>
 <div class="org-src-container">
 
 <pre><code class=" python" >class A:
  @property
  def a(self):
+     print("get")
      return 5
  @a.setter
  def a(self, val):
@@ -461,108 +404,147 @@ Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisB
          print('setattr')
      super().__setattr__(name, value)
 a = A()
+a.a = 10
 out = a.a
 </code></pre>
 </div>
 
 <pre class="example">
-5
+setattr
+set
+get
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Deskriptori</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> <i>Descriptors</i></h3>
+<ul>
+<li>Generalizacija prilagođavanja pristupu atributima objekata.</li>
+<li>Npr. <i>properties</i> iz prethodne sekcije su implementirani mehanizmom
+deskriptora.</li>
+<li>Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
+koji ima neku od metoda <code>__get__</code>, <code>__set__</code>, <code>__del__</code> tada će ovim metodama
+biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> Problem sa <i>properties</i></h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >class Order:
+    def __init__(self, name, price, quantity):
+        self._name = name
+        self.price = price
+        self._quantity = quantity
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        if value &lt; 0:
+            raise ValueError('Cannot be negative.')
+        self._quantity = value
+
+    def total(self):
+        return self.price * self.quantity
+
+apple_order = Order('apple', 1, 10)
+print(apple_order.total())
+try:
+    apple_order.quantity = -10
+except ValueError as e:
+    print('Woops:', str(e))
+</code></pre>
+</div>
+
+<pre class="example">
+10
+Woops: Cannot be negative.
 </pre>
 
 
-<div class="org-src-container">
-
-<pre><code class=" python" >class A:
- def __setattr__(self, name, value):
-     if name == 'a':
-         print('setattr')
-     super().__setattr__(name, value)
- @property
- def a(self):
-     return 5
- @a.setter
- def a(self, val):
-     print("set")
-
-</code></pre>
-</div>
-
-</section>
-<section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Rešenje upotrebom deskriptora (1)</h3>
-<div class="org-src-container">
-
-<pre><code class=" python" >from weakref import WeakKeyDictionary
-
-class NonNegative(object):
-    """A descriptor that forbids negative values"""
-    def __init__(self, default):
-        self.default = default
-        self.data = WeakKeyDictionary()
-
-    def __get__(self, instance, owner):
-        # we get here when someone calls x.d, and d is a NonNegative instance
-        # instance = x
-        # owner = type(x)
-        return self.data.get(instance, self.default)
-
-    def __set__(self, instance, value):
-        # we get here when someone calls x.d = val, and d is a NonNegative instance
-        # instance = x
-        # value = val
-        if value &lt; 0:
-            raise ValueError("Negative value not allowed: %s" % value)
-        self.data[instance] = value
-</code></pre>
-</div>
-
-<p>
-Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
+<p class="footer" style="clear: both;">
+<a href="https://dev.to/dawranliou/writing-descriptors-in-python-36" class="footer" style="clear: both;">https://dev.to/dawranliou/writing-descriptors-in-python-36</a>
 </p>
 
 </section>
-<section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Rešenje upotrebom deskriptora (2)</h3>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3</span> Rešenje upotrebom deskriptora (1)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Movie(object):
+<pre><code class=" python" >class NonNegative:
 
-    #always put descriptors at the class-level
-    rating = NonNegative(0)
-    runtime = NonNegative(0)
-    budget = NonNegative(0)
-    gross = NonNegative(0)
+ def __get__(self, instance, owner):
+     return instance.__dict__[self.name]
 
-    def __init__(self, title, rating, runtime, budget, gross):
-        self.title = title
-        self.rating = rating
-        self.runtime = runtime
-        self.budget = budget
-        self.gross = gross
+ def __set__(self, instance, value):
+     if value &lt; 0:
+         raise ValueError('Cannot be negative.')
+     instance.__dict__[self.name] = value
 
-    def profit(self):
-        return self.gross - self.budget
-
-
-m = Movie('Casablanca', 97, 102, 964000, 1300000)
-print m.budget  # calls Movie.budget.__get__(m, Movie)
-m.rating = 100  # calls Movie.budget.__set__(m, 100)
-try:
-    m.rating = -1   # calls Movie.budget.__set__(m, -100)
-except ValueError:
-    print "Woops, negative value"
+ def __set_name__(self, owner, name):
+     self.name = name
 </code></pre>
 </div>
 
-<p>
-Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisBeaumont/5758381/raw/descriptor_writeup.ipynb">Python Descriptors Demystified</a>
+<p class="footer" style="clear: both;">
+<a href="https://dev.to/dawranliou/writing-descriptors-in-python-36" class="footer" style="clear: both;">https://dev.to/dawranliou/writing-descriptors-in-python-36</a>
+</p>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4</span> Rešenje upotrebom deskriptora (2)</h3>
+<div class="org-src-container">
+
+<pre><code class=" python" >class Order:
+
+   price = NonNegative()
+   quantity = NonNegative()
+
+   def __init__(self, name, price, quantity):
+       self._name = name
+       self.price = price
+       self.quantity = quantity
+
+   def total(self):
+       return self.price * self.quantity
+
+apple_order = Order('apple', 1, 10)
+print(apple_order.total())
+
+try:
+    apple_order.quantity = -10
+except ValueError as e:
+    print('Woops:', str(e))
+</code></pre>
+</div>
+
+<pre class="example">
+10
+Woops: Cannot be negative.
+</pre>
+
+
+<p class="footer" style="clear: both;">
+<a href="https://dev.to/dawranliou/writing-descriptors-in-python-36" class="footer" style="clear: both;">https://dev.to/dawranliou/writing-descriptors-in-python-36</a>
 </p>
 
 </section>
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Dekoratori(<b>Decorators</b>)</h2>
+<h2 id="4"><span class="section-number-2">4</span> Dekoratori(<i>Decorators</i>)</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
@@ -571,9 +553,10 @@ Chris Beaumont: <a href="http://nbviewer.jupyter.org/urls/gist.github.com/ChrisB
 <ul>
 <li>Dekorator obrazac.</li>
 <li><p>
-Funkcije koje prihvataju kao parametar funkciju (ili uopšte
-<code>callable</code>) i vraćaju izmenjenu verziju.
+Funkcije koje prihvataju kao parametar funkciju (ili uopšte <code>callable</code>) i
+vraćaju izmenjenu verziju.
 </p>
+
 <div class="org-src-container">
 
 <pre><code class=" python" >@trace
@@ -642,7 +625,7 @@ grok = foo(bar(spam(grok)))
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3</span> Dekoratori (3)</h3>
 <p>
-Mogu da imaju parametre
+Mogu da imaju parametre.
 </p>
 
 <div class="org-src-container">
@@ -885,18 +868,24 @@ metoda uz <code>__eq__</code>.</li>
 
 <pre><code class=" python" >@total_ordering
 class Student:
+    def _is_valid_operand(self, other):
+        return (hasattr(other, "lastname") and
+                hasattr(other, "firstname"))
     def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return ((self.lastname.lower(), self.firstname.lower()) ==
                 (other.lastname.lower(), other.firstname.lower()))
     def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
         return ((self.lastname.lower(), self.firstname.lower()) &lt;
                 (other.lastname.lower(), other.firstname.lower()))
 </code></pre>
 </div>
 
-
-<p>
-<a href="https://docs.python.org/2/library/functools.html">https://docs.python.org/2/library/functools.html</a>
+<p class="footer" style="clear: both;">
+<a href="https://docs.python.org/3/library/functools.html" class="footer" style="clear: both;">https://docs.python.org/3/library/functools.html</a>
 </p>
 
 </section>
