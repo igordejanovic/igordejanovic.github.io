@@ -38,4 +38,6 @@ order: 2
 - [Eclipse RCP](courses/tech/EclipseRCP.html)
 
 
+Većinu slajdova možete konvertovati u PDF tako što dodate `?print-pdf` na kraj
+URL-a i iz browser-a "odštampate" u fajl (`Ctrl-P`).
 
