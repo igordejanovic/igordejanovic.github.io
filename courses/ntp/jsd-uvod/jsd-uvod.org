@@ -92,7 +92,7 @@ Generation/, Wiley-IEEE Computer Society Pr, 2008
 * Prednosti upotrebe
 ** Uticaj na produktivnost
 
-- Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%^1.
+- Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%^{1}.
 - Šta je osnovni razlog za povećanje produktivnosti?
 
 #+attr_html: :class footer :style clear: both;
@@ -100,7 +100,7 @@ Generation/, Wiley-IEEE Computer Society Pr, 2008
   
 ** Problem mentalnog mapiranja
 
-#+attr_html: :width 100%
+#+attr_html: :style height: auto;
 [[./slike/MentalnoMapiranje-1.png]]
 
 #+attr_html: :class footer :style clear: both;
@@ -109,6 +109,7 @@ JetBrains onBoard, 2004.
 
 ** Rešenje upotrebom JSD
 
+#+attr_html: :style height: auto;
 [[./slike/MentalnoMapiranje-2.png]]
 
 #+attr_html: :class footer :style clear: both;
@@ -239,7 +240,6 @@ Novi Sad, January 2012
   jezik. Definisan u hardveru računara (procesoru).
   
 * Tehnologije za parsiranje
-
 ** Tehnologije za parsiranje
 
 - Arpeggio
@@ -272,50 +272,52 @@ Novi Sad, January 2012
 - Podrška za asocijativnost i prioritet.
 - Podrška za upravljanje white-space i komentarima.
 
-** parglare - primer gramatike
+** parglare primer
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python :results output
 from parglare import Parser, Grammar
 
 grammar = r"""
-E = E '+' E  {left, 1}
-  | E '-' E  {left, 1}
-  | E '*' E  {left, 2}
-  | E '/' E  {left, 2}
-  | E '^' E  {right, 3}
-  | '(' E ')';
-E = number;
-number = /\d+(\.\d+)?/;
-"""
+E: E '+' E  {left, 1}
+ | E '-' E  {left, 1}
+ | E '*' E  {left, 2}
+ | E '/' E  {left, 2}
+ | E '^' E  {right, 3}
+ | '(' E ')'
+ | number;
 
+terminals
+number: /\d+(\.\d+)?/;
+"""
 actions = {
-    "E:0": lambda _, nodes: nodes[0] + nodes[2],
-    "E:1": lambda _, nodes: nodes[0] - nodes[2],
-    "E:2": lambda _, nodes: nodes[0] * nodes[2],
-    "E:3": lambda _, nodes: nodes[0] / nodes[2],
-    "E:4": lambda _, nodes: nodes[0] ** nodes[2],
-    "E:5": lambda _, nodes: nodes[1],
-    "E:6": lambda _, nodes: nodes[0],
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[0] ** n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
     "number": lambda _, value: float(value),
 }
 
 g = Grammar.from_string(grammar)
-parser = Parser(g, debug=True, actions=actions)
-
+parser = Parser(g, actions=actions)
 result = parser.parse("34 + 4.6 / 2 * 4^2^2 + 78")
 
 print("Result = ", result)
 #+END_SRC
 
+#+RESULTS:
+: Result =  700.8
+
 ** textX
 
 - 100% Python kod
 - MIT licenca
-- Istovremeno definisanje gramatike i meta-modela -
-  inspirisan [[https://eclipse.org/Xtext/][Xtext]]
+- Istovremeno definisanje gramatike i meta-modela - inspirisan [[https://eclipse.org/Xtext/][Xtext]]
 - Automatska konstrukcija modela - podrška za razrešavane referenci
 - Podrška za veze tipa celina-deo
-- Kontrola parsiranja (*whitespaces, case, keywords*...)
+- Kontrola parsiranja (/whitespaces, case, keywords/...)
 - Postprocesiranje objekata modela ili celog modela
 - Modularizacija gramatika - import
 - Vizualizacija modela i meta-modela 
@@ -333,6 +335,7 @@ print("Result = ", result)
 
 ** pyFlies - DSL za kognitivne eksperimente
 
+#+attr_html: :style height: auto;
 [[./slike/pyFliesArchitecture.png]]
 
 ** pyTabs - DSL za gitarske tablature
@@ -344,6 +347,7 @@ print("Result = ", result)
 
 Specifikacija komponenti i šema.
 
+#+attr_html: :style height: auto;
 [[./slike/schematic_editor.png]]
 
 ** Analiza /legacy/ koda
