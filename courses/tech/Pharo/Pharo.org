@@ -2,9 +2,10 @@
 #+SUBTITLE: Bazirano na [[http://mooc.pharo.org][Pharo MOOC]]
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: ../../courses-startup.org
+#+REVEAL_TRANS: cube
 
 * Smalltalk
-** Smalltalk
+** Smalltalk :noexport:
    
 #+BEGIN_QUOTE
 Smalltalk is dangerous. It is a drug. My advice to you would be don't try it; it
@@ -23,6 +24,11 @@ you will see that there is still nothing out there that can quite touch it.
 - Napredni koncepti: sve je objekat, razmena poruka, "živ" sistem, virtualna
   mašina.
 - Konstrukcionistički pristup programiranju.
+
+#+attr_html: :class footer :style clear: both;
+- https://en.wikipedia.org/wiki/PARC_(company)
+- https://en.wikipedia.org/wiki/Smalltalk
+
 ** Istorijat
 - Razvijen u par dana 1971 godine (/Smalltalk-71/) zbog opklade (Alan Kay).
 - Kasnija verzija /Smalltalk-72/ je korišćena u istraživanjima.
@@ -32,18 +38,23 @@ you will see that there is still nothing out there that can quite touch it.
 - Standardizovan - ANSI 1998
 ** Smalltalk implementacije
 - Komercijalne
-  - /Smalltalk-80/ (PARC)
+  - /Smalltalk-80/ (Xerox PARC)
   - /VisualWorks/ (ParcPlace Systems, prodato 1999 firmi Cincom)
   - /IBM VisualAge/ - napušteno u korist Jave. Današnji Eclipse je započeo kao
     VisualAge Smalltalk okruženje. Jedno vreme je i Java podrška bila
     implementirana u Smalltalk-u.
 
 - FLOSS:
-  - Squeak (moderna verzija Smalltalk-80) - Apple -> Disney -> HP Labs -> SAP Labs
-    -> Y Combinator
-  - Pharo - fork Squeak-a (2008) sa ciljem upotrebe u istraživanju i komercijalnim
-    projektima (Pharo consortium, Pharo association)
-  - Amber Smalltalk - Smalltalk u JavaScipt-u
+  - Squeak (moderna verzija Smalltalk-80) - Apple -> Disney -> HP Labs -> SAP
+    Labs -> Y Combinator
+  - Pharo - fork Squeak-a (2008) sa ciljem upotrebe u istraživanju i
+    komercijalnim projektima (Pharo consortium, Pharo association)
+  - Amber Smalltalk - Smalltalk u JavaScrript-u
+
+#+attr_html: :class footer :style clear: both;
+- https://en.wikipedia.org/wiki/VisualAge
+- https://en.wikipedia.org/wiki/Squeak
+ 
 ** Familija Smalltalk i vezanih jezika
 
 #+attr_html: :width 120%
@@ -66,10 +77,10 @@ http://courses.cs.washington.edu/courses/cse341/04wi/lectures/16-smalltalk-intro
  
 ** Pharo instalacija
    
-- Preporučena upotreba [[http://get.pharo.org][Pharo Launcher]] alata
+- Preporučena upotreba [[https://pharo.org/download][Pharo Launcher]] alata
   - Instalacija i upravljanje slikama i virtualnim mašinama
 
-- Alternativno:
+- Alternativno, može se koristiti [[http://get.pharo.org/][Zeroconf skripta]]:
 
 #+BEGIN_SRC shell
 # 64bit version
@@ -91,7 +102,7 @@ wget -O- https://get.pharo.org | bash
 
 #+BEGIN_SRC
 pharo
-Pharo7.0-32bit-890f474.sources
+Pharo8.0-32bit-a153e04
 Pharo.changes
 Pharo.image
 pharo-ui
@@ -148,8 +159,11 @@ exampleWithNumber: x
 - Pharo nije "crna kutija".
 - Sve što vidite su objekti sa kojima možete stupiti u interakciju i menjati ih
   "naživo".
+- Program koji se razvija je nerazdvojni deo razvojnog okruženja.
 - Npr. =Alt+Shift+Click= -> Halo hendleri!
 
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 200px;
   [[./slike/halo.png]]
 
 ** Samo objekti, poruke...
@@ -359,14 +373,6 @@ prikazali u prozoru.
    5 to: 10 do: [ :i | Transcript show: i ]
    #+END_SRC
 
-** Prioriteti poruka
-
-#+BEGIN_SRC python
-(Msg) > Unary > Binary > Keywords
-#+END_SRC
-
-Ova pravila redukuju potrebu za navođenjem zagrada.
-
 ** Slanje unarne poruke
 
 #+BEGIN_SRC
@@ -495,11 +501,15 @@ ekvivalentno je sa:
 (((1000 factorial) class) name)
 #+END_SRC
 
-** Prioritet primeri
+** Prioriteti poruka
 
-#+BEGIN_SRC smalltalk
-(Msg) > unarne > binarne > keyword
+#+BEGIN_SRC python
+(Msg) > Unary > Binary > Keywords
 #+END_SRC
+
+Ova pravila redukuju potrebu za navođenjem zagrada.
+
+** Prioritet primeri
 
 #+BEGIN_SRC smalltalk
 2 + 3 squared
@@ -661,7 +671,7 @@ OrderedCollection new
    add: 2
 #+END_SRC
 
-- =add: 2= se šaljem istom prijemniku poruke =add: 1= a to je objekat vraćen
+- =add: 2= se šalje istom prijemniku poruke =add: 1= a to je objekat vraćen
   porukom =new=.
 
 * Blokovi
@@ -1504,6 +1514,7 @@ True >> | aBoolean
 - [[http://mooc.pharo.org][Pharo MOOC]]
 - [[http://rmod-pharo-mooc.lille.inria.fr/MOOC/WebPortal/co/pharo.html][Video lekcije]]
 - [[http://books.pharo.org][Pharo knjige]]
+- [[https://github.com/pharo-open-documentation/awesome-pharo][A community-driven collection of awesome Pharo libraries, tools, frameworks and software]] 
 - [[http://amber-lang.net/][Client-side smalltalk - Amber]]
 
 
