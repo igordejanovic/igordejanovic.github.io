@@ -961,7 +961,7 @@ Pitamo kolekciju da uradi iteraciju svojih elemenata:
 #+BEGIN_SRC smalltalk
 3 timesRepeat: [ Transcript show: 'Hello' ; cr ].
 
-Date now + 12 days.
+Date today + 12 days.
 
 Point linesOfCode.
 
@@ -974,8 +974,6 @@ VGTigerDemo runDemo.
 SystemNavigation new browseAllSelect:
        [:m| m primitive isZero and: [m pragmas notEmpty]].
 #+END_SRC
-
-- World - inspect (GTInspector settings, step update/refresh)
 
 * Bulovi izrazi i uslovi
 ** Bulovi izrazi
@@ -1050,7 +1048,7 @@ myProtocol
 Implementacija:
 Collection>>ifEmpty: aBlock
 	^ self isEmpty 
-		ifTrue: [ ^aBlock value ]
+		ifTrue: [ aBlock value ]
 		ifFalse: [ self ]
 #+END_SRC
 
@@ -1125,7 +1123,7 @@ Game >> initializePlayers
 
 ** Metode klase
 
-#+attr_html: :width 60%
+#+attr_html: :style height: 400px;
 [[./slike/class_methods.png]]
 
 - Dugme =Class= služi za pregled i definiciju metoda klase.
@@ -1308,6 +1306,7 @@ Obrada poruke se obavlja u dva koraka:
 - =self= ključna reč se koristi u implementaciji metoda i *uvek* predstavlja
   objekat prijemnik.
 
+#+attr_html: :style height: 400px;
 [[./slike/self_example.png]]
 
 - Šta je rezultat izraza =A new foo= a šta izraza =B new foo=?
@@ -1315,6 +1314,7 @@ Obrada poruke se obavlja u dva koraka:
 
 ** Semantika =super= ključne reči
 
+#+attr_html: :style height: 400px;
 [[./slike/super_example.png]]
 
 - =super= predstavlja objekat prijemnik ali pretraga poruka započinje u nadklasi
@@ -1324,6 +1324,7 @@ Obrada poruke se obavlja u dva koraka:
 ** =self= se određuje dinamički
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+attr_html: :style height: 400px;
 [[./slike/self_example.png]]
 #+REVEAL_HTML: </div>
 
@@ -1350,6 +1351,8 @@ se poziv odnosi. To zavisi od klase konkretnog objekta prijemnika.
 - Podrazumevana implementacija u =Object= klasi signalizira izuzetak
   =MessageNotUndertood=.
  
+
+#+attr_html: :style height: 400px;
 [[./slike/doesNotUnderstand.png]]
 
 * Implementacija =Boolean= tipa
@@ -1392,6 +1395,7 @@ Uslovi bi svakako morali da budu bazirani na Bulovom tipu.
 - =true= je singlton instanca klase =True=
 - =false= je singlton instanca klase =False=
 
+#+attr_html: :style height: 500px;
 [[./slike/boolean.png]]
 
 ** Kako iskazujemo izbor u OOP?
