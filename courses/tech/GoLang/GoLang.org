@@ -1,13 +1,14 @@
 #+TITLE: Programski jezik Go
-#+SUBTITLE: Bazirano na Go verziji 1.12.4 i [[https://tour.golang.org/][A Tour of Go]]
+#+SUBTITLE: Bazirano na Go verziji 1.14.2 i [[https://tour.golang.org/][A Tour of Go]]
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: ../../courses-startup.org
+#+REVEAL_TRANS: cube
 
 * Uvod
 ** Osnovne osobine
    
 - Statički tipiziran, kompajliran programski jezik
-- Google: Robert Griesemer, Rob Pike, i Ken Thompson
+- Google: Robert Griesemer, [[https://en.wikipedia.org/wiki/Rob_Pike][Rob Pike]], i [[https://en.wikipedia.org/wiki/Ken_Thompson][Ken Thompson]]
 - Sličan C-u ali sa /memory safety/, /garbage collection/ i direktnom podrškom
   za konkurentno programiranje ([[https://en.wikipedia.org/wiki/Communicating_sequential_processes][Communicating Sequential Processes (CSP)]])
 - Efikasnost, jednostavnost i čitkost
@@ -30,7 +31,7 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
   tar -C ~/install/go -xzf go$VERSION.$OS-$ARCH.tar.gz
   #+END_SRC
   
-- gde je =VERSION= - tekuća verzija (trenutno 1.12.4), =OS= - operativni sistem
+- gde je =VERSION= - tekuća verzija (trenutno 1.14.2), =OS= - operativni sistem
   (npr. =linux=) a =ARCH= - arhitektura (npr. =amd64=)
 - podesiti =PATH=:
 
@@ -48,7 +49,7 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
   #+BEGIN_SRC bash
   $ go version
-  go version go1.12.4 linux/amd64
+  go version go1.14.2 linux/amd64
   #+END_SRC
    
 - Napraviti =src/hello= u /workspace/ direktorijumu (dakle =~/go/src/hello=)
@@ -97,25 +98,24 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
       hello                          # command executable
       outyet                         # command executable
   src/
-      github.com/golang/example/
-          .git/                      # Git repository metadata
+    github.com/golang/example/
+        .git/                        # Git repository metadata
     hello/
-        hello.go               # command source
+        hello.go                     # command source
     outyet/
-        main.go                # command source
-        main_test.go           # test source
+        main.go                      # command source
+        main_test.go                 # test source
     stringutil/
-        reverse.go             # package source
-        reverse_test.go        # test source
+        reverse.go                   # package source
+        reverse_test.go              # test source
       golang.org/x/image/
           .git/                      # Git repository metadata
     bmp/
-        reader.go              # package source
-        writer.go              # package source
+        reader.go                    # package source
+        writer.go                    # package source
       ... (many more repositories and packages omitted) ...
   #+END_SRC
 
-   
 ** =GOPATH=
 
 - Podrazumevano =$HOME/go= na Unix-like sistemima ili =%USERPOFILE%\go= na
@@ -248,8 +248,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
                reverse.go    # package source
    #+END_SRC
 
-
-   
 ** Imenovanje paketa
    
    - Prvi iskaz u svakom Go fajlu mora biti:
@@ -275,7 +273,7 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
   import . "lib/math"         Sin
   #+END_SRC
   
-  - Import paketa bez upotrebe (zbog /side-effect/-a)
+  - Import paketa bez upotrebe lokalnog imena (zbog /side-effect/-a)
   
   #+BEGIN_SRC
   import _ "lib/math"
@@ -443,7 +441,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
 
    
-
 ** Višestruke povratne vrednosti
    
    - Funkcije mogu vratiti proizvoljan broj rezultata
@@ -715,6 +712,7 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
    )
 
    func needInt(x int) int { return x*10 + 1 }
+   
    func needFloat(x float64) float64 {
      return x * 0.1
    }

@@ -33,9 +33,9 @@
 <div class="slides">
 <section id="sec-title-slide">
 <h1 class="title">Programski jezik Go</h1>
-<h2 class="subtitle">Bazirano na Go verziji 1.12.4 i <a href="https://tour.golang.org/">A Tour of Go</a></h2>
+<h2 class="subtitle">Bazirano na Go verziji 1.14.2 i <a href="https://tour.golang.org/">A Tour of Go</a></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-03-02 Mon 20:49, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2020-04-25 Sat 19:34, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -48,7 +48,7 @@
 <h3 id="1-1"><span class="section-number-3">1.1</span> Osnovne osobine</h3>
 <ul>
 <li>Statički tipiziran, kompajliran programski jezik</li>
-<li>Google: Robert Griesemer, Rob Pike, i Ken Thompson</li>
+<li>Google: Robert Griesemer, <a href="https://en.wikipedia.org/wiki/Rob_Pike">Rob Pike</a>, i <a href="https://en.wikipedia.org/wiki/Ken_Thompson">Ken Thompson</a></li>
 <li>Sličan C-u ali sa <i>memory safety</i>, <i>garbage collection</i> i direktnom podrškom
 za konkurentno programiranje (<a href="https://en.wikipedia.org/wiki/Communicating_sequential_processes">Communicating Sequential Processes (CSP)</a>)</li>
 <li>Efikasnost, jednostavnost i čitkost</li>
@@ -86,7 +86,7 @@ tar -C ~/install/go -xzf go$VERSION.$OS-$ARCH.tar.gz
 </code></pre>
 </div></li>
 
-<li>gde je <code>VERSION</code> - tekuća verzija (trenutno 1.12.4), <code>OS</code> - operativni sistem
+<li>gde je <code>VERSION</code> - tekuća verzija (trenutno 1.14.2), <code>OS</code> - operativni sistem
 (npr. <code>linux</code>) a <code>ARCH</code> - arhitektura (npr. <code>amd64</code>)</li>
 <li><p>
 podesiti <code>PATH</code>:
@@ -116,7 +116,7 @@ podesiti <code>PATH</code>:
 <div class="org-src-container">
 
 <pre><code class=" bash" >$ go version
-go version go1.12.4 linux/amd64
+go version go1.14.2 linux/amd64
 </code></pre>
 </div>
 
@@ -193,24 +193,23 @@ bin/
     hello                          # command executable
     outyet                         # command executable
 src/
-    github.com/golang/example/
-        .git/                      # Git repository metadata
+  github.com/golang/example/
+      .git/                        # Git repository metadata
   hello/
-      hello.go               # command source
+      hello.go                     # command source
   outyet/
-      main.go                # command source
-      main_test.go           # test source
+      main.go                      # command source
+      main_test.go                 # test source
   stringutil/
-      reverse.go             # package source
-      reverse_test.go        # test source
+      reverse.go                   # package source
+      reverse_test.go              # test source
     golang.org/x/image/
         .git/                      # Git repository metadata
   bmp/
-      reader.go              # package source
-      writer.go              # package source
+      reader.go                    # package source
+      writer.go                    # package source
     ... (many more repositories and packages omitted) ...
 </pre>
-
 
 </section>
 <section id="slide-3-4">
@@ -398,7 +397,6 @@ src/
 </pre>
 
 
-
 </section>
 <section id="slide-3-8">
 <h3 id="3-8"><span class="section-number-3">3.8</span> Imenovanje paketa</h3>
@@ -434,7 +432,7 @@ import . "lib/math"         Sin
 </pre>
 
 <ul>
-<li>Import paketa bez upotrebe (zbog <i>side-effect</i>-a)</li>
+<li>Import paketa bez upotrebe lokalnog imena (zbog <i>side-effect</i>-a)</li>
 
 </ul>
 
@@ -667,7 +665,6 @@ func main() {
 }
 </code></pre>
 </div>
-
 
 
 
@@ -1029,6 +1026,7 @@ const (
 )
 
 func needInt(x int) int { return x*10 + 1 }
+
 func needFloat(x float64) float64 {
   return x * 0.1
 }
@@ -3948,7 +3946,7 @@ minScale: 0.30,
 maxScale: 4.00,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: Reveal.getQueryHash().transition || 'cube', // see README of reveal.js for options
 transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
