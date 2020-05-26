@@ -8,6 +8,18 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## Slobodne
 
+- DSL za opis pravila i interpretaciju tekstualnih igara (interactive fiction)
+  - https://en.wikipedia.org/wiki/Infocom
+  - https://en.wikipedia.org/wiki/Z-machine
+  - https://en.wikipedia.org/wiki/Glulx
+  - https://en.wikipedia.org/wiki/Inform
+  - https://inform-fiction.org/
+  - https://github.com/DavidKinder/Inform6
+  - http://inform7.com/
+  - https://github.com/ptomato/gnome-inform7
+  - http://infocom.elsewhere.org/
+  - http://www.ifarchive.org/indexes/if-archiveXinfocomXinterpreters.html
+
 - Podrška za AST->text transformacije (2 teme - [textX], [parglare]) 
   <br> Videti [textX#36](https://github.com/textX/textX/issues/36)
 
