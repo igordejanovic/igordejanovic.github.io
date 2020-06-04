@@ -20,6 +20,13 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   - http://infocom.elsewhere.org/
   - http://www.ifarchive.org/indexes/if-archiveXinfocomXinterpreters.html
 
+- Web bazirani debager za [parglare] parser
+
+  Prikaz tekućeg stanja parsera (GSS strukture) i parcijalnih stabala. Korak po
+  korak izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
+  Upotreba WebSocket-a i asinhronog programiranja u Python-u. Vizualizacija u
+  Web browser-u upotrebom d3js ili druge JavaScript biblioteke.
+  
 - Podrška za AST->text transformacije (2 teme - [textX], [parglare]) 
   <br> Videti [textX#36](https://github.com/textX/textX/issues/36)
 
@@ -52,11 +59,6 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
   Videti:
   <br>[viewX-vscode]
-  
-- Debager za [parglare] parser
-
-  Prikaz tekućeg stanja parsera i parcijalnih stabala. Korak po korak
-  izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
   
 - Podrška za [pyFlies DSL] u Visual Studio Code
 
