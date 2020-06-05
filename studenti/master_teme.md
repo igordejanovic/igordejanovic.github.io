@@ -9,6 +9,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 ## Slobodne
 
 - DSL za opis pravila i interpretaciju tekstualnih igara (interactive fiction)
+  - https://github.com/tajmone/awesome-interactive-fiction
   - https://en.wikipedia.org/wiki/Infocom
   - https://en.wikipedia.org/wiki/Z-machine
   - https://en.wikipedia.org/wiki/Glulx
