@@ -9,17 +9,13 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 ## Slobodne
 
 - DSL za opis pravila i interpretaciju tekstualnih igara (interactive fiction)
-  - https://github.com/tajmone/awesome-interactive-fiction
-  - https://en.wikipedia.org/wiki/Infocom
-  - https://en.wikipedia.org/wiki/Z-machine
-  - https://en.wikipedia.org/wiki/Glulx
-  - https://en.wikipedia.org/wiki/Inform
-  - https://inform-fiction.org/
-  - https://github.com/DavidKinder/Inform6
-  - http://inform7.com/
-  - https://github.com/ptomato/gnome-inform7
-  - http://infocom.elsewhere.org/
-  - http://www.ifarchive.org/indexes/if-archiveXinfocomXinterpreters.html
+  - [A curated list of interactive fiction frameworks, tools, and resources](https://github.com/tajmone/awesome-interactive-fiction)
+  
+  Istražiti postojeće jezike i editore za opis IF igara. Osmisliti i
+  implementirati jezik za modelovanje IF igara upotrebom
+  [textX-a](https://github.com/textX/textX/) ili
+  [parglare-a](https://github.com/igordejanovic/parglare). Implementirati
+  interpreter modela. Kao studiju slučaja implementirati proizvoljnu igru.
 
 - Web bazirani debager za [parglare] parser
 
