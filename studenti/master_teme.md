@@ -17,7 +17,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   [parglare-a](https://github.com/igordejanovic/parglare). Implementirati
   interpreter modela. Kao studiju slučaja implementirati proizvoljnu igru.
 
-- Web bazirani debager za [parglare] parser
+- Web bazirani debager za [parglare](https://github.com/igordejanovic/parglare) parser
 
   Prikaz tekućeg stanja parsera (GSS strukture) i parcijalnih stabala. Korak po
   korak izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
