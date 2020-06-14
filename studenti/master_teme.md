@@ -93,6 +93,8 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
   baziranih aplikacija
   <br>Rad započet: april 2019.
   <br>Odbranjeno: mart 2020.
+  <br>https://github.com/stkeky/calcifer
+  <br>https://github.com/stkeky/calcifer-ux
 
   <br>Opis: Kreirati DSL (tekstualni i opciono grafički) za definisanje REST
   baziranih procesa i integraciju automatizaciju REST servisa. Implementaciju
@@ -101,6 +103,7 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 - Milorad Vojnović: DSL za generisanje API testova za GraphQL upite.
   <br>Rad započet: avgust 2018.
   <br>Odbranjeno: septembar 2019.
+  <br>https://github.com/miloradvojnovic/TestQL
 
 - Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa,
   mart 2019. 
