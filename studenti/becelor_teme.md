@@ -8,6 +8,12 @@ sidebar: false
 
 ## U izradi
 
+- Jezik i alat za kreiranje IF (Interactive Fiction) igara
+  <br>Mihajlo Jovković, jun 2020.
+  
+  Videti:
+  <br>[A curated list of interactive fiction frameworks, tools, and resources](https://github.com/tajmone/awesome-interactive-fiction)
+
 - Generisanje liste autora (*contributors*) iz git repozitorijuma
   <br>Stevan Šinik, mart 2020.
 
