@@ -23,14 +23,6 @@ sidebar: false
   ekstenzije nad kojom se izveštaj traži. Ideja je da se alat koristi kao
   jednostavan generator `CONTRIBUTORS.md` fajlova.
 
-
-- Genarator upitnika
-  <br>Dimitrije Mihajloviski, oktobar 2019.
-  
-  Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
-  osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
-  pdf formatu (upotrebom LateX-a).
-  
 - Web aplikacija za merenje reakcionog vremena 
   <br> Vukašin Janković, april 2019.
 
@@ -47,6 +39,14 @@ sidebar: false
 
 ## Završene
 
+- Genarator upitnika na bazi LaTeX-a
+  <br>Dimitrije Mihajloviski, oktobar 2019.
+  <br>Odbranjeno: jul 2020.
+  
+  Opis: Kreirati bazu pitanja i web aplikaciju za pretragu i ažuriranje baze. Na
+  osnovu zadatih kriterijuma (broj pitanja, težina i sl.) generisati upitnik u
+  pdf formatu (upotrebom LateX-a).
+  
 - Migracija pyFlies jezika na textX 2 i PsychoPy 3
   <br>Dejan Šorgić, jul 2019.
   <br>Odbranjeno: oktobar 2019.
