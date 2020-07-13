@@ -50,11 +50,4 @@ Read more information [here](http://textx.github.io/Arpeggio/) or see the projec
 [GitHub](https://github.com/textX/Arpeggio/).
 
 
-### In the media
-
-This is an episode of [Python.\_\_init__
-podcast](https://www.pythonpodcast.com/) recorded on June 2020, where I talk
-about DSLs and these projects.
-
-<iframe title="Podlove Web Player: The Python Podcast.__init__ - Build Your Own Domain Specific Language in Python With textX" width="768" height="290" src="https://cdn.podlove.org/web-player/share.html?episode=https%3A%2F%2Fwww.pythonpodcast.com%2F%3Fpodlove_player4%3D632" frameborder="0" scrolling="no" tabindex="0"></iframe>
 
