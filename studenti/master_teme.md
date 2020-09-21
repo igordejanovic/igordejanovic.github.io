@@ -66,13 +66,6 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## U izradi
 
-- Dragutin Marjanović: Upotreba
-  [zio-telemetry](https://github.com/zio/zio-telemetry) za prikupljanje i
-  analizu tragova u distribuiranim sistemima baziranim na mikroservisnim
-  arhitekturama
-  
-  Rad započet: decembar 2019.
-  
 - Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
   (folding) i Intellisense za jezike bazirane na
   [textX-u](https://github.com/igordejanovic/textX)
@@ -88,6 +81,14 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 
 ## Završene
+
+- Dragutin Marjanović: Upotreba
+  [zio-telemetry](https://github.com/zio/zio-telemetry) za prikupljanje i
+  analizu tragova u distribuiranim sistemima baziranim na mikroservisnim
+  arhitekturama.
+  
+  <br>Rad započet: decembar 2019.
+  <br>Odbranjeno: jun 2020.
 
 - Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST
   baziranih aplikacija
