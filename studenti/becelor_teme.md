@@ -1,5 +1,5 @@
 ---
-title: Bečelor teme
+title: Teme za diplomske radove
 layout: page
 sidebar: false
 ---
@@ -7,6 +7,13 @@ sidebar: false
 ## Slobodne
 
 ## U izradi
+
+- Društvena mreža za muzičare
+  <br>Nikola Šarić, septembar 2020.
+  <br><https://github.com/NikolaSaric/ntp>
+  
+- Serijska i paralelna implementacija alata za manipulaciju fajlovima i folderima
+  <br>Ana Mijailović, jul 2020.
 
 - Jezik i alat za kreiranje IF (Interactive Fiction) igara
   <br>Mihajlo Jovković, jun 2020.
@@ -23,13 +30,6 @@ sidebar: false
   ekstenzije nad kojom se izveštaj traži. Ideja je da se alat koristi kao
   jednostavan generator `CONTRIBUTORS.md` fajlova.
 
-- Web aplikacija za merenje reakcionog vremena 
-  <br> Vukašin Janković, april 2019.
-
-  Videti:
-  <br><https://en.wikipedia.org/wiki/Mental_chronometry>
-  <br><https://www.humanbenchmark.com/tests/reactiontime>
-
 - Desktop aplikacija za merenje reakcionog vremena
   <br> Nikola Stajić, april 2019.
 
@@ -42,6 +42,14 @@ sidebar: false
 - Analiza serijske i paralelne implementacije algoritama baziranih na Monte Karlo metodi
   <br>Dušan Stević, septembar 2020.
   <br>Odbranjeno: oktobar 2020.
+
+- Web aplikacija za merenje reakcionog vremena 
+  <br> Vukašin Janković, april 2019.
+  <br>Odbranjeno: septembar 2020.
+
+  Videti:
+  <br><https://en.wikipedia.org/wiki/Mental_chronometry>
+  <br><https://www.humanbenchmark.com/tests/reactiontime>
 
 - Genarator upitnika na bazi LaTeX-a
   <br>Dimitrije Mihajloviski, oktobar 2019.
