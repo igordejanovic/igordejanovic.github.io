@@ -39,6 +39,10 @@ sidebar: false
 
 ## Završene
 
+- Analiza serijske i paralelne implementacije algoritama baziranih na Monte Karlo metodi
+  <br>Dušan Stević, septembar 2020.
+  <br>Odbranjeno: oktobar 2020.
+
 - Genarator upitnika na bazi LaTeX-a
   <br>Dimitrije Mihajloviski, oktobar 2019.
   <br>Odbranjeno: jul 2020.
