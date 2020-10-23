@@ -8,18 +8,8 @@ sidebar: false
 
 ## U izradi
 
-- Društvena mreža za muzičare
-  <br>Nikola Šarić, septembar 2020.
-  <br><https://github.com/NikolaSaric/ntp>
-  
 - Serijska i paralelna implementacija alata za manipulaciju fajlovima i folderima
   <br>Ana Mijailović, jul 2020.
-
-- Jezik i alat za kreiranje IF (Interactive Fiction) igara
-  <br>Mihajlo Jovković, jun 2020.
-  
-  Videti:
-  <br>[A curated list of interactive fiction frameworks, tools, and resources](https://github.com/tajmone/awesome-interactive-fiction)
 
 - Generisanje liste autora (*contributors*) iz git repozitorijuma
   <br>Stevan Šinik, mart 2020.
@@ -39,6 +29,23 @@ sidebar: false
 
 ## Završene
 
+- Jezik i alat za kreiranje IF (Interactive Fiction) igara
+  <br>Mihajlo Jovković, jun 2020.
+  <br>Odbranjeno: oktobar 2020.
+  <br>https://github.com/Misk23/IFCreationTool
+  
+  Videti:
+  <br>[A curated list of interactive fiction frameworks, tools, and resources](https://github.com/tajmone/awesome-interactive-fiction)
+
+- Društvena mreža za muzičare
+  <br>Nikola Šarić, septembar 2020.
+  <br>Odbranjeno: oktobar 2020.
+  <br><https://github.com/NikolaSaric/ntp>
+  
+-  Aplikacija za optimizaciju prevoza lekova i medicinske opreme između Covid centara
+  <br>Milica Vojnović, oktobar 2020.
+  <br>Odbranjeno: oktobar 2020.
+  
 - Analiza serijske i paralelne implementacije algoritama baziranih na Monte Karlo metodi
   <br>Dušan Stević, septembar 2020.
   <br>Odbranjeno: oktobar 2020.
