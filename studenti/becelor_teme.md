@@ -8,8 +8,9 @@ sidebar: false
 
 ## U izradi
 
-- Serijska i paralelna implementacija alata za manipulaciju fajlovima i folderima
-  <br>Ana Mijailović, jul 2020.
+- Optimizacija problema transporta paketa na programskom jeziku Go
+  <br>Ana Pjević, novembar 2020.
+  <br>https://github.com/ancicii/NTP
 
 - Generisanje liste autora (*contributors*) iz git repozitorijuma
   <br>Stevan Šinik, mart 2020.
@@ -28,6 +29,10 @@ sidebar: false
   
 
 ## Završene
+
+- Serijska i paralelna implementacija alata za manipulaciju fajlovima i folderima
+  <br>Ana Mijailović, jul 2020.
+  <br>Odbranjeno: oktobar 2020.
 
 - Jezik i alat za kreiranje IF (Interactive Fiction) igara
   <br>Mihajlo Jovković, jun 2020.
