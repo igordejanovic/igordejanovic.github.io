@@ -8,6 +8,16 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## Slobodne
 
+- [Language Server
+  Protocol](https://microsoft.github.io/language-server-protocol/) za [pyFlies](https://www.youtube.com/watch?v=tSFdYYnQmjA)
+ 
+  pyFlies je jezik za definisanje eksperimenata u oblasti psihologije i neuro
+  nauka. LSP bi omogućio "pametnu" dopunu koda i navigaciju. Instalirao bi se
+  zajedno sa VS Code ekstenzijom i omogućio bolje korisiničko iskustvo u
+  upotrebi jezika. Implementacija bi bila bazirana na
+  [textX-LS](https://github.com/textX/textX-LS) i
+  [pygls](https://github.com/openlawlibrary/pygls)
+  
 - DSL za opis pravila i interpretaciju tekstualnih igara (interactive fiction)
   - [A curated list of interactive fiction frameworks, tools, and resources](https://github.com/tajmone/awesome-interactive-fiction)
   
