@@ -13,8 +13,8 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
  
   pyFlies je jezik za definisanje eksperimenata u oblasti psihologije i neuro
   nauka. LSP bi omogućio "pametnu" dopunu koda i navigaciju. Instalirao bi se
-  zajedno sa VS Code ekstenzijom i omogućio bolje korisiničko iskustvo u
-  upotrebi jezika. Implementacija bi bila bazirana na
+  zajedno sa VS Code ekstenzijom i omogućio bolje korisničko iskustvo u upotrebi
+  jezika. Implementacija bi bila bazirana na
   [textX-LS](https://github.com/textX/textX-LS) i
   [pygls](https://github.com/openlawlibrary/pygls)
   
