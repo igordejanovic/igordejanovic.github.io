@@ -1,0 +1,108 @@
+#+TITLE: Zadaci iz Python-a
+#+SUBTITLE: u izradi
+#+EXPORT_FILE_NAME: zadaci.html
+#+SETUPFILE: ../../courses-startup.org
+#+REVEAL_TRANS: convex
+#+REVEAL_THEME: black
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Priprema
+** Instalacija editor-a
+Instalirajte proizvoljan editor koji podržava Python. Npr. [[https://www.jetbrains.com/pycharm/][PyCharm]] ili [[https://code.visualstudio.com/][VS Code]].
+
+** Kreiranje i aktivacija virtualnog okruženja
+Virtuelna Python okruženja služe za izolaciju instaliranih biblioteka po
+projektu.
+
+Upotrebom =venv= modula kreirati i aktivirati virtualeno Python okruženje.
+Testirati instalacijom biblioteke textX sa PyPI:
+
+#+begin_src
+python -m venv venv         # Po završetku ispitati sadržaj kreiranog venv foldera
+source venv/bin/activate    # Na Windowsu venv\Scripts\activate.bat
+pip install textx
+#+end_src
+
+Testirati da li je textX instaliran pozivom:
+
+#+begin_src
+textx version
+#+end_src
+** Instalacija paketa u razvojnom modu
+=pip= omogućava instalaciju u razvojnom modu što je zgodno kada želimo da
+pratimo najsvežiju verziju iz nekog git repozitorijuma (npr. sa GitHub-a).
+
+Klonirajte neki repozitorijum i instalirajte ga u tzv. /editable/ modu za razvoj:
+#+begin_src
+git clone git@github.com:pyflies/pyflies.git
+pip install -e pyflies
+pip list
+#+end_src
+
+Sa komandom =pip list= videćete da se kodu ovog paketa pristupa direktno iz
+kloniranog git repozitorijuma. Sada je moguće ažurirati paket upotrebom git-a:
+
+#+begin_src
+cd pyflies
+git pull
+#+end_src
+
+* Liste, rečnici i fajlovi
+** Broj samoglasnika
+Napisati funkciju koja transformiše listu reči u listu gde svaki element
+predstavlja broj samoglasnika iz originalne liste.
+** Akronim
+Napisati funkciju koja kreira akronim (prva slova svake reči, kao velika slova)
+od zadate rečenice. Na primer: =Fakultet tehničkih nauka= -> =FTN=.
+
+** Rečnik iz fajla
+Dat vam je tekstualni CSV fajl čije linije su oblika:
+
+#+begin_src
+<reč>, <broj>
+#+end_src
+
+Na primer:
+#+begin_src
+jabuka, 120
+programiranje, 450
+...
+#+end_src
+
+Napraviti funkciju koja za zadatu putanju do fajla vraća rečnik (=dict=) gde će
+ključevi biti reči a vrednosti odgovarajući brojevi iz datog fajla.
+
+* Klase i OOP
+** Properties
+
+Kreirati klase =Product= sa atributima:
+- =name= - naziv proizvoda,
+- =price= - jedinična cena proizvoda,
+- =discount= - trenutno aktivan popust na cenu u procentima (npr. vrednost 10
+  znači 10% popusta). Podrazumevana vrednost je 0.
+
+i klasu =Stock= sa atributima =products= koji će biti lista instanci klase
+=ProductAmount=. Klasa =ProductAmount= ima sledeće atribute:
+- =product= - referenca na instancu =Product=
+- =amount= - količina na lageru
+
+Kreirati /property/ =discount_price= nad klasom =Product= koji će da vraća
+vrednost sa uračunatim popustom.
+
+Kreirati /property/ =total_value= i =total_discount_value= nad klasom =Stock=
+koji vraća ukupnu vrednost lagera proizvoda bez i sa uračunatim popustom.
+
+Napisati kod koji testira implementaciju.
+
+** Specijalne metode
+
+Sortirati proizvode na lageru po ceni:
+
+a) upotrebom =sort= i =key=
+b) upotrebom =sort= i definisanjem specijalnih metoda za poređenje u klasi
+   =Product=

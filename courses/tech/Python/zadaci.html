@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Zadaci iz Python-a</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Zadaci iz Python-a</h1>
+<h2 class="subtitle">u izradi</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2020-11-15 Sun 20:48, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org0894961">
+<h2 id="org0894961">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Priprema</a></li>
+<li><a href="#/slide-2">2. Liste, rečnici i fajlovi</a></li>
+<li><a href="#/slide-3">3. Klase i OOP</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Priprema</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1</span> Instalacija editor-a</h3>
+<p>
+Instalirajte proizvoljan editor koji podržava Python. Npr. <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> ili <a href="https://code.visualstudio.com/">VS Code</a>.
+</p>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2</span> Kreiranje i aktivacija virtualnog okruženja</h3>
+<p>
+Virtuelna Python okruženja služe za izolaciju instaliranih biblioteka po
+projektu.
+</p>
+
+<p>
+Upotrebom <code>venv</code> modula kreirati i aktivirati virtualeno Python okruženje.
+Testirati instalacijom biblioteke textX sa PyPI:
+</p>
+
+<pre>
+python -m venv venv         # Po završetku ispitati sadržaj kreiranog venv foldera
+source venv/bin/activate    # Na Windowsu venv\Scripts\activate.bat
+pip install textx
+</pre>
+
+<p>
+Testirati da li je textX instaliran pozivom:
+</p>
+
+<pre>
+textx version
+</pre>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3</span> Instalacija paketa u razvojnom modu</h3>
+<p>
+<code>pip</code> omogućava instalaciju u razvojnom modu što je zgodno kada želimo da
+pratimo najsvežiju verziju iz nekog git repozitorijuma (npr. sa GitHub-a).
+</p>
+
+<p>
+Klonirajte neki repozitorijum i instalirajte ga u tzv. <i>editable</i> modu za razvoj:
+</p>
+<pre>
+git clone git@github.com:pyflies/pyflies.git
+pip install -e pyflies
+pip list
+</pre>
+
+<p>
+Sa komandom <code>pip list</code> videćete da se kodu ovog paketa pristupa direktno iz
+kloniranog git repozitorijuma. Sada je moguće ažurirati paket upotrebom git-a:
+</p>
+
+<pre>
+cd pyflies
+git pull
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Liste, rečnici i fajlovi</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Broj samoglasnika</h3>
+<p>
+Napisati funkciju koja transformiše listu reči u listu gde svaki element
+predstavlja broj samoglasnika iz originalne liste.
+</p>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> Akronim</h3>
+<p>
+Napisati funkciju koja kreira akronim (prva slova svake reči, kao velika slova)
+od zadate rečenice. Na primer: <code>Fakultet tehničkih nauka</code> -&gt; <code>FTN</code>.
+</p>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> Rečnik iz fajla</h3>
+<p>
+Dat vam je tekstualni CSV fajl čije linije su oblika:
+</p>
+
+<pre>
+&lt;reč&gt;, &lt;broj&gt;
+</pre>
+
+<p>
+Na primer:
+</p>
+<pre>
+jabuka, 120
+programiranje, 450
+...
+</pre>
+
+<p>
+Napraviti funkciju koja za zadatu putanju do fajla vraća rečnik (<code>dict</code>) gde će
+ključevi biti reči a vrednosti odgovarajući brojevi iz datog fajla.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Klase i OOP</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Properties</h3>
+<p>
+Kreirati klase <code>Product</code> sa atributima:
+</p>
+<ul>
+<li><code>name</code> - naziv proizvoda,</li>
+<li><code>price</code> - jedinična cena proizvoda,</li>
+<li><code>discount</code> - trenutno aktivan popust na cenu u procentima (npr. vrednost 10
+znači 10% popusta). Podrazumevana vrednost je 0.</li>
+
+</ul>
+
+<p>
+i klasu <code>Stock</code> sa atributima <code>products</code> koji će biti lista instanci klase
+<code>ProductAmount</code>. Klasa <code>ProductAmount</code> ima sledeće atribute:
+</p>
+<ul>
+<li><code>product</code> - referenca na instancu <code>Product</code></li>
+<li><code>amount</code> - količina na lageru</li>
+
+</ul>
+
+<p>
+Kreirati <i>property</i> <code>discount_price</code> nad klasom <code>Product</code> koji će da vraća
+vrednost sa uračunatim popustom.
+</p>
+
+<p>
+Kreirati <i>property</i> <code>total_value</code> i <code>total_discount_value</code> nad klasom <code>Stock</code>
+koji vraća ukupnu vrednost lagera proizvoda bez i sa uračunatim popustom.
+</p>
+
+<p>
+Napisati kod koji testira implementaciju.
+</p>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> Specijalne metode</h3>
+<p>
+Sortirati proizvode na lageru po ceni:
+</p>
+
+<ol>
+<li>upotrebom <code>sort</code> i <code>key</code></li>
+<li>upotrebom <code>sort</code> i definisanjem specijalnih metoda za poređenje u klasi
+<code>Product</code></li>
+
+</ol>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>
