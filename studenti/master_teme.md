@@ -76,6 +76,10 @@ Sve master teme su iz oblasti inženjerstva jezika (*Language Engineering*).
 
 ## U izradi
 
+- Andrej Jokić: Transformacije AST -> tekst (*pretty printing*)
+
+  Rad započet: septembar 2020.
+
 - Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje
   (folding) i Intellisense za jezike bazirane na
   [textX-u](https://github.com/igordejanovic/textX)
