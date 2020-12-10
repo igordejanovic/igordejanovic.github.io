@@ -137,16 +137,20 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
   /efikasnih algoritama za parsiranje/.
 - Generišu jezike koje nazivamo kontekstno slobodnim jezicima.
 - Postoje algoritmi za parsiranje koji prihvataju ceo skup CFG (npr. /Earley/,
-  /GLR/).
+  /GLR/). Njih nazivamo /generalizovanim/.
 - U praksi se češće koriste jednostavniji algoritmi koji prihvataju samo podskup
   CFG.
 - Jezik za definisanje CFG - /(Extended) Backus-Naur Form (EBNF)/.
 
 ** Primer kontekstno slobodne gramatike
 
-#+BEGIN_SRC
+#+begin_src
 G = ({S}, {a, b}, P, S)
+#+end_src
 
+gde je skup produkcionih pravila =P= dat kao:
+
+#+BEGIN_SRC
 S → aSa
 S → bSb
 S → ε
@@ -172,7 +176,7 @@ S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
 
-** Primer izvođenja - alebarski izrazi
+** Primer izvođenja - algebarski izrazi
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 30%">
 #+BEGIN_SRC

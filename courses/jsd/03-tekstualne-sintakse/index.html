@@ -35,12 +35,12 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-08 Fri 22:54, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2020-12-10 Thu 12:10, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orga78bc92">
-<h2 id="orga78bc92">Sadržaj</h2>
+<section id="slide-org9d753fc">
+<h2 id="org9d753fc">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -126,7 +126,7 @@ unapred definisane formalne gramatike.</li>
 <section id="slide-1-5">
 <h3 id="1-5"><span class="section-number-3">1.5</span> Stablo parsiranja - primer</h3>
 
-<div class="figure">
+<div id="org364dc3c" class="figure">
 <p><object type="image/svg+xml" data="./images/calc_parse_tree.svg" class="org-svg" style="height: 600px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -145,7 +145,7 @@ apstraktne sintakse (<i>Abstract Syntax Tree</i>).</li>
 <li>AST je usmereno labelirano stablo gde čvorovi stabla predstavljaju instance
 koncepata apstraktne sintakse.</li>
 <li>AST ne sadrži elemente koje ne doprinose semantici kao što su ključne reči,
-zagrade, "prazni" karakteri i komentari.</li>
+zagrade, &ldquo;prazni&rdquo; karakteri i komentari.</li>
 
 </ul>
 
@@ -153,7 +153,7 @@ zagrade, "prazni" karakteri i komentari.</li>
 <section id="slide-1-7">
 <h3 id="1-7"><span class="section-number-3">1.7</span> Primer stabla apstraktne sintakse</h3>
 
-<div class="figure">
+<div id="org92bc3eb" class="figure">
 <p><object type="image/svg+xml" data="./images/AST.svg" class="org-svg" style="height: 700px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -247,7 +247,7 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 <i>efikasnih algoritama za parsiranje</i>.</li>
 <li>Generišu jezike koje nazivamo kontekstno slobodnim jezicima.</li>
 <li>Postoje algoritmi za parsiranje koji prihvataju ceo skup CFG (npr. <i>Earley</i>,
-<i>GLR</i>).</li>
+<i>GLR</i>). Njih nazivamo <i>generalizovanim</i>.</li>
 <li>U praksi se češće koriste jednostavniji algoritmi koji prihvataju samo podskup
 CFG.</li>
 <li>Jezik za definisanje CFG - <i>(Extended) Backus-Naur Form (EBNF)</i>.</li>
@@ -257,9 +257,15 @@ CFG.</li>
 </section>
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5</span> Primer kontekstno slobodne gramatike</h3>
-<pre  class="example">
+<pre>
 G = ({S}, {a, b}, P, S)
+</pre>
 
+<p>
+gde je skup produkcionih pravila <code>P</code> dat kao:
+</p>
+
+<pre>
 S → aSa
 S → bSb
 S → ε
@@ -279,7 +285,7 @@ od terminala.</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 S → aSa    (1)
 S → bSb    (2)
 S → ε      (3)
@@ -293,9 +299,9 @@ S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
 
 </section>
 <section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7</span> Primer izvođenja - alebarski izrazi</h3>
+<h3 id="2-7"><span class="section-number-3">2.7</span> Primer izvođenja - algebarski izrazi</h3>
 <div class="column" style="float:left; width: 30%">
-<pre  class="example">
+<pre>
 1. S → x
 2. S → y
 3. S → z
@@ -308,7 +314,7 @@ S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
 </div>
 
 <div class="column" style="float:right; width: 70%">
-<pre  class="example">
+<pre>
 S (startni simbol)
 → S - S (pravilo 5)
 → S * S - S (pravilo 6, primenjeno na levi neterminal S)
@@ -341,8 +347,8 @@ produkcionih pravila počevši od početnog simbola naziva se rečeničnom formo
 (<i>Sentential Form</i>).
 </p>
 
-<pre  class="example">
-( x + S ) * S - S * S / ( S + S )
+<pre>
+  ( x + S ) * S - S * S / ( S + S )
 </pre></li>
 
 <li><p>
@@ -350,8 +356,8 @@ Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
 (<i>Sentence</i>).
 </p>
 
-<pre  class="example">
-( x + y ) * x - z * y / ( x + x )
+<pre>
+  ( x + y ) * x - z * y / ( x + x )
 </pre></li>
 
 </ul>
@@ -391,7 +397,7 @@ rezultovati istim stablima parsiranja.</li>
 <section id="slide-2-11">
 <h3 id="2-11"><span class="section-number-3">2.11</span> Levo izvođenje - primer</h3>
 
-<div class="figure">
+<div id="org6a8eead" class="figure">
 <p><object type="image/svg+xml" data="./images/LeftDerivation.svg" class="org-svg" style="height: 700px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -406,11 +412,11 @@ Sorry, your browser does not support SVG.</object>
 različitih levih izvođenja.</li>
 <li>Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa
 više različitih stabala parsiranja.</li>
-<li>Klasičan primer je "viseći else":</li>
+<li>Klasičan primer je &ldquo;viseći else&rdquo;:</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 if a then if b then s else s2
 Može da se parsira kao:
 if a then (if b then s) else s2
@@ -429,7 +435,7 @@ ključna reč <code>endif</code>.</li>
 <section id="slide-2-13">
 <h3 id="2-13"><span class="section-number-3">2.13</span> Višeznačna gramatika - primer</h3>
 
-<div class="figure">
+<div id="orgb489ade" class="figure">
 <p><object type="image/svg+xml" data="./images/Ambiguous.svg" class="org-svg" style="height: 700px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -443,7 +449,7 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 </p>
 
 
-<div class="figure">
+<div id="orgf110009" class="figure">
 <p><object type="image/svg+xml" data="./images/Ambiguous2.svg" class="org-svg" style="height: 700px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -490,7 +496,7 @@ Pravilo <code>A → Aa | B</code> postaje <code>A → Ba*</code>
 Primer:
 </p>
 
-<pre  class="example">
+<pre>
 expr → expr '+' term | number
 
 postaje:
@@ -515,7 +521,7 @@ jezika.</li>
 <h3 id="2-19"><span class="section-number-3">2.19</span> Primer - EBNF u EBNF-u</h3>
 <div class="org-src-container">
 
-<pre><code class=" bnf" >letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
+<pre><code class="bnf" >letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
        | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
        | "V" | "W" | "X" | "Y" | "Z" ;
@@ -643,7 +649,7 @@ računarskih jezika.</li>
 </section>
 <section id="slide-3-5">
 <h3 id="3-5"><span class="section-number-3">3.5</span> Primer LL parsiranja</h3>
-<pre  class="example">
+<pre>
 Gramatika: S → E    E → T + E    E → T    T → int
 Ulaz: int + int + int
 
@@ -689,7 +695,7 @@ navoditi rekurzivne produkcije.</li>
 <section id="slide-3-7">
 <h3 id="3-7"><span class="section-number-3">3.7</span> LR parsiranje - primer</h3>
 
-<div class="figure">
+<div id="org2542c44" class="figure">
 <p><img src="./images/LR-Primer.png" alt="LR-Primer.png" style="height: 700px;" />
 </p>
 </div>
@@ -804,7 +810,7 @@ proširivih dinamičkih jezika.</li>
 <section id="slide-3-14">
 <h3 id="3-14"><span class="section-number-3">3.14</span> Refaktorisanje gramatike za PEG parsere</h3>
 
-<div class="figure">
+<div id="org2ecfe10" class="figure">
 <p><object type="image/svg+xml" data="./images/PEGPrioritet.svg" class="org-svg" style="height: 700px;">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -866,7 +872,7 @@ implementiran na programskom jeziku Java.</li>
 <ul>
 <li>Konfigurišu se gramatikom u vreme izvršavanja (<i>run-time</i>) tj. <i>interpretiraju
 gramatiku</i>.</li>
-<li>Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike "u letu".</li>
+<li>Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike &ldquo;u letu&rdquo;.</li>
 <li><a href="https://github.com/textX/Arpeggio">Arpeggio</a>, <a href="https://github.com/igordejanovic/parglare">parglare</a>, i <a href="https://github.com/textX/textX">textX</a> rade kao interpreteri.</li>
 
 </ul>
@@ -874,7 +880,6 @@ gramatiku</i>.</li>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
