@@ -1,0 +1,140 @@
+#+TITLE: Arpeggio zadaci
+#+SUBTITLE: u izradi
+#+EXPORT_FILE_NAME: zadaci.html
+#+SETUPFILE: ../../courses-startup.org
+#+REVEAL_TRANS: convex
+#+REVEAL_THEME: night
+#+reveal_extra_css: ../../highlight-styles/zenburn.css
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Priprema
+** Kreiranje i aktivacija virtualnog okruženja
+Virtuelna Python okruženja služe za izolaciju instaliranih biblioteka po
+projektu.
+
+Upotrebom =venv= modula kreirati i aktivirati virtualeno Python okruženje.
+
+#+begin_src
+python -m venv venv         # Po završetku ispitati sadržaj kreiranog venv foldera
+source venv/bin/activate    # Na Windowsu venv\Scripts\activate.bat
+#+end_src
+
+** Instalacija Arpeggio biblioteke
+
+Klonirati i instalirati u =develop= modu [[https://github.com/textX/Arpeggio][Arpeggio projekat]]
+#+begin_src sh
+$ git clone git@github.com:textX/Arpeggio.git
+$ pip install -e Arpeggio
+#+end_src
+
+Provera da je ispravno instalirano:
+#+begin_src sh
+$ python -c 'import arpeggio; print(arpeggio.__version__)'
+1.11.0.dev
+#+end_src
+
+Takođe se može proveriti i sa =pip=:
+#+begin_src sh
+$ pip list
+Package    Version     Location
+---------- ----------- -------------------------------
+Arpeggio   1.11.0.dev0 /home/igor/repos/textX/Arpeggio
+pip        20.2.3
+setuptools 49.2.1
+#+end_src
+
+** Primeri
+
+- Nalaze se u folderu =examples= unutar projekta.
+- Svaki folder ima =README.md= koji objašnjava primer i kako se pokreće.
+* Calc zadaci
+** Uvod
+
+- Analizirati [[https://github.com/textX/Arpeggio/tree/master/examples/calc][calc primer]].
+- Obratiti pažnju na definisanje prioriteta i asocijativnosti opearcija.
+- Analizirati =debug= izlaz pri izvršavanju.
+- Analizirati =dot= fajlove koji se kreiraju u =debug= modu (vidi odgovarajući
+  =README.md=). =dot= fajlovi se mogu pregledati i u specijalizovanim
+  pregledačima (na primer [[https://github.com/jrfonseca/xdot.py][xdot]]).
+
+** Operacija stepenovanja
+
+Proširiti =calc= primer da podrži operaciju stepenovanja =^=.
+
+=2^3^4= $\Rightarrow 2^{3^{4}}$
+
+Obratiti pažnju na prioritet operacije i asocijativnost.
+
+** Podrška za varijable
+
+Dodati podršku za varijable.
+
+Primer:
+  #+begin_src
+a = 5
+b = 9
+
+5 * a + (b / (a^2 + b^3))
+  #+end_src
+
+** Podrška za funkcije
+
+Dodati podršku za skup matematičkih funkcija (videti =math= modul u Python-u).
+
+Primer:
+
+#+begin_src
+a = 4
+b = 78
+
+sin(a+b) * b / (a^3 + cos(b))
+#+end_src
+
+* Robot zadaci
+** Uvod
+
+- Analizirati [[https://github.com/textX/Arpeggio/tree/master/examples/robot][robot primer]].
+- Obratiti pažnju na semantičku analizu robot programa.
+- Analizirati =debug= izlaz pri izvršavanju.
+- Analizirati =dot= fajlove koji se kreiraju u =debug= modu (vidi odgovarajući
+  =README.md=). =dot= fajlovi se mogu pregledati i u specijalizovanim
+  pregledačima (na primer [[https://github.com/jrfonseca/xdot.py][xdot]]).
+
+** Broj koraka
+
+Proširiti =robot= primer tako da je moguće navesti broj koraka kod svake
+komande. Broj koraka je opcion. Ako nije dat podrazumevano je =1=.
+
+Primer:
+
+#+begin_src
+begin
+    up 5
+    down
+    left 3
+    down 2
+end
+#+end_src
+
+** =for= petlja
+
+Dodati podršku za =for= petlje.
+
+Primer:
+
+#+begin_src
+begin
+    left 5
+    for i in 5..10
+        up i
+        down 3
+    endfor
+    up 10
+    left
+end
+#+end_src

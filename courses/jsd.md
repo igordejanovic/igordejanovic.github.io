@@ -11,10 +11,12 @@ layout: page
 
 1. [O predmetu](jsd/00-upoznavanje/)
 1. [Programski jezik Python](tech/Python/)
+   - [Zadaci](tech/Python/zadaci.html)
 1. [Uvod u jezike specifične za domen](jsd/01-uvod/)
 1. [Jezičke sintakse i metamodelovanje](jsd/02-jezicke-sintakse-i-metamodelovanje/)
 1. [Tekstualne sintakse](jsd/03-tekstualne-sintakse/)
 1. [Arpeggio](tech/arpeggio/)
+   - [Zadaci](tech/arpeggio/zadaci.html)
 1. [parglare](tech/parglare/)
 1. [textX](tech/textX/)
 1. [Generisanje programskog koda](jsd/04-generisanje-programskog-koda/)
