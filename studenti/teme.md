@@ -5,7 +5,7 @@ sidebar: true
 order: 3
 ---
 
-## [Diplomski radovi](./becelor_teme.html)
+## [Diplomski radovi](./diplomski_teme.html)
 
 ## [Master radovi](./master_teme.html)
 

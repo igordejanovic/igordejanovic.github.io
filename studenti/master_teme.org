@@ -1,0 +1,140 @@
+#+TITLE: Teme za master radove
+#+SETUPFILE: teme_setup.org
+
+* Obasti
+Master teme su iz oblasti inženjerstva jezika (/Language Engineering/) što
+uključuje:
+- Dizajn i implementacija programskih jezika i jezika specifičnih za domen
+- Parseri
+- Prevodioci
+- Generisanje koda
+- Interpretacija
+- Literate programming
+- Programski editori
+- Vizualizacija programa i njihovog izvršavanja
+- Debagovanje
+- Analiza /legacy/ sistema
+- Optimizacije koda
+- Otkrivanje kopija
+- Refaktorisanje
+- ...
+
+  Videti materijale sa predmeta [[http://www.igordejanovic.net/courses/jsd.html][/Jezici specifični za domen/]]
+
+Takođe je moguće dobiti temu i iz oblasti [[http://www.igordejanovic.net/courses/uks.html][upravljanja konfiguracijom softwera]]
+(Software Configuration Management)
+
+* Slobodne teme
+** Language Server Protocol za pyFlies
+- https://microsoft.github.io/language-server-protocol/
+- https://www.youtube.com/watch?v=tSFdYYnQmjA
+
+  #+begin_quote
+  pyFlies je jezik za definisanje eksperimenata u oblasti psihologije i neuro
+  nauka. LSP bi omogućio "pametnu" dopunu koda i navigaciju. Instalirao bi se
+  zajedno sa [[https://code.visualstudio.com/][VS Code]] ekstenzijom i omogućio bolje korisničko iskustvo u upotrebi
+  jezika. Implementacija bi bila bazirana na [[https://github.com/textX/textX-LS][textX-LS]] i [[https://github.com/openlawlibrary/pygls][pygls]].
+  #+end_quote
+
+** DSL za opis pravila i interpretaciju tekstualnih igara (interactive fiction)
+- [[https://github.com/tajmone/awesome-interactive-fiction][A curated list of interactive fiction frameworks, tools, and resources]]
+
+#+begin_quote
+Istražiti postojeće jezike i editore za opis IF igara. Osmisliti i
+implementirati jezik za modelovanje IF igara upotrebom [[https://github.com/textX/textX/][textX]] ili [[https://github.com/igordejanovic/parglare][parglare]].
+Implementirati interpreter modela. Kao studiju slučaja implementirati
+proizvoljnu igru.
+#+end_quote
+
+** Web bazirani debager za [[https://github.com/igordejanovic/parglare][parglare]] parser
+
+#+begin_quote
+Prikaz tekućeg stanja parsera (GSS strukture) i parcijalnih stabala. Korak po
+korak izvršavanje. Osmisliti protokol komunikacije sa instancom parsera.
+Upotreba WebSocket-a i asinhronog programiranja u Python-u. Vizualizacija u
+Web browser-u upotrebom d3js ili druge JavaScript biblioteke.
+#+end_quote
+
+** Podrška za AST->text transformacije (2 teme - [[https://github.com/textX/textX/][textX]], [[https://github.com/igordejanovic/parglare][parglare]])
+- Videti https://github.com/textX/textX/issues/36
+
+** Podrška za /indentation/column-based/ jezike
+- Videti https://github.com/textX/textX/issues/44 i https://github.com/igordejanovic/parglare/issues/5
+
+** Podrška za bojenje koda i navigaciju za ugrađene (/embedded/) editore i jezike bazirane na [[https://github.com/textX/textX][textX]] / [[https://github.com/igordejanovic/parglare][parglare]] (2 teme - textX, parglare)
+
+- Videti:
+  - [[https://qscintilla.com/][QScintilla]]
+  - [[https://wiki.qt.io/Qt_for_Python][Qt for Python - PySide]]
+
+** Podrška za IntelliSense u jezicima baziranim na [[https://github.com/igordejanovic/parglare][parglare]] biblioteci u Visual Studio Code
+- Videti [[https://github.com/textX/textX-LS][textX-LS]]
+
+** Podrška za strukturu i bojenje koda u jezicima baziranim na [[https://github.com/igordejanovic/parglare][parglare]] biblioteci u Visual Studio Code
+
+- Videti:
+  - [[https://github.com/textX/textX-LS][textX-LS]]
+
+** Podrška za vizualizaciju jezika baziranih na [[https://github.com/igordejanovic/parglare][parglare]] biblioteci.
+- Videti [[https://github.com/textX/viewX-vscode][viewX-vscode]]
+
+** Podrška za [[https://www.youtube.com/watch?v=tSFdYYnQmjA][pyFlies DSL]] u Visual Studio Code
+- Videti [[https://github.com/textX/textX][textX]] i [[https://github.com/textX/textX-LS][textX-LS]]
+
+* Teme u izradi
+** Andrej Jokić: Transformacije AST -> tekst (/pretty printing/)
+- Rad započet: septembar 2020.
+
+** Milan Šović: Minimalna jezička infastruktura za bojenje koda, sklapanje (/folding/) i /Intellisense/ za jezike bazirane na [[https://github.com/textX/textX][textX]]-u
+- Rad započet: oktobar 2018.
+  #+begin_quote
+  Na osnovu textX gramatike, i dodatnih DSL-ova po potrebi, generisati minimalni
+  web bazirani editor sa bojenjem koda, sklapanjem i komunikacijom sa [Language
+  Server Protocol serverom](https://github.com/textX-tools/textX-languageserver)
+  (podrškom za IntelliSense). Editor treba da ima minimalne zavisnosti tako da
+  se može korisiti u različitim kontekstima (na web-u, kao ugrađeni, kao deo
+  desktop aplikacija, kao test editor pri razvoju gramatike i sl.)
+  #+end_quote
+
+* Završene teme
+** Dragutin Marjanović: Upotreba [[https://github.com/zio/zio-telemetry][zio-telemetry]] za prikupljanje i analizu tragova u distribuiranim sistemima baziranim na mikroservisnim arhitekturama.
+- Rad započet: decembar 2019.
+- Odbranjeno: jun 2020.
+
+** Stefan Ristanović: Jezik i interpreter za integraciju i automatizaciju REST baziranih aplikacija
+- Rad započet: april 2019.
+- Odbranjeno: mart 2020.
+- https://github.com/stkeky/calcifer
+- https://github.com/stkeky/calcifer-ux
+
+#+begin_quote
+Kreirati DSL (tekstualni i opciono grafički) za definisanje REST baziranih
+procesa i integraciju automatizaciju REST servisa. Implementaciju uraditi uz
+oslonac na [[https://github.com/textX/textX][textX]] i [[https://code.visualstudio.com/][VS Code]]. Primer: [[https://zapier.com/][Zapier]].
+#+end_quote
+
+** Milorad Vojnović: DSL za generisanje API testova za GraphQL upite.
+- Rad započet: avgust 2018.
+- Odbranjeno: septembar 2019.
+- https://github.com/miloradvojnovic/TestQL
+
+** Željko Bal: Jezik za opis i automatsko generisanje CLI i GUI interfejsa,
+- mart 2019.
+- https://github.com/zeljko-bal/CID
+
+** Filip Frank: Jezik za podršku ekstrakciji podataka iz nestrukturiranih izvora podataka sa veba
+- oktobar 2018.
+- https://github.com/Pazzo92/scraping-dsl
+
+** Daniel Elero: Server i ekstenzija za VS Code okruženje za podršku jezicima baziranim na textX alatu\
+- septembar 2018.
+- https://github.com/textX-tools/textX-languageserver
+- https://github.com/textX-tools/textX-vscode
+
+** Daniel Kupčo: Podrška vizualizaciji jezika kreiranih upotrebom textX biblioteke u okviru Visual Studio Code editora
+- septembar 2018.
+- https://github.com/textX-tools/viewX-vscode
+
+** Nemanja Starčev: Podrška vizualizaciji strukture i bojenju koda u Visual Studio Code editoru za jezike bazirane na textX alatu
+- jun 2018.
+- https://github.com/textX-tools/textX-extensions
