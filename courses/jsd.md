@@ -19,6 +19,7 @@ layout: page
    - [Zadaci](tech/arpeggio/zadaci.html)
 1. [parglare](tech/parglare/)
 1. [textX](tech/textX/)
+   - [Zadaci](tech/textX/zadaci.html)
 1. [Generisanje programskog koda](jsd/04-generisanje-programskog-koda/)
 1. [Anatomija jednog DSL-a](jsd/05-anatomija-dsla/)
 

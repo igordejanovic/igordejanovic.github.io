@@ -1,0 +1,104 @@
+#+TITLE: textX zadaci
+#+SUBTITLE: u izradi
+#+EXPORT_FILE_NAME: zadaci.html
+#+SETUPFILE: ../../courses-startup.org
+#+REVEAL_TRANS: convex
+#+REVEAL_THEME: night
+#+reveal_extra_css: ../../highlight-styles/zenburn.css
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Instalacija
+
+- Kreirati i aktivirati Python virtuelno okruženje:
+
+  #+begin_src bash
+$ mkdir JSD
+$ cd JSD
+$ python -m venv venv
+$ source venv/bin/activate     # (venv\Scripts\activate.bat na Windows-u)
+  #+end_src
+
+- Instalirati textX sa =dev= zavisnostima:
+
+  #+begin_src bash
+$ pip install textx[dev]
+  #+end_src
+
+* Robot primer
+** Uvod
+
+- Analizirati robot primer
+- Vizualizovati robot meta-model i primere modela. Isprobati i =dot= i
+  =plantUML= vizualizacije.
+- Uključiti =debug= mod i analizirati izlaz
+
+** =for= petlje u Robot jeziku
+
+Doraditi robot primer tako da omogući =for= petlje oblika:
+
+#+begin_src
+for i in 5..10
+    up 2
+    right i
+end
+#+end_src
+
+** =if= iskazi u robot jeziku
+
+Doraditi robot primer tako da omogući =if= iskaze:
+
+#+begin_src
+if x > 5
+    up 1
+end
+#+end_src
+
+gde =x= i =y= variable predstavljaju tekuću poziciju robota.
+Posle =if= iskaza navodi se Bulov izraz sa standardnim operatorima ~<,>,>=,<=,
+!=, ==, and, or, not~
+* Expression primer
+** Uvod
+
+- Analizirati expression primer
+- Vizualizovati expression meta-model i primere modela
+- Uključiti =debug= mod i analizirati izlaz
+
+** Pozivi funkcija u =expression= jeziku
+
+U =expression= primeru omogućiti pozive standardnim matematičkih funkcija iz
+=math= modula.
+
+#+begin_src
+a = 10;
+b = 2 * a + 17;
+
+5 * sin(a + sqrt(b + 50)) - 3 / 18
+#+end_src
+
+* DSL - uslov -> akcija
+
+Napraviti textX gramatiku za parsiranje sledećeg jezika:
+
+#+begin_src
+action notify_quota_approaching https://somesite.com/api/v1/notify?user={user_id}
+
+on user.current_usage >= 0.8 * max_quota trigger notify_quota_approaching with user_id = user.id
+#+end_src
+
+- U prvom delu se definišu moguće akcije. Svaka akcija počinje ključnom rečju
+  =action=, ima ime i REST URL koji se poziva (šalje se HTTP GET)
+- Akcija može imati parametre - =user_id= u primeru
+- Pravila kada se akcija poziva se definišu sa =on ... trigger... with= iskazima
+  gde se definiše:
+  - Logički izraz koji, ukoliko je zadovoljen, dovodi do akcije. Ovaj iskaz može
+    imati standardne logičke operatore =and, or, not= kao i aritmetčko poređenje
+    ~<,>, <=, >=, ==, !=~.
+  - Akcija koju je potrebno pozvati navodi se posle ključne reči =trigger=
+  - Posle ključne reči =with= navode se vrednosti parametara poziva akcije,
+    razdvojeni zarezima. =with= deo je opcion.
+- I akcija i =on= pravila može biti više
