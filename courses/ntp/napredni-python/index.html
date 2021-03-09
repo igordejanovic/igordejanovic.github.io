@@ -35,12 +35,12 @@
 <h1 class="title">Napredne tehnike programiranja u Python-u</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-03-18 Wed 14:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-03-09 Tue 18:12, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org1cdfbd1">
-<h2 id="org1cdfbd1">Sadržaj</h2>
+<section id="slide-org1e25d50">
+<h2 id="org1e25d50">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Specijalne metode</a></li>
@@ -89,7 +89,7 @@ Moguće ih je koristiti u npr. <code>for</code> pelji.
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >for i in iterabilni_objekat:
+<pre><code class="python" >  for i in iterabilni_objekat:
 </code></pre>
 </div></li>
 <li>Poziv ugrađene funkcije <code>iter</code> nad iterabilnim objektom vraća iterator
@@ -113,22 +113,22 @@ Primer <code>TextXMetaModel</code> klasa <a href="https://github.com/igordejanov
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def __iter__(self):
-    """
-    Iterate over all classes in the current namespace and imported
-    namespaces.
-    """
+<pre><code class="python" >  def __iter__(self):
+      """
+      Iterate over all classes in the current namespace and imported
+      namespaces.
+      """
 
-    # Current namespace
-    for name in self._current_namespace:
-        yield self._current_namespace[name]
+      # Current namespace
+      for name in self._current_namespace:
+          yield self._current_namespace[name]
 
-    # Imported namespaces
-    for namespace in \
-            self._imported_namespaces[self._namespace_stack[-1]]:
-        for name in namespace:
-            # yield class
-            yield namespace[name]
+      # Imported namespaces
+      for namespace in \
+              self._imported_namespaces[self._namespace_stack[-1]]:
+          for name in namespace:
+              # yield class
+              yield namespace[name]
 </code></pre>
 </div></li>
 <li>U ovom slučaju <code>__iter__</code> metoda je generator (vraća elemente sa <code>yield</code>).</li>
@@ -143,7 +143,7 @@ Operator <code>in</code> služi za testiranje pripadnosti:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >if a in neka_kolekcija:
+<pre><code class="python" >  if a in neka_kolekcija:
 </code></pre>
 </div></li>
 <li><p>
@@ -152,16 +152,16 @@ definisati specijalnu metodu <code>__contains__</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def __contains__(self, name):
-    """
-    Check if given name is contained in the current namespace.
-    The name can be fully qualified.
-    """
-    try:
-        self[name]
-        return True
-    except KeyError:
-        return False
+<pre><code class="python" >  def __contains__(self, name):
+      """
+      Check if given name is contained in the current namespace.
+      The name can be fully qualified.
+      """
+      try:
+          self[name]
+          return True
+      except KeyError:
+          return False
 </code></pre>
 </div></li>
 
@@ -175,17 +175,17 @@ Specijalna metoda <code>__getitem__</code> omogućava upotrebu operatora <code>[
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; a = [1, 2, 3]
-&gt;&gt;&gt; a.__getitem__(2)
-3
-&gt;&gt;&gt; b = { "foo": 45, "bar": 34}
-&gt;&gt;&gt; b.__getitem__(34)
----------------------------------------------------------------------------
-KeyError                                  Traceback (most recent call last)
-...
-KeyError: 34
-&gt;&gt;&gt; b.__getitem__("foo")
-45
+<pre><code class="python" >  &gt;&gt;&gt; a = [1, 2, 3]
+  &gt;&gt;&gt; a.__getitem__(2)
+  3
+  &gt;&gt;&gt; b = { "foo": 45, "bar": 34}
+  &gt;&gt;&gt; b.__getitem__(34)
+  ---------------------------------------------------------------------------
+  KeyError                                  Traceback (most recent call last)
+  ...
+  KeyError: 34
+  &gt;&gt;&gt; b.__getitem__("foo")
+  45
 </code></pre>
 </div></li>
 
@@ -195,29 +195,29 @@ KeyError: 34
 <h3 id="1-6"><span class="section-number-3">1.6</span> Pristup elementu kolekcije po ključu - primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def __getitem__(self, name):
-    """
-    Search for and return class and peg_rule with the given name.
-    Returns:
-        TextXClass, ParsingExpression
-    """
-    if "." in name:
-        # Name is fully qualified
-        namespace, name = name.rsplit('.', 1)
-        return self.namespaces[namespace][name]
-    else:
-        # If not fully qualified search in the current namespace
-        # and after that in the imported_namespaces
-        if name in self._current_namespace:
-            return self._current_namespace[name]
+<pre><code class="python" >  def __getitem__(self, name):
+      """
+      Search for and return class and peg_rule with the given name.
+      Returns:
+          TextXClass, ParsingExpression
+      """
+      if "." in name:
+          # Name is fully qualified
+          namespace, name = name.rsplit('.', 1)
+          return self.namespaces[namespace][name]
+      else:
+          # If not fully qualified search in the current namespace
+          # and after that in the imported_namespaces
+          if name in self._current_namespace:
+              return self._current_namespace[name]
 
-        for namespace in \
-                self._imported_namespaces[self._namespace_stack[-1]]:
-            if name in namespace:
-                return namespace[name]
+          for namespace in \
+                  self._imported_namespaces[self._namespace_stack[-1]]:
+              if name in namespace:
+                  return namespace[name]
 
-        raise KeyError("{} metaclass does not exists in the metamodel "
-                        .format(name))
+          raise KeyError("{} metaclass does not exists in the metamodel "
+                          .format(name))
 </code></pre>
 </div>
 </section>
@@ -229,7 +229,7 @@ Dve specijalne metode: <code>__getattr__</code> i <code>__getattribute__</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >obj.neki_atribut
+<pre><code class="python" >  obj.neki_atribut
 </code></pre>
 </div></li>
 
@@ -245,23 +245,23 @@ podiže izuzetak <code>AttributeError</code> ukoliko atribut ne postoji.
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >class A:
-    def __init__(self):
-        self.additional = {'foo': 5, 'bar': 7.4}
-        # .a će biti pronađeno standardnim mehanizmom
-        self.a = 3
+<pre><code class="python" >  class A:
+      def __init__(self):
+          self.additional = {'foo': 5, 'bar': 7.4}
+          # .a će biti pronađeno standardnim mehanizmom
+          self.a = 3
 
-    def __getattr__(self, key):
-        if key in self.additional:
-            return self.additional[key]
-        else:
-            raise AttributeError
+      def __getattr__(self, key):
+          if key in self.additional:
+              return self.additional[key]
+          else:
+              raise AttributeError
 
-if __name__ == '__main__':
-    a = A()
-    print(a.a)
-    print(a.foo)
-    print(a.bla)
+  if __name__ == '__main__':
+      a = A()
+      print(a.a)
+      print(a.foo)
+      print(a.bla)
 </code></pre>
 </div></li>
 
@@ -353,19 +353,19 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 <h3 id="2-2"><span class="section-number-3">2.2</span> <i>Properties</i> - primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class ...:
-...
-    @property
-    def full_file_name(self):
-        return os.path.join(self.file_path, self.file_name)
+<pre><code class="python" >    class ...:
+    ...
+        @property
+        def full_file_name(self):
+            return os.path.join(self.file_path, self.file_name)
 
-    @full_file_name.setter
-    def full_file_name(self, filename):
-        path_name, file_name = os.path.split(filename)
-        self.file_path = path_name
-        self.file_name = file_name
-        model_name, __ = os.path.splitext(file_name)
-        self.name = model_name
+        @full_file_name.setter
+        def full_file_name(self, filename):
+            path_name, file_name = os.path.split(filename)
+            self.file_path = path_name
+            self.file_name = file_name
+            model_name, __ = os.path.splitext(file_name)
+            self.name = model_name
 </code></pre>
 </div>
 
@@ -375,7 +375,7 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 
 <div class="org-src-container">
 
-<pre><code class=" python" >obj.full_file_name = '/neka/putanja/neko_ime.ext'
+<pre><code class="python" >obj.full_file_name = '/neka/putanja/neko_ime.ext'
 </code></pre>
 </div>
 
@@ -390,22 +390,22 @@ sekciji <code>functools</code>) koji automatski kreira nedostajuće operatore po
 <h3 id="2-3"><span class="section-number-3">2.3</span> <code>__setattr__</code> i <code>@property</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class A:
- @property
- def a(self):
-     print("get")
-     return 5
- @a.setter
- def a(self, val):
-     print("set")
-
- def __setattr__(self, name, value):
-     if name == 'a':
-         print('setattr')
-     super().__setattr__(name, value)
-a = A()
-a.a = 10
-out = a.a
+<pre><code class="python" >   class A:
+    @property
+    def a(self):
+        print("get")
+        return 5
+    @a.setter
+    def a(self, val):
+        print("set")
+   
+    def __setattr__(self, name, value):
+        if name == 'a':
+            print('setattr')
+        super().__setattr__(name, value)
+   a = A()
+   a.a = 10
+   out = a.a
 </code></pre>
 </div>
 
@@ -440,31 +440,31 @@ biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.</l
 <h3 id="3-2"><span class="section-number-3">3.2</span> Problem sa <i>properties</i></h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Order:
-    def __init__(self, name, price, quantity):
-        self._name = name
-        self.price = price
-        self._quantity = quantity
+<pre><code class="python" >    class Order:
+        def __init__(self, name, price, quantity):
+            self._name = name
+            self.price = price
+            self._quantity = quantity
 
-    @property
-    def quantity(self):
-        return self._quantity
+        @property
+        def quantity(self):
+            return self._quantity
 
-    @quantity.setter
-    def quantity(self, value):
-        if value &lt; 0:
-            raise ValueError('Cannot be negative.')
-        self._quantity = value
+        @quantity.setter
+        def quantity(self, value):
+            if value &lt; 0:
+                raise ValueError('Cannot be negative.')
+            self._quantity = value
 
-    def total(self):
-        return self.price * self.quantity
+        def total(self):
+            return self.price * self.quantity
 
-apple_order = Order('apple', 1, 10)
-print(apple_order.total())
-try:
-    apple_order.quantity = -10
-except ValueError as e:
-    print('Woops:', str(e))
+    apple_order = Order('apple', 1, 10)
+    print(apple_order.total())
+    try:
+        apple_order.quantity = -10
+    except ValueError as e:
+        print('Woops:', str(e))
 </code></pre>
 </div>
 
@@ -483,18 +483,18 @@ Woops: Cannot be negative.
 <h3 id="3-3"><span class="section-number-3">3.3</span> Rešenje upotrebom deskriptora (1)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class NonNegative:
-
- def __get__(self, instance, owner):
-     return instance.__dict__[self.name]
-
- def __set__(self, instance, value):
-     if value &lt; 0:
-         raise ValueError('Cannot be negative.')
-     instance.__dict__[self.name] = value
-
- def __set_name__(self, owner, name):
-     self.name = name
+<pre><code class="python" >   class NonNegative:
+   
+    def __get__(self, instance, owner):
+        return instance.__dict__[self.name]
+        
+    def __set__(self, instance, value):
+        if value &lt; 0:
+            raise ValueError('Cannot be negative.')
+        instance.__dict__[self.name] = value
+        
+    def __set_name__(self, owner, name):
+        self.name = name
 </code></pre>
 </div>
 
@@ -507,26 +507,26 @@ Woops: Cannot be negative.
 <h3 id="3-4"><span class="section-number-3">3.4</span> Rešenje upotrebom deskriptora (2)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Order:
+<pre><code class="python" >   class Order:
+   
+      price = NonNegative()
+      quantity = NonNegative()
 
-   price = NonNegative()
-   quantity = NonNegative()
+      def __init__(self, name, price, quantity):
+          self._name = name
+          self.price = price
+          self.quantity = quantity
 
-   def __init__(self, name, price, quantity):
-       self._name = name
-       self.price = price
-       self.quantity = quantity
-
-   def total(self):
-       return self.price * self.quantity
-
-apple_order = Order('apple', 1, 10)
-print(apple_order.total())
-
-try:
-    apple_order.quantity = -10
-except ValueError as e:
-    print('Woops:', str(e))
+      def total(self):
+          return self.price * self.quantity
+        
+   apple_order = Order('apple', 1, 10)
+   print(apple_order.total())
+    
+   try:
+       apple_order.quantity = -10
+   except ValueError as e:
+       print('Woops:', str(e))
 </code></pre>
 </div>
 
@@ -559,34 +559,34 @@ vraćaju izmenjenu verziju.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@trace
-def square(x):
-  return x*x
+<pre><code class="python" >  @trace
+  def square(x):
+    return x*x
 
-# Ovo je ekvivalentno sa
-def square(x):
-  return x*x
-square = trace(square)
+  # Ovo je ekvivalentno sa
+  def square(x):
+    return x*x
+  square = trace(square)
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >enable_tracing = True
-if enable_tracing:
-  debug_log = open("debug.log","w")
-def trace(func):
+<pre><code class="python" >  enable_tracing = True
   if enable_tracing:
-    def callf(*args,**kwargs):
-      debug_log.write("Calling %s: %s, %s\n" %
-              (func._ _name_ _, args, kwargs))
-      r = func(*args,**kwargs)
-      debug_log.write("%s returned %s\n" %
-                      (func._ _name, r))
-      return r
-    return callf
-  else:
-    return func
+    debug_log = open("debug.log","w")
+  def trace(func):
+    if enable_tracing:
+      def callf(*args,**kwargs):
+        debug_log.write("Calling %s: %s, %s\n" %
+                (func._ _name_ _, args, kwargs))
+        r = func(*args,**kwargs)
+        debug_log.write("%s returned %s\n" %
+                        (func._ _name, r))
+        return r
+      return callf
+    else:
+      return func
 </code></pre>
 </div></li>
 
@@ -601,7 +601,7 @@ Mogu da se stekuju.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@foo
+<pre><code class="python" >@foo
 @bar
 @spam
 def grok(x):
@@ -615,7 +615,7 @@ je isto što i
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def grok(x):
+<pre><code class="python" >def grok(x):
   pass
 grok = foo(bar(spam(grok)))
 </code></pre>
@@ -630,7 +630,7 @@ Mogu da imaju parametre.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@eventhandler('BUTTON')
+<pre><code class="python" >@eventhandler('BUTTON')
 def handle_button(msg):
   ...
 
@@ -648,7 +648,7 @@ handle_button = temp(handle_button)
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Event handler decorator
+<pre><code class="python" ># Event handler decorator
 event_handlers = { }
 def eventhandler(event):
   def register_function(f):
@@ -677,7 +677,7 @@ parametara.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from functools import partial
+<pre><code class="python" >&gt;&gt;&gt; from functools import partial
 &gt;&gt;&gt; basetwo = partial(int, base=2)
 &gt;&gt;&gt; basetwo.__doc__ = 'Konverzija stringa broja u bazi 2 u int.'
 &gt;&gt;&gt; basetwo('10010')
@@ -713,7 +713,7 @@ dok se kao drugi parametar koristi sledeći element kolekcije.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+<pre><code class="python" >reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
 </code></pre>
 </div>
 
@@ -721,7 +721,7 @@ dok se kao drugi parametar koristi sledeći element kolekcije.</li>
 izračunava
 </p>
 
-<pre  class="example">
+<pre>
 (((1+2)+3)+4)+5)
 </pre>
 
@@ -735,7 +735,7 @@ izračunava
 <h3 id="5-3"><span class="section-number-3">5.3</span> <code>reduce</code> ekvivalentan Python kod</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def reduce(function, iterable, initializer=None):
+<pre><code class="python" >def reduce(function, iterable, initializer=None):
     it = iter(iterable)
     if initializer is None:
         try:
@@ -754,7 +754,7 @@ izračunava
 <h3 id="5-4"><span class="section-number-3">5.4</span> Primer: množenje niza elemenata</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >niz = range(1, 10)
+<pre><code class="python" >niz = range(1, 10)
 </code></pre>
 </div>
 
@@ -764,7 +764,7 @@ izračunava
 
 <div class="org-src-container">
 
-<pre><code class=" python" >proizvod = 1
+<pre><code class="python" >proizvod = 1
 for elem in niz:
     proizvod *= elem
 </code></pre>
@@ -776,7 +776,7 @@ for elem in niz:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >proizvod = reduce(lambda x, y: x*y, niz)
+<pre><code class="python" >proizvod = reduce(lambda x, y: x*y, niz)
 </code></pre>
 </div>
 
@@ -788,7 +788,7 @@ Kompozicija funkcija <code>partial</code> + <code>reduce</code> (funkcionalno):
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from functools import reduce, partial
+<pre><code class="python" >from functools import reduce, partial
 amul = partial(reduce, lambda x, y: x*y)
 # ili upotrebom mul operatora
 from operator import mul
@@ -801,7 +801,7 @@ Sa <code>for</code> petljom (imperativno):
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def amul(niz):
+<pre><code class="python" >def amul(niz):
   proizvod = 1
   for elem in niz:
       proizvod *= elem
@@ -816,7 +816,7 @@ objekta:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >amul(range(1, 100))
+<pre><code class="python" >amul(range(1, 100))
 </code></pre>
 </div>
 
@@ -824,14 +824,14 @@ objekta:
 <section id="slide-5-6">
 <h3 id="5-6"><span class="section-number-3">5.6</span> <code>update_wrapper</code> i <code>wraps</code></h3>
 <ul>
-<li>Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
+<li>Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja &ldquo;izgleda&rdquo; kao
 originalna.</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from functools import wraps
+<pre><code class="python" >&gt;&gt;&gt; from functools import wraps
 &gt;&gt;&gt; def my_decorator(f):
 ...     @wraps(f)
 ...     def wrapper(*args, **kwds):
@@ -858,7 +858,7 @@ Called example function
 <section id="slide-5-7">
 <h3 id="5-7"><span class="section-number-3">5.7</span> <code>total_ordering</code></h3>
 <ul>
-<li>"Dopuna" specijalnih metoda za poređenje. Koristi se kao dekorator klase.</li>
+<li>&ldquo;Dopuna&rdquo; specijalnih metoda za poređenje. Koristi se kao dekorator klase.</li>
 <li>Klasa treba da definiše jednu od <code>__lt__</code>, <code>__le__</code>, <code>__gt__</code>, ili <code>__ge__()</code>
 metoda uz <code>__eq__</code>.</li>
 
@@ -866,7 +866,7 @@ metoda uz <code>__eq__</code>.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@total_ordering
+<pre><code class="python" >@total_ordering
 class Student:
     def _is_valid_operand(self, other):
         return (hasattr(other, "lastname") and
@@ -909,7 +909,7 @@ Ekvivalentno sa sledećim Python kodom:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def chain(*iterables):
+<pre><code class="python" >def chain(*iterables):
     for it in iterables:
         for element in it:
             yield element
@@ -922,7 +922,7 @@ Upotreba:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from itertools import chain
+<pre><code class="python" >from itertools import chain
 a = [1, 2, 3]
 b = 'abc'
 for i in chain(a, b):
@@ -947,7 +947,7 @@ Ekvivalentno sa:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def cycle(iterable):
+<pre><code class="python" >def cycle(iterable):
     saved = []
     for element in iterable:
         yield element
@@ -964,7 +964,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from itertools import cycle, islice
+<pre><code class="python" >from itertools import cycle, islice
 return list(islice(cycle('ABCD'), 10))
 </code></pre>
 </div>
@@ -1024,7 +1024,7 @@ Ekvivalentno sa:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def filter(predicate, iterable):
+<pre><code class="python" >def filter(predicate, iterable):
     if predicate is None:
         predicate = bool
     for x in iterable:
@@ -1038,7 +1038,7 @@ Primer:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >return list(filter(lambda x: x % 2, range(10)))
+<pre><code class="python" >return list(filter(lambda x: x % 2, range(10)))
 </code></pre>
 </div>
 
@@ -1083,7 +1083,7 @@ Ekvivalentno sa:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def map(function, *iterables):
+<pre><code class="python" >def map(function, *iterables):
     iterables = [iter(x) for x in iterables]
     while True:
         args = [next(it) for it in iterables]
@@ -1100,7 +1100,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >return list(map(pow, (2, 3, 10), (5, 2, 3)))
+<pre><code class="python" >return list(map(pow, (2, 3, 10), (5, 2, 3)))
 </code></pre>
 </div>
 
@@ -1136,7 +1136,7 @@ vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def zip(*iterables):
+<pre><code class="python" >def zip(*iterables):
     iterators = map(iter, iterables)
     while iterators:
         yield tuple(map(next, iterators))
@@ -1149,7 +1149,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >return list(zip('ABCD', 'xy'))
+<pre><code class="python" >return list(zip('ABCD', 'xy'))
 </code></pre>
 </div>
 
@@ -1186,7 +1186,7 @@ funkciji.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >groups = []
+<pre><code class="python" >groups = []
 uniquekeys = []
 data = sorted(data, key=keyfunc)
 for k, g in groupby(data, keyfunc):
@@ -1207,7 +1207,7 @@ vraća sve preostale redom.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def dropwhile(predicate, iterable):
+<pre><code class="python" >def dropwhile(predicate, iterable):
     iterable = iter(iterable)
     for x in iterable:
         if not predicate(x):
@@ -1224,7 +1224,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from itertools import dropwhile
+<pre><code class="python" >from itertools import dropwhile
 return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
 </div>
@@ -1259,7 +1259,7 @@ return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" python" >def takewhile(predicate, iterable):
+<pre><code class="python" >def takewhile(predicate, iterable):
     for x in iterable:
         if predicate(x):
             yield x
@@ -1274,7 +1274,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from itertools import takewhile
+<pre><code class="python" >from itertools import takewhile
 return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
 </div>
@@ -1305,7 +1305,7 @@ return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" python" >def tee(iterable, n=2):
+<pre><code class="python" >def tee(iterable, n=2):
     it = iter(iterable)
     deques = [collections.deque() for i in range(n)]
     def gen(mydeque):
@@ -1342,7 +1342,7 @@ kraj kolekcije.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; d = OrderedDict.fromkeys('abcde')
+<pre><code class="python" >&gt;&gt;&gt; d = OrderedDict.fromkeys('abcde')
 &gt;&gt;&gt; d.move_to_end('b')
 &gt;&gt;&gt; ''.join(d.keys())
 'acdeb'
@@ -1378,7 +1378,7 @@ kod atributa objekta.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; # Basic example
+<pre><code class="python" >&gt;&gt;&gt; # Basic example
 &gt;&gt;&gt; Point = namedtuple('Point', ['x', 'y'])
 &gt;&gt;&gt; p = Point(11, y=22)     # instantiate with positional or keyword arguments
 &gt;&gt;&gt; p[0] + p[1]             # indexable like the plain tuple (11, 22)
@@ -1406,7 +1406,7 @@ izbacivanje elementa sa početka liste.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from collections import deque
+<pre><code class="python" >&gt;&gt;&gt; from collections import deque
 &gt;&gt;&gt; d = deque('ghi')                 # make a new deque with three items
 &gt;&gt;&gt; for elem in d:                   # iterate over the deque's elements
 ...     print(elem.upper())
@@ -1443,7 +1443,7 @@ deque(['f', 'g', 'h', 'i', 'j'])
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; c = Counter()                           # a new, empty counter
+<pre><code class="python" >&gt;&gt;&gt; c = Counter()                           # a new, empty counter
 &gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
 &gt;&gt;&gt; c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
 &gt;&gt;&gt; c = Counter(cats=4, dogs=8)             # a new counter from keyword args
@@ -1480,7 +1480,7 @@ pozvati da kreira novi element.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+<pre><code class="python" >&gt;&gt;&gt; s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
 &gt;&gt;&gt; d = defaultdict(list)
 &gt;&gt;&gt; for k, v in s:
 ...     d[k].append(v)
@@ -1504,12 +1504,12 @@ pozvati da kreira novi element.</li>
 <li>Python podržava višestruko nasleđivanje.</li>
 <li>Problem razrešavanja metode/atributa iz nadklasa.</li>
 <li><i>Diamond problem</i>.</li>
-<li>Problem kod naivnog pretraživanja "po dubini".</li>
+<li>Problem kod naivnog pretraživanja &ldquo;po dubini&rdquo;.</li>
 
 </ul>
 
 
-<div class="figure">
+<div id="org5a92031" class="figure">
 <p><object type="image/svg+xml" data="./slike/Diamond_inheritance.svg" class="org-svg" width="20%">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1551,7 +1551,7 @@ Sorry, your browser does not support SVG.</object>
 <h3 id="8-4"><span class="section-number-3">8.4</span> <code>super</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class LoggingDict(dict):
+<pre><code class="python" >class LoggingDict(dict):
     def __setitem__(self, key, value):
         logging.info('Setting %r to %r' % (key, value))
         super().__setitem__(key, value)
@@ -1560,14 +1560,14 @@ Sorry, your browser does not support SVG.</object>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class LoggingOD(LoggingDict, collections.OrderedDict):
+<pre><code class="python" >class LoggingOD(LoggingDict, collections.OrderedDict):
     pass
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; pprint(LoggingOD.__mro__)
+<pre><code class="python" >&gt;&gt;&gt; pprint(LoggingOD.mro())
 (&lt;class '__main__.LoggingOD'&gt;,
  &lt;class '__main__.LoggingDict'&gt;,
  &lt;class 'collections.OrderedDict'&gt;,
@@ -1590,7 +1590,7 @@ Sorry, your browser does not support SVG.</object>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Shape:
+<pre><code class="python" >class Shape:
     def __init__(self, shapename, **kwds):
         self.shapename = shapename
         super().__init__(**kwds)        
@@ -1633,7 +1633,7 @@ ciljnu metodu.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Root:
+<pre><code class="python" >class Root:
     def draw(self):
         # the delegation chain stops here
         assert not hasattr(super(), 'draw')
@@ -1668,7 +1668,7 @@ cs.draw()
 <h3 id="8-8"><span class="section-number-3">8.8</span> Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Moveable:
+<pre><code class="python" >class Moveable:
 
     def __init__(self, x, y):
         self.x = x
@@ -1688,7 +1688,7 @@ cs.draw()
 <h3 id="8-9"><span class="section-number-3">8.9</span> Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class MoveableAdapter(Root):
+<pre><code class="python" >class MoveableAdapter(Root):
 
     def __init__(self, x, y, **kwds):
         self.movable = Moveable(x, y)
@@ -1751,27 +1751,27 @@ cooperative tasks, exceptions, event loops, iterators, infinite lists and pipes.
 <h3 id="9-3"><span class="section-number-3">9.3</span> Coroutines in Python</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def jumping_range(up_to):
-    """Generator for the sequence of integers from 0 to up_to, exclusive.
+<pre><code class="python" >  def jumping_range(up_to):
+      """Generator for the sequence of integers from 0 to up_to, exclusive.
 
-    Sending a value into the generator will shift the sequence by that amount.
-    """
-    index = 0
-    while index &lt; up_to:
-        jump = yield index
-        if jump is None:
-            jump = 1
-        index += jump
+      Sending a value into the generator will shift the sequence by that amount.
+      """
+      index = 0
+      while index &lt; up_to:
+          jump = yield index
+          if jump is None:
+              jump = 1
+          index += jump
 
 
-if __name__ == '__main__':
-    iterator = jumping_range(5)
-    print(next(iterator))  # 0
-    print(iterator.send(2))  # 2
-    print(next(iterator))  # 3
-    print(iterator.send(-1))  # 2
-    for x in iterator:
-        print(x)  # 3, 4
+  if __name__ == '__main__':
+      iterator = jumping_range(5)
+      print(next(iterator))  # 0
+      print(iterator.send(2))  # 2
+      print(next(iterator))  # 3
+      print(iterator.send(-1))  # 2
+      for x in iterator:
+          print(x)  # 3, 4
 
 </code></pre>
 </div>
@@ -1784,22 +1784,22 @@ if __name__ == '__main__':
 <section id="slide-9-4">
 <h3 id="9-4"><span class="section-number-3">9.4</span> <code>yield from</code></h3>
 <ul>
-<li>Omogućava ulančavanje generatora/koorutina.</li>
+<li>Omogućava ulančavanje generatora/korutina.</li>
 <li>Implementacija <i>producer-consumer</i> i <i>pipes</i> obrazaca.</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def lazy_range(up_to):
-    """Generator to return the sequence of integers from 0 to up_to, exclusive."""
-    index = 0
-    def gratuitous_refactor():
-        nonlocal index
-        while index &lt; up_to:
-            yield index
-            index += 1
-    yield from gratuitous_refactor()
+<pre><code class="python" >  def lazy_range(up_to):
+      """Generator to return the sequence of integers from 0 to up_to, exclusive."""
+      index = 0
+      def gratuitous_refactor():
+          nonlocal index
+          while index &lt; up_to:
+              yield index
+              index += 1
+      yield from gratuitous_refactor()
 </code></pre>
 </div>
 
@@ -1815,9 +1815,9 @@ if __name__ == '__main__':
 In computer science, the event loop, message dispatcher, message loop, message
 pump, or run loop is a programming construct that waits for and dispatches
 events or messages in a program. It works by making a request to some internal
-or external "event provider" (that generally blocks the request until an event
-has arrived), and then it calls the relevant event handler ("dispatches the
-event").
+or external &ldquo;event provider&rdquo; (that generally blocks the request until an event
+has arrived), and then it calls the relevant event handler (&ldquo;dispatches the
+event&rdquo;).
 </p>
 </blockquote>
 
@@ -1830,16 +1830,16 @@ event").
 <h3 id="9-6"><span class="section-number-3">9.6</span> Async kod sa <code>time.sleep(1)</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" id="time-sleep" python" >import asyncio  
-import time  
+<pre id="time-sleep"><code class="python" >import asyncio
+import time
 from datetime import datetime
 
 
-async def custom_sleep():  
+async def custom_sleep():
     print('SLEEP', datetime.now())
     time.sleep(1)
 
-async def factorial(name, number):  
+async def factorial(name, number):
     f = 1
     for i in range(2, number+1):
         print('Task {}: Compute factorial({})'.format(name, i))
@@ -1848,17 +1848,17 @@ async def factorial(name, number):
     print('Task {}: factorial({}) is {}n'.format(name, number, f))
 
 
-start = time.time()  
+start = time.time()
 loop = asyncio.get_event_loop()
 
-tasks = [  
+tasks = [
     asyncio.ensure_future(factorial("A", 3)),
     asyncio.ensure_future(factorial("B", 4)),
 ]
-loop.run_until_complete(asyncio.wait(tasks))  
+loop.run_until_complete(asyncio.wait(tasks))
 loop.close()
 
-end = time.time()  
+end = time.time()
 print("Total time: {}".format(end - start))
 </code></pre>
 </div>
@@ -1871,20 +1871,20 @@ print("Total time: {}".format(end - start))
 </section>
 <section id="slide-9-7">
 <h3 id="9-7"><span class="section-number-3">9.7</span> Async kod sa <code>time.sleep(1)</code> - rezultati</h3>
-<pre class="example">
-Task A: Compute factorial(2)
-SLEEP 2020-03-18 14:11:13.910836
-Task A: Compute factorial(3)
-SLEEP 2020-03-18 14:11:14.912110
-Task A: factorial(3) is 6n
-Task B: Compute factorial(2)
-SLEEP 2020-03-18 14:11:15.913461
-Task B: Compute factorial(3)
-SLEEP 2020-03-18 14:11:16.914813
-Task B: Compute factorial(4)
-SLEEP 2020-03-18 14:11:17.916258
-Task B: factorial(4) is 24n
-Total time: 5.007609844207764
+<pre class="example" id="org35552d5">
+  Task A: Compute factorial(2)
+  SLEEP 2021-03-09 16:56:42.376919
+  Task A: Compute factorial(3)
+  SLEEP 2021-03-09 16:56:43.378432
+  Task A: factorial(3) is 6n
+  Task B: Compute factorial(2)
+  SLEEP 2021-03-09 16:56:44.380052
+  Task B: Compute factorial(3)
+  SLEEP 2021-03-09 16:56:45.381594
+  Task B: Compute factorial(4)
+  SLEEP 2021-03-09 16:56:46.383240
+  Task B: factorial(4) is 24n
+  Total time: 5.008708477020264
 </pre>
 
 <p>
@@ -1897,16 +1897,16 @@ poziv nije oslobodio <i>Event Loop</i>
 <h3 id="9-8"><span class="section-number-3">9.8</span> Async kod sa <code>asyncio.sleep(1)</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" id="async-sleep" python" >import asyncio  
-import time  
+<pre id="async-sleep"><code class="python" >import asyncio
+import time
 from datetime import datetime
 
 
-async def custom_sleep():  
+async def custom_sleep():
     print('SLEEP {}n'.format(datetime.now()))
     await asyncio.sleep(1)
 
-async def factorial(name, number):  
+async def factorial(name, number):
     f = 1
     for i in range(2, number+1):
         print('Task {}: Compute factorial({})'.format(name, i))
@@ -1915,17 +1915,17 @@ async def factorial(name, number):
     print('Task {}: factorial({}) is {}n'.format(name, number, f))
 
 
-start = time.time()  
+start = time.time()
 loop = asyncio.get_event_loop()
 
-tasks = [  
+tasks = [
     asyncio.ensure_future(factorial("A", 3)),
     asyncio.ensure_future(factorial("B", 4)),
 ]
-loop.run_until_complete(asyncio.wait(tasks))  
+loop.run_until_complete(asyncio.wait(tasks))
 loop.close()
 
-end = time.time()  
+end = time.time()
 print("Total time: {}".format(end - start))
 </code></pre>
 </div>
@@ -1938,20 +1938,20 @@ print("Total time: {}".format(end - start))
 </section>
 <section id="slide-9-9">
 <h3 id="9-9"><span class="section-number-3">9.9</span> Async kod sa <code>asyncio.sleep(1)</code> - rezultati</h3>
-<pre class="example">
-Task A: Compute factorial(2)
-SLEEP 2020-03-18 14:28:29.752808n
-Task B: Compute factorial(2)
-SLEEP 2020-03-18 14:28:29.752837n
-Task A: Compute factorial(3)
-SLEEP 2020-03-18 14:28:30.753815n
-Task B: Compute factorial(3)
-SLEEP 2020-03-18 14:28:30.753928n
-Task A: factorial(3) is 6n
-Task B: Compute factorial(4)
-SLEEP 2020-03-18 14:28:31.755350n
-Task B: factorial(4) is 24n
-Total time: 3.0042872428894043
+<pre class="example" id="orgbcfb1ff">
+  Task A: Compute factorial(2)
+  SLEEP 2021-03-09 16:57:23.677806n
+  Task B: Compute factorial(2)
+  SLEEP 2021-03-09 16:57:23.677851n
+  Task A: Compute factorial(3)
+  SLEEP 2021-03-09 16:57:24.679801n
+  Task B: Compute factorial(3)
+  SLEEP 2021-03-09 16:57:24.679930n
+  Task A: factorial(3) is 6n
+  Task B: Compute factorial(4)
+  SLEEP 2021-03-09 16:57:25.681821n
+  Task B: factorial(4) is 24n
+  Total time: 3.006331443786621
 </pre>
 
 <p>
@@ -1979,10 +1979,10 @@ zadaci se izvršavaju naizmenično
 <section id="slide-10-1">
 <h3 id="10-1"><span class="section-number-3">10.1</span> Metaklase</h3>
 <ul>
-<li>Python klase predstavljaju "šablon" za kreiranje objekata.</li>
+<li>Python klase predstavljaju &ldquo;šablon&rdquo; za kreiranje objekata.</li>
 <li>I same klase su objekti. Šta je njihov šablon? Ko je zadužen za njihovo
 kreiranje?</li>
-<li>Klase imaju svoje "klase" koje nazivamo metaklasama.</li>
+<li>Klase imaju svoje &ldquo;klase&rdquo; koje nazivamo metaklasama.</li>
 
 </ul>
 </section>
@@ -2011,7 +2011,7 @@ poziva metaklasu.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; class Foobar:
+<pre><code class="python" >&gt;&gt;&gt; class Foobar:
 ...     pass
 ...
 &gt;&gt;&gt; type(Foobar)
@@ -2035,7 +2035,7 @@ True
 <section id="slide-10-4">
 <h3 id="10-4"><span class="section-number-3">10.4</span> Ili predstavljeno dijagramom</h3>
 
-<div class="figure">
+<div id="orgc7cbbc5" class="figure">
 <p><img src="./slike/metaclass.png" alt="metaclass.png" />
 </p>
 </div>
@@ -2049,7 +2049,7 @@ True
 <h3 id="10-5"><span class="section-number-3">10.5</span> Kreiranje klase sa <code>type</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >MyClass = type('MyClass', (object,), {'a':5})
+<pre><code class="python" >MyClass = type('MyClass', (object,), {'a':5})
 print(MyClass.a)
 print(type(MyClass))
 </code></pre>
@@ -2063,7 +2063,7 @@ print(type(MyClass))
 
 <div class="org-src-container">
 
-<pre><code class=" python" >MyClass2 = type('MyClass2', (MyClass,), {'b': True})
+<pre><code class="python" >MyClass2 = type('MyClass2', (MyClass,), {'b': True})
 print(type(MyClass2))
 print(dir(MyClass2))
 print(MyClass2.__mro__)
@@ -2082,7 +2082,7 @@ print(MyClass2.__mro__)
 <h3 id="10-6"><span class="section-number-3">10.6</span> Korisnička metaklasa</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; class Meta(type):
+<pre><code class="python" >&gt;&gt;&gt; class Meta(type):
 ...     pass
 
 &gt;&gt;&gt; class Complex(metaclass=Meta):
@@ -2112,7 +2112,6 @@ print(MyClass2.__mro__)
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
