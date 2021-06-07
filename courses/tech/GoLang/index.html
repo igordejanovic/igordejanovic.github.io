@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Go</h1>
 <h2 class="subtitle">Bazirano na Go verziji 1.14.2 i <a href="https://tour.golang.org/">A Tour of Go</a></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-04-26 Sun 12:41, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-06-07 Mon 18:44, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -80,9 +80,9 @@ Na primer:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz
-mkdir -p ~/install/go
-tar -C ~/install/go -xzf go$VERSION.$OS-$ARCH.tar.gz
+<pre><code class="bash" >  wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz
+  mkdir -p ~/install/go
+  tar -C ~/install/go -xzf go$VERSION.$OS-$ARCH.tar.gz
 </code></pre>
 </div></li>
 
@@ -94,7 +94,7 @@ podesiti <code>PATH</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >export PATH=$PATH:~/install/go/
+<pre><code class="bash" >  export PATH=$PATH:~/install/go/
 </code></pre>
 </div></li>
 
@@ -115,8 +115,8 @@ podesiti <code>PATH</code>:
 <h3 id="2-3"><span class="section-number-3">2.3</span> Testiranje instalacije</h3>
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ go version
-go version go1.14.2 linux/amd64
+<pre><code class="bash" >  $ go version
+  go version go1.14.2 linux/amd64
 </code></pre>
 </div>
 
@@ -128,13 +128,13 @@ Napraviti fajl <code>hello.go</code> sa sadržajem:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >  package main
 
-import "fmt"
+  import "fmt"
 
-func main() {
-	fmt.Printf("Здраво, свете!\n")
-}
+  func main() {
+	  fmt.Printf("Здраво, свете!\n")
+  }
 </code></pre>
 </div></li>
 
@@ -144,10 +144,10 @@ Preći u projektni folder, pokrenuti <code>build</code> i zatim startovati progr
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ cd ~/go/src/hello
-$ go build
-$ ./hello
-Здраво, свете!
+<pre><code class="bash" >  $ cd ~/go/src/hello
+  $ go build
+  $ ./hello
+  Здраво, свете!
 </code></pre>
 </div></li>
 
@@ -188,27 +188,27 @@ verzija (npr. <code>git</code>).</li>
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3</span> <i>Workspaces</i></h3>
-<pre  class="example">
-bin/
-    hello                          # command executable
-    outyet                         # command executable
-src/
-  github.com/golang/example/
-      .git/                        # Git repository metadata
-  hello/
-      hello.go                     # command source
-  outyet/
-      main.go                      # command source
-      main_test.go                 # test source
-  stringutil/
-      reverse.go                   # package source
-      reverse_test.go              # test source
-    golang.org/x/image/
-        .git/                      # Git repository metadata
-  bmp/
-      reader.go                    # package source
-      writer.go                    # package source
-    ... (many more repositories and packages omitted) ...
+<pre>
+  bin/
+      hello                          # command executable
+      outyet                         # command executable
+  src/
+    github.com/golang/example/
+        .git/                        # Git repository metadata
+    hello/
+        hello.go                     # command source
+    outyet/
+        main.go                      # command source
+        main_test.go                 # test source
+    stringutil/
+        reverse.go                   # package source
+        reverse_test.go              # test source
+      golang.org/x/image/
+          .git/                      # Git repository metadata
+    bmp/
+        reader.go                    # package source
+        writer.go                    # package source
+      ... (many more repositories and packages omitted) ...
 </pre>
 
 </section>
@@ -224,7 +224,7 @@ Da bi instalirani Go programi bili dostupni:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ export PATH=$PATH:$(go env GOPATH)/bin
+<pre><code class="bash" >  $ export PATH=$PATH:$(go env GOPATH)/bin
 </code></pre>
 </div></li>
 
@@ -240,8 +240,8 @@ Da bi instalirani Go programi bili dostupni:
 <li><p>
 Dobra praksa je upotreba domena VCS hosting sajtova. Na primer:
 </p>
-<pre  class="example">
-$GOPATH/src/github.com/user
+<pre>
+  $GOPATH/src/github.com/user
 </pre></li>
 
 </ul>
@@ -251,7 +251,7 @@ $GOPATH/src/github.com/user
 <h3 id="3-6"><span class="section-number-3">3.6</span> Prvi Go program</h3>
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ mkdir $GOPATH/src/github.com/user/hello
+<pre><code class="shell" >   $ mkdir $GOPATH/src/github.com/user/hello
 </code></pre>
 </div>
 
@@ -261,22 +261,22 @@ $GOPATH/src/github.com/user
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  fmt.Printf("Здраво, свете!\n")
-}
+    func main() {
+      fmt.Printf("Здраво, свете!\n")
+    }
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ go install github.com/user/hello
-# ili
-$ cd $GOPATH/src/github.com/user/hello
-$ go install
+<pre><code class="shell" >   $ go install github.com/user/hello
+   # ili
+   $ cd $GOPATH/src/github.com/user/hello
+   $ go install
 </code></pre>
 </div>
 
@@ -287,11 +287,11 @@ $ go install
 
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ $GOPATH/bin/hello
-Здраво, свете!
-# ili samo
-$ hello
-Здраво, свете!
+<pre><code class="shell" >   $ $GOPATH/bin/hello
+   Здраво, свете!
+   # ili samo
+   $ hello
+   Здраво, свете!
 </code></pre>
 </div>
 
@@ -304,14 +304,14 @@ $ hello
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ cd $GOPATH/src/github.com/user/hello
-$ git init
-Initialized empty Git repository in /home/user/work/src/github.com/user/hello/.git/
-$ git add hello.go
-$ git commit -m "initial commit"
-[master (root-commit) 0b4507d] initial commit
-1 file changed, 1 insertion(+)
-  create mode 100644 hello.go
+<pre><code class="shell" >   $ cd $GOPATH/src/github.com/user/hello
+   $ git init
+   Initialized empty Git repository in /home/user/work/src/github.com/user/hello/.git/
+   $ git add hello.go
+   $ git commit -m "initial commit"
+   [master (root-commit) 0b4507d] initial commit
+   1 file changed, 1 insertion(+)
+     create mode 100644 hello.go
 </code></pre>
 </div>
 
@@ -320,23 +320,23 @@ $ git commit -m "initial commit"
 <h3 id="3-7"><span class="section-number-3">3.7</span> Prva Go biblioteka</h3>
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ mkdir $GOPATH/src/github.com/user/stringutil
+<pre><code class="bash" >   $ mkdir $GOPATH/src/github.com/user/stringutil
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >// Package stringutil contains utility functions for working with strings.
-package stringutil
+<pre><code class="go" >   // Package stringutil contains utility functions for working with strings.
+   package stringutil
 
-// Reverse returns its argument string reversed rune-wise left to right.
-func Reverse(s string) string {
-  r := []rune(s)
-  for i, j := 0, len(r)-1; i &lt; len(r)/2; i, j = i+1, j-1 {
-    r[i], r[j] = r[j], r[i]
-  }
-  return string(r)
-}
+   // Reverse returns its argument string reversed rune-wise left to right.
+   func Reverse(s string) string {
+     r := []rune(s)
+     for i, j := 0, len(r)-1; i &lt; len(r)/2; i, j = i+1, j-1 {
+       r[i], r[j] = r[j], r[i]
+     }
+     return string(r)
+   }
 </code></pre>
 </div>
 
@@ -346,9 +346,9 @@ func Reverse(s string) string {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ go build github.com/user/stringutil
-# ili ako smo već u folderu stringutil
-$ go build
+<pre><code class="shell" >   $ go build github.com/user/stringutil
+   # ili ako smo već u folderu stringutil
+   $ go build
 </code></pre>
 </div>
 
@@ -362,38 +362,38 @@ $ go build
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
+   import (
+     "fmt"
 
-  "github.com/user/stringutil"
-)
+     "github.com/user/stringutil"
+   )
 
-func main() {
-  fmt.Println(stringutil.Reverse("!етевс ,овардЗ"))
-}
+   func main() {
+     fmt.Println(stringutil.Reverse("!етевс ,овардЗ"))
+   }
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ go install github.com/user/hello
-$ hello
-Здраво, свете!
+<pre><code class="shell" >   $ go install github.com/user/hello
+   $ hello
+   Здраво, свете!
 </code></pre>
 </div>
 
 
-<pre  class="example">
-bin/
-  hello                 # command executable
-src/
-    github.com/user/
-        hello/
-            hello.go      # command source
-        stringutil/
-            reverse.go    # package source
+<pre>
+   bin/
+     hello                 # command executable
+   src/
+       github.com/user/
+           hello/
+               hello.go      # command source
+           stringutil/
+               reverse.go    # package source
 </pre>
 
 </section>
@@ -405,7 +405,7 @@ Prvi iskaz u svakom Go fajlu mora biti:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" go" >package name
+<pre><code class="go" >     package name
 </code></pre>
 </div></li>
 <li>&#x2026;gde je <code>name</code> ime paketa koje se koristi pri <i>import</i>-u</li>
@@ -422,12 +422,12 @@ importuju ali se zahteva da putanja bude</li>
 </section>
 <section id="slide-3-9">
 <h3 id="3-9"><span class="section-number-3">3.9</span> Promena imena pri <i>import</i>-u paketa</h3>
-<pre  class="example">
-Import declaration          Local name of Sin
+<pre>
+  Import declaration          Local name of Sin
 
-import   "lib/math"         math.Sin
-import m "lib/math"         m.Sin
-import . "lib/math"         Sin
+  import   "lib/math"         math.Sin
+  import m "lib/math"         m.Sin
+  import . "lib/math"         Sin
 </pre>
 
 <ul>
@@ -435,8 +435,8 @@ import . "lib/math"         Sin
 
 </ul>
 
-<pre  class="example">
-import _ "lib/math"
+<pre>
+  import _ "lib/math"
 </pre>
 
 
@@ -465,35 +465,35 @@ se smatra neuspešnim</li>
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package stringutil
+<pre><code class="go" >   package stringutil
 
-import "testing"
+   import "testing"
 
-func TestReverse(t *testing.T) {
-  cases := []struct {
-    in, want string
-  }{
-    {"Hello, world", "dlrow ,olleH"},
-    {"Hello, 世界", "界世 ,olleH"},
-    {"", ""},
-  }
-  for _, c := range cases {
-    got := Reverse(c.in)
-    if got != c.want {
-      t.Errorf("Reverse(%q) == %q, want %q", c.in, got, c.want)
-    }
-  }
-}
+   func TestReverse(t *testing.T) {
+     cases := []struct {
+       in, want string
+     }{
+       {"Hello, world", "dlrow ,olleH"},
+       {"Hello, 世界", "界世 ,olleH"},
+       {"", ""},
+     }
+     for _, c := range cases {
+       got := Reverse(c.in)
+       if got != c.want {
+         t.Errorf("Reverse(%q) == %q, want %q", c.in, got, c.want)
+       }
+     }
+   }
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" shell" >$ go test github.com/user/stringutil
-ok  	github.com/user/stringutil 0.165s
-# ili samo
-$ go test
-ok  	github.com/user/stringutil 0.165s
+<pre><code class="shell" >   $ go test github.com/user/stringutil
+   ok  	github.com/user/stringutil 0.165s
+   # ili samo
+   $ go test
+   ok  	github.com/user/stringutil 0.165s
 </code></pre>
 </div>
 
@@ -530,9 +530,9 @@ Interaktivno učenje Go jezika:
 Pokretanje lokalno:
 </p>
 
-<pre  class="example">
-$ go get golang.org/x/tour
-$ tour
+<pre>
+  $ go get golang.org/x/tour
+  $ tour
 </pre>
 
 </section>
@@ -552,16 +552,16 @@ $ tour
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math/rand"
-)
+   import (
+     "fmt"
+     "math/rand"
+   )
 
-func main() {
-  fmt.Println("My favorite number is", rand.Intn(10))
-}
+   func main() {
+     fmt.Println("My favorite number is", rand.Intn(10))
+   }
 </code></pre>
 </div>
 
@@ -581,16 +581,16 @@ primeru <code>rand</code>).</li>
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func main() {
-  fmt.Printf("Now you have %g problems.\n", math.Sqrt(7))
-}
+   func main() {
+     fmt.Printf("Now you have %g problems.\n", math.Sqrt(7))
+   }
 </code></pre>
 </div>
 
@@ -604,16 +604,16 @@ ako počinje velikim slovom.
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func main() {
-  fmt.Println(math.pi)  // &lt;-- treba math.Pi
-}
+   func main() {
+     fmt.Println(math.pi)  // &lt;-- treba math.Pi
+   }
 </code></pre>
 </div>
 
@@ -631,17 +631,17 @@ su definisani.
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func add(x int, y int) int {
-  return x + y
-}
+   func add(x int, y int) int {
+     return x + y
+   }
 
-func main() {
-  fmt.Println(add(42, 13))
-}
+   func main() {
+     fmt.Println(add(42, 13))
+   }
 </code></pre>
 </div>
 
@@ -651,17 +651,17 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func add(x, y int) int {
-  return x + y
-}
+   func add(x, y int) int {
+     return x + y
+   }
 
-func main() {
-  fmt.Println(add(42, 13))
-}
+   func main() {
+     fmt.Println(add(42, 13))
+   }
 </code></pre>
 </div>
 
@@ -676,18 +676,18 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func swap(x, y string) (string, string) {
-  return y, x
-}
+   func swap(x, y string) (string, string) {
+     return y, x
+   }
 
-func main() {
-  a, b := swap("hello", "world")
-  fmt.Println(a, b)
-}
+   func main() {
+     a, b := swap("hello", "world")
+     fmt.Println(a, b)
+   }
 </code></pre>
 </div>
 
@@ -702,19 +702,19 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func split(sum int) (x, y int) {
-  x = sum * 4 / 9
-  y = sum - x
-  return
-}
+   func split(sum int) (x, y int) {
+     x = sum * 4 / 9
+     y = sum - x
+     return
+   }
 
-func main() {
-  fmt.Println(split(17))
-}
+   func main() {
+     fmt.Println(split(17))
+   }
 </code></pre>
 </div>
 
@@ -729,16 +729,16 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-var c, python, java bool
+   var c, python, java bool
 
-func main() {
-  var i int
-  fmt.Println(i, c, python, java)
-}
+   func main() {
+     var i int
+     fmt.Println(i, c, python, java)
+   }
 </code></pre>
 </div>
 
@@ -754,16 +754,16 @@ odredi na osnovu inicijalizatora</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-var i, j int = 1, 2
+   var i, j int = 1, 2
 
-func main() {
-  var c, python, java = true, false, "no!"
-  fmt.Println(i, j, c, python, java)
-}
+   func main() {
+     var c, python, java = true, false, "no!"
+     fmt.Println(i, j, c, python, java)
+   }
 </code></pre>
 </div>
 
@@ -778,17 +778,17 @@ koristi</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  var i, j int = 1, 2
-  k := 3
-  c, python, java := true, false, "no!"
+   func main() {
+     var i, j int = 1, 2
+     k := 3
+     c, python, java := true, false, "no!"
 
-  fmt.Println(i, j, k, c, python, java)
-}
+     fmt.Println(i, j, k, c, python, java)
+   }
 </code></pre>
 </div>
 
@@ -806,22 +806,22 @@ ključnom rečju</li>
 
 </ul>
 
-<pre  class="example">
-bool
+<pre>
+   bool
 
-string
+   string
 
-int  int8  int16  int32  int64
-uint uint8 uint16 uint32 uint64 uintptr
+   int  int8  int16  int32  int64
+   uint uint8 uint16 uint32 uint64 uintptr
 
-byte // alias for uint8
+   byte // alias for uint8
 
-rune // alias for int32
-     // represents a Unicode code point
+   rune // alias for int32
+        // represents a Unicode code point
 
-float32 float64
+   float32 float64
 
-complex64 complex128
+   complex64 complex128
 </pre>
 
 </section>
@@ -829,31 +829,31 @@ complex64 complex128
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math/cmplx"
-)
+   import (
+     "fmt"
+     "math/cmplx"
+   )
 
-var (
-  ToBe   bool       = false
-  MaxInt uint64     = 1&lt;&lt;64 - 1
-  z      complex128 = cmplx.Sqrt(-5 + 12i)
-)
+   var (
+     ToBe   bool       = false
+     MaxInt uint64     = 1&lt;&lt;64 - 1
+     z      complex128 = cmplx.Sqrt(-5 + 12i)
+   )
 
-func main() {
-  fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
-  fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
-  fmt.Printf("Type: %T Value: %v\n", z, z)
-}
+   func main() {
+     fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
+     fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
+     fmt.Printf("Type: %T Value: %v\n", z, z)
+   }
 </code></pre>
 </div>
 
-<pre  class="example">
-Type: bool Value: false
-Type: uint64 Value: 18446744073709551615
-Type: complex128 Value: (2+3i)
+<pre>
+   Type: bool Value: false
+   Type: uint64 Value: 18446744073709551615
+   Type: complex128 Value: (2+3i)
 </pre>
 
 </section>
@@ -873,22 +873,22 @@ nulte vrednosti:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  var i int
-  var f float64
-  var b bool
-  var s string
-  fmt.Printf("%v %v %v %q\n", i, f, b, s)
-}
+   func main() {
+     var i int
+     var f float64
+     var b bool
+     var s string
+     fmt.Printf("%v %v %v %q\n", i, f, b, s)
+   }
 </code></pre>
 </div>
 
-<pre  class="example">
-0 0 false ""
+<pre>
+   0 0 false ""
 </pre>
 
 </section>
@@ -901,9 +901,9 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >var i int = 42
-var f float64 = float64(i)
-var u uint = uint(f)
+<pre><code class="go" >   var i int = 42
+   var f float64 = float64(i)
+   var u uint = uint(f)
 </code></pre>
 </div>
 
@@ -913,9 +913,9 @@ var u uint = uint(f)
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >i := 42
-f := float64(i)
-u := uint(f)
+<pre><code class="go" >   i := 42
+   f := float64(i)
+   u := uint(f)
 </code></pre>
 </div>
 
@@ -927,19 +927,19 @@ eksplicitnu konverziju</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func main() {
-  var x, y int = 3, 4
-  var f float64 = math.Sqrt(float64(x*x + y*y))
-  var z uint = uint(f)
-  fmt.Println(x, y, z)
-}
+   func main() {
+     var x, y int = 3, 4
+     var f float64 = math.Sqrt(float64(x*x + y*y))
+     var z uint = uint(f)
+     fmt.Println(x, y, z)
+   }
 </code></pre>
 </div>
 
@@ -954,8 +954,8 @@ leva strana će biti istog tipa</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >var i int
-j := i // j is an int
+<pre><code class="go" >   var i int
+   j := i // j is an int
 </code></pre>
 </div>
 
@@ -967,9 +967,9 @@ preciznosti konstante:</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >i := 42           // int
-f := 3.142        // float64
-g := 0.867 + 0.5i // complex128
+<pre><code class="go" >   i := 42           // int
+   f := 3.142        // float64
+   g := 0.867 + 0.5i // complex128
 </code></pre>
 </div>
 
@@ -985,20 +985,20 @@ g := 0.867 + 0.5i // complex128
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-const Pi = 3.14
+   const Pi = 3.14
 
-func main() {
-  const World = "世界"
-  fmt.Println("Hello", World)
-  fmt.Println("Happy", Pi, "Day")
+   func main() {
+     const World = "世界"
+     fmt.Println("Hello", World)
+     fmt.Println("Happy", Pi, "Day")
 
-  const Truth = true
-  fmt.Println("Go rules?", Truth)
-}
+     const Truth = true
+     fmt.Println("Go rules?", Truth)
+   }
 </code></pre>
 </div>
 
@@ -1012,30 +1012,30 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-const (
-  // Create a huge number by shifting a 1 bit left 100 places.
-  // In other words, the binary number that is 1 followed by 100 zeroes.
-  Big = 1 &lt;&lt; 100
-  // Shift it right again 99 places, so we end up with 1&lt;&lt;1, or 2.
-  Small = Big &gt;&gt; 99
-)
+   const (
+     // Create a huge number by shifting a 1 bit left 100 places.
+     // In other words, the binary number that is 1 followed by 100 zeroes.
+     Big = 1 &lt;&lt; 100
+     // Shift it right again 99 places, so we end up with 1&lt;&lt;1, or 2.
+     Small = Big &gt;&gt; 99
+   )
 
-func needInt(x int) int { return x*10 + 1 }
+   func needInt(x int) int { return x*10 + 1 }
+   
+   func needFloat(x float64) float64 {
+     return x * 0.1
+   }
 
-func needFloat(x float64) float64 {
-  return x * 0.1
-}
-
-func main() {
-  fmt.Println(needInt(Small))
-  fmt.Println(needFloat(Small))
-  fmt.Println(needFloat(Big))
-  fmt.Println(needInt(Big))  // &lt;-- constant overflow
-}
+   func main() {
+     fmt.Println(needInt(Small))
+     fmt.Println(needFloat(Small))
+     fmt.Println(needFloat(Big))
+     fmt.Println(needInt(Big))  // &lt;-- constant overflow
+   }
 </code></pre>
 </div>
 
@@ -1044,15 +1044,15 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >const Huge = 1e1000
-
-# Sledeća linija ne može da se kompajlira
-# Greška je 'constant 1.00000e+1000 overflows float64'
-fmt.Println(Huge)
-
-# Ali ovo radi bez problema jer se kalkulacija obavlja od strane kompajlera
-# u vreme kompajliranja
-fmt.Println(Huge / 1e999)
+<pre><code class="go" >   const Huge = 1e1000
+   
+   # Sledeća linija ne može da se kompajlira
+   # Greška je 'constant 1.00000e+1000 overflows float64'
+   fmt.Println(Huge)
+   
+   # Ali ovo radi bez problema jer se kalkulacija obavlja od strane kompajlera
+   # u vreme kompajliranja
+   fmt.Println(Huge / 1e999)
 </code></pre>
 </div>
 
@@ -1070,11 +1070,11 @@ fmt.Println(Huge / 1e999)
 
 <div class="org-src-container">
 
-<pre><code class=" go" >const (
-    CategoryBooks = iota // 0
-    CategoryHealth       // 1
-    CategoryClothing     // 2
-)
+<pre><code class="go" >   const (
+       CategoryBooks = iota // 0
+       CategoryHealth       // 1
+       CategoryClothing     // 2
+   )
 </code></pre>
 </div>
 
@@ -1086,14 +1086,14 @@ tipovima)</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type Stereotype int
+<pre><code class="go" >   type Stereotype int
 
-const (
-    TypicalNoob Stereotype = iota // 0
-    TypicalHipster                // 1
-    TypicalUnixWizard             // 2
-    TypicalStartupFounder         // 3
-)
+   const (
+       TypicalNoob Stereotype = iota // 0
+       TypicalHipster                // 1
+       TypicalUnixWizard             // 2
+       TypicalStartupFounder         // 3
+   )
 </code></pre>
 </div>
 
@@ -1112,16 +1112,16 @@ const (
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type AudioOutput int
+<pre><code class="go" >   type AudioOutput int
 
-const (
-    OutMute AudioOutput = iota // 0
-    OutMono                    // 1
-    OutStereo                  // 2
-    _
-    _
-    OutSurround                // 5
-)
+   const (
+       OutMute AudioOutput = iota // 0
+       OutMono                    // 1
+       OutStereo                  // 2
+       _
+       _
+       OutSurround                // 5
+   )
 </code></pre>
 </div>
 
@@ -1132,15 +1132,15 @@ const (
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type Allergen int
+<pre><code class="go" >   type Allergen int
 
-const (
-    IgEggs Allergen = 1 &lt;&lt; iota // 1 &lt;&lt; 0 which is 00000001
-    IgChocolate                 // 1 &lt;&lt; 1 which is 00000010
-    IgNuts                      // 1 &lt;&lt; 2 which is 00000100
-    IgStrawberries              // 1 &lt;&lt; 3 which is 00001000
-    IgShellfish                 // 1 &lt;&lt; 4 which is 00010000
-)
+   const (
+       IgEggs Allergen = 1 &lt;&lt; iota // 1 &lt;&lt; 0 which is 00000001
+       IgChocolate                 // 1 &lt;&lt; 1 which is 00000010
+       IgNuts                      // 1 &lt;&lt; 2 which is 00000100
+       IgStrawberries              // 1 &lt;&lt; 3 which is 00001000
+       IgShellfish                 // 1 &lt;&lt; 4 which is 00010000
+   )
 </code></pre>
 </div>
 
@@ -1178,17 +1178,17 @@ ciklus se izvršava ili se petlja prekida</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  sum := 0
-  for i := 0; i &lt; 10; i++ {
-    sum += i
-  }
-  fmt.Println(sum)
-}
+   func main() {
+     sum := 0
+     for i := 0; i &lt; 10; i++ {
+       sum += i
+     }
+     fmt.Println(sum)
+   }
 </code></pre>
 </div>
 
@@ -1209,17 +1209,17 @@ za telo petlje obavezno</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  sum := 1
-  for ; sum &lt; 1000; {
-    sum += sum
-  }
-  fmt.Println(sum)
-}
+   func main() {
+     sum := 1
+     for ; sum &lt; 1000; {
+       sum += sum
+     }
+     fmt.Println(sum)
+   }
 </code></pre>
 </div>
 
@@ -1234,23 +1234,23 @@ ekvivalent <code>while</code> petlje u drugim jezicima</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  sum := 1
-  for sum &lt; 1000 {
-    sum += sum
-  }
-  fmt.Println(sum)
-}
+   func main() {
+     sum := 1
+     for sum &lt; 1000 {
+       sum += sum
+     }
+     fmt.Println(sum)
+   }
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3</span> "Beskonačna" petlja</h3>
+<h3 id="6-3"><span class="section-number-3">6.3</span> &ldquo;Beskonačna&rdquo; petlja</h3>
 <ul>
 <li>Ako se izostavi i uslov dobijamo beskonačnu petlju</li>
 
@@ -1258,12 +1258,12 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-func main() {
-  for {
-  }
-}
+   func main() {
+     for {
+     }
+   }
 </code></pre>
 </div>
 
@@ -1277,23 +1277,23 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func sqrt(x float64) string {
-  if x &lt; 0 {
-    return sqrt(-x) + "i"
-  }
-  return fmt.Sprint(math.Sqrt(x))
-}
+   func sqrt(x float64) string {
+     if x &lt; 0 {
+       return sqrt(-x) + "i"
+     }
+     return fmt.Sprint(math.Sqrt(x))
+   }
 
-func main() {
-  fmt.Println(sqrt(2), sqrt(-4))
-}
+   func main() {
+     fmt.Println(sqrt(2), sqrt(-4))
+   }
 </code></pre>
 </div>
 
@@ -1309,26 +1309,26 @@ izvršava pre uslova</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func pow(x, n, lim float64) float64 {
-  if v := math.Pow(x, n); v &lt; lim {
-    return v
-  }
-  return lim
-}
+   func pow(x, n, lim float64) float64 {
+     if v := math.Pow(x, n); v &lt; lim {
+       return v
+     }
+     return lim
+   }
 
-func main() {
-  fmt.Println(
-    pow(3, 2, 10),
-    pow(3, 3, 20),
-  )
-}
+   func main() {
+     fmt.Println(
+       pow(3, 2, 10),
+       pow(3, 3, 20),
+     )
+   }
 </code></pre>
 </div>
 
@@ -1343,35 +1343,35 @@ bloku</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "math"
-)
+   import (
+     "fmt"
+     "math"
+   )
 
-func pow(x, n, lim float64) float64 {
-  if v := math.Pow(x, n); v &lt; lim {
-    return v
-  } else {
-    fmt.Printf("%g &gt;= %g\n", v, lim)
-  }
-  // can't use v here, though
-  return lim
-}
+   func pow(x, n, lim float64) float64 {
+     if v := math.Pow(x, n); v &lt; lim {
+       return v
+     } else {
+       fmt.Printf("%g &gt;= %g\n", v, lim)
+     }
+     // can't use v here, though
+     return lim
+   }
 
-func main() {
-  fmt.Println(
-    pow(3, 2, 10),
-    pow(3, 3, 20),
-  )
-}
+   func main() {
+     fmt.Println(
+       pow(3, 2, 10),
+       pow(3, 3, 20),
+     )
+   }
 </code></pre>
 </div>
 
-<pre  class="example">
-27 &gt;= 20
-9 20
+<pre>
+   27 &gt;= 20
+   9 20
 </pre>
 
 </section>
@@ -1386,32 +1386,32 @@ gde je vrednost jednaka vrednošću izraza uslova</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "runtime"
-)
+   import (
+     "fmt"
+     "runtime"
+   )
 
-func main() {
-  fmt.Print("Go runs on ")
-  switch os := runtime.GOOS; os {
-  case "darwin":
-    fmt.Println("OS X.")
-  case "linux":
-    fmt.Println("Linux.")
-  default:
-    // freebsd, openbsd,
-    // plan9, windows...
-    fmt.Printf("%s.\n", os)
-  }
-}
+   func main() {
+     fmt.Print("Go runs on ")
+     switch os := runtime.GOOS; os {
+     case "darwin":
+       fmt.Println("OS X.")
+     case "linux":
+       fmt.Println("Linux.")
+     default:
+       // freebsd, openbsd,
+       // plan9, windows...
+       fmt.Printf("%s.\n", os)
+     }
+   }
 </code></pre>
 </div>
 
 <ul>
 <li>Za razliku od drugih jezika izvršava se samo jedan <code>case</code> blok (nema
-"propadanja"). Takođe <code>case</code> prihvata izraz koji ne mora biti konstanta i
+&ldquo;propadanja&rdquo;). Takođe <code>case</code> prihvata izraz koji ne mora biti konstanta i
 čija vrednost ne mora biti numerička</li>
 
 </ul>
@@ -1429,36 +1429,36 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >switch i {
-case 0:
-case f():
-}
+<pre><code class="go" >    switch i {
+    case 0:
+    case f():
+    }
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "time"
-)
+   import (
+     "fmt"
+     "time"
+   )
 
-func main() {
-  fmt.Println("When's Saturday?")
-  today := time.Now().Weekday()
-  switch time.Saturday {
-  case today + 0:
-    fmt.Println("Today.")
-  case today + 1:
-    fmt.Println("Tomorrow.")
-  case today + 2:
-    fmt.Println("In two days.")
-  default:
-    fmt.Println("Too far away.")
-  }
-}
+   func main() {
+     fmt.Println("When's Saturday?")
+     today := time.Now().Weekday()
+     switch time.Saturday {
+     case today + 0:
+       fmt.Println("Today.")
+     case today + 1:
+       fmt.Println("Tomorrow.")
+     case today + 2:
+       fmt.Println("In two days.")
+     default:
+       fmt.Println("Too far away.")
+     }
+   }
 </code></pre>
 </div>
 
@@ -1473,24 +1473,24 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import (
-  "fmt"
-  "time"
-)
+   import (
+     "fmt"
+     "time"
+   )
 
-func main() {
-  t := time.Now()
-  switch {
-  case t.Hour() &lt; 12:
-    fmt.Println("Good morning!")
-  case t.Hour() &lt; 17:
-    fmt.Println("Good afternoon.")
-  default:
-    fmt.Println("Good evening.")
-  }
-}
+   func main() {
+     t := time.Now()
+     switch {
+     case t.Hour() &lt; 12:
+       fmt.Println("Good morning!")
+     case t.Hour() &lt; 17:
+       fmt.Println("Good afternoon.")
+     default:
+       fmt.Println("Good evening.")
+     }
+   }
 </code></pre>
 </div>
 
@@ -1507,21 +1507,21 @@ funkcija ne poziva do povratka</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  defer fmt.Println("world")
+   func main() {
+     defer fmt.Println("world")
 
-  fmt.Println("hello")
-}
+     fmt.Println("hello")
+   }
 </code></pre>
 </div>
 
-<pre  class="example">
-hello
-world
+<pre>
+   hello
+   world
 </pre>
 
 </section>
@@ -1535,28 +1535,28 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >   package main
 
-import "fmt"
+   import "fmt"
 
-func main() {
-  fmt.Println("counting")
+   func main() {
+     fmt.Println("counting")
 
-  for i := 0; i &lt; 10; i++ {
-    defer fmt.Println(i)
-  }
+     for i := 0; i &lt; 10; i++ {
+       defer fmt.Println(i)
+     }
 
-  fmt.Println("done")
-}
+     fmt.Println("done")
+   }
 </code></pre>
 </div>
 
-<pre  class="example">
-counting
-done
-9
-8
-...
+<pre>
+   counting
+   done
+   9
+   8
+   ...
 </pre>
 
 <ul>
@@ -1583,8 +1583,8 @@ done
 
 <div class="org-src-container">
 
-<pre><code class=" go" >i := 42
-p = &amp;i  // p je pokazivač na vrednost 42
+<pre><code class="go" >      i := 42
+      p = &amp;i  // p je pokazivač na vrednost 42
 </code></pre>
 </div></li>
 
@@ -1594,8 +1594,8 @@ p = &amp;i  // p je pokazivač na vrednost 42
 
 <div class="org-src-container">
 
-<pre><code class=" go" >fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
-*p = 21         // postavljanje i vrednosti kroz pokazivač p
+<pre><code class="go" >      fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
+      *p = 21         // postavljanje i vrednosti kroz pokazivač p
 </code></pre>
 </div>
 
@@ -1612,22 +1612,22 @@ p = &amp;i  // p je pokazivač na vrednost 42
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  i, j := 42, 2701
+    func main() {
+      i, j := 42, 2701
 
-  p := &amp;i         // point to i
-  fmt.Println(*p) // read i through the pointer
-  *p = 21         // set i through the pointer
-  fmt.Println(i)  // see the new value of i
+      p := &amp;i         // point to i
+      fmt.Println(*p) // read i through the pointer
+      *p = 21         // set i through the pointer
+      fmt.Println(i)  // see the new value of i
 
-  p = &amp;j         // point to j
-  *p = *p / 37   // divide j through the pointer
-  fmt.Println(j) // see the new value of j
-}
+      p = &amp;j         // point to j
+      *p = *p / 37   // divide j through the pointer
+      fmt.Println(j) // see the new value of j
+    }
 </code></pre>
 </div>
 
@@ -1641,18 +1641,18 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  X int
-  Y int
-}
+    type Vertex struct {
+      X int
+      Y int
+    }
 
-func main() {
-  fmt.Println(Vertex{1, 2})
-}
+    func main() {
+      fmt.Println(Vertex{1, 2})
+    }
 </code></pre>
 </div>
 
@@ -1666,20 +1666,20 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  X int
-  Y int
-}
+    type Vertex struct {
+      X int
+      Y int
+    }
 
-func main() {
-  v := Vertex{1, 2}
-  v.X = 4
-  fmt.Println(v.X)
-}
+    func main() {
+      v := Vertex{1, 2}
+      v.X = 4
+      fmt.Println(v.X)
+    }
 </code></pre>
 </div>
 
@@ -1697,21 +1697,21 @@ nije potrebno eksplicitno dereferenciranje
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >      package main
 
-import "fmt"
+      import "fmt"
 
-type Vertex struct {
-  X int
-  Y int
-}
+      type Vertex struct {
+        X int
+        Y int
+      }
 
-func main() {
-  v := Vertex{1, 2}
-  p := &amp;v
-  p.X = 1e9
-  fmt.Println(v)
-}
+      func main() {
+        v := Vertex{1, 2}
+        p := &amp;v
+        p.X = 1e9
+        fmt.Println(v)
+      }
 </code></pre>
 </div></li>
 
@@ -1730,24 +1730,24 @@ tom slučaju redosled je irelevantan</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  X, Y int
-}
+    type Vertex struct {
+      X, Y int
+    }
 
-var (
-  v1 = Vertex{1, 2}  // has type Vertex
-  v2 = Vertex{X: 1}  // Y:0 is implicit
-  v3 = Vertex{}      // X:0 and Y:0
-  p  = &amp;Vertex{1, 2} // has type *Vertex
-)
+    var (
+      v1 = Vertex{1, 2}  // has type Vertex
+      v2 = Vertex{X: 1}  // Y:0 is implicit
+      v3 = Vertex{}      // X:0 and Y:0
+      p  = &amp;Vertex{1, 2} // has type *Vertex
+    )
 
-func main() {
-  fmt.Println(v1, p, v2, v3)
-}
+    func main() {
+      fmt.Println(v1, p, v2, v3)
+    }
 </code></pre>
 </div>
 
@@ -1763,20 +1763,20 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  var a [2]string
-  a[0] = "Hello"
-  a[1] = "World"
-  fmt.Println(a[0], a[1])
-  fmt.Println(a)
+    func main() {
+      var a [2]string
+      a[0] = "Hello"
+      a[1] = "World"
+      fmt.Println(a[0], a[1])
+      fmt.Println(a)
 
-  primes := [6]int{2, 3, 5, 7, 11, 13}
-  fmt.Println(primes)
-}
+      primes := [6]int{2, 3, 5, 7, 11, 13}
+      fmt.Println(primes)
+    }
 </code></pre>
 </div>
 
@@ -1785,7 +1785,7 @@ func main() {
 <h3 id="7-6"><span class="section-number-3">7.6</span> Isečci (<code>Slices</code>)</h3>
 <ul>
 <li>Niz je fiksne dužine</li>
-<li>Isečak je "prozor" na niz koji ima dinamičku veličinu</li>
+<li>Isečak je &ldquo;prozor&rdquo; na niz koji ima dinamičku veličinu</li>
 <li><code>[]T</code> &#x2013; isečak tipa <code>T</code></li>
 <li><p>
 Isečak se formira iznad niza na sledeći način:
@@ -1793,7 +1793,7 @@ Isečak se formira iznad niza na sledeći način:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >a[low : high]
+<pre><code class="go" >     a[low : high]
 </code></pre>
 </div></li>
 
@@ -1804,16 +1804,16 @@ isključujući poslednji
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >      package main
 
-import "fmt"
+      import "fmt"
 
-func main() {
-  primes := [6]int{2, 3, 5, 7, 11, 13}
+      func main() {
+        primes := [6]int{2, 3, 5, 7, 11, 13}
 
-  var s []int = primes[1:4]
-  fmt.Println(s)
-}
+        var s []int = primes[1:4]
+        fmt.Println(s)
+      }
 </code></pre>
 </div></li>
 
@@ -1830,35 +1830,35 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  names := [4]string{
-    "John",
-    "Paul",
-    "George",
-    "Ringo",
-  }
-  fmt.Println(names)
+    func main() {
+      names := [4]string{
+        "John",
+        "Paul",
+        "George",
+        "Ringo",
+      }
+      fmt.Println(names)
 
-  a := names[0:2]
-  b := names[1:3]
-  fmt.Println(a, b)
+      a := names[0:2]
+      b := names[1:3]
+      fmt.Println(a, b)
 
-  b[0] = "XXX"
-  fmt.Println(a, b)
-  fmt.Println(names)
-}
+      b[0] = "XXX"
+      fmt.Println(a, b)
+      fmt.Println(names)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-[John Paul George Ringo]
-[John Paul] [Paul George]
-[John XXX] [XXX George]
-[John XXX George Ringo]
+<pre>
+    [John Paul George Ringo]
+    [John Paul] [Paul George]
+    [John XXX] [XXX George]
+    [John XXX George Ringo]
 </pre>
 
 </section>
@@ -1866,42 +1866,42 @@ func main() {
 <h3 id="7-8"><span class="section-number-3">7.8</span> Literali za isečke</h3>
 <div class="org-src-container">
 
-<pre><code class=" go" >[3]bool{true, true, false}
+<pre><code class="go" >   [3]bool{true, true, false}
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >[]bool{true, true, false}
+<pre><code class="go" >   []bool{true, true, false}
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  q := []int{2, 3, 5, 7, 11, 13}
-  fmt.Println(q)
+    func main() {
+      q := []int{2, 3, 5, 7, 11, 13}
+      fmt.Println(q)
 
-  r := []bool{true, false, true, true, false, true}
-  fmt.Println(r)
+      r := []bool{true, false, true, true, false, true}
+      fmt.Println(r)
 
-  s := []struct {
-    i int
-    b bool
-  }{
-    {2, true},
-    {3, false},
-    {5, true},
-    {7, true},
-    {11, false},
-    {13, true},
-  }
-  fmt.Println(s)
-}
+      s := []struct {
+        i int
+        b bool
+      }{
+        {2, true},
+        {3, false},
+        {5, true},
+        {7, true},
+        {11, false},
+        {13, true},
+      }
+      fmt.Println(s)
+    }
 </code></pre>
 </div>
 
@@ -1918,10 +1918,10 @@ Ekvivalentni izrazi:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >a[0:10]
-a[:10]
-a[0:]
-a[:]
+<pre><code class="go" >      a[0:10]
+      a[:10]
+      a[0:]
+      a[:]
 </code></pre>
 </div></li>
 
@@ -1932,29 +1932,29 @@ a[:]
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  s := []int{2, 3, 5, 7, 11, 13}
+    func main() {
+      s := []int{2, 3, 5, 7, 11, 13}
 
-  s = s[1:4]
-  fmt.Println(s)
+      s = s[1:4]
+      fmt.Println(s)
 
-  s = s[:2]
-  fmt.Println(s)
+      s = s[:2]
+      fmt.Println(s)
 
-  s = s[1:]
-  fmt.Println(s)
-}
+      s = s[1:]
+      fmt.Println(s)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-[3 5 7]
-[3 5]
-[5]
+<pre>
+    [3 5 7]
+    [3 5]
+    [5]
 </pre>
 
 </section>
@@ -1975,38 +1975,38 @@ kapacitetom</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  s := []int{2, 3, 5, 7, 11, 13}
-  printSlice(s)
+    func main() {
+      s := []int{2, 3, 5, 7, 11, 13}
+      printSlice(s)
 
-  // Slice the slice to give it zero length.
-  s = s[:0]
-  printSlice(s)
+      // Slice the slice to give it zero length.
+      s = s[:0]
+      printSlice(s)
 
-  // Extend its length.
-  s = s[:4]
-  printSlice(s)
+      // Extend its length.
+      s = s[:4]
+      printSlice(s)
 
-  // Drop its first two values.
-  s = s[2:]
-  printSlice(s)
-}
+      // Drop its first two values.
+      s = s[2:]
+      printSlice(s)
+    }
 
-func printSlice(s []int) {
-  fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
-}
+    func printSlice(s []int) {
+      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-len=6 cap=6 [2 3 5 7 11 13]
-len=0 cap=6 []
-len=4 cap=6 [2 3 5 7]
-len=2 cap=4 [5 7]
+<pre>
+    len=6 cap=6 [2 3 5 7 11 13]
+    len=0 cap=6 []
+    len=4 cap=6 [2 3 5 7]
+    len=2 cap=4 [5 7]
 </pre>
 
 
@@ -2021,23 +2021,23 @@ len=2 cap=4 [5 7]
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  var s []int
-  fmt.Println(s, len(s), cap(s))
-  if s == nil {
-    fmt.Println("nil!")
-  }
-}
+    func main() {
+      var s []int
+      fmt.Println(s, len(s), cap(s))
+      if s == nil {
+        fmt.Println("nil!")
+      }
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-[] 0 0
-nil!
+<pre>
+    [] 0 0
+    nil!
 </pre>
 
 </section>
@@ -2050,7 +2050,7 @@ nil!
 
 <div class="org-src-container">
 
-<pre><code class=" go" >a := make([]int, 5)  // len(a)=5
+<pre><code class="go" >     a := make([]int, 5)  // len(a)=5
 </code></pre>
 </div></li>
 
@@ -2060,10 +2060,10 @@ moguće je definisati i kapacitet
 
 <div class="org-src-container">
 
-<pre><code class=" go" > b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+<pre><code class="go" >        b := make([]int, 0, 5) // len(b)=0, cap(b)=5
 
-b = b[:cap(b)] // len(b)=5, cap(b)=5
-b = b[1:]      // len(b)=4, cap(b)=4
+       b = b[:cap(b)] // len(b)=5, cap(b)=5
+       b = b[1:]      // len(b)=4, cap(b)=4
 </code></pre>
 </div></li>
 
@@ -2074,36 +2074,36 @@ b = b[1:]      // len(b)=4, cap(b)=4
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  a := make([]int, 5)
-  printSlice("a", a)
+    func main() {
+      a := make([]int, 5)
+      printSlice("a", a)
 
-  b := make([]int, 0, 5)
-  printSlice("b", b)
+      b := make([]int, 0, 5)
+      printSlice("b", b)
 
-  c := b[:2]
-  printSlice("c", c)
+      c := b[:2]
+      printSlice("c", c)
 
-  d := c[2:5]
-  printSlice("d", d)
-}
+      d := c[2:5]
+      printSlice("d", d)
+    }
 
-func printSlice(s string, x []int) {
-  fmt.Printf("%s len=%d cap=%d %v\n",
-    s, len(x), cap(x), x)
-}
+    func printSlice(s string, x []int) {
+      fmt.Printf("%s len=%d cap=%d %v\n",
+        s, len(x), cap(x), x)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-a len=5 cap=5 [0 0 0 0 0]
-b len=0 cap=5 []
-c len=2 cap=5 [0 0]
-d len=3 cap=3 [0 0 0]
+<pre>
+    a len=5 cap=5 [0 0 0 0 0]
+    b len=0 cap=5 []
+    c len=2 cap=5 [0 0]
+    d len=3 cap=3 [0 0 0]
 </pre>
 
 </section>
@@ -2116,32 +2116,32 @@ d len=3 cap=3 [0 0 0]
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "strings"
-)
+    import (
+      "fmt"
+      "strings"
+    )
 
-func main() {
-  // Create a tic-tac-toe board.
-  board := [][]string{
-    []string{"_", "_", "_"},
-    []string{"_", "_", "_"},
-    []string{"_", "_", "_"},
-  }
+    func main() {
+      // Create a tic-tac-toe board.
+      board := [][]string{
+        []string{"_", "_", "_"},
+        []string{"_", "_", "_"},
+        []string{"_", "_", "_"},
+      }
 
-  // The players take turns.
-  board[0][0] = "X"
-  board[2][2] = "O"
-  board[1][2] = "X"
-  board[1][0] = "O"
-  board[0][2] = "X"
+      // The players take turns.
+      board[0][0] = "X"
+      board[2][2] = "O"
+      board[1][2] = "X"
+      board[1][0] = "O"
+      board[0][2] = "X"
 
-  for i := 0; i &lt; len(board); i++ {
-    fmt.Printf("%s\n", strings.Join(board[i], " "))
-  }
-}
+      for i := 0; i &lt; len(board); i++ {
+        fmt.Printf("%s\n", strings.Join(board[i], " "))
+      }
+    }
 </code></pre>
 </div>
 
@@ -2150,7 +2150,7 @@ func main() {
 <h3 id="7-14"><span class="section-number-3">7.14</span> Dodavanje na isečak</h3>
 <div class="org-src-container">
 
-<pre><code class=" go" >func append(s []T, vs ...T) []T
+<pre><code class="go" >    func append(s []T, vs ...T) []T
 </code></pre>
 </div>
 
@@ -2166,38 +2166,38 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  var s []int
-  printSlice(s)
+    func main() {
+      var s []int
+      printSlice(s)
 
-  // append works on nil slices.
-  s = append(s, 0)
-  printSlice(s)
+      // append works on nil slices.
+      s = append(s, 0)
+      printSlice(s)
 
-  // The slice grows as needed.
-  s = append(s, 1)
-  printSlice(s)
+      // The slice grows as needed.
+      s = append(s, 1)
+      printSlice(s)
 
-  // We can add more than one element at a time.
-  s = append(s, 2, 3, 4)
-  printSlice(s)
-}
+      // We can add more than one element at a time.
+      s = append(s, 2, 3, 4)
+      printSlice(s)
+    }
 
-func printSlice(s []int) {
-  fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
-}
+    func printSlice(s []int) {
+      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-len=0 cap=0 []
-len=1 cap=1 [0]
-len=2 cap=2 [0 1]
-len=5 cap=6 [0 1 2 3 4]
+<pre>
+    len=0 cap=0 []
+    len=1 cap=1 [0]
+    len=2 cap=2 [0 1]
+    len=5 cap=6 [0 1 2 3 4]
 </pre>
 
 </section>
@@ -2210,17 +2210,17 @@ len=5 cap=6 [0 1 2 3 4]
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+    var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
 
-func main() {
-  for i, v := range pow {
-    fmt.Printf("2**%d = %d\n", i, v)
-  }
-}
+    func main() {
+      for i, v := range pow {
+        fmt.Printf("2**%d = %d\n", i, v)
+      }
+    }
 </code></pre>
 </div>
 
@@ -2235,8 +2235,8 @@ upotrebom specijalnog imena <code>_</code>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >for i, _ := range pow
-for _, value := range pow
+<pre><code class="go" >      for i, _ := range pow
+      for _, value := range pow
 </code></pre>
 </div></li>
 
@@ -2246,25 +2246,25 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >for i := range pow
+<pre><code class="go" >      for i := range pow
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >      package main
 
-import "fmt"
+      import "fmt"
 
-func main() {
-  pow := make([]int, 10)
-  for i := range pow {
-    pow[i] = 1 &lt;&lt; uint(i) // == 2**i
-  }
-  for _, value := range pow {
-    fmt.Printf("%d\n", value)
-  }
-}
+      func main() {
+        pow := make([]int, 10)
+        for i := range pow {
+          pow[i] = 1 &lt;&lt; uint(i) // == 2**i
+        }
+        for _, value := range pow {
+          fmt.Printf("%d\n", value)
+        }
+      }
 </code></pre>
 </div></li>
 
@@ -2283,23 +2283,23 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  Lat, Long float64
-}
+    type Vertex struct {
+      Lat, Long float64
+    }
 
-var m map[string]Vertex
+    var m map[string]Vertex
 
-func main() {
-  m = make(map[string]Vertex)
-  m["Bell Labs"] = Vertex{
-    40.68433, -74.39967,
-  }
-  fmt.Println(m["Bell Labs"])
-}
+    func main() {
+      m = make(map[string]Vertex)
+      m["Bell Labs"] = Vertex{
+        40.68433, -74.39967,
+      }
+      fmt.Println(m["Bell Labs"])
+    }
 </code></pre>
 </div>
 
@@ -2308,26 +2308,26 @@ func main() {
 <h3 id="7-17"><span class="section-number-3">7.17</span> Literali za mape</h3>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  Lat, Long float64
-}
+    type Vertex struct {
+      Lat, Long float64
+    }
 
-var m = map[string]Vertex{
-  "Bell Labs": Vertex{
-    40.68433, -74.39967,
-  },
-  "Google": Vertex{
-    37.42202, -122.08408,
-  },
-}
+    var m = map[string]Vertex{
+      "Bell Labs": Vertex{
+        40.68433, -74.39967,
+      },
+      "Google": Vertex{
+        37.42202, -122.08408,
+      },
+    }
 
-func main() {
-  fmt.Println(m)
-}
+    func main() {
+      fmt.Println(m)
+    }
 </code></pre>
 </div>
 
@@ -2341,22 +2341,22 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  Lat, Long float64
-}
+    type Vertex struct {
+      Lat, Long float64
+    }
 
-var m = map[string]Vertex{
-  "Bell Labs": {40.68433, -74.39967},
-  "Google":    {37.42202, -122.08408},
-}
+    var m = map[string]Vertex{
+      "Bell Labs": {40.68433, -74.39967},
+      "Google":    {37.42202, -122.08408},
+    }
 
-func main() {
-  fmt.Println(m)
-}
+    func main() {
+      fmt.Println(m)
+    }
 </code></pre>
 </div>
 
@@ -2369,7 +2369,7 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >m[key] = elem
+<pre><code class="go" >    m[key] = elem
 </code></pre>
 </div>
 
@@ -2379,7 +2379,7 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >elem = m[key]
+<pre><code class="go" >    elem = m[key]
 </code></pre>
 </div>
 
@@ -2389,7 +2389,7 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >delete(m, key)
+<pre><code class="go" >    delete(m, key)
 </code></pre>
 </div>
 
@@ -2399,7 +2399,7 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >elem, ok = m[key]
+<pre><code class="go" >     elem, ok = m[key]
 </code></pre>
 </div>
 <p>
@@ -2411,25 +2411,25 @@ Ako element postoji <code>ok</code> će imati vrednost <code>true</code> inače 
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  m := make(map[string]int)
+    func main() {
+      m := make(map[string]int)
 
-  m["Answer"] = 42
-  fmt.Println("The value:", m["Answer"])
+      m["Answer"] = 42
+      fmt.Println("The value:", m["Answer"])
 
-  m["Answer"] = 48
-  fmt.Println("The value:", m["Answer"])
+      m["Answer"] = 48
+      fmt.Println("The value:", m["Answer"])
 
-  delete(m, "Answer")
-  fmt.Println("The value:", m["Answer"])
+      delete(m, "Answer")
+      fmt.Println("The value:", m["Answer"])
 
-  v, ok := m["Answer"]
-  fmt.Println("The value:", v, "Present?", ok)
-}
+      v, ok := m["Answer"]
+      fmt.Println("The value:", v, "Present?", ok)
+    }
 </code></pre>
 </div>
 
@@ -2445,33 +2445,33 @@ dobijati nazad kao povratne vrednosti</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-func compute(fn func(float64, float64) float64) float64 {
-  return fn(3, 4)
-}
+    func compute(fn func(float64, float64) float64) float64 {
+      return fn(3, 4)
+    }
 
-func main() {
-  hypot := func(x, y float64) float64 {
-    return math.Sqrt(x*x + y*y)
-  }
-  fmt.Println(hypot(5, 12))
+    func main() {
+      hypot := func(x, y float64) float64 {
+        return math.Sqrt(x*x + y*y)
+      }
+      fmt.Println(hypot(5, 12))
 
-  fmt.Println(compute(hypot))
-  fmt.Println(compute(math.Pow))
-}
+      fmt.Println(compute(hypot))
+      fmt.Println(compute(math.Pow))
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-13
-5
-81
+<pre>
+    13
+    5
+    81
 </pre>
 
 </section>
@@ -2480,34 +2480,34 @@ func main() {
 <ul>
 <li>Go funkcije mogu biti <i>zatvorenja</i> u smislu da funkcija može da referencira
 vrednosti koje se nalaze izvan nje na mestu njenog kreiranja čak i kada se
-pozove sa drugog mesta. Kažemo da su referencirane vrednosti "vezane" za
+pozove sa drugog mesta. Kažemo da su referencirane vrednosti &ldquo;vezane&rdquo; za
 funkciju (<i>bounded</i>)</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func adder() func(int) int {
-  sum := 0
-  return func(x int) int {
-    sum += x
-    return sum
-  }
-}
+    func adder() func(int) int {
+      sum := 0
+      return func(x int) int {
+        sum += x
+        return sum
+      }
+    }
 
-func main() {
-  pos, neg := adder(), adder()
-  for i := 0; i &lt; 10; i++ {
-    fmt.Println(
-      pos(i),
-      neg(-2*i),
-    )
-  }
-}
+    func main() {
+      pos, neg := adder(), adder()
+      for i := 0; i &lt; 10; i++ {
+        fmt.Println(
+          pos(i),
+          neg(-2*i),
+        )
+      }
+    }
 </code></pre>
 </div>
 
@@ -2528,25 +2528,25 @@ func main() {
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func (v *Vertex) Abs() float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func main() {
-  v := Vertex{3, 4}
-  fmt.Println(v.Abs())
-}
+    func main() {
+      v := Vertex{3, 4}
+      fmt.Println(v.Abs())
+    }
 </code></pre>
 </div>
 
@@ -2560,25 +2560,25 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func Abs(v Vertex) float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func Abs(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func main() {
-  v := Vertex{3, 4}
-  fmt.Println(Abs(v))
-}
+    func main() {
+      v := Vertex{3, 4}
+      fmt.Println(Abs(v))
+    }
 </code></pre>
 </div>
 
@@ -2592,26 +2592,26 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type MyFloat float64
+    type MyFloat float64
 
-func (f MyFloat) Abs() float64 {
-  if f &lt; 0 {
-    return float64(-f)
-  }
-  return float64(f)
-}
+    func (f MyFloat) Abs() float64 {
+      if f &lt; 0 {
+        return float64(-f)
+      }
+      return float64(f)
+    }
 
-func main() {
-  f := MyFloat(-math.Sqrt2)
-  fmt.Println(f.Abs())
-}
+    func main() {
+      f := MyFloat(-math.Sqrt2)
+      fmt.Println(f.Abs())
+    }
 </code></pre>
 </div>
 
@@ -2619,7 +2619,7 @@ func main() {
 <section id="slide-8-3">
 <h3 id="8-3"><span class="section-number-3">8.3</span> Pokazivački prijemnici (<i>Pointer receivers</i>)</h3>
 <ul>
-<li>"Prijemnik" može biti pokazivačkog tipa</li>
+<li>&ldquo;Prijemnik&rdquo; može biti pokazivačkog tipa</li>
 <li>U tom slučaju metoda može ažurirati vrednost prijemnika</li>
 <li><p>
 S obzirom da je ovo često potrebno, a i performanse su bolje jer nema
@@ -2628,29 +2628,29 @@ kopiranja, pokazivački prijemnici su češći
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >      package main
 
-import (
-  "fmt"
-  "math"
-)
+      import (
+        "fmt"
+        "math"
+      )
 
-type Vertex struct {
-  X, Y float64
-}
-func (v Vertex) Abs() float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
-func (v *Vertex) Scale(f float64) {
-  v.X = v.X * f
-  v.Y = v.Y * f
-}
+      type Vertex struct {
+        X, Y float64
+      }
+      func (v Vertex) Abs() float64 {
+        return math.Sqrt(v.X*v.X + v.Y*v.Y)
+      }
+      func (v *Vertex) Scale(f float64) {
+        v.X = v.X * f
+        v.Y = v.Y * f
+      }
 
-func main() {
-  v := Vertex{3, 4}
-  v.Scale(10)
-  fmt.Println(v.Abs())
-}
+      func main() {
+        v := Vertex{3, 4}
+        v.Scale(10)
+        fmt.Println(v.Abs())
+      }
 </code></pre>
 </div></li>
 
@@ -2661,31 +2661,31 @@ func main() {
 <h3 id="8-4"><span class="section-number-3">8.4</span> Pokazivači i funkcije</h3>
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func Abs(v Vertex) float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func Abs(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func Scale(v *Vertex, f float64) {    // ako uklonimo `*`?
-  v.X = v.X * f
-  v.Y = v.Y * f
-}
+    func Scale(v *Vertex, f float64) {    // ako uklonimo `*`?
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
 
-func main() {
-  v := Vertex{3, 4}
-  Scale(&amp;v, 10)
-  fmt.Println(Abs(v))
-}
+    func main() {
+      v := Vertex{3, 4}
+      Scale(&amp;v, 10)
+      fmt.Println(Abs(v))
+    }
 </code></pre>
 </div>
 
@@ -2699,9 +2699,9 @@ Funkcija sa pokazivačkim arugmentom mora primiti pokazivač
 
 <div class="org-src-container">
 
-<pre><code class=" go" >var v Vertex
-ScaleFunc(v, 5)  // Compile error!
-ScaleFunc(&amp;v, 5) // OK
+<pre><code class="go" >      var v Vertex
+      ScaleFunc(v, 5)  // Compile error!
+      ScaleFunc(&amp;v, 5) // OK
 </code></pre>
 </div></li>
 
@@ -2711,10 +2711,10 @@ ali metode mogu primiti bilo vrednosti bilo pokazivače kao prijemnike
 
 <div class="org-src-container">
 
-<pre><code class=" go" >var v Vertex
-v.Scale(5)  // OK
-p := &amp;v
-p.Scale(10) // OK
+<pre><code class="go" >      var v Vertex
+      v.Scale(5)  // OK
+      p := &amp;v
+      p.Scale(10) // OK
 </code></pre>
 </div></li>
 
@@ -2730,35 +2730,35 @@ p.Scale(10) // OK
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func (v *Vertex) Scale(f float64) {
-  v.X = v.X * f
-  v.Y = v.Y * f
-}
+    func (v *Vertex) Scale(f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
 
-func ScaleFunc(v *Vertex, f float64) {
-  v.X = v.X * f
-  v.Y = v.Y * f
-}
+    func ScaleFunc(v *Vertex, f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
 
-func main() {
-  v := Vertex{3, 4}
-  v.Scale(2)
-  ScaleFunc(&amp;v, 10)
+    func main() {
+      v := Vertex{3, 4}
+      v.Scale(2)
+      ScaleFunc(&amp;v, 10)
 
-  p := &amp;Vertex{4, 3}
-  p.Scale(3)
-  ScaleFunc(p, 8)
+      p := &amp;Vertex{4, 3}
+      p.Scale(3)
+      ScaleFunc(p, 8)
 
-  fmt.Println(v, p)
-}
+      fmt.Println(v, p)
+    }
 </code></pre>
 </div>
 
@@ -2773,9 +2773,9 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >var v Vertex
-fmt.Println(AbsFunc(v))  // OK
-fmt.Println(AbsFunc(&amp;v)) // Compile error!
+<pre><code class="go" >    var v Vertex
+    fmt.Println(AbsFunc(v))  // OK
+    fmt.Println(AbsFunc(&amp;v)) // Compile error!
 </code></pre>
 </div>
 
@@ -2787,10 +2787,10 @@ fmt.Println(AbsFunc(&amp;v)) // Compile error!
 
 <div class="org-src-container">
 
-<pre><code class=" go" >var v Vertex
-fmt.Println(v.Abs()) // OK
-p := &amp;v
-fmt.Println(p.Abs()) // OK
+<pre><code class="go" >       var v Vertex
+       fmt.Println(v.Abs()) // OK
+       p := &amp;v
+       fmt.Println(p.Abs()) // OK
 </code></pre>
 </div>
 
@@ -2804,34 +2804,34 @@ Go će u ovom slučaju interpretirati <code>p.Abs()</code> kao <code>(*p).Abs()<
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func (v Vertex) Abs() float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func (v Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func AbsFunc(v Vertex) float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func AbsFunc(v Vertex) float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func main() {
-  v := Vertex{3, 4}
-  fmt.Println(v.Abs())
-  fmt.Println(AbsFunc(v))
+    func main() {
+      v := Vertex{3, 4}
+      fmt.Println(v.Abs())
+      fmt.Println(AbsFunc(v))
 
-  p := &amp;Vertex{4, 3}
-  fmt.Println(p.Abs())
-  fmt.Println(AbsFunc(*p))
-}
+      p := &amp;Vertex{4, 3}
+      fmt.Println(p.Abs())
+      fmt.Println(AbsFunc(*p))
+    }
 </code></pre>
 </div>
 
@@ -2851,32 +2851,32 @@ Dva razloga za upotrebu pokazivačkog prijemnika:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "math"
-)
+    import (
+      "fmt"
+      "math"
+    )
 
-type Vertex struct {
-  X, Y float64
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-func (v *Vertex) Scale(f float64) {
-  v.X = v.X * f
-  v.Y = v.Y * f
-}
+    func (v *Vertex) Scale(f float64) {
+      v.X = v.X * f
+      v.Y = v.Y * f
+    }
 
-func (v *Vertex) Abs() float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 
-func main() {
-  v := &amp;Vertex{3, 4}
-  fmt.Printf("Before scaling: %+v, Abs: %v\n", v, v.Abs())
-  v.Scale(5)
-  fmt.Printf("After scaling: %+v, Abs: %v\n", v, v.Abs())
-}
+    func main() {
+      v := &amp;Vertex{3, 4}
+      fmt.Printf("Before scaling: %+v, Abs: %v\n", v, v.Abs())
+      v.Scale(5)
+      fmt.Printf("After scaling: %+v, Abs: %v\n", v, v.Abs())
+    }
 </code></pre>
 </div>
 
@@ -2897,42 +2897,42 @@ dati skup metoda interfejsa</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type Abser interface {
-  Abs() float64
-}
+<pre><code class="go" >    type Abser interface {
+      Abs() float64
+    }
 
-func main() {
-  var a Abser
-  f := MyFloat(-math.Sqrt2)
-  v := Vertex{3, 4}
-  a = f  // a MyFloat implements Abser
-  a = &amp;v // a *Vertex implements Abser
-  a = v                // In this line, v is a Vertex (not *Vertex)
-  fmt.Println(a.Abs()) // and does NOT implement Abser.
-}
+    func main() {
+      var a Abser
+      f := MyFloat(-math.Sqrt2)
+      v := Vertex{3, 4}
+      a = f  // a MyFloat implements Abser
+      a = &amp;v // a *Vertex implements Abser
+      a = v                // In this line, v is a Vertex (not *Vertex)
+      fmt.Println(a.Abs()) // and does NOT implement Abser.
+    }
 
-type MyFloat float64
+    type MyFloat float64
+    
+    func (f MyFloat) Abs() float64 {
+      if f &lt; 0 {
+        return float64(-f)
+      }
+      return float64(f)
+    }
 
-func (f MyFloat) Abs() float64 {
-  if f &lt; 0 {
-    return float64(-f)
-  }
-  return float64(f)
-}
+    type Vertex struct {
+      X, Y float64
+    }
 
-type Vertex struct {
-  X, Y float64
-}
-
-func (v *Vertex) Abs() float64 {
-  return math.Sqrt(v.X*v.X + v.Y*v.Y)
-}
+    func (v *Vertex) Abs() float64 {
+      return math.Sqrt(v.X*v.X + v.Y*v.Y)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-./compile7.go:22:4: cannot use v (type Vertex) as type Abser in assignment:
-Vertex does not implement Abser (Abs method has pointer receiver)
+<pre>
+   ./compile7.go:22:4: cannot use v (type Vertex) as type Abser in assignment:
+	 Vertex does not implement Abser (Abs method has pointer receiver)
 </pre>
 
 </section>
@@ -2947,28 +2947,28 @@ Vertex does not implement Abser (Abs method has pointer receiver)
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type I interface {
-  M()
-}
+    type I interface {
+      M()
+    }
 
-type T struct {
-  S string
-}
+    type T struct {
+      S string
+    }
 
-// This method means type T implements the interface I,
-// but we don't need to explicitly declare that it does so.
-func (t T) M() {
-  fmt.Println(t.S)
-}
+    // This method means type T implements the interface I,
+    // but we don't need to explicitly declare that it does so.
+    func (t T) M() {
+      fmt.Println(t.S)
+    }
 
-func main() {
-  var i I = T{"hello"}
-  i.M()
-}
+    func main() {
+      var i I = T{"hello"}
+      i.M()
+    }
 </code></pre>
 </div>
 
@@ -2981,8 +2981,8 @@ Interfejs vrednosti možemo zamisliti kao uređeni par vrednosti i konkretnog
 tipa:
 </p>
 
-<pre  class="example">
-(value, type)
+<pre>
+     (value, type)
 </pre></li>
 
 <li>Interfejs vrednost čuva konretnu vrednost tipa koji implementira dati
@@ -2997,43 +2997,43 @@ vrednošću</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type I interface {
-  M()
-}
+<pre><code class="go" >    type I interface {
+      M()
+    }
 
-type T struct {
-  S string
-}
-func (t *T) M() {
-  fmt.Println(t.S)
-}
+    type T struct {
+      S string
+    }
+    func (t *T) M() {
+      fmt.Println(t.S)
+    }
 
-type F float64
-func (f F) M() {
-  fmt.Println(f)
-}
+    type F float64
+    func (f F) M() {
+      fmt.Println(f)
+    }
 
-func main() {
-  var i I
-  i = &amp;T{"Hello"}
-  describe(i)
-  i.M()
-  i = F(math.Pi)
-  describe(i)
-  i.M()
-}
+    func main() {
+      var i I
+      i = &amp;T{"Hello"}
+      describe(i)
+      i.M()
+      i = F(math.Pi)
+      describe(i)
+      i.M()
+    }
 
-func describe(i I) {
-  fmt.Printf("(%v, %T)\n", i, i)
-}
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-(&amp;{Hello}, *main.T)
-Hello
-(3.141592653589793, main.F)
-3.141592653589793
+<pre>
+    (&amp;{Hello}, *main.T)
+    Hello
+    (3.141592653589793, main.F)
+    3.141592653589793
 </pre>
 
 </section>
@@ -3051,44 +3051,44 @@ Hello
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type I interface {
-  M()
-}
+<pre><code class="go" >    type I interface {
+      M()
+    }
 
-type T struct {
-  S string
-}
+    type T struct {
+      S string
+    }
 
-func (t *T) M() {
-  if t == nil {
-    fmt.Println("&lt;nil&gt;")
-    return
-  }
-  fmt.Println(t.S)
-}
+    func (t *T) M() {
+      if t == nil {
+        fmt.Println("&lt;nil&gt;")
+        return
+      }
+      fmt.Println(t.S)
+    }
 
-func main() {
-  var i I
-  var t *T
-  i = t
-  describe(i)
-  i.M()
-  i = &amp;T{"hello"}
-  describe(i)
-  i.M()
-}
+    func main() {
+      var i I
+      var t *T
+      i = t
+      describe(i)
+      i.M()
+      i = &amp;T{"hello"}
+      describe(i)
+      i.M()
+    }
 
-func describe(i I) {
-  fmt.Printf("(%v, %T)\n", i, i)
-}
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-(&lt;nil&gt;, *main.T)
-&lt;nil&gt;
-(&amp;{hello}, *main.T)
-hello
+<pre>
+    (&lt;nil&gt;, *main.T)
+    &lt;nil&gt;
+    (&amp;{hello}, *main.T)
+    hello
 </pre>
 
 </section>
@@ -3103,48 +3103,48 @@ tip koji bi odredio metodu koju treba pozvati</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-type I interface {
-  M()
-}
+    type I interface {
+      M()
+    }
 
-func main() {
-  var i I
-  describe(i)
-  i.M()
-}
+    func main() {
+      var i I
+      describe(i)
+      i.M()
+    }
 
-func describe(i I) {
-  fmt.Printf("(%v, %T)\n", i, i)
-}
+    func describe(i I) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-(&lt;nil&gt;, &lt;nil&gt;)
-panic: runtime error: invalid memory address or nil pointer dereference
-[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x488ac1]
+<pre>
+    (&lt;nil&gt;, &lt;nil&gt;)
+    panic: runtime error: invalid memory address or nil pointer dereference
+    [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x488ac1]
 
-goroutine 1 [running]:
-main.main()
-  /tmp/compile12.go:12 +0x91
+    goroutine 1 [running]:
+    main.main()
+      /tmp/compile12.go:12 +0x91
 </pre>
 
 </section>
 <section id="slide-8-12">
 <h3 id="8-12"><span class="section-number-3">8.12</span> Prazan interfejs</h3>
 <ul>
-<li>Tip interfejsa bez ijedne metode je poznat kao "prazan interfejs" (<i>empty
+<li>Tip interfejsa bez ijedne metode je poznat kao &ldquo;prazan interfejs&rdquo; (<i>empty
 interface</i>)</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >interface{}
+<pre><code class="go" >    interface{}
 </code></pre>
 </div>
 
@@ -3161,31 +3161,31 @@ implementira 0 metoda)</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  var i interface{}
-  describe(i)
+    func main() {
+      var i interface{}
+      describe(i)
 
-  i = 42
-  describe(i)
+      i = 42
+      describe(i)
 
-  i = "hello"
-  describe(i)
-}
+      i = "hello"
+      describe(i)
+    }
 
-func describe(i interface{}) {
-  fmt.Printf("(%v, %T)\n", i, i)
-}
+    func describe(i interface{}) {
+      fmt.Printf("(%v, %T)\n", i, i)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-(&lt;nil&gt;, &lt;nil&gt;)
-(42, int)
-(hello, string)
+<pre>
+    (&lt;nil&gt;, &lt;nil&gt;)
+    (42, int)
+    (hello, string)
 </pre>
 
 </section>
@@ -3198,7 +3198,7 @@ Omogućava pristup tipu vrednosti sadržane u interfejsu
 
 <div class="org-src-container">
 
-<pre><code class=" go" >t := i.(T)
+<pre><code class="go" >        t := i.(T)
 </code></pre>
 </div></li>
 
@@ -3213,7 +3213,7 @@ Za proveru da li interfejs sadrži vrednost određenog tipa koristi se
 
 <div class="org-src-container">
 
-<pre><code class=" go" >t, ok := i.(T)
+<pre><code class="go" >      t, ok := i.(T)
 </code></pre>
 </div></li>
 
@@ -3224,33 +3224,33 @@ Za proveru da li interfejs sadrži vrednost određenog tipa koristi se
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  var i interface{} = "hello"
+    func main() {
+      var i interface{} = "hello"
 
-  s := i.(string)
-  fmt.Println(s)
+      s := i.(string)
+      fmt.Println(s)
 
-  s, ok := i.(string)
-  fmt.Println(s, ok)
+      s, ok := i.(string)
+      fmt.Println(s, ok)
 
-  f, ok := i.(float64)
-  fmt.Println(f, ok)
+      f, ok := i.(float64)
+      fmt.Println(f, ok)
 
-  f = i.(float64) // panic
-  fmt.Println(f)
-}
+      f = i.(float64) // panic
+      fmt.Println(f)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-hello
-hello true
-0 false
-panic: interface conversion: interface {} is string, not float64
+<pre>
+    hello
+    hello true
+    0 false
+    panic: interface conversion: interface {} is string, not float64
 </pre>
 
 </section>
@@ -3264,14 +3264,14 @@ panic: interface conversion: interface {} is string, not float64
 
 <div class="org-src-container">
 
-<pre><code class=" go" >switch v := i.(type) {
-case T:
-    // here v has type T
-case S:
-    // here v has type S
-default:
-    // no match; here v has the same type as i
-}
+<pre><code class="go" >    switch v := i.(type) {
+    case T:
+        // here v has type T
+    case S:
+        // here v has type S
+    default:
+        // no match; here v has the same type as i
+    }
 </code></pre>
 </div>
 
@@ -3286,26 +3286,26 @@ tipa piše ključna reč <code>type</code></li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func do(i interface{}) {
-  switch v := i.(type) {
-  case int:
-    fmt.Printf("Twice %v is %v\n", v, v*2)
-  case string:
-    fmt.Printf("%q is %v bytes long\n", v, len(v))
-  default:
-    fmt.Printf("I don't know about type %T!\n", v)
-  }
-}
+    func do(i interface{}) {
+      switch v := i.(type) {
+      case int:
+        fmt.Printf("Twice %v is %v\n", v, v*2)
+      case string:
+        fmt.Printf("%q is %v bytes long\n", v, len(v))
+      default:
+        fmt.Printf("I don't know about type %T!\n", v)
+      }
+    }
 
-func main() {
-  do(21)
-  do("hello")
-  do(true)
-}
+    func main() {
+      do(21)
+      do("hello")
+      do(true)
+    }
 </code></pre>
 </div>
 
@@ -3320,9 +3320,9 @@ paketu</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type Stringer interface {
-    String() string
-}
+<pre><code class="go" >    type Stringer interface {
+        String() string
+    }
 </code></pre>
 </div>
 
@@ -3338,29 +3338,29 @@ vrednosti</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >  package main
 
-import "fmt"
+  import "fmt"
 
-type Person struct {
-  Name string
-  Age  int
-}
+  type Person struct {
+    Name string
+    Age  int
+  }
 
-func (p Person) String() string {
-  return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
-}
+  func (p Person) String() string {
+    return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+  }
 
-func main() {
-  a := Person{"Arthur Dent", 42}
-  z := Person{"Zaphod Beeblebrox", 9001}
-  fmt.Println(a, z)
-}
+  func main() {
+    a := Person{"Arthur Dent", 42}
+    z := Person{"Zaphod Beeblebrox", 9001}
+    fmt.Println(a, z)
+  }
 </code></pre>
 </div>
 
-<pre  class="example">
-Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
+<pre>
+  Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
 </pre>
 
 </section>
@@ -3374,9 +3374,9 @@ Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
 
 <div class="org-src-container">
 
-<pre><code class=" go" >type error interface {
-    Error() string
-}
+<pre><code class="go" >      type error interface {
+          Error() string
+      }
 </code></pre>
 </div></li>
 
@@ -3387,12 +3387,12 @@ proveravaju da li je greška <code>nil</code>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >i, err := strconv.Atoi("42")
-if err != nil {
-    fmt.Printf("couldn't convert number: %v\n", err)
-    return
-}
-fmt.Println("Converted integer:", i)
+<pre><code class="go" >      i, err := strconv.Atoi("42")
+      if err != nil {
+          fmt.Printf("couldn't convert number: %v\n", err)
+          return
+      }
+      fmt.Println("Converted integer:", i)
 </code></pre>
 </div></li>
 
@@ -3403,40 +3403,40 @@ fmt.Println("Converted integer:", i)
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "time"
-)
+    import (
+      "fmt"
+      "time"
+    )
 
-type MyError struct {
-  When time.Time
-  What string
-}
+    type MyError struct {
+      When time.Time
+      What string
+    }
 
-func (e *MyError) Error() string {
-  return fmt.Sprintf("at %v, %s",
-    e.When, e.What)
-}
+    func (e *MyError) Error() string {
+      return fmt.Sprintf("at %v, %s",
+        e.When, e.What)
+    }
 
-func run() error {
-  return &amp;MyError{
-    time.Now(),
-    "it didn't work",
-  }
-}
+    func run() error {
+      return &amp;MyError{
+        time.Now(),
+        "it didn't work",
+      }
+    }
 
-func main() {
-  if err := run(); err != nil {
-    fmt.Println(err)
-  }
-}
+    func main() {
+      if err := run(); err != nil {
+        fmt.Println(err)
+      }
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
+<pre>
+    at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
 </pre>
 
 </section>
@@ -3449,7 +3449,7 @@ at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
 
 <div class="org-src-container">
 
-<pre><code class=" go" >func (T) Read(b []byte) (n int, err error)
+<pre><code class="go" >      func (T) Read(b []byte) (n int, err error)
 </code></pre>
 </div></li>
 
@@ -3471,37 +3471,37 @@ označava da se došlo do kraja.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "io"
-  "strings"
-)
+    import (
+      "fmt"
+      "io"
+      "strings"
+    )
 
-func main() {
-  r := strings.NewReader("Hello, Reader!")
+    func main() {
+      r := strings.NewReader("Hello, Reader!")
 
-  b := make([]byte, 8)
-  for {
-    n, err := r.Read(b)
-    fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
-    fmt.Printf("b[:n] = %q\n", b[:n])
-    if err == io.EOF {
-      break
+      b := make([]byte, 8)
+      for {
+        n, err := r.Read(b)
+        fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+        fmt.Printf("b[:n] = %q\n", b[:n])
+        if err == io.EOF {
+          break
+        }
+      }
     }
-  }
-}
 </code></pre>
 </div>
 
-<pre  class="example">
-n = 8 err = &lt;nil&gt; b = [72 101 108 108 111 44 32 82]
-b[:n] = "Hello, R"
-n = 6 err = &lt;nil&gt; b = [101 97 100 101 114 33 32 82]
-b[:n] = "eader!"
-n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
-b[:n] = ""
+<pre>
+    n = 8 err = &lt;nil&gt; b = [72 101 108 108 111 44 32 82]
+    b[:n] = "Hello, R"
+    n = 6 err = &lt;nil&gt; b = [101 97 100 101 114 33 32 82]
+    b[:n] = "eader!"
+    n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
+    b[:n] = ""
 </pre>
 
 </section>
@@ -3522,7 +3522,7 @@ okruženja (<i>runtime</i>)
 
 <div class="org-src-container">
 
-<pre><code class=" go" >go f(x, y, z)
+<pre><code class="go" >      go f(x, y, z)
 </code></pre>
 </div>
 
@@ -3532,7 +3532,7 @@ startuje novu Go rutinu koja izvršava
 
 <div class="org-src-container">
 
-<pre><code class=" go" >f(x, y, z)
+<pre><code class="go" >      f(x, y, z)
 </code></pre>
 </div></li>
 
@@ -3550,34 +3550,34 @@ korisne primitive za sinhronizaciju iako u Go-u ovo često nije neophodno.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "time"
-)
+    import (
+      "fmt"
+      "time"
+    )
 
-func say(s string) {
-  for i := 0; i &lt; 5; i++ {
-    time.Sleep(100 * time.Millisecond)
-    fmt.Println(s)
-  }
-}
+    func say(s string) {
+      for i := 0; i &lt; 5; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+      }
+    }
 
-func main() {
-  go say("world")
-  say("hello")
-}
+    func main() {
+      go say("world")
+      say("hello")
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-hello
-world
-world
-hello
-world
-...
+<pre>
+    hello
+    world
+    world
+    hello
+    world
+    ...
 </pre>
 
 </section>
@@ -3591,8 +3591,8 @@ kanala (<i>channel operator</i>) - <code>&lt;-</code>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >ch &lt;- v    // Send v to channel ch.
-v := &lt;-ch  // Receive from ch, and assign value to v.
+<pre><code class="go" >      ch &lt;- v    // Send v to channel ch.
+      v := &lt;-ch  // Receive from ch, and assign value to v.
 </code></pre>
 </div></li>
 
@@ -3604,7 +3604,7 @@ Kanali se kreiraju dinamički upotrebom <code>make</code> funkcije
 
 <div class="org-src-container">
 
-<pre><code class=" go" >ch := make(chan int)
+<pre><code class="go" >      ch := make(chan int)
 </code></pre>
 </div></li>
 
@@ -3625,33 +3625,33 @@ dve Go rutine</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func sum(s []int, c chan int) {
-  sum := 0
-  for _, v := range s {
-    sum += v
-  }
-  c &lt;- sum // send sum to c
-}
+    func sum(s []int, c chan int) {
+      sum := 0
+      for _, v := range s {
+        sum += v
+      }
+      c &lt;- sum // send sum to c
+    }
 
-func main() {
-  s := []int{7, 2, 8, -9, 4, 0}
+    func main() {
+      s := []int{7, 2, 8, -9, 4, 0}
 
-  c := make(chan int)
-  go sum(s[:len(s)/2], c)
-  go sum(s[len(s)/2:], c)
-  x, y := &lt;-c, &lt;-c // receive from c
+      c := make(chan int)
+      go sum(s[:len(s)/2], c)
+      go sum(s[len(s)/2:], c)
+      x, y := &lt;-c, &lt;-c // receive from c
 
-  fmt.Println(x, y, x+y)
-}
+      fmt.Println(x, y, x+y)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
--5 17 12
+<pre>
+    -5 17 12
 </pre>
 
 </section>
@@ -3667,7 +3667,7 @@ Kreiranje bafera omogućeno je drugim parametrom <code>make</code> funkcije
 
 <div class="org-src-container">
 
-<pre><code class=" go" >ch := make(chan int, 100)
+<pre><code class="go" >      ch := make(chan int, 100)
 </code></pre>
 </div></li>
 
@@ -3678,23 +3678,23 @@ Kreiranje bafera omogućeno je drugim parametrom <code>make</code> funkcije
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import "fmt"
+    import "fmt"
 
-func main() {
-  ch := make(chan int, 2)
-  ch &lt;- 1
-  ch &lt;- 2
-  ch &lt;- 3   // overflow blocks current Go rutine!
-  fmt.Println(&lt;-ch)
-  fmt.Println(&lt;-ch)
-}
+    func main() {
+      ch := make(chan int, 2)
+      ch &lt;- 1
+      ch &lt;- 2
+      ch &lt;- 3   // overflow blocks current Go rutine!
+      fmt.Println(&lt;-ch)
+      fmt.Println(&lt;-ch)
+    }
 </code></pre>
 </div>
 
-<pre  class="example">
-fatal error: all goroutines are asleep - deadlock!
+<pre>
+   fatal error: all goroutines are asleep - deadlock!
 </pre>
 
 </section>
@@ -3710,7 +3710,7 @@ kanal zatvoren
 
 <div class="org-src-container">
 
-<pre><code class=" go" >v, ok := &lt;-ch
+<pre><code class="go" >      v, ok := &lt;-ch
 </code></pre>
 </div>
 
@@ -3736,28 +3736,28 @@ koristi <code>range</code> petlja</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-)
+    import (
+      "fmt"
+    )
 
-func fibonacci(n int, c chan int) {
-  x, y := 0, 1
-  for i := 0; i &lt; n; i++ {
-    c &lt;- x
-    x, y = y, x+y
-  }
-  close(c)
-}
+    func fibonacci(n int, c chan int) {
+      x, y := 0, 1
+      for i := 0; i &lt; n; i++ {
+        c &lt;- x
+        x, y = y, x+y
+      }
+      close(c)
+    }
 
-func main() {
-  c := make(chan int, 10)
-  go fibonacci(cap(c), c)
-  for i := range c {
-    fmt.Println(i)
-  }
-}
+    func main() {
+      c := make(chan int, 10)
+      go fibonacci(cap(c), c)
+      for i := range c {
+        fmt.Println(i)
+      }
+    }
 </code></pre>
 </div>
 
@@ -3773,30 +3773,30 @@ je više u mogućnosti da se izvrši izbor se vrši slučajno</li>
 
 <div class="org-src-container">
 
-<pre><code class=" go" >func fibonacci(c, quit chan int) {
-  x, y := 0, 1
-  for {
-    select {
-    case c &lt;- x:
-      x, y = y, x+y
-    case &lt;-quit:
-      fmt.Println("quit")
-      return
+<pre><code class="go" >    func fibonacci(c, quit chan int) {
+      x, y := 0, 1
+      for {
+        select {
+        case c &lt;- x:
+          x, y = y, x+y
+        case &lt;-quit:
+          fmt.Println("quit")
+          return
+        }
+      }
     }
-  }
-}
 
-func main() {
-  c := make(chan int)
-  quit := make(chan int)
-  go func() {
-    for i := 0; i &lt; 10; i++ {
-      fmt.Println(&lt;-c)
+    func main() {
+      c := make(chan int)
+      quit := make(chan int)
+      go func() {
+        for i := 0; i &lt; 10; i++ {
+          fmt.Println(&lt;-c)
+        }
+        quit &lt;- 0
+      }()
+      fibonacci(c, quit)
     }
-    quit &lt;- 0
-  }()
-  fibonacci(c, quit)
-}
 </code></pre>
 </div>
 
@@ -3811,12 +3811,12 @@ func main() {
 
 <div class="org-src-container">
 
-<pre><code class=" go" >select {
-case i := &lt;-c:
-    // use i
-default:
-    // receiving from c would block
-}
+<pre><code class="go" >    select {
+    case i := &lt;-c:
+        // use i
+    default:
+        // receiving from c would block
+    }
 </code></pre>
 </div>
 
@@ -3825,38 +3825,38 @@ default:
 
 <div class="org-src-container">
 
-<pre><code class=" go" >package main
+<pre><code class="go" >    package main
 
-import (
-  "fmt"
-  "time"
-)
+    import (
+      "fmt"
+      "time"
+    )
 
-func main() {
-  tick := time.Tick(100 * time.Millisecond)
-  boom := time.After(500 * time.Millisecond)
-  for {
-    select {
-    case &lt;-tick:
-      fmt.Println("tick.")
-    case &lt;-boom:
-      fmt.Println("BOOM!")
-      return
-    default:
-      fmt.Println("    .")
-      time.Sleep(50 * time.Millisecond)
+    func main() {
+      tick := time.Tick(100 * time.Millisecond)
+      boom := time.After(500 * time.Millisecond)
+      for {
+        select {
+        case &lt;-tick:
+          fmt.Println("tick.")
+        case &lt;-boom:
+          fmt.Println("BOOM!")
+          return
+        default:
+          fmt.Println("    .")
+          time.Sleep(50 * time.Millisecond)
+        }
+      }
     }
-  }
-}
 </code></pre>
 </div>
 
-<pre  class="example">
-    .
-    .
-tick.
-  ...
-BOOM!
+<pre>
+      .
+      .
+  tick.
+    ...
+  BOOM!
 </pre>
 
 </section>
@@ -3870,34 +3870,34 @@ BOOM!
 
 <div class="org-src-container">
 
-<pre><code class=" go" >// SafeCounter is safe to use concurrently.
-type SafeCounter struct {
-  v   map[string]int
-  mux sync.Mutex
-}
-// Inc increments the counter for the given key.
-func (c *SafeCounter) Inc(key string) {
-  c.mux.Lock()
-  // Lock so only one goroutine at a time can access the map c.v.
-  c.v[key]++
-  c.mux.Unlock()
-}
-// Value returns the current value of the counter for the given key.
-func (c *SafeCounter) Value(key string) int {
-  c.mux.Lock()
-  // Lock so only one goroutine at a time can access the map c.v.
-  defer c.mux.Unlock()
-  return c.v[key]
-}
+<pre><code class="go" >    // SafeCounter is safe to use concurrently.
+    type SafeCounter struct {
+      v   map[string]int
+      mux sync.Mutex
+    }
+    // Inc increments the counter for the given key.
+    func (c *SafeCounter) Inc(key string) {
+      c.mux.Lock()
+      // Lock so only one goroutine at a time can access the map c.v.
+      c.v[key]++
+      c.mux.Unlock()
+    }
+    // Value returns the current value of the counter for the given key.
+    func (c *SafeCounter) Value(key string) int {
+      c.mux.Lock()
+      // Lock so only one goroutine at a time can access the map c.v.
+      defer c.mux.Unlock()
+      return c.v[key]
+    }
 
-func main() {
-  c := SafeCounter{v: make(map[string]int)}
-  for i := 0; i &lt; 1000; i++ {
-    go c.Inc("somekey")
-  }
-  time.Sleep(time.Second)
-  fmt.Println(c.Value("somekey"))
-}
+    func main() {
+      c := SafeCounter{v: make(map[string]int)}
+      for i := 0; i &lt; 1000; i++ {
+        go c.Inc("somekey")
+      }
+      time.Sleep(time.Second)
+      fmt.Println(c.Value("somekey"))
+    }
 </code></pre>
 </div>
 
@@ -3919,7 +3919,6 @@ func main() {
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -3937,7 +3936,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
@@ -3945,7 +3943,7 @@ minScale: 0.30,
 maxScale: 4.00,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'cube', // see README of reveal.js for options
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
 transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
