@@ -35,12 +35,12 @@
 <h1 class="title">Git DVCS</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-11 Mon 12:16, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-07-13 Tue 11:40, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orga601531">
-<h2 id="orga601531">Sadržaj</h2>
+<section id="slide-orga811f95">
+<h2 id="orga811f95">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod u Git</a></li>
@@ -125,7 +125,7 @@ Informacije o promenama se izračunavaju po potrebi.
 <blockquote>
 <p>
 I’m right. I’m always right, but sometimes I’m more right than
-other times. And dammit, when I say "files don’t matter", I’m
+other times. And dammit, when I say &ldquo;files don’t matter&rdquo;, I’m
 really really Right(tm).ref[1].
 </p>
 </blockquote>
@@ -139,7 +139,7 @@ really really Right(tm).ref[1].
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2</span> Veza radnog stabla, indeksa i repozitorijuma</h3>
 
-<div class="figure">
+<div id="org032d6f7" class="figure">
 <p><object type="image/svg+xml" data="./images/Workflow.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -149,7 +149,7 @@ Sorry, your browser does not support SVG.</object>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3</span> Životni ciklus fajla u git repozitorijumu</h3>
 
-<div class="figure">
+<div id="org5525a61" class="figure">
 <p><object type="image/svg+xml" data="./images/FileLifecycle.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -173,7 +173,7 @@ izvršena inicijalizacija sa <code>git init</code> komandom (videti u nastavku).
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div class="figure">
+<div id="org7fee28d" class="figure">
 <p><object type="image/svg+xml" data="./images/git-repo.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -217,7 +217,7 @@ Sorry, your browser does not support SVG.</object>
 Spisak osnovnih komandi git-a se može dobiti sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git help
 usage: git [–version] ...
 ...
@@ -233,7 +233,7 @@ checkout  Checkout a branch or paths to the working tree
 Detaljna pomoć za komandu se dobija sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git help &lt;ime komande&gt;
 </pre>
 
@@ -263,7 +263,7 @@ unutar repozitorijuma</li>
 Konfigurisanje imena i email-a:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global user.name "Igor Dejanović"
 $ git config --global user.email "igor DOT dejanovic AT gmail DOT com"
 </pre>
@@ -272,7 +272,7 @@ $ git config --global user.email "igor DOT dejanovic AT gmail DOT com"
 Konfiguracija se može izlistati sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --list
 </pre>
 
@@ -287,7 +287,7 @@ Podrazumevani editor se na windowsu može promeniti na sledeći način:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Windows - Obratiti pažnju na duple navodnike!!!
+<pre><code class="sh" ># Windows - Obratiti pažnju na duple navodnike!!!
 $ git config --global core.editor "'C:/Program Files/Windows NT/Accessories/wordpad.exe'"
 </code></pre>
 </div>
@@ -300,7 +300,7 @@ Za pristup serverima sa nevalidnim sertifikatom (npr. samopotpisan sertifikat)
 potrebno je podesiti sledeće za sertifikat koji smo preuzeli sa servera:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global http.sslCAInfo /home/igor/config/all-certs.crt
 </pre>
 
@@ -308,7 +308,7 @@ $ git config --global http.sslCAInfo /home/igor/config/all-certs.crt
 ili ukoliko ne želimo proveru sertifikata:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global http.sslVerify false
 </pre>
 
@@ -316,7 +316,7 @@ $ git config --global http.sslVerify false
 Ako je potreban pristup preko HTTP proxy-ja to se po korisniku može podesiti sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global http.proxy 192.168.77.100:8080
 </pre>
 
@@ -329,7 +329,7 @@ $ git config --global http.proxy 192.168.77.100:8080
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
@@ -348,7 +348,7 @@ The key fingerprint is:
 </section>
 <section id="slide-3-7">
 <h3 id="3-7"><span class="section-number-3">3.7</span> Konfigurisanje diff/merge alata</h3>
-<pre  class="example">
+<pre>
 $ git config --global merge.tool meld
 </pre>
 
@@ -356,8 +356,15 @@ $ git config --global merge.tool meld
 Ili na windows-u:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global merge.tool "'C:\ Program Files\...'"
+</pre>
+
+<p>
+Da bi se izbeglo pitanje da li želite da pokrenete diff alat:
+</p>
+<pre>
+$ git config --global --add difftool.prompt false
 </pre>
 
 </section>
@@ -371,7 +378,7 @@ Ovo na <i>windows</i>-u nije moguće pa je dobro, ukoliko članovi tima rade na
 različitim operativnim sistemima, podesiti sledeće:
 </p>
 
-<pre  class="example">
+<pre>
 $ git config --global core.ignorecase true
 </pre>
 
@@ -388,17 +395,17 @@ različitog <i>case</i>-a on će biti ignorisan.
 Unix na kraju reda kod tekstualnih fajlova koristi LF bajt. Windows koristi dva
 bajta - CR i LF. Današnji editori su u stanju da rade sa oba standarda. Git
 podržava automatsku konverziju krajeva linija. Tekuća praksa je da se kreira
-konfiguracioni fajl <code>.gitattributes</code> u korenskom folderu u kome se "pomaže"
+konfiguracioni fajl <code>.gitattributes</code> u korenskom folderu u kome se &ldquo;pomaže&rdquo;
 git-u da pravilno odredi tekstualne i binarne fajlove. Ovaj fajl se <i>commit</i>-uje
 u repozitorijum tako da svi članovi tima imaju isto podešavanje. Sadržaj
 <code>.gitattributes</code> fajla:
 </p>
 
-<pre  class="example">
-* text=auto
-*.png binary
-*.jpg binary
-*.exe binary
+<pre>
+  * text=auto
+  *.png binary
+  *.jpg binary
+  *.exe binary
 </pre>
 
 <p class="attention">
@@ -435,7 +442,7 @@ Kreiranje se obavlja na sledeći način:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Prelazak u folder gde se nalazi izvorni kod
+<pre><code class="sh" ># Prelazak u folder gde se nalazi izvorni kod
 # projekta
 $ cd ~/Projekat
 
@@ -457,7 +464,7 @@ Ovim je kreiran prazan repozitorijum. Sledeći korak je dodavanje sadržaja.
 Repozitorijum možemo kreirati kloniranjem udaljenog repozitorijuma.
 </p>
 
-<pre  class="example">
+<pre>
 $ git clone https://puppet.ftn.uns.ac.rs/rks/tim1/git RKSProjekat
 </pre>
 
@@ -466,7 +473,7 @@ Ili na primer ako se podigne lokalni server sa <code>git daemon</code> (videti s
 <a href="#/slide-7" class="forwardlink">Razmena promena</a>).
 </p>
 
-<pre  class="example">
+<pre>
 $ git clone git://192.168.100.50/ mojProjekat
 </pre>
 
@@ -482,7 +489,7 @@ Obavlja se putem fajla <code>.gitignore</code> koji se nalazi u korenskom folder
 Sadržaj je sledećeg oblika:
 </p>
 
-<pre  class="example">
+<pre>
 # Ovo je komentar.
 # Ignorišemo sve privremene fajlove
 *.tmp
@@ -522,7 +529,7 @@ Na primer, za repozitorijum koji ima lokalnih promena
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git status
+<pre><code class="sh" >$ git status
 # On branch master
 # Changes not staged for commit:
 # (use "git add &lt;file&gt;..." to update what will be committed)
@@ -555,7 +562,7 @@ Priprema sadržaja za <i>commit</i> se obavlja operacijama <code>add</code>, <co
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Dodavanje sadržaja
+<pre><code class="sh" ># Dodavanje sadržaja
 $ git add MojaKlasa.java
 $ git add .
 
@@ -593,7 +600,7 @@ postoji. Zbog toga nije moguće poništiti indeks komandom <code>git reset HEAD<
 u tom slučaju radi:
 </p>
 
-<pre  class="example">
+<pre>
 $ git rm –r --cached .
 </pre>
 
@@ -614,8 +621,8 @@ Ukoliko je potrebno odustati od praćenja fajla a zadržati fajl u radnom stablu
 to se može uraditi na sledeći način:
 </p>
 
-<pre  class="example">
-$ git rm --cached MojaKlasa.java
+<pre>
+  $ git rm --cached MojaKlasa.java
 </pre>
 
 <p>
@@ -628,16 +635,16 @@ Ukoliko želimo da se fajl ne prati ali da ostane u svim repozitorijumima
 potrebno ga je obeležiti kao takvog sa:
 </p>
 
-<pre  class="example">
-$ git update-index --assume-unchanged MojaKlasa.java
+<pre>
+  $ git update-index --assume-unchanged MojaKlasa.java
 </pre>
 
 <p>
 Kada želimo opet da pratimo fajl radimo:
 </p>
 
-<pre  class="example">
-$ git update-index --no-assume-unchanged MojaKlasa.java
+<pre>
+  $ git update-index --no-assume-unchanged MojaKlasa.java
 </pre></li>
 
 </ul>
@@ -650,8 +657,8 @@ $ git update-index --no-assume-unchanged MojaKlasa.java
 Promena se trajno beleži sa:
 </p>
 
-<pre  class="example">
-$ git commit
+<pre>
+  $ git commit
 </pre>
 
 <p>
@@ -663,8 +670,8 @@ skraćena verzija, ostavi prazan red, a zatim unese duža verzija poruke.
 Ukoliko indeks nije pripremljen može se koristiti prečica:
 </p>
 
-<pre  class="example">
-$ git commit -a
+<pre>
+  $ git commit -a
 </pre>
 
 <p>
@@ -682,24 +689,24 @@ fajlovi ne ulaze u indeks.
 Istorija se može pregledati sa komandom:
 </p>
 
-<pre  class="example">
-$ git log
+<pre>
+  $ git log
 </pre></li>
 
 <li><p>
 Grafički pregled istorije se dobija sa
 </p>
 
-<pre  class="example">
-$ gitk
+<pre>
+  $ gitk
 </pre>
 
 <p>
 za tekuću granu, ili
 </p>
 
-<pre  class="example">
-$ gitk --all
+<pre>
+  $ gitk --all
 </pre>
 
 <p>
@@ -715,7 +722,7 @@ za sve grane.
 Premeštanje fajlova i promena imena može da se obavi na sledeći način:
 </p>
 
-<pre  class="example">
+<pre>
 $ git mv staroime novoime
 </pre>
 
@@ -726,7 +733,7 @@ operativnog sistema za premeštanje i promene imena, a zatim sve promene dodati
 sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git add -A
 </pre>
 
@@ -737,7 +744,7 @@ meri promenjenog sadržaja.
 
 </section>
 <section id="slide-4-12">
-<h3 id="4-12"><span class="section-number-3">4.12</span> Privremeno "sklanjanje" lokalnih izmena</h3>
+<h3 id="4-12"><span class="section-number-3">4.12</span> Privremeno &ldquo;sklanjanje&rdquo; lokalnih izmena</h3>
 <ul>
 <li>U sred ste rada i stiže zahtev da se nešto mora hitno uraditi.</li>
 <li><p>
@@ -746,7 +753,7 @@ Dva načina na koji se može odgovoriti na ovaj zahtev:
 <ul>
 <li>Napraviti novi klon repozitorijuma, postaviti se na odgovarajuću granu,
 obaviti izmenu i poslati izmene.</li>
-<li>Iskoristiti operaciju <code>stash</code> koja "sklanja" lokalne promene na stek promena
+<li>Iskoristiti operaciju <code>stash</code> koja &ldquo;sklanja&rdquo; lokalne promene na stek promena
 i dovodi radno stablo u čisto stanje, pozicioniranje na odgovarajuću granu,
 obavljanje izmena, vraćanje lokalnih promena sa stash steka.</li>
 
@@ -754,12 +761,12 @@ obavljanje izmena, vraćanje lokalnih promena sa stash steka.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git stash # Sklanjanje lokalnih promena
-$ git checkout neka_grana
-$ ... # Potrebne ispravke
-$ git commit -a
-$ git checkout ...
-$ git stash pop # Vraćanje lokalnih promena
+<pre><code class="sh" >  $ git stash # Sklanjanje lokalnih promena
+  $ git checkout neka_grana
+  $ ... # Potrebne ispravke
+  $ git commit -a
+  $ git checkout ...
+  $ git stash pop # Vraćanje lokalnih promena
 </code></pre>
 </div></li>
 
@@ -836,7 +843,7 @@ kloniraju u lokalni.</li>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3</span> Kako to sve izgleda u repozitorijumu</h3>
 
-<div class="figure">
+<div id="org3bc989a" class="figure">
 <p><object type="image/svg+xml" data="./images/DAG.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -857,7 +864,7 @@ grana.</li>
 <section id="slide-5-4">
 <h3 id="5-4"><span class="section-number-3">5.4</span> Grane i operacije</h3>
 
-<div class="figure">
+<div id="org0008c2e" class="figure">
 <p><img src="./images/branches-SO.png" alt="branches-SO.png" />
 </p>
 </div>
@@ -873,7 +880,7 @@ grana.</li>
 Kreiranje nezavisne lokalne grane:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch mojagrana 
 </pre>
 
@@ -883,7 +890,7 @@ lokalnom repozitorijumu predstavljena kao <code>&lt;udaljeni repo&gt;/&lt;ime gr
 primer <code>origin/udaljenagrana</code>.
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -t origin/udaljenagrana
 </pre>
 
@@ -893,7 +900,7 @@ Prethodni primer će kreirati tracking granu koja se zove kao i udaljena
 radimo:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch mojagrana -t origin/udaljenagrana
 </pre>
 
@@ -904,7 +911,7 @@ $ git branch mojagrana -t origin/udaljenagrana
 Spisak lokalnih grana, sa <code>*</code> označena tekuća:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch
   * master
   moja_grana
@@ -914,7 +921,7 @@ $ git branch
 Spisak lokalnih i <i>remote tracking</i> grana:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -a 
 </pre>
 
@@ -922,7 +929,7 @@ $ git branch -a
 Spisak <i>remote tracking</i> grana:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -r
 </pre>
 
@@ -930,7 +937,7 @@ $ git branch -r
 Spisak lokalnih grana i njihovih <i>upstream</i> grana:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -vv
 </pre>
 
@@ -944,20 +951,20 @@ grane.</li>
 Grana se menja komandom checkout na sledeći način:
 </p>
 
-<pre  class="example">
-$ git checkout moja_grana
-Switched to branch ’moja_grana’
-$ git checkout master
-Switched to branch ’master’
+<pre>
+  $ git checkout moja_grana
+  Switched to branch ’moja_grana’
+  $ git checkout master
+  Switched to branch ’master’
 </pre></li>
 
 <li><p>
 Ako želimo da kreiramo novu granu i pređemo na nju:
 </p>
 
-<pre  class="example">
-$ git checkout -b moja_grana
-Switched to a new branch ’moja_grana’
+<pre>
+  $ git checkout -b moja_grana
+  Switched to a new branch ’moja_grana’
 </pre></li>
 
 <li><p>
@@ -966,10 +973,10 @@ A ako je novokreirana grana <i>tracking</i>:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git checkout -t origin/udaljena_grana
-
-# Ili ako želimo posebno ime
-$ git checkout -b moja_grana -t origin/udaljena_grana
+<pre><code class="sh" >  $ git checkout -t origin/udaljena_grana
+  
+  # Ili ako želimo posebno ime
+  $ git checkout -b moja_grana -t origin/udaljena_grana
 </code></pre>
 </div></li>
 
@@ -982,14 +989,14 @@ $ git checkout -b moja_grana -t origin/udaljena_grana
 Brisanje lokalne grane:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -d grana_za_brisanje
 </pre>
 
 <p>
 Prethodna komanda će proveriti da li je grana prethodno spojena (<i>merge</i>) na
 neku drugu i ako nije odbiti da uradi posao jer bi to značilo ostavljanje
-nespojenih <i>commit</i>-a sa grane da "vise" (<i>dangling objects</i>). Ovi <i>commit</i>-i bi
+nespojenih <i>commit</i>-a sa grane da &ldquo;vise&rdquo; (<i>dangling objects</i>). Ovi <i>commit</i>-i bi
 bili trajno obrisani prilikom sledećeg izvršavanja komande <code>git gc</code>.
 </p>
 
@@ -997,7 +1004,7 @@ bili trajno obrisani prilikom sledećeg izvršavanja komande <code>git gc</code>
 Ako smo sigurni da želimo da obrišemo nespojenu granu to radimo sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git branch -D grana_za_brisanje
 </pre>
 
@@ -1008,7 +1015,7 @@ $ git branch -D grana_za_brisanje
 Slanje promena na <i>upstream</i> granu se radi sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git push
 </pre>
 
@@ -1019,7 +1026,7 @@ način:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git push origin moja_grana
+<pre><code class="sh" >$ git push origin moja_grana
 $ git push -u origin moja_grana    # sa podešavanjem upstream grane
 </code></pre>
 </div>
@@ -1028,7 +1035,7 @@ $ git push -u origin moja_grana    # sa podešavanjem upstream grane
 Ili ako želite da se na udaljenom repo-u zove drugačije:
 </p>
 
-<pre  class="example">
+<pre>
 $ git push origin moja_grana:super_grana
 </pre>
 
@@ -1036,7 +1043,7 @@ $ git push origin moja_grana:super_grana
 Ili ako želite da pošaljete sve grane (npr. <i>push</i> u prazan repo):
 </p>
 
-<pre  class="example">
+<pre>
 $ git push --all origin # ili...
 $ git push origin '*:*'
 </pre>
@@ -1048,7 +1055,7 @@ $ git push origin '*:*'
 A ako želimo da lokalne grane ujedno postanu tracking za upravo objavljene grane:
 </p>
 
-<pre  class="example">
+<pre>
 $ git push -u --all origin
 </pre>
 
@@ -1069,7 +1076,7 @@ udaljenog ovo jeste tako, ali ukoliko nije (na primer, hoćemo da uradimo <code>
 u prazan centralni repozitorijum) možemo kreirati vezu na sledeći način:
 </p>
 
-<pre  class="example">
+<pre>
 $ git remote add origin https://puppet.ftn.uns.ac.rs/rks/timX/git
 </pre>
 
@@ -1077,7 +1084,7 @@ $ git remote add origin https://puppet.ftn.uns.ac.rs/rks/timX/git
 A zatim se mogu izlistati svi udaljeni repozitorijumi sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git remote
 </pre>
 
@@ -1086,7 +1093,7 @@ Ili se mogu prikazati detalji određenog repozitorijuma, zajedno sa granama koje
 se prate sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git remote show origin
 </pre>
 
@@ -1097,7 +1104,7 @@ $ git remote show origin
 Brisanje grane u udaljenom repozitorijumu se može uraditi na sledeći način:
 </p>
 
-<pre  class="example">
+<pre>
 $ git push origin :udaljena_grana
 </pre>
 
@@ -1105,7 +1112,7 @@ $ git push origin :udaljena_grana
 ili u novijim verzijama:
 </p>
 
-<pre  class="example">
+<pre>
 $ git push origin --delete udaljena_grana
 </pre>
 
@@ -1117,7 +1124,7 @@ Da bi videli koji fajlovi su promenjeni između dve grane uz ignorisanje
 <i>whitespace</i> karaktera (<code>-w</code>):
 </p>
 
-<pre  class="example">
+<pre>
 $ git diff -w --name-status master..integration
 </pre>
 
@@ -1125,7 +1132,7 @@ $ git diff -w --name-status master..integration
 Da vidimo promene između vrhova dve grane:
 </p>
 
-<pre  class="example">
+<pre>
 $ git diff master..integration | kompare -
 </pre>
 
@@ -1133,7 +1140,7 @@ $ git diff master..integration | kompare -
 Da vidimo vizuelno sve izmene nad fajlovima u folderu <code>src</code>:
 </p>
 
-<pre  class="example">
+<pre>
 $ git diff -w --diff-filter=M master..integration src/ | kompare -
 </pre>
 
@@ -1141,7 +1148,7 @@ $ git diff -w --diff-filter=M master..integration src/ | kompare -
 Šta imamo na <code>integration</code> što nije uključeno na <code>master</code> (<i>tri tačke!</i>):
 </p>
 
-<pre  class="example">
+<pre>
 $ git diff master...integration | kompare -
 </pre>
 
@@ -1164,17 +1171,17 @@ Poređenje možemo obaviti između bilo koja dva <i>commit</i>-a (po <i>hash</i>
 Komanda <code>pull</code> automatski radi spajanje grane sa udaljenog repozitorijuma.
 </p>
 
-<pre  class="example">
-$ git pull
+<pre>
+  $ git pull
 </pre></li>
 
 <li><p>
 A možemo spajanje obaviti i eksplicitno. Na primer:
 </p>
 
-<pre  class="example">
-$ git fetch
-$ git merge origin/master
+<pre>
+  $ git fetch
+  $ git merge origin/master
 </pre></li>
 
 <li><code>fetch</code> će pokupiti promene sa udaljenog repozitorijuma ali neće automatski
@@ -1207,7 +1214,7 @@ podrazumevano da uradi tzv. <i>fast-forward</i> merge.
 </p>
 
 
-<div class="figure">
+<div id="orgff20d44" class="figure">
 <p><object type="image/svg+xml" data="./images/Merge-ff.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1223,7 +1230,7 @@ način.
 </p>
 
 
-<div class="figure">
+<div id="orgb337bfe" class="figure">
 <p><object type="image/svg+xml" data="./images/Merge-no-ff.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1237,7 +1244,7 @@ Drugi mehanizam spajanja promena sa druge grane je <i>rebase</i>.
 </p>
 
 
-<div class="figure">
+<div id="orga996534" class="figure">
 <p><object type="image/svg+xml" data="./images/Merge-rebase.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1264,32 +1271,32 @@ Primeri:
 Preuzmi commit master na tekući `HEAD`
 </p>
 
-<pre  class="example">
-$ git cherry-pick master
+<pre>
+  $ git cherry-pick master
 </pre></li>
 
 <li><p>
 Preuzmi <i>commit master</i> ali edituj <i>commit</i> log poruku 
 </p>
 
-<pre  class="example">
-$ git cherry-pick -e master
+<pre>
+  $ git cherry-pick -e master
 </pre></li>
 
 <li><p>
 Preuzmi <i>commit</i> <code>7f546d</code> u WT i index
 </p>
 
-<pre  class="example">
-$ git cherry-pick -n 7f546d
+<pre>
+  $ git cherry-pick -n 7f546d
 </pre></li>
 
 <li><p>
 Preuzmi 5-ti i treći <i>commit</i> od kraja <i>master</i> grane
 </p>
 
-<pre  class="example">
-$ git cherry-pick master~4 master~2 
+<pre>
+  $ git cherry-pick master~4 master~2 
 </pre></li>
 
 </ul>
@@ -1302,21 +1309,21 @@ $ git cherry-pick master~4 master~2
 Konflikti će biti označeni odgovarajućim markerima unutar tekstualnih fajlova.
 </p>
 
-<pre  class="example">
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:file.txt
-Hello world
-=======
-Goodbye
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; 77976da35a11db4580b80ae27e8d65caf5208086:file.txt
+<pre>
+  &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:file.txt
+  Hello world
+  =======
+  Goodbye
+  &gt;&gt;&gt;&gt;&gt;&gt;&gt; 77976da35a11db4580b80ae27e8d65caf5208086:file.txt
 </pre></li>
 
 <li><p>
 Konflikt razrešavamo ručnom ispravkom fajla u kome je nastao i dodavanjem u indeks:
 </p>
 
-<pre  class="example">
-$ git add file.txt
-$ git commit
+<pre>
+  $ git add file.txt
+  $ git commit
 </pre></li>
 
 </ul>
@@ -1331,9 +1338,9 @@ pretka, tekuće verzije i verzije sa druge grane. Razrešenje preuzimanjem naše
 tuđe verzije obavljamo sa:
 </p>
 
-<pre  class="example">
-$ git checkout --ours file.txt
-$ git checkout --theirs file.txt
+<pre>
+  $ git checkout --ours file.txt
+  $ git checkout --theirs file.txt
 </pre>
 
 <p>
@@ -1344,8 +1351,8 @@ posle čega je potrebno uraditi <code>add</code>.
 Od spoja možemo odustati sa:
 </p>
 
-<pre  class="example">
-$ git master --abort
+<pre>
+  $ git master --abort
 </pre></li>
 
 </ul>
@@ -1365,26 +1372,26 @@ $ git master --abort
 Može se obavljati putem deljenog repozitorijuma:
 </p>
 
-<pre  class="example">
-$ git pull ....
-$ git fetch ....
-$ git push ....
+<pre>
+   $ git pull ....
+   $ git fetch ....
+   $ git push ....
 </pre></li>
 
 <li><p>
 Putem lokalnog daemon-a:
 </p>
 
-<pre  class="example">
-$ git daemon --export-all --base-path=.
+<pre>
+   $ git daemon --export-all --base-path=.
 </pre>
 
 <p>
 Ili ako želimo i mogućnost <code>push</code> operacije:
 </p>
 
-<pre  class="example">
-$ git daemon --export-all --enable=receive-pack --base-path=.
+<pre>
+   $ git daemon --export-all --enable=receive-pack --base-path=.
 </pre>
 
 <p class="attention">
@@ -1406,9 +1413,9 @@ Ili upotrebom fajlova (mejlom, na prenosnom disku i sl.).
 Putem tzv. <i>bundle</i>-ova :
 </p>
 
-<pre  class="example">
-$ git bundle ...
-$ git unbundle ....
+<pre>
+   $ git bundle ...
+   $ git unbundle ....
 </pre></li>
 
 </ul>
@@ -1426,24 +1433,24 @@ repozitorijuma sa različitom istorijom.
 Poslednjih <code>n</code> <i>commit</i>-a:
 </p>
 
-<pre  class="example">
-$ git format-patch -n 
+<pre>
+   $ git format-patch -n 
 </pre>
 
 <p>
 Promene na <code>master</code> grani
 </p>
 
-<pre  class="example">
-$ git format-patch origin/master..master
+<pre>
+   $ git format-patch origin/master..master
 </pre>
 
 <p>
 Od poslednjeg <code>pull</code>-a i zatim primena na odredišni repozitorijum:
 </p>
 
-<pre  class="example">
-$ git am *.patch
+<pre>
+   $ git am *.patch
 </pre></li>
 
 </ul>
@@ -1486,7 +1493,7 @@ promena koja poništava staru.
 <p>
 Izmenili smo indeks ili smo izmenili fajlove u lokalnom stablu. Ukoliko želimo
 da poništimo sadržaj index-a i/ili lokalnog stabla koristimo komandu <code>reset</code>.
-<code>reset</code> komanda može da, opciono, "premota" <code>HEAD</code> pokazivač tekuće grane na
+<code>reset</code> komanda može da, opciono, &ldquo;premota&rdquo; <code>HEAD</code> pokazivač tekuće grane na
 zadatu verziju i da uskladi index i/ili radno stablo sa datom verzijom.
 </p>
 
@@ -1495,7 +1502,7 @@ Dovođenje index-a i radnog stabla na <code>HEAD</code> verziju. Posle ovoga <co
 [--cached]</code> komanda javlja da nema razlika.
 </p>
 
-<pre  class="example">
+<pre>
 $ git reset --hard HEAD
 </pre>
 
@@ -1507,7 +1514,7 @@ Samo želimo da premotamo tekući <code>HEAD</code> jednu verziju unazad ali ne 
 promenimo indeks i radno stablo. Promene obeležene za dodavanje ostaju.
 </p>
 
-<pre  class="example">
+<pre>
 $ git reset --soft HEAD^
 </pre>
 
@@ -1516,7 +1523,7 @@ Resetujemo indeks ali ne i radno stablo. Ovo je podrazumevano ponašanje
 (<code>--mixed</code> može da se izostavi).
 </p>
 
-<pre  class="example">
+<pre>
 $ git reset --mixed HEAD
 </pre>
 
@@ -1524,7 +1531,7 @@ $ git reset --mixed HEAD
 <b>Napomena</b>: <code>reset</code> komanda je generalan način za pomeranje pokazivača tekuće
 grane. Pomeranjem <code>HEAD</code>-a git pamti prethodni u <code>ORIG_HEAD</code> tako da možemo uvek
 da poništimo efekat <code>reset</code> komande. Takođe, svi prethodni položaji <code>HEAD</code>
-reference čuvaju se u <code>reflog</code> strukturi. Videti <a href="#/slide-8-8" class="forwardlink attention">reflog sekciju</a>.
+reference čuvaju se u <code>reflog</code> strukturi. Videti <a href="#/slide-8-8" class="forwardlink">reflog sekciju</a>.
 </p>
 
 </section>
@@ -1539,16 +1546,16 @@ Ukoliko želimo da odustanemo od promene proizvoljnog fajla radimo sledeće:
 Vraćanje na verziju iz indeksa:
 </p>
 
-<pre  class="example">
-$ git checkout -- readme.txt
+<pre>
+  $ git checkout -- readme.txt
 </pre></li>
 
 <li><p>
 Vraćanje na verziju sa <code>HEAD</code>-a:
 </p>
 
-<pre  class="example">
-$ git checkout HEAD readme.txt
+<pre>
+  $ git checkout HEAD readme.txt
 </pre></li>
 
 </ul>
@@ -1563,7 +1570,7 @@ upisali pogrešnu log poruku možemo uraditi sledeće:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Ovaj commit je pogrešan
+<pre><code class="sh" ># Ovaj commit je pogrešan
 $ git commit 
 
 # Vršimo potrebne dorade
@@ -1593,7 +1600,7 @@ revert:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git revert &lt;verzija&gt;
+<pre><code class="sh" >$ git revert &lt;verzija&gt;
 # ... razrešavamo eventualne konflikte
 # izazvane kasnijim izmenama ...
 $ git commit
@@ -1615,7 +1622,7 @@ Proizvoljne commit-e možemo menjati sa rebase komandom u interaktivnom modu.
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git rebase -i HEAD~3
+<pre><code class="sh" >$ git rebase -i HEAD~3
 # Zadajemo parent commit-a od kojeg krećemo
 # Dobijamo listu u editoru sličnu ovoj
 pick f7f3f6d changed my name a bit
@@ -1644,7 +1651,7 @@ pick a5f4a0d added cat-file
 Menjamo <code>pick</code> komande sa <code>edit</code> i <code>squash</code>. Na primer:
 </p>
 
-<pre  class="example">
+<pre>
 edit f7f3f6d changed my name a bit
 pick 310154e updated README formatting and added blame
 pick a5f4a0d added cat-file
@@ -1655,7 +1662,7 @@ Ovim ćemo dobiti mogućnost izmene <i>commit</i>-a <code>f7f3f6d</code>. Radimo
 modifikujemo commit sa <code>--amend</code> opcijom. Zatim nastavljamo <code>rebase</code> sa:
 </p>
 
-<pre  class="example">
+<pre>
 $ git rebase ––continue
 </pre>
 
@@ -1671,29 +1678,29 @@ Ukoliko želimo da deo grane preselimo na drugu granu koristimo <code>git rebase
 Dva oblika:
 </p>
 
-<pre  class="example">
+<pre>
 git rebase --onto new_base old_base
 </pre>
 
-<pre  class="example">
+<pre>
 git rebase --onto new_base old_base target_ref
 </pre>
 
 </section>
 <section id="slide-8-8">
-<h3 id="8-8"><span class="section-number-3">8.8</span> Potraga za izgubljenim <i>commit</i>-ima – <code>reflog</code></h3>
+<h3 id="8-8"><span class="section-number-3">8.8</span> Potraga za izgubljenim <i>commit</i>-ima - <code>reflog</code></h3>
 <ul>
 <li><code>reflog</code> predstavlja strukturu koja sadrži istoriju izmena <code>HEAD</code> reference.</li>
-<li>Podrazumevano ova struktura "pamti" 30 dana unazad.</li>
+<li>Podrazumevano ova struktura &ldquo;pamti&rdquo; 30 dana unazad.</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 git reflog
 </pre>
 
 
-<div class="figure">
+<div id="orgfa5c993" class="figure">
 <p><img src="./images/reflog.png" alt="reflog.png" style="height: 500px;" />
 </p>
 </div>
@@ -1717,12 +1724,12 @@ značajno poraste. U ovim situacijama Git omogućava “pakovanje” objekata
 upotrebom efikasnog delta algoritma. Pronalaze se slični BLOB-ovi između kojih
 se izračuvana razlika (delta).</li>
 <li><p>
-Da bi se obavilo pakovanje objekata, i uklanjanje "visećih" objekata
+Da bi se obavilo pakovanje objekata, i uklanjanje &ldquo;visećih&rdquo; objekata
 (<i>dangling objects</i>), dovoljno je pozvati:
 </p>
 
-<pre  class="example">
-$ git gc
+<pre>
+  $ git gc
 </pre></li>
 
 </ul>
@@ -1731,7 +1738,6 @@ $ git gc
 <li>Detalje možete naći na <a href="http://schacon.github.com/git/user-manual.html#pack-files">http://schacon.github.com/git/user-manual.html#pack-files</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -1784,7 +1790,7 @@ dovesti do kasnijih problema.</li>
 <section id="slide-10-3">
 <h3 id="10-3"><span class="section-number-3">10.3</span> <i>GitFlow</i> model</h3>
 
-<div class="figure">
+<div id="org2a7cff4" class="figure">
 <p><object type="image/svg+xml" data="./images/GitFlow.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1798,7 +1804,7 @@ Sorry, your browser does not support SVG.</object>
 <section id="slide-10-4">
 <h3 id="10-4"><span class="section-number-3">10.4</span> Modifikovani <i>GitFlow</i> model</h3>
 
-<div class="figure">
+<div id="org20a01ec" class="figure">
 <p><object type="image/svg+xml" data="./images/GitFlow-Reloaded.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -1834,7 +1840,7 @@ Sorry, your browser does not support SVG.</object>
 Kreiramo i prelazimo na novu granu:
 </p>
 
-<pre  class="example">
+<pre>
 $ git checkout -b private_feature_branch
 </pre>
 
@@ -1842,7 +1848,7 @@ $ git checkout -b private_feature_branch
 Vršimo izmene, ažuriramo indeks:
 </p>
 
-<pre  class="example">
+<pre>
 $ git add ...
 </pre>
 
@@ -1850,7 +1856,7 @@ $ git add ...
 Beležimo promenu:
 </p>
 
-<pre  class="example">
+<pre>
 $ git commit -am "WIP"
 </pre>
 
@@ -1865,7 +1871,7 @@ $ git commit -am "WIP"
 Kada završimo sa izmenama, prelazimo na master granu:
 </p>
 
-<pre  class="example">
+<pre>
 $ git checkout master
 </pre>
 
@@ -1873,7 +1879,7 @@ $ git checkout master
 Spajamo granu uz integraciju svih <i>commit</i>-a:
 </p>
 
-<pre  class="example">
+<pre>
 $ git merge --squash private_feature_branch
 </pre>
 
@@ -1881,7 +1887,7 @@ $ git merge --squash private_feature_branch
 <code>commit</code> - zadajemo detaljnu log poruku:
 </p>
 
-<pre  class="example">
+<pre>
 $ git commit -v
 </pre>
 
@@ -1898,7 +1904,7 @@ potrebno svesti na više <i>commit</i>-a. Na <i>feature</i> grani radimo sređiv
 interaktivnim <i>rebase</i>-om:
 </p>
 
-<pre  class="example">
+<pre>
 $ git rebase --interactive master
 </pre>
 
@@ -1908,7 +1914,7 @@ ili kreiramo granu za sređivanje promena:
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Prelazimo na master
+<pre><code class="sh" ># Prelazimo na master
 $ git checkout master
 
 # Kreiramo granu za sređivanje sa mastera
@@ -1941,7 +1947,7 @@ Git je moguće koristiti i sa <i>Subversion</i> repozitorijumom.
 
 <div class="org-src-container">
 
-<pre><code class=" sh" ># Kloniranje svn repozitorijuma standardnog layout-a (trunk, branches, tags)
+<pre><code class="sh" ># Kloniranje svn repozitorijuma standardnog layout-a (trunk, branches, tags)
 $ git svn clone -s https://..../
 
 # Izmena fajlova + commit (može više puta)
@@ -1964,7 +1970,7 @@ Moguće je kreirati i grane na svn repozitorijumu i povezati ih sa lokalnim.
 
 <div class="org-src-container">
 
-<pre><code class=" sh" >$ git checkout -b mojagrana
+<pre><code class="sh" >$ git checkout -b mojagrana
 
 # Izmene fajlova
 $ git commit -m "Neka izmena"
@@ -2013,7 +2019,7 @@ Repozitorijum je objektna baza gde postoje tri vrste objekata:
 <li><i>Blob:</i> Niz bajtova bez semantike. Najčešće služi za opis sadržaja fajla.</li>
 <li><i>Stablo(Tree):</i> Čuva niz referenci na blobove i druga podstabla zajedno sa
 meta-podacima kao što su: naziv fajla, mod i sl.</li>
-<li><i>Commit:</i> "Pokazivač" na stablo koje opisuje kako je projekat izgledao u
+<li><i>Commit:</i> &ldquo;Pokazivač&rdquo; na stablo koje opisuje kako je projekat izgledao u
 trenutku <i>commit</i>-a. Osim toga sadrži niz meta-informacija kao što su autor,
 vreme nastanka, pokazivače na prethodne <i>commit</i>-e i dr.</li>
 
@@ -2042,7 +2048,7 @@ fajla.
 
 <div class="org-src-container">
 
-<pre><code class=" java" >blob 107\0
+<pre><code class="java" >blob 107\0
 class MainClass {
   static void main(int argc, String[] argv) {
     System.out.println("Hello World!");
@@ -2052,7 +2058,7 @@ class MainClass {
 </div>
 
 
-<div class="figure">
+<div id="orgb1da354" class="figure">
 <p><object type="image/svg+xml" data="./images/blob.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2069,14 +2075,14 @@ Sorry, your browser does not support SVG.</object>
 
 </ul>
 
-<pre  class="example">
+<pre>
 tree 64\0
 100644 blob 8e0462460e55357686a844cfd27564ab5a6055a6 README
 040000 tree 1d6a41c11d3557faae7522bc2af7042e8723e63a src
 </pre>
 
 
-<div class="figure">
+<div id="org30b2417" class="figure">
 <p><object type="image/svg+xml" data="./images/tree.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2096,7 +2102,7 @@ nastanka kao i vezu prema pretodnim zbeleškama.</li>
 Struktura commit objekta:
 </p>
 
-<pre  class="example">
+<pre>
 commit 195\0
 tree c7984074ae6aae0bb8b087ca0a5bd6026b108528
 author Igor Dejanovic &lt;igor.dejanovic@gmail.com&gt; 1350920069 +0200
@@ -2105,7 +2111,7 @@ Prvi commit.
 </pre>
 
 
-<div class="figure">
+<div id="org98bcad7" class="figure">
 <p><object type="image/svg+xml" data="./images/commit.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2115,7 +2121,7 @@ Sorry, your browser does not support SVG.</object>
 <section id="slide-13-6">
 <h3 id="13-6"><span class="section-number-3">13.6</span> Prvi <i>commit</i></h3>
 
-<div class="figure">
+<div id="orgee1ee30" class="figure">
 <p><object type="image/svg+xml" data="./images/prvi-commit.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2125,7 +2131,7 @@ Sorry, your browser does not support SVG.</object>
 <section id="slide-13-7">
 <h3 id="13-7"><span class="section-number-3">13.7</span> Drugi <i>commit</i></h3>
 
-<div class="figure">
+<div id="orgbab1d4b" class="figure">
 <p><object type="image/svg+xml" data="./images/drugi-commit.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2155,7 +2161,7 @@ fajlu.</li>
 <section id="slide-13-9">
 <h3 id="13-9"><span class="section-number-3">13.9</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div class="figure">
+<div id="org07ce3e2" class="figure">
 <p><object type="image/svg+xml" data="./images/git-repo.svg" class="org-svg">
 Sorry, your browser does not support SVG.</object>
 </p>
@@ -2176,7 +2182,6 @@ Sorry, your browser does not support SVG.</object>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -2194,7 +2199,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,

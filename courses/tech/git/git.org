@@ -204,6 +204,11 @@ Ili na windows-u:
 $ git config --global merge.tool "'C:\ Program Files\...'"
 #+END_SRC
 
+Da bi se izbeglo pitanje da li želite da pokrenete diff alat:
+#+begin_src
+$ git config --global --add difftool.prompt false
+#+end_src
+
 ** Konfiguracija veličine slova u nazivima fajlova
 
 Unix fajl sistemi su uglavnom /case-sensitive/ dok kod *windows*-a to nije
@@ -1004,7 +1009,7 @@ $ git reset --mixed HEAD
 *Napomena*: =reset= komanda je generalan način za pomeranje pokazivača tekuće
 grane. Pomeranjem =HEAD=-a git pamti prethodni u =ORIG_HEAD= tako da možemo uvek
 da poništimo efekat =reset= komande. Takođe, svi prethodni položaji =HEAD=
-reference čuvaju se u =reflog= strukturi. Videti [[*Potraga za izgubljenim /commit/-ima %E2%80%93 =reflog=][reflog sekciju]].
+reference čuvaju se u =reflog= strukturi. Videti [[*Potraga za izgubljenim /commit/-ima - =reflog=][reflog sekciju]].
 
 ** Poništavanje lokalne promene nad proizvoljnim fajlom
 
@@ -1122,7 +1127,7 @@ git rebase --onto new_base old_base
 git rebase --onto new_base old_base target_ref
 #+END_SRC
 
-** Potraga za izgubljenim /commit/-ima – =reflog=
+** Potraga za izgubljenim /commit/-ima - =reflog=
 
 - =reflog= predstavlja strukturu koja sadrži istoriju izmena =HEAD= reference.
 - Podrazumevano ova struktura "pamti" 30 dana unazad.
@@ -1176,7 +1181,6 @@ git submodule update --remote --merge
 git push --recurse-submodules=on-demand
 git config push.recurseSubmodules on-demand
 #+END_SRC
-
 
 * Modeli grananja
 ** Modeli grananja (/branching models/)
