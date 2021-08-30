@@ -1,0 +1,38 @@
+#+TITLE: Jezici specifični za domen
+#+SUBTITLE: Informacije za projekat
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Teme
+- Predloženi projekti moraju biti bazirani na textX ili parglare bibliotekama.
+- Mogu biti JSD implementacije ili unapređenja pomenutih biblioteka.
+- Jezici mogu da definišu i podršku za editore (code completion, syntax
+  highlighting itd. za npr. VS Code) -- poželjno posebno kod većih timova.
+  Videti projekte [[https://github.com/textX/textX-LS][textX-LS]] i [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]].
+
+* O vođenju projekta
+- Svi projekti moraju biti otvorenog koda javno hostovani na GitHub-u. Izbor
+  licence se ostavlja članovima tima, ali mora biti [[https://opensource.org/licenses][OSI odobrena]].
+- Predlog se piše u README fajlu projekta i šalje se link predmetnom profesoru
+  na odobrenje.
+- Zadaci na projektu se definišu u sklopu [[https://github.com/features/issues/][GitHub issues]].
+- Tekuće stanje se prati upotrebom [[https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards][Kanban table]].
+
+* Potrebno proveriti pre slanja profesoru na pregled
+- Projekat može da se instalira u modu za razvoj sa =pip install -e=.
+  - Da bi ovo bilo moguće projekat mora imati =setup.py= odnosno =setup.cfg= sa
+    validnim meta-podacima.
+  - Proverite da li =python setup.py bdist_wheel= pakuje sve potrebne fajlove u
+    rezultujći wheel fajl.
+- Svi textX jezici i generatori su registrovani na odgovarajući način u
+  =setup.cfg= i dostupni =textx= komandi. Vidite [[http://textx.github.io/textX/stable/registration/][textX registraciju i otkrivanje]].
+  Kao primer videti [[https://github.com/textX/textX/blob/master/setup.cfg][sam textX projekat]].
+
+  Generatori se mogu pozvati sa:
+  #+begin_src sh
+  textx generate ...
+  #+end_src
+
+- README.md mora da sardži opis projekta i primer upotrebe. Jezik može biti
+  srpski ili engleski ali mora biti konzistentno korišćen.
+

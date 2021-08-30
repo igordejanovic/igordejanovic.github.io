@@ -22,6 +22,7 @@ layout: page
    - [Zadaci](tech/textX/zadaci.html)
 1. [Generisanje programskog koda](jsd/04-generisanje-programskog-koda/)
 1. [Anatomija jednog DSL-a](jsd/05-anatomija-dsla/)
+1. [Informacije za ispitni projekat](jsd/projekat/)
 
 {% comment %}
 ## Slajdovi na enastava.io (uskoro ovde)
