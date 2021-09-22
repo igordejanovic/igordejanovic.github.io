@@ -35,16 +35,16 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Jezičke sintakse i meta-modelovanje</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-12-04 Fri 11:15, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-09-22 Wed 22:24, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org580ac41">
-<h2 id="org580ac41">Sadržaj</h2>
+<section id="slide-org0cfaf2a">
+<h2 id="org0cfaf2a">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Sintakse</a></li>
-<li><a href="#/slide-2">2. Sekundarna sintaksa</a></li>
+<li><a href="#/slide-2">2. Sekundarna notacija</a></li>
 <li><a href="#/slide-3">3. Meta-modelovanje</a></li>
 <li><a href="#/slide-4">4. Meta-metamodeli</a></li>
 <li><a href="#/slide-5">5. Stek za metamodelovanje</a></li>
@@ -55,12 +55,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Sintakse</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Sintakse</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Tehnike i tehnologije za implementaciju DSL-ova</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Tehnike i tehnologije za implementaciju DSL-ova</h3>
 <ul>
 <li>Parser generatori/interpreteri</li>
 <li>Meta-modelovanje</li>
@@ -70,7 +70,7 @@
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Konkretna sintaksa</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Konkretna sintaksa</h3>
 <ul>
 <li>Da bi mogram prikazali korisniku potrebna nam je konkretna sintaksa.</li>
 <li>Konkretna sintaksa definiše &ldquo;izgled&rdquo; iskaza na nekom jeziku, odnosno u širem
@@ -85,16 +85,16 @@ bazirane na dijalozima &#x2026;</li>
 
 </section>
 <section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> Primer istog iskaza upotrebom dve različite konkretne sintakse</h3>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Primer istog iskaza upotrebom dve različite konkretne sintakse</h3>
 
-<div id="org500b2a6" class="figure">
+<div id="org3685002" class="figure">
 <p><img src="./images/RazliciteSintakse.png" alt="RazliciteSintakse.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-4">
-<h3 id="1-4"><span class="section-number-3">1.4</span> Parsiranje - sintaksna analiza</h3>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Parsiranje - sintaksna analiza</h3>
 <ul>
 <li>Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
 gramatike jezika.</li>
@@ -104,7 +104,7 @@ gramatike jezika.</li>
 
 </section>
 <section id="slide-1-5">
-<h3 id="1-5"><span class="section-number-3">1.5</span> Stablo parsiranja</h3>
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Stablo parsiranja</h3>
 <ul>
 <li>Nastaje iz niske simbola (ulaznog stringa) procesom skeniranja (tokenizacije
 ili leksičke analize) i parsiranja.</li>
@@ -117,17 +117,16 @@ unapred definisane formalne gramatike.</li>
 
 </section>
 <section id="slide-1-6">
-<h3 id="1-6"><span class="section-number-3">1.6</span> Stablo parsiranja - Primer</h3>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Stablo parsiranja - Primer</h3>
 
-<div id="org5cdcbae" class="figure">
-<p><object type="image/svg+xml" data="./images/calc_parse_tree.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org23625ec" class="figure">
+<p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-7">
-<h3 id="1-7"><span class="section-number-3">1.7</span> Apstraktna sintaksa</h3>
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Apstraktna sintaksa</h3>
 <ul>
 <li>Određuje pravila validnosti jezičkih iskaza sa stanovišta njegove strukture
 bez razmatranja konkretne reprezentacije iskaza (konkretne sintakse).</li>
@@ -145,26 +144,25 @@ nazivaju meta-meta-modelima<sup>*</sup>.</li>
 
 </section>
 <section id="slide-1-8">
-<h3 id="1-8"><span class="section-number-3">1.8</span> Primer - apstraktna sintaksa jezika za opis konačnih automata</h3>
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Primer - apstraktna sintaksa jezika za opis konačnih automata</h3>
 
-<div id="org10f88f6" class="figure">
-<p><object type="image/svg+xml" data="./images/StateMachine.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org42b3b73" class="figure">
+<p><img src="./images/StateMachine.svg" alt="StateMachine.svg" style="height: 700px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-9">
-<h3 id="1-9"><span class="section-number-3">1.9</span> Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze</h3>
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Primer - apstraktna sintaksa jezika za jednostavne algebarske izraze</h3>
 
-<div id="org691e854" class="figure">
+<div id="orge4d72ed" class="figure">
 <p><img src="./images/AST-Expression.png" alt="AST-Expression.png" style="height: 700px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-10">
-<h3 id="1-10"><span class="section-number-3">1.10</span> Stablo apstraktne sintakse</h3>
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Stablo apstraktne sintakse</h3>
 <ul>
 <li>Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
 apstraktne sintakse (<i>Abstract Syntax Tree</i>).</li>
@@ -175,17 +173,16 @@ koncepata apstraktne sintakse.</li>
 
 </section>
 <section id="slide-1-11">
-<h3 id="1-11"><span class="section-number-3">1.11</span> Primer stabla apstraktne sintakse</h3>
+<h3 id="1-11"><span class="section-number-3">1.11.</span> Primer stabla apstraktne sintakse</h3>
 
-<div id="org1274116" class="figure">
-<p><object type="image/svg+xml" data="./images/AST.svg" class="org-svg" style="height: 800px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org25f6bcc" class="figure">
+<p><img src="./images/AST.svg" alt="AST.svg" style="height: 800px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-12">
-<h3 id="1-12"><span class="section-number-3">1.12</span> Razlike između stabla apstraktne i konkretne sintakse</h3>
+<h3 id="1-12"><span class="section-number-3">1.12.</span> Razlike između stabla apstraktne i konkretne sintakse</h3>
 <ul>
 <li>Stablo konkretne sintakse je bazirano na formalnoj gramatici koja opisuje
 detalje zapisa u tekstualnom obliku.</li>
@@ -204,12 +201,12 @@ sintakse.</li>
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Sekundarna sintaksa</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Sekundarna notacija</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Sekundarna sintaksa</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Sekundarna notacija</h3>
 <ul>
 <li>Iako konkretna sintaksa nameće svoja pravila, gotovo uvek postoji određena
 sloboda koja se ostavlja korisniku i koja omogućava da se mogram koji je isti
@@ -230,16 +227,16 @@ neko svoje značenje.</li>
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Problemi sa sekundarnom sintaksom</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Problemi sa sekundarnom notacijom</h3>
 <ul>
-<li>Sekundarna sintaksa se može koristiti na proizvoljan način.</li>
-<li>Svaki korisnik razvija svoj stil upotrebe sekundarne sintakse što može
+<li>Sekundarna notacija se može koristiti na proizvoljan način.</li>
+<li>Svaki korisnik razvija svoj stil upotrebe sekundarne notacije što može
 prouzrokovati pogrešno ili otežano tumačenje.</li>
 
 </ul>
 
 
-<div id="orge4f7e4e" class="figure">
+<div id="org06ec65c" class="figure">
 <p><img src="./images/Sekundarna.png" alt="Sekundarna.png" style="height: 600px;" />
 </p>
 </div>
@@ -250,9 +247,9 @@ Da li su ova dva mograma ista?
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Problemi sa sekundarnom sintaksom</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Problemi sa sekundarnom notacijom</h3>
 
-<div id="org712ff56" class="figure">
+<div id="org33a7257" class="figure">
 <p><img src="./images/Sekundarna2.png" alt="Sekundarna2.png" />
 </p>
 </div>
@@ -263,18 +260,18 @@ A sada?
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> Moguća rešenja</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Moguća rešenja</h3>
 <ul>
 <li>Definisanje stila kodiranja - <i>coding style</i> (kod tekstualnih) koga se
 pridržavaju svi programeri. Potrebna je određena doza discipline.</li>
 <li>Smanjenje korisničke slobode - ugrađivanje mogućih elemenata sekundarne
-sintakse u formalni jezik. Alati će sprečiti neispravnu upotrebu.</li>
+notacije u formalni jezik. Alati će sprečiti neispravnu upotrebu.</li>
 
 </ul>
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Primer - Python</h3>
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Primer - Python</h3>
 <ul>
 <li>Python koristi identaciju koda za kontrolu toka programa.</li>
 <li>Jedan od razloga čitljivosti Python koda - svi programeri moraju ispravno da
@@ -305,7 +302,7 @@ sintakse u formalni jezik. Alati će sprečiti neispravnu upotrebu.</li>
 
 </section>
 <section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> Pristupi u realizaciji editora za DSL-ove</h3>
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Pristupi u realizaciji editora za DSL-ove</h3>
 <ul>
 <li><p>
 Projekcione radionice - direktna izmena apstraktne reprezentacije kroz
@@ -313,7 +310,7 @@ projekciju.
 </p>
 
 
-<div id="org119272e" class="figure">
+<div id="orga7015f0" class="figure">
 <p><img src="./images/projekcija.png" alt="projekcija.png" style="height: 270px;" />
 </p>
 </div></li>
@@ -324,7 +321,7 @@ bi se dobila apstraktna reprezentacija.
 </p>
 
 
-<div id="orge71bb29" class="figure">
+<div id="orgf8dc08e" class="figure">
 <p><img src="./images/parseri.png" alt="parseri.png" style="height: 270px;" />
 </p>
 </div></li>
@@ -339,12 +336,12 @@ Eye icon designed by Freepik. Hand icon by Yannick Lung.
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Meta-modelovanje</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Meta-modelovanje</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Model</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Model</h3>
 <ul>
 <li>Modelovanje je esencijalno za ljudsku aktivnost jer svakoj akciji prethodi,
 eksplicitno ili implicitno, kreiranje modela.</li>
@@ -364,7 +361,7 @@ Group, vol. 234, 2003
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Model - drugi pokušaj</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Model - drugi pokušaj</h3>
 <blockquote>
 <p>
 Model predstavlja <i>pojednostavljenje sistema</i> sa određenim ciljem. Model
@@ -385,7 +382,7 @@ framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001</li>
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Osnovne karakteristike modela</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Osnovne karakteristike modela</h3>
 <ul>
 <li>Model ne predstavljaju samo crteži i tekstualni opisi. Model može imati
 materijalnu formu npr. može biti model/maketa aviona, pojednostavljena verzija
@@ -400,7 +397,7 @@ projektovanim granicama.</li>
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Meta-model</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Meta-model</h3>
 <ul>
 <li>Kada kreiramo model sistema moramo poštovati određena pravila odnosno moramo
 koristiti određeni jezik za modelovanje.</li>
@@ -420,11 +417,10 @@ framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001
 
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Primer - meta-model jezika za opis konačnih automata</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Primer - meta-model jezika za opis konačnih automata</h3>
 
-<div id="org17cae71" class="figure">
-<p><object type="image/svg+xml" data="./images/StateMachine.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org2d6166c" class="figure">
+<p><img src="./images/StateMachine.svg" alt="StateMachine.svg" style="height: 700px;" />
 </p>
 </div>
 
@@ -434,7 +430,7 @@ Apstraktna sintaksa je meta-model
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> Operacije koje koristimo pri (meta)modelovanju</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Operacije koje koristimo pri (meta)modelovanju</h3>
 <ul>
 <li>Apstrakcija</li>
 <li>Klasifikacija</li>
@@ -444,7 +440,7 @@ Apstraktna sintaksa je meta-model
 
 </section>
 <section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7</span> Apstrakcija</h3>
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Apstrakcija</h3>
 <ul>
 <li>Jedno od osnovnih oruđa ljudskog intelekta.</li>
 <li>Proces zanemarivanja nebitnih informacija prilikom kreiranja modela.</li>
@@ -452,15 +448,14 @@ Apstraktna sintaksa je meta-model
 </ul>
 
 
-<div id="orge064286" class="figure">
-<p><object type="image/svg+xml" data="./images/apstrakcija.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org6b16bee" class="figure">
+<p><img src="./images/apstrakcija.svg" alt="apstrakcija.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8</span> Apstrakcija</h3>
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Apstrakcija</h3>
 <blockquote>
 <p>
 If you assume a certain basic knowledge in the audience, you can talk in a
@@ -476,7 +471,7 @@ and clearer way. This, more or less, is what abstraction is.
 
 </section>
 <section id="slide-3-9">
-<h3 id="3-9"><span class="section-number-3">3.9</span> Klasifikacija</h3>
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Klasifikacija</h3>
 <ul>
 <li>Objekti realnih sistema, kao i njihovi modeli, se mogu grupisati na osnovu
 zajedničkih osobina.</li>
@@ -484,15 +479,14 @@ zajedničkih osobina.</li>
 </ul>
 
 
-<div id="org349c11b" class="figure">
-<p><object type="image/svg+xml" data="./images/klasifikacija.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org4e06171" class="figure">
+<p><img src="./images/klasifikacija.svg" alt="klasifikacija.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-3-10">
-<h3 id="3-10"><span class="section-number-3">3.10</span> Token modeli i modeli tipova</h3>
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Token modeli i modeli tipova</h3>
 <ul>
 <li>Prvi ih je definisao Čarls Sanders Pirs.</li>
 <li>Token modeli:
@@ -513,7 +507,7 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-3-11">
-<h3 id="3-11"><span class="section-number-3">3.11</span> Generalizacija</h3>
+<h3 id="3-11"><span class="section-number-3">3.11.</span> Generalizacija</h3>
 <ul>
 <li>Predstavlja dalji proces klasifikacije modela tipova na osnovu zajedničkih
 osobina.</li>
@@ -528,12 +522,12 @@ nasleđuje iz generalizovanog koncepta.</li>
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Meta-metamodeli</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Meta-metamodeli</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> Meta-metamodel</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Meta-metamodel</h3>
 <ul>
 <li>Kreiranje jezika predstavlja domen sa svojim konceptima i pravilima.</li>
 <li>Jezik ovog domena (jezik za opis jezika) nazivamo meta-jezikom.</li>
@@ -546,7 +540,7 @@ meta-jezika. Stoga kažemo da je meta-metamodel samodefinišući.</li>
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> MOF</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> MOF</h3>
 <ul>
 <li>MOF (<i>Meta-Object Facility</i>)<sup>1</sup> je meta-metamodel i industrijski standard
 koji se razvija pod okriljem OMG (<i>Object Management Group</i>) konzorcijuma.</li>
@@ -566,16 +560,16 @@ SMOF(<i>Semantic MOF</i>).</li>
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3</span> EMOF</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> EMOF</h3>
 
-<div id="org7aa4f8a" class="figure">
+<div id="orge5adaeb" class="figure">
 <p><img src="./images/EMOF.png" alt="EMOF.png" style="height: 700px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-4-4">
-<h3 id="4-4"><span class="section-number-3">4.4</span> ECore</h3>
+<h3 id="4-4"><span class="section-number-3">4.4.</span> ECore</h3>
 <ul>
 <li>ECore je meta-metamodel čiji je razvoj započeo IBM a kasnije je razvijan u
 okviru Eclipse EMF (<i>Eclipse Modeling Framework</i>)<sup>1</sup> projekta.</li>
@@ -594,16 +588,16 @@ realnim projektima.</li>
 
 </section>
 <section id="slide-4-5">
-<h3 id="4-5"><span class="section-number-3">4.5</span> ECore</h3>
+<h3 id="4-5"><span class="section-number-3">4.5.</span> ECore</h3>
 
-<div id="org8dd6621" class="figure">
+<div id="org064cd74" class="figure">
 <p><img src="./images/EcoreRelations.png" alt="EcoreRelations.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-4-6">
-<h3 id="4-6"><span class="section-number-3">4.6</span> GOPPRR</h3>
+<h3 id="4-6"><span class="section-number-3">4.6.</span> GOPPRR</h3>
 <ul>
 <li>Ime predstavlja skraćenicu reči koje opisuju osnovne koncepte jezika:
 <b>G</b> raph, <b>O</b> bject, <b>P</b> roperty, <b>P</b> ort, <b>R</b> ole, <b>R</b> elationship.</li>
@@ -622,7 +616,7 @@ University of Jyväskylä, 1997</li>
 
 </section>
 <section id="slide-4-7">
-<h3 id="4-7"><span class="section-number-3">4.7</span> MoRP</h3>
+<h3 id="4-7"><span class="section-number-3">4.7.</span> MoRP</h3>
 <ul>
 <li>Razvijen na Katedri za informatiku.</li>
 <li>Jednostavan - mali broj koncepata.</li>
@@ -632,9 +626,8 @@ University of Jyväskylä, 1997</li>
 </ul>
 
 
-<div id="org4d4d500" class="figure">
-<p><object type="image/svg+xml" data="./images/MoRP.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org1624f38" class="figure">
+<p><img src="./images/MoRP.svg" alt="MoRP.svg" />
 </p>
 </div>
 
@@ -649,26 +642,24 @@ Sorry, your browser does not support SVG.</object>
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5</span> Stek za metamodelovanje</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Stek za metamodelovanje</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1</span> Stek za metamodelovanje</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Stek za metamodelovanje</h3>
 
-<div id="orgf7cbecc" class="figure">
-<p><object type="image/svg+xml" data="./images/Metanivoi.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org0377ab3" class="figure">
+<p><img src="./images/Metanivoi.svg" alt="Metanivoi.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2</span> Primer - Mogram, jezik, meta-jezik</h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Primer - Mogram, jezik, meta-jezik</h3>
 
-<div id="org7f0cdce" class="figure">
-<p><object type="image/svg+xml" data="./images/Kapija-StateMachine-MoRP.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgff97d11" class="figure">
+<p><img src="./images/Kapija-StateMachine-MoRP.svg" alt="Kapija-StateMachine-MoRP.svg" />
 </p>
 </div>
 </section>
@@ -692,7 +683,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,

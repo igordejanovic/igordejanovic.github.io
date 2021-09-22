@@ -10,10 +10,8 @@
    :END:
 #+REVEAL_TOC: headlines 1
 
-
 * Problem i motivacija
 ** Šta je jezik?
-            
 - Komunikacija misli i osećanja sistemom znakova kao što su zvuci, gestovi ili
   pisani simboli^{1}.
 - Sistem znakova, simbola, gestova i pravila koji se koriste u komunikaciji^{2}.
@@ -23,7 +21,6 @@
 2. http://oxforddictionaries.com/definition/english/language
             
 ** Šta je softverski jezik?
-            
 - Jezik korišćen u komunikaciji čovek-računar ili računar-računar.
 - U varijanti čovek-računar težimo da jezik bude lak za razumevanje od strane
   čoveka ali ipak da može da se procesira na efikasan način od strane računara.
@@ -32,7 +29,6 @@
   - *deskriptivna* - za opis postojećih sistema
   
 ** Šta domen?
-
 - Sfera delovanja, interesa ili funkcije^{1}.
 - Oblast znanja, uticaja, ili delovanja^{2}.
 - Da bi se domensko znanje moglo procesirati i da bi mogli komunicirati u
@@ -48,7 +44,6 @@
 2. http://www.merriam-webster.com/dictionary/domain
 
 ** Jezici specifični za domen - JSD (/Domain-Specific Languages - DSL/)
-
 - Jezici specifični za domen (JSD, eng. /Domain-Specific Languages - DSL/)
   su jezici prilagođeni i ograničeni na određeni domen problema.
 - Za razliku od jezika opšte namene (JON, eng. /General Purpose Language -
@@ -60,7 +55,6 @@
 - Domen često ima svoj jezik korišćen od strane domenskih eksperata iako ne
   postoji njegova implementacija na računaru.
 
-  
 * Primeri
 ** SQL
 
@@ -70,7 +64,6 @@ SELECT player, stadium
 #+END_SRC
 
 ** JPA mapiranje
-
 #+BEGIN_SRC java
 @Entity
 @Table(name="COURSES")
@@ -137,7 +130,6 @@ Generation/, Wiley-IEEE Computer Society Pr, 2008
 [[./images/saobracajni-znaci.jpg]]
 
 ** Kada jezik smatramo JSD-om?
-
 - Zavisi od toga šta nam je domen.
 - Jezik može biti više ili manje prilagođen nekom domenu.
 - U ekstremnom slučaju i opšti jezik kao što je Java možemo smatrati JSD-om ako
@@ -149,10 +141,8 @@ Generation/, Wiley-IEEE Computer Society Pr, 2008
 - Čest je slučaj da jezik nastane kao JSD ali se vremenom proširi do te mere da
   ga možemo smatrati JON.
 
-  
 * Prednosti
 ** Uticaj na produktivnost
-
 - Pojedine studije pokazuju da povećanje produktivnosti ide i do 1000%^{1}.
 - Šta je osnovni razlog za povećanje produktivnosti?
 
@@ -179,7 +169,6 @@ Dmitriev, S. /Language oriented programming: The next programming paradigm/,
 JetBrains onBoard, 2004.
 
 ** Zašto JSD?
-
 - JSD su koncizniji od jezika opšte namene što omogućava korisnicima da jasnije
   iskažu svoju nameru.
 - JSD sintaksa, bilo tekstualna ili grafička, može se prilagoditi i
@@ -195,7 +184,6 @@ JetBrains onBoard, 2004.
 - Samodokumentujući jezički iskazi.
 
 ** Uticaj na kvalitet softvera
-
 - Korišćenje koncepata domena problema dovodi do smanjenja broja linija koda (u
   terminologiji tekstualnih notacija), što ima pozitivan uticaj na brzinu
   razvoja i jednostavnost odžavanja.
@@ -209,12 +197,10 @@ JetBrains onBoard, 2004.
   konzistentnim kodom.
 
 ** Uticaj na evoluciju aplikacije
-
 - Iskazivanje rešenja konceptima nezavisnim od korišćene tehnologije rezultuje
   dužim životnim vekom aplikacije.
 - Nije potrebno menjati jezičke iskaze (programe/modele) kada dođe do promene
   tehnologije. Potrebno je promenu uneti u generator koda.
-  
   
 * Arhitekture
 ** Arhitektura bazirana na prevodiocima
@@ -227,17 +213,14 @@ JetBrains onBoard, 2004.
 #+ATTR_ORG: :width 100%
 [[./images/Arhitektura-interpreter.svg]]
 
-
 * Gradivni elementi
 ** Gradivni elementi JSD
-
 Kao i svaki softverski jezik i JSD se sastoji od:
 - Apstraktne sintakse
 - Jedne ili više konkretnih sintaksi
 - Semantike
 
 ** Apstraktna sintaksa
-
 - Određuje pravila validnosti iskaza sa stanovišta njegove strukture.
 - Definiše koncepte domena, njihove osobine i međusobne relacije
 - Jezici za definisanje apstraktnih sintaksi jezika se u domenu modelovanja
@@ -258,7 +241,6 @@ jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University 
 Novi Sad, January 2012
 
 ** Stablo apstraktne sintakse
-
 - Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
   apstraktne sintakse (*Abstract Syntax Tree*).
 - Konkretna sintaksa nije važna u tom slučaju (na primer, ako posmatramo program
@@ -274,7 +256,6 @@ Novi Sad, January 2012
 http://en.wikipedia.org/wiki/Abstract_syntax_tree
 
 ** Konkretna sintaksa
-
 - Da bi mogli da prikažemo iskaz na konkretan način potrebna nam je konkretna
   sintaksa.
 - Konkretna sintaksa definiše *izgled* iskaza na nekom jeziku, odnosno u
@@ -297,7 +278,6 @@ jezičkih specifikacija/. PhD thesis, Faculty of Technical Sciences, University 
 Novi Sad, January 2012
 
 ** Semantika
-
 - Definiše smisao jezičkih iskaza.
 - Iako postoje i druge tehnike u praksi se najčešće semantika definiše
   prevođenjem (kompajliranjem tj. generisanjem koda) na jezik koji već ima
@@ -308,7 +288,6 @@ Novi Sad, January 2012
 - Jezici se prevode na sve "niže" i "niže". Gde je kraj prevođenju? Mašinski
   jezik. Definisan u hardveru računara (procesoru).
   
-
 * Klasifikacija
 ** Podela JSD prema vrsti konkretne sintakse
 
@@ -579,7 +558,6 @@ ekspertima.
 1. M. Fowler, /Language workbenches: The killer-app for domain specific
    languages/, Online http://www.martinfowler.com/articles/languageWorkbench.html, 2005.
 
-   
 * Jezičke radionice (/Language Workbenches/)
 ** Jezičke radionice (/Language Workbenches/)
 
@@ -732,7 +710,6 @@ http://www.eclipse.org/Xtext/7languagesDoc.html
 #+attr_html: :class footer :style clear: both;
 =*= A. Kleppe, /Software language engineering: creating domain-specific
 languages using metamodels/. Addison-Wesley, 2009
-
 
 * Literatura
 

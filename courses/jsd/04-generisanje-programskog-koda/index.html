@@ -35,12 +35,12 @@
 <h1 class="title">Generisanje programskog koda</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-12-20 Fri 10:47, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-09-22 Wed 22:24, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org6138b2a">
-<h2 id="org6138b2a">Sadržaj</h2>
+<section id="slide-org8dc8d7a">
+<h2 id="org8dc8d7a">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -54,12 +54,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Uvod</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Cilj</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Cilj</h3>
 <ul>
 <li>Imamo kreiran DSL i iskaze na njemu (mograme) i šta sada?</li>
 <li>Krajnji cilj nam je dobijanje izvršivog softvera na bazi naših mograma.</li>
@@ -68,7 +68,7 @@
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Semantika jezika</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Semantika jezika</h3>
 <p>
 Pragmatični načini definisanja:
 </p>
@@ -94,22 +94,21 @@ interpreteri koriste kod aspekata ponašanja.</li>
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Generisanje koda</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Generisanje koda</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Generisanje koda (kompajliranje)</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Generisanje koda (kompajliranje)</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/Arhitektura-kompajler.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org265e6af" class="figure">
+<p><img src="./images/Arhitektura-kompajler.svg" alt="Arhitektura-kompajler.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Pristupi u generisanju koda</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Pristupi u generisanju koda</h3>
 <ul>
 <li>Naivan pristup - kombinovanje fragmenata koda - upotreba komandi print oblika.</li>
 <li>API bazirano generisanje</li>
@@ -120,7 +119,7 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Print pristup</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Print pristup</h3>
 <ul>
 <li>Generisan kôd se dobija print komandom uz korišćenje spajanja i interpolacije
 stringova.</li>
@@ -132,10 +131,10 @@ stringova.</li>
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> <code>print</code> pristup - primer</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> <code>print</code> pristup - primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Class(object):
+<pre><code class="python" >class Class(object):
     def __init__(self, name, attributes):
         self.name = name
         self.attributes = attributes
@@ -158,7 +157,7 @@ ime_paketa = "fakultet"
 
 <div class="org-src-container">
 
-<pre><code class=" python" >print "package %s;" % ime_paketa
+<pre><code class="python" >print "package %s;" % ime_paketa
 print
 for cls in classes:
     print "public class %s {" % cls.name
@@ -184,10 +183,10 @@ for cls in classes:
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Print pristup - generisani kod</h3>
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Print pristup - generisani kod</h3>
 <div class="org-src-container">
 
-<pre><code class=" java" >package fakultet;
+<pre><code class="java" >package fakultet;
 
 public class Student {
     protected String ime;
@@ -223,17 +222,16 @@ public class Student {
 
 </section>
 <section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> API bazirano generisanje koda</h3>
+<h3 id="2-6"><span class="section-number-3">2.6.</span> API bazirano generisanje koda</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/gen_API.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgd3cfa2f" class="figure">
+<p><img src="./images/gen_API.svg" alt="gen_API.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7</span> Obrađivači šablona (<i>Template Engines</i>)</h3>
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Obrađivači šablona (<i>Template Engines</i>)</h3>
 <ul>
 <li>Za opis generisanog programskog kôda koristi se DSL za zadavanje šablona.</li>
 <li>Fiksni delovi generisanog koda su definisani bez izmena.</li>
@@ -244,20 +242,19 @@ interpretirani od strane obrađivača šablona u vreme generisanja koda.</li>
 
 </section>
 <section id="slide-2-8">
-<h3 id="2-8"><span class="section-number-3">2.8</span> Arhitektura</h3>
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Arhitektura</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/gen_sabloni.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgdf0e644" class="figure">
+<p><img src="./images/gen_sabloni.svg" alt="gen_sabloni.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-9">
-<h3 id="2-9"><span class="section-number-3">2.9</span> Primer - Jinja/Django</h3>
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Primer - Jinja/Django</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% for component in components %}
+<pre><code class="jinja2" >{% for component in components %}
   &lt;component class="struct"&gt;
       &lt;type class="char"&gt;{{component.type_name}}&lt;/type&gt;
       &lt;name class="char"&gt;{{component.fqn}}&lt;/name&gt;
@@ -290,10 +287,10 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-2-10">
-<h3 id="2-10"><span class="section-number-3">2.10</span> Primer - JSP</h3>
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Primer - JSP</h3>
 <div class="org-src-container">
 
-<pre><code class=" jsp" >&lt;html&gt;
+<pre><code class="jsp" >&lt;html&gt;
 &lt;head&gt;&lt;title&gt;First JSP&lt;/title&gt;&lt;/head&gt;
 &lt;body&gt;
   &lt;%
@@ -321,10 +318,10 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-2-11">
-<h3 id="2-11"><span class="section-number-3">2.11</span> Primer - PHP</h3>
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Primer - PHP</h3>
 <div class="org-src-container">
 
-<pre><code class=" php" >&lt;?php
+<pre><code class="php" >&lt;?php
     $Fname = $_POST["Fname"];
     $Lname = $_POST["Lname"];
 ?&gt;
@@ -352,10 +349,10 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-2-12">
-<h3 id="2-12"><span class="section-number-3">2.12</span> Primer - Ruby ERB</h3>
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Primer - Ruby ERB</h3>
 <div class="org-src-container">
 
-<pre><code class=" erb" >&lt;h1&gt;Listing Books&lt;/h1&gt;
+<pre><code class="erb" >&lt;h1&gt;Listing Books&lt;/h1&gt;
  
 &lt;table&gt;
   &lt;tr&gt;
@@ -390,10 +387,10 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-2-13">
-<h3 id="2-13"><span class="section-number-3">2.13</span> Primer - Xtend</h3>
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Primer - Xtend</h3>
 <div class="org-src-container">
 
-<pre><code class=" xtend" >def compile(Entity e) ''' 
+<pre><code class="xtend" >def compile(Entity e) ''' 
 	«IF e.eContainer.fullyQualifiedName != null»
 		package «e.eContainer.fullyQualifiedName»;
 	«ENDIF»
@@ -428,9 +425,9 @@ def compile(Feature f) '''
 
 </section>
 <section id="slide-2-14">
-<h3 id="2-14"><span class="section-number-3">2.14</span> Primer - Stratego</h3>
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Primer - Stratego</h3>
 
-<div class="figure">
+<div id="orgdd4f7b8" class="figure">
 <p><img src="./images/stratego.png" alt="stratego.png" />
 </p>
 </div>
@@ -442,7 +439,7 @@ def compile(Feature f) '''
 
 </section>
 <section id="slide-2-15">
-<h3 id="2-15"><span class="section-number-3">2.15</span> In-line generisanje koda</h3>
+<h3 id="2-15"><span class="section-number-3">2.15.</span> In-line generisanje koda</h3>
 <ul>
 <li>Ciljni jezik poseduje iskaze koji se u vreme kompajliranja zamenjuju drugim
 konstrukcijama istog jezika.</li>
@@ -454,10 +451,10 @@ predprocesora koji će vršiti ekspanziju koda pre faze kompajliranja.</li>
 
 </section>
 <section id="slide-2-16">
-<h3 id="2-16"><span class="section-number-3">2.16</span> Primer - C predprocesor</h3>
+<h3 id="2-16"><span class="section-number-3">2.16.</span> Primer - C predprocesor</h3>
 <div class="org-src-container">
 
-<pre><code class=" c" >#include &lt;stdio.h&gt;
+<pre><code class="c" >#include &lt;stdio.h&gt;
 
 #define SLICES 8
 #define ADD(x) ( (x) / SLICES )
@@ -477,7 +474,7 @@ int main()
 
 </section>
 <section id="slide-2-17">
-<h3 id="2-17"><span class="section-number-3">2.17</span> U svim slučajevima&#x2026;</h3>
+<h3 id="2-17"><span class="section-number-3">2.17.</span> U svim slučajevima&#x2026;</h3>
 <ul>
 <li>&#x2026;imamo fiksni, nepromenjivi deo programskog koda i varijabilni deo.</li>
 <li>Šta će u našem slučaju biti izvor za koji definiše varijabilni deo?</li>
@@ -486,7 +483,7 @@ int main()
 
 </section>
 <section id="slide-2-18">
-<h3 id="2-18"><span class="section-number-3">2.18</span> Šta i kako generisati?</h3>
+<h3 id="2-18"><span class="section-number-3">2.18.</span> Šta i kako generisati?</h3>
 <ul>
 <li>Truditi se da generisan kod bude čitak. Očuvati nazubljivanje, generisati
 komentare, u komentarima jasno napisati da je generisani kod u pitanju i na
@@ -503,7 +500,7 @@ pisanog i generisanog koda.</li>
 
 </section>
 <section id="slide-2-19">
-<h3 id="2-19"><span class="section-number-3">2.19</span> Ručne izmene u generisanom kodu</h3>
+<h3 id="2-19"><span class="section-number-3">2.19.</span> Ručne izmene u generisanom kodu</h3>
 <ul>
 <li>Ponovno generisanje celih fajlova vs. očuvanje ručnih izmena.</li>
 <li>Kod očuvanja ručnih izmena u generisanom kodu koriste se tzv. zaštićene
@@ -518,7 +515,7 @@ potrebe - uvek ga možete izgenerisati! Isti je razlog zbog koga ne čuvate Java
 
 </section>
 <section id="slide-2-20">
-<h3 id="2-20"><span class="section-number-3">2.20</span> Generisani kôd i kontrola verzija</h3>
+<h3 id="2-20"><span class="section-number-3">2.20.</span> Generisani kôd i kontrola verzija</h3>
 <ul>
 <li>Kod koji se uvek generiše potpuno ne čuvati u sistemu za kontrolu verzija bez
 potrebe - uvek ga možete izgenerisati!</li>
@@ -529,7 +526,7 @@ potrebe - uvek ga možete izgenerisati!</li>
 
 </section>
 <section id="slide-2-21">
-<h3 id="2-21"><span class="section-number-3">2.21</span> Integracija generisanog i ručno pisanog koda</h3>
+<h3 id="2-21"><span class="section-number-3">2.21.</span> Integracija generisanog i ručno pisanog koda</h3>
 <ul>
 <li>Najčešće se koriste mogućnosti ciljnog programskog jezika.</li>
 <li>Na primer, ukoliko je u pitanju OO jezik možemo koristiti nasleđivanje ili
@@ -539,15 +536,14 @@ ukoliko jezik podržava parcijalne klase (npr. .NET).</li>
 
 </section>
 <section id="slide-2-22">
-<h3 id="2-22"><span class="section-number-3">2.22</span> Obrasci za integraciju kod OO jezika - 1</h3>
+<h3 id="2-22"><span class="section-number-3">2.22.</span> Obrasci za integraciju kod OO jezika - 1</h3>
 <p>
 Generisani kôd poziva ručno pisani.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_1.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgd3399e4" class="figure">
+<p><img src="./images/integracija_1.svg" alt="integracija_1.svg" />
 </p>
 </div>
 
@@ -559,15 +555,14 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-23">
-<h3 id="2-23"><span class="section-number-3">2.23</span> Obrasci za integraciju kod OO jezika - 2</h3>
+<h3 id="2-23"><span class="section-number-3">2.23.</span> Obrasci za integraciju kod OO jezika - 2</h3>
 <p>
 Ručno pisani kôd poziva generisani.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_2.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org085cc7a" class="figure">
+<p><img src="./images/integracija_2.svg" alt="integracija_2.svg" />
 </p>
 </div>
 
@@ -579,7 +574,7 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-24">
-<h3 id="2-24"><span class="section-number-3">2.24</span> Obrasci za integraciju kod OO jezika - 3</h3>
+<h3 id="2-24"><span class="section-number-3">2.24.</span> Obrasci za integraciju kod OO jezika - 3</h3>
 <p>
 Generisani kôd nasleđuje apstraktne klase ili implementira interfejse (ručno
 pisane). Ručno pisani kod poziva generisani preko interfejsa ili apstraktnih
@@ -587,9 +582,8 @@ klasa.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_3.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org5f98866" class="figure">
+<p><img src="./images/integracija_3.svg" alt="integracija_3.svg" />
 </p>
 </div>
 
@@ -601,15 +595,14 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-25">
-<h3 id="2-25"><span class="section-number-3">2.25</span> Obrasci za integraciju kod OO jezika - 4</h3>
+<h3 id="2-25"><span class="section-number-3">2.25.</span> Obrasci za integraciju kod OO jezika - 4</h3>
 <p>
 Ručno pisani kôd nasleđuje i redefiniše generisani.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_4.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgdc40e13" class="figure">
+<p><img src="./images/integracija_4.svg" alt="integracija_4.svg" />
 </p>
 </div>
 
@@ -621,16 +614,15 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-26">
-<h3 id="2-26"><span class="section-number-3">2.26</span> Obrasci za integraciju kod OO jezika - 5</h3>
+<h3 id="2-26"><span class="section-number-3">2.26.</span> Obrasci za integraciju kod OO jezika - 5</h3>
 <p>
 Generisani kôd nasleđuje i poziva ručno pisani. Na primer, implementacija
 apstraktnih metoda u kojoj se koriste pozivi konkretnih metoda.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_5.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgd10d1e6" class="figure">
+<p><img src="./images/integracija_5.svg" alt="integracija_5.svg" />
 </p>
 </div>
 
@@ -642,17 +634,16 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-27">
-<h3 id="2-27"><span class="section-number-3">2.27</span> Obrasci za integraciju kod OO jezika - 6</h3>
+<h3 id="2-27"><span class="section-number-3">2.27.</span> Obrasci za integraciju kod OO jezika - 6</h3>
 <p>
 Generisani kôd nasleđuje ručno pisani i definiše apstraktne metode. Ručno pisani
 kôd poziva konkretne metode kao i apstraktne metode koje definiše generisani
-kod. Implementacija <i>Template Method</i> dizajn šablona.
+kod. Implementacija <i>Template Method</i> dizajn obrasca.
 </p>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/integracija_6.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgec5954a" class="figure">
+<p><img src="./images/integracija_6.svg" alt="integracija_6.svg" />
 </p>
 </div>
 
@@ -664,9 +655,9 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 
 </section>
 <section id="slide-2-28">
-<h3 id="2-28"><span class="section-number-3">2.28</span> Integracija upotrebom VCS</h3>
+<h3 id="2-28"><span class="section-number-3">2.28.</span> Integracija upotrebom VCS</h3>
 
-<div class="figure">
+<div id="org64a091e" class="figure">
 <p><img src="./images/vcs-integracija.png" alt="vcs-integracija.png" />
 </p>
 </div>
@@ -675,12 +666,12 @@ Engineering, Management</i>. John Wiley &amp; Sons, June 2006</li>
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Interpretiranje</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Interpretiranje</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Interpretiranje</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Interpretiranje</h3>
 <ul>
 <li>Interpreter je softver koji čita mogram i dinamički ga evaluira u vreme
 izvršavanja (<i>runtime</i>).</li>
@@ -692,17 +683,16 @@ izvršavanja (<i>runtime</i>).</li>
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Arhitektura pristupa</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Arhitektura pristupa</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/Arhitektura-interpreter.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org6f5211a" class="figure">
+<p><img src="./images/Arhitektura-interpreter.svg" alt="Arhitektura-interpreter.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Primer - Arpeggio i textX</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Primer - Arpeggio i textX</h3>
 <ul>
 <li>Arpeggio textX su parseri koji vrši interpretiranje gramatike jezika.</li>
 <li>Parser se ne generiše već se arpeggio konfiguriše gramatikom jezika i posle
@@ -714,12 +704,12 @@ toga je spreman da parsira proizvoljne iskaze na definisanom jeziku.</li>
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Finalne napomene</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Finalne napomene</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> Vreme analize modela - generatori vs. interpreteri</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Vreme analize modela - generatori vs. interpreteri</h3>
 <ul>
 <li>Analiza modela se kod generatora obavlja u vreme izgradnje dok se kod
 interpretera obavlja u vreme izvršavanja.</li>
@@ -734,7 +724,7 @@ efikasan međuformat (npr. <i>bytecode</i> za Java virtualnu mašinu).</li>
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> Generisanje ili interpretacija?</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Generisanje ili interpretacija?</h3>
 <ul>
 <li>Na ovo pitanje ne postoji opšti odgovor.</li>
 <li>Zavisi od jezika, domena, zahteva u razvoju kao i zahtevanih nefunkcioanlnih
@@ -746,7 +736,6 @@ osobina.</li>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -764,7 +753,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
