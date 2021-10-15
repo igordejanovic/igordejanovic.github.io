@@ -4,20 +4,22 @@
 #+SETUPFILE: ../../courses-startup.org
 
 * Opšte informacije
-
 - Broj ESPB: 6
 - Fond časova: 3+3
 - Predmetni nastavnik: [[http://igordejanovic.net][dr Igor Dejanović]] (igord na
   uns ac rs)
-- Predmetni asistent: MSc. Miloš Simić (milossimicsimo na gmail)
+- Predmetni asistent:
+  - MSc Vladimir Inđić, vladaindjic na uns.ac.rs
 - Stranica predmeta: http://informatika.ftn.uns.ac.rs/UKS
-- Google grupa: https://groups.google.com/forum/#!forum/kzi-uks
 - Konsultacije se obavljaju po potrebi uz najavu na email
 - Dogovor o usmenim ispitima se obavlja preko grupe:
   - https://groups.google.com/d/forum/dejanovic-ispiti
 
-* Šta predstavlja upravljanje konfiguracijom softvera?
+#+begin_comment
+- Google grupa: https://groups.google.com/forum/#!forum/kzi-uks
+#+end_comment
 
+* Šta predstavlja upravljanje konfiguracijom softvera?
 - Upravljanje konfiguracijom softvera (/Software Configuration Management/)
   predstavlja disciplinu koja se bavi kontrolisanom evolucijom složenih
   softverskih sistema.
@@ -27,7 +29,6 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
   the conference on The future of Software engineering, pp. 279–289, ACM, 2000
 
 * Zašto koristiti SCM?
-
 - Softverski proizvodi često “žive” godinama pa čak i decenijama.
 - Softverski proizvodi su često izuzetno kompleksni.
 - Da bi obezbedili kontinualnu evoluciju moramo uvesti procese, tehnike i alate
@@ -43,7 +44,6 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
 1. [[https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/][J. Spolsky, The joel test: 12 steps to better code]], August 2000.
 
 * Zašto koristiti SCM?
-
 #+ATTR_REVEAL: :frag (none none roll-in)
 - Podrška za paralelni rad. Ručno spajanje paralelnih izmena nije ni malo
   zabavno.
@@ -57,23 +57,20 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
   zapitajte se da li želite da radite u takvoj firmi.
 
 * Cilj predmeta
-
 - Savladavanje teoretskih osnova discipline upravljanja konfiguracijom softvera
   (/Software Configuration Management/).
 - Osposobljavanje za uvođenje i primenu procesa upravljanja konfiguracijom
   softvera.
 - Upoznavanje sa industrijskim standardima, okvirima i alatima iz oblasti
   upravljanja konfiguracijom softvera.
-- Savladavanje modernih SCM tehnologija (Git, pytest, GitHub/GitLab/Gogs,
-  Docker, Travis, ReviewBoard, Mylyn).
+- Savladavanje modernih SCM tehnologija (Git, pytest, GitHub/GitLab, Docker,
+  Docker Compose, Chef/Ansimble/Teraform).
 
 * Struktura ocene
-
 - Predispitne obaveze - 60%
 - Teorijski deo ispita - 40%
 
 * Projekat
-
 - Timski rad - timovi od 4±1 studenta.
 - Obavezna upotreba sistema za kontrolu verzija ([[https://git-scm.com/][Git]]).
 - Obavezna upotreba sistema za praćenje projekta ([[https://github.com/][GitHub]]).
@@ -90,7 +87,7 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
 | GitHub                  |   10   |
 | SCM                     |   8    |
 |-------------------------+--------|
-| *Ukupno*                |  *60*  |
+| *Ukupno*                  |   *60*   |
 
 
 /I pored timskog rada svi bodovi se dobijaju individualno./
@@ -99,31 +96,28 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
 
 1. Upoznavanje sa predmetom
 2. Programski jezik Python
-3. [[https://www.djangoproject.com/][Django framework]]
-4. Osnove upravljanja konfiguracijom softvera
+3. Osnove upravljanja konfiguracijom softvera
+4. [[https://www.djangoproject.com/][Django framework]]
 5. Upravljanje izvornim kodom (/Source Code Management/)
-6. Sistemi za kontrolu verzija (Subversion, Mercurial, Git)
-7. Upravljanje promenama (/Change Control/). Postavka zadatka.
-8. Analiza i dizajn sistema za upravljanje konfiguracijom softvera
-9. SCM sistemi (GitLab/GitHub, Gogs, Trac, RedMine, Review Board...)
-10. Upravljanje izgradnom i uvođenjem softvera (/Build Management and
-    Deployment/ - [[https://www.docker.com/][Docker]])
-11. Upravljanje izdanjima (/Release Management/)
-12. Diskusije i analiza progresa po timovima
-13. Demonstracije projekata
+6. DVCS, Git
+7. Git
+8. Postavka zadatka. Modelovanje rešenja (plantUML)
+9. docker, docker-compose
+10. Pisanje dokumentacije (mkdocs, Sphinx)
+11. Infrastructure as Code (IaC) - (Chef, Puppet, Ansimble, Terraform, Kubernetes) - videćemo šta od alata
+12. Testiranje (pytest, PyUnit, doctest), TDD, kontinualna integracija (Jenkins, GitHub Actions, GitLab pipelines)
+13. Prezentacije projekata
 
 * Projektni zadatak
-
 - Veb aplikacija za upravljanje promenama.
 - Slično GitHub-u.
 - Od zahteva za promenom do uvođenja i puštanja u rad.
 - Veza prema promenama u izvornom kodu - koristiti GitHub.
-- Krajnji cilj: definisan SCM proces za upravljanje promenama, podržan
-  aplikacijom. Preći na sopstvenu aplikaciju u upravljanju projektom
+- +Krajnji cilj: definisan SCM proces za upravljanje promenama, podržan
+  aplikacijom. Preći na sopstvenu aplikaciju u upravljanju projektom+
   ([[https://en.wikipedia.org/wiki/Eating_your_own_dog_food][dogfooding]])
 
 * Osnove upravljanja konfiguracijom softvera
-
 - Osnovni pojmovi i koncepti.
 - Šta sve obuhvata SCM? Koji su razlozi uvođenja?
 - Tradicionalna i moderna shvatanja SCM discipline.
@@ -133,23 +127,19 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
 - SCM industrijski okviri i standardi.
 
 * Upravljanje izvornim kodom (/Source Code Management/)
-
 - Algoritmi i modeli. Distribuirani i centralizovani sistemi.
 - Upravljanje alternativnih tokovima razvoja. Grananje.
 - Formiranje osnovne linije (/Baseline/).
-- Upravljanje konkurentnim radom. Optimističko i pesimističko
-  zaključavanje.
+- Upravljanje konkurentnim radom. Optimističko i pesimističko zaključavanje.
 - Preporučena praksa.
 - Alati.
 
 * Sistemi za kontrolu verzija
-
-- Pregled osnovnih osobina najpopularnijih alata za kontrolu
-  verzija (Subversion, Mercurial, Bazaar, Git).
+- Pregled osnovnih osobina najpopularnijih alata za kontrolu verzija
+  (Subversion, Mercurial, Bazaar, Git).
 - Detaljno upoznavanje sa Git alatom.
 
 * Upravljanje promenama (/Change Control/)
-
 - Šta predstavlja upravljanje promenama?
 - Kakve sve promene mogu nastati i u kojim fazama životnog ciklusa?
 - Kako se promene prate? Životni ciklus zahteva za promenom.
@@ -157,16 +147,14 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
 - Izveštavanje.
 
 * Upravljanje izgradnjom i uvođenje (/Build and Deploy/)
-
 - Šta predstavlja izgradnja a šta uvođenje softvera?
 - Zašto je potrebno postupak automatizovati?
 - Kako se izgradnja i uvođenje mogu automatizovati?
-- Šta predstavlja kontinualna izgradnja (/Continuous
-  Build/) i kontinualna dostava (/Continuous Delivery/)?
-- Puppet, Fabric, Travis, Docker, ...
+- Šta predstavlja kontinualna izgradnja (/Continuous Build/) i kontinualna dostava
+  (/Continuous Delivery/)?
+- Puppet, Teraform, Fabric, Docker, ...
 
 * Upravljanje izdanjima (/Release Management/)
-
 - Šta predstavlja izdanje softvera?
 - Zašto je bitno da uvedemo upravljanje u ovaj segment?
 - Tehnike vođenja verzija izdanja?
@@ -175,7 +163,6 @@ J. Estublier, /Software configuration management: a roadmap/, in Proceedings of
   izdanje kreirano.
 
 * Literatura za predmet
-
 - J. Humble and D. Farley, /Continuous delivery: reliable software releases
   through build, test and deployment automation/ Addison-Wesley Professional,
   2010
