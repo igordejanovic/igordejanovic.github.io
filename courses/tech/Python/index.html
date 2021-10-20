@@ -35,12 +35,12 @@
 <h1 class="title">Programski jezik Python</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-09 Sat 18:58, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-10-20 Wed 06:53, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orgab8d087">
-<h2 id="orgab8d087">Sadržaj</h2>
+<section id="slide-org5174ddb">
+<h2 id="org5174ddb">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Kratak pregled Python-a</a></li>
@@ -61,12 +61,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Kratak pregled Python-a</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Kratak pregled Python-a</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Python</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Python</h3>
 <ul>
 <li>Razvoj započet 1989 u Holandiji kao hobi projekat Gvida Van Rosuma. Danas
 jedan od najpopularnijih jezika.</li>
@@ -85,10 +85,10 @@ Light &amp; Magic&#x2026;</li>
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Zen of Python</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Zen of Python</h3>
 <div class="org-src-container">
 
-<pre><code class=" :eval" >&gt;&gt;&gt; import this
+<pre><code class=":eval" >&gt;&gt;&gt; import this
 Beautiful is better than ugly.
 Explicit is better than implicit.
 Simple is better than complex.
@@ -113,7 +113,7 @@ Namespaces are one honking great idea -- let's do more of those!
 
 </section>
 <section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> Implementacije Python-a</h3>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Implementacije Python-a</h3>
 <ul>
 <li>CPython</li>
 <li>PyPy</li>
@@ -126,7 +126,7 @@ Namespaces are one honking great idea -- let's do more of those!
 
 </section>
 <section id="slide-1-4">
-<h3 id="1-4"><span class="section-number-3">1.4</span> Python konzola</h3>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Python konzola</h3>
 <ul>
 <li>Pokreće se pozivom Python interpretera bez parametara.</li>
 
@@ -134,7 +134,7 @@ Namespaces are one honking great idea -- let's do more of those!
 
 <div class="org-src-container">
 
-<pre><code class=" :eval" >$ python
+<pre><code class=":eval" >$ python
 Python 3.4.1 (default, May 19 2014, 17:23:49)
 [GCC 4.9.0 20140507 (prerelease)] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -151,16 +151,16 @@ Hello World!
 
 </section>
 <section id="slide-1-5">
-<h3 id="1-5"><span class="section-number-3">1.5</span> Jednostavan program na Python-u</h3>
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Jednostavan program na Python-u</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >principal = 1000    # Početni iznos
+<pre><code class="python" >principal = 1000    # Početni iznos
 rate = 0.05         # Kamatna stopa
 numyears = 5
 year = 1
 while year &lt;= numyears:
   principal = principal * (1 + rate)
-  print year, principal     # print(year, principal) u Python-u 3
+  print(year, principal)
   year += 1
 </code></pre>
 </div>
@@ -174,7 +174,7 @@ referenciraju.</li>
 
 </section>
 <section id="slide-1-6">
-<h3 id="1-6"><span class="section-number-3">1.6</span> <code>print</code> i formatiranje izlaza</h3>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> <code>print</code> i formatiranje izlaza</h3>
 <ul>
 <li>Slično <code>printf</code> funkciji u C-u.</li>
 <li>Upotrebom string interpolacije (operator <code>%</code>)</li>
@@ -183,49 +183,57 @@ referenciraju.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >print "%3d %0.2f" % (year, principal)
-print("%3d %0.2f" % (year, principal))      # Python 3
+<pre><code class="python" >print("%3d %0.2f" % (year, principal))
 </code></pre>
 </div>
 
 <p>
-Ili modernija varijanta - <code>format</code> funkcija
+Ili upotrebom <code>format</code> funkcije
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >print format(year,"3d"),format(principal,"0.2f")
-print(format(year,"3d"),format(principal,"0.2f")) # Python 3
+<pre><code class="python" >print(format(year,"3d"),format(principal,"0.2f"))
 
 # ili format funkcijom nad stringom
-print "{0:3d} {1:0.2f}".format(year,principal)
-print("{0:3d} {1:0.2f}".format(year,principal)) # Python 3
+print("{0:3d} {1:0.2f}".format(year,principal))
 </code></pre>
 </div>
+
+<p>
+ili upotrebom f-stringova
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >print(f"{year:3d} {principal:0.2f}")
+</code></pre>
+</div>
+
 </section>
 <section id="slide-1-7">
-<h3 id="1-7"><span class="section-number-3">1.7</span> Uslovi</h3>
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Uslovi</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >if a &lt; b:
-    print "Computer says Yes"
+<pre><code class="python" >if a &lt; b:
+    print("Computer says Yes")
 else:
-    print "Computer says No"
+    print("Computer says No")
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if product == "game" and type == "pirate memory" \
+<pre><code class="python" >if product == "game" and type == "pirate memory" \
             and not (age &lt; 4 or age &gt; 8):
-      print "I'll take it!"
+      print("I'll take it!")
 </code></pre>
 </div>
 
 <div class="column" style="float:left; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" >if suffix == ".htm":
+<pre><code class="python" >if suffix == ".htm":
     content = "text/html"
 elif suffix == ".jpg":
     content = "image/jpeg"
@@ -241,7 +249,7 @@ else:
 <div class="column" style="float:right; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" >if 'spam' in s:
+<pre><code class="python" >if 'spam' in s:
     has_spam = True
 else:
     has_spam = False
@@ -251,13 +259,13 @@ else:
 
 </section>
 <section id="slide-1-8">
-<h3 id="1-8"><span class="section-number-3">1.8</span> Fajl ulaz/izlaz</h3>
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Fajl ulaz/izlaz</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >f = open("foo.txt")
+<pre><code class="python" >f = open("foo.txt")
 line = f.readline()
 while line:
-    print line,     # print(line,end='') za Python 3
+    print(line,end='')
     line = f.readline()
 f.close()
 </code></pre>
@@ -269,9 +277,9 @@ Isti program u kraćoj formi:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >with open("foo.txt") as f:
-  for line in f:
-      print line,
+<pre><code class="python" >with open("foo.txt") as f:
+    for line in f:
+        print(line,end='')
 </code></pre>
 </div>
 
@@ -281,12 +289,11 @@ Pisanje u fajl:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >f = open("out","w")       # Otvaranje za pisanje - "w"
+<pre><code class="python" >f = open("out","w")       # Otvaranje za pisanje - "w"
 while year &lt;= numyears:
     principal = principal * (1 + rate)
-    print &gt;&gt;f,"%3d %0.2f" % (year,principal)
+    print("%3d %0.2f" % (year,principal),file=f)
     # Alternativno f.write("%3d %0.2f\n" % (year,principal))
-    # Za P3, print("%3d %0.2f" % (year,principal),file=f)
     year += 1
 f.close()
 </code></pre>
@@ -294,10 +301,10 @@ f.close()
 
 </section>
 <section id="slide-1-9">
-<h3 id="1-9"><span class="section-number-3">1.9</span> Stringovi</h3>
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Stringovi</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >a = "Hello World"
+<pre><code class="python" >a = "Hello World"
 b = 'Python is groovy'
 c = """Computer says 'No'"""
 print '''Content-type: text/html
@@ -321,7 +328,7 @@ z = int(x) + int(y)     # z = 79 (Integer +)
 
 </section>
 <section id="slide-1-10">
-<h3 id="1-10"><span class="section-number-3">1.10</span> Liste</h3>
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Liste</h3>
 <ul>
 <li>Liste su sekvence proizvoljnih objekata (referenci)</li>
 
@@ -329,7 +336,7 @@ z = int(x) + int(y)     # z = 79 (Integer +)
 
 <div class="org-src-container">
 
-<pre><code class=" python" >names = [ "Dave", "Mark", "Ann", "Phil" ]
+<pre><code class="python" >names = [ "Dave", "Mark", "Ann", "Phil" ]
 a = names[2]          # Vraća treći objekat iz liste - "Ann"
 names[0] = "Jeff"     # Menja prvi objekat-referencu na "Jeff"
 names.append("Paula")       # Dodaje "Paula" na kraj liste
@@ -354,12 +361,12 @@ a[3][3][1]      # 101
 
 </section>
 <section id="slide-1-11">
-<h3 id="1-11"><span class="section-number-3">1.11</span> List comprehensions</h3>
+<h3 id="1-11"><span class="section-number-3">1.11.</span> List comprehensions</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >import sys                # Učitavanje sys modula
+<pre><code class="python" >import sys                # Učitavanje sys modula
 if len(sys.argv) != 2     # Proveri broj argumenata
-    print "Please supply a filename"
+    print("Please supply a filename")
     raise SystemExit(1)
 f = open(sys.argv[1])     # Ime fajla je dato kao paramatar
 lines = f.readlines()     # Pročitaj sve linije u listu
@@ -375,7 +382,7 @@ print "The maximum value is ", max(fvalues)
 </div>
 </section>
 <section id="slide-1-12">
-<h3 id="1-12"><span class="section-number-3">1.12</span> N-torke (<i>Tuples</i>)</h3>
+<h3 id="1-12"><span class="section-number-3">1.12.</span> N-torke (<i>Tuples</i>)</h3>
 <ul>
 <li>Nepromenjiva struktura - <i>immutable</i></li>
 
@@ -383,7 +390,7 @@ print "The maximum value is ", max(fvalues)
 
 <div class="org-src-container">
 
-<pre><code class=" python" >stock = ('GOOG', 100, 490.10)
+<pre><code class="python" >stock = ('GOOG', 100, 490.10)
 address = ('www.python.org', 80)
 person = (first_name, last_name, phone)
 
@@ -406,10 +413,10 @@ first_name, last_name, phone = person
 
 </section>
 <section id="slide-1-13">
-<h3 id="1-13"><span class="section-number-3">1.13</span> Primer upotrebe n-torki i lista</h3>
+<h3 id="1-13"><span class="section-number-3">1.13.</span> Primer upotrebe n-torki i lista</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" ># File containing lines of the form "name,shares,price"
+<pre><code class="python" ># File containing lines of the form "name,shares,price"
 filename = "portfolio.csv"
 portfolio = []
 with open(filename) as f:
@@ -425,7 +432,7 @@ with open(filename) as f:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; portfolio[0]
+<pre><code class="python" >&gt;&gt;&gt; portfolio[0]
 ('GOOG', 100, 490.10)
 &gt;&gt;&gt; portfolio[1]
 ('MSFT', 50, 54.23)
@@ -439,7 +446,7 @@ with open(filename) as f:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >total = 0.0
+<pre><code class="python" >total = 0.0
 for name, shares, price in portfolio:
     total += shares * price
 </code></pre>
@@ -447,14 +454,14 @@ for name, shares, price in portfolio:
 
 </section>
 <section id="slide-1-14">
-<h3 id="1-14"><span class="section-number-3">1.14</span> Skupovi (<i>sets</i>)</h3>
+<h3 id="1-14"><span class="section-number-3">1.14.</span> Skupovi (<i>sets</i>)</h3>
 <p>
 Neuređena kolekcija objekata.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >s = set([3,5,9,10])     # Kreira skup brojeva
+<pre><code class="python" >s = set([3,5,9,10])     # Kreira skup brojeva
 t = set("Hello")        # Kreira skup jedinstvenih karaktera
 &gt;&gt;&gt; t
 set(['H', 'e', 'l', 'o'])
@@ -467,7 +474,7 @@ Operacije nad skupovima:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = t | s     # Unija skupova t i s
+<pre><code class="python" >a = t | s     # Unija skupova t i s
 b = t &amp; s     # Presek skupova t i s
 c = t - s     # Razlika skupova t i s
 d = t ^ s     # Simetrična razlika skupova t i s
@@ -482,7 +489,7 @@ Dodavanje i uklanjanje elemenata.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >t.add('x')                # Dodavanje jednog elementa u t
+<pre><code class="python" >t.add('x')                # Dodavanje jednog elementa u t
 s.update([10,37,42])      # Dodavanje više elemenata u s
 t.remove('H')             # Uklanjanje elementa
 </code></pre>
@@ -490,7 +497,7 @@ t.remove('H')             # Uklanjanje elementa
 
 </section>
 <section id="slide-1-15">
-<h3 id="1-15"><span class="section-number-3">1.15</span> Rečnici (<i>dictionaries</i>)</h3>
+<h3 id="1-15"><span class="section-number-3">1.15.</span> Rečnici (<i>dictionaries</i>)</h3>
 <ul>
 <li>Asocijativni niz objekata indeksiranih ključevima.</li>
 <li>Ključ može biti bilo koji nepromenjivi objekat (<i>immutable</i>).</li>
@@ -499,7 +506,7 @@ t.remove('H')             # Uklanjanje elementa
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Dva načina kreiranja praznog rečnika
+<pre><code class="python" ># Dva načina kreiranja praznog rečnika
 stock = {}
 stock = dict()
 
@@ -525,7 +532,7 @@ stock["date"] = "June 7, 2007"
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Mogu se koristiti za brzo pronalaženje podataka
+<pre><code class="python" ># Mogu se koristiti za brzo pronalaženje podataka
 prices = {
     "GOOG": 490.10,
     "AAPL": 123.50,
@@ -552,10 +559,10 @@ syms = prices.keys()
 
 </section>
 <section id="slide-1-16">
-<h3 id="1-16"><span class="section-number-3">1.16</span> Iteracija i petlje</h3>
+<h3 id="1-16"><span class="section-number-3">1.16.</span> Iteracija i petlje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >for n in [1,2,3,4,5,6,7,8,9]:
+<pre><code class="python" >for n in [1,2,3,4,5,6,7,8,9]:
     print "2 na stepen %d je %d" % (n, 2**n)
 
 for n in range(1,10):
@@ -566,7 +573,7 @@ b = range(1, 8)     # b = [1, 2, 3, 4, 5, 6, 7]
 c = range(0, 14, 3) # c = [0, 3, 6, 9, 12]
 d = range(8, 1, -1) # d = [8, 7, 6, 5, 4, 3, 2]
 
-for i in xrange(100000000):       # i = 0,1,2,...,99999999
+for i in range(100_000_000):       # i = 0,1,2,...,99999999 ali "lenje"
     statements
 </code></pre>
 </div>
@@ -582,7 +589,7 @@ for i in xrange(100000000):       # i = 0,1,2,...,99999999
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = "Hello World"
+<pre><code class="python" >a = "Hello World"
 # Štampa pojedinačna slova stringa a
 for c in a:
     print c
@@ -596,7 +603,7 @@ for c in a:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >b = ["Dave","Mark","Ann","Phil"]
+<pre><code class="python" >b = ["Dave","Mark","Ann","Phil"]
 # Štampa članove liste b
 for name in b:
     print name
@@ -613,7 +620,7 @@ for name in b:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >c = { 'GOOG' : 490.10, 'IBM' : 91.50, 'AAPL' : 123.15 }
+<pre><code class="python" >c = { 'GOOG' : 490.10, 'IBM' : 91.50, 'AAPL' : 123.15 }
 # Štampa sve članove rečnika c
 for key in c:
     print key, c[key]
@@ -627,7 +634,7 @@ for key in c:
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Štampa sve linije fajla foo.txt
+<pre><code class="python" ># Štampa sve linije fajla foo.txt
 f = open("foo.txt")
 for line in f:
     print line,
@@ -642,7 +649,7 @@ for line in f:
 
 </section>
 <section id="slide-1-17">
-<h3 id="1-17"><span class="section-number-3">1.17</span> Funkcije</h3>
+<h3 id="1-17"><span class="section-number-3">1.17.</span> Funkcije</h3>
 <ul>
 <li>Kreiraju se ključnom rečju <code>def</code></li>
 <li>Ukoliko funkcija nema povratnu vrednost implicitno vraća <code>None</code></li>
@@ -651,10 +658,10 @@ for line in f:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def fibonacci(n):
+<pre><code class="python" >def fibonacci(n):
   "Returns element of fibonacci array at given possition."
   if n &lt; 0:
-    raise ValueError("Array index must be &gt;=0.")
+    raise ValueError("Index must be &gt;=0.")
   if n &lt; 2:
     return 1
   return fibonacci(n-2) + fibonacci(n-1)
@@ -663,7 +670,7 @@ for line in f:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def f(a, b=5):
+<pre><code class="python" >def f(a, b=5):
   return a + 2 ** b
 &gt;&gt;&gt; f(3)
 35
@@ -683,7 +690,7 @@ Parametri i vrednosti parametara se mogu upariti po poziciji ili po nazivu:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def f(a, b=5):
+<pre><code class="python" >def f(a, b=5):
   return a + 2 ** b
 
 &gt;&gt;&gt; f(b=3, a=1)
@@ -697,7 +704,7 @@ Promenjivi broj parametara, po poziciji i po imenu:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def f(*args, **kwargs):
+<pre><code class="python" >def f(*args, **kwargs):
   for a in args:
     print(a)
   for k, v in kwargs.items():
@@ -725,7 +732,7 @@ c 89
 
 <div class="org-src-container">
 
-<pre><code class=" python" >count = 0
+<pre><code class="python" >count = 0
 ...
 def foo1():
   count = 1    # Kreiranje lokalne varijable count
@@ -738,15 +745,15 @@ def foo2():
 
 </section>
 <section id="slide-1-18">
-<h3 id="1-18"><span class="section-number-3">1.18</span> Generatori</h3>
+<h3 id="1-18"><span class="section-number-3">1.18.</span> Generatori</h3>
 <p>
 Umesto jedne vrednosti funkcija može generisati sekvencu vrednosti.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def countdown(n):
-  print "Counting down!"
+<pre><code class="python" >def countdown(n):
+  print("Counting down!")
   while n &gt; 0:
     yield n     # Generisanje vrednosti (n)
     n -= 1
@@ -761,25 +768,25 @@ Umesto jedne vrednosti funkcija može generisati sekvencu vrednosti.
 
 </section>
 <section id="slide-1-19">
-<h3 id="1-19"><span class="section-number-3">1.19</span> Generatori - upotreba</h3>
+<h3 id="1-19"><span class="section-number-3">1.19.</span> Generatori - upotreba</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; c = countdown(5)
-&gt;&gt;&gt; c.next()
+<pre><code class="python" >&gt;&gt;&gt; c = countdown(5)
+&gt;&gt;&gt; c.__next__()
 Counting down!
 5
-&gt;&gt;&gt; c.next()
+&gt;&gt;&gt; c.__next__()
 4
-&gt;&gt;&gt; c.next()
+&gt;&gt;&gt; c.__next__()
 3
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; for i in countdown(5):
+<pre><code class="python" >&gt;&gt;&gt; for i in countdown(5):
       ...
-      print i,
+      print(i, end=' ')
 Counting down!
 5 4 3 2 1
 </code></pre>
@@ -792,7 +799,7 @@ kao generator.
 
 </section>
 <section id="slide-1-20">
-<h3 id="1-20"><span class="section-number-3">1.20</span> Korutine (<i>coroutines</i>)</h3>
+<h3 id="1-20"><span class="section-number-3">1.20.</span> Korutine (<i>coroutines</i>)</h3>
 <ul>
 <li>Koncept obrnut generatorima.</li>
 <li>Funkcije koje mogu spolja da prime sekvencu vrednosti u toku izvršavanja.</li>
@@ -801,14 +808,14 @@ kao generator.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def print_matches(matchtext):
-  print "Tražim", matchtext
+<pre><code class="python" >def print_matches(matchtext):
+  print("Tražim", matchtext)
   while True:
     line = (yield)    # Preuzmi liniju teksta spolja
     if matchtext in line:
-      print line
+      print(line)
 &gt;&gt;&gt; matcher = print_matches("python")
-&gt;&gt;&gt; matcher.next()    # Postavlja se na prvi (yield)
+&gt;&gt;&gt; matcher.__next__()    # Postavlja se na prvi (yield)
 Tražim python
 &gt;&gt;&gt; matcher.send("Hello World")
 &gt;&gt;&gt; matcher.send("python is cool")
@@ -825,7 +832,7 @@ niti i višenitnog programiranja.
 
 </section>
 <section id="slide-1-21">
-<h3 id="1-21"><span class="section-number-3">1.21</span> Objekti i klase</h3>
+<h3 id="1-21"><span class="section-number-3">1.21.</span> Objekti i klase</h3>
 <ul>
 <li>Sve vrednosti su objekti.</li>
 <li>Objekat se sastoji od internih podataka i metoda koje operišu nad njima.</li>
@@ -837,7 +844,7 @@ niti i višenitnog programiranja.
 Stringovi su objekti.
 </p>
 
-<pre  class="example">
+<pre>
 &gt;&gt;&gt; dir("foo")
 ['__add__', '__class__', '__contains__', '__delattr__',
 ...  '__len__', '__lt__', '__mod__', '__mul__',
@@ -850,7 +857,7 @@ Stringovi su objekti.
 Brojevi su objekti.
 </p>
 
-<pre  class="example">
+<pre>
 &gt;&gt;&gt; dir(2)
 ['__abs__', '__add__', '__and__', '__class__', '__cmp__', '__coerce__',
  ...'__pow__', '__radd__', '__rand__', '__rdiv__', '__rdivmod__',
@@ -864,7 +871,7 @@ Brojevi su objekti.
 Funkcije su objekti
 </p>
 
-<pre  class="example">
+<pre>
 &gt;&gt;&gt; dir(fibonacci)
 ['__call__', '__class__', '__closure__', '__code__',
  ...
@@ -875,7 +882,7 @@ Funkcije su objekti
 Liste su objekti.
 </p>
 
-<pre  class="example">
+<pre>
 &gt;&gt;&gt; items = [37, 42]
 &gt;&gt;&gt; dir(items)
 ['__add__', '__class__', '__contains__', '__delattr__'
@@ -886,7 +893,7 @@ Liste su objekti.
 
 </section>
 <section id="slide-1-22">
-<h3 id="1-22"><span class="section-number-3">1.22</span> Objekti i klase - specijalne metode</h3>
+<h3 id="1-22"><span class="section-number-3">1.22.</span> Objekti i klase - specijalne metode</h3>
 <ul>
 <li>Specijalne metode su oblika <code>__xxx__</code></li>
 <li>Ove metode se koriste za implementaciju npr. operatora (npr. <code>+</code>, <code>-</code>, <code>*</code>,
@@ -896,7 +903,7 @@ Liste su objekti.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; items = [37, 42]
+<pre><code class="python" >&gt;&gt;&gt; items = [37, 42]
 &gt;&gt;&gt; items.__add__([73,101])
 [37, 42, 73, 101]
 # je ekvivalentno sa
@@ -910,7 +917,7 @@ Klasa može da proizvoljno redefiniše specijalne metode.
 
 </section>
 <section id="slide-1-23">
-<h3 id="1-23"><span class="section-number-3">1.23</span> Objekti i klase - konstruktor</h3>
+<h3 id="1-23"><span class="section-number-3">1.23.</span> Objekti i klase - konstruktor</h3>
 <p>
 Specijalna metoda <code>__init__</code> predstavlja konstruktor.
 </p>
@@ -921,7 +928,7 @@ Primer: implementacija steka
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Stack(object):
+<pre><code class="python" >class Stack(object):
   def __init__(self):
     self.stack = [ ]
   def push(self,object):
@@ -957,7 +964,7 @@ listu.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Stack(list):    # Nasleđujemo listu
+<pre><code class="python" >class Stack(list):    # Nasleđujemo listu
   # Dodajemo push metodu da bi implementirali
   # stack interfejs
   # Napomena: liste već imaju pop() methodu.
@@ -972,7 +979,7 @@ Ovako kreirana klasa ima sve osobine liste.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; s = Stack()
+<pre><code class="python" >&gt;&gt;&gt; s = Stack()
 &gt;&gt;&gt; s.push(2)
 &gt;&gt;&gt; s.push(3)
 &gt;&gt;&gt; s.push(4)
@@ -985,14 +992,14 @@ Ovako kreirana klasa ima sve osobine liste.
 
 </section>
 <section id="slide-1-24">
-<h3 id="1-24"><span class="section-number-3">1.24</span> Objekti i klase - vrste metoda</h3>
+<h3 id="1-24"><span class="section-number-3">1.24.</span> Objekti i klase - vrste metoda</h3>
 <p>
 Klasa može da definiše različite vrste metoda.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class EventHandler(object):
+<pre><code class="python" >class EventHandler(object):
   @staticmethod
   def dispatcherThread():
     while (1):
@@ -1009,7 +1016,7 @@ EventHandler.dispatcherThread()   # Poziv static metode kao da je funkcija
 
 </section>
 <section id="slide-1-25">
-<h3 id="1-25"><span class="section-number-3">1.25</span> Izuzeci</h3>
+<h3 id="1-25"><span class="section-number-3">1.25.</span> Izuzeci</h3>
 <p>
 Ukoliko dođe do graške u programu javlja se izuzetak
 </p>
@@ -1020,7 +1027,7 @@ Ispis može biti poput ovoga:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >Traceback (most recent call last):
+<pre><code class="python" >Traceback (most recent call last):
 File "foo.py", line 12, in &lt;module&gt;
 IOError: [Errno 2] No such file or directory: 'file.txt'
 </code></pre>
@@ -1035,7 +1042,7 @@ Izuzeci se mogu uhvatiti i obraditi.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >f = open("file.txt", "r")
+<pre><code class="python" >f = open("file.txt", "r")
 try:
   ... obrada fajla
 except Exception as e:
@@ -1054,13 +1061,13 @@ nevalidnog stanja sa:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >raise RuntimeError("Computer says no")
+<pre><code class="python" >raise RuntimeError("Computer says no")
 </code></pre>
 </div>
 
 </section>
 <section id="slide-1-26">
-<h3 id="1-26"><span class="section-number-3">1.26</span> Izuzeci - konteksti</h3>
+<h3 id="1-26"><span class="section-number-3">1.26.</span> Izuzeci - konteksti</h3>
 <ul>
 <li>Upotreba nekog resursa uvek zahteva njegovo oslobađanje (zatvaranje) po
 završetku upotrebe.</li>
@@ -1071,7 +1078,7 @@ završetku upotrebe.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >import threading
+<pre><code class="python" >import threading
 message_lock = threading.Lock()
 ...
 with message_lock:
@@ -1089,7 +1096,7 @@ kontekst protokol (dve specijalne metode: <code>__enter__</code> i <code>__exit_
 
 </section>
 <section id="slide-1-27">
-<h3 id="1-27"><span class="section-number-3">1.27</span> Moduli</h3>
+<h3 id="1-27"><span class="section-number-3">1.27.</span> Moduli</h3>
 <ul>
 <li>Veće programe je poželjno razbiti u više fajlova/modula.</li>
 <li>Python omogućava import-ovanje definicija iz drugih fajlova/modula.</li>
@@ -1099,7 +1106,7 @@ kontekst protokol (dve specijalne metode: <code>__enter__</code> i <code>__exit_
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># file : div.py
+<pre><code class="python" ># file : div.py
 def divide(a,b):
   q = a/b
   r = a - q*b
@@ -1109,28 +1116,28 @@ def divide(a,b):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >import div
+<pre><code class="python" >import div
 a, b = div.divide(2305, 29)
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >import div as foo
+<pre><code class="python" >import div as foo
 a,b = foo.divide(2305,29)
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from div import divide
+<pre><code class="python" >from div import divide
 a,b = divide(2305,29)
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from div import *
+<pre><code class="python" >from div import *
 </code></pre>
 </div>
 
@@ -1143,7 +1150,7 @@ I moduli su objekti
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; import string
+<pre><code class="python" >&gt;&gt;&gt; import string
 &gt;&gt;&gt; dir(string)
 ['_ _builtins_ _', '_ _doc_ _', '_ _file_ _', '_ _name_ _', '_idmap',
 '_idmapL', '_lower', '_swapcase', '_upper', 'atof', 'atof_error',
@@ -1156,22 +1163,22 @@ I moduli su objekti
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Leksičke konvencije i sintaksa</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Leksičke konvencije i sintaksa</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Struktura linije i indentacija</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Struktura linije i indentacija</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >a = math.cos(3 * (x - n)) + \
+<pre><code class="python" >a = math.cos(3 * (x - n)) + \
     math.sin(3 * (y - n))
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if a:
+<pre><code class="python" >if a:
   statement1     # Ispravna indentacija
   statement2
 else:
@@ -1182,14 +1189,14 @@ else:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if a: statement1
+<pre><code class="python" >if a: statement1
 else: statement2
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if a:
+<pre><code class="python" >if a:
   pass
 else:
   statements
@@ -1200,7 +1207,7 @@ else:
 <section>
 
 <ul>
-<li>Nije propisana širina uvlačenja ali mora biti konzistentan.</li>
+<li>Nije propisana širina uvlačenja ali mora biti konzistentna.</li>
 <li>Preporučeno je 4 <i>space</i> karaktera za uvlačenje.</li>
 <li>Preporuka je da se koriste <i>space</i> karakteri umesto <i>tab</i>.</li>
 
@@ -1208,7 +1215,7 @@ else:
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> String literali</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> String literali</h3>
 <ul>
 <li>Navode se unutar jednostrukih ili dvostrukih znakova navoda ili trostrukih za
 višelinijske stringove.</li>
@@ -1221,7 +1228,7 @@ sekvencu odnosno da omogući navođenje specijalnih znakova.</li>
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Kontejneri</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Kontejneri</h3>
 <ul>
 <li>Vrednosti koje se navode unutar zagrada <code>[...], (...), {...}</code> predstavljaju
 kolekciju objekata koja se nalazi unutar liste, n-torke ili rečnika.</li>
@@ -1230,7 +1237,7 @@ kolekciju objekata koja se nalazi unutar liste, n-torke ili rečnika.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = [ 1, 3.4, 'hello' ]
+<pre><code class="python" >a = [ 1, 3.4, 'hello' ]
 b = ( 10, 20, 30 )
 c = { 'a': 3, 'b': 42 }
 </code></pre>
@@ -1245,7 +1252,7 @@ nastavak linije (<code>\</code>)</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = [ 1,
+<pre><code class="python" >a = [ 1,
       3.4,
       'hello',
     ]
@@ -1256,12 +1263,12 @@ nastavak linije (<code>\</code>)</li>
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Tipovi i objekti</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Tipovi i objekti</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Terminologija</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Terminologija</h3>
 <ul>
 <li>Svi podaci Python programa su objekti.</li>
 <li>Objekti imaju identitet, tip i vrednost.</li>
@@ -1270,7 +1277,7 @@ nastavak linije (<code>\</code>)</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; a = 42
+<pre><code class="python" >&gt;&gt;&gt; a = 42
 &gt;&gt;&gt; id(a)
 140649856584416
 &gt;&gt;&gt; id(42)
@@ -1307,7 +1314,7 @@ kolekcije.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = 3 + 4j      # Kreiranje kompleksnog broja
+<pre><code class="python" >a = 3 + 4j      # Kreiranje kompleksnog broja
 r = a.real      # Realni deo (atribut)
 b = [1, 2, 3]   # Kreiranje liste
 b.append(7)     # Dodavanje novog elementa upotrebom append metode
@@ -1316,55 +1323,10 @@ b.append(7)     # Dodavanje novog elementa upotrebom append metode
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> <i>Duck Typing</i></h3>
-<ul>
-<li>Metode i atributi objekta definišu njegovu semantiku a ne pripadnost određenom
-tipu tj. nasleđivanje određene klase</li>
-
-</ul>
-
-<blockquote>
-<p>
-If it walks like a duck and quacks like a duck, it must be a duck.
-</p>
-</blockquote>
-
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Identitet i tip objekta</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def sum(a, b):
-    return a + b     # a i b podržavaju + operaciju
-
-&gt;&gt;&gt; print sum(2, 5)
-7
-&gt;&gt;&gt; print sum(2.5, 6.7)
-9.2
-&gt;&gt;&gt; print sum(True, False)
-1
-&gt;&gt;&gt; print sum("Hello ", "world!")
-Hello world!
-</code></pre>
-</div>
-
-</section>
-<section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Protokoli</h3>
-<ul>
-<li>Koncept tesno povezan sa <i>duck typing</i>.</li>
-<li>Predstavlja određeno ponašanje objekta (skup metoda, atributa i njihove
-semantike).</li>
-<li>Ako kažemo da objekat podržava neki protokol znamo šta možemo da očekujemo od
-njega i u kom kontekstu možemo da ga koristimo bez obzira kog je tipa.</li>
-<li>Na primer, ako je objekat sekvenca (podržava protokol sekvence) tada znamo da
-možemo da koristimo isecanje (<i>slice</i>), iteraciju itd.</li>
-
-</ul>
-
-</section>
-<section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Identitet i tip objekta</h3>
-<div class="org-src-container">
-
-<pre><code class=" python" ># Poređenje dva objekta
+<pre><code class="python" ># Poređenje dva objekta
 def compare(a,b):
   if a is b:
     # a i b su isti objekat
@@ -1380,7 +1342,7 @@ def compare(a,b):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if type(s) is list:
+<pre><code class="python" >if type(s) is list:
   s.append(item)
 if type(d) is dict:
   d.update(t)
@@ -1389,7 +1351,7 @@ if type(d) is dict:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if isinstance(s,list):
+<pre><code class="python" >if isinstance(s,list):
   s.append(item)
 if isinstance(d,dict):
   d.update(t)
@@ -1397,36 +1359,58 @@ if isinstance(d,dict):
 </div>
 
 </section>
-<section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Brojanje referenci</h3>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> <i>Duck Typing</i></h3>
+<ul>
+<li>Metode objekta definišu njegovo ponašanje. Polimorfizam se realizuje
+različitim ponašanjem pri pozivu metoda istog imena. Nije bazirano na tipu i
+nasleđivanju.</li>
+
+</ul>
+
+<blockquote>
+<p>
+If it walks like a duck and quacks like a duck, it must be a duck.
+</p>
+</blockquote>
+
 <div class="org-src-container">
 
-<pre><code class=" python" >a = 37        # Kreira objekat sa vrednošću 37
-b = a         # Uvećava brojač referenci za 37
-c = []
-c.append(b)   # Uvećava brojač referenci za 37
+<pre><code class="python" >def sum(a, b):
+    return a + b     # a i b podržavaju + operaciju
 
-del a         # Umanjuje brojač referenci za 37
-b = 42        # - II -
-c[0] = 2.0    # - II -
-</code></pre>
-</div>
-
-<div class="org-src-container">
-
-<pre><code class=" python" >&gt;&gt;&gt; a = 37
-&gt;&gt;&gt; import sys
-&gt;&gt;&gt; sys.getrefcount(a)
+&gt;&gt;&gt; print sum(2, 5)
 7
+&gt;&gt;&gt; print sum(2.5, 6.7)
+9.2
+&gt;&gt;&gt; print sum(True, False)
+1
+&gt;&gt;&gt; print sum("Hello ", "world!")
+Hello world!
 </code></pre>
 </div>
 
 </section>
-<section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> Reference i kopije</h3>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Protokoli</h3>
+<ul>
+<li>Koncept tesno povezan sa <i>duck typing</i>.</li>
+<li>Predstavlja određeno ponašanje objekta (skup metoda, atributa i njihove
+semantike).</li>
+<li>Ako kažemo da objekat podržava neki protokol znamo šta možemo da očekujemo od
+njega i u kom kontekstu možemo da ga koristimo bez obzira kog je tipa.</li>
+<li>Na primer, ako je objekat sekvenca (podržava protokol sekvence) tada znamo da
+možemo da koristimo isecanje (<i>slice</i>), iteraciju itd.</li>
+<li>U drugim jezicima se realizuje sa interfejsima (<i>interfaces</i>) ili osobinama (<i>traits</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Reference i kopije</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; a = [1,2,3,4]
+<pre><code class="python" >&gt;&gt;&gt; a = [1,2,3,4]
 &gt;&gt;&gt; b = a             # b je referenca na listu a
 &gt;&gt;&gt; b is a
 True
@@ -1438,11 +1422,11 @@ True
 </div>
 
 </section>
-<section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7</span> Plitko i duboko kopiranje</h3>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Plitko i duboko kopiranje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; a = [ 1, 2, [3,4] ]
+<pre><code class="python" >&gt;&gt;&gt; a = [ 1, 2, [3,4] ]
 &gt;&gt;&gt; b = list(a)
 &gt;&gt;&gt; b is a
 False
@@ -1461,7 +1445,7 @@ False
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; import copy
+<pre><code class="python" >&gt;&gt;&gt; import copy
 &gt;&gt;&gt; a = [1, 2, [3, 4]]
 &gt;&gt;&gt; b = copy.deepcopy(a)
 &gt;&gt;&gt; b[2][0] = -100
@@ -1474,10 +1458,10 @@ False
 </div>
 
 </section>
-<section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8</span> <i>First-Class Objects</i></h3>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> <i>First-Class Objects</i></h3>
 <ul>
-<li>Svi objekti u Python-u su "prvog reda" (<i>first-class</i>)</li>
+<li>Svi objekti u Python-u su &ldquo;prvog reda&rdquo; (<i>first-class</i>)</li>
 <li>Ovo znači da svi objekti koji se mogu imenovati (referencirati) imaju isti
 status.</li>
 
@@ -1486,7 +1470,7 @@ status.</li>
 <div class="column" style="float:left; width: 40%">
 <div class="org-src-container">
 
-<pre><code class=" python" >items = {
+<pre><code class="python" >items = {
     'number' : 42
     'text' : "Hello World"
 }
@@ -1504,7 +1488,7 @@ items["append"] = nums.append
 <div class="column" style="float:right; width: 60%">
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; items["func"](-45)   #Poziva abs(-45)
+<pre><code class="python" >&gt;&gt;&gt; items["func"](-45)   #Poziva abs(-45)
 45
 &gt;&gt;&gt; items["mod"].sqrt(4) #Poziva math.sqrt(4)
 2.0
@@ -1525,20 +1509,20 @@ Couldn't convert
 </div>
 
 </section>
-<section id="slide-3-9">
-<h3 id="3-9"><span class="section-number-3">3.9</span> Ugrađeni tipovi za podatke</h3>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Ugrađeni tipovi za podatke</h3>
 <ul>
 <li>None: <code>NoneType</code></li>
 <li>Brojevi: <code>int</code>, <code>long</code>, <code>float</code>, <code>complex</code>, <code>bool</code></li>
-<li>Sekvence: <code>str</code>, <code>unicode</code>, <code>list</code>, <code>tuple</code>, <code>xrange</code></li>
+<li>Sekvence: <code>str</code>, <code>unicode</code>, <code>list</code>, <code>tuple</code></li>
 <li>Mape: <code>dict</code></li>
 <li>Skupovi: <code>set</code> (<i>mutable</i>), <code>frozenset</code> (<i>immutable</i>)</li>
 
 </ul>
 
 </section>
-<section id="slide-3-10">
-<h3 id="3-10"><span class="section-number-3">3.10</span> Sekvence</h3>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Sekvence</h3>
 <ul>
 <li>Uređena kolekcija objekata indeksirana nenegativnim rednim brojem.</li>
 <li>Stringovi - nepromenjiva sekvenca karaktera.</li>
@@ -1548,11 +1532,11 @@ Couldn't convert
 </ul>
 
 </section>
-<section id="slide-3-11">
-<h3 id="3-11"><span class="section-number-3">3.11</span> Operacije nad sekvencama</h3>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Operacije nad sekvencama</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >s[i]              # Indeksni pristup
+<pre><code class="python" >s[i]              # Indeksni pristup
 s[i:j]            # Isecanje (slicing)
 s[i:j:korak]      # Prošireno isecanje
 len(s)            # broj elemenata sekvence
@@ -1566,11 +1550,11 @@ for a in s:       # iteracija
 </div>
 
 </section>
-<section id="slide-3-12">
-<h3 id="3-12"><span class="section-number-3">3.12</span> Operacije nad promenjivim sekvencama</h3>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11.</span> Operacije nad promenjivim sekvencama</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >s[i] = v
+<pre><code class="python" >s[i] = v
 s[i:j] = t
 s[i:j:korak] = t
 del s[i]
@@ -1580,8 +1564,8 @@ del s[i:j:korak]
 </div>
 
 </section>
-<section id="slide-3-13">
-<h3 id="3-13"><span class="section-number-3">3.13</span> Liste</h3>
+<section id="slide-3-12">
+<h3 id="3-12"><span class="section-number-3">3.12.</span> Liste</h3>
 <ul>
 <li>Liste su sekvence.</li>
 <li>Svaka sekvenca se može konvertovati u listu sa <code>list(s)</code>.</li>
@@ -1602,8 +1586,8 @@ del s[i:j:korak]
 </ul>
 
 </section>
-<section id="slide-3-14">
-<h3 id="3-14"><span class="section-number-3">3.14</span> Stringovi</h3>
+<section id="slide-3-13">
+<h3 id="3-13"><span class="section-number-3">3.13.</span> Stringovi</h3>
 <ul>
 <li>Stringovi u Python-u 2 mogu biti <code>byte</code> i <code>unicode</code> stringovi.</li>
 <li>U python-u 2 unicode stringovi imaju prefix <code>u</code>.</li>
@@ -1612,7 +1596,7 @@ del s[i:j:korak]
 
 <div class="org-src-container">
 
-<pre><code class=" python" >ustr = u'Ово је ћирилични unicode стринг!'
+<pre><code class="python" >ustr = u'Ово је ћирилични unicode стринг!'
 bstr = 'Ovo je byte string!'
 </code></pre>
 </div>
@@ -1624,7 +1608,7 @@ stringove.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = 'Ovo je string'
+<pre><code class="python" >a = 'Ovo je string'
 b = "I ovo je string"
 c = """ Ovo je viselinijski
 string
@@ -1649,7 +1633,7 @@ vraćaju string kreiraju novi string.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >s.capitalize()                # Prvi karakter postaje veliko slovo.
+<pre><code class="python" >s.capitalize()                # Prvi karakter postaje veliko slovo.
 s.center(width [, pad])       # Centrira string unutar zadate širine.
 s.find(sub [, start [,end]])  # Pronalazi podstring
 s.isalnum()                   # True ukoliko je alfanumerik
@@ -1661,14 +1645,15 @@ s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
 </div>
 
 </section>
-<section id="slide-3-15">
-<h3 id="3-15"><span class="section-number-3">3.15</span> Stringovi - formatiranje</h3>
+<section id="slide-3-14">
+<h3 id="3-14"><span class="section-number-3">3.14.</span> Stringovi - formatiranje</h3>
 <ul>
 <li>Tri načina:
 <ul>
 <li>Konkatanacija - operator <code>+</code> - izbegavati.</li>
 <li>Interpolacija - <code>%</code> operator.</li>
-<li><code>format</code> metoda - noviji i preferirani način.</li>
+<li><code>format</code> metoda</li>
+<li>f-stringovi - noviji i preferirani način.</li>
 
 </ul></li>
 
@@ -1676,7 +1661,7 @@ s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; "Odgovor je %d" % 42
+<pre><code class="python" >&gt;&gt;&gt; "Odgovor je %d" % 42
 'Odgovor je 42'
 &gt;&gt;&gt; "Prvi=%s, drugi=%d, treci=%s" % ("prvi", 23, "third")
 'Prvi=prvi, drugi=23, treci=third'
@@ -1695,14 +1680,14 @@ s.split([sep [,maxsplit]])    # Deli string na mestu separator i vraća
 </div>
 
 </section>
-<section id="slide-3-16">
-<h3 id="3-16"><span class="section-number-3">3.16</span> Mape</h3>
+<section id="slide-3-15">
+<h3 id="3-15"><span class="section-number-3">3.15.</span> Mape</h3>
 <ul>
 <li>Promenjive, neuređene kolekcije proizvoljnih objekata indeksirane proizvoljnim
 objektom (uz određena ograničenja).</li>
 <li>Rečnici (<code>dict</code>) su ugrađeni tip i predstavljaju implementaciju <i>hash</i> tabela
 ili asocijativnih nizova.</li>
-<li>dict kao ograničenje za ključeve zahteva nepromenjivost (<i>immutability</i>) jer
+<li><code>dict</code> kao ograničenje za ključeve zahteva nepromenjivost (<i>immutability</i>) jer
 <i>hash</i> vrednost mora biti konstantna.</li>
 <li>Operacije:</li>
 
@@ -1710,7 +1695,7 @@ ili asocijativnih nizova.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >m = {}            # Kreiranje praznog rečnika
+<pre><code class="python" >m = {}            # Kreiranje praznog rečnika
 m = {             # Kreiranje rečnika sa elementima
   'BG': 11000,
   'NS': 21000,    # Zarez na kraju je dozvoljen
@@ -1729,7 +1714,7 @@ m[42] = 'Odgovor' # Ključevi i vrednosti mogu biti
 
 <div class="org-src-container">
 
-<pre><code class=" python" >len(m)              # Broj elemenata rečnika
+<pre><code class="python" >len(m)              # Broj elemenata rečnika
 'NS' in m           # Provera pripadnosti
 m.clear()           # Uklanja sve elemente
 m.copy()            # Vraća kopiju od m
@@ -1747,15 +1732,15 @@ m.pop(k[, default]) # Uklanja i vraća m[k] ukoliko postoji ili
 </div>
 
 </section>
-<section id="slide-3-17">
-<h3 id="3-17"><span class="section-number-3">3.17</span> <i>Dict comprehensions</i></h3>
+<section id="slide-3-16">
+<h3 id="3-16"><span class="section-number-3">3.16.</span> <i>Dict comprehensions</i></h3>
 <p>
 Treba da kreiramo mapu od sekvence ključeva i vrednosti:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >mapa = {}
+<pre><code class="python" >mapa = {}
 for idx, kljuc in enumerate(kljucevi):
   mapa[kljuc] = vrednosti[idx]
 </code></pre>
@@ -1767,20 +1752,20 @@ ili upotrebom <i>dict comprehensions</i>:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
+<pre><code class="python" >mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
 </code></pre>
 </div>
 
 </section>
-<section id="slide-3-18">
-<h3 id="3-18"><span class="section-number-3">3.18</span> Skupovi</h3>
+<section id="slide-3-17">
+<h3 id="3-17"><span class="section-number-3">3.17.</span> Skupovi</h3>
 <ul>
 <li>Neuređene kolekcije jedinstvenih elemenata.</li>
-<li>Elementi nisu indeksirani. Ne postoji slice operator.</li>
+<li>Elementi nisu indeksirani. Ne postoji <i>slice</i> operator.</li>
 <li>Elementi moraju biti nepromenjivi (<i>immutable</i>).</li>
 <li>Dve vrste:
 <ul>
-<li><code>set</code> - promenivi skup</li>
+<li><code>set</code> - promenljivi skup</li>
 <li><code>frozenset</code> - nepromenjivi skup</li>
 
 </ul></li>
@@ -1790,17 +1775,17 @@ ili upotrebom <i>dict comprehensions</i>:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >s = set([1,5,10,15])
+<pre><code class="python" >s = set([1,5,10,15])
 f = frozenset(['a',37,'hello'])
 </code></pre>
 </div>
 
 </section>
-<section id="slide-3-19">
-<h3 id="3-19"><span class="section-number-3">3.19</span> Skupovi - operacije</h3>
+<section id="slide-3-18">
+<h3 id="3-18"><span class="section-number-3">3.18.</span> Skupovi - operacije</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >len(s)                    # Broj elemenata
+<pre><code class="python" >len(s)                    # Broj elemenata
 s.copy()                  # Kopija
 s.intersection(t)         # s &amp;amp; t   - presek
 s.union(t)                # s | t   - unija
@@ -1820,8 +1805,8 @@ s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
 </div>
 
 </section>
-<section id="slide-3-20">
-<h3 id="3-20"><span class="section-number-3">3.20</span> Callables</h3>
+<section id="slide-3-19">
+<h3 id="3-19"><span class="section-number-3">3.19.</span> Callables</h3>
 <ul>
 <li>Objekti koji podržavaju semantiku poziva.</li>
 <li>Funkcije, klase, metode.</li>
@@ -1832,7 +1817,7 @@ prosleđivati kao parametri, biti povratne vrednosti drugih callables itd.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def foo(x,y):
+<pre><code class="python" >def foo(x,y):
     return x + y
 
 bar = lambda x,y: x + y
@@ -1858,17 +1843,17 @@ b(10)                 # = 5
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Operatori i izrazi (TODO)</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Operatori i izrazi (TODO)</h2>
 </section>
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5</span> Struktura programa i kontrola toka</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Struktura programa i kontrola toka</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1</span> Struktura programa</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Struktura programa</h3>
 <ul>
 <li>Svaki iskaz se tretira na isti način. Nema specijalnih iskaza.</li>
 <li>Svaki iskaz se može pojaviti bilo gde u programu.</li>
@@ -1877,7 +1862,7 @@ b(10)                 # = 5
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if debug:
+<pre><code class="python" >if debug:
   def square(x):
     if not isinstance(x,float):
       raise TypeError("Expected a float")
@@ -1890,10 +1875,10 @@ else:
 
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2</span> Uslovno izvršavanje</h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Uslovno izvršavanje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >if expression:
+<pre><code class="python" >if expression:
   statements
 elif expression:
   statements
@@ -1907,10 +1892,10 @@ else:
 
 </section>
 <section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3</span> Petlje i iteracije</h3>
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Petlje i iteracije</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >while expression:
+<pre><code class="python" >while expression:
   statements
 </code></pre>
 </div>
@@ -1921,7 +1906,7 @@ For petlja (s podržava iterator protokol):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >for i in s:
+<pre><code class="python" >for i in s:
   statements
 </code></pre>
 </div>
@@ -1931,10 +1916,10 @@ Ili razloženo:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >it = s.__iter__() # Iterator za kolekciju s
+<pre><code class="python" >it = s.__iter__() # Iterator za kolekciju s
 while True:
   try:
-    i = it.next() # Sledeći element (__next__ u P3)
+    i = it.__next__()
     # Obradi element i
   except StopIteration:
     # Nema više elemenata
@@ -1945,7 +1930,7 @@ while True:
 
 </section>
 <section id="slide-5-4">
-<h3 id="5-4"><span class="section-number-3">5.4</span> Raspakivanje elemenata</h3>
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Raspakivanje elemenata</h3>
 <p>
 Ukoliko su svim elementi kolekcije sekvence iste dužine moguće je uraditi
 sledeće:
@@ -1953,7 +1938,7 @@ sledeće:
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># s je oblika [ (x1,y1,z1), (x2,y2,z2),... ]
+<pre><code class="python" ># s je oblika [ (x1,y1,z1), (x2,y2,z2),... ]
 for x,y,z in s:
   ... Obrada x, y, z elemenata
 </code></pre>
@@ -1961,7 +1946,7 @@ for x,y,z in s:
 
 </section>
 <section id="slide-5-5">
-<h3 id="5-5"><span class="section-number-3">5.5</span> Indeks u <code>for</code> petlji</h3>
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Indeks u <code>for</code> petlji</h3>
 <ul>
 <li>Kada se iterira kroz elemente kolekcije nekad je potrebno znati indeks.</li>
 
@@ -1969,7 +1954,7 @@ for x,y,z in s:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >i = 0
+<pre><code class="python" >i = 0
 for x in s:
   statements
   i += 1
@@ -1982,16 +1967,16 @@ for i,x in enumerate(s):
 
 </section>
 <section id="slide-5-6">
-<h3 id="5-6"><span class="section-number-3">5.6</span> Paralelna iteracija</h3>
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Paralelna iteracija</h3>
 <p>
 Često je potrebno iterirati paralelno kroz više kolekcija.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># s i t su dve sekvence
+<pre><code class="python" ># s i t su dve sekvence
 i = 0
-while i &amp;lt; len(s) and i &amp;lt; len(t):
+while i &lt; len(s) and i &lt; len(t):
     x = s[i]    # Uzmi i-ti element iz s
     y = t[i]    # Uzmi i-ti element iz t
     statements
@@ -2005,14 +1990,14 @@ Ili jednostavnije:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >for x,y in zip(s,t):
+<pre><code class="python" >for x,y in zip(s,t):
   statements
 </code></pre>
 </div>
 
 </section>
 <section id="slide-5-7">
-<h3 id="5-7"><span class="section-number-3">5.7</span> <code>For-else</code>, <code>break</code>, <code>continue</code></h3>
+<h3 id="5-7"><span class="section-number-3">5.7.</span> <code>For-else</code>, <code>break</code>, <code>continue</code></h3>
 <ul>
 <li>Iz <code>for</code> petlje može prevremeno da se izađe upotrebom <code>break</code> iskaza.</li>
 <li><code>For</code> petlja može imati opcioni <code>else</code> blok koji se izvršava ukoliko se
@@ -2022,7 +2007,7 @@ petlja nije završila prevremeno (<code>break</code> iskaz).</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >for line in open("foo.txt"):
+<pre><code class="python" >for line in open("foo.txt"):
   stripped = line.strip()
   if not stripped:
     break
@@ -2035,7 +2020,7 @@ else:
 
 </section>
 <section id="slide-5-8">
-<h3 id="5-8"><span class="section-number-3">5.8</span> <code>For-else</code>, <code>break</code>, <code>continue</code></h3>
+<h3 id="5-8"><span class="section-number-3">5.8.</span> <code>For-else</code>, <code>break</code>, <code>continue</code></h3>
 <ul>
 <li>Sa <code>continue</code> se može direktno preći na sledeći ciklus iteracije.</li>
 
@@ -2043,7 +2028,7 @@ else:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >for line in open("foo.txt"):
+<pre><code class="python" >for line in open("foo.txt"):
   stripped = line.strip()
   if not stripped:    # Ako je linija prazna
     continue # Preskoči je
@@ -2055,19 +2040,19 @@ else:
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6</span> Funkcije i funkcionalno programiranje</h2>
+<h2 id="6"><span class="section-number-2">6.</span> Funkcije i funkcionalno programiranje</h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
 <section id="slide-6-1">
-<h3 id="6-1"><span class="section-number-3">6.1</span> Osnove</h3>
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Osnove</h3>
 <p>
 Definisanje funkcije:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def add(x, y):
+<pre><code class="python" >def add(x, y):
   return x + y
 </code></pre>
 </div>
@@ -2078,16 +2063,16 @@ Lambda funkcija:
 
 <div class="org-src-container">
 
-<pre class="fragment (roll-in)" data-fragment-index="1"><code class=" python" >l = lambda x, y: x + y
+<pre data-fragment-index="1" class="fragment (roll-in)"><code class="python" >l = lambda x, y: x + y
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-2">
-<h3 id="6-2"><span class="section-number-3">6.2</span> Podrazumevana vrednost parametara</h3>
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Podrazumevana vrednost parametara</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def split(line, delimiter=','):
+<pre><code class="python" >def split(line, delimiter=','):
   statements
 </code></pre>
 </div>
@@ -2098,7 +2083,7 @@ Povezivanje je u trenutku kreiranja funkcije.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = 10
+<pre><code class="python" >a = 10
 def foo(x=a):
   return x
 
@@ -2109,14 +2094,14 @@ foo()     # Vraća 10 (podrazumevana vrednost nije promenjena)
 
 </section>
 <section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3</span> Napomena kod <i>mutable</i> tipova</h3>
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Napomena kod <i>mutable</i> tipova</h3>
 <p>
 Problem:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def foo(x, items=[]):
+<pre><code class="python" >def foo(x, items=[]):
   items.append(x)
   return items
 
@@ -2134,7 +2119,7 @@ Rešenje:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def foo(x, items=None):
+<pre><code class="python" >def foo(x, items=None):
   items = [] if items is None else items
   items.append(x)
   return items
@@ -2143,10 +2128,10 @@ Rešenje:
 
 </section>
 <section id="slide-6-4">
-<h3 id="6-4"><span class="section-number-3">6.4</span> Promenjiv broj argumenata - po poziciji</h3>
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Promenjiv broj argumenata - po poziciji</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def fprintf(file, fmt, *args):
+<pre><code class="python" >def fprintf(file, fmt, *args):
   file.write(fmt % args)
 </code></pre>
 </div>
@@ -2157,17 +2142,17 @@ Poziv <code>fprintf</code> -  <code>args</code> postaje n-torka <code>(42,"hello
 
 <div class="org-src-container">
 
-<pre><code class=" python" >fprintf(out,"%d %s %f", 42, "hello world", 3.45)
+<pre><code class="python" >fprintf(out,"%d %s %f", 42, "hello world", 3.45)
 </code></pre>
 </div>
 
 <p>
-n-torke možemo i "raspakovati" pri pozivu upotrebom <code>*</code> operatora
+n-torke možemo i &ldquo;raspakovati&rdquo; pri pozivu upotrebom <code>*</code> operatora
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def printf(fmt, *args):
+<pre><code class="python" >def printf(fmt, *args):
   # Poziv druge funkcije i prosleđivanje argumenata
   fprintf(sys.stdout, fmt, *args)
 </code></pre>
@@ -2179,18 +2164,18 @@ Ili na primer
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = (2,3)
+<pre><code class="python" >a = (2,3)
 f = lambda x, y: x + y
-print f(*a)   # n-torka a se "razlaže" i prosleđuje poziciono
+print(f(*a))   # n-torka a se "razlaže" i prosleđuje poziciono
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-5">
-<h3 id="6-5"><span class="section-number-3">6.5</span> Prosleđivanje parametara po nazivu</h3>
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Prosleđivanje parametara po nazivu</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def foo(x, y, z, w):
+<pre><code class="python" >def foo(x, y, z, w):
   statements
 </code></pre>
 </div>
@@ -2200,7 +2185,7 @@ Prosleđivanje vrednosti parametara po nazivu:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >foo(x=3, y=22, w='hello', z=[1,2])
+<pre><code class="python" >foo(x=3, y=22, w='hello', z=[1,2])
 </code></pre>
 </div>
 
@@ -2210,7 +2195,7 @@ Može i kombinovano
 
 <div class="org-src-container">
 
-<pre class="fragment (roll-in)" data-fragment-index="1"><code class=" python" >foo(3, 22, w='hello', z=[1,2])
+<pre data-fragment-index="1" class="fragment (roll-in)"><code class="python" >foo(3, 22, w='hello', z=[1,2])
 </code></pre>
 </div>
 
@@ -2220,16 +2205,16 @@ Ali ne i ovako - višestruke vrednosti za y
 
 <div class="org-src-container">
 
-<pre class="fragment (roll-in)" data-fragment-index="2"><code class=" python" >foo('hello', 3, z=[1,2], y=22)
+<pre data-fragment-index="2" class="fragment (roll-in)"><code class="python" >foo('hello', 3, z=[1,2], y=22)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-6">
-<h3 id="6-6"><span class="section-number-3">6.6</span> Promenjiv broj argumenata - imenovani parametri</h3>
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Promenjiv broj argumenata - imenovani parametri</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def make_table(data, **parms):
+<pre><code class="python" >def make_table(data, **parms):
   # Preuzimanje konfiguracionih parametara
   fgcolor = parms.pop("fgcolor","black")
   bgcolor = parms.pop("bgcolor","white")
@@ -2247,7 +2232,7 @@ make_table(items, fgcolor="black", bgcolor="white", border=1,
 
 </section>
 <section id="slide-6-7">
-<h3 id="6-7"><span class="section-number-3">6.7</span> Promenjiv broj argumenata - kombinovan prenos</h3>
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Promenjiv broj argumenata - kombinovan prenos</h3>
 <p>
 Mogu se kombinovati pozicioni i imenovani parametri dok god se imenovani (<code>**</code>)
 nalaze na kraju
@@ -2259,7 +2244,7 @@ Različit broj pozicionih i imenovanih parametara
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def spam(*args, **kwargs):
+<pre><code class="python" >def spam(*args, **kwargs):
   # args je n-torka sa pozicionim parametrima
   # kwargs je rečnik sa imenovanim parametrima
   ...
@@ -2273,21 +2258,21 @@ Možemo i prosleđivati parametre drugim funkcijama. To se često koristi kod tz
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def callfunc(*args, **kwargs):
+<pre><code class="python" >def callfunc(*args, **kwargs):
   func(*args,**kwargs)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-8">
-<h3 id="6-8"><span class="section-number-3">6.8</span> Prenos parametara i povratne vrednosti</h3>
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Prenos parametara i povratne vrednosti</h3>
 <p>
 Prenos se obavlja po referenci.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = [1, 2, 3, 4, 5]
+<pre><code class="python" >a = [1, 2, 3, 4, 5]
 def square(items):
   for i, x in enumerate(items):
     items[i] = x * x     # Menja elemente u mestu
@@ -2302,7 +2287,7 @@ Ako funkcija vraća više vrednosti to se može učiniti n-torkom (<code>tuple</
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def factor(a):
+<pre><code class="python" >def factor(a):
   d = 2
   while (d &amp;lt;= (a / 2)):
     if ((a / d) * d == a):
@@ -2318,10 +2303,10 @@ x, y = factor(1234)
 
 </section>
 <section id="slide-6-9">
-<h3 id="6-9"><span class="section-number-3">6.9</span> Opseg važenja (<i>scoping rules</i>) - lokalne i globalne varijable</h3>
+<h3 id="6-9"><span class="section-number-3">6.9.</span> Opseg važenja (<i>scoping rules</i>) - lokalne i globalne varijable</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >a = 42
+<pre><code class="python" >a = 42
 def foo():
   a = 13
 foo()
@@ -2340,43 +2325,41 @@ foo()
 
 </section>
 <section id="slide-6-10">
-<h3 id="6-10"><span class="section-number-3">6.10</span> Opseg važenja (<i>scoping rules</i>) - ne-lokalne varijable</h3>
-<div class="column" style="float:left; width: 50%">
+<h3 id="6-10"><span class="section-number-3">6.10.</span> Opseg važenja (<i>scoping rules</i>) - ne-lokalne varijable</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >def countdown(start):
+<pre><code class="python" >def countdown(start):
   n = start
   def display():
     print('T-minus %d' % n)
   def decrement():
-    n -= 1      # Ne radi u Python 2
-  while n &amp;gt; 0:
+    n -= 1 # &lt;- Greška! Local variable 'n' referenced before assignment
+  while n &gt; 0:
     display()
     decrement()
 </code></pre>
 </div>
-</div>
 
-<div class="column" style="float:right; width: 50%">
+</section>
+<section>
 <div class="org-src-container">
 
-<pre><code class=" python" >def countdown(start):
+<pre><code class="python" >def countdown(start):
   n = start
   def display():
     print('T-minus %d' % n)
   def decrement():
-    nonlocal n # Radi samo u Python 3
+    nonlocal n
     n -= 1
-  while n &amp;gt; 0:
+  while n &gt; 0:
     display()
     decrement()
 </code></pre>
-</div>
 </div>
 
 </section>
 <section id="slide-6-11">
-<h3 id="6-11"><span class="section-number-3">6.11</span> Dekoratori</h3>
+<h3 id="6-11"><span class="section-number-3">6.11.</span> Dekoratori</h3>
 <ul>
 <li>Dekorator obrazac.</li>
 <li>Funkcije koje prihvataju kao parametar funkciju (ili uopšte <code>callable</code>) i
@@ -2387,7 +2370,7 @@ vraćaju izmenjenu verziju.</li>
 <div class="column" style="float:left; width: 40%">
 <div class="org-src-container">
 
-<pre><code class=" python" >@trace
+<pre><code class="python" >@trace
 def square(x):
   return x*x
 
@@ -2402,7 +2385,7 @@ square = trace(square)
 <div class="column" style="float:right; width: 60%">
 <div class="org-src-container">
 
-<pre><code class=" python" >enable_tracing = True
+<pre><code class="python" >enable_tracing = True
 if enable_tracing:
   debug_log = open("debug.log","w")
 def trace(func):
@@ -2423,14 +2406,14 @@ def trace(func):
 
 </section>
 <section id="slide-6-12">
-<h3 id="6-12"><span class="section-number-3">6.12</span> Dekoratori (2)</h3>
+<h3 id="6-12"><span class="section-number-3">6.12.</span> Dekoratori (2)</h3>
 <p>
 Mogu da se stekuju:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@foo
+<pre><code class="python" >@foo
 @bar
 @spam
 def grok(x):
@@ -2444,7 +2427,7 @@ je isto što i
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def grok(x):
+<pre><code class="python" >def grok(x):
   pass
 grok = foo(bar(spam(grok)))
 </code></pre>
@@ -2452,7 +2435,7 @@ grok = foo(bar(spam(grok)))
 
 </section>
 <section id="slide-6-13">
-<h3 id="6-13"><span class="section-number-3">6.13</span> Dekoratori (3)</h3>
+<h3 id="6-13"><span class="section-number-3">6.13.</span> Dekoratori (3)</h3>
 <p>
 Mogu da imaju parametre:
 </p>
@@ -2460,7 +2443,7 @@ Mogu da imaju parametre:
 <div class="column" style="float:left; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" >@eventhandler('BUTTON')
+<pre><code class="python" >@eventhandler('BUTTON')
 def handle_button(msg):
   ...
 
@@ -2480,7 +2463,7 @@ handle_button = temp(handle_button)
 <div class="column" style="float:right; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" ># Event handler decorator
+<pre><code class="python" ># Event handler decorator
 event_handlers = { }
 def eventhandler(event):
   def register_function(f):
@@ -2493,11 +2476,11 @@ def eventhandler(event):
 
 </section>
 <section id="slide-6-14">
-<h3 id="6-14"><span class="section-number-3">6.14</span> <i>List comprehensions</i> opet</h3>
+<h3 id="6-14"><span class="section-number-3">6.14.</span> <i>List comprehensions</i> opet</h3>
 <div class="column" style="float:left; width: 40%">
 <div class="org-src-container">
 
-<pre><code class=" python" >nums = [1, 2, 3, 4, 5]
+<pre><code class="python" >nums = [1, 2, 3, 4, 5]
 squares = []
 for n in nums:
   squares.append(n * n)
@@ -2512,7 +2495,7 @@ squares = [n * n for n in nums]
 <div class="column" style="float:right; width: 60%">
 <div class="org-src-container">
 
-<pre><code class=" python" ># Opšti oblik sintakse
+<pre><code class="python" ># Opšti oblik sintakse
 [expression for item1 in iterable1 if condition1
             for item2 in iterable2 if condition2
             ...
@@ -2533,10 +2516,10 @@ for item1 in iterable1:
 
 </section>
 <section id="slide-6-15">
-<h3 id="6-15"><span class="section-number-3">6.15</span> <i>List comprehensions</i> primeri</h3>
+<h3 id="6-15"><span class="section-number-3">6.15.</span> <i>List comprehensions</i> primeri</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >a = [-3, 5, 2, -10, 7, 8]
+<pre><code class="python" >a = [-3, 5, 2, -10, 7, 8]
 b = 'abc'
 
 c = [2*s for s in a]                # c = [-6,10,4,-20,14,16]
@@ -2554,7 +2537,7 @@ g = [math.sqrt(x * x + y * y)       # g = [2.23606, 5.0, 7.81024]
 
 </section>
 <section id="slide-6-16">
-<h3 id="6-16"><span class="section-number-3">6.16</span> Generator izrazi</h3>
+<h3 id="6-16"><span class="section-number-3">6.16.</span> Generator izrazi</h3>
 <p>
 Slično kao <i>list comprehensions</i> ali ne kreiraju listu već generator objekat
 koji izračunava vrednosti na zahtev (lenja evaluacija).
@@ -2563,7 +2546,7 @@ koji izračunava vrednosti na zahtev (lenja evaluacija).
 <div class="column" style="float:left; width: 60%">
 <div class="org-src-container">
 
-<pre><code class=" python" ># Opšti oblik sintakse
+<pre><code class="python" ># Opšti oblik sintakse
 (expression for item1 in iterable1 if condition1
             for item2 in iterable2 if condition2
             ...
@@ -2575,7 +2558,7 @@ koji izračunava vrednosti na zahtev (lenja evaluacija).
 <div class="column" style="float:right; width: 40%">
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; a = [1, 2, 3, 4]
+<pre><code class="python" >&gt;&gt;&gt; a = [1, 2, 3, 4]
 &gt;&gt;&gt; b = (10*i for i in a)
 &gt;&gt;&gt; b
 &lt;generator object at 0x590a8&gt;
@@ -2590,10 +2573,10 @@ koji izračunava vrednosti na zahtev (lenja evaluacija).
 
 </section>
 <section id="slide-6-17">
-<h3 id="6-17"><span class="section-number-3">6.17</span> Generator izrazi - primer</h3>
+<h3 id="6-17"><span class="section-number-3">6.17.</span> Generator izrazi - primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >f = open("data.txt")
+<pre><code class="python" >f = open("data.txt")
 lines = (t.strip() for t in f)
 
 comments = (t for t in lines if t[0] == '#')
@@ -2607,7 +2590,7 @@ clist = list(comments)
 
 </section>
 <section id="slide-6-18">
-<h3 id="6-18"><span class="section-number-3">6.18</span> <code>lambda</code> iskaz</h3>
+<h3 id="6-18"><span class="section-number-3">6.18.</span> <code>lambda</code> iskaz</h3>
 <p>
 Kreiranje anonimne funkcije.
 </p>
@@ -2618,7 +2601,7 @@ Sintaksa:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >lambda args : expression
+<pre><code class="python" >lambda args : expression
 </code></pre>
 </div>
 
@@ -2628,7 +2611,7 @@ Primeri:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = lambda x,y : x+y
+<pre><code class="python" >a = lambda x,y : x+y
 r = a(2,3)
 </code></pre>
 </div>
@@ -2642,7 +2625,7 @@ Primer - <i>case-insensitive</i> sortiranje:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >names.sort(key=lambda n: n.lower())
+<pre><code class="python" >names.sort(key=lambda n: n.lower())
 </code></pre>
 </div>
 
@@ -2650,12 +2633,12 @@ Primer - <i>case-insensitive</i> sortiranje:
 </section>
 <section>
 <section id="slide-7">
-<h2 id="7"><span class="section-number-2">7</span> Klase i objektno-orijentisano programiranje</h2>
+<h2 id="7"><span class="section-number-2">7.</span> Klase i objektno-orijentisano programiranje</h2>
 <div class="outline-text-2" id="text-7">
 </div>
 </section>
 <section id="slide-7-1">
-<h3 id="7-1"><span class="section-number-3">7.1</span> Klase</h3>
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Klase</h3>
 <ul>
 <li>Kolekcija funkcija (metoda), varijabli (atributa) i dinamičkih
 atributa(<i>properties</i>).</li>
@@ -2664,7 +2647,7 @@ atributa(<i>properties</i>).</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Account(object):
+<pre><code class="python" >class Account(object):
   num_accounts = 0
 
   def __init__(self,name,balance):   # Konstruktor
@@ -2688,7 +2671,7 @@ atributa(<i>properties</i>).</li>
 
 </section>
 <section id="slide-7-2">
-<h3 id="7-2"><span class="section-number-3">7.2</span> <code>class</code> iskaz</h3>
+<h3 id="7-2"><span class="section-number-3">7.2.</span> <code>class</code> iskaz</h3>
 <ul>
 <li>Klasa je python objekat koji se kreira kada interpreter naiđe na <code>class</code> iskaz
 i uspešno ga obradi.</li>
@@ -2700,7 +2683,7 @@ koristiti i drugi iskazi.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def napravi_klasu():
+<pre><code class="python" >def napravi_klasu():
   class MojaKlasa(object):
     def __init__(self, a):
       self.a = a
@@ -2714,7 +2697,7 @@ id(k) != id(m)          # ali nova
 
 </section>
 <section id="slide-7-3">
-<h3 id="7-3"><span class="section-number-3">7.3</span> Instanciranje</h3>
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Instanciranje</h3>
 <ul>
 <li>Istanciranje objekta se obavlja pozivom klase.</li>
 <li>Klasa je <i>callable</i>.</li>
@@ -2723,17 +2706,17 @@ id(k) != id(m)          # ali nova
 
 <div class="org-src-container">
 
-<pre><code class=" python" >a = Account("Guido", 1000.00)  # Poziva Account.__init__(a,"Guido",1000.00)
+<pre><code class="python" >a = Account("Guido", 1000.00)  # Poziva Account.__init__(a,"Guido",1000.00)
 b = Account("Bill", 10.00)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-7-4">
-<h3 id="7-4"><span class="section-number-3">7.4</span> Referenciranje atributa i metoda</h3>
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Referenciranje atributa i metoda</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >a.deposit(100.00)       # Poziva Account.deposit(a, 100.00)
+<pre><code class="python" >a.deposit(100.00)       # Poziva Account.deposit(a, 100.00)
 b.withdraw(50.00)       # Poziva Account.withdraw(b, 50.00)
 name = a.name           # Pristup 'name' atributu
 </code></pre>
@@ -2741,7 +2724,7 @@ name = a.name           # Pristup 'name' atributu
 
 </section>
 <section id="slide-7-5">
-<h3 id="7-5"><span class="section-number-3">7.5</span> Opseg važenja (<i>scoping</i>)</h3>
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Opseg važenja (<i>scoping</i>)</h3>
 <ul>
 <li>Klase definišu prostor imena (<i>namespace</i>) ali metode nemaju prostor
 imena.</li>
@@ -2752,7 +2735,7 @@ imena.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Foo(object):
+<pre><code class="python" >class Foo(object):
 
   def bar(self):
     print("bar!")
@@ -2766,10 +2749,10 @@ imena.</li>
 
 </section>
 <section id="slide-7-6">
-<h3 id="7-6"><span class="section-number-3">7.6</span> Nasleđivanje</h3>
+<h3 id="7-6"><span class="section-number-3">7.6.</span> Nasleđivanje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >import random
+<pre><code class="python" >import random
 
 class EvilAccount(Account):
 
@@ -2796,7 +2779,7 @@ available = c.inquiry()
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class EvilAccount(Account):
+<pre><code class="python" >class EvilAccount(Account):
 
   def __init__(self, name, balance, evilfactor):
     Account.__init__(self, name, balance)
@@ -2812,10 +2795,10 @@ available = c.inquiry()
 
 </section>
 <section id="slide-7-7">
-<h3 id="7-7"><span class="section-number-3">7.7</span> <code>super</code> funkcija</h3>
+<h3 id="7-7"><span class="section-number-3">7.7.</span> <code>super</code> funkcija</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class MoreEvilAccount(EvilAccount):
+<pre><code class="python" >class MoreEvilAccount(EvilAccount):
 
   def deposit(self,amount):
     self.withdraw(5.00)
@@ -2825,24 +2808,21 @@ available = c.inquiry()
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class MoreEvilAccount(EvilAccount):
+<pre><code class="python" >class MoreEvilAccount(EvilAccount):
 
   def deposit(self,amount):
     self.withdraw(5.00)
-    super(MoreEvilAccount, self).deposit(amount)
-
-    # U python-u 3 može i samo
     super().deposit(amount)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-7-8">
-<h3 id="7-8"><span class="section-number-3">7.8</span> Višestruko nasleđivanje</h3>
+<h3 id="7-8"><span class="section-number-3">7.8.</span> Višestruko nasleđivanje</h3>
 <div class="column" style="float:left; width: 40%">
 <div class="org-src-container">
 
-<pre><code class=" python" >class DepositCharge(object):
+<pre><code class="python" >class DepositCharge(object):
   fee = 5.00
   def deposit_fee(self):
     self.withdraw(self.fee)
@@ -2858,17 +2838,17 @@ class WithdrawCharge(object):
 <div class="column" style="float:right; width: 60%">
 <div class="org-src-container">
 
-<pre><code class=" python" >class MostEvilAccount(EvilAccount,
+<pre><code class="python" >class MostEvilAccount(EvilAccount,
                       DepositCharge,
                       WithdrawCharge):
 
   def deposit(self,amt):
     self.deposit_fee()
-    super(MostEvilAccount,self).deposit(amt)
+    super().deposit(amt)
 
   def withdraw(self,amt):
     self.withdraw_fee()
-    super(MostEvilAcount,self).withdraw(amt)
+    super().withdraw(amt)
 </code></pre>
 </div>
 </div>
@@ -2876,7 +2856,7 @@ class WithdrawCharge(object):
 <div style="clear:both;"/>
 <div class="org-src-container">
 
-<pre><code class=" python" >d = MostEvilAccount("Dave",500.00,1.10)
+<pre><code class="python" >d = MostEvilAccount("Dave",500.00,1.10)
 d.deposit_fee()   # DepositCharge.deposit_fee().  Fee je 5.00
 d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 </code></pre>
@@ -2884,7 +2864,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 </section>
 <section id="slide-7-9">
-<h3 id="7-9"><span class="section-number-3">7.9</span> Višestruko nasleđivanje - MRO</h3>
+<h3 id="7-9"><span class="section-number-3">7.9.</span> Višestruko nasleđivanje - MRO</h3>
 <ul>
 <li><i>Method Resolution Order</i> - MRO</li>
 
@@ -2892,7 +2872,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; MostEvilAccount.__mro__
+<pre><code class="python" >&gt;&gt;&gt; MostEvilAccount.__mro__
 (&lt;class '_ _main_ _.MostEvilAccount'&gt;,
  &lt;class '_ _main_ _.EvilAccount'&gt;,
  &lt;class '_ _main_ _.Account'&gt;,
@@ -2905,7 +2885,7 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 </section>
 <section id="slide-7-10">
-<h3 id="7-10"><span class="section-number-3">7.10</span> Polimorfizam, dinamičko povezivanje, <i>duck typing</i></h3>
+<h3 id="7-10"><span class="section-number-3">7.10.</span> Polimorfizam, dinamičko povezivanje, <i>duck typing</i></h3>
 <ul>
 <li>Korišćenje objekta bez obzira na njegov konkretni tip.</li>
 <li>Dovoljno je samo da ima određene atribute i metode tj. određeno ponašanje.</li>
@@ -2916,10 +2896,10 @@ d.withdraw_fee()  # WithdrawCharge.withdraw_fee(). Fee je 5.00 ??
 
 </section>
 <section id="slide-7-11">
-<h3 id="7-11"><span class="section-number-3">7.11</span> <code>static</code> metode</h3>
+<h3 id="7-11"><span class="section-number-3">7.11.</span> <code>static</code> metode</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Foo(object):
+<pre><code class="python" >class Foo(object):
   @staticmethod
   def add(x,y):
     return x + y
@@ -2933,7 +2913,7 @@ x = Foo.add(3,4)
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Date(object):
+<pre><code class="python" >class Date(object):
   def __init__(self,year,month,day):
     self.year = year
     self.month = month
@@ -2957,7 +2937,7 @@ c = Date.tomorrow() # Poziva static metodu tomorrow()
 
 </section>
 <section id="slide-7-12">
-<h3 id="7-12"><span class="section-number-3">7.12</span> <code>class</code> metode</h3>
+<h3 id="7-12"><span class="section-number-3">7.12.</span> <code>class</code> metode</h3>
 <ul>
 <li>Metode klase koje primaju <code>class</code> objekat klase nad kojom su pozvane.</li>
 
@@ -2965,7 +2945,7 @@ c = Date.tomorrow() # Poziva static metodu tomorrow()
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Times(object):
+<pre><code class="python" >class Times(object):
   factor = 1
 
   @classmethod
@@ -2981,10 +2961,10 @@ x = TwoTimes.mul(4)     # Poziva Times.mul(TwoTimes, 4) -&gt; 8
 
 </section>
 <section id="slide-7-13">
-<h3 id="7-13"><span class="section-number-3">7.13</span> Primer upotrebe <code>class</code> metode - problem</h3>
+<h3 id="7-13"><span class="section-number-3">7.13.</span> Primer upotrebe <code>class</code> metode - problem</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class EuroDate(Date):
+<pre><code class="python" >class EuroDate(Date):
 
   # Izmena string konverzije da koristi evropske datume
   def __str__(self):
@@ -3000,10 +2980,10 @@ klase.</li>
 
 </section>
 <section id="slide-7-14">
-<h3 id="7-14"><span class="section-number-3">7.14</span> Primer upotrebe <code>class</code> metode - rešenje</h3>
+<h3 id="7-14"><span class="section-number-3">7.14.</span> Primer upotrebe <code>class</code> metode - rešenje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Date(object):
+<pre><code class="python" >class Date(object):
   ...
   @classmethod
   def now(cls):
@@ -3025,7 +3005,7 @@ b = d.now()         # Poziva Date.now(Date)
 
 </section>
 <section id="slide-7-15">
-<h3 id="7-15"><span class="section-number-3">7.15</span> <i>Properties</i></h3>
+<h3 id="7-15"><span class="section-number-3">7.15.</span> <i>Properties</i></h3>
 <ul>
 <li>Specijalna vrsta atributa koja dinamički izračunava svoju vrednost.</li>
 
@@ -3034,7 +3014,7 @@ b = d.now()         # Poziva Date.now(Date)
 <div class="column" style="float:left; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" >class Circle(object):
+<pre><code class="python" >class Circle(object):
 
   def __init__(self,radius):
     self.radius = radius
@@ -3053,7 +3033,7 @@ b = d.now()         # Poziva Date.now(Date)
 <div class="column" style="float:right; width: 50%">
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; c = Circle(4.0)
+<pre><code class="python" >&gt;&gt;&gt; c = Circle(4.0)
 &gt;&gt;&gt; c.radius
 4.0
 &gt;&gt;&gt; c.area
@@ -3071,10 +3051,10 @@ AttributeError: can't set attribute
 
 </section>
 <section id="slide-7-16">
-<h3 id="7-16"><span class="section-number-3">7.16</span> <i>Properties</i> - <i>setters</i></h3>
+<h3 id="7-16"><span class="section-number-3">7.16.</span> <i>Properties</i> - <i>setters</i></h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Foo(object):
+<pre><code class="python" >class Foo(object):
   def __init__(self,name):
     self.__name = name
   @property
@@ -3099,10 +3079,10 @@ del f.name        # Poziva deleter name(f) -&amp;gt; TypeError
 
 </section>
 <section id="slide-7-17">
-<h3 id="7-17"><span class="section-number-3">7.17</span> Enakpsulacija i privatni atributi</h3>
+<h3 id="7-17"><span class="section-number-3">7.17.</span> Enakpsulacija i privatni atributi</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class A(object):
+<pre><code class="python" >class A(object):
   def __init__(self):
     self.__X = 3        # Izmenjeno u self._A__X
   def __spam(self):     # Izmenjeno u _A__spam()
@@ -3122,7 +3102,7 @@ class B(A):
 
 </section>
 <section id="slide-7-18">
-<h3 id="7-18"><span class="section-number-3">7.18</span> Redefinisanje operatora (<i>operator overloading</i>)</h3>
+<h3 id="7-18"><span class="section-number-3">7.18.</span> Redefinisanje operatora (<i>operator overloading</i>)</h3>
 <ul>
 <li>Svi operatori korišćeni u Python-u (npr. <code>+, -, *, /, in, []...</code>) su opisani
 specijalnim metodama i mogu se redefinisati.</li>
@@ -3131,7 +3111,7 @@ specijalnim metodama i mogu se redefinisati.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Complex(object):
+<pre><code class="python" >class Complex(object):
   def __init__(self,real,imag=0):
     self.real = float(real)
     self.imag = float(imag)
@@ -3156,10 +3136,10 @@ kompleksnih brojeva.</li>
 
 </section>
 <section id="slide-7-19">
-<h3 id="7-19"><span class="section-number-3">7.19</span> Pripadnost klasi ili tipu</h3>
+<h3 id="7-19"><span class="section-number-3">7.19.</span> Pripadnost klasi ili tipu</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class A(object): pass
+<pre><code class="python" >class A(object): pass
 class B(A): pass
 class C(object): pass
 a = A() # Instance of 'A'
@@ -3181,23 +3161,23 @@ issubclass(C,A)   # False
 </section>
 <section>
 <section id="slide-8">
-<h2 id="8"><span class="section-number-2">8</span> Moduli i paketi</h2>
+<h2 id="8"><span class="section-number-2">8.</span> Moduli i paketi</h2>
 <div class="outline-text-2" id="text-8">
 </div>
 </section>
 <section id="slide-8-1">
-<h3 id="8-1"><span class="section-number-3">8.1</span> Moduli i <code>import</code> iskaz</h3>
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Moduli i <code>import</code> iskaz</h3>
 <ul>
 <li>Svaki pajton fajl može da se koristi kao modul.</li>
 <li><code>import</code> iskaz <i>uvozi</i> definicije iz drugog modula u tekući prostor imena
-(<i>namespace</i> )</li>
+(<i>namespace</i>)</li>
 
 </ul>
 
 <div class="column" style="float:left; width: 70%">
 <div class="org-src-container">
 
-<pre><code class=" python" ># spam.py
+<pre><code class="python" ># spam.py
 a = 37
 def foo():
   print("I'm foo and a is %s" % a)
@@ -3214,7 +3194,7 @@ class Spam(object):
 <div class="column" style="float:right; width: 30%">
 <div class="org-src-container">
 
-<pre><code class=" python" >import spam
+<pre><code class="python" >import spam
 x = spam.a
 spam.foo()
 s = spam.Spam()
@@ -3226,16 +3206,16 @@ s.grok()
 
 </section>
 <section id="slide-8-2">
-<h3 id="8-2"><span class="section-number-3">8.2</span> <code>import</code> - razni oblici</h3>
+<h3 id="8-2"><span class="section-number-3">8.2.</span> <code>import</code> - razni oblici</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >import socket, os, re
+<pre><code class="python" >import socket, os, re
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >import spam as sp
+<pre><code class="python" >import spam as sp
 import socket as net
 sp.foo()
 sp.bar()
@@ -3245,7 +3225,7 @@ net.gethostname()
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if format == 'xml':
+<pre><code class="python" >if format == 'xml':
   import xmlreader as reader
 elif format == 'csv':
   import csvreader as reader
@@ -3262,7 +3242,7 @@ Import samo određenog objekta.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import foo
+<pre><code class="python" >from spam import foo
 foo()
 spam.foo()
 </code></pre>
@@ -3274,7 +3254,7 @@ Import na više linija
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import (foo,
+<pre><code class="python" >from spam import (foo,
                   bar,
                   Spam)
 </code></pre>
@@ -3286,7 +3266,7 @@ Promena imena pri importu.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import Spam as Sp
+<pre><code class="python" >from spam import Spam as Sp
 s = Sp()
 </code></pre>
 </div>
@@ -3299,7 +3279,7 @@ Import svih definicija u tekući prostor imena.
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import *
+<pre><code class="python" >from spam import *
 </code></pre>
 </div>
 
@@ -3309,7 +3289,7 @@ Definisanje šta se uvozi kod import <code>*</code>.
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># module: spam.py
+<pre><code class="python" ># module: spam.py
 __all__ = [ 'bar', 'Spam' ]
 </code></pre>
 </div>
@@ -3320,7 +3300,7 @@ Opseg važenja se ne menja.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import foo
+<pre><code class="python" >from spam import foo
 a = 42
 foo()     # Ispisuje "I'm foo and a is 37"
 </code></pre>
@@ -3328,7 +3308,7 @@ foo()     # Ispisuje "I'm foo and a is 37"
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from spam import bar
+<pre><code class="python" >from spam import bar
 def foo():
   print("I'm a different foo")
 bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
@@ -3338,7 +3318,7 @@ bar() # Kada bar pozove foo(), poziva se spam.foo(), a ne
 
 </section>
 <section id="slide-8-3">
-<h3 id="8-3"><span class="section-number-3">8.3</span> Izvršavanje glavnog programa</h3>
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Izvršavanje glavnog programa</h3>
 <ul>
 <li><code>import</code> iskaz izvršava kod u prostoru imena pozivaoca.</li>
 <li>Svaki modul definiše implicitno varijablu <code>__name__</code> koja predstavlja ime
@@ -3351,7 +3331,7 @@ koda ali će <code>__name__</code> varijabla imati vrednost <code>__main__</code
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python moj_program.py
+<pre><code class="bash" >$ python moj_program.py
 </code></pre>
 </div>
 
@@ -3363,7 +3343,7 @@ pri importu i pri startovanju kao nezavisan program.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >if __name__ == '__main__':
+<pre><code class="python" >if __name__ == '__main__':
   # Startovan kao program
 else:
   # Importovan kao modul
@@ -3379,12 +3359,12 @@ else:
 </section>
 <section>
 <section id="slide-9">
-<h2 id="9"><span class="section-number-2">9</span> Alati i okruženja</h2>
+<h2 id="9"><span class="section-number-2">9.</span> Alati i okruženja</h2>
 <div class="outline-text-2" id="text-9">
 </div>
 </section>
 <section id="slide-9-1">
-<h3 id="9-1"><span class="section-number-3">9.1</span> IPython</h3>
+<h3 id="9-1"><span class="section-number-3">9.1.</span> IPython</h3>
 <ul>
 <li>Interaktivni <i>shell</i> sličan standardnom</li>
 <li><i>Read-Eval-Print-Loop</i></li>
@@ -3394,7 +3374,7 @@ else:
 
 </section>
 <section id="slide-9-2">
-<h3 id="9-2"><span class="section-number-3">9.2</span> IPython mogućnosti</h3>
+<h3 id="9-2"><span class="section-number-3">9.2.</span> IPython mogućnosti</h3>
 <ul>
 <li>Dopuna sa TAB tasterom</li>
 <li>Istraživanje objekata sa <code>?</code></li>
@@ -3405,8 +3385,8 @@ else:
 
 </section>
 <section id="slide-9-3">
-<h3 id="9-3"><span class="section-number-3">9.3</span> Primer sesije</h3>
-<pre  class="example">
+<h3 id="9-3"><span class="section-number-3">9.3.</span> Primer sesije</h3>
+<pre>
 [igor@sizif]$ ipython2
 Python 2.7.8 (default, Jul  1 2014, 17:30:21)
 Type "copyright", "credits" or "license" for more information.
@@ -3425,12 +3405,12 @@ In [2]:
 
 </section>
 <section id="slide-9-4">
-<h3 id="9-4"><span class="section-number-3">9.4</span> Dopuna koda</h3>
+<h3 id="9-4"><span class="section-number-3">9.4.</span> Dopuna koda</h3>
 <p>
 Pritisak na taster TAB
 </p>
 
-<pre  class="example">
+<pre>
 In [4]: import os
 
 In [5]: os.pa
@@ -3442,12 +3422,12 @@ In [5]: os.pa
 
 </section>
 <section id="slide-9-5">
-<h3 id="9-5"><span class="section-number-3">9.5</span> Informacije o objektima</h3>
+<h3 id="9-5"><span class="section-number-3">9.5.</span> Informacije o objektima</h3>
 <p>
 Iza naziva reference staviti znak <code>?</code>.
 </p>
 
-<pre  class="example">
+<pre>
 In [7]: map?
 Type:        builtin_function_or_method
 String form: &lt;built-in function map&gt;
@@ -3467,12 +3447,12 @@ In [8]:
 
 </section>
 <section id="slide-9-6">
-<h3 id="9-6"><span class="section-number-3">9.6</span> Proširene informacije o objektima</h3>
+<h3 id="9-6"><span class="section-number-3">9.6.</span> Proširene informacije o objektima</h3>
 <p>
 Iza naziva reference staviti znak <code>??</code>
 </p>
 
-<pre  class="example">
+<pre>
 In [2]: import os
 
 In [3]: os.path.abspath??
@@ -3494,17 +3474,17 @@ return normpath(path)
 
 </section>
 <section id="slide-9-7">
-<h3 id="9-7"><span class="section-number-3">9.7</span> <i>paste</i> više linija koda</h3>
+<h3 id="9-7"><span class="section-number-3">9.7.</span> <i>paste</i> više linija koda</h3>
 <ul>
 <li>Ponekad je zgodno u cilju testiranja <i>paste</i>-ovati blok koda na konzolu uz
-očuvanje indentacije.</li>
+očuvanje uvlačenja.</li>
 <li>Za ovu namenu koristi se magična funkcija <code>%paste</code></li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >In [5]: %paste
+<pre><code class="python" >In [5]: %paste
 def napravi_klasu():
     class MojaKlasa(object):
         def __init__(self, a):
@@ -3516,7 +3496,7 @@ def napravi_klasu():
 
 </section>
 <section id="slide-9-8">
-<h3 id="9-8"><span class="section-number-3">9.8</span> <i>Reload</i> modula</h3>
+<h3 id="9-8"><span class="section-number-3">9.8.</span> <i>Reload</i> modula</h3>
 <ul>
 <li>Problem kod izmene koda posle import-a.</li>
 <li><p>
@@ -3530,7 +3510,7 @@ Dva načina:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >reload(moj_modul)
+<pre><code class="python" >  reload(moj_modul)
 </code></pre>
 </div>
 
@@ -3539,16 +3519,16 @@ Dva načina:
 
 </ol>
 
-<pre  class="example">
-%load_ext autoreload
-%autoreload 2
+<pre>
+  %load_ext autoreload
+  %autoreload 2
 </pre></li>
 
 </ul>
 
 </section>
 <section id="slide-9-9">
-<h3 id="9-9"><span class="section-number-3">9.9</span> Zadatak</h3>
+<h3 id="9-9"><span class="section-number-3">9.9.</span> Zadatak</h3>
 <p>
 Upotrebom IPython konzole:
 </p>
@@ -3573,16 +3553,16 @@ Pomoć: <code>random</code> modul
 
 </section>
 <section id="slide-9-10">
-<h3 id="9-10"><span class="section-number-3">9.10</span> <a href="http://www.jetbrains.com/pycharm/">PyCharm</a></h3>
+<h3 id="9-10"><span class="section-number-3">9.10.</span> <a href="http://www.jetbrains.com/pycharm/">PyCharm</a></h3>
 
-<div class="figure">
+<div id="org5630aca" class="figure">
 <p><img src="./images/PyCharm.png" alt="PyCharm.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-9-11">
-<h3 id="9-11"><span class="section-number-3">9.11</span> PyCharm - osobine</h3>
+<h3 id="9-11"><span class="section-number-3">9.11.</span> PyCharm - osobine</h3>
 <ul>
 <li>Osnovne IDE operacije: navigacija, bojenje i dopuna koda, prikaz strukture
 koda&#x2026;</li>
@@ -3596,16 +3576,16 @@ koda&#x2026;</li>
 
 </section>
 <section id="slide-9-12">
-<h3 id="9-12"><span class="section-number-3">9.12</span> <a href="http://pydev.org/">Eclipse PyDev</a></h3>
+<h3 id="9-12"><span class="section-number-3">9.12.</span> <a href="http://pydev.org/">Eclipse PyDev</a></h3>
 
-<div class="figure">
+<div id="orgc31f3ef" class="figure">
 <p><img src="./images/PyDev.png" alt="PyDev.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-9-13">
-<h3 id="9-13"><span class="section-number-3">9.13</span> PyDev - osobine</h3>
+<h3 id="9-13"><span class="section-number-3">9.13.</span> PyDev - osobine</h3>
 <ul>
 <li>Slobodan softver otvorenog koda.</li>
 <li>Dostupan kao skup plugin-a za <i>Eclipse</i></li>
@@ -3619,8 +3599,9 @@ koda&#x2026;</li>
 
 </section>
 <section id="slide-9-14">
-<h3 id="9-14"><span class="section-number-3">9.14</span> Editori</h3>
+<h3 id="9-14"><span class="section-number-3">9.14.</span> Editori</h3>
 <ul>
+<li>VS Code</li>
 <li>vim, neovim</li>
 <li>emacs</li>
 <li>Sublime</li>
@@ -3633,12 +3614,12 @@ koda&#x2026;</li>
 </section>
 <section>
 <section id="slide-10">
-<h2 id="10"><span class="section-number-2">10</span> Pakovanje i distribucija aplikacija</h2>
+<h2 id="10"><span class="section-number-2">10.</span> Pakovanje i distribucija aplikacija</h2>
 <div class="outline-text-2" id="text-10">
 </div>
 </section>
 <section id="slide-10-1">
-<h3 id="10-1"><span class="section-number-3">10.1</span> Pakovanje i distribucija aplikacija u Python-u</h3>
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Pakovanje i distribucija aplikacija u Python-u</h3>
 <ul>
 <li>Distutils</li>
 <li>setuptools</li>
@@ -3651,7 +3632,7 @@ koda&#x2026;</li>
 
 </section>
 <section id="slide-10-2">
-<h3 id="10-2"><span class="section-number-3">10.2</span> Distutils</h3>
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Distutils</h3>
 <ul>
 <li>Standardna biblioteka za upravljanje paketima.</li>
 <li>Dolazi uz instalaciju Pythona.</li>
@@ -3660,7 +3641,7 @@ koda&#x2026;</li>
 
 </section>
 <section id="slide-10-3">
-<h3 id="10-3"><span class="section-number-3">10.3</span> Setuptools</h3>
+<h3 id="10-3"><span class="section-number-3">10.3.</span> Setuptools</h3>
 <ul>
 <li>Naprednija verzija biblioteke za upravljanje paketima.</li>
 <li>Dobrim delom kompatiblina sa <i>Distutils</i>.</li>
@@ -3670,7 +3651,7 @@ koda&#x2026;</li>
 
 </section>
 <section id="slide-10-4">
-<h3 id="10-4"><span class="section-number-3">10.4</span> <code>setup.py</code> fajl</h3>
+<h3 id="10-4"><span class="section-number-3">10.4.</span> <code>setup.py</code> fajl</h3>
 <ul>
 <li>Metapodaci python paketa + informacije za <i>build</i>.</li>
 <li>Primer:</li>
@@ -3679,7 +3660,7 @@ koda&#x2026;</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >*!/usr/bin/env python
+<pre><code class="python" >*!/usr/bin/env python
 
 from setuptools import setup
 *from distutils.core import setup
@@ -3698,20 +3679,20 @@ setup(name='ImePaketa',
 
 </section>
 <section id="slide-10-5">
-<h3 id="10-5"><span class="section-number-3">10.5</span> Instalacija iz setup.py</h3>
+<h3 id="10-5"><span class="section-number-3">10.5.</span> Instalacija iz setup.py</h3>
 <p>
 Instalacija iz izvornog koda sa <code>setup.py</code> fajlom se obavlja komandom:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$  python setup.py install
+<pre><code class="bash" >$  python setup.py install
 </code></pre>
 </div>
 
 </section>
 <section id="slide-10-6">
-<h3 id="10-6"><span class="section-number-3">10.6</span> Instalacija za razvoj</h3>
+<h3 id="10-6"><span class="section-number-3">10.6.</span> Instalacija za razvoj</h3>
 <p>
 Ukoliko kôd koji želimo da instaliramo još uvek razvijamo a želimo da izbegnemo
 ponovnu instalaciju posle svake izmene potrebno je da instaliramo paket na
@@ -3720,7 +3701,7 @@ sledeći način:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py develop
+<pre><code class="bash" >$ python setup.py develop
 </code></pre>
 </div>
 
@@ -3730,13 +3711,13 @@ Za deinstalaciju razvojnog paketa koristi se:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py develop --uninstall
+<pre><code class="bash" >$ python setup.py develop --uninstall
 </code></pre>
 </div>
 
 </section>
 <section id="slide-10-7">
-<h3 id="10-7"><span class="section-number-3">10.7</span> Zadatak</h3>
+<h3 id="10-7"><span class="section-number-3">10.7.</span> Zadatak</h3>
 <ul>
 <li>Kreirati fajl <code>gsearch.py</code> sa sadržajem sa sledećeg slajda.</li>
 <li>Napraviti <code>setup.py</code> za njega i instalirati ga u <i>develop</i> modu.</li>
@@ -3749,10 +3730,10 @@ Za deinstalaciju razvojnog paketa koristi se:
 
 </section>
 <section id="slide-10-8">
-<h3 id="10-8"><span class="section-number-3">10.8</span> Primer</h3>
+<h3 id="10-8"><span class="section-number-3">10.8.</span> Primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >*!/usr/bin/python3
+<pre><code class="python" >#!/usr/bin/python3
 from urllib import parse, request
 import json
 
@@ -3786,7 +3767,7 @@ if __name__=="__main__":
 
 </section>
 <section id="slide-10-9">
-<h3 id="10-9"><span class="section-number-3">10.9</span> Kreiranje distribucija iz <code>setup.py</code></h3>
+<h3 id="10-9"><span class="section-number-3">10.9.</span> Kreiranje distribucija iz <code>setup.py</code></h3>
 <ul>
 <li><p>
 Kreiranje <i>source</i> distribucije:
@@ -3794,7 +3775,7 @@ Kreiranje <i>source</i> distribucije:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py sdist
+<pre><code class="bash" >  $ python setup.py sdist
 </code></pre>
 </div></li>
 
@@ -3804,7 +3785,7 @@ Kreiranje <i>binarne</i> distribucije:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py bdist
+<pre><code class="bash" >  $ python setup.py bdist
 </code></pre>
 </div></li>
 
@@ -3814,7 +3795,7 @@ Npr. kreiranje binarnog installera za windows se obavlja sledećom komandom:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py bdist_wininst
+<pre><code class="bash" >  $ python setup.py bdist_wininst
 </code></pre>
 </div></li>
 
@@ -3822,7 +3803,7 @@ Npr. kreiranje binarnog installera za windows se obavlja sledećom komandom:
 
 </section>
 <section id="slide-10-10">
-<h3 id="10-10"><span class="section-number-3">10.10</span> Python wheels</h3>
+<h3 id="10-10"><span class="section-number-3">10.10.</span> Python wheels</h3>
 <ul>
 <li>Novi način distribucije paketa.</li>
 <li>C ekstenzije su prekompajlirane za ciljnu platformu.</li>
@@ -3836,13 +3817,13 @@ Kreiraju se sa:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ python setup.py bdist_wheel
+<pre><code class="bash" >$ python setup.py bdist_wheel
 </code></pre>
 </div>
 
 </section>
 <section id="slide-10-11">
-<h3 id="10-11"><span class="section-number-3">10.11</span> Python Package Index - PyPI</h3>
+<h3 id="10-11"><span class="section-number-3">10.11.</span> Python Package Index - PyPI</h3>
 <ul>
 <li>PyPI (<i>Py</i> thon <i>P</i> ackage <i>I</i> ndex) predstavlja repozitorijum python paketa.</li>
 <li>Dostupan je na adresi <a href="https://pypi.python.org/">https://pypi.python.org/</a></li>
@@ -3853,7 +3834,7 @@ alata.</li>
 
 </section>
 <section id="slide-10-12">
-<h3 id="10-12"><span class="section-number-3">10.12</span> <code>pip</code> alat</h3>
+<h3 id="10-12"><span class="section-number-3">10.12.</span> <code>pip</code> alat</h3>
 <p>
 Osnovne komande:
 </p>
@@ -3865,7 +3846,7 @@ Pretraga paketa po nazivu:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >pip search deo_imena
+<pre><code class="bash" >  pip search deo_imena
 </code></pre>
 </div></li>
 
@@ -3875,7 +3856,7 @@ Instalacija paketa:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >pip install ime_paketa
+<pre><code class="bash" >  pip install ime_paketa
 </code></pre>
 </div></li>
 
@@ -3885,7 +3866,7 @@ Prikaz instaliranih paketa:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >pip list
+<pre><code class="bash" >  pip list
 </code></pre>
 </div></li>
 
@@ -3895,7 +3876,7 @@ Prikaz instaliranih paketa:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >pip install --upgrade ime_paketa
+<pre><code class="bash" >  pip install --upgrade ime_paketa
 </code></pre>
 </div></li>
 
@@ -3905,7 +3886,7 @@ Deinstalacija paketa:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >pip uninstall ime_paketa
+<pre><code class="bash" >  pip uninstall ime_paketa
 </code></pre>
 </div></li>
 
@@ -3913,7 +3894,7 @@ Deinstalacija paketa:
 
 </section>
 <section id="slide-10-13">
-<h3 id="10-13"><span class="section-number-3">10.13</span> virtualenv</h3>
+<h3 id="10-13"><span class="section-number-3">10.13.</span> virtualenv</h3>
 <ul>
 <li>Problem sa zavisnošću i kolizijom između verzija.</li>
 <li><code>virtualenv</code> omogućava kreiranje izolovanih Python okruženja sa svojim skupom
@@ -3926,12 +3907,12 @@ Kreiranje novog okruženja:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ virtualenv JSD
-Using base prefix '/usr'
-New python executable in /home/igor/VirtualEnvs/JSD/bin/python3
-Also creating executable in /home/igor/VirtualEnvs/JSD/bin/python
-Installing setuptools, pip, wheel...done.
-$
+<pre><code class="bash" >  $ virtualenv JSD
+  Using base prefix '/usr'
+  New python executable in /home/igor/VirtualEnvs/JSD/bin/python3
+  Also creating executable in /home/igor/VirtualEnvs/JSD/bin/python
+  Installing setuptools, pip, wheel...done.
+  $
 </code></pre>
 </div></li>
 
@@ -3939,7 +3920,7 @@ $
 
 </section>
 <section id="slide-10-14">
-<h3 id="10-14"><span class="section-number-3">10.14</span> virtualenvwrapper</h3>
+<h3 id="10-14"><span class="section-number-3">10.14.</span> virtualenvwrapper</h3>
 <ul>
 <li>Skup proširenja <code>virtualenv</code> alata.</li>
 <li>Upravljanje virtualnim okruženjima.</li>
@@ -3948,7 +3929,7 @@ $
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >mkvirtualenv typhoon
+<pre><code class="bash" >mkvirtualenv typhoon
 </code></pre>
 </div>
 
@@ -3957,7 +3938,7 @@ Aktivacija:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" bash" >workon typhoon
+<pre><code class="bash" >workon typhoon
 pip install ...
 pip list ...
 </code></pre>
@@ -3968,16 +3949,16 @@ Brisanje:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" bash" >rmvirtualenv typhoon
+<pre><code class="bash" >rmvirtualenv typhoon
 </code></pre>
 </div>
 
 </section>
 <section id="slide-10-15">
-<h3 id="10-15"><span class="section-number-3">10.15</span> Aktivacija virtuelnog okruženja</h3>
+<h3 id="10-15"><span class="section-number-3">10.15.</span> Aktivacija virtuelnog okruženja</h3>
 <div class="org-src-container">
 
-<pre><code class=" bash" >$ source JSD/bin/activate
+<pre><code class="bash" >$ source JSD/bin/activate
 (JSD)$
 </code></pre>
 </div>
@@ -3988,7 +3969,7 @@ Listanje paketa u okruženju:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >(JSD)$ pip list
+<pre><code class="bash" >(JSD)$ pip list
 pip (8.1.2)
 setuptools (28.6.1)
 wheel (0.30.0a0)
@@ -4004,10 +3985,10 @@ wheel (0.30.0a0)
 
 </section>
 <section id="slide-10-16">
-<h3 id="10-16"><span class="section-number-3">10.16</span> Instalacija paketa u virtuelno okruženje</h3>
+<h3 id="10-16"><span class="section-number-3">10.16.</span> Instalacija paketa u virtuelno okruženje</h3>
 <div class="org-src-container">
 
-<pre><code class=" bash" >(JSD)$ pip install textX
+<pre><code class="bash" >(JSD)$ pip install textX
 Collecting textX
   Downloading textX-1.4.tar.gz
 Collecting Arpeggio (from textX)
@@ -4029,7 +4010,7 @@ Sada se Django biblioteka nalazi u aktivnom okruženju:
 
 <div class="org-src-container">
 
-<pre><code class=" bash" >(JSD)$ pip list
+<pre><code class="bash" >(JSD)$ pip list
 Arpeggio (1.5)
 pip (8.1.2)
 setuptools (28.6.1)
@@ -4041,7 +4022,7 @@ wheel (0.30.0a0)
 
 </section>
 <section id="slide-10-17">
-<h3 id="10-17"><span class="section-number-3">10.17</span> Zadatak</h3>
+<h3 id="10-17"><span class="section-number-3">10.17.</span> Zadatak</h3>
 <ul>
 <li>Kreirati novo virtuelno okruženje <i>JSD</i>.</li>
 <li>Aktivirati ga</li>
@@ -4055,7 +4036,7 @@ verifikovati sa:</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >import arpeggio
+<pre><code class="python" >import arpeggio
 </code></pre>
 </div>
 
@@ -4069,10 +4050,10 @@ postoji.</li>
 </section>
 <section>
 <section id="slide-11">
-<h2 id="11"><span class="section-number-2">11</span> Reference</h2>
+<h2 id="11"><span class="section-number-2">11.</span> Reference</h2>
 <ul>
-<li>Beazley, David M. <b>Python essential reference</b>. Addison-Wesley Professional, 2009.</li>
-<li>[Python dokumentacija](<a href="https://docs.python.org/3/">https://docs.python.org/3/</a>)</li>
+<li>Beazley, David M. <i>Python essential reference</i>. Addison-Wesley Professional, 2009.</li>
+<li><a href="https://docs.python.org/3/">Python dokumentacija</a></li>
 <li>[virtualenv dokumentacija](<a href="http://virtualenv.readthedocs.org/en/latest/virtualenv.html">http://virtualenv.readthedocs.org/en/latest/virtualenv.html</a>)</li>
 <li>[pip dokumentacija](<a href="https://pip.readthedocs.org/en/latest/">https://pip.readthedocs.org/en/latest/</a>)</li>
 
@@ -4081,7 +4062,6 @@ postoji.</li>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -4099,7 +4079,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
