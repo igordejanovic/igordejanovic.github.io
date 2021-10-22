@@ -39,6 +39,8 @@ layout: page
 
 ## Literatura
 
+- Igor Dejanović, *Jezici specifični za domen*, Fakultet tehničkih nauka, Novi
+  Sad, 2021. (u štampi)
 - M. Völter, [*DSL Engineering: Designing, Implementing and Using
   Domain-Specific Languages*](http://dslbook.org/). 2013.
 - S. Kelly and J.-P. Tolvanen, *Domain-Specific Modeling: Enabling Full Code
