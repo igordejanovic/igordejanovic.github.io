@@ -35,12 +35,12 @@
 <h1 class="title">Programski jezik Python</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-10-20 Wed 06:53, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-10-25 Mon 09:47, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org5174ddb">
-<h2 id="org5174ddb">Sadržaj</h2>
+<section id="slide-org4392f83">
+<h2 id="org4392f83">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Kratak pregled Python-a</a></li>
@@ -307,10 +307,10 @@ f.close()
 <pre><code class="python" >a = "Hello World"
 b = 'Python is groovy'
 c = """Computer says 'No'"""
-print '''Content-type: text/html
+print('''Content-type: text/html
 &lt;h1&gt;Hello World&lt;/h1&gt;
 Click &lt;a href="http://www.python.org"&gt;here&lt;/a&gt;.
-'''
+''')
 b = a[4]      # b = 'o'
 
 c = a[:5]     # c = "Hello"
@@ -376,8 +376,8 @@ f.close()
 fvalues = [float(line) for line in lines]
 
 # Pronađi min i max vrednosti
-print "The minimum value is ", min(fvalues)
-print "The maximum value is ", max(fvalues)
+print("The minimum value is ", min(fvalues))
+print("The maximum value is ", max(fvalues))
 </code></pre>
 </div>
 </section>
@@ -462,6 +462,7 @@ Neuređena kolekcija objekata.
 <div class="org-src-container">
 
 <pre><code class="python" >s = set([3,5,9,10])     # Kreira skup brojeva
+s = {3, 5, 9, 10}       # Alternativno
 t = set("Hello")        # Kreira skup jedinstvenih karaktera
 &gt;&gt;&gt; t
 set(['H', 'e', 'l', 'o'])
@@ -563,10 +564,10 @@ syms = prices.keys()
 <div class="org-src-container">
 
 <pre><code class="python" >for n in [1,2,3,4,5,6,7,8,9]:
-    print "2 na stepen %d je %d" % (n, 2**n)
+    print("2 na stepen %d je %d" % (n, 2**n))
 
 for n in range(1,10):
-    print "2 na stepen %d je %d" % (n, 2**n)
+    print("2 na stepen %d je %d" % (n, 2**n))
 
 a = range(5)        # a = [0, 1, 2, 3, 4]
 b = range(1, 8)     # b = [1, 2, 3, 4, 5, 6, 7]
@@ -592,7 +593,7 @@ for i in range(100_000_000):       # i = 0,1,2,...,99999999 ali "lenje"
 <pre><code class="python" >a = "Hello World"
 # Štampa pojedinačna slova stringa a
 for c in a:
-    print c
+    print(c)
 </code></pre>
 </div>
 
@@ -606,7 +607,7 @@ for c in a:
 <pre><code class="python" >b = ["Dave","Mark","Ann","Phil"]
 # Štampa članove liste b
 for name in b:
-    print name
+    print(name)
 </code></pre>
 </div>
 
@@ -637,7 +638,7 @@ for key in c:
 <pre><code class="python" ># Štampa sve linije fajla foo.txt
 f = open("foo.txt")
 for line in f:
-    print line,
+    print(line)
 </code></pre>
 </div>
 
@@ -1379,13 +1380,13 @@ If it walks like a duck and quacks like a duck, it must be a duck.
 <pre><code class="python" >def sum(a, b):
     return a + b     # a i b podržavaju + operaciju
 
-&gt;&gt;&gt; print sum(2, 5)
+&gt;&gt;&gt; sum(2, 5)
 7
-&gt;&gt;&gt; print sum(2.5, 6.7)
+&gt;&gt;&gt; sum(2.5, 6.7)
 9.2
-&gt;&gt;&gt; print sum(True, False)
+&gt;&gt;&gt; sum(True, False)
 1
-&gt;&gt;&gt; print sum("Hello ", "world!")
+&gt;&gt;&gt; sum("Hello ", "world!")
 Hello world!
 </code></pre>
 </div>
@@ -1769,16 +1770,22 @@ ili upotrebom <i>dict comprehensions</i>:
 <li><code>frozenset</code> - nepromenjivi skup</li>
 
 </ul></li>
-<li>Instanciraju se pozivom sa parametrom koji implementira iterator protokol.</li>
+<li>Instanciraju se pozivom sa parametrom koji implementira iterator protokol ili
+alternativno upotrebom <code>{...}</code> sintakse.</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class="python" >s = set([1,5,10,15])
+<pre><code class="python" >s = set([1,5,10,15])     # ili s = {1, 5, 10, 15}
 f = frozenset(['a',37,'hello'])
 </code></pre>
 </div>
+
+<ul>
+<li>Set</li>
+
+</ul>
 
 </section>
 <section id="slide-3-18">
@@ -1803,10 +1810,18 @@ s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
 ...
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-19">
-<h3 id="3-19"><span class="section-number-3">3.19.</span> Callables</h3>
+<h3 id="3-19"><span class="section-number-3">3.19.</span> <i>Set comprehensions</i></h3>
+<div class="org-src-container">
+
+<pre><code class="python" >{c for c in 'abracadabra' if c not in 'abc'}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-20">
+<h3 id="3-20"><span class="section-number-3">3.20.</span> Callables</h3>
 <ul>
 <li>Objekti koji podržavaju semantiku poziva.</li>
 <li>Funkcije, klase, metode.</li>
@@ -1824,7 +1839,7 @@ bar = lambda x,y: x + y
 
 funkcije = [foo, bar]
 for f in funkcije:
-  print f(2,3)
+  print(f(2,3))
 
 def div_by_maker(x):
   def div_by(b):
@@ -3397,7 +3412,7 @@ IPython 2.1.0 -- An enhanced Interactive Python.
 help      -&gt; Python's own help system.
 object?   -&gt; Details about 'object', use 'object??' for extra details.
 
-In [1]: print "Hello world!"
+In [1]: print("Hello world!")
 Hello world!
 
 In [2]:
@@ -3555,7 +3570,7 @@ Pomoć: <code>random</code> modul
 <section id="slide-9-10">
 <h3 id="9-10"><span class="section-number-3">9.10.</span> <a href="http://www.jetbrains.com/pycharm/">PyCharm</a></h3>
 
-<div id="org5630aca" class="figure">
+<div id="org420434c" class="figure">
 <p><img src="./images/PyCharm.png" alt="PyCharm.png" />
 </p>
 </div>
@@ -3578,7 +3593,7 @@ koda&#x2026;</li>
 <section id="slide-9-12">
 <h3 id="9-12"><span class="section-number-3">9.12.</span> <a href="http://pydev.org/">Eclipse PyDev</a></h3>
 
-<div id="orgc31f3ef" class="figure">
+<div id="org04e3d7c" class="figure">
 <p><img src="./images/PyDev.png" alt="PyDev.png" />
 </p>
 </div>

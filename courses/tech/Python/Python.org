@@ -194,10 +194,10 @@ f.close()
 a = "Hello World"
 b = 'Python is groovy'
 c = """Computer says 'No'"""
-print '''Content-type: text/html
+print('''Content-type: text/html
 <h1>Hello World</h1>
 Click <a href="http://www.python.org">here</a>.
-'''
+''')
 b = a[4]      # b = 'o'
 
 c = a[:5]     # c = "Hello"
@@ -254,8 +254,8 @@ f.close()
 fvalues = [float(line) for line in lines]
 
 # Pronađi min i max vrednosti
-print "The minimum value is ", min(fvalues)
-print "The maximum value is ", max(fvalues)
+print("The minimum value is ", min(fvalues))
+print("The maximum value is ", max(fvalues))
 #+END_SRC
 ** N-torke (/Tuples/)
 
@@ -321,6 +321,7 @@ Neuređena kolekcija objekata.
 
 #+BEGIN_SRC python
 s = set([3,5,9,10])     # Kreira skup brojeva
+s = {3, 5, 9, 10}       # Alternativno
 t = set("Hello")        # Kreira skup jedinstvenih karaktera
 >>> t
 set(['H', 'e', 'l', 'o'])
@@ -401,10 +402,10 @@ syms = prices.keys()
 
 #+BEGIN_SRC python
 for n in [1,2,3,4,5,6,7,8,9]:
-    print "2 na stepen %d je %d" % (n, 2**n)
+    print("2 na stepen %d je %d" % (n, 2**n))
 
 for n in range(1,10):
-    print "2 na stepen %d je %d" % (n, 2**n)
+    print("2 na stepen %d je %d" % (n, 2**n))
 
 a = range(5)        # a = [0, 1, 2, 3, 4]
 b = range(1, 8)     # b = [1, 2, 3, 4, 5, 6, 7]
@@ -424,7 +425,7 @@ for i in range(100_000_000):       # i = 0,1,2,...,99999999 ali "lenje"
 a = "Hello World"
 # Štampa pojedinačna slova stringa a
 for c in a:
-    print c
+    print(c)
 #+END_SRC
 
 - Liste takođe.
@@ -433,7 +434,7 @@ for c in a:
 b = ["Dave","Mark","Ann","Phil"]
 # Štampa članove liste b
 for name in b:
-    print name
+    print(name)
 #+END_SRC
 
 #+REVEAL: split
@@ -453,7 +454,7 @@ for key in c:
 # Štampa sve linije fajla foo.txt
 f = open("foo.txt")
 for line in f:
-    print line,
+    print(line)
 #+END_SRC
 
 - Proizvoljni objekti mogu da podrže iterator protokol.
@@ -971,13 +972,13 @@ If it walks like a duck and quacks like a duck, it must be a duck.
 def sum(a, b):
     return a + b     # a i b podržavaju + operaciju
 
->>> print sum(2, 5)
+>>> sum(2, 5)
 7
->>> print sum(2.5, 6.7)
+>>> sum(2.5, 6.7)
 9.2
->>> print sum(True, False)
+>>> sum(True, False)
 1
->>> print sum("Hello ", "world!")
+>>> sum("Hello ", "world!")
 Hello world!
 #+END_SRC
 
@@ -1261,12 +1262,15 @@ mapa = { kljuc:vrednost for kljuc, vrednost in zip(kljucevi, vrednosti) }
 - Dve vrste:
   - =set= - promenljivi skup
   - =frozenset= - nepromenjivi skup
-- Instanciraju se pozivom sa parametrom koji implementira iterator protokol.
+- Instanciraju se pozivom sa parametrom koji implementira iterator protokol ili
+  alternativno upotrebom ={...}= sintakse.
 
 #+BEGIN_SRC python
-s = set([1,5,10,15])
+s = set([1,5,10,15])     # ili s = {1, 5, 10, 15}
 f = frozenset(['a',37,'hello'])
 #+END_SRC
+
+- Set
 
 ** Skupovi - operacije
 
@@ -1288,6 +1292,11 @@ s.clear()
 s.update(iterable)        # Dodaje sve elemente iterabilne kolekcije na s
 ...
 #+END_SRC
+** /Set comprehensions/
+
+#+begin_src python
+{c for c in 'abracadabra' if c not in 'abc'}
+#+end_src
 
 ** Callables
 - Objekti koji podržavaju semantiku poziva.
@@ -1303,7 +1312,7 @@ bar = lambda x,y: x + y
 
 funkcije = [foo, bar]
 for f in funkcije:
-  print f(2,3)
+  print(f(2,3))
 
 def div_by_maker(x):
   def div_by(b):
@@ -2452,7 +2461,7 @@ IPython 2.1.0 -- An enhanced Interactive Python.
 help      -> Python's own help system.
 object?   -> Details about 'object', use 'object??' for extra details.
 
-In [1]: print "Hello world!"
+In [1]: print("Hello world!")
 Hello world!
 
 In [2]:
