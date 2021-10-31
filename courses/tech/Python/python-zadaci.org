@@ -1,5 +1,4 @@
 #+TITLE: Zadaci iz Python-a
-#+SUBTITLE: u izradi
 #+EXPORT_FILE_NAME: zadaci.html
 #+SETUPFILE: ../../courses-startup.org
 #+REVEAL_TRANS: convex
@@ -25,7 +24,7 @@ Testirati instalacijom biblioteke textX sa PyPI:
 #+begin_src
 python -m venv venv         # Po završetku ispitati sadržaj kreiranog venv foldera
 source venv/bin/activate    # Na Windowsu venv\Scripts\activate.bat
-pip install textx
+pip install textx[cli]
 #+end_src
 
 Testirati da li je textX instaliran pozivom:
@@ -101,8 +100,56 @@ Napisati kod koji testira implementaciju.
 
 ** Specijalne metode
 
-Sortirati proizvode na lageru po ceni:
+Sortirati proizvode na lageru iz prethodnog zadatka po ceni:
 
 a) upotrebom =sort= i =key=
 b) upotrebom =sort= i definisanjem specijalnih metoda za poređenje u klasi
    =Product=
+** Translacije tačaka u ravni
+Kreirati klasu =Point= sa atributima =x= i =y=. Omogućiti sabiranje instanci ove
+klase. Takođe, omogućiti poređenje tačaka po jednakosti.
+
+Operacija =+= treba da vrati novu tačku sa koordinatama koje predstavljaju
+zbir odgovarajućih koorinata operanada. Odnosno:
+#+begin_src python
+a = Point(2, 4)
+b = Point(3, 4)
+assert a + b is not a
+assert a + b == Point(5, 8)
+#+end_src
+
+Takođe implementirati sabiranje "u mestu" (operator ~+=~) gde će rezultat izmeniti
+prvi operand, tj. obaviće translaciju za vrednost drugog operanda. Odnosno:
+
+#+begin_src python
+a = Point(2, 4)
+x = a
+b = Point(3, 4)
+a += b
+assert a == Point(5, 8)
+assert a is x
+#+end_src
+
+Napisati test gde će lista tačaka biti translirana za isti vektor.
+
+** Polimorfizam kroz /Duck typing/
+Proširiti prethodni zadatak uvođenjem klase =Line= koja sadrži dve tačke. Takođe
+omogućiti sabiranje sa tačkom (translaciju) sa operatorima ~+~ i ~+=~.
+
+Napisati test gde će lista koja sadrži i tačke i duži biti translirana za isti
+vektor. Prolazak kroz listu i translacija treba da se obavi kodom koji ne
+proverava tip elementa.
+
+* Struktura projekta
+** Konverzija iz rimskog u arapski brojni sistem
+Napisati funkciju za konverziju iz [[https://sr.wikipedia.org/wiki/%D0%A0%D0%B8%D0%BC%D1%81%D0%BA%D0%B8_%D0%B1%D1%80%D0%BE%D1%98%D0%B5%D0%B2%D0%B8][rimskog brojnog sistema]] u arapski i obrnuto.
+
+Kreirati projektnu strukturu tako da je moguća jednostavna instalacija vašeg
+paketa u bilo koje virtuelno Python okruženje upotrebom =pip= alata. Videti na
+[[*Kreiranje i aktivacija virtualnog okruženja][prethodnom slajdu]]. Potrebno je da vaš projekat poseduje =setup.py= i =setup.cfg=
+fajl. Ugledati se na druge Python projekte (npr. [[https://github.com/textX/textX][textX]]).
+
+Omogućiti poziv konverzije sa komandne linije (CLI).
+
+Napomena: Rešenje za Python postoji u vidu [[https://github.com/zopefoundation/roman][paketa roman]]. Probati uraditi
+samostalno. Uporediti svoje rešenje sa =roman= paketom.
