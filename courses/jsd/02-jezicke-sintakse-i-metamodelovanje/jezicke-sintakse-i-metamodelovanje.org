@@ -4,10 +4,10 @@
 #+SETUPFILE: ../../courses-startup.org
 
 * Sadržaj
-  :PROPERTIES:
+:PROPERTIES:
   :UNNUMBERED: notoc
   :END:
-  #+REVEAL_TOC: headlines 1
+#+REVEAL_TOC: headlines 1
 
 * Sintakse
 ** Tehnike i tehnologije za implementaciju DSL-ova
@@ -191,11 +191,10 @@ Eye icon designed by Freepik. Hand icon by Yannick Lung.
 
 * Meta-modelovanje
 ** Model
-
 - Modelovanje je esencijalno za ljudsku aktivnost jer svakoj akciji prethodi,
   eksplicitno ili implicitno, kreiranje modela.
 - Modeli mogu biti deskriptivni, ukoliko modeluju postojeći realni sistem, ili
-  preskriptivni (specifikacija) ukoliko predstavljaju "plan" sistema koji treba
+  preskriptivni (specifikacija) ukoliko predstavljaju /plan/ sistema koji treba
   da se izgradi.
 - Model predstavlja opis, ili specifikaciju sistema i njegovog okruženja kreiran
   za određenu namenu. Najčešće je model predstavljen kao kombinacija crteža i
@@ -222,7 +221,6 @@ pojednostavljenje je srž modelovanja.
   framework/, in ase, p. 273, Published by the IEEE Computer Society, 2001
 
 ** Osnovne karakteristike modela
-
 - Model ne predstavljaju samo crteži i tekstualni opisi. Model može imati
   materijalnu formu npr. može biti model/maketa aviona, pojednostavljena verzija
   motora sa unutrašnjim sagorevanjem itd.
@@ -233,7 +231,6 @@ pojednostavljenje je srž modelovanja.
   projektovanim granicama.
   
 ** Meta-model
-
 - Kada kreiramo model sistema moramo poštovati određena pravila odnosno moramo
   koristiti određeni jezik za modelovanje.
 - Jezik može biti opšte namene (npr. UML) ili specifičan za domen.
@@ -255,6 +252,38 @@ framework/, in ase, p. 273, Published by the IEEE Computer Society, 2001
 
 #+ATTR_HTML: :style text-align: center;
 Apstraktna sintaksa je meta-model
+
+** Meta-metamodel
+- Kreiranje jezika predstavlja domen sa svojim konceptima i pravilima.
+- Jezik ovog domena (jezik za opis jezika) nazivamo meta-jezikom.
+- Kao što apstraktnu sintaksu bilo kog jezika nazivamo meta-modelom, apstraknu
+  sintaksu meta-jezika nazivamo meta-metamodelom.
+- Meta-metamodelom možemo opisati apstraktnu sintaksu bilo kog jezika pa i
+  meta-jezika. Stoga kažemo da je meta-metamodel samodefinišući.
+
+** Stek za metamodelovanje
+
+#+ATTR_ORG: :width 100%
+[[./images/Metanivoi.svg]]
+** Problemi sa stekom za metamodelovanje
+Dva važna problema postoje kada je stek za metamodelovanje u pitanju:
+
+1. U kakvoj su vezi entiteti i koncepti realnog sveta sa modelima?
+2. Kako tumačiti dualnost veze instanciranja? Na primer, konkretan UML objekat
+   sa M1 nivoa je instanca konkretne UML klase sa M1 nivoa, ali je istovremeno i
+   instanca UML =Object= koncepta sa M2 nivoa.
+
+** Moguća rešenja
+- Prvi problem: poseban tretman M0 nivoa. M1→M0 -- /predstava/ (eng.
+  /representation/ ili /representationOf/). U obrnutom smeru M0→M1 (eng.
+  /representedBy/). Elementi modela sa M1 nivoa predstavljaju entitete stvarnog
+  sveta sa M0 nivoa.
+- Drugi problem: veza između metanivoa -- /usklađenost/ (eng. /conformantTo/ ili
+  /conformsTo/) li /meta/. Npr. konkretna UML klasa sa M1 nivoa u skladu sa UML
+  =Class= konceptom M2 nivoa.
+- Veze između nivoa iznad M0 nazivamo /lingvističko instanciranje/ za razliku od
+  veza instanciranja unutar metanivoa koja su podržana jezikom opisanim višim
+  metanivoom. Instanciranje unutar metanivoa nazivamo /ontološkim instanciranjem/.
 
 ** Operacije koje koristimo pri (meta)modelovanju
 
@@ -280,14 +309,34 @@ and clearer way. This, more or less, is what abstraction is.
 
 #+attr_html: :class footer :style clear: both;
 - Marijn Haverbeke: [[http://eloquentjavascript.net/][/Eloquent JavaScript/]].
+** Apstrakcija i metanivoi
+- Operacija apstrakcije se dešava na prelasku između nivoa M0 i M1.
+- Veza između nivoa M0 (realni sistem) i M1 (model sistema): /representationOf/ u
+  smeru M1 → M0 ili /representedBy/ u smeru M0 → M1.
+- Klasične infrastrukture za metamodelovanje ne definišu u kakvoj su vezi
+  objekti realnog sveta sa modelima.
+- Na nivou M0, se kod klasičnog pristupa, posmatraju softverske reprezentacije
+  objekata realnog sveta (npr, red u tabeli baze, objekat u memoriji itd.) dok
+  se stvarni objekti kao što su ljudi, predmeti, događaji ne analiziraju
+  eksplicitno.
 
 ** Klasifikacija
-
 - Objekti realnih sistema, kao i njihovi modeli, se mogu grupisati na osnovu
   zajedničkih osobina.
  
 #+ATTR_ORG: :width 100%
 [[./images/klasifikacija.svg]]
+** Klasifikacija i metanivoi
+- Klasifikacija se može obavljati u okviru metanivoa ukoliko jezik to dopušta.
+  Na primer, grupa određenih objekata UML objektnog dijagrama koja opisuje
+  konkretne osobe sa imenom, prezimenom i drugim relevantnim informacijama
+  definisanih apstrakcijom može biti klasifikovana i opisana UML klasom.
+
+- Veza klasifikacije se može obavljati i između metanivoa, tako se veza
+  elemenata modela sa metaelementima može karakterisati kao veza klasifikacije.
+  Na primer sve klase dijagrama klasa, koji koristi UML metamodel, su u vezi sa
+  konceptom =Class= UML metamodela. U tom slučaju, klasifikacija je izvršena na
+  osnovu osobina =Class= koncepta.
 
 ** Token modeli i modeli tipova
 
@@ -299,26 +348,20 @@ and clearer way. This, more or less, is what abstraction is.
 - Modeli tipova:
   - Nastaju procesom klasifikacije modela tokena na osnovu zajedničkih osobina.
   - Ovakav model opisuje klasu pojava realnog sveta.
-  
-** Generalizacija
 
+** Generalizacija
 - Predstavlja dalji proces klasifikacije modela tipova na osnovu zajedničkih
   osobina.
 - Odvija se unutar modela tipova na taj način što se tipovi grupišu u apstraktne
   koncepte na osnovu zajedničkih osobina. Za tako kreirane koncepte kažemo da
   generalizuju posmatrani skup koncepata, odnosno posmatrani skup koncepata se
   nasleđuje iz generalizovanog koncepta.
-  
-* Meta-metamodeli
-** Meta-metamodel
 
-- Kreiranje jezika predstavlja domen sa svojim konceptima i pravilima.
-- Jezik ovog domena (jezik za opis jezika) nazivamo meta-jezikom.
-- Kao što apstraktnu sintaksu bilo kog jezika nazivamo meta-modelom, apstraknu
-  sintaksu meta-jezika nazivamo meta-metamodelom.
-- Meta-metamodelom možemo opisati apstraktnu sintaksu bilo kog jezika pa i
-  meta-jezika. Stoga kažemo da je meta-metamodel samodefinišući.
-  
+** Apstrakcija, klasifikacija i generalizacija
+#+ATTR_ORG: :width 300px
+[[./images/aps-klas-gen.png]]
+
+* Meta-metamodeli
 ** MOF
 
 - MOF (/Meta-Object Facility/)^{1} je meta-metamodel i industrijski standard
@@ -377,6 +420,8 @@ and clearer way. This, more or less, is what abstraction is.
 - Implementacija u Javi^{1}. U toku port na Python^{2} (čim se nađe vremena ;)
   ).
 
+
+#+ATTR_HTML: :style height:500px
 #+ATTR_ORG: :width 100%
 [[./images/MoRP.svg]]
 
@@ -385,13 +430,79 @@ and clearer way. This, more or less, is what abstraction is.
 1. https://github.com/igordejanovic/MoRP
 2. https://github.com/igordejanovic/MoRPy
 
-* Stek za metamodelovanje
-** Stek za metamodelovanje
-
-#+ATTR_ORG: :width 100%
-[[./images/Metanivoi.svg]]
-
+* Primer usklađenosti kroz metanivoe
 ** Primer - Mogram, jezik, meta-jezik
 
 #+ATTR_ORG: :width 100%
 [[./images/Kapija-StateMachine-MoRP.svg]]
+* Analiza i modelovanje domena
+** Analiza domena
+- Problem u komunikaciji:
+  - Domenski eksperti pričaju određenim jezikom. Programeri su takođe domenski
+    eksperti za izradu softvera i imaju svoj jezik.
+  - Neko iz tima mora postati bilingvalan u cilju /prevođenja/ iskaza između dva
+    tima.
+  - Jezik nije formalizovan i vremenom dolazi do fragmentacije značenja.
+    Različiti članovi tima ili podtimovi izmaju različita tumačenja određenih
+    termina.
+- Analiza domena - timska, iterativna aktivnost. Analitičar kroz razgovor sa
+  domenskim ekspertima i čitanjem dokumentacije kreira domenski model.
+
+** Sveprisutni jezik
+- Domenski model, tj. metamodel, predstavlja srž znanja o domenu i osnovu
+  komunikacije svih učesnika na projektu.
+- Sveprisutni jezik (/Ubiquitous Language/) ima jasno definisanu semantiku čime se
+  izbegava proizvoljno tumačenje.
+- Vremenom svi članovi tima usvajaju novi rečnik pojmova koji direktno
+  proizilazi iz domenskog modela čime se omogućava bolje razumevanje i
+  otklanjaju se teškoće u komunikaciji.
+
+** Primer - JSD za elektroniku
+
+Uzmimo za primer da je potrebno kreirati metamodel za oblast elektronike. Cilj
+nam je kreiranje softvera za crtanje električnih šema. U razgovoru sa domenskim
+ekspertima čujemo sledeće iskaze:
+
+#+begin_quote
+/Električna šema/ se sastoji od električnih /komponenti/ koje poseduju /terminale/.
+Terminali se spajaju /konekcijama/. Svaka šema, komponenta, terminal i konekcija
+imaju /naziv/ i /opis/.
+#+end_quote
+** Prva iteracija
+
+#+ATTR_HTML: :style height:400px
+#+ATTR_ORG: :width 300px
+[[./images/analiza-domena-skica1.png]]
+
+** Konkretni modeli
+
+U toku analize koristimo konkretne primere modela da bi bolje razumeli domen.
+
+#+ATTR_HTML: :style height:500px
+#+ATTR_ORG: :width 300px
+[[./images/analiza-domena-konksint.png]]
+
+** Druga iteracija
+
+Dalji tok razgovora može ići u pravcu profinjenja modela, odnosno definisanja
+detalja. Iskazi bi mogli biti, na primer:
+
+#+begin_quote
+Komponente imaju /osobine/ koje su definisane /nazivom/ i /vrednošću/. /Tip osobine/
+određuje /GUI komponentu/ za unos vrednosti, /podrazumevanu vrednost/, /jedinicu
+mere/, /minimalnu/ i /maksimalnu dopuštenu vrednost/.
+
+Komponente su takođe /određenog tipa/. Sve komponente istog tipa imaju istu /ikonu/,
+/opis/, /tipove osobina/ i /terminala/. /Tipovi terminala/ definišu dodatno i /poziciju/
+terminala na tipu komponente.
+#+end_quote
+
+** Druga iteracija - skica
+
+#+ATTR_ORG: :width 300px
+[[./images/analiza-domena-skica2.png]]
+
+** Finalni model
+
+#+ATTR_ORG: :width 300px
+[[./images/analiza-domena.png]]
