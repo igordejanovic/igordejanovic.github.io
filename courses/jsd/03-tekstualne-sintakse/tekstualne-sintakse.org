@@ -4,14 +4,13 @@
 #+SETUPFILE: ../../courses-startup.org
 
 * Sadržaj
-  :PROPERTIES:
+:PROPERTIES:
   :UNNUMBERED: notoc
   :END:
-  #+REVEAL_TOC: headlines 1
+#+REVEAL_TOC: headlines 1
 
 * Uvod
 ** Jezički softver (/Language Software/)
-
 Osnovne klase alata:
 
 - /Generators/ - generišu validne rečenice na nekom jeziku.
@@ -19,13 +18,6 @@ Osnovne klase alata:
 - /Parsers/ - prevode rečenice u stabla.
 - /Formatters/ - prevode stabla u rečenice.
 
-** Parsiranje - sintaksna analiza
-
-- Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
-  gramatike jezika.
-- Transformacija ulaznog stringa u /stablo parsiranja/ ili neku drugu strukturu
-  podataka.
-  
 ** Leksička analiza
 
 - Svaki jezik poseduje /alfabet mogućih karaktera/ koji se mogu pojaviti u
@@ -47,8 +39,33 @@ Osnovne klase alata:
 1. A. Aho and J. Ullman, /The theory of parsing, translation, and compiling/,
    vol. 1 of Series in Automatic Computation. Prentice-Hall, 1972
 
-** Stablo parsiranja
+** Leksična analiza - primer
+Posmatrajmo sledeći jednostavan iskaz:
 
+#+begin_src python
+if a > 5:
+    print("Veće od 5!")
+#+end_src
+
+Ulazni string čine karakteri ovog programskog koda: =i=, =f=, =<prazno>=, =a=, =<prazno>=,
+=>=, itd. Skeniranje će grupisati pojedinačne karaktere u tokene. Svaki token ima
+svoje ime (ili tip, npr. =identifikator=, =operacija=, =varijabla=), i vrednost (npr.
+=if=, =a=, =>=, =5=), odnosno deo ulaza koji je prepoznat kao ovaj tip tokena. Proces
+tokenizacije će za ulazni string da proizvede nisku tokena koja će služiti kao
+ulaz u proces parsiranja. Za primer sa prethodnog listinga izlaz skenera će
+imati sledeći oblik (pod pretpostavkom da ignorišemo prazne karaktere):
+
+#+begin_src text
+[Keyword(if), Variable(a), Operator(>), IntLiteral(5),...]
+#+end_src
+
+** Parsiranje - sintaksna analiza
+- Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
+  gramatike jezika.
+- Transformacija ulaznog stringa u /stablo parsiranja/ ili neku drugu strukturu
+  podataka.
+  
+** Stablo parsiranja
 - Nastaje iz niske simbola (ulaznog stringa) procesom /skeniranja/ (tokenizacije
   ili leksičke analize) i /parsiranja/.
 - Listovi stabla su tokeni prepoznati od strane skenera (/terminali/) dok su
@@ -66,7 +83,6 @@ Osnovne klase alata:
 Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
 
 ** Stablo apstraktne sintakse
-
 - Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
   apstraktne sintakse (/Abstract Syntax Tree/).
 - AST je usmereno labelirano stablo gde čvorovi stabla predstavljaju instance
@@ -84,7 +100,6 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
 =-(4-1)*5/(2+4.67)=
 
 ** Razlike između stabla apstraktne i konkretne sintakse
-
 - Stablo konkretne sintakse je bazirano na formalnoj gramatici koja opisuje
   /detalje zapisa/ u tekstualnom obliku.
 - Stablo apstraktne sintakse sadrži /suštinu jezičkog iskaza/.
@@ -98,7 +113,6 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
 
 * Formalne gramatike
 ** Formalna gramatika
-
 - Predstavlja skup pravila (/produkcije/) pomoću kojih je moguće generisati sve
   /validne rečenice/ nekog jezika (/formalni jezik/) polazeći od /startnog
   simbola/.
@@ -108,7 +122,6 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
   koriste kao osnova za prepoznavanje validnih rečenica.
 
 ** Formalna gramatika - definicija
-
 Formalna gramatika je =G = (N, Σ, P, S)= gde je:
 
 - =N= - konačni skup /neterminalnih simbola/,
@@ -116,6 +129,31 @@ Formalna gramatika je =G = (N, Σ, P, S)= gde je:
 - =P= - konačni skup /produkcionih pravila/ (produkcija) oblika:
   =(Σ ∪ N)∗ N(Σ ∪ N)∗ → (Σ ∪ N)∗=
 - =S= - neterminal iz skupa =N (S ∈ N)= koga nazivamo /početnim simbolom/.
+
+** Notacija
+- Velika slova alfabeta (=A=, =B=, =C=...) - neterminalni simboli gramatike
+- Mala slova afabeta (=a=, =b=, =c=...), cifre, oznake operatora (=+=, =-=, ...), ozake
+  interpunkcije (zagrade, zarez, tačka...) - terminalni simboli gramatike
+- Velika slova kraja alfabeta (=X=, =Y=, =Z=...) - simboli gramatike, bilo neterminali
+  ili terminali.
+- Mala slova alfabeta (=u=, =v=, ..., =z=) - niske treminala (moguće prazan)
+- Mala grčka slova (=α=, =β=, =γ=...) - niske simbola gramatike (moguće prazne),
+  moguće i terminala i neterminala.
+
+#+REVEAL: split
+
+- Skup produkcija:
+
+  $A \rightarrow \alpha_1, A \rightarrow \alpha_2, A \rightarrow \alpha_3$
+
+  može se pisati kao:
+
+  $A \rightarrow \alpha_1 | \alpha_2 | \alpha_3$
+
+  Gde $\alpha_1, \alpha_2, \alpha_3$ nazivamo alternativama produkcije $A$.
+
+- Pišemo $X*$ za skup svih niski koje se mogu kreirati iz elemenata skupa $X$.
+- Praznu nisku označavamo sa $\epsilon$.
 
 ** Klasifikacija formalnih gramatika po Čomskom
 
@@ -176,6 +214,51 @@ S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
 
+** Izvođenje - notacija
+Korak derivacije je element oblika:
+
+$\gamma A \delta \rightarrow \gamma \alpha \delta$
+
+gde: $\gamma, \delta \in (N \cup T)*$
+
+i $A \rightarrow \alpha$ je pravilo gramatike.
+
+Izvođenje rečenične forme $\sigma$ iz rečenične forme $\tau$ je sekvenca koraka
+izvođenja:
+
+$\sigma \rightarrow \beta_1 \rightarrow \beta_2 \rightarrow ... \rightarrow
+\beta_{n-1} \rightarrow \tau$
+
+Takođe možemo pisati i $\sigma \overset{*}{\rightarrow} \tau$, ukoliko imamo 0
+ili više koraka, ili $\sigma \overset{n}{\rightarrow} \tau$ ukoliko imamo tačno
+$n$ koraka, ili, ukoliko je $n>0$ možemo pisati $\sigma \overset{+}{\rightarrow}
+\tau$.
+
+** Rečenična forma i rečenica
+- Bilo koja niska terminala i neterminala koja se može dobiti primenom
+  produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
+  (/Sentential Form/).
+
+  #+BEGIN_SRC
+  ( x + S ) * S - S * S / ( S + S )
+  #+END_SRC
+
+- Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
+  (/Sentence/).
+
+  #+BEGIN_SRC
+  ( x + y ) * x - z * y / ( x + x )
+  #+END_SRC
+
+Odnosno možemo pisati da je rečenična forma niska $\alpha$ za koju važi $S
+\overset{*}{\rightarrow} \alpha$. A ukoliko važi i $\alpha \in T*$ onda je
+$\alpha$ rečenica.
+
+** Jezik generisan gramatikom
+
+Ako je $G$ formalna gramatika tada sa $L(G)$ obeležavamo skup svih rečenica koje
+$G$ može da generiše. Ovaj skup zovemo /jezikom/ koji $G$ generiše ili definiše.
+
 ** Primer izvođenja - algebarski izrazi
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 30%">
@@ -214,25 +297,7 @@ S (startni simbol)
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
             
-** Rečenična forma i rečenica
-
-- Bilo koja niska terminala i neterminala koja se može dobiti primenom
-  produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
-  (/Sentential Form/).
-
-  #+BEGIN_SRC
-  ( x + S ) * S - S * S / ( S + S )
-  #+END_SRC
-
-- Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
-  (/Sentence/).
-  
-  #+BEGIN_SRC
-  ( x + y ) * x - z * y / ( x + x )
-  #+END_SRC
-
 ** Odluke pri izvođenju
-
 - U svakom koraku izvođenja parser donosi dve odluke:
 
   1. *koji neterminal da zameni?*,
@@ -244,7 +309,6 @@ https://en.wikipedia.org/wiki/Context-free_grammar
 - Strategija pri donošenju druge odluke utiče na izgled stabla parsiranja.
 
 ** Strategije izvođenja sa stanovišta izbora neterminala za zamenu
-
 - /Levo izvođenje/ - uvek se prvo razrešava levi neterminal.
 - /Desno izvođenje/ - uvek se prvo razrešava desni neterminal.
 - Strategija izvođenja je bitna kod parsera koji izvršavaju određene akcije kod
@@ -258,7 +322,6 @@ https://en.wikipedia.org/wiki/Context-free_grammar
 [[./images/LeftDerivation.svg]]
 
 ** Višeznačne gramatike - primer - /dangling else/
-
 - Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom
 - Višeznačna gramatika je gramatika kod koje postoji ulazni string sa više
   različitih levih izvođenja.
@@ -294,7 +357,6 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 [[./images/Ambiguous2.svg]]
 
 ** Razrešavanje višeznačnosti
-
 - Višeznačnost je uglavnom /osobina gramatike a ne jezika/.
 - Često se gramatika može refaktorisati da ne bude višeznačna.
 - Određeni parseri omogućavaju dodatna pravila (npr. /pravilo prioriteta/) koje
@@ -306,7 +368,6 @@ Stablo koje oslikava prioritet i asocijativnost operacija
   navođenja (s leva na desno).
 
 ** Leva rekurzija
-
 - Određene vrste parsera ne smeju da imaju /levo rekurzivne produkcije/ jer to
   dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
   bez konzumiranja tokena sa ulaza.
@@ -316,7 +377,6 @@ Stablo koje oslikava prioritet i asocijativnost operacija
   ali gramatika tada često gubi na intuitivnosti.
 
 ** Eliminacija leve rekurzije u opštem slučaju
-   
 Pravilo =A → Aa | B= postaje =A → Ba*=
 
 Primer:
@@ -330,7 +390,6 @@ expr → number ('+' term)*
 #+END_SRC
 
 ** /Extended Backus–Naur Form - EBNF/
-
 - Meta-sintaksa za zapis kontekstno slobodnih gramatika.
 - ISO/IEC 14977
 - Produkcije dodeljuju sekvencu simbola (terminala i neterminala) neterminalima.
@@ -530,7 +589,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 2. A. Aho and J. Ullman, /The theory of parsing, translation, and compiling/,
    vol. 1 of Series in Automatic Computation. Prentice-Hall, 1972
 3. B. Ford, /Packrat parsing: a practical linear-time algorithm with
-   backtracking/. PhD thesis, Massachusetts Institute of Technology, 2002
+   backtracking/. Master thesis, Massachusetts Institute of Technology, 2002
 
 ** PEG - /Parsing Expression Grammars/
 

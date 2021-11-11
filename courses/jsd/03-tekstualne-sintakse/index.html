@@ -26,6 +26,7 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <base target="_blank">
 </head>
 <body>
@@ -35,12 +36,12 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2020-12-10 Thu 12:10, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-11-11 Thu 17:12, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org9d753fc">
-<h2 id="org9d753fc">Sadržaj</h2>
+<section id="slide-org7430b3c">
+<h2 id="org7430b3c">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -53,12 +54,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Uvod</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Jezički softver (<i>Language Software</i>)</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Jezički softver (<i>Language Software</i>)</h3>
 <p>
 Osnovne klase alata:
 </p>
@@ -73,18 +74,7 @@ Osnovne klase alata:
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Parsiranje - sintaksna analiza</h3>
-<ul>
-<li>Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
-gramatike jezika.</li>
-<li>Transformacija ulaznog stringa u <i>stablo parsiranja</i> ili neku drugu strukturu
-podataka.</li>
-
-</ul>
-
-</section>
-<section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> Leksička analiza</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Leksička analiza</h3>
 <ul>
 <li>Svaki jezik poseduje <i>alfabet mogućih karaktera</i> koji se mogu pojaviti u
 sklopu validnih rečenica. Kod računarskih jezika određene kombinacije simbola
@@ -110,8 +100,49 @@ vol. 1 of Series in Automatic Computation. Prentice-Hall, 1972</li>
 </ol>
 
 </section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Leksična analiza - primer</h3>
+<p>
+Posmatrajmo sledeći jednostavan iskaz:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >if a &gt; 5:
+    print("Veće od 5!")
+</code></pre>
+</div>
+
+<p>
+Ulazni string čine karakteri ovog programskog koda: <code>i</code>, <code>f</code>, <code>&lt;prazno&gt;</code>, <code>a</code>, <code>&lt;prazno&gt;</code>,
+<code>&gt;</code>, itd. Skeniranje će grupisati pojedinačne karaktere u tokene. Svaki token ima
+svoje ime (ili tip, npr. <code>identifikator</code>, <code>operacija</code>, <code>varijabla</code>), i vrednost (npr.
+<code>if</code>, <code>a</code>, <code>&gt;</code>, <code>5</code>), odnosno deo ulaza koji je prepoznat kao ovaj tip tokena. Proces
+tokenizacije će za ulazni string da proizvede nisku tokena koja će služiti kao
+ulaz u proces parsiranja. Za primer sa prethodnog listinga izlaz skenera će
+imati sledeći oblik (pod pretpostavkom da ignorišemo prazne karaktere):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >[Keyword(if), Variable(a), Operator(&gt;), IntLiteral(5),...]
+</code></pre>
+</div>
+
+</section>
 <section id="slide-1-4">
-<h3 id="1-4"><span class="section-number-3">1.4</span> Stablo parsiranja</h3>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Parsiranje - sintaksna analiza</h3>
+<ul>
+<li>Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
+gramatike jezika.</li>
+<li>Transformacija ulaznog stringa u <i>stablo parsiranja</i> ili neku drugu strukturu
+podataka.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Stablo parsiranja</h3>
 <ul>
 <li>Nastaje iz niske simbola (ulaznog stringa) procesom <i>skeniranja</i> (tokenizacije
 ili leksičke analize) i <i>parsiranja</i>.</li>
@@ -123,12 +154,11 @@ unapred definisane formalne gramatike.</li>
 </ul>
 
 </section>
-<section id="slide-1-5">
-<h3 id="1-5"><span class="section-number-3">1.5</span> Stablo parsiranja - primer</h3>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Stablo parsiranja - primer</h3>
 
-<div id="org364dc3c" class="figure">
-<p><object type="image/svg+xml" data="./images/calc_parse_tree.svg" class="org-svg" style="height: 600px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org918c237" class="figure">
+<p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" style="height: 600px;" />
 </p>
 </div>
 
@@ -137,8 +167,8 @@ Stablo parsiranja za ulazni string <code>-(4-1)*5/(2+4.67)</code>
 </p>
 
 </section>
-<section id="slide-1-6">
-<h3 id="1-6"><span class="section-number-3">1.6</span> Stablo apstraktne sintakse</h3>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Stablo apstraktne sintakse</h3>
 <ul>
 <li>Svaki iskaz na datom jeziku se može na apstraktan način opisati stablom
 apstraktne sintakse (<i>Abstract Syntax Tree</i>).</li>
@@ -150,12 +180,11 @@ zagrade, &ldquo;prazni&rdquo; karakteri i komentari.</li>
 </ul>
 
 </section>
-<section id="slide-1-7">
-<h3 id="1-7"><span class="section-number-3">1.7</span> Primer stabla apstraktne sintakse</h3>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Primer stabla apstraktne sintakse</h3>
 
-<div id="org92bc3eb" class="figure">
-<p><object type="image/svg+xml" data="./images/AST.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org32b085c" class="figure">
+<p><img src="./images/AST.svg" alt="AST.svg" style="height: 700px;" />
 </p>
 </div>
 
@@ -164,8 +193,8 @@ Sorry, your browser does not support SVG.</object>
 </p>
 
 </section>
-<section id="slide-1-8">
-<h3 id="1-8"><span class="section-number-3">1.8</span> Razlike između stabla apstraktne i konkretne sintakse</h3>
+<section id="slide-1-9">
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Razlike između stabla apstraktne i konkretne sintakse</h3>
 <ul>
 <li>Stablo konkretne sintakse je bazirano na formalnoj gramatici koja opisuje
 <i>detalje zapisa</i> u tekstualnom obliku.</li>
@@ -184,12 +213,12 @@ istim stablom apstraktne sintakse.</li>
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Formalne gramatike</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Formalne gramatike</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Formalna gramatika</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Formalna gramatika</h3>
 <ul>
 <li>Predstavlja skup pravila (<i>produkcije</i>) pomoću kojih je moguće generisati sve
 <i>validne rečenice</i> nekog jezika (<i>formalni jezik</i>) polazeći od <i>startnog
@@ -203,7 +232,7 @@ koriste kao osnova za prepoznavanje validnih rečenica.</li>
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Formalna gramatika - definicija</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Formalna gramatika - definicija</h3>
 <p>
 Formalna gramatika je <code>G = (N, Σ, P, S)</code> gde je:
 </p>
@@ -219,7 +248,51 @@ Formalna gramatika je <code>G = (N, Σ, P, S)</code> gde je:
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Klasifikacija formalnih gramatika po Čomskom</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Notacija</h3>
+<ul>
+<li>Velika slova alfabeta (<code>A</code>, <code>B</code>, <code>C</code>&#x2026;) - neterminalni simboli gramatike</li>
+<li>Mala slova afabeta (<code>a</code>, <code>b</code>, <code>c</code>&#x2026;), cifre, oznake operatora (<code>+</code>, <code>-</code>, &#x2026;), ozake
+interpunkcije (zagrade, zarez, tačka&#x2026;) - terminalni simboli gramatike</li>
+<li>Velika slova kraja alfabeta (<code>X</code>, <code>Y</code>, <code>Z</code>&#x2026;) - simboli gramatike, bilo neterminali
+ili terminali.</li>
+<li>Mala slova alfabeta (<code>u</code>, <code>v</code>, &#x2026;, <code>z</code>) - niske treminala (moguće prazan)</li>
+<li>Mala grčka slova (<code>α</code>, <code>β</code>, <code>γ</code>&#x2026;) - niske simbola gramatike (moguće prazne),
+moguće i terminala i neterminala.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li><p>
+Skup produkcija:
+</p>
+
+<p>
+\(A \rightarrow \alpha_1, A \rightarrow \alpha_2, A \rightarrow \alpha_3\)
+</p>
+
+<p>
+može se pisati kao:
+</p>
+
+<p>
+\(A \rightarrow \alpha_1 | \alpha_2 | \alpha_3\)
+</p>
+
+<p>
+Gde \(\alpha_1, \alpha_2, \alpha_3\) nazivamo alternativama produkcije \(A\).
+</p></li>
+
+<li>Pišemo \(X*\) za skup svih niski koje se mogu kreirati iz elemenata skupa \(X\).</li>
+<li>Praznu nisku označavamo sa \(\epsilon\).</li>
+
+</ul>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Klasifikacija formalnih gramatika po Čomskom</h3>
 <p>
 Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
   Noama Čomskog<sup>1</sup>. Prema ovoj klasifikaciji gramatike mogu biti:
@@ -239,8 +312,8 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 </ol>
 
 </section>
-<section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> Konteksno slobodne gramatike (<i>Context-Free Grammars - CFGs</i>)</h3>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Konteksno slobodne gramatike (<i>Context-Free Grammars - CFGs</i>)</h3>
 <ul>
 <li>Produkcije oblika: <code>A → γ</code></li>
 <li>Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
@@ -255,8 +328,8 @@ CFG.</li>
 </ul>
 
 </section>
-<section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Primer kontekstno slobodne gramatike</h3>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Primer kontekstno slobodne gramatike</h3>
 <pre>
 G = ({S}, {a, b}, P, S)
 </pre>
@@ -276,8 +349,8 @@ S → ε
 </p>
 
 </section>
-<section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> Izvođenje - derivacija (<i>Derivation</i>)</h3>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Izvođenje - derivacija (<i>Derivation</i>)</h3>
 <ul>
 <li>Generisanje ispravne rečenice, počevši od startnog simbola/neterminala,
 sukcesivnom primenom produkcija dok ne dobijemo rečenicu koja se sastoji samo
@@ -298,8 +371,83 @@ S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
 </p>
 
 </section>
-<section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7</span> Primer izvođenja - algebarski izrazi</h3>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Izvođenje - notacija</h3>
+<p>
+Korak derivacije je element oblika:
+</p>
+
+<p>
+\(\gamma A \delta \rightarrow \gamma \alpha \delta\)
+</p>
+
+<p>
+gde: \(\gamma, \delta \in (N \cup T)*\)
+</p>
+
+<p>
+i \(A \rightarrow \alpha\) je pravilo gramatike.
+</p>
+
+<p>
+Izvođenje rečenične forme \(\sigma\) iz rečenične forme \(\tau\) je sekvenca koraka
+izvođenja:
+</p>
+
+<p>
+\(\sigma \rightarrow \beta_1 \rightarrow \beta_2 \rightarrow ... \rightarrow
+\beta_{n-1} \rightarrow \tau\)
+</p>
+
+<p>
+Takođe možemo pisati i \(\sigma \overset{*}{\rightarrow} \tau\), ukoliko imamo 0
+ili više koraka, ili \(\sigma \overset{n}{\rightarrow} \tau\) ukoliko imamo tačno
+\(n\) koraka, ili, ukoliko je \(n>0\) možemo pisati \(\sigma \overset{+}{\rightarrow}
+\tau\).
+</p>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Rečenična forma i rečenica</h3>
+<ul>
+<li><p>
+Bilo koja niska terminala i neterminala koja se može dobiti primenom
+produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
+(<i>Sentential Form</i>).
+</p>
+
+<pre>
+  ( x + S ) * S - S * S / ( S + S )
+</pre></li>
+
+<li><p>
+Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
+(<i>Sentence</i>).
+</p>
+
+<pre>
+  ( x + y ) * x - z * y / ( x + x )
+</pre></li>
+
+</ul>
+
+<p>
+Odnosno možemo pisati da je rečenična forma niska \(\alpha\) za koju važi \(S
+\overset{*}{\rightarrow} \alpha\). A ukoliko važi i \(\alpha \in T*\) onda je
+\(\alpha\) rečenica.
+</p>
+
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Jezik generisan gramatikom</h3>
+<p>
+Ako je \(G\) formalna gramatika tada sa \(L(G)\) obeležavamo skup svih rečenica koje
+\(G\) može da generiše. Ovaj skup zovemo <i>jezikom</i> koji \(G\) generiše ili definiše.
+</p>
+
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Primer izvođenja - algebarski izrazi</h3>
 <div class="column" style="float:left; width: 30%">
 <pre>
 1. S → x
@@ -338,33 +486,8 @@ S (startni simbol)
 </p>
 
 </section>
-<section id="slide-2-8">
-<h3 id="2-8"><span class="section-number-3">2.8</span> Rečenična forma i rečenica</h3>
-<ul>
-<li><p>
-Bilo koja niska terminala i neterminala koja se može dobiti primenom
-produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
-(<i>Sentential Form</i>).
-</p>
-
-<pre>
-  ( x + S ) * S - S * S / ( S + S )
-</pre></li>
-
-<li><p>
-Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
-(<i>Sentence</i>).
-</p>
-
-<pre>
-  ( x + y ) * x - z * y / ( x + x )
-</pre></li>
-
-</ul>
-
-</section>
-<section id="slide-2-9">
-<h3 id="2-9"><span class="section-number-3">2.9</span> Odluke pri izvođenju</h3>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Odluke pri izvođenju</h3>
 <ul>
 <li>U svakom koraku izvođenja parser donosi dve odluke:
 
@@ -382,8 +505,8 @@ sdesna).</li>
 </ul>
 
 </section>
-<section id="slide-2-10">
-<h3 id="2-10"><span class="section-number-3">2.10</span> Strategije izvođenja sa stanovišta izbora neterminala za zamenu</h3>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Strategije izvođenja sa stanovišta izbora neterminala za zamenu</h3>
 <ul>
 <li><i>Levo izvođenje</i> - uvek se prvo razrešava levi neterminal.</li>
 <li><i>Desno izvođenje</i> - uvek se prvo razrešava desni neterminal.</li>
@@ -394,18 +517,17 @@ rezultovati istim stablima parsiranja.</li>
 </ul>
 
 </section>
-<section id="slide-2-11">
-<h3 id="2-11"><span class="section-number-3">2.11</span> Levo izvođenje - primer</h3>
+<section id="slide-2-14">
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Levo izvođenje - primer</h3>
 
-<div id="org6a8eead" class="figure">
-<p><object type="image/svg+xml" data="./images/LeftDerivation.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="orgce4b5c3" class="figure">
+<p><img src="./images/LeftDerivation.svg" alt="LeftDerivation.svg" style="height: 700px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-2-12">
-<h3 id="2-12"><span class="section-number-3">2.12</span> Višeznačne gramatike - primer - <i>dangling else</i></h3>
+<section id="slide-2-15">
+<h3 id="2-15"><span class="section-number-3">2.15.</span> Višeznačne gramatike - primer - <i>dangling else</i></h3>
 <ul>
 <li>Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom</li>
 <li>Višeznačna gramatika je gramatika kod koje postoji ulazni string sa više
@@ -432,32 +554,30 @@ ključna reč <code>endif</code>.</li>
 </ul>
 
 </section>
-<section id="slide-2-13">
-<h3 id="2-13"><span class="section-number-3">2.13</span> Višeznačna gramatika - primer</h3>
+<section id="slide-2-16">
+<h3 id="2-16"><span class="section-number-3">2.16.</span> Višeznačna gramatika - primer</h3>
 
-<div id="orgb489ade" class="figure">
-<p><object type="image/svg+xml" data="./images/Ambiguous.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="orge69b906" class="figure">
+<p><img src="./images/Ambiguous.svg" alt="Ambiguous.svg" style="height: 700px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-2-14">
-<h3 id="2-14"><span class="section-number-3">2.14</span> A u ovom slučaju želimo</h3>
+<section id="slide-2-17">
+<h3 id="2-17"><span class="section-number-3">2.17.</span> A u ovom slučaju želimo</h3>
 <p style="text-align: center;">
 Stablo koje oslikava prioritet i asocijativnost operacija
 </p>
 
 
-<div id="orgf110009" class="figure">
-<p><object type="image/svg+xml" data="./images/Ambiguous2.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org9fce1cf" class="figure">
+<p><img src="./images/Ambiguous2.svg" alt="Ambiguous2.svg" style="height: 700px;" />
 </p>
 </div>
 
 </section>
-<section id="slide-2-15">
-<h3 id="2-15"><span class="section-number-3">2.15</span> Razrešavanje višeznačnosti</h3>
+<section id="slide-2-18">
+<h3 id="2-18"><span class="section-number-3">2.18.</span> Razrešavanje višeznačnosti</h3>
 <ul>
 <li>Višeznačnost je uglavnom <i>osobina gramatike a ne jezika</i>.</li>
 <li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
@@ -472,8 +592,8 @@ navođenja (s leva na desno).</li>
 </ul>
 
 </section>
-<section id="slide-2-16">
-<h3 id="2-16"><span class="section-number-3">2.16</span> Leva rekurzija</h3>
+<section id="slide-2-19">
+<h3 id="2-19"><span class="section-number-3">2.19.</span> Leva rekurzija</h3>
 <ul>
 <li>Određene vrste parsera ne smeju da imaju <i>levo rekurzivne produkcije</i> jer to
 dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
@@ -486,8 +606,8 @@ ali gramatika tada često gubi na intuitivnosti.</li>
 </ul>
 
 </section>
-<section id="slide-2-17">
-<h3 id="2-17"><span class="section-number-3">2.17</span> Eliminacija leve rekurzije u opštem slučaju</h3>
+<section id="slide-2-20">
+<h3 id="2-20"><span class="section-number-3">2.20.</span> Eliminacija leve rekurzije u opštem slučaju</h3>
 <p>
 Pravilo <code>A → Aa | B</code> postaje <code>A → Ba*</code>
 </p>
@@ -505,8 +625,8 @@ expr → number ('+' term)*
 </pre>
 
 </section>
-<section id="slide-2-18">
-<h3 id="2-18"><span class="section-number-3">2.18</span> <i>Extended Backus–Naur Form - EBNF</i></h3>
+<section id="slide-2-21">
+<h3 id="2-21"><span class="section-number-3">2.21.</span> <i>Extended Backus–Naur Form - EBNF</i></h3>
 <ul>
 <li>Meta-sintaksa za zapis kontekstno slobodnih gramatika.</li>
 <li>ISO/IEC 14977</li>
@@ -517,8 +637,8 @@ jezika.</li>
 </ul>
 
 </section>
-<section id="slide-2-19">
-<h3 id="2-19"><span class="section-number-3">2.19</span> Primer - EBNF u EBNF-u</h3>
+<section id="slide-2-22">
+<h3 id="2-22"><span class="section-number-3">2.22.</span> Primer - EBNF u EBNF-u</h3>
 <div class="org-src-container">
 
 <pre><code class="bnf" >letter = "A" | "B" | "C" | "D" | "E" | "F" | "G"
@@ -556,12 +676,12 @@ grammar = { rule } ;
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Strategije parsiranja</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Strategije parsiranja</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Strategije parsiranja</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Strategije parsiranja</h3>
 <ul>
 <li><i>Top-down (Silazna)</i>
 
@@ -599,7 +719,7 @@ pokušava da redukuje ulaz na polazni neterminal gramatike.</li>
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Lookahead</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Lookahead</h3>
 <ul>
 <li>Strategija kod koje se koristi određeni broj nekonzumiranih tokena sa ulaza da
 bi se odlučilo o sledećim koracima kod parsiranja.</li>
@@ -614,7 +734,7 @@ koje prihvata.</li>
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Vraćanje (<i>backtracking</i>)</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Vraćanje (<i>backtracking</i>)</h3>
 <ul>
 <li>Strategija kod koje se u slučaju alternativnih derivacija pokušava redom sa
 svakom i u slučaju da parsiranje ne uspe <i>vrši vraćanje unazad</i> (na stanje
@@ -630,7 +750,7 @@ gramatika.</li>
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> LL parser</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> LL parser</h3>
 <ul>
 <li>Top-down parser koji podržava podskup kontekstno slobodnih gramatika.</li>
 <li>Konzumira tokene s leva na desno i kreira levo izvođenje.</li>
@@ -648,7 +768,7 @@ računarskih jezika.</li>
 
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Primer LL parsiranja</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Primer LL parsiranja</h3>
 <pre>
 Gramatika: S → E    E → T + E    E → T    T → int
 Ulaz: int + int + int
@@ -676,7 +796,7 @@ int              int                Match int
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> LR parser</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> LR parser</h3>
 <ul>
 <li>Bottom-up parser koji podržava podskup kontekstno slobodnih gramatika.</li>
 <li>Implementiraju <i>Shift-Reduce</i> strategiju i koriste tablice stanja-prelaza.
@@ -693,9 +813,9 @@ navoditi rekurzivne produkcije.</li>
 
 </section>
 <section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7</span> LR parsiranje - primer</h3>
+<h3 id="3-7"><span class="section-number-3">3.7.</span> LR parsiranje - primer</h3>
 
-<div id="org2542c44" class="figure">
+<div id="orgd1b5672" class="figure">
 <p><img src="./images/LR-Primer.png" alt="LR-Primer.png" style="height: 700px;" />
 </p>
 </div>
@@ -706,7 +826,7 @@ navoditi rekurzivne produkcije.</li>
 
 </section>
 <section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8</span> GLR</h3>
+<h3 id="3-8"><span class="section-number-3">3.8.</span> GLR</h3>
 <ul>
 <li><i>Generalized</i> <i>LR</i> parser.</li>
 <li>Parsiranje višeznačnih gramatika.</li>
@@ -723,7 +843,7 @@ prioritet, asocijativnost).</li>
 
 </section>
 <section id="slide-3-9">
-<h3 id="3-9"><span class="section-number-3">3.9</span> LL - LR napomene</h3>
+<h3 id="3-9"><span class="section-number-3">3.9.</span> LL - LR napomene</h3>
 <ul>
 <li>Kod LL parsera problem je određivanje produkcije koju treba primeniti nad
 neterminalom.</li>
@@ -737,7 +857,7 @@ donese odluku u toku parsiranja.</li>
 
 </section>
 <section id="slide-3-10">
-<h3 id="3-10"><span class="section-number-3">3.10</span> Rekurzivni silazni parser - Recursive descent parser</h3>
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Rekurzivni silazni parser - Recursive descent parser</h3>
 <ul>
 <li>Silazni parser izgrađen na bazi međusobno rekurzivnih procedura.</li>
 <li>Svaka procedura implementira jednu produkciju odnosno prepoznvanje jednog
@@ -750,7 +870,7 @@ poraste</i> kod složenijih gramatika.</li>
 
 </section>
 <section id="slide-3-11">
-<h3 id="3-11"><span class="section-number-3">3.11</span> <i>Top-Down Parsing Language</i></h3>
+<h3 id="3-11"><span class="section-number-3">3.11.</span> <i>Top-Down Parsing Language</i></h3>
 <ul>
 <li>Šematski opis rekurzivnog silaznog parsera sa vraćanjem (<i>recursive descent
 parser with backtracking</i>). Orijentisan je ka prepoznavanju ulaznog teksta.</li>
@@ -771,13 +891,13 @@ fomalizam za opis gramatika.<sup>3</sup></li>
 <li>A. Aho and J. Ullman, <i>The theory of parsing, translation, and compiling</i>,
 vol. 1 of Series in Automatic Computation. Prentice-Hall, 1972</li>
 <li>B. Ford, <i>Packrat parsing: a practical linear-time algorithm with
-backtracking</i>. PhD thesis, Massachusetts Institute of Technology, 2002</li>
+backtracking</i>. Master thesis, Massachusetts Institute of Technology, 2002</li>
 
 </ol>
 
 </section>
 <section id="slide-3-12">
-<h3 id="3-12"><span class="section-number-3">3.12</span> PEG - <i>Parsing Expression Grammars</i></h3>
+<h3 id="3-12"><span class="section-number-3">3.12.</span> PEG - <i>Parsing Expression Grammars</i></h3>
 <ul>
 <li>Formalizam za opis TDPL.</li>
 <li>Osnovna prednost PEG gramatika u odnosu na CFG jeste upotreba operatora
@@ -795,7 +915,7 @@ parser sa bektrekingom i memoizacijom naziva se <i>pakrat parser</i>.</li>
 
 </section>
 <section id="slide-3-13">
-<h3 id="3-13"><span class="section-number-3">3.13</span> Packrat parser</h3>
+<h3 id="3-13"><span class="section-number-3">3.13.</span> Packrat parser</h3>
 <ul>
 <li>Rekurzivni silazni parser sa vraćanjem koji koristi tehniku <i>memoizacije</i>
 (pamćenje derivacija podstabala) da bi obezbedio <i>linearno vreme izvršavanja</i>.</li>
@@ -808,11 +928,10 @@ proširivih dinamičkih jezika.</li>
 
 </section>
 <section id="slide-3-14">
-<h3 id="3-14"><span class="section-number-3">3.14</span> Refaktorisanje gramatike za PEG parsere</h3>
+<h3 id="3-14"><span class="section-number-3">3.14.</span> Refaktorisanje gramatike za PEG parsere</h3>
 
-<div id="org2ecfe10" class="figure">
-<p><object type="image/svg+xml" data="./images/PEGPrioritet.svg" class="org-svg" style="height: 700px;">
-Sorry, your browser does not support SVG.</object>
+<div id="org05ca239" class="figure">
+<p><img src="./images/PEGPrioritet.svg" alt="PEGPrioritet.svg" style="height: 700px;" />
 </p>
 </div>
 
@@ -822,7 +941,7 @@ Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
 
 </section>
 <section id="slide-3-15">
-<h3 id="3-15"><span class="section-number-3">3.15</span> Determinističko parsiranje</h3>
+<h3 id="3-15"><span class="section-number-3">3.15.</span> Determinističko parsiranje</h3>
 <ul>
 <li>Algoritam parsiranja kod koga se ne koristi vraćanje unazad (<i>backtracking</i>).</li>
 <li>Analogno determinističkom potisnom automatu.</li>
@@ -834,7 +953,7 @@ svih kontekstno slobodnih jezika).</li>
 
 </section>
 <section id="slide-3-16">
-<h3 id="3-16"><span class="section-number-3">3.16</span> Pristupi u izradi parsera</h3>
+<h3 id="3-16"><span class="section-number-3">3.16.</span> Pristupi u izradi parsera</h3>
 <ul>
 <li>Parser generatori</li>
 <li>Interpreteri gramatika</li>
@@ -843,7 +962,7 @@ svih kontekstno slobodnih jezika).</li>
 
 </section>
 <section id="slide-3-17">
-<h3 id="3-17"><span class="section-number-3">3.17</span> Parser generatori</h3>
+<h3 id="3-17"><span class="section-number-3">3.17.</span> Parser generatori</h3>
 <ul>
 <li>Na osnovu formalne gramatike <i>generišu programski kod</i> parsera koji će
 prepoznavati rečenice na datom jeziku i pretvarati ulazne stringove u stabla
@@ -857,7 +976,7 @@ transformaciju.</li>
 
 </section>
 <section id="slide-3-18">
-<h3 id="3-18"><span class="section-number-3">3.18</span> ANTLR</h3>
+<h3 id="3-18"><span class="section-number-3">3.18.</span> ANTLR</h3>
 <ul>
 <li>ANTLR (<i>ANother Tool for Language Recognition</i>) je LL(*) parser generator
 implementiran na programskom jeziku Java.</li>
@@ -868,7 +987,7 @@ implementiran na programskom jeziku Java.</li>
 
 </section>
 <section id="slide-3-19">
-<h3 id="3-19"><span class="section-number-3">3.19</span> Interpreteri</h3>
+<h3 id="3-19"><span class="section-number-3">3.19.</span> Interpreteri</h3>
 <ul>
 <li>Konfigurišu se gramatikom u vreme izvršavanja (<i>run-time</i>) tj. <i>interpretiraju
 gramatiku</i>.</li>
@@ -897,7 +1016,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
