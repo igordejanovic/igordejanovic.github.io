@@ -18,7 +18,7 @@ layout: page
 1. [Dependency Injection](tech/dependency-injection/)
 1. [Razvoj baziran na komponentama](sok/razvoj-baziran-na-komponentama/)
 1. [Komponentni razvoj u Python-u](tech/setuptools/)
-1. [Projektni zadatak](sok/projektni-zadatak.html)
+1. [Projektni zadatak](sok/projektni-zadatak/)
 1. [Django](tech/django/)
 1. [D3](tech/d3.html)
 1. [Git](tech/git/)
