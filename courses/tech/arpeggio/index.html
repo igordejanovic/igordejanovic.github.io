@@ -35,12 +35,12 @@
 <h1 class="title">Arpeggio parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-10 Sun 16:53, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-11-18 Thu 13:17, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org0e363ee">
-<h2 id="org0e363ee">Sadržaj</h2>
+<section id="slide-orgb93e4ac">
+<h2 id="orgb93e4ac">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. PyParsing</a></li>
@@ -58,12 +58,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> PyParsing</h2>
+<h2 id="1"><span class="section-number-2">1.</span> PyParsing</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> PyParsing</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> PyParsing</h3>
 <ul>
 <li>100% Python</li>
 <li>MIT licenca</li>
@@ -83,23 +83,23 @@
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Primer</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from pyparsing import Word, alphas
+<pre><code class="python" >from pyparsing import Word, alphas
 greet = Word( alphas ) + "," + Word( alphas ) + "!" # &lt;-- grammar
 hello = "Hello, World!"
 print (hello, "-&gt;", greet.parseString( hello ))
 </code></pre>
 </div>
 
-<pre  class="example">
+<pre>
 Hello, World! -&gt; ['Hello', ',', 'World', '!']
 </pre>
 
 </section>
 <section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> parsimonious</h3>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> parsimonious</h3>
 <ul>
 <li>100% Python</li>
 <li><a href="https://github.com/erikrose/parsimonious">https://github.com/erikrose/parsimonious</a></li>
@@ -113,10 +113,10 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
 
 </section>
 <section id="slide-1-4">
-<h3 id="1-4"><span class="section-number-3">1.4</span> Primer</h3>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from parsimonious.grammar import Grammar
+<pre><code class="python" >&gt;&gt;&gt; from parsimonious.grammar import Grammar
 &gt;&gt;&gt; grammar = Grammar(
 ...     """
 ...     bold_text  = bold_open text bold_close
@@ -135,7 +135,7 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
 
 </section>
 <section id="slide-1-5">
-<h3 id="1-5"><span class="section-number-3">1.5</span> PLY</h3>
+<h3 id="1-5"><span class="section-number-3">1.5.</span> PLY</h3>
 <ul>
 <li>100% Python</li>
 <li>LR parser</li>
@@ -148,10 +148,10 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
 
 </section>
 <section id="slide-1-6">
-<h3 id="1-6"><span class="section-number-3">1.6</span> Primer</h3>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" ># When parsing starts, try to make a "chemical_equation" because it's
+<pre><code class="python" ># When parsing starts, try to make a "chemical_equation" because it's
 # the name on left-hand side of the first p_* function definition.
 def p_species_list(p):
     "chemical_equation :  chemical_equation species"
@@ -167,12 +167,12 @@ def p_species(p):
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Arpeggio</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Arpeggio</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Osnovne osobine</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Osnovne osobine</h3>
 <ul>
 <li>100% Python kod</li>
 <li>MIT licenca</li>
@@ -191,15 +191,14 @@ biblioteke.</li>
 <section>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/Arpeggio.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgf490556" class="figure">
+<p><img src="./images/Arpeggio.svg" alt="Arpeggio.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> PEG pravila</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> PEG pravila</h3>
 <ul>
 <li>Gramatika se zadaje skupom PEG pravila</li>
 <li>Svako pravilo definiše način prepoznavanja određenog (ne)terminala na ulazu.</li>
@@ -232,21 +231,21 @@ konzumiran.</li>
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> PEG pravila - predikati</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> PEG pravila - predikati</h3>
 <p>
 Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.
 </p>
 
 <ul>
-<li><i>"I" predikat:</i> <code>&amp;e</code> - pravilo je uspešno samo ukoliko je <code>e</code> prepoznato na ulazu.</li>
-<li><i>"Ne" predikat:</i> <code>!e</code> - pravilo je uspešno samo ukoliko <code>e</code> nije prepoznato na
+<li><i>&ldquo;I&rdquo; predikat:</i> <code>&amp;e</code> - pravilo je uspešno samo ukoliko je <code>e</code> prepoznato na ulazu.</li>
+<li><i>&ldquo;Ne&rdquo; predikat:</i> <code>!e</code> - pravilo je uspešno samo ukoliko <code>e</code> nije prepoznato na
 ulazu.</li>
 
 </ul>
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> Koncepti</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Koncepti</h3>
 <ul>
 <li><i>Parser model</i> - opisuje određenu vrstu dijagrama stanja-prelaza parsera. Može
 se vizualizovati upotrebom dot alata u cilju debagovanja.</li>
@@ -258,11 +257,11 @@ se vizualizovati upotrebom dot alata u cilju debagovanja.</li>
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Definisanje gramatike - interni DSL</h3>
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Definisanje gramatike - interni DSL</h3>
 <div class="column" style="float:left; width: 70%">
 <div class="org-src-container">
 
-<pre><code class=" python" >def program():      return Kwd('begin'), ZeroOrMore(command),
+<pre><code class="python" >def program():      return Kwd('begin'), ZeroOrMore(command),
                             Kwd('end'), EOF
 def command():      return [up, down, left, right]
 def up():           return 'up'
@@ -274,7 +273,7 @@ def right():        return 'right'
 </div>
 
 <div class="column" style="float:right; width: 30%">
-<pre  class="example">
+<pre>
 begin
   up
   up
@@ -296,8 +295,8 @@ end
 
 </section>
 <section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> Definisanje gramatike - eksterni DSL</h3>
-<pre  class="example">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Definisanje gramatike - eksterni DSL</h3>
+<pre>
 program = 'begin' command* 'end' EOF
 command = UP/DOWN/LEFT/RIGHT
 UP = 'up'
@@ -308,10 +307,10 @@ RIGHT = 'right'
 
 </section>
 <section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7</span> Instanciranje parsera</h3>
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Instanciranje parsera</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from arpeggio import ParserPython
+<pre><code class="python" >from arpeggio import ParserPython
 def program():...
 
 parser = ParserPython(program)
@@ -325,17 +324,16 @@ parser = ParserPEG(grammar)
 
 </section>
 <section id="slide-2-8">
-<h3 id="2-8"><span class="section-number-3">2.8</span> Model parsera</h3>
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Model parsera</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/robot_parser_model.dot.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org63b77eb" class="figure">
+<p><img src="./images/robot_parser_model.dot.svg" alt="robot_parser_model.dot.svg" />
 </p>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from arpeggio import ParserPython
+<pre><code class="python" >from arpeggio import ParserPython
 ...
 parser = ParserPython(robot, debug=True)
 </code></pre>
@@ -343,10 +341,10 @@ parser = ParserPython(robot, debug=True)
 
 </section>
 <section id="slide-2-9">
-<h3 id="2-9"><span class="section-number-3">2.9</span> Stablo parsiranja</h3>
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Stablo parsiranja</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >prog_src = """
+<pre><code class="python" >prog_src = """
 begin
     up
     up
@@ -360,9 +358,8 @@ parse_tree = parser.parse(prog_src)
 </div>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/robot_parse_tree.dot.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org99f359d" class="figure">
+<p><img src="./images/robot_parse_tree.dot.svg" alt="robot_parse_tree.dot.svg" />
 </p>
 </div>
 
@@ -376,7 +373,7 @@ Elementi stabla su terminali i neterminali.
 
 </section>
 <section id="slide-2-10">
-<h3 id="2-10"><span class="section-number-3">2.10</span> Terminali (<i>Terminal nodes</i>)</h3>
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Terminali (<i>Terminal nodes</i>)</h3>
 <ul>
 <li>Kreiraju se pravilima koje nasleđuju <code>Match</code> pravilo. Mogu se konvertovati u
 string predstavu pozivom <code>str</code> funkcije.</li>
@@ -386,7 +383,7 @@ string predstavu pozivom <code>str</code> funkcije.</li>
 
 </section>
 <section id="slide-2-11">
-<h3 id="2-11"><span class="section-number-3">2.11</span> Ne-terminali (<i>Non-terminal nodes</i>)</h3>
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Ne-terminali (<i>Non-terminal nodes</i>)</h3>
 <ul>
 <li>Kreiraju se svim ostalim pravilima: <code>Sequence</code>, <code>OrderedChoice</code>, <code>ZeroOrMore</code>
 itd.</li>
@@ -397,17 +394,16 @@ koristiti i lista.</li>
 
 </section>
 <section id="slide-2-12">
-<h3 id="2-12"><span class="section-number-3">2.12</span> Stablo parsiranja aritmetičkog izraza</h3>
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Stablo parsiranja aritmetičkog izraza</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/calc_parse_tree.dot.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orga5126da" class="figure">
+<p><img src="./images/calc_parse_tree.dot.svg" alt="calc_parse_tree.dot.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-13">
-<h3 id="2-13"><span class="section-number-3">2.13</span> Informacije sadržane u čvorovima stabla parsiranja</h3>
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Informacije sadržane u čvorovima stabla parsiranja</h3>
 <p>
 Svaki čvor stabla je objekat koji poseduje sledeće atribute:
 </p>
@@ -426,13 +422,13 @@ Red i kolona se može dobiti preko parsera na sledeći način:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >line, col = parser.pos_to_linecol(node.position)
+<pre><code class="python" >line, col = parser.pos_to_linecol(node.position)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-2-14">
-<h3 id="2-14"><span class="section-number-3">2.14</span> Navigacija</h3>
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Navigacija</h3>
 <ul>
 <li><p>
 Ne-terminali nasleđuju <code>list</code> tako da se mogu koristiti u svim kontekstima gde
@@ -444,7 +440,7 @@ se može koristiti i lista.
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" python" >child = pt_node[2]
+<pre><code class="python" >  child = pt_node[2]
 </code></pre>
 </div>
 <ul>
@@ -453,8 +449,8 @@ se može koristiti i lista.
 </ul>
 <div class="org-src-container">
 
-<pre><code class=" python" >for child in pt_node:
-  ...
+<pre><code class="python" >  for child in pt_node:
+    ...
 </code></pre>
 </div></li>
 
@@ -469,7 +465,7 @@ Dodatno se <i>child</i> elementima može pristupati i po nazivu pravila:
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Grammar
+<pre><code class="python" ># Grammar
 def foo(): return "a", bar, "b", baz, "c", ZeroOrMore(bar)
 def bar(): return "bar"
 def baz(): return "baz"
@@ -503,12 +499,12 @@ assert result.bar[1].position == 14
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Konfiguracija parsera</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Konfiguracija parsera</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Osetljivost na veličinu slova (<i>Case-sensitiviy</i>)</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Osetljivost na veličinu slova (<i>Case-sensitivity</i>)</h3>
 <ul>
 <li>Parser je podrazumevano osetljiv na veličinu slova.</li>
 <li>Da se ovo promeni:</li>
@@ -517,13 +513,13 @@ assert result.bar[1].position == 14
 
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc, ignore_case=True)
+<pre><code class="python" >parser = ParserPython(calc, ignore_case=True)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Upravljanje "praznim" karakterima (<i>Whitespaces</i>)</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Upravljanje &ldquo;praznim&rdquo; karakterima (<i>Whitespaces</i>)</h3>
 <ul>
 <li>Arpeggio podrazumevano preskače prazne karaktere.</li>
 <li><p>
@@ -532,7 +528,7 @@ Da bi se ovo promenilo:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc, skipws=False)
+<pre><code class="python" >  parser = ParserPython(calc, skipws=False)
 </code></pre>
 </div></li>
 
@@ -543,7 +539,7 @@ promeniti parametrom <code>ws</code> pri konstrukciji:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc, ws='\t\r ')
+<pre><code class="python" >  parser = ParserPython(calc, ws='\t\r ')
 </code></pre>
 </div></li>
 
@@ -553,9 +549,9 @@ Ovo se može koristiti i na nivou sekvence:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def grammar():     return Sequence("one", "two", "three", skipws=False), "four"
-parser = ParserPython(grammar)
-pt = parser.parse('onetwothree four')
+<pre><code class="python" >  def grammar():     return Sequence("one", "two", "three", skipws=False), "four"
+  parser = ParserPython(grammar)
+  pt = parser.parse('onetwothree four')
 </code></pre>
 </div></li>
 
@@ -563,7 +559,7 @@ pt = parser.parse('onetwothree four')
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Ključne reči</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Ključne reči</h3>
 <p>
 Ukoliko se uključi parametar <code>autokwd</code> tada će prepoznavanje svega što je oblika
 ključne reči biti sa uzimanjem u obzir granice reči (<i>word boundary</i>) odnosno
@@ -576,7 +572,7 @@ Primer:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def grammar():     return "one", "two", "three"
+<pre><code class="python" >def grammar():     return "one", "two", "three"
 
 parser = ParserPython(grammar, autokwd=True)
 
@@ -591,7 +587,7 @@ parser.parse("onetwothree")
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Komentari</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Komentari</h3>
 <p>
 Arpeggio može opciono da primi i gramatiku za komentare. Ova gramatika će se
 koristiti između svaka dva elementarna prepoznavanja osnovne gramatike (slično
@@ -600,7 +596,7 @@ kao za prazne karaktere).
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># Grammar
+<pre><code class="python" ># Grammar
 def simpleLanguage():   return function
 def parameterlist():    return "(", symbol, ZeroOrMore(",", symbol), ")"
 def functioncall():     return symbol, "(", expressionlist, ")"
@@ -614,29 +610,28 @@ parser = ParserPython(simpleLanguage, comment)
 
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Redukcija stabala parsiranja</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Redukcija stabala parsiranja</h3>
 <p>
-Kod "dubokih" gramatika često imamo pojavu ne-terminala sa samo jednim
+Kod &ldquo;dubokih&rdquo; gramatika često imamo pojavu ne-terminala sa samo jednim
 podčvorom. Zbog jednostavnosti analize nekada je poželjno eliminisati takve
 čvorove iz stabla.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc, reduce_tree=True)
+<pre><code class="python" >parser = ParserPython(calc, reduce_tree=True)
 </code></pre>
 </div>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/calc_parse_tree_reduced.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org252b4f0" class="figure">
+<p><img src="./images/calc_parse_tree_reduced.svg" alt="calc_parse_tree_reduced.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> Parsiranje do kraja linije</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Parsiranje do kraja linije</h3>
 <p>
 Nekada je potrebno da pravila koja nasleđuju <code>Repetition</code> (<code>ZeroOrMore</code> i
 <code>OneOrMore</code>) vrše parsiranje samo do kraja linije.
@@ -644,7 +639,7 @@ Nekada je potrebno da pravila koja nasleđuju <code>Repetition</code> (<code>Zer
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def grammar():      return first, second
+<pre><code class="python" >def grammar():      return first, second
 def first():        return ZeroOrMore(["a", "b"], eolterm=True)
 def second():       return "a"
 
@@ -662,23 +657,23 @@ result = parser.parse(input)
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Debagovanje i vizualizacija</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Debagovanje i vizualizacija</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> Debagovanje (<i>Debugging</i>)</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Debagovanje (<i>Debugging</i>)</h3>
 <p>
-Arpeggio se može postaviti da radi u režimu za degabovanje.
+Arpeggio se može postaviti da radi u režimu za debagovanje.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc, debug=True)
+<pre><code class="python" >parser = ParserPython(calc, debug=True)
 </code></pre>
 </div>
 
-<pre  class="example">
+<pre>
 &gt;&gt; Entering rule calc=Sequence at position 0 =&gt; *-(4-1)*5+(
   &gt;&gt; Entering rule OneOrMore in calc at position 0 =&gt; *-(4-1)*5+(
       &gt;&gt; Entering rule expression=Sequence in calc at position 0 =&gt; *-(4-1)*5+(
@@ -697,7 +692,7 @@ Arpeggio se može postaviti da radi u režimu za degabovanje.
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> Vizuelizacija</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Vizualizacija</h3>
 <ul>
 <li>U režimu za debagovanje kreiraju se <code>dot</code> fajlovi i za model parsera i za
 stablo parsiranja (ako nema sintaksnih grešaka).</li>
@@ -705,23 +700,22 @@ stablo parsiranja (ako nema sintaksnih grešaka).</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ dot -Tpng -O calc_parser_model.dot
 </pre>
 
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./images/calc_parser_model.dot.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgb1f3134" class="figure">
+<p><img src="./images/calc_parser_model.dot.svg" alt="calc_parser_model.dot.svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3</span> Obrada grešaka pri parsiranju</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Obrada grešaka pri parsiranju</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >parser = ParserPython(calc)
+<pre><code class="python" >parser = ParserPython(calc)
 # 'r' in the following expression can't be recognized by
 # calc grammar
 input_expr = "23+4/r-89"
@@ -729,7 +723,7 @@ parse_tree = parser.parse(input_expr)
 </code></pre>
 </div>
 
-<pre  class="example">
+<pre>
 Traceback (most recent call last):
   ...
 arpeggio.NoMatch: Expected '+' or '-' or 'number' or 
@@ -752,15 +746,15 @@ arpeggio.NoMatch: Expected '+' or '-' or 'number' or
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5</span> Analiza stabala parsiranja</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Analiza stabala parsiranja</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1</span> Semantičke akcije - transformacija u AST</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Semantičke akcije - transformacija u AST</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from arpeggio ParserPython, visit_parse_tree
+<pre><code class="python" >from arpeggio ParserPython, visit_parse_tree
 
 parser = ParserPython(calc)
 input_expr = "-(4-1)*5+(2+4.67)+5.89/(.2+7)"
@@ -774,7 +768,7 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class CalcVisitor(PTNodeVisitor):
+<pre><code class="python" >class CalcVisitor(PTNodeVisitor):
 
     def visit_number(self, node, children):
         """
@@ -799,7 +793,7 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
 
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2</span> <code>SemanticActionResults</code></h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> <code>SemanticActionResults</code></h3>
 <ul>
 <li>Klasa čija instanca se dobija kao <code>children</code> parametar u akcijama.</li>
 <li>Enkapsulira rezultate vraćene od akcija nižeg nivoa.</li>
@@ -809,7 +803,7 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def visit_bar(self, node, children):
+<pre><code class="python" >def visit_bar(self, node, children):
   # Index access
   child = children[2]
 
@@ -825,7 +819,7 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
 
 </section>
 <section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3</span> Postprocesiranje u drugom pozivu</h3>
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Postprocesiranje u drugom pozivu</h3>
 <ul>
 <li>Nekada se konstrukcija AST-a mora obaviti u dva prolaza (npr. razrešavanje
 referenci).</li>
@@ -836,14 +830,14 @@ referenci).</li>
 
 </section>
 <section id="slide-5-4">
-<h3 id="5-4"><span class="section-number-3">5.4</span> Podrazumevane semantičke akcije</h3>
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Podrazumevane semantičke akcije</h3>
 <ul>
 <li>Ako nije definisana metoda <code>visit_&lt;rule_name&gt;</code> Arpeggio će primeniti
 podrazumevanu akciju čija logika je sledeća:
 <ul>
 <li>Ako je čvor kreiran <code>StrMatch</code> pravilom (string literal) vraća se <code>None</code>
 čime se čvor eliminiše iz <code>children</code> kolekcije čvora višeg nivoa.</li>
-<li>Ako je krairan sa <code>RegExMatch</code> biće vraćen string.</li>
+<li>Ako je kreiran sa <code>RegExMatch</code> biće vraćen string.</li>
 <li>Ako je čvor ne-terminal sa samo jednim podčvorom biće vraćen podčvor.</li>
 
 </ul></li>
@@ -853,7 +847,7 @@ Podrazumevane akcije se mogu isključiti parametrom <code>defaults</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >result = visit_parse_tree(parse_tree, CalcVisitor(defaults=False))
+<pre><code class="python" >  result = visit_parse_tree(parse_tree, CalcVisitor(defaults=False))
 </code></pre>
 </div></li>
 
@@ -863,11 +857,11 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >def visitor_myrule(self, node, children):
-  if some_condition:
-    ...
-  else:
-    return super(MyVisitor, self).visit__default__(node, children)
+<pre><code class="python" >  def visitor_myrule(self, node, children):
+    if some_condition:
+      ...
+    else:
+      return super(MyVisitor, self).visit__default__(node, children)
 </code></pre>
 </div></li>
 
@@ -877,7 +871,7 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6</span> Primeri</h2>
+<h2 id="6"><span class="section-number-2">6.</span> Primeri</h2>
 <ul>
 <li><a href="https://textx.github.io/Arpeggio/stable/tutorials/csv/">CSV</a></li>
 <li><a href="https://textx.github.io/Arpeggio/stable/tutorials/bibtex/">BibTex</a></li>
@@ -889,7 +883,7 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 </section>
 <section>
 <section id="slide-7">
-<h2 id="7"><span class="section-number-2">7</span> Arpeggio dokumentacija</h2>
+<h2 id="7"><span class="section-number-2">7.</span> Arpeggio dokumentacija</h2>
 <ul>
 <li><a href="https://textx.github.io/Arpeggio/">https://textx.github.io/Arpeggio/</a></li>
 
@@ -899,12 +893,11 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 </section>
 <section>
 <section id="slide-8">
-<h2 id="8"><span class="section-number-2">8</span> Veče džeza i slobodnih formi - improvizacije</h2>
+<h2 id="8"><span class="section-number-2">8.</span> Veče džeza i slobodnih formi - improvizacije</h2>
 </section>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
 <script src="../../reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
@@ -922,7 +915,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,

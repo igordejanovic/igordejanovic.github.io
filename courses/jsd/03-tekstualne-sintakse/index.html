@@ -36,12 +36,12 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-11-11 Thu 17:12, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-11-18 Thu 13:14, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org7430b3c">
-<h2 id="org7430b3c">Sadržaj</h2>
+<section id="slide-orgb2a716e">
+<h2 id="orgb2a716e">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -157,7 +157,7 @@ unapred definisane formalne gramatike.</li>
 <section id="slide-1-6">
 <h3 id="1-6"><span class="section-number-3">1.6.</span> Stablo parsiranja - primer</h3>
 
-<div id="org918c237" class="figure">
+<div id="orgdcd327c" class="figure">
 <p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" style="height: 600px;" />
 </p>
 </div>
@@ -183,7 +183,7 @@ zagrade, &ldquo;prazni&rdquo; karakteri i komentari.</li>
 <section id="slide-1-8">
 <h3 id="1-8"><span class="section-number-3">1.8.</span> Primer stabla apstraktne sintakse</h3>
 
-<div id="org32b085c" class="figure">
+<div id="org5b5ae16" class="figure">
 <p><img src="./images/AST.svg" alt="AST.svg" style="height: 700px;" />
 </p>
 </div>
@@ -251,11 +251,11 @@ Formalna gramatika je <code>G = (N, Σ, P, S)</code> gde je:
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Notacija</h3>
 <ul>
 <li>Velika slova alfabeta (<code>A</code>, <code>B</code>, <code>C</code>&#x2026;) - neterminalni simboli gramatike</li>
-<li>Mala slova afabeta (<code>a</code>, <code>b</code>, <code>c</code>&#x2026;), cifre, oznake operatora (<code>+</code>, <code>-</code>, &#x2026;), ozake
+<li>Mala slova alfabeta (<code>a</code>, <code>b</code>, <code>c</code>&#x2026;), cifre, oznake operatora (<code>+</code>, <code>-</code>, &#x2026;), oznake
 interpunkcije (zagrade, zarez, tačka&#x2026;) - terminalni simboli gramatike</li>
 <li>Velika slova kraja alfabeta (<code>X</code>, <code>Y</code>, <code>Z</code>&#x2026;) - simboli gramatike, bilo neterminali
 ili terminali.</li>
-<li>Mala slova alfabeta (<code>u</code>, <code>v</code>, &#x2026;, <code>z</code>) - niske treminala (moguće prazan)</li>
+<li>Mala slova alfabeta (<code>u</code>, <code>v</code>, &#x2026;, <code>z</code>) - niske terminala (moguće prazan)</li>
 <li>Mala grčka slova (<code>α</code>, <code>β</code>, <code>γ</code>&#x2026;) - niske simbola gramatike (moguće prazne),
 moguće i terminala i neterminala.</li>
 
@@ -313,7 +313,7 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5.</span> Konteksno slobodne gramatike (<i>Context-Free Grammars - CFGs</i>)</h3>
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Kontekstno slobodne gramatike (<i>Context-Free Grammars - CFGs</i>)</h3>
 <ul>
 <li>Produkcije oblika: <code>A → γ</code></li>
 <li>Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
@@ -520,7 +520,7 @@ rezultovati istim stablima parsiranja.</li>
 <section id="slide-2-14">
 <h3 id="2-14"><span class="section-number-3">2.14.</span> Levo izvođenje - primer</h3>
 
-<div id="orgce4b5c3" class="figure">
+<div id="org7e4dcb4" class="figure">
 <p><img src="./images/LeftDerivation.svg" alt="LeftDerivation.svg" style="height: 700px;" />
 </p>
 </div>
@@ -557,7 +557,7 @@ ključna reč <code>endif</code>.</li>
 <section id="slide-2-16">
 <h3 id="2-16"><span class="section-number-3">2.16.</span> Višeznačna gramatika - primer</h3>
 
-<div id="orge69b906" class="figure">
+<div id="org1221899" class="figure">
 <p><img src="./images/Ambiguous.svg" alt="Ambiguous.svg" style="height: 700px;" />
 </p>
 </div>
@@ -570,7 +570,7 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 </p>
 
 
-<div id="org9fce1cf" class="figure">
+<div id="org2a09b49" class="figure">
 <p><img src="./images/Ambiguous2.svg" alt="Ambiguous2.svg" style="height: 700px;" />
 </p>
 </div>
@@ -754,7 +754,7 @@ gramatika.</li>
 <ul>
 <li>Top-down parser koji podržava podskup kontekstno slobodnih gramatika.</li>
 <li>Konzumira tokene s leva na desno i kreira levo izvođenje.</li>
-<li>Klasa gramatika koju podžava LL parser nazivamo LL gramatikama.</li>
+<li>Klasa gramatika koju podržava LL parser nazivamo LL gramatikama.</li>
 <li>LL(k) parser koristi k tokena unapred (<i>lookahead</i>) za odluku koju sledeću
 produkciju da primeni. Ako takav parser postoji za neku gramatiku, a da ne
 koristi vraćanje (<i>backtracking</i>) tada kažemo da je gramatika LL(k). Jezik za
@@ -815,7 +815,7 @@ navoditi rekurzivne produkcije.</li>
 <section id="slide-3-7">
 <h3 id="3-7"><span class="section-number-3">3.7.</span> LR parsiranje - primer</h3>
 
-<div id="orgd1b5672" class="figure">
+<div id="orgf75f70c" class="figure">
 <p><img src="./images/LR-Primer.png" alt="LR-Primer.png" style="height: 700px;" />
 </p>
 </div>
@@ -830,8 +830,8 @@ navoditi rekurzivne produkcije.</li>
 <ul>
 <li><i>Generalized</i> <i>LR</i> parser.</li>
 <li>Parsiranje višeznačnih gramatika.</li>
-<li>Efektivno radi kao LR parser ali u svakom stanju dozvoljava dozvoljava više
-prelaza čime simulira nedeterministički algoritam.</li>
+<li>Efektivno radi kao LR parser ali u svakom stanju dozvoljava više prelaza čime
+simulira nedeterministički algoritam.</li>
 <li>Kod višeznačnih ulaza vraća skup stabala parsiranja (šumu parsiranja - <i>Parse
 Forest</i>).</li>
 <li>Na korisniku je da odredi ispravno stablo - najčešće dodatnim pravilima (npr.
@@ -847,9 +847,9 @@ prioritet, asocijativnost).</li>
 <ul>
 <li>Kod LL parsera problem je određivanje produkcije koju treba primeniti nad
 neterminalom.</li>
-<li>Kod većine LR parsera (implementiranih kao SHIFT-REDUCE) problem je kada
-uraditi REDUCE operaciju i na koji neterminal redukovati, odnosno kada uraditi
-SHIFT.</li>
+<li>Kod većine LR parsera (implementiranih kao <i>SHIFT-REDUCE</i>) problem je kada
+uraditi <i>REDUCE</i> operaciju i na koji neterminal redukovati, odnosno kada uraditi
+<i>SHIFT</i>.</li>
 <li>I kod jednog i kod drugog algoritma generiše se tablica koja pomaže parseru da
 donese odluku u toku parsiranja.</li>
 
@@ -860,7 +860,7 @@ donese odluku u toku parsiranja.</li>
 <h3 id="3-10"><span class="section-number-3">3.10.</span> Rekurzivni silazni parser - Recursive descent parser</h3>
 <ul>
 <li>Silazni parser izgrađen na bazi međusobno rekurzivnih procedura.</li>
-<li>Svaka procedura implementira jednu produkciju odnosno prepoznvanje jednog
+<li>Svaka procedura implementira jednu produkciju odnosno prepoznavanje jednog
 (ne)terminala.</li>
 <li>Kod prediktivnih parsera ne zahteva se vraćanje (<i>backtracking</i>).</li>
 <li>Ukoliko se koristi vraćanje vreme parsiranja <i>može eksponencijalno da
@@ -876,9 +876,9 @@ poraste</i> kod složenijih gramatika.</li>
 parser with backtracking</i>). Orijentisan je ka prepoznavanju ulaznog teksta.</li>
 <li>Ideje datiraju unazad u ’70 godine prošlog veka.<sup>1,2</sup></li>
 <li>Rekurzivni silazni parseri nisu imali veću popularnost u 20. veku jer vreme
-parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika
-<i>memoizacije</i> u kom slučaju je linearno ali je potreban značajan memorijski
-prostor koji direktno zavisi od veličine ulaza.</li>
+parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika <i>memoizacije</i>
+u kom slučaju je linearno ali je potreban značajan memorijski prostor koji
+direktno zavisi od veličine ulaza.</li>
 <li>Bryan Ford je obnovio interesovanje za TDPL (<i>Top-Down Parsing Language</i>)
 fomalizam za opis gramatika.<sup>3</sup></li>
 <li>Gramatike koje opisuju TDPL Ford naziva gramatikama izraza za parsiranje
@@ -930,7 +930,7 @@ proširivih dinamičkih jezika.</li>
 <section id="slide-3-14">
 <h3 id="3-14"><span class="section-number-3">3.14.</span> Refaktorisanje gramatike za PEG parsere</h3>
 
-<div id="org05ca239" class="figure">
+<div id="orgd8cf33d" class="figure">
 <p><img src="./images/PEGPrioritet.svg" alt="PEGPrioritet.svg" style="height: 700px;" />
 </p>
 </div>
@@ -991,7 +991,7 @@ implementiran na programskom jeziku Java.</li>
 <ul>
 <li>Konfigurišu se gramatikom u vreme izvršavanja (<i>run-time</i>) tj. <i>interpretiraju
 gramatiku</i>.</li>
-<li>Brz round-trip. Nema generisanja parsera. Moguća izmena gramatike &ldquo;u letu&rdquo;.</li>
+<li>Brz <i>round-trip</i>. Nema generisanja parsera. Moguća izmena gramatike &ldquo;u letu&rdquo;.</li>
 <li><a href="https://github.com/textX/Arpeggio">Arpeggio</a>, <a href="https://github.com/igordejanovic/parglare">parglare</a>, i <a href="https://github.com/textX/textX">textX</a> rade kao interpreteri.</li>
 
 </ul>

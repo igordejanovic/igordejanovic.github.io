@@ -3,14 +3,13 @@
 #+SETUPFILE: ../../courses-startup.org
 
 * Sadržaj
-  :PROPERTIES:
-  :UNNUMBERED: notoc
-  :END:
-  #+REVEAL_TOC: headlines 1
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
 
 * PyParsing
 ** PyParsing
-
 - 100% Python
 - MIT licenca
 - PEG parser
@@ -23,7 +22,6 @@
 - http://pyparsing.wikispaces.com/
 
 ** Primer
-
 #+BEGIN_SRC python
 from pyparsing import Word, alphas
 greet = Word( alphas ) + "," + Word( alphas ) + "!" # <-- grammar
@@ -36,7 +34,6 @@ Hello, World! -> ['Hello', ',', 'World', '!']
 #+END_SRC
 
 ** parsimonious
-
 - 100% Python
 - https://github.com/erikrose/parsimonious
 - PEG (packrat) parser
@@ -46,7 +43,6 @@ Hello, World! -> ['Hello', ',', 'World', '!']
 - /Whitespace/ karakteri se zadaju gramatikom.
 
 ** Primer
-
 #+BEGIN_SRC python
 >>> from parsimonious.grammar import Grammar
 >>> grammar = Grammar(
@@ -65,7 +61,6 @@ Hello, World! -> ['Hello', ',', 'World', '!']
 #+END_SRC
 
 ** PLY
-
 - 100% Python
 - LR parser
 - Inspirisan sa lex/yacc alatima
@@ -74,7 +69,6 @@ Hello, World! -> ['Hello', ',', 'World', '!']
 - Gramatika se piše u docstring-ovima za semantičke akcije.
 
 ** Primer
-
 #+BEGIN_SRC python
 # When parsing starts, try to make a "chemical_equation" because it's
 # the name on left-hand side of the first p_* function definition.
@@ -89,7 +83,6 @@ def p_species(p):
 
 * Arpeggio
 ** Osnovne osobine
-
 - 100% Python kod
 - MIT licenca
 - Definisanje gramatike putem Python izraza ili putem PEG notacije
@@ -107,7 +100,6 @@ def p_species(p):
 [[./images/Arpeggio.svg]]
 
 ** PEG pravila
-
 - Gramatika se zadaje skupom PEG pravila
 - Svako pravilo definiše način prepoznavanja određenog (ne)terminala na ulazu.
 
@@ -130,7 +122,6 @@ izrazi:
   konzumiran.
   
 ** PEG pravila - predikati
-
 Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.
 
 - /"I" predikat:/ =&e= - pravilo je uspešno samo ukoliko je =e= prepoznato na ulazu.
@@ -138,7 +129,6 @@ Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.
   ulazu.
   
 ** Koncepti
-
 - /Parser model/ - opisuje određenu vrstu dijagrama stanja-prelaza parsera. Može
   se vizualizovati upotrebom dot alata u cilju debagovanja.
 - /Stablo parsiranja/ - može se vizualizovati dot alatom
@@ -146,7 +136,6 @@ Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.
   /Visitor/ obrasca.
   
 ** Definisanje gramatike - interni DSL
-
 #+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
 #+BEGIN_SRC python
 def program():      return Kwd('begin'), ZeroOrMore(command),
@@ -178,7 +167,6 @@ end
 - Navedena gramatika prepoznaje ulaz dat na desnoj strani.
 
 ** Definisanje gramatike - eksterni DSL
-
 #+BEGIN_SRC
 program = 'begin' command* 'end' EOF
 command = UP/DOWN/LEFT/RIGHT
@@ -189,7 +177,6 @@ RIGHT = 'right'
 #+END_SRC
 
 ** Instanciranje parsera
-
 #+BEGIN_SRC python
 from arpeggio import ParserPython
 def program():...
@@ -203,7 +190,6 @@ parser = ParserPEG(grammar)
 #+END_SRC
 
 ** Model parsera
-
 #+ATTR_ORG: :width 300px
 [[./images/robot_parser_model.dot.svg]]
 
@@ -214,7 +200,6 @@ parser = ParserPython(robot, debug=True)
 #+END_SRC
 
 ** Stablo parsiranja
-
 #+BEGIN_SRC python
 prog_src = """
 begin
@@ -238,25 +223,21 @@ Elementi stabla su terminali i neterminali.
 [[http://igordejanovic.net/Arpeggio/parse_trees/][Dokumentacija: Stablo parsiranja, navigacija, terminali i ne-terminali]]
 
 ** Terminali (/Terminal nodes/)
-
 - Kreiraju se pravilima koje nasleđuju =Match= pravilo. Mogu se konvertovati u
   string predstavu pozivom =str= funkcije.
 - Trenutno postoje dve =Match= naslednice: =StrMatch= i =RegExMatch=.
 
 ** Ne-terminali (/Non-terminal nodes/)
-
 - Kreiraju se svim ostalim pravilima: =Sequence=, =OrderedChoice=, =ZeroOrMore=
   itd.
 - Nasleđuju =list= tako da se mogu koristiti u svim kontekstima gde se može
   koristiti i lista.
 
 ** Stablo parsiranja aritmetičkog izraza
-
 #+ATTR_ORG: :width 300px
 [[./images/calc_parse_tree.dot.svg]]
 
 ** Informacije sadržane u čvorovima stabla parsiranja
-
 Svaki čvor stabla je objekat koji poseduje sledeće atribute:
 
 - =rule= - veze prema =ParsingExpression= naslednici iz modela parsera, odnosno
@@ -271,7 +252,6 @@ line, col = parser.pos_to_linecol(node.position)
 #+END_SRC
 
 ** Navigacija
-
 - Ne-terminali nasleđuju =list= tako da se mogu koristiti u svim kontekstima gde
   se može koristiti i lista.
   - Indeksni pristup:
@@ -319,8 +299,7 @@ assert result.bar[1].position == 14
 #+END_SRC
 
 * Konfiguracija parsera
-** Osetljivost na veličinu slova (/Case-sensitiviy/)
-
+** Osetljivost na veličinu slova (/Case-sensitivity/)
 - Parser je podrazumevano osetljiv na veličinu slova.
 - Da se ovo promeni:
 
@@ -329,7 +308,6 @@ parser = ParserPython(calc, ignore_case=True)
 #+END_SRC
 
 ** Upravljanje "praznim" karakterima (/Whitespaces/)
-
 - Arpeggio podrazumevano preskače prazne karaktere.
 - Da bi se ovo promenilo:
 
@@ -353,7 +331,6 @@ parser = ParserPython(calc, ignore_case=True)
   #+END_SRC
 
 ** Ključne reči
-
 Ukoliko se uključi parametar =autokwd= tada će prepoznavanje svega što je oblika
 ključne reči biti sa uzimanjem u obzir granice reči (/word boundary/) odnosno
 ključne reči u sklopu većih reči neće biti prepoznate kao takve.
@@ -374,7 +351,6 @@ parser.parse("onetwothree")
 #+END_SRC
 
 ** Komentari
-
 Arpeggio može opciono da primi i gramatiku za komentare. Ova gramatika će se
 koristiti između svaka dva elementarna prepoznavanja osnovne gramatike (slično
 kao za prazne karaktere).
@@ -392,7 +368,6 @@ parser = ParserPython(simpleLanguage, comment)
 #+END_SRC
 
 ** Redukcija stabala parsiranja
-
 Kod "dubokih" gramatika često imamo pojavu ne-terminala sa samo jednim
 podčvorom. Zbog jednostavnosti analize nekada je poželjno eliminisati takve
 čvorove iz stabla.
@@ -405,7 +380,6 @@ parser = ParserPython(calc, reduce_tree=True)
 [[./images/calc_parse_tree_reduced.svg]]
 
 ** Parsiranje do kraja linije
-
 Nekada je potrebno da pravila koja nasleđuju =Repetition= (=ZeroOrMore= i
 =OneOrMore=) vrše parsiranje samo do kraja linije.
 
@@ -425,8 +399,7 @@ result = parser.parse(input)
 
 * Debagovanje i vizualizacija
 ** Debagovanje (/Debugging/)
-
-Arpeggio se može postaviti da radi u režimu za degabovanje.
+Arpeggio se može postaviti da radi u režimu za debagovanje.
 
 #+BEGIN_SRC python
 parser = ParserPython(calc, debug=True)
@@ -450,7 +423,6 @@ parser = ParserPython(calc, debug=True)
 #+END_SRC
 
 ** Vizualizacija
-
 - U režimu za debagovanje kreiraju se =dot= fajlovi i za model parsera i za
   stablo parsiranja (ako nema sintaksnih grešaka).
 - Koristimo =dot= alat (deo GraphViz alata) za konverziju u grafičke formate.
@@ -463,7 +435,6 @@ $ dot -Tpng -O calc_parser_model.dot
 [[./images/calc_parser_model.dot.svg]]
 
 ** Obrada grešaka pri parsiranju
-
 #+BEGIN_SRC python
 parser = ParserPython(calc)
 # 'r' in the following expression can't be recognized by
@@ -487,7 +458,6 @@ arpeggio.NoMatch: Expected '+' or '-' or 'number' or
 
 * Analiza stabala parsiranja
 ** Semantičke akcije - transformacija u AST
-
 #+BEGIN_SRC python
 from arpeggio ParserPython, visit_parse_tree
 
@@ -523,7 +493,6 @@ class CalcVisitor(PTNodeVisitor):
 #+END_SRC
 
 ** =SemanticActionResults= 
-
 - Klasa čija instanca se dobija kao =children= parametar u akcijama.
 - Enkapsulira rezultate vraćene od akcija nižeg nivoa.
 - Nasleđuje Python listu.
@@ -543,19 +512,17 @@ def visit_bar(self, node, children):
 #+END_SRC
 
 ** Postprocesiranje u drugom pozivu
-
 - Nekada se konstrukcija AST-a mora obaviti u dva prolaza (npr. razrešavanje
   referenci).
 - Opciona metoda oblika =second_<rule_name>=. Dobija objekat koji vraća poziv
   =visit_<rule_name>= i dodatno ga obrađuje.
   
 ** Podrazumevane semantičke akcije
-
 - Ako nije definisana metoda =visit_<rule_name>= Arpeggio će primeniti
   podrazumevanu akciju čija logika je sledeća:
   - Ako je čvor kreiran =StrMatch= pravilom (string literal) vraća se =None=
     čime se čvor eliminiše iz =children= kolekcije čvora višeg nivoa.
-  - Ako je krairan sa =RegExMatch= biće vraćen string.
+  - Ako je kreiran sa =RegExMatch= biće vraćen string.
   - Ako je čvor ne-terminal sa samo jednim podčvorom biće vraćen podčvor.
 - Podrazumevane akcije se mogu isključiti parametrom =defaults=:
 
@@ -574,13 +541,11 @@ def visit_bar(self, node, children):
   #+END_SRC
 
 * Primeri
-   
-- [[https://textx.github.io/Arpeggio/stable/tutorials/csv/][CSV]] 
+- [[https://textx.github.io/Arpeggio/stable/tutorials/csv/][CSV]]
 - [[https://textx.github.io/Arpeggio/stable/tutorials/bibtex/][BibTex]]  
 - [[https://textx.github.io/Arpeggio/stable/tutorials/calc/][Calc]] 
 
 * Arpeggio dokumentacija
-            
 - https://textx.github.io/Arpeggio/
 
 * Veče džeza i slobodnih formi - improvizacije

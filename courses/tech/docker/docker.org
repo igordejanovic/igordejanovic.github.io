@@ -4,15 +4,13 @@
 #+SETUPFILE: ../../courses-startup.org
 
 * Sadržaj
-  :PROPERTIES:
-  :UNNUMBERED: notoc
-  :END:
-  #+REVEAL_TOC: headlines 1
-
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
 
 * Uvod
 ** Motivacija
-
 - Uvođenje (/Deployment/)
 - Okruženje (/Environment/)
 - Zavisnosti (/Dependencies/)
@@ -20,7 +18,6 @@
 - Automatizacija
 
 ** Docker
-
 - Automatizacija procesa uvođenja upotrebom softverskih kontejera.
 - Izolacija aplikacije i svih njenih zavisnosti putem linux kernel /cgroups/ i
   /namespaces/ mehanizama.
@@ -35,12 +32,11 @@
 - Apache 2.0 licenca.
 
 ** Arhitektura
-
 #+ATTR_ORG: :width 300px
 [[./images/architecture.svg]]
 
 - Registries, images, containers
-- Union file systems (layered): AUFS, btrfs,... 
+- Union file systems (layered): overlay2, AUFS, btrfs,...
 - Linux kernel namespaces and cgroups
 
 #+attr_html: :class footer :style clear: both;
@@ -48,14 +44,12 @@
 
 * Rad sa kontejnerima
 ** /Hello World/ u dokeru
-
 #+BEGIN_SRC
 $ docker run ubuntu:16.04 /bin/echo 'Hello world'
 Hello world
 #+END_SRC
 
 ** Interaktivni kontejner
-
 #+BEGIN_SRC
 $ docker run -t -i ubuntu:16.04 /bin/bash
 root@af8bae53bdd3:/#
@@ -74,7 +68,6 @@ root@af8bae53bdd3:/# exit
 #+END_SRC
 
 ** "Demonizacija"
-  
 #+BEGIN_SRC
 $ docker run -d ubuntu:16.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
 1e5535038e285177d5214659a068137486f96ee5c2e85a4ac52dc83f2ebe4147
@@ -98,8 +91,6 @@ CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PO
 - =-d= | =--detach= - ne "kačiti" se za STDOUT
 
 ** Pokretanje jednostavne veb aplikacije
-
-
 - Pokretanje jednostavne =Python Flask= aplikacije.
 
 #+BEGIN_SRC
@@ -122,13 +113,11 @@ $ docker run -d -p 80:5000 training/webapp python app.py
 #+END_SRC
 
 ** Python Flask aplikacija
-
 #+ATTR_ORG: :width 300px
 #+attr_html: :style height: 300px;
 [[./images/webapp1.png]]
 
 ** IP adresa
-
 - Ukoliko se kontejner izvršava na drugoj mašini treba nam IP adresa da bi
   pristupili aplikaciji.
 
@@ -140,14 +129,12 @@ $ docker-machine ip my-docker-vm
 - Koristiti http://192.168.1.100:49155/ za pristup
 
 ** "Prečica" za dobijanje preslikanog porta
-
 #+BEGIN_SRC
 $ docker port nostalgic_morse 5000
 0.0.0.0:49155
 #+END_SRC
 
 ** Pregled dnevnika (/logs/)
-
 #+BEGIN_SRC
 $ docker logs -f nostalgic_morse
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
@@ -159,7 +146,6 @@ $ docker logs -f nostalgic_morse
 - =-f= "forever" - terminal ostaje "zakačen" na STDOUT kontejnera
 
 ** Pregled procesa
-
 #+BEGIN_SRC
 $ docker top nostalgic_morse
 UID   PID    PPID     C     STIME    TTY     TIME                CMD
@@ -167,7 +153,6 @@ root  20409  20393    0     16:10    ?       00:00:00            python app.py
 #+END_SRC
 
 ** Zauzeće resursa kontejnera
-
 #+BEGIN_SRC
 $ docker stats --no-stream nostalgic_morse
 CONTAINER        CPU %   MEM USAGE / LIMIT       MEM %    NET I/O               BLOCK I/O           PIDS
@@ -177,7 +162,6 @@ elegant_meitner  0.02%   24.06 MiB / 7.493 GiB   0.31%    3.895 kB / 3.686 kB   
 - =--no-stream= - vrati prvi rezultat
 
 ** Inspekcija kontejnera
-
 #+BEGIN_SRC
 $ docker inspect nostalgic_morse
 [
@@ -201,7 +185,6 @@ $ docker inspect nostalgic_morse
 #+END_SRC
 
 ** Povezivanje za kontejner koji se izvršava
-
 - Ukoliko se pokrene interaktivna sesija pri pokretanju kontejnera navođenjem
   =-t -i= parametara, konzola se može "otkačiti" sa =Ctrl-P-Q=.
 - Na konzolu kontejnera se opet može povezati sa:
@@ -211,7 +194,6 @@ $ docker attach nostalgic_morse
 #+END_SRC
 
 ** Pristup kontejneru koji se izvršava
-
 - Nekada kontejner nema aktivan =shell=. U tom slučaju ukoliko se povežemo sa
   =attach= nemamo interakciju već imamo samo ispis aplikacije koja se izvršava.
 - U kontekstu kontejnera koji se izvršava moguće je izvršiti proizvoljnu
@@ -225,7 +207,6 @@ root@bd57610aa95a:/usr/src/redmine#
 - Ne zaboraviti završetak sesije sa =exit= ili =Ctrl-D=.
 
 ** Zaustavljanje i uklanjanje kontejnera
-
 #+BEGIN_SRC
 $ docker stop nostalgic_morse
 nostalgic_morse
@@ -236,14 +217,12 @@ nostalgic_morse
 
 * Rad sa slikama (/images/)
 ** Rad sa slikama (/images/)
-
 - Kontejner koji radi je baziran na slici (/image/) analogno klasi i
   instanci/objektu kod OO jezika
 - Kod pokretanja, ako slika ne postoji lokalno preuzima se sa udaljenog
   repozitorijuma (npr. /Docker Hub/)
   
 ** Listanje slika
-
 #+BEGIN_SRC
 $ docker images
 REPOSITORY          TAG       IMAGE ID        CREATED          VIRTUAL SIZE
@@ -264,7 +243,6 @@ $ docker run -t -i ubuntu:12.04 /bin/bash
 - Ukoliko se ne navede oznaka podrazumeva se =latest=.
 
 ** Preuzimanje slika
-
 - =run= komanda će automatski preuzeti sliku ukoliko ne postoji lokalno.
 - Slika se može i eksplicitno preuzeti komandom =docker pull=.
 
@@ -284,7 +262,6 @@ bash-4.1#
 #+END_SRC
 
 ** Pronalaženje doker slike
-
 - Putem [[https://hub.docker.com/][Docker Hub]] sajta.
 - ...ili upotrebom =docker search= komande.
 
@@ -306,14 +283,12 @@ convox/sinatra                               Convox base image for Sinatra      
 - =AUTOMATED= - [[https://docs.docker.com/engine/userguide/dockerrepos/#automated-builds][Automatizovana izgradanja]] sa GitHub ili Bitbucket-a.
 
 ** Vrste slika
-
 - /base/ ili /root/ slike - izgrađene i podržane od strane Docker Inc.
   Identifikuju se prostim imenom (npr. =ubuntu=).
 - /korisničke/ slike (/user/ images) - imaju korisničko ime kao prefix (npr.
   =training/sinatra=). Izgrađeni i podržani od strane članova doker zajednice.
   
 ** Preuzimanje korisničke slike i startovanje kontejnera
-
 #+BEGIN_SRC
 $ docker pull training/sinatra
 
@@ -322,7 +297,6 @@ root@a8cb6ce02d85:/#
 #+END_SRC
 
 ** Kreiranje slika
-
 - Dva načina:
   - Interaktivno ažuriranje stanja kontejnera i perzistencija nove verzije
     =commit= operacijom.
@@ -331,7 +305,6 @@ root@a8cb6ce02d85:/#
 - Koristiti drugi način kad god je moguće.
 
 ** Interaktivno ažuriranje stanja kontejnera
-
 #+BEGIN_SRC
 $ docker run -t -i training/sinatra /bin/bash
 root@0b2616b0e5a8:/#
@@ -347,7 +320,6 @@ $ docker commit -m "Added json gem" -a "Kate Smith" 0b2616b0e5a8 ouruser/sinatra
 - =-a= - autor
 
 ** Upotreba nove slike
-
 #+BEGIN_SRC
 $ docker images
 REPOSITORY          TAG     IMAGE ID       CREATED       VIRTUAL SIZE
@@ -360,7 +332,6 @@ root@78e82f680994:/#
 #+END_SRC
 
 ** Izgradnja slike upotrebom =Dockerfile= fajla
-
 #+BEGIN_SRC
 $ mkdir sinatra
 $ cd sinatra
@@ -378,7 +349,6 @@ RUN gem install sinatra
 #+END_SRC
 
 ** Docker =build= komanda
-
 #+BEGIN_SRC
 $ docker build -t ouruser/sinatra:v2 .
 Sending build context to Docker daemon 2.048 kB
@@ -404,19 +374,17 @@ Successfully built 97feabe5d2ed
 #+END_SRC
 
 ** Docker context
-
 - Izgradnju slike obavlja doker demon proces.
 - Pre početka klijent šalje zapakovan sadržaj foldera koji je prosleđen kao
   parametar.
-- Ovaj folder minimalno treba da ima =Dockerfile= ali može imati i dodatne
-  fajlove i foldere koji se mogu po potrebi ugraditi u kontejner komandom =ADD=.
+- Ovaj folder minimalno treba da ima =Dockerfile= ali može imati i dodatne fajlove
+  i foldere koji se mogu po potrebi ugraditi u kontejner komandom =ADD=.
 
 #+ATTR_HTML: :class attention
 *Napomena:* Celokupan folder se pakuje i šalje demon procesu. Paziti da folder
 sadrži samo zaista potrebne fajlove.
   
 ** Označavanje slika (/tagging/)
-
 - Svakoj verziji slike možemo dati simboličku oznaku (/tag/).
 
 #+BEGIN_SRC
@@ -430,7 +398,6 @@ ouruser/sinatra     v2      5db5f8471261  11 hours ago   446.7 MB
 #+END_SRC
 
 ** Slanje slika na /Docker Hub/
-
 #+BEGIN_SRC
 $ docker push ouruser/sinatra
 The push refers to a repository [ouruser/sinatra] (len: 1)
@@ -440,7 +407,6 @@ Pushing repository ouruser/sinatra (3 tags)
 #+END_SRC
 
 ** Uklanjanje slike sa računara
-
 #+BEGIN_SRC
 $ docker rmi training/sinatra
 Untagged: training/sinatra:latest
@@ -455,7 +421,6 @@ Deleted: 5c58979d73ae448df5af1d8142436d81116187a7633082650549c52c3a2418f0
 * [[https://www.docker.com/products/docker-swarm][Docker Swarm]]
 * Vizuelizacija doker kontejnera
 ** =dockviz=
-
 - Alat za vizualizaciju doker slika
 - Dostupan na [[https://github.com/justone/dockviz][GitHub-u]].
 - Može se instalirati kao doker slika:
@@ -474,7 +439,6 @@ $ alias dockviz="docker run --rm -v /var/run/docker.sock:/var/run/docker.sock na
 #+END_SRC
 
 ** Vizualizacija veza između kontejnera
-
 #+BEGIN_SRC
 $ dockviz containers -d | dot -Tpng -o containers.png
 #+END_SRC
@@ -484,7 +448,6 @@ $ dockviz containers -d | dot -Tpng -o containers.png
 [[./images/containers.png]]
 
 ** Vizualizacija međuzavisnosti i veličina slika
-
 #+BEGIN_SRC
 $ dockviz images -t -i
 └─511136ea3c5a Virtual Size: 0.0 B
@@ -506,8 +469,7 @@ $ dockviz images -t -i
 #+END_SRC
 
 ** Reference
-
-- [[https://docs.docker.com/][Doker dokumentacija]]
+- [[https://docs.docker.com/][Docker dokumentacija]]
 - [[https://github.com/justone/dockviz][dockviz dokumentacija]]
 
             
