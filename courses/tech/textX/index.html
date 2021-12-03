@@ -35,13 +35,13 @@
 <h1 class="title">textX</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-11-10 Wed 22:08, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2021-12-03 Fri 11:40, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 
 <section>
-<section id="slide-org3565288">
-<h2 id="org3565288">Sadržaj</h2>
+<section id="slide-org5943de6">
+<h2 id="org5943de6">Sadržaj</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
@@ -57,7 +57,7 @@
 <li><a href="#/slide-11">11. RREL</a></li>
 <li><a href="#/slide-textx-komanda">12. <code>textx</code> komanda</a></li>
 <li><a href="#/slide-13">13. Registracija jezika i generatora</a></li>
-<li><a href="#/slide-14">14. Kreiranje inicijalnog projekta</a></li>
+<li><a href="#/slide-14">14. Kreiranje inicijalnog projekta - <i>scaffolding</i></a></li>
 <li><a href="#/slide-15">15. Primeri</a></li>
 <li><a href="#/slide-16">16. Podrška u editorima</a></li>
 <li><a href="#/slide-17">17. Veče džeza i slobodnih formi - improvizacije</a></li>
@@ -89,7 +89,7 @@
 <section id="slide-2">
 <h2 id="2"><span class="section-number-2">2.</span> Arhitektura</h2>
 
-<div id="org6ccba49" class="figure">
+<div id="orga0bf4ef" class="figure">
 <p><img src="./images/textX.png" alt="textX.png" />
 </p>
 </div>
@@ -210,7 +210,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org2a111ce" class="figure">
+<div id="org61fffaa" class="figure">
 <p><img src="./hello.dot.png" alt="hello.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -225,7 +225,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="orgce53fea" class="figure">
+<div id="orgb8b45fa" class="figure">
 <p><img src="./images/hello_parts.png" alt="hello_parts.png" style="height: 300px;" />
 </p>
 </div>
@@ -240,7 +240,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org0a5ba75" class="figure">
+<div id="org9d77826" class="figure">
 <p><img src="./example.dot.png" alt="example.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -380,7 +380,7 @@ robot_mm = metamodel_from_file('robot.tx')
 </div>
 
 
-<div id="orgc996eba" class="figure">
+<div id="org6768000" class="figure">
 <p><img src="./robot.dot.png" alt="robot.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -412,7 +412,7 @@ end
 </pre>
 
 
-<div id="org9cedd8d" class="figure">
+<div id="org79145e3" class="figure">
 <p><img src="./program.dot.png" alt="program.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -506,7 +506,7 @@ end
 
 <div class="column" style="float:right; width: 50%">
 
-<pre class="example" id="orgb6fdad4">
+<pre class="example" id="org5a42b4d">
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -569,7 +569,7 @@ Registracija procesora na meta-modelu:
 Sada se robot ponaša ispravno.
 </p>
 
-<pre class="example" id="org446ddb3">
+<pre class="example" id="org68cf7c5">
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -797,7 +797,7 @@ prepoznavanja.
 <section id="slide-5-6">
 <h3 id="5-6"><span class="section-number-3">5.6.</span> Bazična pravila/tipovi</h3>
 
-<div id="org1188a67" class="figure">
+<div id="orgcc0ff0a" class="figure">
 <p><img src="./images/base_types.png" alt="base_types.png" style="height: 250px;" />
 </p>
 </div>
@@ -1752,6 +1752,9 @@ korisničkih klasa čija imena moraju biti ista kao imena pravila za koje će bi
 instancirane.
 </p>
 
+</section>
+<section>
+
 <div class="org-src-container">
 
 <pre><code class="python" >from textx.metamodel import metamodel_from_str
@@ -1785,6 +1788,9 @@ entity_mm = metamodel_from_str(grammar, classes=[Entity])
 </code></pre>
 </div>
 
+</section>
+<section>
+
 <p>
 Metamodel <code>entity_mm</code> se može koristiti da instancira modele gde će pri
 instanciranju <code>Entity</code> klase biti korišćena Python klasa iz prethodnog primera.
@@ -1814,12 +1820,16 @@ textX ima automatsku podršku za ovaj tip veze i dinamički kreira <code>parent<
 atribut na svim objektima tipa dete.
 </p>
 
+<div class="note" id="org15be642">
 <p>
-Treba obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno
-obezbediti ovaj parametar kao prvi parametar konstruktora kod svih klasa koje
-predstavljaju dete u vezi roditelj-dete jer će textX pozivati konstruktor uz
-prosleđivanje reference na roditeljski objekat prilikom parsiranja.
+Obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno obezbediti
+ovaj parametar kao prvi parametar konstruktora kod svih klasa koje predstavljaju
+dete u vezi roditelj-dete jer će textX pozivati konstruktor uz prosleđivanje
+reference na roditeljski objekat prilikom parsiranja.
 </p>
+
+</div>
+
 
 </section>
 <section id="slide-6-4">
@@ -1848,6 +1858,9 @@ se ceo model uspešno parsira. Kao parametar dobijaju metamodel i model. Mogu da
 obave proizvoljnu proveru i/ili modifikaciju modela. Registruju se pozivom
 metode <code>register_model_processor</code> nad metamodel objektom.
 </p>
+
+</section>
+<section>
 
 <div class="org-src-container">
 
@@ -1881,10 +1894,13 @@ potrebe da ih korisnik definiše, i koje možemo referencirati iz ostatka modela
 Da bi olakšali posao korisniku možemo na nivou metamodela registrovati ugrađene
 objekte. Tako registrovani objekti biće implicitno deo svakog modela. Klasičan
 primer su primitivni tipovi (npr. <code>integer</code>, <code>string</code>, <code>float</code>). Ako želimo da ovo
-budu pravi objekti a ne samo ključne reči<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>, kreiraćemo nove objekte
-i registrovati nad metamodelom. Naravno, da bi mogli instancirati klase u
-Python-u potrebno je da ih registrujemo kao korisničke klase (slajd <a href="#/slide-6-2" class="backwardlink">6.1</a>).
+budu pravi objekti a ne samo ključne reči, kreiraćemo nove objekte i
+registrovati nad metamodelom. Naravno, da bi mogli instancirati klase u Python-u
+potrebno je da ih registrujemo kao korisničke klase (slajd <a href="#/slide-6-2" class="backwardlink">6.1</a>).
 </p>
+
+</section>
+<section>
 
 <div class="org-src-container">
 
@@ -1911,6 +1927,12 @@ entity_mm = metamodel_from_file(
 U prethodnom primeru registrujemo korisničku klasu <code>Entity</code> i zatim dve njene
 instance (<code>integer</code> i <code>string</code>) koje će predstavljati ugrađene tipove za atribute.
 </p>
+
+<ul class="footer" style="clear: both;">
+<li>Za više detalja videti primer
+<a href="https://github.com/igordejanovic/textX/tree/master/examples/Entity">https://github.com/igordejanovic/textX/tree/master/examples/Entity</a></li>
+
+</ul>
 
 </section>
 <section id="slide-6-6">
@@ -1941,6 +1963,9 @@ multiplicitet jedan ili više (<code>+=</code>) to zahteva prepoznavanje bar jed
 ulazu, pa će vrednost atributa biti Python lista sa svim prepoznatim objektima.
 </p>
 
+</section>
+<section>
+
 <p>
 Iako ovaj mehanizam automatske inicijalizacije dosta olakšava posao, postoje
 situacije kada može da zasmeta. Na primer, problem nastaje ukoliko želimo da
@@ -1966,6 +1991,9 @@ osetljivosti na veličinu slova (<i>case-sensitivity</i>), tretiranju praznih
 karaktera (<i>white-space handling</i>) i automatskoj detekciji ključnih reči.
 </p>
 
+</section>
+<section id="slide-6-7-1">
+<h4 id="6-7-1"><span class="section-number-4">6.6.1.</span> Konfiguracija parsera - <i>case-sensitivity</i></h4>
 <p>
 Podrazumevano, parser je osetljiv na veličinu slova. Tako će reči <code>Entity</code> i
 <code>entity</code> biti tretirane kao različite. Ukoliko je naš jezik takav da veličina
@@ -1982,6 +2010,9 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
 </code></pre>
 </div>
 
+</section>
+<section id="slide-6-7-2">
+<h4 id="6-7-2"><span class="section-number-4">6.6.2.</span> Konfiguracija parsera - <i>whitespaces</i></h4>
 <p>
 Parser podrazumevano preskače prazne karaktere (<code>spaces</code>, <code>tabs</code>). Zbog toga u
 gramatikama nije potrebno eksplicitno prepoznavati prazne karaktere. Postoje
@@ -2004,6 +2035,9 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
 Ova pravila se mogu definisati i na nivou pojedinačnih pravila gramatike.
 </p>
 
+</section>
+<section id="slide-6-7-3">
+<h4 id="6-7-3"><span class="section-number-4">6.6.3.</span> Konfiguracija parsera - <i>keywords</i></h4>
 <p>
 Pri kreiranju JSD obično je poželjno da se ključne reči prepoznaju u celini,
 odnosno da se ne prepoznaju ukoliko su delovi drugih elemenata jezika (npr.
@@ -2065,6 +2099,9 @@ pravila ili definisane od strane korisnika upotrebom mehanizma korisničkih klas
 <p>
 Model se kreira pozivom metoda <code>model_from_file</code> i <code>model_from_str</code> metamodela.
 </p>
+
+</section>
+<section>
 
 <div class="org-src-container">
 
@@ -2161,10 +2198,15 @@ zapis.
 
 <p>
 <i>dot</i> fajlovi se mogu direktno prikazati u nekom od dostupnih vizualizatora (npr.
-xdot<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>, ZGRViewer<sup><a id="fnr.3" class="footref" href="#fn.3" role="doc-backlink">3</a></sup>) ili se, upotrebom <i>dot</i> alata, fajl može
-transformisati u neki od bitmapiranih ili vektorskih grafičkih formata (npr.
-PNG, SVG, JPG, PDF).
+xdot<sup>1</sup>, ZGRViewer<sup>2</sup>) ili se, upotrebom <i>dot</i> alata, fajl može transformisati u
+neki od bitmapiranih ili vektorskih grafičkih formata (npr. PNG, SVG, JPG, PDF).
 </p>
+
+<ol class="footer" style="clear: both;">
+<li>xdot &#x2014; <a href="https://github.com/jrfonseca/xdot.py">https://github.com/jrfonseca/xdot.py</a></li>
+<li>ZGRViewer &#x2014; <a href="http://zvtm.sourceforge.net/zgrviewer.html">http://zvtm.sourceforge.net/zgrviewer.html</a></li>
+
+</ol>
 
 </section>
 <section id="slide-8-2">
@@ -2209,8 +2251,8 @@ Ova komanda će proizvesti fajl <code>entity.dot.png</code> grafičkog bitmapira
 </p>
 
 
-<div id="orge9d7a40" class="figure">
-<p><img src="./images/entity.dot.png" alt="entity.dot.png" />
+<div id="org47d419c" class="figure">
+<p><img src="./images/entity.dot.png" alt="entity.dot.png" style="height: 500px;" />
 </p>
 </div>
 
@@ -2247,13 +2289,13 @@ format sledećom komandom:
 </div>
 
 
-<div id="org61c176e" class="figure">
-<p><img src="./images/person-entity.png" alt="person-entity.png" />
+<div id="org3649533" class="figure">
+<p><img src="./images/person-entity.png" alt="person-entity.png" style="height: 500px;" />
 </p>
 </div>
 
 <p class="forwardlink">
-Vizualizacija može da se obavi i upotrebom <code>textx</code> komande (slajd <a href="#/slide-textx-komanda" class="forwardlink">12</a>).
+Vizualizacija može da se obavi i upotrebom <a href="#/slide-textx-komanda" class="forwardlink"><code>textx</code> komande</a> opisane u nastavku.
 </p>
 
 </section>
@@ -2300,6 +2342,9 @@ ili
                                                 debug=True)
 </code></pre>
 </div>
+
+</section>
+<section>
 
 <p>
 Kada textX radi u <i>debug</i> modu na konzoli će biti prikazane detaljne informacije o
@@ -2379,6 +2424,9 @@ Na primer:
 </code></pre>
 </div>
 
+</section>
+<section>
+
 <p>
 Ovo pravilo gramatike ima referencu <code>ref</code>. Svaka referenca preko veze se piše u
 uglastim zagradama i ima najmanje jedan a najviše tri dela razdvojena karakterom
@@ -2400,20 +2448,8 @@ zbog jednostavnosti u nastavku smatramo da se delovi imena razdvajaju uvek sa
 tačkom.
 </p>
 
-<p>
-Dakle, kao ulaz u proces razrešavanja reference imamo:
-</p>
-<ul>
-<li>Ime koje se sastoji od delova razdvojenih tačkom, gde je <code>ID</code> samo specijalni slučaj,</li>
-<li>RREL izraz.</li>
-
-</ul>
-
-<p>
-Proces razrešavanja reference mora da vrati ciljni objekat ili grešku ukoliko
-objekat ne postoji.
-</p>
-
+</section>
+<section>
 
 <p>
 RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
@@ -2429,6 +2465,13 @@ počinje operatorom &ldquo;<code>^</code>&rdquo;. Na primer, <code>.a.b</code> z
 lokaciji i zatim pretragu atributa <code>b</code>.</li>
 <li><code>parent(TIP)</code> &#x2014; vrši se pretraga uz roditeljske veze sve dok se ne nađe
 objekat tipa <code>TIP</code>.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
 <li><code>~</code> &#x2014; marker koji se može primeniti nad elementom izraza i koji nosi
 informaciju da se tekuća kolekcija ne pretražuje po tekućem delu imena već da
 se cela procesira. Na primer, ukoliko tražimo metodu uz hijerarhiju
@@ -2445,6 +2488,13 @@ tekući deo imena nije pronađen u <code>~extends.methods</code>, zatim u
 objekta, zbog upotrebe <code>*</code>, izraz se dalje razvija i pretraga se nastavlja dok
 se objekat ne pronađe ili dok ne dođemo do kraja lanca nasleđivanja i tada
 prijavljujemo grešku da objekat nije pronađen.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
 <li><code>^</code> &#x2014; pretraga od dna ka vrhu (eng. <i>bottom-up</i>). Ovaj operator definiše da se
 tekuća putanja razvija od dna ka vrhu, uz roditeljski lanac. Pretraga počinje
 na tekućem AST kontekstu i ide se uz roditeljski lanac za broj komponenti
@@ -2457,6 +2507,9 @@ pretragu.</li>
 <li><code>,</code> &#x2014; definiše sekvencu izraza koje treba pokušati u redosledu definisanja.</li>
 
 </ul>
+
+</section>
+<section>
 
 <p>
 Prioriteti od najvišeg do najnižeg su: <code>*</code>, <code>.</code>, <code>,</code>.
@@ -2489,12 +2542,12 @@ objekat. Ako se tip objekta ne poklapa sa onim što je definisano referencom u
 gramatici prijavljujemo grešku, u suprotnom uspešno smo pronašli objekat.</li>
 
 </ul>
+
 </section>
 </section>
 <section>
 <section id="slide-textx-komanda">
 <h2 id="textx-komanda"><span class="section-number-2">12.</span> <code>textx</code> komanda</h2>
-
 </section>
 <section id="slide-12-1">
 <h3 id="12-1"><span class="section-number-3">12.1.</span> <code>textx</code> komanda</h3>
@@ -2654,7 +2707,7 @@ Dobićemo sliku u obliku PNG fajla.
 </p>
 
 
-<div id="org390c433" class="figure">
+<div id="org0a835c0" class="figure">
 <p><img src="./images/robot.dot.png" alt="robot.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -2694,11 +2747,10 @@ Zatim možemo kreirati PNG sliku sa <code>plantuml</code> komandom prema uputstv
 </p>
 
 
-<div id="orge1d13c5" class="figure">
+<div id="orgb7d3ea6" class="figure">
 <p><img src="./images/robot.png" alt="robot.png" style="height: 400px;" />
 </p>
 </div>
-
 
 </section>
 <section id="slide-12-7">
@@ -2718,8 +2770,6 @@ Generating dot target from models:
 </code></pre>
 </div>
 
-
-
 </section>
 </section>
 <section>
@@ -2734,16 +2784,16 @@ jezika i generatora kroz <code>textx</code> komandu (slajd <a href="#/slide-text
 </section>
 <section id="slide-13-1">
 <h3 id="13-1"><span class="section-number-3">13.1.</span> Registracija jezika</h3>
-<p class="forwardlink">
-Za registraciju jezika potrebno je instancirati <code>LanguageDesc</code> klasu gde kao
-parametre navodimo: jedinstveni naziv jezika, fajl obrazac/ekstenziju za modele
-na datom jeziku, opis i funkciju (tačnije Python <i>callable</i>) koji vrši kreiranje i
-konfiguraciju metamodela (listing <a href="#/slide-orgf73115d" class="forwardlink">1</a>).
-</p>
+<ul>
+<li>Instancirati <code>LanguageDesc</code> klasu gde kao parametre navodimo: jedinstveni naziv
+jezika, fajl obrazac/ekstenziju za modele na datom jeziku, opis i funkciju
+(tačnije Python <i>callable</i>) koji vrši kreiranje i konfiguraciju metamodela.</li>
+
+</ul>
 
 <div class="org-src-container">
-<label class="org-src-name">Registracija textX jezika</label>
-<pre id="lst:textx-lang-reg"><code class="python" >from textx import LanguageDesc
+
+<pre><code class="python" >from textx import LanguageDesc
 
 def entity_metamodel():
     # Funkcija konstruiše i vraća metamodel
@@ -2758,6 +2808,8 @@ entity_lang = LanguageDesc(
 </code></pre>
 </div>
 
+</section>
+<section>
 
 <p>
 Instancu <code>LanguageDesc</code> zatim možemo registrovati upotrebom <code>register_language</code>
@@ -2782,12 +2834,15 @@ lang_mm = metamodel_for_language('entity')
 </code></pre>
 </div>
 
-<p>
-Umesto registracije putem API-ja, bolje je koristiti deklarativan način
-registracije putem <code>setup.py</code>, odnosno <code>setup.cfg</code>. Za registraciju unutar <code>setup.py</code>
-koristimo ulazne tačke (eng. <i>entry points</i>), standardan mehanizam Python
-<code>setuptools</code> paketa:
-</p>
+</section>
+<section>
+
+<ul>
+<li>Deklarativan način registracije putem <code>setup.py</code>, odnosno <code>setup.cfg</code>. Koristimo
+ulazne tačke (eng. <i>entry points</i>), standardan mehanizam Python <code>setuptools</code>
+paketa:</li>
+
+</ul>
 
 <div class="org-src-container">
 
@@ -2801,12 +2856,14 @@ koristimo ulazne tačke (eng. <i>entry points</i>), standardan mehanizam Python
 </code></pre>
 </div>
 
-<p class="backwardlink">
-Potrebno je da se tačka zove <code>textx_languages</code>. U pitanju je lista stringova
-oblika &ldquo;&lt;ime jezika&gt; = &lt;putanja_do_LanguageDesc_instance&gt;&rdquo;. U ovom primeru
-instanca <code>LanguageDesc</code> se nalazi u paketu <code>entity.metamodel</code>. Varijable tj.
-referenca se zove <code>entity_lang</code> (sa listinga <a href="#/slide-orgf73115d" class="backwardlink">1</a>).
+<p>
+Ulazna tačka se zove <code>textx_languages</code> - lista stringova oblika &ldquo;&lt;ime jezika&gt; =
+&lt;putanja_do_LanguageDesc_instance&gt;&rdquo;. U ovom primeru instanca <code>LanguageDesc</code> se
+nalazi u paketu <code>entity.metamodel</code>. Varijable tj. referenca se zove <code>entity_lang</code>.
 </p>
+
+</section>
+<section>
 
 <p>
 Alternativno, možemo koristiti i noviji način upotrebom <code>setup.cfg</code> fajla:
@@ -2820,20 +2877,18 @@ textx_languages =
 </code></pre>
 </div>
 
-<p class="forwardlink">
-S obzirom da je kreiranje <code>LanguageDesc</code> instance čest obrazac, textX omogućava
-jednostavniji način upotrebom Python dekoratora (listing
-<a href="#/slide-orge82938e" class="forwardlink">2</a>). Dekoratorom <code>language</code> dekorišemo funkciju koja
-instancira i vraća konfigurisani metamodel jezika. Parametri dekoratora su naziv
-jezika i obrazac/ekstenzija fajlova modela. Unutar tzv. Python <i>docstring</i>-a
-pišemo opis jezika. Ovaj dekorator će obaviti posao instanciranja <code>LanguageDesc</code> i
-zameniće funkciju sa ovom instancom tako da možemo registraciju unutar <code>setup.py</code>
-odnosno <code>setup.cfg</code> obaviti na isti način kao i ranije.
-</p>
+</section>
+<section>
+
+<ul>
+<li>Dekorator <code>language</code> - parametri su naziv jezika i ekstenzija fajlova model.
+<i>Docstring</i> se koristi kao opis.</li>
+
+</ul>
 
 <div class="org-src-container">
-<label class="org-src-name">Registracija textX jezika upotrebom dekoratora</label>
-<pre id="lst:textx-lang-reg-dec"><code class="python" >from textx import language
+
+<pre><code class="python" >from textx import language
 
 @language('entity', '*.ent')
 def entity_lang():
@@ -2854,12 +2909,12 @@ prikazati u listi.
 </section>
 <section id="slide-13-2">
 <h3 id="13-2"><span class="section-number-3">13.2.</span> Registracija generatora</h3>
-<p>
-Na sličan način kao i za jezike možemo registrovati generator koda. Za opis
-generatora koristimo instancu <code>GeneratorDesc</code>. Pri instanciranju navodimo: naziv
-jezika, naziv ciljne tehnologije, opis i na kraju funkciju koja vrši
-generisanje. Funkcija mora biti sledećeg oblika:
-</p>
+<ul>
+<li>Koristimo instancu <code>GeneratorDesc</code>. Pri instanciranju navodimo: naziv jezika,
+naziv ciljne tehnologije, opis i na kraju funkciju koja vrši generisanje.
+Funkcija mora biti sledećeg oblika:</li>
+
+</ul>
 
 <div class="org-src-container">
 
@@ -2882,11 +2937,14 @@ Parametri generator funkcije su sledeći:
 
 </ul>
 
-<p>
-Kreiranje opisa za generator upotrebom dekoratora se radi na sledeći način. Kao
-i kod jezika, imamo parametre dekoratora koji predstavljaju naziv jezika i naziv
-ciljne platforme. Opis generatora se navodi u <i>docstring</i>-u generator funkcije.
-</p>
+</section>
+<section>
+
+<ul>
+<li>Dekorator <code>generator</code> - parametri su naziv jezika i naziv ciljne platforme. Opis
+generatora se navodi u <i>docstring</i>-u generator funkcije.</li>
+
+</ul>
 
 <div class="org-src-container">
 
@@ -2900,10 +2958,14 @@ def entity_java_generator(metamodel, model, output_path,
 </code></pre>
 </div>
 
-<p>
-Zatim se generator registruje u <code>setup.cfg</code> (ili <code>setup.py</code>) na isti način kao i
-jezik s tim što se ulazna tačka naziva <code>textx_generators</code>:
-</p>
+</section>
+<section>
+
+<ul>
+<li>Registracija se vrši u <code>setup.cfg</code> (ili <code>setup.py</code>) na isti način kao i jezik s
+tim što se ulazna tačka naziva <code>textx_generators</code>:</li>
+
+</ul>
 
 <div class="org-src-container">
 
@@ -2917,6 +2979,9 @@ textx_generators =
 Po uspešnoj registraciji komanda <code>textx list-generators</code> će listati informacije o
 generatoru.
 </p>
+
+</section>
+<section>
 
 <p>
 Registrovani generator se može pozvati komandom <code>text generate</code>. Na primer:
@@ -2940,16 +3005,7 @@ prosleđen kroz <code>custom_args</code> rečnik.
 </section>
 <section>
 <section id="slide-14">
-<h2 id="14"><span class="section-number-2">14.</span> Kreiranje inicijalnog projekta</h2>
-<p>
-Kada počinjemo da radimo sa textX bibliotekom nije uvek očigledno kako treba
-strukturirati projekat. Dobro definisan projekat će imati prepoznatljivu
-strukturu foldera i fajlova koja prati najbolju praksu kako u oblasti generalnih
-Python projekata tako i konkretno textX projekata. Da bi olakšali posao textX
-nudi podršku za automatsko generisanje inicijalne strukture
-projekta<sup><a id="fnr.4" class="footref" href="#fn.4" role="doc-backlink">4</a></sup>.
-</p>
-
+<h2 id="14"><span class="section-number-2">14.</span> Kreiranje inicijalnog projekta - <i>scaffolding</i></h2>
 <p>
 Inicijalni projekat kreiramo sa sledećom komandom:
 </p>
@@ -2961,10 +3017,9 @@ Inicijalni projekat kreiramo sa sledećom komandom:
 </div>
 
 <p>
-Ova komanda pokreće generator koji postavlja par
-pitanja<sup><a id="fnr.5" class="footref" href="#fn.5" role="doc-backlink">5</a></sup> i zatim kreira projekat u zadatom folderu.
-Dobra praksa je da se zatim projekat instalira u tekuće radno okruženje u
-razvojnom modu sa:
+Ova komanda pokreće generator koji postavlja par pitanja<sup>1</sup> i zatim kreira
+projekat u zadatom folderu. Dobra praksa je da se zatim projekat instalira u
+tekuće radno okruženje u razvojnom modu sa:
 </p>
 
 <div class="org-src-container">
@@ -2973,11 +3028,22 @@ razvojnom modu sa:
 </code></pre>
 </div>
 
+<ol class="footer" style="clear: both;">
+<li>Odgovori na pitanja se keširaju i biće podrazumevana pri narednom pokretanju
+generatora.</li>
+
+</ol>
+
+</section>
+<section>
+
+
 <p>
 Po uspešnoj instalaciji vaš jezik, odnosno generator je ispravno registrovan i
 vidljiv za komande <code>textx list-languages</code>, odnosno <code>textx list-generators</code>.
 </p>
 
+<div class="note" id="org622da2b">
 <p>
 Komanda <code>startproject</code> nije definisana osnovnom textX bibliotekom već projektom
 <code>textX-dev</code>. Zbog toga je potrebno instalirati ovaj Python paket ili direktno sa:
@@ -3002,6 +3068,10 @@ ili putem instalacije svih razvojnih zavisnosti za textX na sledeći način:
 <p>
 da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</code> komande.
 </p>
+
+</div>
+
+
 
 </section>
 </section>
@@ -3035,6 +3105,23 @@ da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</co
 <ul>
 <li><a href="http://www.windel.nl/">Windel Bouwman</a></li>
 <li><a href="https://ppci.readthedocs.io/en/latest/howto/toy.html">https://ppci.readthedocs.io/en/latest/howto/toy.html</a></li>
+
+</ul>
+</section>
+<section id="slide-15-4">
+<h3 id="15-4"><span class="section-number-3">15.4.</span> Quick Domain-Specific Languages in Python with textX</h3>
+<ul>
+<li><a href="https://tomassetti.me/domain-specific-languages-in-python-with-textx/">https://tomassetti.me/domain-specific-languages-in-python-with-textx/</a></li>
+<li>Written by Alessio Stalla</li>
+
+</ul>
+</section>
+<section id="slide-15-5">
+<h3 id="15-5"><span class="section-number-3">15.5.</span> PyFlies - jezik za psihološke testove</h3>
+<ul>
+<li><a href="https://pyflies.github.io/pyflies/latest/">https://pyflies.github.io/pyflies/latest/</a></li>
+<li><a href="https://github.com/pyflies">https://github.com/pyflies</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLOgHC04drILVjnXQTFEL7sJDyfKMR21Vg">Video tutorials</a></li>
 
 </ul>
 

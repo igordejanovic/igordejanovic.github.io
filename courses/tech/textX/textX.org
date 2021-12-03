@@ -1145,6 +1145,8 @@ parametar =classes= pri instanciranju metamodela. Ovaj parametar predstavlja lis
 korisničkih klasa čija imena moraju biti ista kao imena pravila za koje će biti
 instancirane.
 
+#+REVEAL: split
+
 #+begin_src python
 from textx.metamodel import metamodel_from_str
 
@@ -1176,6 +1178,8 @@ class Entity(object):
 entity_mm = metamodel_from_str(grammar, classes=[Entity])
 #+end_src
 
+#+REVEAL: split
+
 Metamodel =entity_mm= se može koristiti da instancira modele gde će pri
 instanciranju =Entity= klase biti korišćena Python klasa iz prethodnog primera.
 Klasa =Attribute= koja je posledica istoimenog pravila će biti kreirana
@@ -1195,10 +1199,13 @@ primeru svaka instanca =Attribute= klase pripada nekoj instanci
 textX ima automatsku podršku za ovaj tip veze i dinamički kreira =parent=
 atribut na svim objektima tipa dete.
 
-Treba obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno
-obezbediti ovaj parametar kao prvi parametar konstruktora kod svih klasa koje
-predstavljaju dete u vezi roditelj-dete jer će textX pozivati konstruktor uz
-prosleđivanje reference na roditeljski objekat prilikom parsiranja.
+#+begin_note
+Obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno obezbediti
+ovaj parametar kao prvi parametar konstruktora kod svih klasa koje predstavljaju
+dete u vezi roditelj-dete jer će textX pozivati konstruktor uz prosleđivanje
+reference na roditeljski objekat prilikom parsiranja.
+#+end_note
+
 
 ** Procesori
 Za definisanje dodatne statičke semantike modela textX omogućava definisanje
@@ -1217,6 +1224,8 @@ objekat koji trebaju da provere/modifikuju.
 se ceo model uspešno parsira. Kao parametar dobijaju metamodel i model. Mogu da
 obave proizvoljnu proveru i/ili modifikaciju modela. Registruju se pozivom
 metode =register_model_processor= nad metamodel objektom.
+
+#+REVEAL: split
 
 #+begin_src python
 from textx.metamodel import metamodel_from_file
@@ -1245,10 +1254,11 @@ potrebe da ih korisnik definiše, i koje možemo referencirati iz ostatka modela
 Da bi olakšali posao korisniku možemo na nivou metamodela registrovati ugrađene
 objekte. Tako registrovani objekti biće implicitno deo svakog modela. Klasičan
 primer su primitivni tipovi (npr. =integer=, =string=, =float=). Ako želimo da ovo
-budu pravi objekti a ne samo ključne reči[fn:builtins], kreiraćemo nove objekte
-i registrovati nad metamodelom. Naravno, da bi mogli instancirati klase u
-Python-u potrebno je da ih registrujemo kao korisničke klase (slajd [[Korisničke
-klase]]).
+budu pravi objekti a ne samo ključne reči, kreiraćemo nove objekte i
+registrovati nad metamodelom. Naravno, da bi mogli instancirati klase u Python-u
+potrebno je da ih registrujemo kao korisničke klase (slajd [[Korisničke klase]]).
+
+#+REVEAL: split
 
 #+begin_src python
 class Entity(object):
@@ -1272,10 +1282,9 @@ entity_mm = metamodel_from_file(
 U prethodnom primeru registrujemo korisničku klasu =Entity= i zatim dve njene
 instance (=integer= i =string=) koje će predstavljati ugrađene tipove za atribute.
 
-[fn:builtins] To je potrebno u situaciji kada želimo omogućiti korisniku da
-definiše svoje tipove na nivou modela.
-[fn:builtins-entity] Za više detalja videti primer
-https://github.com/igordejanovic/textX/tree/master/examples/Entity
+#+attr_html: :class footer :style clear: both;
+- Za više detalja videti primer
+  https://github.com/igordejanovic/textX/tree/master/examples/Entity
 
 ** Automatska inicijalizacija atributa
 Vrednosti atributa objekata prepoznatih u ulaznom stringu biće podešeni na
@@ -1295,6 +1304,8 @@ jedan element sa ulaza biće inicijalizovan na praznu Python listu. Ukoliko je
 multiplicitet jedan ili više (=+==) to zahteva prepoznavanje bar jednog objekta na
 ulazu, pa će vrednost atributa biti Python lista sa svim prepoznatim objektima.
 
+#+REVEAL: split
+
 Iako ovaj mehanizam automatske inicijalizacije dosta olakšava posao, postoje
 situacije kada može da zasmeta. Na primer, problem nastaje ukoliko želimo da
 razlikujemo situaciju u kojoj korisnik nije definisao opcioni element od
@@ -1312,6 +1323,7 @@ Arpeggio parser kreiran od strane textX-a se može konfigurisati sa stanovišta
 osetljivosti na veličinu slova (/case-sensitivity/), tretiranju praznih
 karaktera (/white-space handling/) i automatskoj detekciji ključnih reči.
 
+*** Konfiguracija parsera - /case-sensitivity/
 Podrazumevano, parser je osetljiv na veličinu slova. Tako će reči =Entity= i
 =entity= biti tretirane kao različite. Ukoliko je naš jezik takav da veličina
 slova nije bitna možemo pri kreiranju metamodela proslediti parametar
@@ -1324,6 +1336,7 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
                                    ignore_case=True)
 #+end_src
 
+*** Konfiguracija parsera - /whitespaces/
 Parser podrazumevano preskače prazne karaktere (=spaces=, =tabs=). Zbog toga u
 gramatikama nije potrebno eksplicitno prepoznavati prazne karaktere. Postoje
 jezici gde su prazni karakteri signifikantni. U takvim slučajevima možemo
@@ -1340,6 +1353,7 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
 
 Ova pravila se mogu definisati i na nivou pojedinačnih pravila gramatike.
 
+*** Konfiguracija parsera - /keywords/
 Pri kreiranju JSD obično je poželjno da se ključne reči prepoznaju u celini,
 odnosno da se ne prepoznaju ukoliko su delovi drugih elemenata jezika (npr.
 identifikatora). Zbog toga, textX može da bude konfigurisan da prepoznaje sve
@@ -1380,6 +1394,8 @@ pravila ili definisane od strane korisnika upotrebom mehanizma korisničkih klas
 (slajd [[Korisničke klase]]).
 
 Model se kreira pozivom metoda =model_from_file= i =model_from_str= metamodela.
+
+#+REVEAL: split
 
 #+begin_src python
 from textx.metamodel import metamodel_from_file
@@ -1445,12 +1461,12 @@ metamodel, model i stablo parsiranja će biti automatski eksportovani u /dot/
 zapis.
 
 /dot/ fajlovi se mogu direktno prikazati u nekom od dostupnih vizualizatora (npr.
-xdot[fn:xdot], ZGRViewer[fn:zgrviewer]) ili se, upotrebom /dot/ alata, fajl može
-transformisati u neki od bitmapiranih ili vektorskih grafičkih formata (npr.
-PNG, SVG, JPG, PDF).
+xdot^{1}, ZGRViewer^{2}) ili se, upotrebom /dot/ alata, fajl može transformisati u
+neki od bitmapiranih ili vektorskih grafičkih formata (npr. PNG, SVG, JPG, PDF).
 
-[fn:xdot] xdot --- https://github.com/jrfonseca/xdot.py
-[fn:zgrviewer] ZGRViewer --- http://zvtm.sourceforge.net/zgrviewer.html
+#+attr_html: :class footer :style clear: both;
+1. xdot --- https://github.com/jrfonseca/xdot.py
+2. ZGRViewer --- http://zvtm.sourceforge.net/zgrviewer.html
 
 ** Vizualizacija metamodela
 Metamodel se može vizualizovati direktno iz programskog koda na sledeći
@@ -1479,6 +1495,7 @@ $ dot -Tpng -O entity.dot
 
 Ova komanda će proizvesti fajl =entity.dot.png= grafičkog bitmapiranog formata PNG.
 
+#+attr_html: :style height: 500px;
 #+ATTR_ORG: :width 300px
 [[file:./images/entity.dot.png]]
 
@@ -1503,10 +1520,11 @@ format sledećom komandom:
 $ dot -Tpng -O person.dot
 #+end_src
 
+#+attr_html: :style height: 500px;
 #+ATTR_ORG: :width 300px
 [[file:./images/person-entity.png]]
 
-Vizualizacija može da se obavi i upotrebom =textx= komande (slajd [[#textx-komanda]]).
+Vizualizacija može da se obavi i upotrebom [[#textx-komanda][=textx= komande]] opisane u nastavku.
 
 * Modularizacija
 * Obrada grešaka
@@ -1537,6 +1555,8 @@ ili
 robot_program = robot_metamodel.model_from_file('program.rbt',
                                                 debug=True)
 #+end_src
+
+#+REVEAL: split
 
 Kada textX radi u /debug/ modu na konzoli će biti prikazane detaljne informacije o
 svim akcijama koje textX preduzima prilikom parsiranja i analize stabala
@@ -1598,6 +1618,8 @@ Attribute: 'attr' ref=[Class|FQN|^packages*.classes]
                   name=ID ';';
 #+end_src
 
+#+REVEAL: split
+
 Ovo pravilo gramatike ima referencu =ref=. Svaka referenca preko veze se piše u
 uglastim zagradama i ima najmanje jedan a najviše tri dela razdvojena karakterom
 =|=. Prvi deo definiše tip ciljnog objekta, u ovom slučaju to je =Class=. Drugi deo
@@ -1615,13 +1637,7 @@ prepoznavanja i registrovati procesor koji će da razloži ime na niz delova. Al
 zbog jednostavnosti u nastavku smatramo da se delovi imena razdvajaju uvek sa
 tačkom.
 
-Dakle, kao ulaz u proces razrešavanja reference imamo:
-- Ime koje se sastoji od delova razdvojenih tačkom, gde je =ID= samo specijalni slučaj,
-- RREL izraz.
-
-Proces razrešavanja reference mora da vrati ciljni objekat ili grešku ukoliko
-objekat ne postoji.
-
+#+REVEAL: split
 
 RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
 - =.= --- navigacija tačkom. Vrši se pretraga atributa u tekućem AST kontekstu.
@@ -1634,6 +1650,9 @@ RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
   lokaciji i zatim pretragu atributa =b=.
 - =parent(TIP)= --- vrši se pretraga uz roditeljske veze sve dok se ne nađe
   objekat tipa =TIP=.
+
+#+REVEAL: split
+
 - =~= --- marker koji se može primeniti nad elementom izraza i koji nosi
   informaciju da se tekuća kolekcija ne pretražuje po tekućem delu imena već da
   se cela procesira. Na primer, ukoliko tražimo metodu uz hijerarhiju
@@ -1650,6 +1669,9 @@ RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
   objekta, zbog upotrebe =*=, izraz se dalje razvija i pretraga se nastavlja dok
   se objekat ne pronađe ili dok ne dođemo do kraja lanca nasleđivanja i tada
   prijavljujemo grešku da objekat nije pronađen.
+
+#+REVEAL: split
+
 - =^= --- pretraga od dna ka vrhu (eng. /bottom-up/). Ovaj operator definiše da se
   tekuća putanja razvija od dna ka vrhu, uz roditeljski lanac. Pretraga počinje
   na tekućem AST kontekstu i ide se uz roditeljski lanac za broj komponenti
@@ -1660,6 +1682,8 @@ RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
   ne uspe, penjemo se uz roditeljski lanac jedan nivo više i ponovo pokušavamo
   pretragu.
 - =,= --- definiše sekvencu izraza koje treba pokušati u redosledu definisanja.
+
+#+REVEAL: split
 
 Prioriteti od najvišeg do najnižeg su: =*=, =.=, =,=.
 
@@ -1678,11 +1702,11 @@ Proces se zaustavlja kada:
 - Iscrpeli smo sve delove imena, takođe i sve delove RREL izraza i pronašli smo
   objekat. Ako se tip objekta ne poklapa sa onim što je definisano referencom u
   gramatici prijavljujemo grešku, u suprotnom uspešno smo pronašli objekat.
+
 * =textx= komanda
 :PROPERTIES:
 :CUSTOM_ID: textx-komanda
 :END:
-
 ** =textx= komanda
 Pored upotrebe textX biblioteke iz programskog koda neke od osnovnih operacija,
 kao što su, na primer, provera sintaksne ispravnosti metamodela i modela, se
@@ -1822,7 +1846,6 @@ Zatim možemo kreirati PNG sliku sa =plantuml= komandom prema uputstvu.
 #+ATTR_ORG: :width 300px
 [[./images/robot.png]]
 
-
 ** Generisanje =dot= fajla za model
 Ukoliko želimo da vizualizujemo model potrebno je navesti i gramatiku na sledeći
 način:
@@ -1835,21 +1858,16 @@ Generating dot target from models:
     To convert to png run "dot -Tpng -O program.dot"
 #+end_src
 
-
-
 * Registracija jezika i generatora
 textX obezbeđuje mehanizam za dinamičku registraciju i otkrivanje jezika i
 generatora kôda. Ovim se postiže mogućnost upotrebe korisnički registrovanih
 jezika i generatora kroz =textx= komandu (slajd [[#textx-komanda]]).
 
 ** Registracija jezika
-Za registraciju jezika potrebno je instancirati =LanguageDesc= klasu gde kao
-parametre navodimo: jedinstveni naziv jezika, fajl obrazac/ekstenziju za modele
-na datom jeziku, opis i funkciju (tačnije Python /callable/) koji vrši kreiranje i
-konfiguraciju metamodela (listing [[lst:textx-lang-reg]]).
+- Instancirati =LanguageDesc= klasu gde kao parametre navodimo: jedinstveni naziv
+  jezika, fajl obrazac/ekstenziju za modele na datom jeziku, opis i funkciju
+  (tačnije Python /callable/) koji vrši kreiranje i konfiguraciju metamodela.
 
-#+caption: Registracija textX jezika
-#+label: lst:textx-lang-reg
 #+begin_src python
 from textx import LanguageDesc
 
@@ -1865,6 +1883,7 @@ entity_lang = LanguageDesc(
     metamodel=entity_metamodel)
 #+end_src
 
+#+REVEAL: split
 
 Instancu =LanguageDesc= zatim možemo registrovati upotrebom =register_language=
 poziva:
@@ -1881,10 +1900,11 @@ from textx import metamodel_for_language
 lang_mm = metamodel_for_language('entity')
 #+end_src
 
-Umesto registracije putem API-ja, bolje je koristiti deklarativan način
-registracije putem =setup.py=, odnosno =setup.cfg=. Za registraciju unutar =setup.py=
-koristimo ulazne tačke (eng. /entry points/), standardan mehanizam Python
-=setuptools= paketa:
+#+REVEAL: split
+
+- Deklarativan način registracije putem =setup.py=, odnosno =setup.cfg=. Koristimo
+  ulazne tačke (eng. /entry points/), standardan mehanizam Python =setuptools=
+  paketa:
 
 #+begin_src python
 setup(
@@ -1896,10 +1916,11 @@ setup(
     },
 #+end_src
 
-Potrebno je da se tačka zove =textx_languages=. U pitanju je lista stringova
-oblika "<ime jezika> = <putanja_do_LanguageDesc_instance>". U ovom primeru
-instanca =LanguageDesc= se nalazi u paketu =entity.metamodel=. Varijable tj.
-referenca se zove =entity_lang= (sa listinga [[lst:textx-lang-reg]]).
+Ulazna tačka se zove =textx_languages= - lista stringova oblika "<ime jezika> =
+<putanja_do_LanguageDesc_instance>". U ovom primeru instanca =LanguageDesc= se
+nalazi u paketu =entity.metamodel=. Varijable tj. referenca se zove =entity_lang=.
+
+#+REVEAL: split
 
 Alternativno, možemo koristiti i noviji način upotrebom =setup.cfg= fajla:
 
@@ -1909,17 +1930,11 @@ textx_languages =
     entity = entity.metamodel:entity_lang
 #+end_src
 
-S obzirom da je kreiranje =LanguageDesc= instance čest obrazac, textX omogućava
-jednostavniji način upotrebom Python dekoratora (listing
-[[lst:textx-lang-reg-dec]]). Dekoratorom =language= dekorišemo funkciju koja
-instancira i vraća konfigurisani metamodel jezika. Parametri dekoratora su naziv
-jezika i obrazac/ekstenzija fajlova modela. Unutar tzv. Python /docstring/-a
-pišemo opis jezika. Ovaj dekorator će obaviti posao instanciranja =LanguageDesc= i
-zameniće funkciju sa ovom instancom tako da možemo registraciju unutar =setup.py=
-odnosno =setup.cfg= obaviti na isti način kao i ranije.
+#+REVEAL: split
 
-#+caption: Registracija textX jezika upotrebom dekoratora
-#+label: lst:textx-lang-reg-dec
+- Dekorator =language= - parametri su naziv jezika i ekstenzija fajlova model.
+  /Docstring/ se koristi kao opis.
+
 #+begin_src python
 from textx import language
 
@@ -1937,10 +1952,9 @@ Ukoliko smo uspešno registrovali jezik komanda =textx list-languages= će ga
 prikazati u listi.
 
 ** Registracija generatora
-Na sličan način kao i za jezike možemo registrovati generator koda. Za opis
-generatora koristimo instancu =GeneratorDesc=. Pri instanciranju navodimo: naziv
-jezika, naziv ciljne tehnologije, opis i na kraju funkciju koja vrši
-generisanje. Funkcija mora biti sledećeg oblika:
+- Koristimo instancu =GeneratorDesc=. Pri instanciranju navodimo: naziv jezika,
+  naziv ciljne tehnologije, opis i na kraju funkciju koja vrši generisanje.
+  Funkcija mora biti sledećeg oblika:
 
 #+begin_src python
 def generator(metamodel, model, output_path, overwrite, debug,
@@ -1956,9 +1970,10 @@ Parametri generator funkcije su sledeći:
 - =debug= --- da li se generator poziva u modu za otklanjanje grešaka,
 - =**custom_args= --- dodatni parametri specifični za generator.
 
-Kreiranje opisa za generator upotrebom dekoratora se radi na sledeći način. Kao
-i kod jezika, imamo parametre dekoratora koji predstavljaju naziv jezika i naziv
-ciljne platforme. Opis generatora se navodi u /docstring/-u generator funkcije.
+#+REVEAL: split
+
+- Dekorator =generator= - parametri su naziv jezika i naziv ciljne platforme. Opis
+  generatora se navodi u /docstring/-u generator funkcije.
 
 #+begin_src python
 from textx import generator
@@ -1970,8 +1985,10 @@ def entity_java_generator(metamodel, model, output_path,
     # Kod koji vrši generisanje na osnovu modela.
 #+end_src
 
-Zatim se generator registruje u =setup.cfg= (ili =setup.py=) na isti način kao i
-jezik s tim što se ulazna tačka naziva =textx_generators=:
+#+REVEAL: split
+
+- Registracija se vrši u =setup.cfg= (ili =setup.py=) na isti način kao i jezik s
+  tim što se ulazna tačka naziva =textx_generators=:
 
 #+begin_src text
 [options.entry_points]
@@ -1981,6 +1998,8 @@ textx_generators =
 
 Po uspešnoj registraciji komanda =textx list-generators= će listati informacije o
 generatoru.
+
+#+REVEAL: split
 
 Registrovani generator se može pozvati komandom =text generate=. Na primer:
 
@@ -1994,13 +2013,7 @@ U prethodnoj komandi pozivamo generator registrovan za fajlove sa ekstenzijom
 =java=. Dodatni parametar =meaning_of_life= je specifičan za generator i biće
 prosleđen kroz =custom_args= rečnik.
 
-* Kreiranje inicijalnog projekta
-Kada počinjemo da radimo sa textX bibliotekom nije uvek očigledno kako treba
-strukturirati projekat. Dobro definisan projekat će imati prepoznatljivu
-strukturu foldera i fajlova koja prati najbolju praksu kako u oblasti generalnih
-Python projekata tako i konkretno textX projekata. Da bi olakšali posao textX
-nudi podršku za automatsko generisanje inicijalne strukture
-projekta[fn:scaffolding].
+* Kreiranje inicijalnog projekta - /scaffolding/
 
 Inicijalni projekat kreiramo sa sledećom komandom:
 
@@ -2008,18 +2021,25 @@ Inicijalni projekat kreiramo sa sledećom komandom:
 $ textx startroject <folder>
 #+end_src
 
-Ova komanda pokreće generator koji postavlja par
-pitanja[fn:scaffolding-questions] i zatim kreira projekat u zadatom folderu.
-Dobra praksa je da se zatim projekat instalira u tekuće radno okruženje u
-razvojnom modu sa:
+Ova komanda pokreće generator koji postavlja par pitanja^{1} i zatim kreira
+projekat u zadatom folderu. Dobra praksa je da se zatim projekat instalira u
+tekuće radno okruženje u razvojnom modu sa:
 
 #+begin_src shell
 $ pip install -e <folder>
 #+end_src
 
+#+attr_html: :class footer :style clear: both;
+1. Odgovori na pitanja se keširaju i biće podrazumevana pri narednom pokretanju
+   generatora.
+
+#+REVEAL: split
+
+
 Po uspešnoj instalaciji vaš jezik, odnosno generator je ispravno registrovan i
 vidljiv za komande =textx list-languages=, odnosno =textx list-generators=.
 
+#+begin_note
 Komanda =startproject= nije definisana osnovnom textX bibliotekom već projektom
 =textX-dev=. Zbog toga je potrebno instalirati ovaj Python paket ili direktno sa:
 
@@ -2034,11 +2054,9 @@ $ pip install textX[dev]
 #+end_src
 
 da biste imali =startproject= dostupnu kao potkomandu =textx= komande.
+#+end_note
 
-[fn:scaffolding] Na engleskom generisanje inicijalne strukture nazivamo
-/scaffolding/.
-[fn:scaffolding-questions] Odgovori na pitanja se keširaju i biće podrazumevana
-pri narednom pokretanju generatora.
+
 
 * Primeri
 ** Generisanje koda - Entity primer
@@ -2053,8 +2071,14 @@ pri narednom pokretanju generatora.
 ** Izrada mini kompajlera - ppci
 - [[http://www.windel.nl/][Windel Bouwman]]
 - https://ppci.readthedocs.io/en/latest/howto/toy.html
+** Quick Domain-Specific Languages in Python with textX
+- https://tomassetti.me/domain-specific-languages-in-python-with-textx/
+- Written by Alessio Stalla
+** PyFlies - jezik za psihološke testove
+- https://pyflies.github.io/pyflies/latest/
+- https://github.com/pyflies
+- [[https://www.youtube.com/playlist?list=PLOgHC04drILVjnXQTFEL7sJDyfKMR21Vg][Video tutorials]]
 
-* TODO Napredne tehnike - [[https://github.com/igordejanovic/pyFlies][pyFlies]]
 * Podrška u editorima
   - Visual Studio Code (/IntelliSense/, /Outline/, /Code highlighting/)
     - [[https://github.com/textX/textX-LS][Tekući razvoj]] - /Language Server Protocol/
