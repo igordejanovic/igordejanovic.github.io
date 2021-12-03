@@ -10,7 +10,6 @@
   #+REVEAL_TOC: headlines 1
 
 * Osnovne osobine
-
 - 100% Python kod
 - MIT licenca
 - Istovremeno definisanje gramatike i meta-modela - inspirisan sa [[https://www.eclipse.org/Xtext/][Xtext]]
@@ -24,7 +23,7 @@
 
 * Arhitektura
 
-[[./slike/textX.png]]
+[[./images/textX.png]]
 
 * Instalacija
 ** Instalacija
@@ -98,7 +97,7 @@
  Successfully installed textX
  #+END_SRC
 
-* Upotreba
+* Osnovna upotreba
 ** Gramatika = meta-model + konkretna sintaksa
    
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
@@ -138,7 +137,7 @@ hello World, Solar System, Universe
 #+END_SRC
 
 #+ATTR_HTML: :style height: 300px;
-[[./slike/hello_parts.png]]
+[[./images/hello_parts.png]]
 
 ** Parsiranje - instanciranje modela
 
@@ -186,9 +185,9 @@ textx generate example.hello --grammar hello.tx --target dot && dot -Tpng -O exa
   #+END_SRC
 
   #+RESULTS:
-  : any -> dot                    textX                         Generating dot visualizations from arbitrary models
-  : textX -> dot                  textX                         Generating dot visualizations from textX grammars
-  : textX -> PlantUML             textX                         Generating PlantUML visualizations from textX grammars
+  : any -> dot           textX    Generating dot visualizations from arbitrary models
+  : textX -> dot         textX    Generating dot visualizations from textX grammars
+  : textX -> PlantUML    textX    Generating PlantUML visualizations from textX grammars
   
   #+BEGIN_SRC bash :results output
   textx generate hello.tx --target dot
@@ -199,7 +198,6 @@ textx generate example.hello --grammar hello.tx --target dot && dot -Tpng -O exa
   : /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
   : -> /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
   :    To convert to png run "dot -Tpng -O hello.dot"
-
 
 ** Robot primer
    
@@ -336,7 +334,6 @@ python robot.py
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
-#+ATTR_HTML: :style font-size: 150%;
 #+INCLUDE: "robot.tx" src textx :lines "15-18"
 #+REVEAL_HTML: </div>
 
@@ -367,32 +364,1727 @@ Robot position is -5, 4.
 #+BEGIN_SRC shell :results output
 python robot.py move
 #+END_SRC
+* textX jezik
+** textX gramatička pravila
+textX metajezik, odnosno gramatika, se sastoji od skupa pravila. Svako pravilo
+ima jedinstveno ime definisano na početku pre dvotačke, i telo pravila koje
+opisuje obrazac koji mora biti prepoznat od strane parsera. Pravilo se završava
+karakterom =;=. Pored obrasca za parsiranje, pravila u isto vreme definišu
+koncepte ciljnog jezika tj. njegove apstraktne sintakse, odnosno metamodela. Ovi
+koncepti će u vreme izvršavanja biti dostupni kao /Python/ klase i biće korišćeni
+za instanciranje objekata koje parser prepozna u ulaznom tekstualnom fajlu
+modela/programa.
+
+Na primer, ako razvijamo jezik za opis crteža, koncepti ovog jezika bi mogli
+biti =Shape=, =Line=, =Circle= itd. Sledeće pravilo se koristi da opiše koncept
+=Circle=:
+
+#+begin_src text
+Circle:
+  'Circle' '(' color=ID ',' size=INT ')'
+;
+#+end_src
+
+** Vrste pravila
+Postoje tri vrste pravila u textX-u:
+  - Obična pravila (/Common rules/),
+  - Apstraktna pravila (/Abstract rules/), i
+  - Pravila prepoznavanja (/Match rules/).
+** Obična pravila
+*Obična pravila* su pravila koja sadrže bar jedan izraz dodele (videti slajd
+[[#textx-dodele]]), odnosno imaju definisane atribute. Ova vrsta pravila će za
+posledicu imati dinamičko kreiranje Python klasa koje će biti instancirane za
+vreme parsiranja ulaznog stringa.
+
+Na primer:
+
+#+begin_src text
+InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+#+end_src
+
+Pravilo =InitialCommand= će dovesti do kreiranja Python klase istog imena čije
+instance će imati dva atributa: =x= i =y=.
+
+** Apstraktna pravila
+*Apstraktna pravila* su pravila koja nemaju izraze dodele i referenciraju bar
+jedno apstraktno ili obično pravilo. Najčešće su definisana kao uređeni izbor
+drugih pravila jer se koriste da generalizuju druga pravila. Na primer:
+
+#+begin_src text
+Program:
+  'begin'
+    commands*=Command
+  'end'
+;
+
+Command:
+  MoveCommand | InitialCommand
+;
+#+end_src
+
+U ovom primeru, Python objekat u listi =commands= će biti ili =MoveCommand= ili
+=InitialCommand=. =Command= pravilo je apstraktno. Ovo pravilo nikada neće
+rezultovati Python objektom.
+
+#+REVEAL: split
+
+Apstraktno pravilo može da se koristi i u referencama povezivanja (videti slajd
+[[#textx-reference]]). Na primer:
+
+#+begin_src text
+ListOfCommands:
+  commands*=[Command][',']
+;
+#+end_src
+
+Takođe, apstraktna pravila mogu referencirati pravila prepoznavanja i bazične
+tipove. Na primer:
+
+#+begin_src text
+Value:
+    STRING | FLOAT | BOOL | Object
+    | Array | "null"
+;
+#+end_src
+
+U ovom primeru, bazični tipovi kao i prepoznavanje string ="null"= su pravila
+prepoznavanja, ali =Object= i =Array= su obična pravila i stoga je =Value= pravilo
+apstraktno.
+
+#+REVEAL: split
+
+Apstraktna pravila mogu biti složena sekvenca ili uređeni izbor referenci i
+pravila prepoznavanja dok god imamo bar jednu referencu na apstraktno ili obično
+pravilo. Na primer:
+
+#+begin_src text
+Value:
+  'id' /\d+-\d+/ | FLOAT | Object
+;
+#+end_src
+
+Pravilo čije telo se sastoji samo od jedne reference prepoznavanja na drugo
+apstraktno ili obično pravilo je takođe apstraktno pravilo:
+
+#+begin_src text
+Value:
+    OtherRule
+;
+#+end_src
+
+Ukoliko je =OtherRule= apstraktno ili obično pravilo tada je i =Value= apstraktno
+pravilo.
+
+** Pravila prepoznavanja
+*Pravila prepoznavanja* su pravila koje nemaju direktnih ili indirektnih izraza
+dodele, odnosno sva referencirana pravila su takođe pravila prepoznavanja.
+Obično se koriste da definišu nabrojive vrednosti ili složena prepoznavanja
+stringa koja se ne mogu iskazati obični regularnim izrazom.
+
+Na primer:
+
+#+begin_src text
+Widget:
+  "edit"|"combo"|"checkbox"|"togglebutton"
+;
+
+Name:
+  STRING|/(\w|\+|-)+/
+;
+#+end_src
+
+Ova pravila mogu da se koriste isključivo u referenciranju preko prepoznavanja,
+odnosno ne mogu se koristiti u referencama veze jer ne definišu "prave" objekte.
+Njihov tip u vreme izvršavanja je uvek osnovni Python tip (=str=, =int=, =bool=,
+=float=).
+
+Sva bazična, implicitna, textX pravila (npr. =INT=, =STRING=, =BASETYPE=) su pravila
+prepoznavanja.
+
+** Bazična pravila/tipovi
+
+#+attr_html: :style height: 250px;
+#+ATTR_ORG: :width 300px
+[[./images/base_types.png]]
+
+- =ID= --- prepoznaje  =[^\d\W]\w*\b=. Konvertuje prepoznati niz karaktera u Python =str= tip.
+- =INT= --- prepoznaje cele brojeve =[-+]?[0-9]+=. Konvertuje prepoznati niz karaktera u Python =int= tip.
+- =FLOAT= --- prepoznaje realne brojeve. Konvertuje prepoznati niz karaktera u
+  Python =float= tip.
+
+#+REVEAL: split
+
+- =BOOL= --- prepoznaje bulovu vrednost (=0/1=, =true/false=). Prepoznati niz
+  karaktera se konvertuje u Python =bool= tip.
+- =STRING= --- prepoznaje string pod jednostrukim ili dvostrukim znacima navoda.
+  Znaci navoda se mogu naći unutar stringa, ali ukoliko su istog tipa kao i
+  navodi koji se koriste da ograniče string mora se koristiti prefix ='\'= (eng.
+  /backslash escaping/).
+
+Prepoznati ugrađeni tipovi se automatski konvertuju u odgovarajuće Python tipove
+i postavljaju na podrazumevanu vrednost u okviru opcionih prepoznavanja.
+
+** Prepoznavanja (/Matches/)
+Pored ugrađenih bazičnih pravila, pravila prepoznavanja su pravila najnižeg
+nivoa. Predstavljaju osnovne gradivne jedinice složenijih pravila. Ova pravila
+će konzumirati deo ulaza ukoliko je prepoznavanje uspešno.
+
+Postoje dve vrste prepoznavanja: /prepoznavanje stringa/ i /prepoznavanje
+regularnog izraza/.
+
+** Prepoznavanje stringa
+*Prepoznavanje stringa* se piše kao string u jednostrukim ili dvostrukim znacima
+navoda. Ovako napisano pravilo prepoznaće zadati string sa ulaza u obliku u kom
+je zadat.
+
+Primeri:
+
+#+begin_src text
+'blue'
+'zero'
+'person'
+#+end_src
+
+** Prepoznavanje regularnog izraza
+*Prepoznavanje regularnog izraza* koristi Python regularne izraze^{1} koji se navode
+unutar =/ /=. Dakle, definišu klasu stringova koji se mogu naći na ulazu.
+
+Primeri:
+
+- ~/\d+/~ --- prepoznaje string od jedne ili više cifri.
+- ~/\d{3,4}-\d{3}/~ --- 3 ili 4 cifre, zatim '-' pa zatim još 3 cifre.
+- ~/[^}]*/~ --- nula ili više karaktera različitih od '}'.
+
+#+attr_html: :class footer :style clear: both;
+1. Za uvod u regularne izraze na programskom jeziku Python videti
+   https://docs.python.org/3/howto/regex.html
+
+** Sekvenca (/Sequence/)
+Sekvenca je najjednostavniji složeni izraz koji se dobija navođenjem podizraza
+jedan iza drugog. Na primer, sledeće pravilo:
+
+#+begin_src text
+Colors:
+  "red" "green" "blue"
+;
+#+end_src
+
+je definisano kao sekvenca koja se sastoji od tri string prepoznavanja (=red=,
+=greeen= i =blue=). Sekvenca će uspešno biti prepoznata ako su prepoznati svi njeni
+podizrazi u redosledu u kom su navedeni. Prethodno =Colors= pravilo će prepoznati
+sledeći string:
+
+#+begin_src text
+red green   blue
+#+end_src
+
+Ukoliko je uključeno automatsko preskakanje praznih karaktera (/whitespace skip/),
+što je podrazumevano, tada se može između dva podizraza u sekvenci naći
+proizvoljan broj praznih karaktera kao što je prikazano u prethodnom primeru.
+
+** Uređeni izbor (/Ordered choice/)
+Uređeni izbor se navodi kao skup izraza razdvojenih znakom =|=. Ovaj izraz će
+pokušati da prepozna podizraze s leva na desno. Prvi izraz koji se uspešno
+prepozna biće korišćen kao rezultat prepoznavanja.
+
+Na primer, sledeće pravilo
+
+#+begin_src text
+Color:
+  "red" | "green" | "blue"
+;
+#+end_src
+
+će prepoznati ili reč =red= ili =green= ili =blue= pri čemu će parser da pokuša svaki
+od podizraza s leva na desno.
+
+Ovo je u suprotnosti sa klasičnim parserima gde je operator izbora neuređen.
+textX kao tehnologiju za parsiranje koristi Arpeggio parser koji je baziran na
+PEG formalizmu gde je operator izbora uređen. Zbog toga parsiranje ne može biti
+višeznačno, odnosno ako se ulaz ispravno parsira može postojati samo jedno
+stablo parsiranja.
+
+** Opciono prepoznavanje (/Optional/)
+:PROPERTIES:
+:CUSTOM_ID: textx-optional
+:END:
+Opciono prepoznavanje je izraz koji će da pokuša da prepozna svoj podizraz ako
+može, ali će uspeti u prepoznavanju i ukoliko podizraz nije prepoznat.
+
+Na primer, ukoliko imamo pravilo
+
+#+begin_src text
+MoveUp:
+  'up' INT?
+;
+#+end_src
+
+=INT= će biti opciono (jer je naveden znak =?=) pa će biti moguće navesti broj iza
+reči =up=, ali neće biti obavezno.
+
+Sledeće linije će biti uspešno prepoznate prethodnim pravilom:
+
+#+begin_src text
+up 45
+up 1
+up
+#+end_src
+
+Opcioni izrazi mogu biti i složeniji. Na primer, kod pravila
+
+#+begin_src text
+MoveUp:
+  'up' ( INT | FLOAT )?
+;
+#+end_src
+
+imamo da je uređeni izbor opcioni tako da ćemo u ovom slučaju moći navesti ceo
+ili realan broj (=INT= ili =FLOAT=), ali nismo obavezni da to učinimo.
+
+** Ponavljanja (/Repetitions/)
+*Ponavljanje nula ili više puta* (/zero or more/) se navodi upotrebom operatora =*=
+iza podizraza. Podizraz će u tom slučaju biti prepoznat nula ili više puta.
+
+Na primer, ukoliko imamo pravilo
+
+#+begin_src text
+Colors:
+  ("red" | "green" | "blue")*
+;
+#+end_src
+
+ponavljanje je primenjeno na uređeni izbor unutar zagrade. Stoga, parser će da
+pokuša da prepozna elemente uređenog izbora s leva na desno i kada obavi uspešno
+prepoznavanje ponavljaće ga dok god uspeva da prepozna jednu od zadatih reči.
+
+Sledeći ulaz će biti uspešno parsiran:
+
+#+begin_src text
+red blue green
+#+end_src
+
+ali takođe i
+
+#+begin_src text
+red blue blue red red blue green
+#+end_src
+
+
+ili prazan string (prepoznavanje nula puta).
+
+** Ponavljanja (/Repetitions/)
+*Ponavljanje jednom ili više puta* se navodi upotrebom operatora =+= iza
+podizraza. Podizraz će u tom slučaju biti prepoznat jedan ili više puta.
+
+Na primer, ukoliko imamo pravilo koje je slično prethodnom, ali koristi ovaj
+oblik ponavljanja
+
+#+begin_src text
+Colors:
+  ("red" | "green" | "blue")+
+;
+#+end_src
+
+obavezno je navođenje bar jedne boje, ali može se navesti i više u proizvoljnom
+redosledu i sa ponavljanjem kao i kod prethodnog pravila. Dakle, ovo pravilo ne
+prepoznaje prazan string.
+
+** Dodele (/Assignments/)
+:PROPERTIES:
+:CUSTOM_ID: textx-dodele
+:END:
+Dodele se koriste kao deo postupka za dedukciju metamodela. Svaka dodela
+rezultuje kreiranjem atributa meta-klase kreirane textX pravilom.
+
+Svako pravilo ima svoju levu stranu (LHS) i desnu stranu (RHS). LHS je uvek ime
+atributa koji će biti kreiran dok je desna strana pravilo koje određuje šta se
+prepoznaje na datom mestu kao i tip objekta koji će biti instanciran i dodeljen
+atributu pri parsiranju i instanciranju modela. RHS je uvek referenca na drugo
+pravilo ili jednostavno prepoznavanje.
+
+Na primer:
+
+#+begin_src text
+Person:
+  name=Name ',' surname=Surname ','
+    age=INT ',' height=INT ';'
+;
+#+end_src
+
+*Napomena:* Pravilo =Name= i =Surname= su definisani u gramatici, ali nisu dati u ovom
+primeru.
+
+** Dodele - kreiranje atributa
+Prethodni primer opisuje pravilo i meta-klasu =Person= koje će parsirati i
+instancirati objekat sa četiri atributa:
+
+- =name= --- gde će se pravilom =Name= prepoznati objekat meta-klase =Name= sa ulaza,
+  instancirati i dodeliti atributu,
+- =surname= --- isto kao i za =name=, ali se koristi pravilo =Surname= i dodeljuje
+  atributu =surname=,
+- =age= --- koristiće se ugrađeno bazično pravilo =INT= i broj koji se prepozna
+  konvertovaće se u Python =int= tip i dodeliti atributu,
+- =height= --- isto kao i za atribut =age=, ali će se prepoznati broj dodeliti
+  =height= atributu =Person= instance.
+
+  Primer:
+  #+begin_src text
+    Petar, Petrović, 25, 185;
+  #+end_src
+
+#+REVEAL: split
+
+Zarezi, dati u prethodnom primeru, koji će biti prepoznati između prepoznavanja
+pravila dodele, kao i tačka-zarez na kraju, moraju se naći u ulaznom stringu,
+ali će biti odbačeni prilikom kreiranja modela jer nemaju nikakvo semantičko
+značenje. Kažemo da predstavljaju /sintaksni šum/.
+
+** Dodele - konverzije i vrednosti
+Uvek kada je na RHS neki od bazičnih tipova (npr. =INT=, =BOOL=, =FLOAT=, =ID=) doći će
+do konverzije prepoznatog stringa u odgovarajući Python tip (npr. =int=, =bool=,
+=float=, =str=).
+
+Ako je na RHS prepoznavanje stringa ili regularnog izraza kao u sledećem
+primeru:
+
+#+begin_src text
+Color:
+  color=/\w+/
+;
+#+end_src
+
+tada će atribut na LHS (=color=) biti postavljen na vrednost koju prepozna RHS
+pravilo.
+
+#+REVEAL: split
+
+Ukoliko se na RHS nalazi referenca na drugo pravilo tada će biti prepoznat i
+instanciran objekat klase datog pravila i atribut na LHS će biti referenca na
+datu instancu. Na primer:
+
+#+begin_src text
+Project:
+  'project' name=ID 'lead' lead=Person
+;
+#+end_src
+
+
+=lead= atribut biće referenca na objekat klase =Person= a pravilo =Person= mora
+uspešno prepoznati ovaj objekat iza ključne reči =lead=.
+
+Postoje četiri vrste dodele: /obična/, /bulova/, /nula ili više/ i /jedan ili više/.
+
+** Obična dodela
+*Obična dodela ( = )* će obaviti prepoznavanje RHS jednom i objekat koji se
+kreira dodeliti atributu na LHS.
+
+#+begin_src text
+a=INT
+b=FLOAT
+c=/[a-Z0-9]+/
+dir=Direction
+#+end_src
+
+** Bulova dodela
+*Bulova dodela ( ?= )* će postaviti LHS atribut na =True= ukoliko je RHS
+prepoznat na ulazu ili na =False= ukoliko nije.
+
+#+begin_src text
+cold ?= 'cold'
+number_given ?= INT
+#+end_src
+
+** Dodela nula/jedan ili više
+*Dodela nula ili više ( *= )* će prepoznavati RHS sve dok uspeva i sve objekte
+redom smestiti u Python listu koja je na LHS. Ako prepoznavanje ne uspe ni
+jednom LHS će biti prazna lista.
+
+#+begin_src text
+commands*=Command  // opcioni niz komandi
+numbers*=INT       // opcioni niz celih brojeva
+#+end_src
+
+*Dodela jedan ili više ( += )* radi isto kao prethodna s tim što RHS mora da
+prepozna bar jedan objekat tj. LHS nikada neće biti prazna lista.
+
+#+begin_src text
+numbers+=INT       // niz celih brojeva, mora postojati bar jedan
+#+end_src
+
+** Reference (/References/)
+:PROPERTIES:
+:CUSTOM_ID: textx-reference
+:END:
+Pravila mogu da se međusobno referenciraju. Reference se navode na RHS. Postoje
+dva načina referenciranja pravila: /referenciranje preko prepoznavanja/ i
+/referenciranje preko veze/.
+
+** Referenciranje preko prepoznavanja
+*Referenciranje preko prepoznavanja* se definiše prostim navođenjem imena nekog
+drugog pravila. Možemo takođe reći i da pravilo koje vrši referenciranje /poziva/
+pravilo koje se referencira. Na mestu referenciranja textX će pokušati da
+prepozna ciljno pravilo u celosti i, ukoliko ga prepozna, instanciraće ga i
+dodeliti atributu na levoj strani. Referenciranje preko prepoznavanja ima
+semantiku sadržavanja. Objekat koji referencira /sadrži/ objekat koji se
+referencira. Kao dodatnu pomoć textX će automatski kreirati Python referencu
+=parent= na objektu koji se referencira. Ovaj atribut će referencirati na objekat
+koji referencira.
+
+#+begin_src text
+Structure:
+  'structure' '{'
+    elements*=StructureElement
+  '}'
+;
+#+end_src
+
+U prethodnom primeru pravilo =Structure= referencira preko prepoznavanja pravilo
+=StructureElement=. Unutar tela =Structure= koncepta, biće prepoznato nula ili više
+instanci =StructureElement= klase. Instance će biti dodeljene =elements= atributu
+koji će, u ovom slučaju, biti tipa Python liste.
+
+** Referenciranje preko veze
+*Referenciranje preko veze* navodi ime ciljnog pravila unutar uglastih zagrada. Na
+ovom mestu, parser će pokušati da prepozna ime ciljnog objekta a ne objekat u
+celosti. Ciljni objekat mora da bude definisan negde drugo unutar modela.
+Ukoliko je objekat sa datim imenom pronađen, textX će automatski da atributu na
+levoj strani dodeli vrednost reference na ciljni objekat.
+
+#+begin_src text
+ScreenType:
+  'screen' name=ID "{"
+  '}'
+;
+
+ScreenInstance:
+  'screen' type=[ScreenType]
+;
+#+end_src
+
+U prethodnom primeru, =type= atribut koji pripada pravilu =ScreenInstance=
+referencira preko veze pravilo =ScreenType=.
+
+#+REVEAL: split
+
+Ovo bi bio primer pravilne upotrebe:
+
+#+begin_src text
+// Ovo je definicija ScreenType objekta
+// koji se zove Introduction
+screen Introduction {
+
+}
+
+// A ovo je instanca ScreenInstance koja
+// referencira prethodni Introduction ScreenType.
+screen Introduction
+#+end_src
+
+Iza ključne reči =screen= na poslednjoj liniji neće biti prepoznat ceo =ScreenType=,
+kao što bi to bio slučaj sa referenciranjem preko prepoznavanja, već će biti
+prepoznato ime (u ovom slučaju =Introduction=) =ScreenType= objekta i automatski će
+veza biti razrešena u referencu na dati objekat koja će biti dodeljena =type=
+atributu =ScreenInstance= instance.
+
+Podrazumevano se koristi =ID= pravilo za prepoznavanje naziva ciljnog objekta.
+Ukoliko želimo to da promenimo možemo uraditi sledeće:
+
+#+begin_src text
+ScreenInstance:
+  'screen' type=[ScreenType|WORD]
+;
+#+end_src
+
+U prethodnom primeru će za prepoznavanje imena ciljnog objekta biti korišćeno
+pravilo =WORD=.
+
+** Sintaksni predikati (/Syntactic predicates/)
+Sintaksni predikati su operatori koji se koriste za implementaciju pogleda
+unapred (eng. /lookaheads/). Pogled unapred je tehnika koja omogućava da se
+donese odluka o primeni pravila za parsiranje na osnovu dela ulaznog stringa
+koji sledi bez da se taj deo stringa obradi tj. konzumira. Ovi operatori se
+navode kao prefiks za neko textX pravilo. Sintaksni predikat zajedno sa pravilom
+koje sledi čini novo pravilo koje uspeva ili ne uspeva bez konzumiranja ulaza.
+Najčešće će ovakvo pravilo biti deo sekvence čime će se omogućiti odustajanje od
+dalje analize sekvence ukoliko predikat nije uspeo.
+
+Postoje dve vrste sintaksnih predikata u textX-u: =Not= i =And=.
+
+** Negativni pogled unapred
+*=Not= --- negativni pogled unapred (=!=)* --- Uspeva ukoliko pravilo koje sledi
+iza =!= predikata ne prepoznaje nastavak ulaznog stringa i obrnuto.
+
+Primer problema:
+
+#+begin_src text
+Expression: Let | ID | NUMBER;
+Let:
+    'let'
+        expr+=Expression
+    'end'
+;
+#+end_src
+
+U prethodnom primeru imamo rekurzivno pravilo =Let= koje se indirektno referencira
+preko pravila =Expression=. Problem je u tome što će =ID= pravilo koje se poziva iz
+=Expression= pravila prepoznati ključnu reč =end= što će dovesti do toga da nijedno
+=Let= pravilo neće moći uspešno da se završi.
+
+#+REVEAL: split
+
+Da bismo rešili ovaj problem modifikujemo gramatiku na sledeći način:
+
+#+begin_src text
+Expression: Let | MyID | NUMBER;
+Let:
+    'let'
+        expr+=Expression
+    'end'
+;
+Keyword: 'let' | 'end';
+MyID: !Keyword ID;
+#+end_src
+
+Umesto direktne upotrebe ugrađenog =ID= pravila uvodimo pravilo =MyID= koje
+koristi =Not= sintaksni predikat da spreči prepoznavanje ključnih reči =let= i
+=end= kao izraze =Expression= pravila. Na ovaj način će =end= biti konzumirano
+kao završetak =Let= pravila i gramatika će ispravno funkcionisati.
+
+** Pozitivni pogled unapred
+*=And= --- pozitivni pogled unapred (=&=)* --- Uspeva ukoliko pravilo koje sledi
+iza =&= predikata prepoznaje nastavak ulaznog stringa i obrnuto.
+
+Primer:
+
+#+begin_src text
+Model:
+    elements+=Element
+;
+Element:
+    AbeforeB | A | B
+;
+AbeforeB:
+    a='a' &'b'      // pravilo uspeva samo
+                    // ako 'b' sledi posle 'a'
+;
+A: a='a';
+B: a='b';
+#+end_src
+
+Ukoliko imamo ulazni string ="a a a b"=, prva dva =a= tokena će biti prepoznati
+pravilom =A= dok će treći token =a= biti prepoznat pravilom =AbeforeB=. Iako se uvek
+proverava prvo =AbeforeB=, pravilo neće uspeti za prva dva =a= tokena jer iza ne
+sledi token =b=. Poslednji token će biti prepoznat pravilom =B= jer ga prethodno
+uspešno pravilo =AbeforeB= nije konzumiralo sa ulaza.
+
+** Uklanjanje prepoznatog ulaza (/Match Suppression/)
+
+Nekada je potrebno definisati pravilo prepoznavanja koje će vratiti samo deo
+prepoznatog ulaza. U ovom slučaju možemo koristiti operator za uklanjanje
+prepoznatog ulaza (=-=) koji se navodi posle izraza prepoznavanja.
+
+Na primer:
+
+#+begin_src text
+FullyQualifiedID[noskipws]:
+    /\s*/-
+    QuotedID+['.']
+    /\s*/-
+;
+QuotedID:
+    '"'?- ID '"'?-
+;
+#+end_src
+
+#+REVEAL: split
+
+U prethodnom primeru želimo da prepoznamo potpuno kvalifikovane identifikatore
+(/Fully Qualified IDs/) gde delovi imena mogu biti pod znacima navoda. Na primer
+--- =first."second".third=. Takođe, želimo da uklonimo znake navoda iz imena.
+Jedan način bi bio da radimo postprocesiranje posle završenog parsiranja, ali je
+za tu namenu elegantnije rešenje upotreba operatora =-=.
+
+Pravilo =FullyQualifiedID= koristi =noskipws= modifikator da bi onemogućio pojavu
+praznih karaktera unutar potpuno kvalifikovanih imena. Zbog toga se moraju na
+početku i na kraju prepoznati prazni karakteri i odbaciti ukoliko postoje što se
+obavlja pravilom =/\s*/-=.
+
+Pravilo =FullyQualifiedID= dalje prepoznaje jedan ili više =QuotedID= odvojenih
+tačkama. Pravilo =QuotedID= prepoznaje =ID= koje opciono može biti unutar
+znakova navoda a zatim prepoznate znakove navoda odbacuje upotrebom ="-"=
+operatora.
+
+** Modifikatori ponavljanja (/Repetition modifiers/)
+Koriste se za modifikaciju ponašanja svih operatora ponavljanja (=*=, =+=, =*==,
+=+==). Navode se unutar uglastih zagrada iza operatora ponavljanja. Može se
+navesti više modifikatora i u tom slučaju se razdvajaju zarezima.
+
+U tekućoj implementaciji je definisano dva modifikatora ponavljanja: modifikator
+separacije i modifikator kraja linije.
+
+** Modifikator separacije
+*Modifikator separacije (/Separator modifier/)* se koristi da definiše separator
+kod višestrukog prepoznavanja. Navodi se kao jednostavno prepoznavanje
+(prepoznavanje stringa ili regularnog izraza).
+
+#+begin_src text
+numbers*=INT[',']
+#+end_src
+
+U ovom primeru imamo prepoznavanje niza celobrojnih vrednosti. Kao modifikator
+separacije definisan je zarez pa se očekuje da između svaka dva broja koja se
+prepoznaju bude naveden zarez. Na primer:
+
+#+begin_src text
+45, 47, 3, 78
+#+end_src
+
+
+Takođe, možemo definisati kao modifikator prepoznavanje regularnog izraza. Na
+primer:
+
+#+begin_src text
+fields += ID[/;|,|:/]
+#+end_src
+
+U ovom slučaju kao modifikator separacije navodi se regularni izraz koji
+definiše da će niz polja biti razdvojeno karakterom koji može biti tačka-zarez,
+zarez ili dvotačka. Tako će uspešno da se prepozna sledeći string:
+
+#+begin_src text
+first, second; third, fourth: fifth
+#+end_src
+
+** Modifikator kraja linije
+*Modifikator kraja linije (/End-of-line terminate modifier/)* se navodi kao ključna
+reč =eolterm=. Ukoliko je uključen ovaj modifikator operatori ponavljanja će
+završiti ponavljanje na kraju tekućeg reda tj. radiće samo za tekući red.
+
+#+begin_src text
+STRING*[',', eolterm]
+#+end_src
+
+Kod ovog primera vršimo prepoznavanje nula ili više stringova razdvojenih
+zarezima, ali samo unutar tekućeg reda. Ako zadamo sledeći ulaz:
+
+#+begin_src text
+"first", "second", "third"
+"fourth"
+#+end_src
+
+pravilo će prepoznati i konzumirati samo pravi red. String ="fourth"= neće biti
+obuhvaćen.
+
+#+REVEAL: split
+
+Treba obratiti pažnju da upotreba =eolterm= modifikatora stupa na snagu odmah po
+završetku prethodnog prepoznavanja.
+
+#+begin_src text
+Conditions:
+  'conditions' '{'
+    varNames+=WORD[eolterm]
+  '}'
+#+end_src
+
+U ovom primeru jedan ili više =WORD= prepoznavanja mora biti obavljeno odmah iza
+=conditions {=, na istoj liniji. To nije bila naša namera jer ne želimo da
+ograničimo korisnika već da mu dopustimo da pređe u sledeći red i, ukoliko želi,
+napravi proizvoljan broj praznih redova. Da bi ovo omogućili moramo da
+prepoznamo i odbacimo sve prazne karaktere pre početka prvog uspešnog =WORD=
+prepoznavanja. To radimo na sledeći način:
+
+#+begin_src text
+Conditions:
+  'conditions' '{'
+    /\s*/
+    varNames+=WORD[eolterm]
+  '}'
+#+end_src
+
+Iskoristili smo prepoznavanje regularnog izraza =/\s*/= da preskočimo sve prazne
+karaktere, uključujući i krajeve linija, sve do prvog uspešnog prepoznavanja
+=WORD= pravila.
+* Metamodeli
+** Uvod :ignore:
+U textX-u metamodel je objekat koji sadrži sve relevantne podatke o jeziku, sve
+klase jezika, kao i parser koji će biti u stanju da čita programe/modele na
+datom jeziku i kreira objektni model tekstualne reprezentacije. Metamodeli se
+kreiraju Python funkcijama =metamodel_from_file= i =metamodel_from_str= iz
+paketa =textx.metamodel=. Ove funkcije primaju textX gramatiku jezika a vraćaju
+metamodel objekat ukoliko gramatika nema grešaka ili odgovarajući izuzetak
+ukoliko greška postoji.
+
+Primer kreiranja metamodela iz gramatike definisane u fajlu:
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+my_metamodel = metamodel_from_file('my_grammar.tx')
+#+end_src
+
+Parsiranje tekstualne reprezentacije modela i kreiranje memorijske objektne
+reprezentacije se obavlja pozivom metoda =model_from_file= i =model_from_str=
+metamodel objekta.
+
+#+begin_src python
+my_model = my_metamodel.model_from_file('some_input.md')
+#+end_src
+
+** Korisničke klase
+Za svako obično textX pravilo dinamički se kreira Python klasa istog naziva u
+metamodelu. Ove klase će biti instancirane za vreme parsiranja kada se uspešno
+prepozna zapis objekta u ulaznom stringu. Instance će činiti deo objektnog grafa
+odnosno modela.
+
+U većini slučajeva dinamički kreirane klase će biti sasvim dovoljne, ali postoje
+situacije kod kojih ćemo želeti da sami definišemo klasu koja će biti
+instancirana pri prepoznavanju određenog pravila. Da bi ovo postigli koristimo
+parametar =classes= pri instanciranju metamodela. Ovaj parametar predstavlja listu
+korisničkih klasa čija imena moraju biti ista kao imena pravila za koje će biti
+instancirane.
+
+#+REVEAL: split
+
+#+begin_src python
+from textx.metamodel import metamodel_from_str
+
+grammar = '''
+EntityModel:
+  entities+=Entity
+;
+
+Entity:
+  'entity' name=ID '{'
+    attributes+=Attribute
+  '}'
+;
+
+Attribute:
+  name=ID ':' type=[Entity]
+;
+'''
+
+class Entity(object):
+  def __init__(self, parent, name, attributes):
+    self.parent = parent
+    self.name = name
+    self.attributes = attributes
+
+
+# Koristimo "našu" Entity klasu.
+# "Attribute" klasa će biti kreirana dinamički.
+entity_mm = metamodel_from_str(grammar, classes=[Entity])
+#+end_src
+
+#+REVEAL: split
+
+Metamodel =entity_mm= se može koristiti da instancira modele gde će pri
+instanciranju =Entity= klase biti korišćena Python klasa iz prethodnog primera.
+Klasa =Attribute= koja je posledica istoimenog pravila će biti kreirana
+dinamički.
+
+Korisnička klasa treba da ima konstruktor koji prima sve atribute koji su
+definisani gramatičkim pravilom (u ovom slučaju =name= i =attributes=). Ukoliko
+klasa predstavlja dete u vezi roditelj-dete (videti narednu sekciju), tada je
+kao prvi parametar obavezan =parent= koji predstavlja vezu prema objektu
+roditelju.
+
+** Veze roditelj-dete
+Često u modelima postoji inherentna veza tipa roditelj-dete. U prethodnom
+primeru svaka instanca =Attribute= klase pripada nekoj instanci
+=Entity= klase.
+
+textX ima automatsku podršku za ovaj tip veze i dinamički kreira =parent=
+atribut na svim objektima tipa dete.
+
+#+begin_note
+Obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno obezbediti
+ovaj parametar kao prvi parametar konstruktora kod svih klasa koje predstavljaju
+dete u vezi roditelj-dete jer će textX pozivati konstruktor uz prosleđivanje
+reference na roditeljski objekat prilikom parsiranja.
+#+end_note
+
+
+** Procesori
+Za definisanje dodatne statičke semantike modela textX omogućava definisanje
+procesora. Procesori su Python objekti koji se mogu pozvati (/callables/)
+i koji mogu da dodatno provere i modifikuju prepoznati objekat u toku
+parsiranja. Koriste se kod pravila koja nije moguće definisati gramatikom.
+
+Postoje dve vrste procesora: procesori objekata i procesori modela.
+
+*Procesori objekata (/object processors/)* --- su procesori koji se pozivaju
+posle svakog uspešnog prepoznavanja objekta. Kao jedini parametar dobijaju
+objekat koji trebaju da provere/modifikuju.
+
+
+*Procesori modela (/Model processors/)* --- su procesori koji se pozivaju kada
+se ceo model uspešno parsira. Kao parametar dobijaju metamodel i model. Mogu da
+obave proizvoljnu proveru i/ili modifikaciju modela. Registruju se pozivom
+metode =register_model_processor= nad metamodel objektom.
+
+#+REVEAL: split
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+
+# Procesor modela je funkcija koji će prihvatiti metamodel
+# i model kao svoje parametre.
+def check_some_semantics(metamodel, model):
+  ...
+  ... Vrši proveru modela i baca TextXSemanticError
+  ... ako su semantička pravila narušena.
+
+my_metamodel = metamodel_from_file('mygrammar.tx')
+
+# Registrujemo model procesor na instanci metamodela
+my_metamodel.register_model_processor(check_some_semantics)
+
+# Parsiramo model. funkcija check_some_semantics će biti
+# automatski pozvana nakon uspešnog parsiranja da obavi
+# dodatnu semantičku proveru modela.
+my_metamodel.model_from_file('some_model.ext')
+#+end_src
+
+** Ugrađeni objekti
+Često je potrebno da u svakom modelu imamo objekte koji su uvek prisutni, bez
+potrebe da ih korisnik definiše, i koje možemo referencirati iz ostatka modela.
+Da bi olakšali posao korisniku možemo na nivou metamodela registrovati ugrađene
+objekte. Tako registrovani objekti biće implicitno deo svakog modela. Klasičan
+primer su primitivni tipovi (npr. =integer=, =string=, =float=). Ako želimo da ovo
+budu pravi objekti a ne samo ključne reči, kreiraćemo nove objekte i
+registrovati nad metamodelom. Naravno, da bi mogli instancirati klase u Python-u
+potrebno je da ih registrujemo kao korisničke klase (slajd [[Korisničke klase]]).
+
+#+REVEAL: split
+
+#+begin_src python
+class Entity(object):
+  def __init__(self, parent, name, attributes):
+      self.parent = parent
+      self.name = name
+      self.attributes = attributes
+
+entity_builtins = {
+        'integer': Entity(None, 'integer', []),
+        'string': Entity(None, 'string', [])
+}
+entity_mm = metamodel_from_file(
+  'entity.tx',
+  classes=[Entity],        # Registrovanje Entity
+                           # korisničke klase,
+  builtins=entity_builtins # Registrovanje integer i string
+)                          # ugrađenih Entity objekata
+#+end_src
+
+U prethodnom primeru registrujemo korisničku klasu =Entity= i zatim dve njene
+instance (=integer= i =string=) koje će predstavljati ugrađene tipove za atribute.
+
+#+attr_html: :class footer :style clear: both;
+- Za više detalja videti primer
+  https://github.com/igordejanovic/textX/tree/master/examples/Entity
+
+** Automatska inicijalizacija atributa
+Vrednosti atributa objekata prepoznatih u ulaznom stringu biće podešeni na
+vrednosti date u tekstu. Ukoliko je atribut opcioni i nije naveden u ulaznom
+stringu svakako će biti kreiran na objektu. Njegova vrednost biće podrazumevana
+i zavisiće od tipa.
+
+Podrazumevane vrednosti za bazične textX tipove su sledeće:
+- =ID= --- prazan string --- =''=
+- =INT= --- int --- =0=
+- =FLOAT= --- float --- =0.0=
+- =BOOL= --- bool --- =False=
+- =STRING= --- prazan string --- =''=
+
+Svaki atribut sa multiplicitetom nula ili više (=*==) a koji ne prepoznaje niti
+jedan element sa ulaza biće inicijalizovan na praznu Python listu. Ukoliko je
+multiplicitet jedan ili više (=+==) to zahteva prepoznavanje bar jednog objekta na
+ulazu, pa će vrednost atributa biti Python lista sa svim prepoznatim objektima.
+
+#+REVEAL: split
+
+Iako ovaj mehanizam automatske inicijalizacije dosta olakšava posao, postoje
+situacije kada može da zasmeta. Na primer, problem nastaje ukoliko želimo da
+razlikujemo situaciju u kojoj korisnik nije definisao opcioni element od
+situacije u kojoj je definisao, ali je stavio podrazumevanu vrednost.
+
+Mehanizam automatske inicijalizacije se može isključiti postavljanjem parametra
+=auto_init_attributes= na =False= pri pozivu konstruktora metamodela. U tom
+slučaju, ukoliko vrednost nije navedena na ulazu, biće postavljena na =None=. To
+važi za sve obične dodele (~=~). Kod opcionih dodela (~?=~) vrednost će biti
+=False= ukoliko nije navedena. Kod dodela sa multiplicitetom višim od 1 (~*=~ i
+~+=~) atribut će uvek biti inicijalizovan na Python listu.
+
+** Konfiguracija parsera
+Arpeggio parser kreiran od strane textX-a se može konfigurisati sa stanovišta
+osetljivosti na veličinu slova (/case-sensitivity/), tretiranju praznih
+karaktera (/white-space handling/) i automatskoj detekciji ključnih reči.
+
+*** Konfiguracija parsera - /case-sensitivity/
+Podrazumevano, parser je osetljiv na veličinu slova. Tako će reči =Entity= i
+=entity= biti tretirane kao različite. Ukoliko je naš jezik takav da veličina
+slova nije bitna možemo pri kreiranju metamodela proslediti parametar
+=ignore_case= sa vrednošću =True=.
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+
+my_metamodel = metamodel_from_file('mygrammar.tx',
+                                   ignore_case=True)
+#+end_src
+
+*** Konfiguracija parsera - /whitespaces/
+Parser podrazumevano preskače prazne karaktere (=spaces=, =tabs=). Zbog toga u
+gramatikama nije potrebno eksplicitno prepoznavati prazne karaktere. Postoje
+jezici gde su prazni karakteri signifikantni. U takvim slučajevima možemo
+isključiti preskakanje praznih karaktera parametrom =skipws= koji postavljamo na
+=False=. Dodatni mehanizam je redefinisanje skupa praznih karaktera sa
+parametrom =ws= koji predstavlja string koji se sastoji od karaktera iz skupa
+praznih karaktera.
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+my_metamodel = metamodel_from_file('mygrammar.tx',
+                                   skipws=False, ws='\s\n')
+#+end_src
+
+Ova pravila se mogu definisati i na nivou pojedinačnih pravila gramatike.
+
+*** Konfiguracija parsera - /keywords/
+Pri kreiranju JSD obično je poželjno da se ključne reči prepoznaju u celini,
+odnosno da se ne prepoznaju ukoliko su delovi drugih elemenata jezika (npr.
+identifikatora). Zbog toga, textX može da bude konfigurisan da prepoznaje sve
+što izgleda kao identifikator ili ključna reč u celosti. Na primer, za =Entity=
+jezik ključna reč =entity= ne bi smela da se prepozna u stringu =entity1=.
+
+Mogli bismo da postignemo odgovarajući efekat upotrebom regularnih izraza i
+parametra za prepoznavanje granice reči:
+
+#+begin_src text
+Enitity:
+/\bentity\b/ name=ID ...
+#+end_src
+
+ali bi gramatika u tom slučaju bila teška za čitanje i održavanje. textX zbog
+toga uvodi parametar metamodela =auto_kwd= koji se može postaviti na vrednost
+=True= i proizvodi isti efekat.
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+my_metamodel = metamodel_from_file('mygrammar.tx',
+                                   autokwd=True)
+#+end_src
+
+* Modeli
+** Uvod :ignore:
+textX modeli su objektni grafovi običnih Python objekata (/Plain Old Python
+Object --- POPO/). Ovi objekti su kreirani iz ulaznog stringa koji po strukturi
+odgovara definisanoj textX gramatici uz potencijalnu modifikaciju od strane
+procesora (slajd [[Procesori]]).
+
+Na neki način model je sličan apstraktnom stablu sintakse (AST) kod klasičnog
+parsiranja, ali je na višem semantičkom nivou jer su sve reference razrešene i
+struktura je oblika grafa.
+
+Svaki objekat modela je instanca klase kreirane dinamički na osnovu textX
+pravila ili definisane od strane korisnika upotrebom mehanizma korisničkih klasa
+(slajd [[Korisničke klase]]).
+
+Model se kreira pozivom metoda =model_from_file= i =model_from_str= metamodela.
+
+#+REVEAL: split
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+
+my_mm = metamodel_from_file('mygrammar.tx')
+
+# Kreiranje modela iz tekstualnog opisa
+my_model = my_mm.model_from_file('some_model.ext')
+#+end_src
+
+U nastavku teksta, kao primer, koristimo =Entity= jezik korišćen u sekciji o
+korisničkim klasama (slajd [[Korisničke klase]]).
+
+Sadržaj fajla =entity.tx= koji definiše jezik (tj. metamodel) je sledeći:
+
+#+begin_src text
+EntityModel:
+  entities+=Entity
+;
+
+Entity:
+  'entity' name=ID '{'
+    attributes+=Attribute
+  '}'
+;
+
+Attribute:
+  name=ID ':' type=[Entity]
+;
+#+end_src
+
+** Specijalni textX atributi
+Svaki Python objekat textX modela koji nije bazični Python tip (npr. =int=,
+=str=) poseduje specijalni atribut =_tx_position= koji predstavlja apsolutnu
+poziciju objekta u tekstualnom ulazu. Za konverziju pozicije u red i kolonu može
+se koristiti metoda parsera =pos_to_linecol=.
+
+Na primer:
+
+#+begin_src python
+  line, col = entity_mm.parser.pos_to_linecol(
+      person_model.entities[0]._tx_position)
+#+end_src
+
+će vratiti liniju i kolonu prvog entiteta modela =person.ent=.
+
+Pored pozicije korenski objekat modela ima i atribute:
+
+- =_tx_filename= --- puna putanja i naziv fajla iz kojeg je model učitan ili
+  =None= ukoliko je učitan iz Python stringa,
+- =_tx_metamodel= --- referenca na metamodel sa kojim je dati model usklađen.
+
+* Vizualizacije
+** Uvod :ignore:
+Metamodel, model i stablo parsiranja se mogu transformisati u /dot/ zapis u
+cilju vizualizacije. /dot/ je tekstualni JSD i alat za opis grafova i njihovu
+vizualizaciju i deo je /GraphViz/ paketa. =textx.export= modul sadrži Python
+funkcije =metamodel_export= i =model_export= za transformaciju metamodela,
+odnosno modela u /dot/ zapis.
+
+Ako textX radi u modu za otklanjanje grešaka (/debug/, slajd [[#textx-debug]]),
+metamodel, model i stablo parsiranja će biti automatski eksportovani u /dot/
+zapis.
+
+/dot/ fajlovi se mogu direktno prikazati u nekom od dostupnih vizualizatora (npr.
+xdot^{1}, ZGRViewer^{2}) ili se, upotrebom /dot/ alata, fajl može transformisati u
+neki od bitmapiranih ili vektorskih grafičkih formata (npr. PNG, SVG, JPG, PDF).
+
+#+attr_html: :class footer :style clear: both;
+1. xdot --- https://github.com/jrfonseca/xdot.py
+2. ZGRViewer --- http://zvtm.sourceforge.net/zgrviewer.html
+
+** Vizualizacija metamodela
+Metamodel se može vizualizovati direktno iz programskog koda na sledeći
+način:
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+from textx.export import metamodel_export
+
+entity_mm = metamodel_from_file('entity.tx')
+
+metamodel_export(entity_mm, 'entity.dot')
+#+end_src
+
+Poziv funkcije =metamodel_export= nad metamodelom će proizvesti /dot/ fajl datog
+imena (u ovom slučaju =entity.dot=).
+
+#+REVEAL: split
+
+Tekstualni /dot/ fajl možemo prevesti u neki od grafičkih formata na sledeći
+način:
+
+#+begin_src text
+$ dot -Tpng -O entity.dot
+#+end_src
+
+Ova komanda će proizvesti fajl =entity.dot.png= grafičkog bitmapiranog formata PNG.
+
+#+attr_html: :style height: 500px;
+#+ATTR_ORG: :width 300px
+[[file:./images/entity.dot.png]]
+
+** Vizualizacija modela
+Takođe, i modeli se mogu vizualizovati iz programskog koda. To se izvodi na
+sledeći način:
+
+#+begin_src python
+from textx.export import model_export
+
+person_model = entity_mm.model_from_file('person.ent')
+
+model_export(person_model, 'person.dot')
+#+end_src
+
+#+REVEAL: split
+
+Prethodni kôd će proizvesti fajl =person.dot= koji se može prevesti u grafički
+format sledećom komandom:
+
+#+begin_src text
+$ dot -Tpng -O person.dot
+#+end_src
+
+#+attr_html: :style height: 500px;
+#+ATTR_ORG: :width 300px
+[[file:./images/person-entity.png]]
+
+Vizualizacija može da se obavi i upotrebom [[#textx-komanda][=textx= komande]] opisane u nastavku.
+
+* Modularizacija
+* Obrada grešaka
+:PROPERTIES:
+:CUSTOM_ID: textx-debug
+:END:
+Ukoliko textX detektuje sintaksnu grešku prilikom parsiranja opisa metamodela
+(gramatike jezika) ili opisa modela, doći će do pojave izuzetka =TextXSyntaxError=
+odnosno =TextXSemanticError=. Oba izuzetka nasleđuju =TextXError= i opisani su u
+modulu =textx.exceptions=. Svi textX izuzeci imaju atribut =message= koji nosi
+poruku o grešci i atribute =line= i =col= koji predstavljaju red odnosno kolonu u
+kojoj se greška desila.
+
+textX podržava otklanjanje grešaka (/debugging/) i na nivou metamodela (gramatike)
+i na nivou modela. Podrazumevano textX ne radi u modu za otklanjanje grešaka,
+ali se može postaviti u taj mod upotrebom =debug= parametra kod instanciranja
+metamodela odnosno modela.
+
+#+begin_src python
+from textx.metamodel import metamodel_from_file
+
+robot_metamodel = metamodel_from_file('robot.tx', debug=True)
+#+end_src
+
+ili
+
+#+begin_src python
+robot_program = robot_metamodel.model_from_file('program.rbt',
+                                                debug=True)
+#+end_src
+
+#+REVEAL: split
+
+Kada textX radi u /debug/ modu na konzoli će biti prikazane detaljne informacije o
+svim akcijama koje textX preduzima prilikom parsiranja i analize stabala
+parsiranja. Takođe, /dot/ fajlovi za stabla parsiranja za metamodele i modele kao
+i sami modeli i metamodeli, će biti automatski kreirani.
+
+textX se u mod za otklanjanje grešaka može postaviti i upotrebom =textx= komande i
+parametra =-d= (videti [[#textx-komanda]]).
+
+#+begin_src text
+$ textx -d visualize robot.tx program.rbt
+
+ *** PARSING LANGUAGE DEFINITION ***
+New rule: grammar_to_import -> RegExMatch
+New rule: import_stm -> Sequence
+New rule: rule_name -> RegExMatch
+New rule: param_name -> RegExMatch
+New rule: string_value -> OrderedChoice
+New rule: rule_param -> Sequence
+Rule rule_param founded in cache.
+New rule: rule_params -> Sequence
+...
+
+>> Matching rule textx_model=Sequence at position 0 =
+  >> Matching rule ZeroOrMore in textx_model at posit
+      >> Matching rule import_stm=Sequence in textx_m
+        ?? Try match rule StrMatch(import) in import_
+        >> Matching rule comment=OrderedChoice in imp
+            ?? Try match rule comment_line=RegExMatch
+            -- NoMatch at 0
+            ?? Try match rule comment_block=RegExMatc
+
+...
+
+
+Generating 'robot.tx.dot' file for meta-model.
+To convert to png run 'dot -Tpng -O robot.tx.dot'
+Generating 'program.rbt.dot' file for model.
+To convert to png run 'dot -Tpng -O program.rbt.dot'
+#+end_src
+
+* RREL
+Prethodna sekcija uvela je pojam provajder opsega. U novijom verzijama textX-a
+postoji i dodatni način definisanja pravila razrešenja referenci koja se navode
+direktno u gramatici kao deo reference. Ovaj jezik nazivamo jezik izraza za
+razrešenje referenci (eng. /Reference Resolving Expression Language --- RREL/).
+Ovo je preferirani način definisanja pravila razrešenja i u većini slučajeva je
+dovoljan. Ukoliko je potrebna specifična pretraga koja nije podržana sa RREL
+onda se može kreirati namenski provajder opsega koji se registruje programski
+nad modelom (videti prethodnu sekciju).
+
+RREL izraz se piše kao treći deo reference preko veze (slajd
+[[#textx-reference]]).
+
+Na primer:
+
+#+begin_src text
+Attribute: 'attr' ref=[Class|FQN|^packages*.classes]
+                  name=ID ';';
+#+end_src
+
+#+REVEAL: split
+
+Ovo pravilo gramatike ima referencu =ref=. Svaka referenca preko veze se piše u
+uglastim zagradama i ima najmanje jedan a najviše tri dela razdvojena karakterom
+=|=. Prvi deo definiše tip ciljnog objekta, u ovom slučaju to je =Class=. Drugi deo
+definiše obrazac koji će parser da prepozna na mestu reference. Ukoliko nije
+definisan podrazumeva se =ID=. Parser će u ocom slučaju prepoznati pravilo =FQN=. I
+na kraju, treći deo definiše RREL izraz koji definiše pravilo pronalaska ciljnog
+objekta u modelu. U ovom slučaju pravilo glasi =^packages*.classes=.
+
+Svaka referenca u modelu generalno je oblika imena razdvojenih tačkom. Na
+primer, referenca može biti =package1.component4= ili samo =component4=. Dalje
+možemo da generalizujemo i kažemo da je referenca niz imena gde je =ID= samo
+specijalan slučaj i predstavlja niz dužine jedan. Imena ne moraju, u opštem
+slučaju, biti razdvojena tačkom. Korisnik može navesti namensko pravilo
+prepoznavanja i registrovati procesor koji će da razloži ime na niz delova. Ali
+zbog jednostavnosti u nastavku smatramo da se delovi imena razdvajaju uvek sa
+tačkom.
+
+#+REVEAL: split
+
+RREL izraz se gradi upotrebom RREL operatora. Definisani su sledeći operatori:
+- =.= --- navigacija tačkom. Vrši se pretraga atributa u tekućem AST kontekstu.
+  Može se koristiti i za navigaciju uz veze sadržavanja (roditelj-dete). Na
+  primer "=.=" je tekući objekat, "=..=" je roditeljski objekat, "=...=" je roditelj
+  roditelja itd. Ako RREL izraz počinje tačkom pretraga se izvršava relativno
+  počevši od tekućeg AST konteksta (tekuće lokacije). U suprotnom imamo
+  apsolutnu putanju gde pretraga počinje od korena modela, osim ako izraz ne
+  počinje operatorom "=^=". Na primer, =.a.b= znači pretragu atributa =a= na tekućoj
+  lokaciji i zatim pretragu atributa =b=.
+- =parent(TIP)= --- vrši se pretraga uz roditeljske veze sve dok se ne nađe
+  objekat tipa =TIP=.
+
+#+REVEAL: split
+
+- =~= --- marker koji se može primeniti nad elementom izraza i koji nosi
+  informaciju da se tekuća kolekcija ne pretražuje po tekućem delu imena već da
+  se cela procesira. Na primer, ukoliko tražimo metodu uz hijerarhiju
+  nasleđivanja (veza =extends=), mogli bi napisati =~extends*.methods=, gde će (zbog
+  =*=, videti u nastavku) biti prvo pretražena =methods= kolekcija tekućeg
+  konteksta. Zatim se iterira kroz sve elemente =extends= kolekcije bez
+  konzumacije dela imena koje se traži (zbog =~=) i zatim se tekući deo imena
+  traži u =methods= kolekciji objekta iz =extends=.
+- =*= --- predstavlja ponavljanje. Rezultuje razvijanjem izraza nula ili više
+  puta. Prva ekspanzija je nula puta, zatim jednom, dva puta itd. Na primer,
+  =~extends*.methods= će prvo da pretražuje u kolekciji =methods=, zatim ukoliko
+  tekući deo imena nije pronađen u =~extends.methods=, zatim u
+  =~extends.~extends.methods= itd. Ukoliko proces ne dovede do pronalaska ciljnog
+  objekta, zbog upotrebe =*=, izraz se dalje razvija i pretraga se nastavlja dok
+  se objekat ne pronađe ili dok ne dođemo do kraja lanca nasleđivanja i tada
+  prijavljujemo grešku da objekat nije pronađen.
+
+#+REVEAL: split
+
+- =^= --- pretraga od dna ka vrhu (eng. /bottom-up/). Ovaj operator definiše da se
+  tekuća putanja razvija od dna ka vrhu, uz roditeljski lanac. Pretraga počinje
+  na tekućem AST kontekstu i ide se uz roditeljski lanac za broj komponenti
+  tekućeg izraza. Zatim se pokušava pretraga. Na primer, =^a.b.c= počinje na
+  tekućem kontekstu i prvo se penje uz roditeljski lanac na roditelja.
+  Zatim se vrši pretraga za atributom =a= koji ima ime tekućeg dela imena
+  reference. Zatim se traži atribut =b=, i na kraju se traži =c=. Ukoliko pretraga
+  ne uspe, penjemo se uz roditeljski lanac jedan nivo više i ponovo pokušavamo
+  pretragu.
+- =,= --- definiše sekvencu izraza koje treba pokušati u redosledu definisanja.
+
+#+REVEAL: split
+
+Prioriteti od najvišeg do najnižeg su: =*=, =.=, =,=.
+
+=~= i =^= se smatraju markerima a ne operatorima.
+
+Evaluacija RREL izraza teče na sledeći način:
+
+- Izraz se razvija tako što =*= kreće od nule.
+- Navigacija i prepoznavanje uz konzumaciju prepoznatih delova imena.
+- Proces se ponavlja.
+
+Proces se zaustavlja kada:
+- Sve mogućnosti su iscrpljene i nismo našli ciljni objekat. Greška.
+- Pri ekspanziji =*= došli smo u situaciju da smo iscrpeli sve delove imena pre
+  nego što smo završili sa RREL izrazom. Greška.
+- Iscrpeli smo sve delove imena, takođe i sve delove RREL izraza i pronašli smo
+  objekat. Ako se tip objekta ne poklapa sa onim što je definisano referencom u
+  gramatici prijavljujemo grešku, u suprotnom uspešno smo pronašli objekat.
+
+* =textx= komanda
+:PROPERTIES:
+:CUSTOM_ID: textx-komanda
+:END:
+** =textx= komanda
+Pored upotrebe textX biblioteke iz programskog koda neke od osnovnih operacija,
+kao što su, na primer, provera sintaksne ispravnosti metamodela i modela, se
+mogu obaviti upotrebom =textx= CLI komande. Ova komanda je proširiva i sastoji se
+od niza komandi koje su registrovane od strane Python paketa. Sve komande su
+registrovane ne isti način i nema razlike između bazičnih textX komandi i
+komandi koje su registrovane od strane drugih Python paketa.
+
+=textx= CLI komanda nije podrazumevano instalirana kada instalirate textX
+biblioteku. Da biste imali ovu komandu dostupnu potrebno je da instalirate =cli=
+zavisnosti na sledeći način:
+
+#+begin_src shell
+pip install textx[cli]
+#+end_src
+
+** Osnovne potkomande
+Osnovno uputstvo za upotrebu može se dobiti pozivom komande bez parametara ili
+sa parametrom =--help= odnosno =-h=.
+
+#+begin_src text
+$ textx --help
+Usage: textx [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug  Debug/trace output.
+  --help   Show this message and exit.
+
+Commands:
+  check            Check/validate model given its file path.
+  generate         Run code generator on a provided model(s).
+  list-generators  List all registered generators
+  list-languages   List all registered languages
+  version          Print version info.
+#+end_src
+
+Izlistane komande dostupne su od strane osnovne textX biblioteke. Dodatne
+komande će biti dostupne po instalaciji Python paketa koji registruju nove textX
+komande.
+
+** =check= potkomanda
+Komanda =check= koristi se za proveru sintaksne ispravnosti modela i metamodela,
+odnosno gramatike. U slučaju postojanja greške u (meta)modelu biće prijavljena
+greška sa tačnom lokacijom i prikazom okolnog konteksta. Na primer, da proverimo
+ispravnost modela (=program.rbt=) ako imamo ispravnu gramatiku (=robot.tx=).
+
+#+begin_src text
+$ textx check --grammar robot.tx program.rbt
+Error:
+/home/igor/repos/textX/textX/examples/robot/program.rbt:3:3:
+Expected 'initial' or 'up' or 'down' or 'left' or 'right'
+        or 'end' => 'al 3, 1   *gore 4    '
+#+end_src
+
+Vidimo da u redu 3, koloni 3 imamo grešku. Parser nam prijavljuje šta je
+očekivano na toj lokaciji i iza znaka ==>= vidimo deo fajla, odnosno kontekst gde
+se greška nalazi. Karakter =*= obeležava lokaciju unutar konteksta.
+
+** Vizualizacija =generate= potkomandom
+Sledeće što možemo uraditi jeste vizualizacija (meta)modela koja se obavlja
+komandom =generate= koja poziva registrovani generator. Generatori su komponente
+koje generišu kôd na osnovu modela. Generatori i jezici se mogu registrovati
+(slajd [[Registracija jezika i generatora]]). Registrovani generatori i jezici
+se listaju komandama =list-generators= i =list-languages=.
+
+Pošto vizualizacija predstavlja transformaciju (meta)modela u sliku, urađena je
+kao standardni generator. Da bismo videli koji generatori su nam dostupni
+pozvaćemo komandu =list-generators= na sledeči način:
+
+#+begin_src shell
+$ textx list-generators
+any -> dot         textX[2.3.0]  Generating dot visual...
+textX -> dot       textX[2.3.0]  Generating dot visual...
+textX -> PlantUML  textX[2.3.0]  Generating PlantUML v...
+#+end_src
+
+Vidimo da imamo tri registrovana generatora od strane textX paketa. Prvi
+generator je u stanju da transformiše bilo koji model na /dot/ jezik. Drugi
+generator transformiše textX modele (tj. metamodele) u /dot/. Treći generator
+transformiše metamodele u PlantUML dijagrame^{1}.
+
+#+attr_html: :class footer :style clear: both;
+1. PlantUML je tekstualni JSD za kreiranje UML dijagrama ---
+   https://plantuml.com/
+
+** Generisanje =dot= fajla
+Na primer, za vizualizaciju metamodela potrebno je uraditi sledeće:
+
+#+begin_src shell
+$ textx generate robot.tx --target dot --overwrite
+Generating dot target from models:
+/home/igor/repos/textX/textX/examples/robot/robot.tx
+-> /home/igor/repos/textX/textX/examples/robot/robot.dot
+    To convert to png run "dot -Tpng -O robot.dot"
+#+end_src
+
+Ovom komandom pozivamo generator koji je registrovan za =.tx= ekstenziju i biramo
+ciljni format/platformu, u ovom slučaju =dot=. Generator koji će biti pozvan je
+=textX -> dot= sa spiska dobijenog upotrebom =list-generators=. =dot= fajl koji smo
+dobili možemo konvertovati u sliku prema uputstvu:
+
+#+begin_src shell
+$ dot -Tpng -O robot.dot
+#+end_src
+
+#+REVEAL: split
+
+Dobićemo sliku u obliku PNG fajla.
+
+#+attr_html: :style height: 300px;
+#+ATTR_ORG: :width 300px
+[[file:./images/robot.dot.png]]
+
+Umesto kreiranja slike, =dot= fajl možemo pregledati nekim od =dot= pregledača. Na
+primer:
+
+#+begin_src text
+$ xdot robot.dot
+#+end_src
+
+** Konverzija u PlantUML
+Alternativno, metamodel možemo konvertovati u UML dijagram upotrebom PlantUML
+alata. Da bismo kreirali PlantUML fajl iz metamodela pozivamo komandu =generate=
+na sledeći način:
+
+#+begin_src shell
+$ textx generate robot.tx --target plantuml --overwrite
+Generating plantuml target from models:
+/home/igor/repos/textX/textX/examples/robot/robot.tx
+-> /home/igor/repos/textX/textX/examples/robot/robot.pu
+    To convert to png run "plantuml robot.pu"
+#+end_src
+
+Zatim možemo kreirati PNG sliku sa =plantuml= komandom prema uputstvu.
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./images/robot.png]]
+
+** Generisanje =dot= fajla za model
+Ukoliko želimo da vizualizujemo model potrebno je navesti i gramatiku na sledeći
+način:
+
+#+begin_src shell
+$ textx generate --grammar robot.tx program.rbt --target dot --overwrite
+Generating dot target from models:
+/home/igor/repos/textX/textX/examples/robot/program.rbt
+-> /home/igor/repos/textX/textX/examples/robot/program.dot
+    To convert to png run "dot -Tpng -O program.dot"
+#+end_src
+
+* Registracija jezika i generatora
+textX obezbeđuje mehanizam za dinamičku registraciju i otkrivanje jezika i
+generatora kôda. Ovim se postiže mogućnost upotrebe korisnički registrovanih
+jezika i generatora kroz =textx= komandu (slajd [[#textx-komanda]]).
+
+** Registracija jezika
+- Instancirati =LanguageDesc= klasu gde kao parametre navodimo: jedinstveni naziv
+  jezika, fajl obrazac/ekstenziju za modele na datom jeziku, opis i funkciju
+  (tačnije Python /callable/) koji vrši kreiranje i konfiguraciju metamodela.
+
+#+begin_src python
+from textx import LanguageDesc
+
+def entity_metamodel():
+    # Funkcija konstruiše i vraća metamodel
+    # Npr. poziva metamodel_from_file
+    ...
+
+entity_lang = LanguageDesc(
+    'entity',
+    pattern='*.ent',
+    description='Entity-relationship language',
+    metamodel=entity_metamodel)
+#+end_src
+
+#+REVEAL: split
+
+Instancu =LanguageDesc= zatim možemo registrovati upotrebom =register_language=
+poziva:
+
+#+begin_src python
+from textx import register_language
+register_language(entity_lang)
+#+end_src
+
+Po obavljenoj registraciji metamodel se može dobiti na sledeći način:
+
+#+begin_src python
+from textx import metamodel_for_language
+lang_mm = metamodel_for_language('entity')
+#+end_src
+
+#+REVEAL: split
+
+- Deklarativan način registracije putem =setup.py=, odnosno =setup.cfg=. Koristimo
+  ulazne tačke (eng. /entry points/), standardan mehanizam Python =setuptools=
+  paketa:
+
+#+begin_src python
+setup(
+    ...
+    entry_points={
+        'textx_languages': [
+            'entity = entity.metamodel:entity_lang',
+        ],
+    },
+#+end_src
+
+Ulazna tačka se zove =textx_languages= - lista stringova oblika "<ime jezika> =
+<putanja_do_LanguageDesc_instance>". U ovom primeru instanca =LanguageDesc= se
+nalazi u paketu =entity.metamodel=. Varijable tj. referenca se zove =entity_lang=.
+
+#+REVEAL: split
+
+Alternativno, možemo koristiti i noviji način upotrebom =setup.cfg= fajla:
+
+#+begin_src text
+[options.entry_points]
+textx_languages =
+    entity = entity.metamodel:entity_lang
+#+end_src
+
+#+REVEAL: split
+
+- Dekorator =language= - parametri su naziv jezika i ekstenzija fajlova model.
+  /Docstring/ se koristi kao opis.
+
+#+begin_src python
+from textx import language
+
+@language('entity', '*.ent')
+def entity_lang():
+    """
+    Entity-relationship language
+    """
+    # Funkcija konstruiše i vraća metamodel
+    # Npr. poziva metamodel_from_file
+    ...
+#+end_src
+
+Ukoliko smo uspešno registrovali jezik komanda =textx list-languages= će ga
+prikazati u listi.
+
+** Registracija generatora
+- Koristimo instancu =GeneratorDesc=. Pri instanciranju navodimo: naziv jezika,
+  naziv ciljne tehnologije, opis i na kraju funkciju koja vrši generisanje.
+  Funkcija mora biti sledećeg oblika:
+
+#+begin_src python
+def generator(metamodel, model, output_path, overwrite, debug,
+              **custom_args)
+#+end_src
+
+Parametri generator funkcije su sledeći:
+
+- =metamodel= --- instanca metamodela izvornog jezika,
+- =model= --- instanca modela za koji vršimo generisanje,
+- =output_path= --- ciljna putanja u fajl sistemu gde treba smestiti generisani kôd,
+- =overwrite= --- da li se vrši prepisivanje ciljnih fajlova,
+- =debug= --- da li se generator poziva u modu za otklanjanje grešaka,
+- =**custom_args= --- dodatni parametri specifični za generator.
+
+#+REVEAL: split
+
+- Dekorator =generator= - parametri su naziv jezika i naziv ciljne platforme. Opis
+  generatora se navodi u /docstring/-u generator funkcije.
+
+#+begin_src python
+from textx import generator
+
+@generator('entity', 'java')
+def entity_java_generator(metamodel, model, output_path,
+                          overwrite, debug, **custom_args)
+    "Entity-relationship to Java language generator"
+    # Kod koji vrši generisanje na osnovu modela.
+#+end_src
+
+#+REVEAL: split
+
+- Registracija se vrši u =setup.cfg= (ili =setup.py=) na isti način kao i jezik s
+  tim što se ulazna tačka naziva =textx_generators=:
+
+#+begin_src text
+[options.entry_points]
+textx_generators =
+    entity_java = entity.generators:entity_java_generator
+#+end_src
+
+Po uspešnoj registraciji komanda =textx list-generators= će listati informacije o
+generatoru.
+
+#+REVEAL: split
+
+Registrovani generator se može pozvati komandom =text generate=. Na primer:
+
+#+begin_src shell
+$ textx generate mymodel.ent --target java --overwrite
+        --meaning_of_life 42
+#+end_src
+
+U prethodnoj komandi pozivamo generator registrovan za fajlove sa ekstenzijom
+=.ent= nad modelom =mymodel.ent=. U pitanju je /Entity/ jezik. Ciljna platforma je
+=java=. Dodatni parametar =meaning_of_life= je specifičan za generator i biće
+prosleđen kroz =custom_args= rečnik.
+
+* Kreiranje inicijalnog projekta - /scaffolding/
+
+Inicijalni projekat kreiramo sa sledećom komandom:
+
+#+begin_src shell
+$ textx startroject <folder>
+#+end_src
+
+Ova komanda pokreće generator koji postavlja par pitanja^{1} i zatim kreira
+projekat u zadatom folderu. Dobra praksa je da se zatim projekat instalira u
+tekuće radno okruženje u razvojnom modu sa:
+
+#+begin_src shell
+$ pip install -e <folder>
+#+end_src
+
+#+attr_html: :class footer :style clear: both;
+1. Odgovori na pitanja se keširaju i biće podrazumevana pri narednom pokretanju
+   generatora.
+
+#+REVEAL: split
+
+
+Po uspešnoj instalaciji vaš jezik, odnosno generator je ispravno registrovan i
+vidljiv za komande =textx list-languages=, odnosno =textx list-generators=.
+
+#+begin_note
+Komanda =startproject= nije definisana osnovnom textX bibliotekom već projektom
+=textX-dev=. Zbog toga je potrebno instalirati ovaj Python paket ili direktno sa:
+
+#+begin_src shell
+$ pip install textX-dev
+#+end_src
+
+ili putem instalacije svih razvojnih zavisnosti za textX na sledeći način:
+
+#+begin_src shell
+$ pip install textX[dev]
+#+end_src
+
+da biste imali =startproject= dostupnu kao potkomandu =textx= komande.
+#+end_note
 
 
 
 * Primeri
 ** Generisanje koda - Entity primer
-
 - Referenciranje drugih objekata.
 - Upotreba obrađivača šablona (*Template Engines*) za generisanje koda.
 - http://textx.github.io/textX/stable/tutorials/entity/
 
 ** State Machine
-
 - Video tutorial
 - http://textx.github.io/textX/stable/tutorials/state_machine/
 
 ** Izrada mini kompajlera - ppci
-
 - [[http://www.windel.nl/][Windel Bouwman]]
 - https://ppci.readthedocs.io/en/latest/howto/toy.html
+** Quick Domain-Specific Languages in Python with textX
+- https://tomassetti.me/domain-specific-languages-in-python-with-textx/
+- Written by Alessio Stalla
+** PyFlies - jezik za psihološke testove
+- https://pyflies.github.io/pyflies/latest/
+- https://github.com/pyflies
+- [[https://www.youtube.com/playlist?list=PLOgHC04drILVjnXQTFEL7sJDyfKMR21Vg][Video tutorials]]
 
-* Napredne tehnike - [[https://github.com/igordejanovic/pyFlies][pyFlies]]
 * Podrška u editorima
   - Visual Studio Code (/IntelliSense/, /Outline/, /Code highlighting/)
     - [[https://github.com/textX/textX-LS][Tekući razvoj]] - /Language Server Protocol/
   - [[https://github.com/textX/textx-mode][Mod za Emacs]]
   - [[https://github.com/textX/textX-ninja][Ninja IDE]]
+* TODO textX-LS
 * Veče džeza i slobodnih formi - improvizacije
               
 
