@@ -50,6 +50,8 @@ layout: page
 - Federico Tomassetti, [*The complete guide to (external) Domain Specific
   Languages*](https://tomassetti.me/domain-specific-languages/), published
   on [the author's blog](https://tomassetti.me/), February 2017.
+- Alessio Stalla, [Quick Domain-Specific Languages in Python with
+  textX](https://tomassetti.me/domain-specific-languages-in-python-with-textx/)
 - Beazley, David M. *Python essential reference*. Addison-Wesley Professional,
   2009.
 
