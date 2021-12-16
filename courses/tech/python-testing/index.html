@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Testiranje Python koda</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Testiranje Python koda</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2021-12-16 Thu 14:00, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-orgfbad900">
+<h2 id="orgfbad900">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Osnove</a></li>
+<li><a href="#/slide-2">2. PyUnit</a></li>
+<li><a href="#/slide-3">3. doctest</a></li>
+<li><a href="#/slide-4">4. py.test</a></li>
+<li><a href="#/slide-5">5. Finalne napomene</a></li>
+<li><a href="#/slide-6">6. Literatura</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Osnove</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Zašto je potrebno testirati softver?</h3>
+<ul>
+<li>Podizanje kvaliteta softverskog proizvoda.</li>
+<li>Zaštita od regresija prilikom većih izmena (npr. refaktorisanja).</li>
+<li>Veća sigurnost da softver radi ono za šta je projektovan.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Pristupi u testiranju</h3>
+<ul>
+<li><i>White-box</i> pristup &#x2013; osobe koje vrše testiranje poseduju znanja o internim
+strukturama i imaju pun pristup implementaciji sistema. Za kreiranje testova
+je potrebno programersko znanje.</li>
+<li><i>Black-box</i> pristup &#x2013; osobe koje vrše testiranje ne moraju da znaju ništa o
+implementaciji već samo o funkcionalnosti aplikacije koja se testira. Za
+zadate ulaze testiraju se očekivani izlazi. Za kreiranje testova nije potrebno
+programersko znanje.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Nivoi testiranja</h3>
+<p>
+Testovi se obično klasifikuju na osnovu toga gde se vrše u okviru razvoja
+softverskog proizvoda. Tako imamo:
+</p>
+
+<ul>
+<li><i>Unit testing</i> &#x2013; testiranje modula.</li>
+<li><i>Integration testing</i> &#x2013; testiranje međusobne saradnje komponenti.</li>
+<li><i>System testing</i> &#x2013; testiranje sistema kao celine.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Vrste testiranja</h3>
+<p>
+Na osnovu ciljeva testiranja imamo još i podelu na:
+</p>
+
+<ul>
+<li><i>Installation testing</i> &#x2013; testiranje da se proizvod može uspešno instalirati
+i raditi na hardversko-softverkoj platformi klijenta.</li>
+<li><i>Regression testing</i> &#x2013; otkrivanje grešaka posle izmena koda. Regresije su
+stare softverske greške koje se pojavljuju nanovo ali se kao regresiono
+testiranje podrazumeva i otkrivanje novih grešaka uvođenjem promena u
+izvorni kod.</li>
+<li><i>Acceptance testing</i> &#x2013; testiranje prihvatanja. Odgovor na pitanje ``Da li
+funkcionalne i nefunkcionalne osobine zadovoljavaju definisane zahteve?&rsquo;&rsquo;.</li>
+<li><i>Alpha test</i> &#x2013; Simulirano operativno testiranje krajnjeg proizvoda od
+strane proizvođača softvera.</li>
+<li><i>Beta test</i> &#x2013; Operativno testiranje krajnjeg proizvoda od strane eksternog
+tima testera (najčešće od strane grupe stvarnih korisnika proizvoda).</li>
+
+</ul>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Testiranje nefunkcionalnih osobina</h3>
+<p>
+Pored funkcionalnih osobina sistem mora biti u definisanim granicama određenih
+nefunkcionalnih parametara kao što su:
+</p>
+
+<ul>
+<li>Skalabilnost</li>
+<li>Jednostavnost korišćenja</li>
+<li>Brzina odziva (performanse)</li>
+<li>Bezbednost</li>
+<li>Robusnost</li>
+<li>&#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Metodologije razvoja softvera upravljane testiranjem</h3>
+<ul>
+<li><i>Test-Driven Development (TDD)</i> &#x2013; prvo se piše test pa se zatim vrši
+implementacija dok svi testovi ne prođu.</li>
+<li><i>Behavior Driven Development (BDD)</i> &#x2013; fokus na poslovnoj logici softvera.
+Omogućava bolju komunikaciju između korisnika sistema, testera i programera.
+Opis testa se piše kombinacijom prirodnog jezika i programskog jezika.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Biblioteke za testiranje modula u python-u</h3>
+<ul>
+<li><i>PyUnit (unittest)</i> - port JUnit biblioteke za programski jezik Java.</li>
+<li><i>doctest</i> &#x2013; testiranje upotrebom python docs stringova.</li>
+<li><i>py.test</i> &#x2013; Akcenat na jednostavnosti upotrebe. Jednostavan API (praktično
+nepostojeći).</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> PyUnit</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> PyUnit</h3>
+<ul>
+<li>Port JUnit biblioteke sa jave.</li>
+<li>Omogućava agregaciju testova, startup i shutdown kod koji može da se deli između testova itd.</li>
+<li>Nalazi se u \texttt{unittest} modulu standardne python biblioteke.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Osnovni koncepti</h3>
+<ul>
+<li><i>Test fixture</i> &#x2013; podrazumeva sve pripreme koje je potrebno obaviti pre
+izvršavanja testa kao i potrebno &ldquo;čišćenje&rdquo; posle testa. Npr. kreiranje
+privremene baze, foldera na disku i sl.</li>
+<li><i>Test suite</i> &#x2013; kolekcija <i>test case</i>-ova ili drugih <i>test suite</i>-ova. Služi
+za agregaciju.</li>
+<li><i>Test case</i> &#x2013; najmanja jedinica testiranja. <code>unittest</code> modul poseduje
+klasu <code>TestCase</code> koja služi za njeno kreiranje.</li>
+<li><i>Test runner</i> &#x2013; komponenta koja izvršava testove i prikazuje rezultate
+korisniku.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Primer - test_sequence.py</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >import random
+import unittest
+
+class TestSequenceFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.seq = list(range(10))
+
+    def test_shuffle(self):
+        # make sure the shuffled sequence does not lose any elements
+        random.shuffle(self.seq)
+        self.seq.sort()
+        self.assertEqual(self.seq, list(range(10)))
+
+        # should raise an exception for an immutable sequence
+        self.assertRaises(TypeError, random.shuffle, (1,2,3))
+
+    def test_choice(self):
+        element = random.choice(self.seq)
+        self.assertTrue(element in self.seq)
+
+    def test_sample(self):
+        with self.assertRaises(ValueError):
+            random.sample(self.seq, 20)
+        for element in random.sample(self.seq, 5):
+            self.assertTrue(element in self.seq)
+
+if __name__ == '__main__':
+    unittest.main()
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Izvršavanjem ovog test modula:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >python test_sequence.py
+</code></pre>
+</div>
+
+<p>
+dobijamo sledeće:
+</p>
+
+<pre class="example" id="orgd1f5ed9">
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+
+  Ako želimo detaljniji ispis to možemo uraditi sa:
+
+   python test_sequence.py -v
+
+  Rezultat:
+
+test_choice (__main__.TestSequenceFunctions) ... ok
+test_sample (__main__.TestSequenceFunctions) ... ok
+test_shuffle (__main__.TestSequenceFunctions) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+</pre>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Pokretanje testova iz Eclipsep-a</h3>
+<p>
+PyDev omogućava pokretanje svih testova direktno iz Eclipse IDE-a. Testovi će
+automatiski biti pronađeni i izvršeni a rezultati izvršavanja biće prikazani
+grafički.
+</p>
+
+
+<div id="orgf7e62d3" class="figure">
+<p><img src="./images/pydev-runtests.png" alt="pydev-runtests.png" />
+</p>
+</div>
+
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Tvrdnja da nešto mora biti zadovoljeno &#x2013; <i>assert</i></h3>
+<p>
+U okviru izvršavanja testa pozivima metode tipa <code>assert...</code> tvrdimo da nešto
+mora biti zadovoljeno. Ukoliko tvrdnja nije zadovoljena test će biti neuspešan.
+</p>
+
+<p>
+<code>assert</code> metode su sledeće:
+</p>
+
+<pre>
+assertEqual(a, b)
+assertNotEqual(a, b)
+assertAlmostEqual(a, b)
+assertRaises(exc, fun, *args, **kwds)
+assertRaisesRegexp(exc, re, fun, *args, **kwds)
+...
+</pre>
+
+<p>
+<code>assert*</code> metode pozivamo nad <code>TestCase</code> instancom. Dakle u okviru test metoda nad
+<code>self</code> referencom.
+</p>
+
+<p>
+Pun spisak <code>assert</code> metoda možete pronaći u dokumentaciji.
+</p>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Organizacija test koda</h3>
+<p>
+Ukoliko se setup ponavlja u više <code>TestCase</code> klasa može se koristiti nasleđivanje.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >import unittest
+
+class SimpleWidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+class DefaultWidgetSizeTestCase(SimpleWidgetTestCase):
+    def runTest(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+class WidgetResizeTestCase(SimpleWidgetTestCase):
+    def runTest(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Organizacija test koda - grupisanje test funkcija (1)</h3>
+<p>
+Obično se logički povezane test metode definišu u jednom <code>TestCase</code>-u.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+    def test_default_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+    def test_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Organizacija test koda - grupisanje test funkcija (2)</h3>
+<ul>
+<li>Na osnovu TestCase klase kreiraju se instance sa parametrom koji predstavlja
+funkciju koja će se testirati.</li>
+<li>Instance se grupišu u logičke celine putem TestSuite klasa.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >defaultSizeTestCase = WidgetTestCase('test_default_size')
+resizeTestCase = WidgetTestCase('test_resize')
+
+widgetTestSuite = unittest.TestSuite()
+widgetTestSuite.addTest(WidgetTestCase('test_default_size'))
+widgetTestSuite.addTest(WidgetTestCase('test_resize'))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Organizacija test koda - grupisanje test funkcija (3)</h3>
+<ul>
+<li>Zbog jednostavnosti preporučljivo je da modul poseduje callable koji definiše TestSuite.</li>
+
+</ul>
+
+<p>
+Na primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(WidgetTestCase('test_default_size'))
+    suite.addTest(WidgetTestCase('test_resize'))
+    return suite
+</code></pre>
+</div>
+
+<p>
+ili jednostavnije:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def suite():
+    tests = ['test_default_size', 'test_resize']
+
+    return unittest.TestSuite(map(WidgetTestCase, tests))
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> TestLoader</h3>
+<ul>
+<li><code>TestSuite</code> može biti kreiran upotrebom <code>TestLoader</code> klase na sledeći način:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >suite = unittest.TestLoader().loadTestsFromTestCase(WidgetTestCase)
+unittest.TextTestRunner(verbosity=2).run(suite)
+</code></pre>
+</div>
+
+<ul>
+<li>Loader će kreirati <code>TestSuite</code> od svih metoda <code>TestCase</code> koje počinju sa
+<code>test_</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> TestRunner</h3>
+<ul>
+<li><code>*TestRunner</code> su klase čije instance omogućavaju jednostavno konfigurisanje i
+pokretanje <code>TestSuite</code> instanci:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >suite = unittest.TestLoader().loadTestsFromTestCase(WidgetTestCase)
+unittest.TextTestRunner(verbosity=2).run(suite)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Organizacija test koda - grupisanje TestSuite-ova (4)</h3>
+<ul>
+<li>U cilju lakšeg izvršavanja većih baterija testova tožemo kreirati hijerarhije
+<code>TestSuite</code> na sledeći način:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >suite1 = module1.TheTestSuite()
+suite2 = module2.TheTestSuite()
+alltests = unittest.TestSuite([suite1, suite2])
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Organizacija test koda - razdvajanje izvornog koda od test koda</h3>
+<ul>
+<li>Iako nas biblioteka za testiranje ne sprečava da izvorni kod i test kod čuvamo
+u istom modulu, dobra je praksa da se test kod odvoji iz više razloga:
+
+<ul>
+<li>Test kod se može nezavisno pokretati.</li>
+<li>Test kod se ne mora slati zajedno u sklopu finalnog proizvoda.</li>
+<li>Test kod se obično ređe modifikuje od izvornog koda.</li>
+<li>Jednostavnije je refaktorisanje test koda ukoliko se čuva u posebnom modulu.</li>
+<li>Ako se promeni strategija testiranja nema potrebe za izmenom izvornog koda.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-2-14">
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Tri vrste testova</h3>
+<ul>
+<li><i>Testiranje uspeha</i> &#x2013; kada damo ispravan ulaz i očekujemo ispravan rezultat.</li>
+<li><i>Testiranje neuspeha</i> &#x2013; obrada neispravnih ulaza. Npr. testiranje pojave
+izuzetka.</li>
+<li><i>Testiranje konzistencije</i> &#x2013; testiranje konzistentnosti više logički povezanih
+funkcija.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-15">
+<h3 id="2-15"><span class="section-number-3">2.15.</span> Mogući rezultati testa</h3>
+<ul>
+<li>Test je uspešan ako nije došlo do pojave izuzetka prilikom njegovog
+izvršavanja.</li>
+<li>Test je neuspešan ako je došlo do pojave <code>AssertionError</code> izuzetka.</li>
+<li>Pojava bilo kog drugog izuzetka smatra se greškom.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-16">
+<h3 id="2-16"><span class="section-number-3">2.16.</span> Testiranje uspeha (dobrog ulaza)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >import unittest
+
+class DefaultWidgetSizeTestCase(unittest.TestCase):
+    def runTest(self):
+        widget = Widget('The widget')
+        self.assertEqual(widget.size(), (50, 50),
+               'incorrect default size')
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-17">
+<h3 id="2-17"><span class="section-number-3">2.17.</span> Testiranje odgovora na loš ulaz (1)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class ToRomanBadInput(unittest.TestCase):
+
+  def testTooLarge(self):
+    """toRoman should fail with large input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, 4000)
+
+  def testZero(self):
+    """toRoman should fail with 0 input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, 0)
+
+  def testNegative(self):
+    """toRoman should fail with negative input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, -1)
+
+  def testNonInteger(self):
+    """toRoman should fail with non-integer input"""
+    self.assertRaises(roman.NotIntegerError, roman.toRoman, 0.5)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-18">
+<h3 id="2-18"><span class="section-number-3">2.18.</span> Testiranje odgovora na loš ulaz (2)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class FromRomanBadInput(unittest.TestCase):
+
+  def testTooManyRepeatedNumerals(self):
+    """fromRoman should fail with too many repeated numerals"""
+    for s in ('MMMM', 'DD', 'CCCC', 'LL', 'XXXX', 'VV', 'IIII'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+
+  def testRepeatedPairs(self):
+    """fromRoman should fail with repeated pairs of numerals"""
+    for s in ('CMCM', 'CDCD', 'XCXC', 'XLXL', 'IXIX', 'IVIV'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+
+  def testMalformedAntecedent(self):
+    """fromRoman should fail with malformed antecedents"""
+    for s in ('IIMXCC', 'VX', 'DCM', 'CMM', 'IXIV', \
+      'MCMC', 'XCX', 'IVI', 'LM', 'LD', 'LC'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> doctest</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> doctest</h3>
+<ul>
+<li>Koristi dokumentacione stringove za definisanje testova.</li>
+<li>Testovi su opisani sesijom sa python shell-a.</li>
+<li>Prednost: jednostavna upotreba, interaktivno kreiranje testova putem python
+konzole.</li>
+<li>Mana: nepostojanje jasne organizacije testova.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> doctest - primer (1)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >def factorial(n):
+    """Return the factorial of n, an exact integer &gt;= 0.
+
+    If the result is small enough to fit in an int, return an int.
+    Else return a long.
+
+    &gt;&gt;&gt; [factorial(n) for n in range(6)]
+    [1, 1, 2, 6, 24, 120]
+    &gt;&gt;&gt; [factorial(long(n)) for n in range(6)]
+    [1, 1, 2, 6, 24, 120]
+    &gt;&gt;&gt; factorial(30)
+    265252859812191058636308480000000L
+    &gt;&gt;&gt; factorial(30L)
+    265252859812191058636308480000000L
+    &gt;&gt;&gt; factorial(-1)
+    Traceback (most recent call last):
+        ...
+    ValueError: n must be &gt;= 0
+
+    Factorials of floats are OK, but the float must be an exact integer:
+    &gt;&gt;&gt; factorial(30.1)
+    Traceback (most recent call last):
+        ...
+    ValueError: n must be exact integer
+    """
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> doctest - primer (2)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >    """
+    &gt;&gt;&gt; factorial(30.0)
+    265252859812191058636308480000000L
+
+    It must also not be ridiculously large:
+    &gt;&gt;&gt; factorial(1e100)
+    Traceback (most recent call last):
+        ...
+    OverflowError: n too large
+    """
+
+    import math
+    if not n &gt;= 0:
+        raise ValueError("n must be &gt;= 0")
+    if math.floor(n) != n:
+        raise ValueError("n must be exact integer")
+    if n+1 == n:  # catch a value like 1e300
+        raise OverflowError("n too large")
+    result = 1
+    factor = 2
+    while factor &lt;= n:
+        result *= factor
+        factor += 1
+    return result
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> doctest - pokretanje</h3>
+<p>
+Pokretanje modula sa doctest tipom test opisa se obavlja tako što se u modul
+doda sledeće:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+</code></pre>
+</div>
+
+<p>
+I zatim se modul pokreće na standardan način:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >python fact.py
+</code></pre>
+</div>
+
+<p>
+Ukoliko nema nikakvog ispisa znači da su testovi prošli uspešno.
+</p>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> doctest - pokretanje (2)</h3>
+<p>
+Ukoliko želimo detaljan ispis modul pokrećemo na sledeći način:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >python fact.py -v
+</code></pre>
+</div>
+
+<p>
+Ispis će sada biti:
+</p>
+
+<pre class="example" id="orgfcaa106">
+Trying:
+    factorial(5)
+Expecting:
+    120
+ok
+Trying:
+    [factorial(n) for n in range(6)]
+Expecting:
+    [1, 1, 2, 6, 24, 120]
+ok
+Trying:
+    [factorial(long(n)) for n in range(6)]
+Expecting:
+    [1, 1, 2, 6, 24, 120]
+ok
+...
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> py.test</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> py.test</h3>
+<ul>
+<li>Okvir za testiranje čiji fokus je jednostavnost API-ja.</li>
+<li>Koristi standardne assert iskaze za testiranje očekivanih rezultata.</li>
+<li>Poseduje jednostavan sistem priključaka/proširenja (\emph{plugins}).</li>
+<li>Ne propisuje strogu strukturu modula/funkcija/klasa kao što sto čini PyUnit.</li>
+<li>Brz za učenje.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Prvi primer</h3>
+<div class="org-src-container">
+
+<pre><code class="python" ># Sadrzaj fajla test_sample.py
+
+def func(x):
+    return x + 1
+
+def test_answer():
+    assert func(3) == 5
+</code></pre>
+</div>
+
+<p>
+Startovanje:
+</p>
+
+<pre class="example" id="org76da1bf">
+$ py.test
+=========================== test session starts ============================
+platform linux2 -- Python 2.7.3 -- pytest-2.3.5
+collected 1 items
+test_sample.py F
+================================= FAILURES =================================
+_______________________________ test_answer ________________________________
+&gt;
+E
+E
+def test_answer():
+assert func(3) == 5
+assert 4 == 5
++ where 4 = func(3)
+test_sample.py:5: AssertionError
+========================= 1 failed in 0.01 seconds =========================
+</pre>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Provera izuzetka</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >import pytest
+
+def f():
+    raise SystemExit(1)
+
+def test_mytest():
+    with pytest.raises(SystemExit):
+    f()
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Grupisanje testova</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class TestClass:
+
+    def test_one(self):
+    x = "this"
+    assert 'h' in x
+
+    def test_two(self):
+    x = "hello"
+    assert hasattr(x,'check')
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Početno stanje (<i>Fixtures</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >import pytest
+
+@pytest.fixture
+def smtp():
+    import smtplib
+    return smtplib.SMTP("merlinux.eu")
+
+def test_ehlo(smtp):
+    response, msg = smtp.ehlo()
+    assert response == 250
+    assert "merlinux" in msg
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Oblast važenja početnog stanja (<i>Scope</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >    import pytest
+    import smtplib
+
+    @pytest.fixture(scope="module")
+    def smtp():
+        return smtplib.SMTP("merlinux.eu")
+
+    def test_ehlo(smtp):
+        response = smtp.ehlo()
+        assert response[0] == 250
+        assert "merlinux" in response[1]
+        assert 0  # for demo purposes
+
+    def test_noop(smtp):
+        response = smtp.noop()
+        assert response[0] == 250
+        assert 0  # for demo purposes
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Oblast važenja početnog stanja (<i>Scope</i>)</h3>
+<p>
+<i>Scope</i> može biti:
+</p>
+<ul>
+<li><code>session</code> - nivo sesije tj. celokupno izvršavanje pytest-a</li>
+<li><code>module</code>  - nivo Python modula</li>
+<li><code>function</code> - nivo pojedinačne funkcije (podrazumevano).</li>
+
+</ul>
+
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Finalizacija - oslobađanje resursa</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >import smtplib
+import pytest
+
+@pytest.fixture(scope="module")
+def smtp(request):
+    smtp = smtplib.SMTP("merlinux.eu")
+def fin():
+    print ("teardown smtp")
+    smtp.close()
+    request.addfinalizer(fin)
+    return smtp  # provide the fixture value
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Finalne napomene</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Granične vrednosti &#x2013; <i>corner cases</i></h3>
+<p>
+Sistem treba da radi na propisani način u projektovanim granicama. Posebno
+obratiti pažnju na granične vrednosti jednog ili više parametara. Na primer:
+</p>
+<ul>
+<li>Maksimalan broj ulogovanih korisnika i minimalna dozvoljena količina radne memorije.</li>
+<li>Maksimalan broj elemenata niza.</li>
+<li>&#x2026;</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Prekrivenost koda - <i>Code Coverage</i></h3>
+<ul>
+<li>Mera koja iskazuje procenat programskog koda koji je pokriven testovima.</li>
+<li>Osnovni kriterijumi za merenje prekrivenosti: prekrivenost funkcija (koji procenat funkcija se poziva u testovima), prekrivenost iskaza (kroz koji procenat iskaza se prolazi prilikom testiranja), prekrivenost uslova (da li se prošlo kroz sve grane u uslovima) itd.</li>
+<li>Merenje se obavlja automatizovanim alatima: npr. za python se može koristiti biblioteka \texttt{coverage.py}.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Literatura</h2>
+<ul>
+<li><a href="http://www.diveintopython.net/">Dive into Python</a></li>
+<li><a href="http://docs.python.org/library/unittest.html">unittest dokumentacija</a></li>
+<li><a href="http://docs.python.org/library/doctest.html">doctest dokumentacija</a></li>
+<li><a href="http://pytest.org/latest/">pytest dokumentacija</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

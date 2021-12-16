@@ -25,6 +25,7 @@ order: 2
 - [textX](/courses/tech/textX/index.html)
 - [Arpeggio](courses/tech/arpeggio/)
 - [Programski jezik Python](courses/tech/Python/)
+- [Testiranje Python koda](courses/tech/python-testing/)
 - [Pharo/Smalltalk](courses/tech/Pharo/index.html)
 - [Go](courses/tech/GoLang/index.html)
 - [Django](courses/tech/django/)

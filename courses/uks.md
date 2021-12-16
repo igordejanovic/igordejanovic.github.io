@@ -13,5 +13,6 @@ layout: page
 1. [Git](tech/git/)
 1. [Django](tech/django/)
 1. [Docker](tech/docker/)
+1. [Testiranje Python koda](tech/python-testing/)
 
 

@@ -1,0 +1,638 @@
+#+TITLE: Testiranje Python koda
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Osnove
+** Zašto je potrebno testirati softver?
+- Podizanje kvaliteta softverskog proizvoda.
+- Zaštita od regresija prilikom većih izmena (npr. refaktorisanja).
+- Veća sigurnost da softver radi ono za šta je projektovan.
+
+** Pristupi u testiranju
+- /White-box/ pristup -- osobe koje vrše testiranje poseduju znanja o internim
+  strukturama i imaju pun pristup implementaciji sistema. Za kreiranje testova
+  je potrebno programersko znanje.
+- /Black-box/ pristup -- osobe koje vrše testiranje ne moraju da znaju ništa o
+  implementaciji već samo o funkcionalnosti aplikacije koja se testira. Za
+  zadate ulaze testiraju se očekivani izlazi. Za kreiranje testova nije potrebno
+  programersko znanje.
+
+** Nivoi testiranja
+Testovi se obično klasifikuju na osnovu toga gde se vrše u okviru razvoja
+softverskog proizvoda. Tako imamo:
+
+- /Unit testing/ -- testiranje modula.
+- /Integration testing/ -- testiranje međusobne saradnje komponenti.
+- /System testing/ -- testiranje sistema kao celine.
+
+** Vrste testiranja
+Na osnovu ciljeva testiranja imamo još i podelu na:
+
+- /Installation testing/ -- testiranje da se proizvod može uspešno instalirati
+  i raditi na hardversko-softverkoj platformi klijenta.
+- /Regression testing/ -- otkrivanje grešaka posle izmena koda. Regresije su
+  stare softverske greške koje se pojavljuju nanovo ali se kao regresiono
+  testiranje podrazumeva i otkrivanje novih grešaka uvođenjem promena u
+  izvorni kod.
+- /Acceptance testing/ -- testiranje prihvatanja. Odgovor na pitanje ``Da li
+  funkcionalne i nefunkcionalne osobine zadovoljavaju definisane zahteve?''.
+- /Alpha test/ -- Simulirano operativno testiranje krajnjeg proizvoda od
+  strane proizvođača softvera.
+- /Beta test/ -- Operativno testiranje krajnjeg proizvoda od strane eksternog
+  tima testera (najčešće od strane grupe stvarnih korisnika proizvoda).
+
+** Testiranje nefunkcionalnih osobina
+Pored funkcionalnih osobina sistem mora biti u definisanim granicama određenih
+nefunkcionalnih parametara kao što su:
+
+- Skalabilnost
+- Jednostavnost korišćenja
+- Brzina odziva (performanse)
+- Bezbednost
+- Robusnost
+- ...
+
+** Metodologije razvoja softvera upravljane testiranjem
+- /Test-Driven Development (TDD)/ -- prvo se piše test pa se zatim vrši
+  implementacija dok svi testovi ne prođu.
+- /Behavior Driven Development (BDD)/ -- fokus na poslovnoj logici softvera.
+  Omogućava bolju komunikaciju između korisnika sistema, testera i programera.
+  Opis testa se piše kombinacijom prirodnog jezika i programskog jezika.
+
+** Biblioteke za testiranje modula u python-u
+- /PyUnit (unittest)/ - port JUnit biblioteke za programski jezik Java.
+- /doctest/ -- testiranje upotrebom python docs stringova.
+- /py.test/ -- Akcenat na jednostavnosti upotrebe. Jednostavan API (praktično
+  nepostojeći).
+
+* PyUnit
+** PyUnit
+- Port JUnit biblioteke sa jave.
+- Omogućava agregaciju testova, startup i shutdown kod koji može da se deli između testova itd.
+- Nalazi se u =unittest= modulu standardne python biblioteke.
+
+** Osnovni koncepti
+
+    - /Test fixture/ -- podrazumeva sve pripreme koje je potrebno obaviti pre
+      izvršavanja testa kao i potrebno "čišćenje" posle testa. Npr. kreiranje
+      privremene baze, foldera na disku i sl.
+    - /Test suite/ -- kolekcija /test case/-ova ili drugih /test suite/-ova. Služi
+      za agregaciju.
+    - /Test case/ -- najmanja jedinica testiranja. =unittest= modul poseduje
+      klasu =TestCase= koja služi za njeno kreiranje.
+    - /Test runner/ -- komponenta koja izvršava testove i prikazuje rezultate
+      korisniku.
+
+** Primer - test_sequence.py
+
+#+begin_src python
+import random
+import unittest
+
+class TestSequenceFunctions(unittest.TestCase):
+
+    def setUp(self):
+        self.seq = list(range(10))
+
+    def test_shuffle(self):
+        # make sure the shuffled sequence does not lose any elements
+        random.shuffle(self.seq)
+        self.seq.sort()
+        self.assertEqual(self.seq, list(range(10)))
+
+        # should raise an exception for an immutable sequence
+        self.assertRaises(TypeError, random.shuffle, (1,2,3))
+
+    def test_choice(self):
+        element = random.choice(self.seq)
+        self.assertTrue(element in self.seq)
+
+    def test_sample(self):
+        with self.assertRaises(ValueError):
+            random.sample(self.seq, 20)
+        for element in random.sample(self.seq, 5):
+            self.assertTrue(element in self.seq)
+
+if __name__ == '__main__':
+    unittest.main()
+#+end_src
+
+#+REVEAL: split
+
+Izvršavanjem ovog test modula:
+
+#+begin_src shell
+python test_sequence.py
+#+end_src
+
+dobijamo sledeće:
+
+#+begin_example
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+
+  Ako želimo detaljniji ispis to možemo uraditi sa:
+
+   python test_sequence.py -v
+
+  Rezultat:
+
+test_choice (__main__.TestSequenceFunctions) ... ok
+test_sample (__main__.TestSequenceFunctions) ... ok
+test_shuffle (__main__.TestSequenceFunctions) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+#+end_example
+
+** Pokretanje testova iz Eclipsep-a
+PyDev omogućava pokretanje svih testova direktno iz Eclipse IDE-a. Testovi će
+automatiski biti pronađeni i izvršeni a rezultati izvršavanja biće prikazani
+grafički.
+
+#+ATTR_ORG: :width 300px
+[[./images/pydev-runtests.png]]
+
+
+** Tvrdnja da nešto mora biti zadovoljeno -- /assert/
+U okviru izvršavanja testa pozivima metode tipa =assert...= tvrdimo da nešto
+mora biti zadovoljeno. Ukoliko tvrdnja nije zadovoljena test će biti neuspešan.
+
+=assert= metode su sledeće:
+
+#+begin_src
+assertEqual(a, b)
+assertNotEqual(a, b)
+assertAlmostEqual(a, b)
+assertRaises(exc, fun, *args, **kwds)
+assertRaisesRegexp(exc, re, fun, *args, **kwds)
+...
+#+end_src
+
+=assert*= metode pozivamo nad =TestCase= instancom. Dakle u okviru test metoda nad
+=self= referencom.
+
+Pun spisak =assert= metoda možete pronaći u dokumentaciji.
+
+** Organizacija test koda
+Ukoliko se setup ponavlja u više =TestCase= klasa može se koristiti nasleđivanje.
+
+#+begin_src python
+import unittest
+
+class SimpleWidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+class DefaultWidgetSizeTestCase(SimpleWidgetTestCase):
+    def runTest(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+class WidgetResizeTestCase(SimpleWidgetTestCase):
+    def runTest(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+#+end_src
+
+** Organizacija test koda - grupisanje test funkcija (1)
+Obično se logički povezane test metode definišu u jednom =TestCase=-u.
+
+#+begin_src python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        self.widget = None
+
+    def test_default_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+    def test_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+#+end_src
+
+** Organizacija test koda - grupisanje test funkcija (2)
+- Na osnovu TestCase klase kreiraju se instance sa parametrom koji predstavlja
+  funkciju koja će se testirati.
+- Instance se grupišu u logičke celine putem TestSuite klasa.
+
+#+begin_src python
+defaultSizeTestCase = WidgetTestCase('test_default_size')
+resizeTestCase = WidgetTestCase('test_resize')
+
+widgetTestSuite = unittest.TestSuite()
+widgetTestSuite.addTest(WidgetTestCase('test_default_size'))
+widgetTestSuite.addTest(WidgetTestCase('test_resize'))
+#+end_src
+
+** Organizacija test koda - grupisanje test funkcija (3)
+- Zbog jednostavnosti preporučljivo je da modul poseduje callable koji definiše TestSuite.
+
+Na primer:
+
+#+begin_src python
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(WidgetTestCase('test_default_size'))
+    suite.addTest(WidgetTestCase('test_resize'))
+    return suite
+#+end_src
+
+ili jednostavnije:
+
+#+begin_src python
+def suite():
+    tests = ['test_default_size', 'test_resize']
+
+    return unittest.TestSuite(map(WidgetTestCase, tests))
+#+end_src
+
+** TestLoader
+- =TestSuite= može biti kreiran upotrebom =TestLoader= klase na sledeći način:
+
+#+begin_src python
+suite = unittest.TestLoader().loadTestsFromTestCase(WidgetTestCase)
+unittest.TextTestRunner(verbosity=2).run(suite)
+#+end_src
+
+- Loader će kreirati =TestSuite= od svih metoda =TestCase= koje počinju sa
+  =test_=.
+
+** TestRunner
+- =*TestRunner= su klase čije instance omogućavaju jednostavno konfigurisanje i
+  pokretanje =TestSuite= instanci:
+
+#+begin_src python
+suite = unittest.TestLoader().loadTestsFromTestCase(WidgetTestCase)
+unittest.TextTestRunner(verbosity=2).run(suite)
+#+end_src
+
+** Organizacija test koda - grupisanje TestSuite-ova (4)
+- U cilju lakšeg izvršavanja većih baterija testova tožemo kreirati hijerarhije
+  =TestSuite= na sledeći način:
+
+#+begin_src python
+suite1 = module1.TheTestSuite()
+suite2 = module2.TheTestSuite()
+alltests = unittest.TestSuite([suite1, suite2])
+#+end_src
+
+** Organizacija test koda - razdvajanje izvornog koda od test koda
+- Iako nas biblioteka za testiranje ne sprečava da izvorni kod i test kod čuvamo
+  u istom modulu, dobra je praksa da se test kod odvoji iz više razloga:
+
+  - Test kod se može nezavisno pokretati.
+  - Test kod se ne mora slati zajedno u sklopu finalnog proizvoda.
+  - Test kod se obično ređe modifikuje od izvornog koda.
+  - Jednostavnije je refaktorisanje test koda ukoliko se čuva u posebnom modulu.
+  - Ako se promeni strategija testiranja nema potrebe za izmenom izvornog koda.
+
+** Tri vrste testova
+- /Testiranje uspeha/ -- kada damo ispravan ulaz i očekujemo ispravan rezultat.
+- /Testiranje neuspeha/ -- obrada neispravnih ulaza. Npr. testiranje pojave
+  izuzetka.
+- /Testiranje konzistencije/ -- testiranje konzistentnosti više logički povezanih
+  funkcija.
+
+** Mogući rezultati testa
+- Test je uspešan ako nije došlo do pojave izuzetka prilikom njegovog
+  izvršavanja.
+- Test je neuspešan ako je došlo do pojave =AssertionError= izuzetka.
+- Pojava bilo kog drugog izuzetka smatra se greškom.
+
+** Testiranje uspeha (dobrog ulaza)
+#+begin_src python
+import unittest
+
+class DefaultWidgetSizeTestCase(unittest.TestCase):
+    def runTest(self):
+        widget = Widget('The widget')
+        self.assertEqual(widget.size(), (50, 50),
+               'incorrect default size')
+#+end_src
+
+** Testiranje odgovora na loš ulaz (1)
+#+begin_src python
+class ToRomanBadInput(unittest.TestCase):
+
+  def testTooLarge(self):
+    """toRoman should fail with large input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, 4000)
+
+  def testZero(self):
+    """toRoman should fail with 0 input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, 0)
+
+  def testNegative(self):
+    """toRoman should fail with negative input"""
+    self.assertRaises(roman.OutOfRangeError, roman.toRoman, -1)
+
+  def testNonInteger(self):
+    """toRoman should fail with non-integer input"""
+    self.assertRaises(roman.NotIntegerError, roman.toRoman, 0.5)
+#+end_src
+
+** Testiranje odgovora na loš ulaz (2)
+#+begin_src python
+class FromRomanBadInput(unittest.TestCase):
+
+  def testTooManyRepeatedNumerals(self):
+    """fromRoman should fail with too many repeated numerals"""
+    for s in ('MMMM', 'DD', 'CCCC', 'LL', 'XXXX', 'VV', 'IIII'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+
+  def testRepeatedPairs(self):
+    """fromRoman should fail with repeated pairs of numerals"""
+    for s in ('CMCM', 'CDCD', 'XCXC', 'XLXL', 'IXIX', 'IVIV'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+
+  def testMalformedAntecedent(self):
+    """fromRoman should fail with malformed antecedents"""
+    for s in ('IIMXCC', 'VX', 'DCM', 'CMM', 'IXIV', \
+      'MCMC', 'XCX', 'IVI', 'LM', 'LD', 'LC'):
+      self.assertRaises(roman.InvalidRomanNumeralError, roman.fromRoman, s)
+#+end_src
+
+* doctest
+** doctest
+- Koristi dokumentacione stringove za definisanje testova.
+- Testovi su opisani sesijom sa python shell-a.
+- Prednost: jednostavna upotreba, interaktivno kreiranje testova putem python
+  konzole.
+- Mana: nepostojanje jasne organizacije testova.
+
+** doctest - primer (1)
+#+begin_src python
+def factorial(n):
+    """Return the factorial of n, an exact integer >= 0.
+
+    If the result is small enough to fit in an int, return an int.
+    Else return a long.
+
+    >>> [factorial(n) for n in range(6)]
+    [1, 1, 2, 6, 24, 120]
+    >>> [factorial(long(n)) for n in range(6)]
+    [1, 1, 2, 6, 24, 120]
+    >>> factorial(30)
+    265252859812191058636308480000000L
+    >>> factorial(30L)
+    265252859812191058636308480000000L
+    >>> factorial(-1)
+    Traceback (most recent call last):
+        ...
+    ValueError: n must be >= 0
+
+    Factorials of floats are OK, but the float must be an exact integer:
+    >>> factorial(30.1)
+    Traceback (most recent call last):
+        ...
+    ValueError: n must be exact integer
+    """
+#+end_src
+
+** doctest - primer (2)
+#+begin_src python
+    """
+    >>> factorial(30.0)
+    265252859812191058636308480000000L
+
+    It must also not be ridiculously large:
+    >>> factorial(1e100)
+    Traceback (most recent call last):
+        ...
+    OverflowError: n too large
+    """
+
+    import math
+    if not n >= 0:
+        raise ValueError("n must be >= 0")
+    if math.floor(n) != n:
+        raise ValueError("n must be exact integer")
+    if n+1 == n:  # catch a value like 1e300
+        raise OverflowError("n too large")
+    result = 1
+    factor = 2
+    while factor <= n:
+        result *= factor
+        factor += 1
+    return result
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+#+end_src
+
+** doctest - pokretanje
+Pokretanje modula sa doctest tipom test opisa se obavlja tako što se u modul
+doda sledeće:
+
+#+begin_src python
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+#+end_src
+
+I zatim se modul pokreće na standardan način:
+
+#+begin_src shell
+python fact.py
+#+end_src
+
+Ukoliko nema nikakvog ispisa znači da su testovi prošli uspešno.
+
+** doctest - pokretanje (2)
+Ukoliko želimo detaljan ispis modul pokrećemo na sledeći način:
+
+#+begin_src shell
+python fact.py -v
+#+end_src
+
+Ispis će sada biti:
+
+#+begin_example
+Trying:
+    factorial(5)
+Expecting:
+    120
+ok
+Trying:
+    [factorial(n) for n in range(6)]
+Expecting:
+    [1, 1, 2, 6, 24, 120]
+ok
+Trying:
+    [factorial(long(n)) for n in range(6)]
+Expecting:
+    [1, 1, 2, 6, 24, 120]
+ok
+...
+#+end_example
+
+* py.test
+** py.test
+    - Okvir za testiranje čiji fokus je jednostavnost API-ja.
+    - Koristi standardne assert iskaze za testiranje očekivanih rezultata.
+    - Poseduje jednostavan sistem priključaka/proširenja (/plugins/).
+    - Ne propisuje strogu strukturu modula/funkcija/klasa kao što sto čini PyUnit.
+    - Brz za učenje.
+
+** Prvi primer
+
+#+begin_src python
+# Sadrzaj fajla test_sample.py
+
+def func(x):
+    return x + 1
+
+def test_answer():
+    assert func(3) == 5
+#+end_src
+
+Startovanje:
+
+#+begin_example
+$ py.test
+=========================== test session starts ============================
+platform linux2 -- Python 2.7.3 -- pytest-2.3.5
+collected 1 items
+test_sample.py F
+================================= FAILURES =================================
+_______________________________ test_answer ________________________________
+>
+E
+E
+def test_answer():
+assert func(3) == 5
+assert 4 == 5
++ where 4 = func(3)
+test_sample.py:5: AssertionError
+========================= 1 failed in 0.01 seconds =========================
+#+end_example
+
+** Provera izuzetka
+#+begin_src python
+import pytest
+
+def f():
+    raise SystemExit(1)
+
+def test_mytest():
+    with pytest.raises(SystemExit):
+    f()
+#+end_src
+
+** Grupisanje testova
+#+begin_src python
+class TestClass:
+
+    def test_one(self):
+    x = "this"
+    assert 'h' in x
+
+    def test_two(self):
+    x = "hello"
+    assert hasattr(x,'check')
+#+end_src
+
+** Početno stanje (/Fixtures/)
+#+begin_src python
+import pytest
+
+@pytest.fixture
+def smtp():
+    import smtplib
+    return smtplib.SMTP("merlinux.eu")
+
+def test_ehlo(smtp):
+    response, msg = smtp.ehlo()
+    assert response == 250
+    assert "merlinux" in msg
+#+end_src
+
+** Oblast važenja početnog stanja (/Scope/)
+#+begin_src python
+    import pytest
+    import smtplib
+
+    @pytest.fixture(scope="module")
+    def smtp():
+        return smtplib.SMTP("merlinux.eu")
+
+    def test_ehlo(smtp):
+        response = smtp.ehlo()
+        assert response[0] == 250
+        assert "merlinux" in response[1]
+        assert 0  # for demo purposes
+
+    def test_noop(smtp):
+        response = smtp.noop()
+        assert response[0] == 250
+        assert 0  # for demo purposes
+#+end_src
+
+** Oblast važenja početnog stanja (/Scope/)
+/Scope/ može biti:
+ - =session= - nivo sesije tj. celokupno izvršavanje pytest-a
+ - =module=  - nivo Python modula
+ - =function= - nivo pojedinačne funkcije (podrazumevano).
+
+** Finalizacija - oslobađanje resursa
+#+begin_src python
+import smtplib
+import pytest
+
+@pytest.fixture(scope="module")
+def smtp(request):
+    smtp = smtplib.SMTP("merlinux.eu")
+def fin():
+    print ("teardown smtp")
+    smtp.close()
+    request.addfinalizer(fin)
+    return smtp  # provide the fixture value
+#+end_src
+
+* Finalne napomene
+** Granične vrednosti -- /corner cases/
+Sistem treba da radi na propisani način u projektovanim granicama. Posebno
+obratiti pažnju na granične vrednosti jednog ili više parametara. Na primer:
+- Maksimalan broj ulogovanih korisnika i minimalna dozvoljena količina radne memorije.
+- Maksimalan broj elemenata niza.
+- ...
+
+** Prekrivenost koda - /Code Coverage/
+- Mera koja iskazuje procenat programskog koda koji je pokriven testovima.
+- Osnovni kriterijumi za merenje prekrivenosti: prekrivenost funkcija (koji
+  procenat funkcija se poziva u testovima), prekrivenost iskaza (kroz koji
+  procenat iskaza se prolazi prilikom testiranja), prekrivenost uslova (da li se
+  prošlo kroz sve grane u uslovima) itd.
+- Merenje se obavlja automatizovanim alatima: npr. za python se može koristiti biblioteka =coverage.py=.
+
+* Literatura
+- [[http://www.diveintopython.net/][Dive into Python]]
+- [[http://docs.python.org/library/unittest.html][unittest dokumentacija]]
+- [[http://docs.python.org/library/doctest.html][doctest dokumentacija]]
+- [[http://pytest.org/latest/][pytest dokumentacija]]
