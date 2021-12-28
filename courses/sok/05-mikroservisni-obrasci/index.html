@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Mikroservisni obrasci</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Mikroservisni obrasci</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2021-12-27 Mon 14:15, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-orge4f929d">
+<h2 id="orge4f929d">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Uvod</a></li>
+<li><a href="#/slide-2">2. Database per service</a></li>
+<li><a href="#/slide-3">3. Shared database</a></li>
+<li><a href="#/slide-4">4. Saga</a></li>
+<li><a href="#/slide-5">5. API Composition</a></li>
+<li><a href="#/slide-6">6. CQRS</a></li>
+<li><a href="#/slide-7">7. Messaging</a></li>
+<li><a href="#/slide-8">8. Remote Procedure Invocation</a></li>
+<li><a href="#/slide-9">9. Event sourcing</a></li>
+<li><a href="#/slide-10">10. API Gateway</a></li>
+<li><a href="#/slide-11">11. Circuit Breaker</a></li>
+<li><a href="#/slide-12">12. Access Token</a></li>
+<li><a href="#/slide-13">13. Literatura</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Mikroservisi (<i>Microservices</i>)</h3>
+<ul>
+<li>Mikroservisi su softverske komponente. Visoka kohezija, slaba sprega.</li>
+<li>Komunikacija se obavlja putem standardnih tehnološki nezavisnih protokola
+(najčešće HTTP).</li>
+<li>Mogu biti implementirani u različitim programskih jezicima i tehnologijama.</li>
+<li>Mali su, ograničenog konteksta. Nezavisno se razvijaju i uvode.</li>
+<li>Imaju jasno definisane interfejse putem kojih komuniciraju.</li>
+<li><p>
+Unix filozofija
+</p>
+<blockquote>
+<p>
+Do one thing and do it well.
+</p>
+</blockquote></li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Arhitektura bazirana na mikroservisima</h3>
+<ul>
+<li>Arhitektonski stil gde se aplikacija gradi kao skup slabo spregnutih &ldquo;malih&rdquo;
+servisa (mikroservisa) koji sarađuju.</li>
+<li>Varijanta <i>Service-Oriented Architecture</i> (SOA) ali servisi su &ldquo;mali&rdquo; i
+protokoli za komunikaciju su jednostavni (<i>light-weight</i>).</li>
+<li>Mikroservisi pružaju usluge i/ili koriste druge mikroservise.</li>
+<li>U cilju nezavisne migracije mikroservisa na nove verzije interfejsi se
+verzioniraju i omogućava se klijentima da koriste stare interfejse u prelaznom
+periodu.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Prednosti u odnosu na monolitnu arhitekturu</h3>
+<ul>
+<li>Timovi mogu biti tehnološki heterogeni.</li>
+<li>Uvođenje (<i>deploy</i>) se obavlja u malim inkrementima (<i>fine-grained</i>).</li>
+<li>Modularnost, dekompozicija. Lakše razumevanje, razvoj i testiranje. Otpornost
+na &ldquo;eroziju arhitekture&rdquo;.</li>
+<li>Bolja skalabilnost. Bolja elastičnost. Lako dodavanje novih mikroservisa po
+potrebi.</li>
+<li>Bolja otpornost na otkaze. Ukoliko jedan mikroservis &ldquo;padne&rdquo; ostatak
+aplikacije nastavlja da radi.</li>
+<li>Lakša migracija na nove tehnologije. Moguća postepenim zamenama mikroservisa.</li>
+<li>Integracija heterogenih i &ldquo;starih&rdquo; sistema (<i>legacy</i>).</li>
+<li>Continualna integracija i dostava (<i>Continuous Integration/Delivery</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Mane u odnosu na monolitnu arhitekturu</h3>
+<ul>
+<li>Više &ldquo;pokretnih delova&rdquo;. Zahteva bolje alate za uvođenje i monitoring.</li>
+<li>Teže debagovanje. Debagovanje zahteva praćenje zahteva kroz više mikroservisa
+koji se izvršavaju često na različitim fizičkim/virtuelnim računarima.</li>
+<li>Dodatni troškovi (<i>overheads</i>) usled komunikacije.</li>
+<li>Dodatni troškovi u slučaju potrebe za deljenjem podataka.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Database per service</h2>
+<ul>
+<li>U cilju slabog sprezanja servisa podaci nad kojima servisi operišu se
+implementiraju kao privatni.</li>
+<li>Drugi servisi ne mogu pristupiti podacima direktno već samo kroz interfejs
+servisa.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Prednosti</h3>
+<ul>
+<li>Podaci su deo implementacije servisa.</li>
+<li>Implementacija privatne baze se može menjati nezavisno od ostatka sistema.</li>
+<li>Moguće je koristiti heterogene tehnologije.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Mane</h3>
+<ul>
+<li>Otežano izvođenje transakcija koje se obavljaju između podataka različitih
+servisa. Videti obrazac <a href="#/slide-4" class="forwardlink">Saga</a>.</li>
+<li>Otežani složeni upiti koji obuhvataju podatke više servisa. Videti obrazac <a href="#/slide-6" class="forwardlink">CQRS</a>.</li>
+
+</ul>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Načini implementacije</h3>
+<ul>
+<li>Kod relacionih baza:
+<ul>
+<li>privatne tabele po servisu,</li>
+<li>privatna šema po servisu.</li>
+
+</ul></li>
+<li>Posebna instanca baze po servisu.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Shared database</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Saga</h2>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> API Composition</h2>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> CQRS</h2>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Messaging</h2>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Remote Procedure Invocation</h2>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Event sourcing</h2>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> API Gateway</h2>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Circuit Breaker</h2>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Access Token</h2>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Literatura</h2>
+<ul>
+<li>Chris Richardson, <a href="https://microservices.io/">https://microservices.io/</a></li>
+<li>Wikipedia, <a href="https://en.wikipedia.org/wiki/Microservices">https://en.wikipedia.org/wiki/Microservices</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

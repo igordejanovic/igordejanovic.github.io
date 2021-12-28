@@ -1,0 +1,122 @@
+#+TITLE: Mikroservisni obrasci
+#+SUBTITLE:
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+* Uvod
+** Mikroservisi (/Microservices/)
+- Mikroservisi su softverske komponente. Visoka kohezija, slaba sprega.
+- Komunikacija se obavlja putem standardnih tehnološki nezavisnih protokola
+  (najčešće HTTP).
+- Mogu biti implementirani u različitim programskih jezicima i tehnologijama.
+- Mali su, ograničenog konteksta. Nezavisno se razvijaju i uvode.
+- Imaju jasno definisane interfejse putem kojih komuniciraju.
+- /Unix/ filozofija
+  #+begin_quote
+    Do one thing and do it well.
+  #+end_quote
+
+** Arhitektura bazirana na mikroservisima
+- Arhitektonski stil gde se aplikacija gradi kao skup slabo spregnutih "malih"
+  servisa (mikroservisa) koji sarađuju.
+- Varijanta /Service-Oriented Architecture/ (SOA) ali servisi su "mali" i
+  protokoli za komunikaciju su jednostavni (/light-weight/).
+- Mikroservisi pružaju usluge i/ili koriste druge mikroservise.
+- U cilju nezavisne migracije mikroservisa na nove verzije interfejsi se
+  verzioniraju i omogućava se klijentima da koriste stare interfejse u prelaznom
+  periodu.
+
+** Prednosti u odnosu na monolitnu arhitekturu
+- Timovi mogu biti tehnološki heterogeni.
+- Uvođenje (/deploy/) se obavlja u malim inkrementima (/fine-grained/).
+- Modularnost, dekompozicija. Lakše razumevanje, razvoj i testiranje. Otpornost
+  na "eroziju arhitekture".
+- Bolja skalabilnost. Bolja elastičnost. Lako dodavanje novih mikroservisa po
+  potrebi.
+- Bolja otpornost na otkaze. Ukoliko jedan mikroservis "padne" ostatak
+  aplikacije nastavlja da radi.
+- Lakša migracija na nove tehnologije. Moguća postepenim zamenama mikroservisa.
+- Integracija heterogenih i "starih" sistema (/legacy/).
+- Kontinualna integracija i dostava (/Continuous Integration/Delivery/)
+
+** Mane u odnosu na monolitnu arhitekturu
+- Više "pokretnih delova". Zahteva bolje alate za uvođenje i monitoring.
+- Teže debagovanje. Debagovanje zahteva praćenje zahteva kroz više mikroservisa
+  koji se izvršavaju često na različitim fizičkim/virtuelnim računarima.
+- Dodatni troškovi (/overheads/) usled komunikacije.
+- Dodatni troškovi u slučaju potrebe za deljenjem podataka.
+
+* Database per service
+- U cilju slabog sprezanja servisa podaci nad kojima servisi operišu se
+  implementiraju kao privatni.
+- Drugi servisi ne mogu pristupiti podacima direktno već samo kroz interfejs
+  servisa.
+
+** TODO Struktura
+** Prednosti
+- Podaci su deo implementacije servisa.
+- Implementacija privatne baze se može menjati nezavisno od ostatka sistema.
+- Moguće je koristiti heterogene tehnologije.
+
+** Mane
+- Otežano izvođenje transakcija koje se obavljaju između podataka različitih
+  servisa. Videti obrazac [[*Saga][Saga]].
+- Otežani složeni upiti koji obuhvataju podatke više servisa. Videti obrazac [[*CQRS][CQRS]].
+** Načini implementacije
+- Kod relacionih baza:
+  - privatne tabele po servisu,
+  - privatna šema po servisu.
+- Posebna instanca baze po servisu.
+
+* Shared database
+- U cilju podrške za ACID transakcije servisi dele istu bazu podatak i mogu
+  slobodno da pristupaju podacima drugih servisa.
+
+** TODO Struktura
+** Prednosti
+- Jednostavnije za implementaciju i operaciju.
+- Jednostavnije transakcije (ACID) i upiti (npr. moguće JOIN između tabela
+  različitih servisa).
+
+** Mane
+- Jača sprega između servisa u vreme razvoja (npr. održavanje šeme baze mora
+  biti koorinisano između timova) i u vreme izvršavanja (npr. jedan servis može
+  da zaključa tabelu i spreči druge servise da pristupe).
+- Servisi mogu da menjaju podatke drugih servisa. Ovo je moguće administrativno
+  regulisati ukoliko baza podržava.
+- Ista baza možda neće zadovoljiti potrebne funkcionalne i nefunkcionalne
+  osobine zahtevane od strane nekih servisa.
+
+* Saga
+- Koristi se kada je u upotrebi [[*Database per service][Database per service]] obrazac za implementaciju
+  transakcija.
+- Vid distribuirane transakcije. Manje rigidna od /two-phase commit/ (2PC).
+- Očuvanje konzistencije podataka između servisa.
+- Niz lokalnih transakcija (/ACID/) koje objavom poruke/događaja iniciraju sledeću
+  transakciju u lancu. Ukoliko neka od transakcija ne uspe, izvršava se
+  poništavanje.
+- Dva pristupa izvođenja transakcije:
+  - Baziran na koreografiji (/Choreography/)
+  - Baziran na orkestraciji (/Orchestration/)
+** TODO Struktura - koreografija
+** TODO Struktura - orkestracija
+** Prednosti
+-
+** Mane
+* API Composition
+* CQRS
+* Messaging
+* Remote Procedure Invocation
+* Event sourcing
+* API Gateway
+* Circuit Breaker
+* Access Token
+* Literatura
+- Microsoft, [[https://docs.microsoft.com/en-us/azure/architecture/patterns/][Cloud Design Patterns]]
+- Chris Richardson, [[https://microservices.io/][Microservice Architecture]]
+- Wikipedia, [[https://en.wikipedia.org/wiki/Microservices][Microservices]]
