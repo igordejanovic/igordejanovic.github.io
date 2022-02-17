@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Developing Domain-Specific Languages in Python with textX</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Developing Domain-Specific Languages in Python with textX</h1>
+<h2 class="author"> Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<h2 class="venue">Strumenta Meetups, 24 February 2022</h2>
+<p class="overview-info">Created 2022-02-24 Thu 19:18, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search</p>
+</section>
+
+<section>
+<section id="slide-org628bbf3">
+<h2 id="org628bbf3">Table of Content</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Overview</a></li>
+<li><a href="#/slide-2">2. A brief history</a></li>
+<li><a href="#/slide-3">3. Setup</a></li>
+<li><a href="#/slide-4">4. Hello World</a></li>
+<li><a href="#/slide-5">5. Hello from file</a></li>
+<li><a href="#/slide-6">6. <code>textx</code> command</a></li>
+<li><a href="#/slide-7">7. Grammar check</a></li>
+<li><a href="#/slide-8">8. Running example - Workflow DSL</a></li>
+<li><a href="#/slide-9">9. Visualize (meta-)model</a></li>
+<li><a href="#/slide-10">10. Some differences to xText</a></li>
+<li><a href="#/slide-11">11. Language/generator registration</a></li>
+<li><a href="#/slide-12">12. Scoping and RREL</a></li>
+<li><a href="#/slide-13">13. Project scaffolding</a></li>
+<li><a href="#/slide-14">14. textX-LS</a></li>
+<li><a href="#/slide-15">15. A more complex example - PyFlies</a></li>
+<li><a href="#/slide-16">16. Where to go next?</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Overview</h2>
+
+<div id="org0bf8628" class="figure">
+<p><img src="./images/textX.png" alt="textX.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> A brief history</h2>
+<ul>
+<li class="fragment roll-in">An idea to implement xText in Python</li>
+<li class="fragment roll-in">Initial release in 2014</li>
+<li class="fragment roll-in">1.0 - 2016, 2.0 - 2019, 3.0 is going to happen soon</li>
+<li class="fragment roll-in">2017 - <a href="https://github.com/aranega">Vincent Aranega</a> - <a href="https://github.com/pyecore/pyecore">pyEcore</a> <a href="https://github.com/aranega/textX/">integration</a></li>
+<li class="fragment roll-in">2018 - <a href="https://github.com/goto40">Pierre Bayerl</a> joins the project - <a href="https://en.wikipedia.org/wiki/Bus_factor">Bus factor</a> improved :)</li>
+<li class="fragment roll-in">570 stars, 64 forks, 18 contributors on GitHub</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Setup</h2>
+<p>
+To create Python environment
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >python -m venv venv
+</code></pre>
+</div>
+
+<p>
+then, activate the environment and install textX.
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >source venv/bin/activate
+pip install textx[cli]
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Hello World</h2>
+<div class="org-src-container">
+
+<pre><code class="python" >model = """
+hello You, Me; Everybody
+"""
+mm_str = r"""
+Hello: 'hello' to_greet+=Who[/,|;/];
+Who: name=ID;
+"""
+from textx import metamodel_from_str
+mm = metamodel_from_str(mm_str)
+m = mm.model_from_str(model)
+print([who.name for who in m.to_greet])
+</code></pre>
+</div>
+
+<pre class="example">
+['You', 'Me', 'Everybody']
+</pre>
+
+
+<p>
+See: <a href="http://textx.github.io/textX/latest/grammar/#matches">matches</a>, <a href="http://textx.github.io/textX/latest/grammar/#assignments">assignments</a>, and <a href="http://textx.github.io/textX/latest/grammar/#rule-types">rule types</a>.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Hello from file</h2>
+<p>
+In file <code>hello.tx</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Hello: 'hello' to_greet+=Who[/,|;/];
+Who: name=/[^,;]+/;
+</code></pre>
+</div>
+
+<p>
+In file <code>model.hello</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >hello World, Solar System; Universe
+</code></pre>
+</div>
+
+<p>
+In file <code>hello.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_from_file
+def who_processor(who):
+    who.name = who.name.strip()
+mm = metamodel_from_file('hello.tx')
+mm.register_obj_processors({'Who': who_processor})
+print(mm)
+m = mm.model_from_file('model.hello')
+print([who.name for who in m.to_greet])
+</code></pre>
+</div>
+
+<pre class="example">
+&lt;textx.metamodel.TextXMetaModel object at 0x7f5add1b7dc0&gt;
+['World', 'Solar System', 'Universe']
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> <code>textx</code> command</h2>
+<p>
+Used for checking the grammar, investigating languages and generators and
+running generators.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ textx --help
+Usage: textx [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug  Debug/trace output.
+  --help   Show this message and exit.
+
+Commands:
+  check            Check/validate model given its file path.
+  generate         Run code generator on a provided model(s).
+  list-generators  List all registered generators
+  list-languages   List all registered languages
+  version          Print version info.
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Grammar check</h2>
+<div class="org-src-container">
+
+<pre><code class="sh" >textx check --grammar hello.tx model.hello
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Error: None:1:1: error: Expected 'hello' at position /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/model.hello:(1, 1) =&gt; '*hi World, '.
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Running example - Workflow DSL</h2>
+<p>
+A tiny workflow DSL will be used in the rest of the slides.
+</p>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Model/Program</h3>
+<p>
+An example in this language might look like:
+</p>
+<div class="org-src-container">
+
+<pre><code class="c" >package BuildHouse {
+    task buyLand {
+    searchAds, chooseLand, buyLand
+    next makePlan
+    }
+    task makePlan {
+    searchforArchitect, giveInstructions, choosePlan
+    next buildHouse
+    }
+    task buildHouse {
+      buildHouse
+    }
+}
+package BuildFence {
+  task buildFence {
+    chooseMaterial, buildFence
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Metamodel/Grammar</h3>
+<div class="org-src-container">
+
+<pre><code class="textx" >Model: elements*=Element;
+Element: Package | Task;
+Package: 'package' name=ID '{'
+        elements*=Element
+    '}';
+Task: 'task' name=ID '{'
+         steps+=ID[',']
+         ('next' next=[Task])?
+    '}';
+</code></pre>
+</div>
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Check/use the language</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_from_file
+mm = metamodel_from_file('workflow.tx')
+model = mm.model_from_file('example.workflow')
+print(model)
+</code></pre>
+</div>
+
+<pre class="example">
+&lt;textx:workflow.Model instance at 0x7f655fbd4340&gt;
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class="sh" >textx check --grammar workflow.tx example.workflow
+</code></pre>
+</div>
+
+<pre class="example">
+/home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/example.workflow: OK.
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Visualize (meta-)model</h2>
+<p>
+Visualization is done using textX&rsquo;s generator framework.
+</p>
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx list-generators
+any -&gt; dot         textX[2.3.0]  Generating dot visual...
+textX -&gt; dot       textX[2.3.0]  Generating dot visual...
+textX -&gt; PlantUML  textX[2.3.0]  Generating PlantUML v...
+</code></pre>
+</div>
+
+<ol class="footer" style="clear: both;">
+<li>PlantUML is a DSL for creating UML diagrams &#x2014; <a href="https://plantuml.com/">https://plantuml.com/</a></li>
+
+</ol>
+
+</section>
+<section>
+
+<p>
+To visualize (meta-)model we use generators that produce <code>dot</code> or <code>plantuml</code> outputs.
+</p>
+<div class="org-src-container">
+
+<pre><code class="shell" >textx generate workflow.tx --target dot --overwrite
+</code></pre>
+</div>
+
+<p>
+<code>dot</code> file can be visualized either by transforming to an image using <code>dot</code> tool
+(part of GraphViz):
+</p>
+<div class="org-src-container">
+
+<pre><code class="shell" >dot -Tpng -O workflow.dot
+</code></pre>
+</div>
+
+
+<div id="orge72ebff" class="figure">
+<p><img src="./workflow.dot.png" alt="workflow.dot.png" style="height: 350px;" />
+</p>
+</div>
+
+<p>
+Or opening it in some <code>dot</code> visualizer, e.g. <a href="https://github.com/jrfonseca/xdot.py">xdot</a>.
+</p>
+
+</section>
+<section>
+
+<p>
+Similarly, we can produce PlantUML diagram by specifying <code>plantuml</code> target.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >textx generate workflow.tx --target plantuml --overwrite
+</code></pre>
+</div>
+
+<pre class="example">
+Generating plantuml target from models:
+/home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/workflow.tx
+-&gt; /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/workflow.pu
+    To convert to png run "plantuml workflow.pu"
+</pre>
+
+
+<p>
+And then convert it to <code>png</code> image using <code>plantuml</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >plantuml workflow.pu
+</code></pre>
+</div>
+
+
+<div id="orgac22da0" class="figure">
+<p><img src="./workflow.png" alt="workflow.png" style="height: 400px;" />
+</p>
+</div>
+
+<p>
+You get a nice UML diagrams directly from your grammars.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Some differences to xText</h2>
+<p>
+A few notes for those familiar with xText.
+</p>
+
+</section>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Lexical grammar</h3>
+<p>
+textX doesn&rsquo;t have a separate lexical grammar. There are Match rules that
+resembles something close to lexical grammar but not quite.
+</p>
+
+</section>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Assignments</h3>
+<p>
+textX integrates repetition and assignments:
+</p>
+
+<p>
+In xText you would write:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Domainmodel :
+    (elements+=Type)*;
+</code></pre>
+</div>
+
+<p>
+While in textX it would be:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Domainmodel :
+    elements*=Type;
+</code></pre>
+</div>
+
+<p>
+Optional assignment in xText:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >static?='static'?
+</code></pre>
+</div>
+
+<p>
+In textX:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >static?='static'
+</code></pre>
+</div>
+
+</section>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3.</span> Regex matches</h3>
+<p>
+textX has simple string matches (like <code>'something to match'</code>) and regex matches
+where you can use a full power of Python regex engine inside <code>/.../</code>.
+</p>
+
+<p>
+For example:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Person:
+    name=/[a-zA-Z]+/ age=INT;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-10-4">
+<h3 id="10-4"><span class="section-number-3">10.4.</span> Repetition modifiers</h3>
+<p>
+textX provides a syntactic construct called <a href="http://textx.github.io/textX/latest/grammar/#repetition-modifiers">repetition modifier</a> which enables
+parser to be altered during parsing of a specific repetition expression.
+</p>
+
+<p>
+xText:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >list_of_ints+=INT (',' list_of_ints+=INT)*
+</code></pre>
+</div>
+
+<p>
+textX:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >list_of_inst+=INT[',']
+</code></pre>
+</div>
+<p>
+Modifier can also be a regex match:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="textx" >list_of_ints+=INT[/,|;/]
+</code></pre>
+</div>
+
+<p>
+Repetition modifier can be applied to any repetition (zero or more, one or more,
+optional, unordered group).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="textx" >(First /\d+/ Second)*[',']
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Besides matches there are other modifiers. For example EOL terminator:
+</p>
+<pre>
+STRING*[',', eolterm]
+</pre>
+
+<p>
+would match the first line of:
+</p>
+<pre>
+"first", "second", "third"
+, "fourth"
+</pre>
+</section>
+<section id="slide-10-5">
+<h3 id="10-5"><span class="section-number-3">10.5.</span> Unordered groups</h3>
+<p>
+Xtext support unordered groups using the <code>&amp;</code> operator.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="textx" >Modifier:
+    static?='static'? &amp; final?='final'? &amp; visibility=Visibility;
+
+enum Visibility:
+    PUBLIC='public' | PRIVATE='private' | PROTECTED='protected';
+</code></pre>
+</div>
+
+<p>
+In textX unordered groups are specified as a special kind of repetitions. Thus,
+repetition modifiers can be applied also:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="textx" >Modifier:
+    (static?='static' final?='final' visibility=Visibility)#[',']
+
+Visibility:
+    'public' | 'private' | 'protected';
+</code></pre>
+</div>
+
+<p>
+match:
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >private, static, final
+static, private, final
+public, static
+private
+...
+</code></pre>
+</div>
+</section>
+<section id="slide-10-6">
+<h3 id="10-6"><span class="section-number-3">10.6.</span> Scoping</h3>
+<p>
+<a href="http://textx.github.io/textX/latest/scoping/">Scoping</a> in textX is done either by using Python through registration of scope
+providers, or declaratively using <a href="http://textx.github.io/textX/latest/rrel/">Reference Resolving Expression Language</a>.
+</p>
+
+<p>
+Xtext provides a <a href="https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping">Scoping API</a> which can be used by the Xtend code to specify
+scoping rules.
+</p>
+
+</section>
+<section id="slide-10-7">
+<h3 id="10-7"><span class="section-number-3">10.7.</span> More differences</h3>
+<p>
+For more differences please see <a href="http://textx.github.io/textX/latest/about/comparison/">this page</a>.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Language/generator registration</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+</section>
+<section id="slide-11-1">
+<h3 id="11-1"><span class="section-number-3">11.1.</span> Create language description</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import LanguageDesc
+
+def entity_metamodel():
+    # Construct and configure the meta-model
+    # e.g. by calling metamodel_from_file
+    ...
+
+entity_lang = LanguageDesc(
+    'entity',
+    pattern='*.ent',
+    description='Entity-relationship language',
+    metamodel=entity_metamodel)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-11-2">
+<h3 id="11-2"><span class="section-number-3">11.2.</span> Programmatic registration</h3>
+<p>
+<code>LanguageDesc</code> instance can be registered programmatically by the
+<code>register_language</code> function:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import register_language
+register_language(entity_lang)
+</code></pre>
+</div>
+
+<p>
+The meta-model can be accessed from any Python program like this:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_for_language
+lang_mm = metamodel_for_language('entity')
+</code></pre>
+</div>
+
+</section>
+<section id="slide-11-3">
+<h3 id="11-3"><span class="section-number-3">11.3.</span> Declarative registration</h3>
+<ul>
+<li>Registration can be done declaratively using <code>setup.py</code> or <code>setup.cfg</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >setup(
+    ...
+    entry_points={
+        'textx_languages': [
+            'entity = entity.metamodel:entity_lang',
+        ],
+    },
+</code></pre>
+</div>
+
+</section>
+<section id="slide-11-4">
+<h3 id="11-4"><span class="section-number-3">11.4.</span> Using a decorator</h3>
+<p>
+There is a convenient <code>language</code> decorator to make registration easier.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import language
+
+@language('entity', '*.ent')
+def entity_lang():
+    """
+    Entity-relationship language
+    """
+    # Create, configure and return an instance of the meta-model
+    ...
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Scoping and RREL</h2>
+<ul>
+<li><p>
+In a <a href="http://textx.github.io/textX/latest/grammar/#references">link rule reference,</a> the name matched at the location must be resolved to
+the referenced object.
+</p>
+
+<p>
+For example
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >    Attribute: 'attr' ref=[Class] name=ID ';';
+</code></pre>
+</div></li>
+
+<li>Global search by default.</li>
+<li>Programmatic <a href="http://textx.github.io/textX/stable/scoping/">scoping providers</a> may be registered to resolve references.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-1">
+<h3 id="12-1"><span class="section-number-3">12.1.</span> RREL</h3>
+<p>
+Declarative specification of reference resolving strategy.
+</p>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Attribute: 'attr' ref=[Class|FQN|^packages*.classes] name=ID ';';
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2">
+<h3 id="12-2"><span class="section-number-3">12.2.</span> RREL operators and markers</h3>
+<ul>
+<li><code>.</code> - <i>dot navigation</i>. Searches for the attribute in the current AST context.
+<ul>
+<li>e.g. <code>.</code> is this object, <code>..</code> is parent, <code>...</code> is a parent of a parent</li>
+<li>relative lookup. Example: <code>.a.b</code></li>
+
+</ul></li>
+<li><code>~</code> - do not consume name.
+<ul>
+<li><code>~extends*.methods</code> - search for method name in the inheritance hierarchy.</li>
+
+</ul></li>
+<li><code>*</code> - repeat/expand - <code>.~extends*.methods</code> expands to: <code>.methods</code>, <code>.~extends.methods</code>,
+<code>.~extends.~extends.methods</code> &#x2026;</li>
+<li><code>^</code> - bottom-up search. Example <code>^packages*.classes</code> expands to <code>.classes</code>,
+<code>..packages.classes</code>, <code>...packages.packages.classes</code> &#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-12-3">
+<h3 id="12-3"><span class="section-number-3">12.3.</span> Extending example to use FQN</h3>
+<div class="outline-text-3" id="text-12-3">
+</div>
+</section>
+<section id="slide-12-3-1">
+<h4 id="12-3-1"><span class="section-number-4">12.3.1.</span> Model</h4>
+<div class="org-src-container">
+
+<pre><code class="text" >package BuildHouse {
+        task feasibility DONE {
+             next buyLand
+        }
+        task buyLand DONE {
+             searchAds, findLand, buyLand
+             next makePlan
+        }
+        task makePlan DOING {
+             chooseArchitect, giveInstructions, choosePlan
+             next buildHouse
+        }
+        task buildHouse TODO {
+             buildHouse
+             next BuildFence.feasibility
+        }
+        task moveIn {}
+}
+package BuildFence {
+        task feasibility TODO {}
+        task buildFence {
+             chooseCompany, giveInstructions, buildFence
+             next BuildHouse.moveIn
+        }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-3-2">
+<h4 id="12-3-2"><span class="section-number-4">12.3.2.</span> Meta-model</h4>
+<div class="org-src-container">
+
+<pre><code class="textx" >Model: elements+=Element;
+Package: 'package' name=ID '{'
+             elements+=Element
+         '}';
+Element: Package | Task;
+Task: 'task' name=ID (state=State)? '{'
+            steps*=Step[',']
+            ('next' next+=[Task|FQN|^elements*.elements][','])?
+      '}';
+State: 'TODO' | 'DOING' | 'DONE';
+Step: !'next' ID;
+FQN: ID+['.'];
+Comment: /\/\/.*/;
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Project scaffolding</h2>
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx startroject &lt;folder&gt;
+</code></pre>
+</div>
+
+<p>
+Command asks a few questions and generates the project files. To install the
+generated project in developers mode (editable):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ pip install -e &lt;folder&gt;
+</code></pre>
+</div>
+
+<ol class="footer" style="clear: both;">
+<li>Answers are cached and will be reused as the default answers in further runs.</li>
+
+</ol>
+
+</section>
+<section>
+
+<p>
+After installation the language (or generator) is visible to the <code>textx
+list-languages</code> or <code>textx list-generators</code> commands.
+</p>
+
+<div class="note" id="org5cee747">
+<p>
+<code>startproject</code> command is not defined in the base <code>textX</code> library but in <code>textX-dev</code>
+package. Thus to have it registered we must install this project:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >pip install textX-dev
+</code></pre>
+</div>
+
+<p>
+Alternatively, we can install all <code>dev</code> dependencies:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >pip install textX[dev]
+</code></pre>
+</div>
+
+</div>
+
+</section>
+<section>
+
+<div class="note" id="orga1c52f0">
+<ul>
+<li><a href="https://github.com/textX/textx-lang-questionnaire">Questionnaire DSL</a></li>
+<li><a href="https://github.com/textX/textX-dev/blob/master/textxdev/scaffold/project.que">textx-dev startproject questions model</a></li>
+
+</ul>
+
+</div>
+</section>
+</section>
+<section>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> textX-LS</h2>
+<ul>
+<li><a href="https://github.com/textX/textX-LS">textX-LS</a> is a language server that provides smartness for all domain specific
+languages based on textX.</li>
+<li>Consists of three parts: core, server and VS Code client.</li>
+<li>Uses two textX generators:
+<ul>
+<li><a href="https://github.com/danixeee/textx-gen-vscode">textx-gen-vscode</a> - generates VS Code extension for registered textX language.</li>
+<li><a href="https://github.com/danixeee/textx-gen-coloring">textx-gen-coloring</a> - generates TextMate compatible syntax highlighting (e.g. VSCode).</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> A more complex example - PyFlies</h2>
+<ul>
+<li><a href="https://github.com/pyflies/pyflies/">PyFlies</a> is Domain-Specific Language (DSL) for designing experiments in
+psychology</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> Where to go next?</h2>
+<ul>
+<li class="fragment roll-in">textX <a href="http://textx.github.io/textX/latest/">docs and tutorials</a></li>
+<li class="fragment roll-in">Alessio Stalla, <a href="https://tomassetti.me/domain-specific-languages-in-python-with-textx/">Quick Domain-Specific Languages in Python with textX</a></li>
+<li class="fragment roll-in">textX <a href="https://github.com/textX/textX/discussions">discussions</a> and <a href="https://github.com/textX/textX/issues">the issue tracker</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

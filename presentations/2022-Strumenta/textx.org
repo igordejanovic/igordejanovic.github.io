@@ -1,0 +1,565 @@
+#+TITLE: Developing Domain-Specific Languages in Python with textX
+#+SUBTITLE: Strumenta Meetups
+#+DATE: 24 February 2022
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../startup.org
+
+* Table of Content
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Overview
+#+ATTR_ORG: :width 300px
+[[./images/textX.png]]
+
+* A brief history
+
+#+ATTR_REVEAL: :frag (roll-in)
+- An idea to implement xText in Python
+- Initial release in 2014
+- 1.0 - 2016, 2.0 - 2019, 3.0 is going to happen soon
+- 2017 - [[https://github.com/aranega][Vincent Aranega]] - [[https://github.com/pyecore/pyecore][pyEcore]] [[https://github.com/aranega/textX/][integration]]
+- 2018 - [[https://github.com/goto40][Pierre Bayerl]] joins the project - [[https://en.wikipedia.org/wiki/Bus_factor][Bus factor]] improved :)
+- 570 stars, 64 forks, 18 contributors on GitHub
+
+* Setup
+To create Python environment
+#+begin_src sh
+python -m venv venv
+#+end_src
+
+#+RESULTS:
+
+then, activate the environment and install textX.
+#+begin_src sh
+source venv/bin/activate
+pip install textx[cli]
+#+end_src
+
+* Hello World
+#+begin_src python :results output
+model = """
+hello You, Me; Everybody
+"""
+mm_str = r"""
+Hello: 'hello' to_greet+=Who[/,|;/];
+Who: name=ID;
+"""
+from textx import metamodel_from_str
+mm = metamodel_from_str(mm_str)
+m = mm.model_from_str(model)
+print([who.name for who in m.to_greet])
+#+end_src
+
+#+RESULTS:
+: ['You', 'Me', 'Everybody']
+
+See: [[http://textx.github.io/textX/latest/grammar/#matches][matches]], [[http://textx.github.io/textX/latest/grammar/#assignments][assignments]], and [[http://textx.github.io/textX/latest/grammar/#rule-types][rule types]].
+
+** Finished :noexport:
+#+begin_src python :results output
+from textx import metamodel_from_str
+
+mm = metamodel_from_str(r"""
+Hello: 'hello' to_greet+=Who[/;|,/];
+Who: name=ID;
+""")
+
+model = mm.model_from_str(r"""
+hello You; Me, Everybody
+""")
+
+print(model)
+print([w.name for w in model.to_greet])
+#+end_src
+
+#+RESULTS:
+: <textx:Hello instance at 0x7f8c873d8e20>
+: ['You', 'Me', 'Everybody']
+
+* Hello from file
+In file =hello.tx=:
+#+begin_src textx :tangle "hello.tx"
+Hello: 'hello' to_greet+=Who[/,|;/];
+Who: name=/[^,;]+/;
+#+end_src
+
+In file =model.hello=:
+#+begin_src text :tangle "model.hello"
+hello World, Solar System; Universe
+#+end_src
+
+In file =hello.py=:
+#+begin_src python :tangle "hello.py" :results output
+from textx import metamodel_from_file
+def who_processor(who):
+    who.name = who.name.strip()
+mm = metamodel_from_file('hello.tx')
+mm.register_obj_processors({'Who': who_processor})
+print(mm)
+m = mm.model_from_file('model.hello')
+print([who.name for who in m.to_greet])
+#+end_src
+
+#+RESULTS:
+: <textx.metamodel.TextXMetaModel object at 0x7f5add1b7dc0>
+: ['World', 'Solar System', 'Universe']
+
+* =textx= command
+Used for checking the grammar, investigating languages and generators and
+running generators.
+
+#+begin_src text
+$ textx --help
+Usage: textx [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug  Debug/trace output.
+  --help   Show this message and exit.
+
+Commands:
+  check            Check/validate model given its file path.
+  generate         Run code generator on a provided model(s).
+  list-generators  List all registered generators
+  list-languages   List all registered languages
+  version          Print version info.
+#+end_src
+* Grammar check
+
+#+begin_src sh :results none
+textx check --grammar hello.tx model.hello
+#+end_src
+
+#+begin_src text
+Error: None:1:1: error: Expected 'hello' at position /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/model.hello:(1, 1) => '*hi World, '.
+#+end_src
+
+* Running example - Workflow DSL
+A tiny workflow DSL will be used in the rest of the slides.
+** Model/Program
+An example in this language might look like:
+#+begin_src c :tangle "example.workflow"
+package BuildHouse {
+    task buyLand {
+    searchAds, chooseLand, buyLand
+    next makePlan
+    }
+    task makePlan {
+    searchforArchitect, giveInstructions, choosePlan
+    next buildHouse
+    }
+    task buildHouse {
+      buildHouse
+    }
+}
+package BuildFence {
+  task buildFence {
+    chooseMaterial, buildFence
+  }
+}
+#+end_src
+** Metamodel/Grammar
+#+begin_src textx :tangle "workflow.tx"
+Model: elements*=Element;
+Element: Package | Task;
+Package: 'package' name=ID '{'
+        elements*=Element
+    '}';
+Task: 'task' name=ID '{'
+         steps+=ID[',']
+         ('next' next=[Task])?
+    '}';
+#+end_src
+** Check/use the language
+#+begin_src python :results output
+from textx import metamodel_from_file
+mm = metamodel_from_file('workflow.tx')
+model = mm.model_from_file('example.workflow')
+print(model)
+#+end_src
+
+#+RESULTS:
+: <textx:workflow.Model instance at 0x7f655fbd4340>
+
+#+begin_src sh :results output
+textx check --grammar workflow.tx example.workflow
+#+end_src
+
+#+RESULTS:
+: /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/example.workflow: OK.
+
+* Visualize (meta-)model
+Visualization is done using textX's generator framework.
+#+begin_src shell
+$ textx list-generators
+any -> dot         textX[2.3.0]  Generating dot visual...
+textX -> dot       textX[2.3.0]  Generating dot visual...
+textX -> PlantUML  textX[2.3.0]  Generating PlantUML v...
+#+end_src
+
+#+attr_html: :class footer :style clear: both;
+1. PlantUML is a DSL for creating UML diagrams --- https://plantuml.com/
+
+#+REVEAL: split
+
+To visualize (meta-)model we use generators that produce =dot= or =plantuml= outputs.
+#+begin_src shell :results output
+textx generate workflow.tx --target dot --overwrite
+#+end_src
+
+=dot= file can be visualized either by transforming to an image using =dot= tool
+(part of GraphViz):
+#+begin_src shell :results none
+dot -Tpng -O workflow.dot
+#+end_src
+
+#+attr_html: :style height: 350px;
+#+ATTR_ORG: :width 300px
+[[./workflow.dot.png]]
+
+Or opening it in some =dot= visualizer, e.g. [[https://github.com/jrfonseca/xdot.py][xdot]].
+
+#+REVEAL: split
+
+Similarly, we can produce PlantUML diagram by specifying =plantuml= target.
+
+#+begin_src shell :results output
+textx generate workflow.tx --target plantuml --overwrite
+#+end_src
+
+#+RESULTS:
+: Generating plantuml target from models:
+: /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/workflow.tx
+: -> /home/igor/repos/igordejanovic.github.io/presentations/2022-Strumenta/workflow.pu
+:     To convert to png run "plantuml workflow.pu"
+
+And then convert it to =png= image using =plantuml=:
+
+#+begin_src shell :results none
+plantuml workflow.pu
+#+end_src
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./workflow.png]]
+
+You get a nice UML diagrams directly from your grammars.
+
+* Some differences to xText
+A few notes for those familiar with xText.
+
+** Lexical grammar
+textX doesn't have a separate lexical grammar. There are Match rules that
+resembles something close to lexical grammar but not quite.
+
+** Assignments
+textX integrates repetition and assignments:
+
+In xText you would write:
+#+begin_src textx
+Domainmodel :
+    (elements+=Type)*;
+#+end_src
+
+While in textX it would be:
+#+begin_src textx
+Domainmodel :
+    elements*=Type;
+#+end_src
+
+Optional assignment in xText:
+#+begin_src textx
+static?='static'?
+#+end_src
+
+In textX:
+#+begin_src textx
+static?='static'
+#+end_src
+
+** Regex matches
+textX has simple string matches (like ='something to match'=) and regex matches
+where you can use a full power of Python regex engine inside =/.../=.
+
+For example:
+#+begin_src textx
+Person:
+    name=/[a-zA-Z]+/ age=INT;
+#+end_src
+
+** Repetition modifiers
+textX provides a syntactic construct called [[http://textx.github.io/textX/latest/grammar/#repetition-modifiers][repetition modifier]] which enables
+parser to be altered during parsing of a specific repetition expression.
+
+xText:
+#+begin_src textx
+list_of_ints+=INT (',' list_of_ints+=INT)*
+#+end_src
+
+textX:
+#+begin_src textx
+list_of_inst+=INT[',']
+#+end_src
+Modifier can also be a regex match:
+
+#+begin_src textx
+list_of_ints+=INT[/,|;/]
+#+end_src
+
+Repetition modifier can be applied to any repetition (zero or more, one or more,
+optional, unordered group).
+
+#+begin_src textx
+(First /\d+/ Second)*[',']
+#+end_src
+
+#+REVEAL: split
+
+Besides matches there are other modifiers. For example EOL terminator:
+#+begin_src
+STRING*[',', eolterm]
+#+end_src
+
+would match the first line of:
+#+begin_src
+"first", "second", "third"
+, "fourth"
+#+end_src
+** Unordered groups
+Xtext support unordered groups using the =&= operator.
+
+#+begin_src textx
+Modifier:
+    static?='static'? & final?='final'? & visibility=Visibility;
+
+enum Visibility:
+    PUBLIC='public' | PRIVATE='private' | PROTECTED='protected';
+#+end_src
+
+In textX unordered groups are specified as a special kind of repetitions. Thus,
+repetition modifiers can be applied also:
+
+#+begin_src textx
+Modifier:
+    (static?='static' final?='final' visibility=Visibility)#[',']
+
+Visibility:
+    'public' | 'private' | 'protected';
+#+end_src
+
+match:
+#+begin_src text
+private, static, final
+static, private, final
+public, static
+private
+...
+#+end_src
+** Scoping
+[[http://textx.github.io/textX/latest/scoping/][Scoping]] in textX is done either by using Python through registration of scope
+providers, or declaratively using [[http://textx.github.io/textX/latest/rrel/][Reference Resolving Expression Language]].
+
+Xtext provides a [[https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#scoping][Scoping API]] which can be used by the Xtend code to specify
+scoping rules.
+
+** More differences
+For more differences please see [[http://textx.github.io/textX/latest/about/comparison/][this page]].
+* Language/generator registration
+** Create language description
+#+begin_src python
+from textx import LanguageDesc
+
+def entity_metamodel():
+    # Construct and configure the meta-model
+    # e.g. by calling metamodel_from_file
+    ...
+
+entity_lang = LanguageDesc(
+    'entity',
+    pattern='*.ent',
+    description='Entity-relationship language',
+    metamodel=entity_metamodel)
+#+end_src
+
+** Programmatic registration
+=LanguageDesc= instance can be registered programmatically by the
+=register_language= function:
+
+#+begin_src python
+from textx import register_language
+register_language(entity_lang)
+#+end_src
+
+The meta-model can be accessed from any Python program like this:
+
+#+begin_src python
+from textx import metamodel_for_language
+lang_mm = metamodel_for_language('entity')
+#+end_src
+
+** Declarative registration
+- Registration can be done declaratively using =setup.py= or =setup.cfg=.
+
+#+begin_src python
+setup(
+    ...
+    entry_points={
+        'textx_languages': [
+            'entity = entity.metamodel:entity_lang',
+        ],
+    },
+#+end_src
+
+** Using a decorator
+There is a convenient =language= decorator to make registration easier.
+
+#+begin_src python
+from textx import language
+
+@language('entity', '*.ent')
+def entity_lang():
+    """
+    Entity-relationship language
+    """
+    # Create, configure and return an instance of the meta-model
+    ...
+#+end_src
+
+* Scoping and RREL
+- In a [[http://textx.github.io/textX/latest/grammar/#references][link rule reference,]] the name matched at the location must be resolved to
+  the referenced object.
+
+    For example
+    #+begin_src textx
+    Attribute: 'attr' ref=[Class] name=ID ';';
+    #+end_src
+
+- Global search by default.
+- Programmatic [[http://textx.github.io/textX/stable/scoping/][scoping providers]] may be registered to resolve references.
+
+** RREL
+Declarative specification of reference resolving strategy.
+
+Example:
+#+begin_src textx
+Attribute: 'attr' ref=[Class|FQN|^packages*.classes] name=ID ';';
+#+end_src
+
+** RREL operators and markers
+- =.= - /dot navigation/. Searches for the attribute in the current AST context.
+  - e.g. =.= is this object, =..= is parent, =...= is a parent of a parent
+  - relative lookup. Example: =.a.b=
+- =~= - do not consume name.
+  - =~extends*.methods= - search for method name in the inheritance hierarchy.
+- =*= - repeat/expand - =.~extends*.methods= expands to: =.methods=, =.~extends.methods=,
+  =.~extends.~extends.methods= ...
+- =^= - bottom-up search. Example =^packages*.classes= expands to =.classes=,
+  =..packages.classes=, =...packages.packages.classes= ...
+** Extending example to use FQN
+*** Model
+#+begin_src text :notangle "example.workflow"
+package BuildHouse {
+        task feasibility DONE {
+             next buyLand
+        }
+        task buyLand DONE {
+             searchAds, findLand, buyLand
+             next makePlan
+        }
+        task makePlan DOING {
+             chooseArchitect, giveInstructions, choosePlan
+             next buildHouse
+        }
+        task buildHouse TODO {
+             buildHouse
+             next BuildFence.feasibility
+        }
+        task moveIn {}
+}
+package BuildFence {
+        task feasibility TODO {}
+        task buildFence {
+             chooseCompany, giveInstructions, buildFence
+             next BuildHouse.moveIn
+        }
+}
+#+end_src
+
+*** Meta-model
+#+begin_src textx :notangle "workflow.tx"
+Model: elements+=Element;
+Package: 'package' name=ID '{'
+             elements+=Element
+         '}';
+Element: Package | Task;
+Task: 'task' name=ID (state=State)? '{'
+            steps*=Step[',']
+            ('next' next+=[Task|FQN|^elements*.elements][','])?
+      '}';
+State: 'TODO' | 'DOING' | 'DONE';
+Step: !'next' ID;
+FQN: ID+['.'];
+Comment: /\/\/.*/;
+#+end_src
+
+* Project scaffolding
+#+begin_src shell
+$ textx startroject <folder>
+#+end_src
+
+Command asks a few questions and generates the project files. To install the
+generated project in developers mode (editable):
+
+#+begin_src shell
+$ pip install -e <folder>
+#+end_src
+
+#+attr_html: :class footer :style clear: both;
+1. Answers are cached and will be reused as the default answers in further runs.
+
+#+REVEAL: split
+
+After installation the language (or generator) is visible to the =textx
+list-languages= or =textx list-generators= commands.
+
+#+begin_note
+=startproject= command is not defined in the base =textX= library but in =textX-dev=
+package. Thus to have it registered we must install this project:
+
+#+begin_src shell
+pip install textX-dev
+#+end_src
+
+Alternatively, we can install all =dev= dependencies:
+
+#+begin_src shell
+pip install textX[dev]
+#+end_src
+#+end_note
+
+#+REVEAL: split
+
+#+begin_note
+- [[https://github.com/textX/textx-lang-questionnaire][Questionnaire DSL]]
+- [[https://github.com/textX/textX-dev/blob/master/textxdev/scaffold/project.que][textx-dev startproject questions model]]
+#+end_note
+* textX-LS
+- [[https://github.com/textX/textX-LS][textX-LS]] is a language server that provides smartness for all domain specific
+  languages based on textX.
+- Consists of three parts: core, server and VS Code client.
+- Uses two textX generators:
+  - [[https://github.com/danixeee/textx-gen-vscode][textx-gen-vscode]] - generates VS Code extension for registered textX language.
+  - [[https://github.com/danixeee/textx-gen-coloring][textx-gen-coloring]] - generates TextMate compatible syntax highlighting (e.g. VSCode).
+
+* A more complex example - PyFlies
+- [[https://github.com/pyflies/pyflies/][PyFlies]] is Domain-Specific Language (DSL) for designing experiments in
+  psychology
+
+* Where to go next?
+
+#+ATTR_REVEAL: :frag (roll-in)
+- textX [[http://textx.github.io/textX/latest/][docs and tutorials]]
+- Alessio Stalla, [[https://tomassetti.me/domain-specific-languages-in-python-with-textx/][Quick Domain-Specific Languages in Python with textX]]
+- textX [[https://github.com/textX/textX/discussions][discussions]] and [[https://github.com/textX/textX/issues][the issue tracker]]
