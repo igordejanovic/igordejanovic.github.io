@@ -206,8 +206,8 @@ obj.full_file_name = '/neka/putanja/neko_ime.ext'
   
 ** ~__setattr__~ i ~@property~
    
-   #+BEGIN_SRC python :results output
-   class A:
+#+BEGIN_SRC python :results output
+class A:
     @property
     def a(self):
         print("get")
@@ -215,20 +215,115 @@ obj.full_file_name = '/neka/putanja/neko_ime.ext'
     @a.setter
     def a(self, val):
         print("set")
-   
+
     def __setattr__(self, name, value):
         if name == 'a':
             print('setattr')
         super().__setattr__(name, value)
-   a = A()
-   a.a = 10
-   out = a.a
-   #+END_SRC
+a = A()
+a.a = 10
+out = a.a
+#+END_SRC
 
-   #+RESULTS:
-   : setattr
-   : set
-   : get
+#+RESULTS:
+: setattr
+: set
+: get
+* /List comprehensions/ i generatori
+** /List comprehensions/
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 40%">
+#+BEGIN_SRC python
+nums = [1, 2, 3, 4, 5]
+squares = []
+for n in nums:
+  squares.append(n * n)
+
+# Ekvivalentno
+nums = [1, 2, 3, 4, 5]
+squares = [n * n for n in nums]
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 60%">
+#+BEGIN_SRC python
+# Opšti oblik sintakse
+[expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN ]
+
+# Što je ekvivalentno sa
+s = []
+for item1 in iterable1:
+  if condition1:
+    for item2 in iterable2:
+      if condition2:
+        ...
+        for itemN in iterableN:
+          if conditionN: s.append(expression)
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+** /List comprehensions/ primeri
+
+#+BEGIN_SRC python
+a = [-3, 5, 2, -10, 7, 8]
+b = 'abc'
+
+c = [2*s for s in a]                # c = [-6,10,4,-20,14,16]
+d = [s for s in a if s >= 0]        # d = [5,2,7,8]
+e = [(x, y) for x in a              # e = [(5,'a'),(5,'b'),(5,'c'),
+           for y in b               #      (2,'a'),(2,'b'),(2,'c'),
+           if x > 0 ]               #      (7,'a'),(7,'b'),(7,'c'),
+                                    #      (8,'a'),(8,'b'),(8,'c')]
+
+f = [(1,2), (3,4), (5,6)]
+g = [math.sqrt(x * x + y * y)       # g = [2.23606, 5.0, 7.81024]
+     for x, y in f]
+#+END_SRC
+
+** Generator izrazi
+Slično kao /list comprehensions/ ali ne kreiraju listu već generator objekat
+koji izračunava vrednosti na zahtev (lenja evaluacija).
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 60%">
+#+BEGIN_SRC python
+# Opšti oblik sintakse
+(expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN )
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+BEGIN_SRC python
+>>> a = [1, 2, 3, 4]
+>>> b = (10*i for i in a)
+>>> b
+<generator object at 0x590a8>
+>>> b.next()
+10
+>>> b.next()
+20
+...
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+** Generator izrazi - primer
+
+#+BEGIN_SRC python
+f = open("data.txt")
+lines = (t.strip() for t in f)
+
+comments = (t for t in lines if t[0] == '#')
+for c in comments:
+  print(c)
+
+# Uvek se može konvertovati u listu
+clist = list(comments)
+#+END_SRC
 
 * Deskriptori
 ** /Descriptors/
@@ -241,37 +336,37 @@ obj.full_file_name = '/neka/putanja/neko_ime.ext'
   
 ** Problem sa /properties/
    
-   #+BEGIN_SRC python :results output
-    class Order:
-        def __init__(self, name, price, quantity):
-            self._name = name
-            self.price = price
-            self._quantity = quantity
+#+BEGIN_SRC python :results output
+class Order:
+    def __init__(self, name, price, quantity):
+        self._name = name
+        self.price = price
+        self._quantity = quantity
 
-        @property
-        def quantity(self):
-            return self._quantity
+    @property
+    def quantity(self):
+        return self._quantity
 
-        @quantity.setter
-        def quantity(self, value):
-            if value < 0:
-                raise ValueError('Cannot be negative.')
-            self._quantity = value
+    @quantity.setter
+    def quantity(self, value):
+        if value < 0:
+            raise ValueError('Cannot be negative.')
+        self._quantity = value
 
-        def total(self):
-            return self.price * self.quantity
+    def total(self):
+        return self.price * self.quantity
 
-    apple_order = Order('apple', 1, 10)
-    print(apple_order.total())
-    try:
-        apple_order.quantity = -10
-    except ValueError as e:
-        print('Woops:', str(e))
-   #+END_SRC
+apple_order = Order('apple', 1, 10)
+print(apple_order.total())
+try:
+    apple_order.quantity = -10
+except ValueError as e:
+    print('Woops:', str(e))
+#+END_SRC
 
-   #+RESULTS:
-   : 10
-   : Woops: Cannot be negative.
+#+RESULTS:
+: 10
+: Woops: Cannot be negative.
 
 #+attr_html: :class footer :style clear: both;
 https://dev.to/dawranliou/writing-descriptors-in-python-36
@@ -294,7 +389,8 @@ https://dev.to/dawranliou/writing-descriptors-in-python-36
    #+END_SRC
 
    #+attr_html: :class footer :style clear: both;
-   https://dev.to/dawranliou/writing-descriptors-in-python-36
+   - https://dev.to/dawranliou/writing-descriptors-in-python-36
+   - https://docs.python.org/3/howto/descriptor.html
    
 ** Rešenje upotrebom deskriptora (2)
    
@@ -496,7 +592,6 @@ proizvod = reduce(lambda x, y: x*y, niz)
 #+END_SRC
 
 ** Kreiranje funkcije za množenje niza elemenata
-
 Kompozicija funkcija ~partial~ + ~reduce~ (funkcionalno):
 #+BEGIN_SRC python
 from functools import reduce, partial
@@ -523,7 +618,6 @@ amul(range(1, 100))
 #+END_SRC
 
 ** ~update_wrapper~ i ~wraps~
-
 - Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
   originalna.
   
@@ -551,7 +645,6 @@ Called example function
 #+END_SRC
 
 ** ~total_ordering~
-
 - "Dopuna" specijalnih metoda za poređenje. Koristi se kao dekorator klase.
 - Klasa treba da definiše jednu od ~__lt__~, ~__le__~, ~__gt__~, ili ~__ge__()~
   metoda uz ~__eq__~.
@@ -576,6 +669,30 @@ class Student:
 
 #+attr_html: :class footer :style clear: both;
 https://docs.python.org/3/library/functools.html
+** /Least recently used (LRU)/ keš
+Keširanje povratne vrednosti funkcije u cilju optimizacije sporijih funkcija.
+
+#+begin_src python
+@lru_cache(maxsize=32)
+def get_pep(num):
+    'Retrieve text of a Python Enhancement Proposal'
+    resource = 'https://www.python.org/dev/peps/pep-%04d/' % num
+    try:
+        with urllib.request.urlopen(resource) as s:
+            return s.read()
+    except urllib.error.HTTPError:
+        return 'Not Found'
+
+>>> for n in 8, 290, 308, 320, 8, 218, 320, 279, 289, 320, 9991:
+...     pep = get_pep(n)
+...     print(n, len(pep))
+
+>>> get_pep.cache_info()
+CacheInfo(hits=3, misses=8, maxsize=32, currsize=8)
+#+end_src
+
+#+attr_html: :class footer :style clear: both;
+https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
 
 * ~itertools~ modul - pomoćne funkcije za iteraciju
 ** ~chain~
