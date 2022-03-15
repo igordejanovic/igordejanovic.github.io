@@ -35,12 +35,12 @@
 <h1 class="title">Napredne tehnike programiranja u Python-u</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-03-08 Tue 20:56, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-03-15 Tue 18:24, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orgc3fe0ec">
-<h2 id="orgc3fe0ec">Sadržaj</h2>
+<section id="slide-orga13816c">
+<h2 id="orga13816c">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Specijalne metode</a></li>
@@ -1056,37 +1056,38 @@ CacheInfo(hits=3, misses=8, maxsize=32, currsize=8)
 <li>Iteracije kroz više iterabilnih objekata prema zadatom redosledu.</li>
 <li>Tretiranje niza sekvenci kao jedne sekvence.</li>
 
-</ul>
-
-<p>
-Ekvivalentno sa sledećim Python kodom:
-</p>
-<div class="org-src-container">
-
-<pre><code class="python" >def chain(*iterables):
-    for it in iterables:
-        for element in it:
-            yield element
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Upotreba:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >from itertools import chain
-a = [1, 2, 3]
-b = 'abc'
-for i in chain(a, b):
-    print(i, end=' ')
+<pre><code class="python" >    from itertools import chain
+    a = [1, 2, 3]
+    b = 'abc'
+    for i in chain(a, b):
+        print(i, end=' ')
 </code></pre>
 </div>
 
 <pre class="example">
-1 2 3 a b c 
-</pre>
+1 2 3 a b c
+</pre></li>
+
+<li><p>
+Ekvivalentno sa sledećim Python kodom:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def chain(*iterables):
+        for it in iterables:
+            for element in it:
+                yield element
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-2">
@@ -1094,32 +1095,14 @@ for i in chain(a, b):
 <ul>
 <li>Beskonačna iteracija kroz zadati iterabilni objekat <b>u krug</b>.</li>
 
-</ul>
-
-<p>
-Ekvivalentno sa:
-</p>
-<div class="org-src-container">
-
-<pre><code class="python" >def cycle(iterable):
-    saved = []
-    for element in iterable:
-        yield element
-        saved.append(element)
-    while saved:
-        for element in saved:
-              yield element
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >from itertools import cycle, islice
-return list(islice(cycle('ABCD'), 10))
+<pre><code class="python" >    from itertools import cycle, islice
+    return list(islice(cycle('ABCD'), 10))
 </code></pre>
 </div>
 
@@ -1161,7 +1144,26 @@ return list(islice(cycle('ABCD'), 10))
 <td class="org-left">B</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def cycle(iterable):
+        saved = []
+        for element in iterable:
+            yield element
+            saved.append(element)
+        while saved:
+            for element in saved:
+                yield element
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-3">
@@ -1171,28 +1173,13 @@ return list(islice(cycle('ABCD'), 10))
 objekta koji zadovoljavaju određeni predikat.</li>
 <li>U Python 2 <code>ifilter</code> radi kao generator dok <code>filter</code> radi kao obična funkcija.</li>
 
-</ul>
-
-<p>
-Ekvivalentno sa:
-</p>
-<div class="org-src-container">
-
-<pre><code class="python" >def filter(predicate, iterable):
-    if predicate is None:
-        predicate = bool
-    for x in iterable:
-        if predicate(x):
-            yield x
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
+
 <div class="org-src-container">
 
-<pre><code class="python" >return list(filter(lambda x: x % 2, range(10)))
+<pre><code class="python" >    return list(filter(lambda x: x % 2, range(10)))
 </code></pre>
 </div>
 
@@ -1219,7 +1206,24 @@ Primer:
 <td class="org-right">9</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def filter(predicate, iterable):
+        if predicate is None:
+            predicate = bool
+        for x in iterable:
+            if predicate(x):
+                yield x
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-4">
@@ -1229,32 +1233,13 @@ Primer:
 funkcije uzimaju iz datih iterabilnih objekata.</li>
 <li>U Python 2 <code>imap</code> radi kao generator dok <code>map</code> radi kao obična funkcija.</li>
 
-</ul>
-
-<p>
-Ekvivalentno sa:
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="python" >def map(function, *iterables):
-    iterables = [iter(x) for x in iterables]
-    while True:
-        args = [next(it) for it in iterables]
-        if function is None:
-            yield tuple(args)
-        else:
-            yield function(*args)
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >return list(map(pow, (2, 3, 10), (5, 2, 3)))
+<pre><code class="python" >    return list(map(pow, (2, 3, 10), (5, 2, 3)))
 </code></pre>
 </div>
 
@@ -1275,7 +1260,29 @@ Primer:
 <td class="org-right">1000</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def map(function, *iterables):
+        iterables = [iter(x) for x in iterables]
+        while True:
+            try:
+                args = [next(it) for it in iterables]
+            except StopIteration:
+                break
+            if function is None:
+                yield tuple(args)
+            else:
+                yield function(*args)
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-5">
@@ -1284,26 +1291,14 @@ Primer:
 <li>Kreira iterator koji istovremeno iterira kroz više iterabilnih objekata
 vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu.</li>
 <li>U Python 2 <code>izip</code> radi kao generator dok <code>zip</code> radi kao obična funkcija.</li>
-<li>Ekvivalentno sa:</li>
 
-</ul>
-
-<div class="org-src-container">
-
-<pre><code class="python" >def zip(*iterables):
-    iterators = map(iter, iterables)
-    while iterators:
-        yield tuple(map(next, iterators))
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >return list(zip('ABCD', 'xy'))
+<pre><code class="python" >    return list(zip('ABCD', 'xy'))
 </code></pre>
 </div>
 
@@ -1326,7 +1321,22 @@ Primer:
 <td class="org-left">y</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def zip(*iterables):
+        iterators = map(iter, iterables)
+        while iterators:
+            yield tuple(map(next, iterators))
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-6">
@@ -1344,7 +1354,7 @@ funkciji.</li>
 uniquekeys = []
 data = sorted(data, key=keyfunc)
 for k, g in groupby(data, keyfunc):
-    groups.append(list(g))      # Store group iterator as a list
+    groups.append(list(g))
     uniquekeys.append(k)
 </code></pre>
 </div>
@@ -1355,31 +1365,15 @@ for k, g in groupby(data, keyfunc):
 <ul>
 <li>Iterator koji odbacuje prve elemente za koje je dati predikat istinit i zatim
 vraća sve preostale redom.</li>
-<li>Ekvivalentno sa:</li>
 
-</ul>
-
-<div class="org-src-container">
-
-<pre><code class="python" >def dropwhile(predicate, iterable):
-    iterable = iter(iterable)
-    for x in iterable:
-        if not predicate(x):
-            yield x
-            break
-    for x in iterable:
-        yield x
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >from itertools import dropwhile
-return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
+<pre><code class="python" >    from itertools import dropwhile
+    return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
 </div>
 
@@ -1400,36 +1394,40 @@ return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 <td class="org-right">1</td>
 </tr>
 </tbody>
-</table>
+</table></li>
 
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def dropwhile(predicate, iterable):
+        iterable = iter(iterable)
+        for x in iterable:
+            if not predicate(x):
+                yield x
+                break
+        for x in iterable:
+            yield x
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-8">
 <h3 id="7-8"><span class="section-number-3">7.8.</span> <code>takewhile</code></h3>
 <ul>
 <li>Iterator koji vraća elemente dok je predikat zadovoljen.</li>
-<li>Ekvivalentno sa:</li>
-
-</ul>
-<div class="org-src-container">
-
-<pre><code class="python" >def takewhile(predicate, iterable):
-    for x in iterable:
-        if predicate(x):
-            yield x
-        else:
-            break
-</code></pre>
-</div>
-
-<p>
+<li><p>
 Primer:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="python" >from itertools import takewhile
-return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
+<pre><code class="python" >    from itertools import takewhile
+    return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
 </div>
 
@@ -1447,16 +1445,35 @@ return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 <td class="org-right">4</td>
 </tr>
 </tbody>
-</table>
+</table></li>
+
+<li><p>
+Ekvivalentno sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >    def takewhile(predicate, iterable):
+        for x in iterable:
+            if predicate(x):
+                yield x
+            else:
+                break
+</code></pre>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-7-9">
 <h3 id="7-9"><span class="section-number-3">7.9.</span> <code>tee</code></h3>
 <ul>
 <li>Deli dati iterabilni objekat na više.</li>
+
 <li>Ekvivalentno sa:</li>
 
 </ul>
+
 <div class="org-src-container">
 
 <pre><code class="python" >def tee(iterable, n=2):
@@ -1464,12 +1481,12 @@ return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
     deques = [collections.deque() for i in range(n)]
     def gen(mydeque):
         while True:
-            if not mydeque:             # when the local deque is empty
+            if not mydeque:             # ako je lokalni dek prazan...
                 try:
-                    newval = next(it)   # fetch a new value and
+                    newval = next(it)   # preuzmi novu vrednosti i...
                 except StopIteration:
                     return
-                for d in deques:        # load it to all the deques
+                for d in deques:        # dodaj ih na sve dekove.
                     d.append(newval)
             yield mydeque.popleft()
     return tuple(gen(d) for d in deques)
@@ -1504,18 +1521,18 @@ kraj kolekcije.</li>
 &gt;&gt;&gt; ''.join(d.keys())
 'bacde'
 
-&gt;&gt;&gt; # regular unsorted dictionary
+&gt;&gt;&gt; # nesortirani rečnik
 &gt;&gt;&gt; d = {'banana': 3, 'apple': 4, 'pear': 1, 'orange': 2}
 
-&gt;&gt;&gt; # dictionary sorted by key
+&gt;&gt;&gt; # rečnik sortiran po zatakom ključu
 &gt;&gt;&gt; OrderedDict(sorted(d.items(), key=lambda t: t[0]))
 OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
 
-&gt;&gt;&gt; # dictionary sorted by value
+&gt;&gt;&gt; # rečnik sortiran po vrednosti
 &gt;&gt;&gt; OrderedDict(sorted(d.items(), key=lambda t: t[1]))
 OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
 
-&gt;&gt;&gt; # dictionary sorted by length of the key string
+&gt;&gt;&gt; # rečnik sortiran po dužini ključa
 &gt;&gt;&gt; OrderedDict(sorted(d.items(), key=lambda t: len(t[0])))
 OrderedDict([('pear', 1), ('apple', 4), ('orange', 2), ('banana', 3)])
 </code></pre>
@@ -1590,17 +1607,17 @@ deque(['f', 'g', 'h', 'i', 'j'])
 <section id="slide-8-4">
 <h3 id="8-4"><span class="section-number-3">8.4.</span> Counter</h3>
 <ul>
-<li>Podklasa <code>dict</code> tipa za prebrojavanje objekta koji mogu da se <i>heširaju</i>.</li>
+<li>Podklasa <code>dict</code> tipa za prebrojavanje objekata koji mogu da se <i>heširaju</i>.</li>
 <li>Ključevi su objekti a vrednosti su njihov ukupan broj.</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class="python" >&gt;&gt;&gt; c = Counter()                           # a new, empty counter
-&gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
-&gt;&gt;&gt; c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
-&gt;&gt;&gt; c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+<pre><code class="python" >&gt;&gt;&gt; c = Counter()                           # prazan Counter
+&gt;&gt;&gt; c = Counter('gallahad')                 # Novi Counter iz iterable
+&gt;&gt;&gt; c = Counter({'red': 4, 'blue': 2})      # Novi Counter iz rečnika
+&gt;&gt;&gt; c = Counter(cats=4, dogs=8)             # Novi Counter upotrebom keyword arg.
 
 &gt;&gt;&gt; c = Counter(['eggs', 'ham'])
 &gt;&gt;&gt; c['bacon']                              # count of a missing element is zero
@@ -1663,8 +1680,8 @@ pozvati da kreira novi element.</li>
 </ul>
 
 
-<div id="orgf306a42" class="figure">
-<p><img src="./slike/Diamond_inheritance.svg" alt="Diamond_inheritance.svg" class="org-svg" width="20%" />
+<div id="org089c53d" class="figure">
+<p><img src="./slike/Diamond_inheritance.svg" alt="Diamond_inheritance.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
 
@@ -1729,6 +1746,10 @@ pozvati da kreira novi element.</li>
 </code></pre>
 </div>
 
+<p>
+<code>OrderedDict</code> je ispred <code>dict</code> pa će <code>super</code> pozvati <code>OrderedDict.__setitem__</code>.
+</p>
+
 <p class="footer">
 <a href="https://rhettinger.wordpress.com/2011/05/26/super-considered-super/" class="footer">Raymond Hettinger:  Python’s super() considered super!</a>
 </p>
@@ -1772,6 +1793,7 @@ klasi. Izuzetak se može pojaviti ukoliko nismo iscrpeli sve parametre u
 <code>**kwds</code> što je svakako greška.</li>
 
 </ul>
+
 </section>
 <section id="slide-9-7">
 <h3 id="9-7"><span class="section-number-3">9.7.</span> Pretraga metoda</h3>
@@ -2016,28 +2038,27 @@ print("Total time: {}".format(end - start))
 </code></pre>
 </div>
 
-
 <p class="footer">
-<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a> 
+<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a>
 </p>
 
 </section>
 <section id="slide-10-7">
 <h3 id="10-7"><span class="section-number-3">10.7.</span> Async kod sa <code>time.sleep(1)</code> - rezultati</h3>
-<pre class="example" id="org865c8bf">
+<pre class="example" id="org8718a4c">
   Task A: Compute factorial(2)
-  SLEEP 2021-03-09 16:56:42.376919
+  SLEEP 2022-03-15 18:17:53.571698
   Task A: Compute factorial(3)
-  SLEEP 2021-03-09 16:56:43.378432
+  SLEEP 2022-03-15 18:17:54.572835
   Task A: factorial(3) is 6n
   Task B: Compute factorial(2)
-  SLEEP 2021-03-09 16:56:44.380052
+  SLEEP 2022-03-15 18:17:55.573957
   Task B: Compute factorial(3)
-  SLEEP 2021-03-09 16:56:45.381594
+  SLEEP 2022-03-15 18:17:56.575035
   Task B: Compute factorial(4)
-  SLEEP 2021-03-09 16:56:46.383240
+  SLEEP 2022-03-15 18:17:57.576067
   Task B: factorial(4) is 24n
-  Total time: 5.008708477020264
+  Total time: 5.005323648452759
 </pre>
 
 <p>
@@ -2054,7 +2075,6 @@ poziv nije oslobodio <i>Event Loop</i>
 import time
 from datetime import datetime
 
-
 async def custom_sleep():
     print('SLEEP {}n'.format(datetime.now()))
     await asyncio.sleep(1)
@@ -2066,7 +2086,6 @@ async def factorial(name, number):
         await custom_sleep()
         f *= i
     print('Task {}: factorial({}) is {}n'.format(name, number, f))
-
 
 start = time.time()
 loop = asyncio.get_event_loop()
@@ -2083,28 +2102,27 @@ print("Total time: {}".format(end - start))
 </code></pre>
 </div>
 
-
 <p class="footer">
-<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a> 
+<a href="https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/" class="footer">Python Asyncio Tutorial. Asynchronous Programming in Python</a>
 </p>
 
 </section>
 <section id="slide-10-9">
 <h3 id="10-9"><span class="section-number-3">10.9.</span> Async kod sa <code>asyncio.sleep(1)</code> - rezultati</h3>
-<pre class="example" id="orga01c6df">
+<pre class="example" id="org54fb107">
   Task A: Compute factorial(2)
-  SLEEP 2021-03-09 16:57:23.677806n
+  SLEEP 2022-03-15 18:18:23.826275n
   Task B: Compute factorial(2)
-  SLEEP 2021-03-09 16:57:23.677851n
+  SLEEP 2022-03-15 18:18:23.826297n
   Task A: Compute factorial(3)
-  SLEEP 2021-03-09 16:57:24.679801n
+  SLEEP 2022-03-15 18:18:24.827522n
   Task B: Compute factorial(3)
-  SLEEP 2021-03-09 16:57:24.679930n
+  SLEEP 2022-03-15 18:18:24.827565n
   Task A: factorial(3) is 6n
   Task B: Compute factorial(4)
-  SLEEP 2021-03-09 16:57:25.681821n
+  SLEEP 2022-03-15 18:18:25.828750n
   Task B: factorial(4) is 24n
-  Total time: 3.006331443786621
+  Total time: 3.0036144256591797
 </pre>
 
 <p>
@@ -2188,7 +2206,7 @@ True
 <section id="slide-11-4">
 <h3 id="11-4"><span class="section-number-3">11.4.</span> Ili predstavljeno dijagramom</h3>
 
-<div id="orgf445559" class="figure">
+<div id="org300e33a" class="figure">
 <p><img src="./slike/metaclass.png" alt="metaclass.png" />
 </p>
 </div>

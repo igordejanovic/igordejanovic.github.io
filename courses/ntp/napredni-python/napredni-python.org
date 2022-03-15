@@ -699,124 +699,132 @@ https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LR
 - Iteracije kroz više iterabilnih objekata prema zadatom redosledu.
 - Tretiranje niza sekvenci kao jedne sekvence.
 
-Ekvivalentno sa sledećim Python kodom:
-#+BEGIN_SRC python
-def chain(*iterables):
-    for it in iterables:
-        for element in it:
-            yield element
-#+END_SRC
+- Upotreba:
 
-Upotreba:
+    #+BEGIN_SRC python :results output
+    from itertools import chain
+    a = [1, 2, 3]
+    b = 'abc'
+    for i in chain(a, b):
+        print(i, end=' ')
+    #+END_SRC
 
-#+BEGIN_SRC python :results output
-from itertools import chain
-a = [1, 2, 3]
-b = 'abc'
-for i in chain(a, b):
-    print(i, end=' ')
-#+END_SRC
+    #+RESULTS:
+    : 1 2 3 a b c
 
-#+RESULTS:
-: 1 2 3 a b c 
+- Ekvivalentno sa sledećim Python kodom:
+
+    #+BEGIN_SRC python
+    def chain(*iterables):
+        for it in iterables:
+            for element in it:
+                yield element
+    #+END_SRC
 
 ** ~cycle~
 - Beskonačna iteracija kroz zadati iterabilni objekat *u krug*.
 
-Ekvivalentno sa:
-#+BEGIN_SRC python :language python
-def cycle(iterable):
-    saved = []
-    for element in iterable:
-        yield element
-        saved.append(element)
-    while saved:
-        for element in saved:
-              yield element
-#+END_SRC
+- Primer:
 
-Primer:
+    #+BEGIN_SRC python :results value
+    from itertools import cycle, islice
+    return list(islice(cycle('ABCD'), 10))
+    #+END_SRC
 
-#+BEGIN_SRC python :results value
-from itertools import cycle, islice
-return list(islice(cycle('ABCD'), 10))
-#+END_SRC
+    #+RESULTS:
+    | A | B | C | D | A | B | C | D | A | B |
 
-#+RESULTS:
-| A | B | C | D | A | B | C | D | A | B |
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python :language python
+    def cycle(iterable):
+        saved = []
+        for element in iterable:
+            yield element
+            saved.append(element)
+        while saved:
+            for element in saved:
+                yield element
+    #+END_SRC
 
 ** ~filter~
 - Kreira iterator koji filtrira i vraća samo one elemente zadatog iterabilnog
   objekta koji zadovoljavaju određeni predikat.
 - U Python 2 ~ifilter~ radi kao generator dok ~filter~ radi kao obična funkcija.
   
-Ekvivalentno sa:
-#+BEGIN_SRC python
-def filter(predicate, iterable):
-    if predicate is None:
-        predicate = bool
-    for x in iterable:
-        if predicate(x):
-            yield x
-#+END_SRC
+- Primer:
 
-Primer:
-#+BEGIN_SRC python :results value
-return list(filter(lambda x: x % 2, range(10)))
-#+END_SRC
+    #+BEGIN_SRC python :results value
+    return list(filter(lambda x: x % 2, range(10)))
+    #+END_SRC
 
-#+RESULTS:
-| 1 | 3 | 5 | 7 | 9 |
+    #+RESULTS:
+    | 1 | 3 | 5 | 7 | 9 |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def filter(predicate, iterable):
+        if predicate is None:
+            predicate = bool
+        for x in iterable:
+            if predicate(x):
+                yield x
+    #+END_SRC
 
 ** ~map~
 - Kreira iterator koji vraća vrednost zadate funkcije gde se parametri zadate
   funkcije uzimaju iz datih iterabilnih objekata.
 - U Python 2 ~imap~ radi kao generator dok ~map~ radi kao obična funkcija.
 
-Ekvivalentno sa:
+- Primer:
 
-#+BEGIN_SRC python
-def map(function, *iterables):
-    iterables = [iter(x) for x in iterables]
-    while True:
-        args = [next(it) for it in iterables]
-        if function is None:
-            yield tuple(args)
-        else:
-            yield function(*args)
-#+END_SRC
+    #+BEGIN_SRC python :results value
+    return list(map(pow, (2, 3, 10), (5, 2, 3)))
+    #+END_SRC
 
-Primer:
+    #+RESULTS:
+    | 32 | 9 | 1000 |
 
-#+BEGIN_SRC python :results value
-return list(map(pow, (2, 3, 10), (5, 2, 3)))
-#+END_SRC
+- Ekvivalentno sa:
 
-#+RESULTS:
-| 32 | 9 | 1000 |
+    #+BEGIN_SRC python
+    def map(function, *iterables):
+        iterables = [iter(x) for x in iterables]
+        while True:
+            try:
+                args = [next(it) for it in iterables]
+            except StopIteration:
+                break
+            if function is None:
+                yield tuple(args)
+            else:
+                yield function(*args)
+    #+END_SRC
 
 ** ~zip~
 - Kreira iterator koji istovremeno iterira kroz više iterabilnih objekata
   vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu.
 - U Python 2 ~izip~ radi kao generator dok ~zip~ radi kao obična funkcija.
+
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    return list(zip('ABCD', 'xy'))
+    #+END_SRC
+
+    #+RESULTS:
+    | A | x |
+    | B | y |
+
 - Ekvivalentno sa:
 
-#+BEGIN_SRC python
-def zip(*iterables):
-    iterators = map(iter, iterables)
-    while iterators:
-        yield tuple(map(next, iterators))
-#+END_SRC
-
-Primer:
-
-#+BEGIN_SRC python :results value
-return list(zip('ABCD', 'xy'))
-#+END_SRC
-
-#+RESULTS:
-| A | x |
-| B | y |
+    #+BEGIN_SRC python
+    def zip(*iterables):
+        iterators = map(iter, iterables)
+        while iterators:
+            yield tuple(map(next, iterators))
+    #+END_SRC
 
 ** ~groupby~
 - Kreira iterator koji vraća grupe elemenata prema zadatoj ~key~ funkciji.
@@ -828,74 +836,77 @@ groups = []
 uniquekeys = []
 data = sorted(data, key=keyfunc)
 for k, g in groupby(data, keyfunc):
-    groups.append(list(g))      # Store group iterator as a list
+    groups.append(list(g))
     uniquekeys.append(k)
 #+END_SRC
 
 ** ~dropwhile~
 - Iterator koji odbacuje prve elemente za koje je dati predikat istinit i zatim
   vraća sve preostale redom.
+
+- Primer:
+
+    #+BEGIN_SRC python :return value
+    from itertools import dropwhile
+    return list(dropwhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
+    #+END_SRC
+
+    #+RESULTS:
+    | 6 | 4 | 1 |
+
 - Ekvivalentno sa:
 
-#+BEGIN_SRC python
-def dropwhile(predicate, iterable):
-    iterable = iter(iterable)
-    for x in iterable:
-        if not predicate(x):
+    #+BEGIN_SRC python
+    def dropwhile(predicate, iterable):
+        iterable = iter(iterable)
+        for x in iterable:
+            if not predicate(x):
+                yield x
+                break
+        for x in iterable:
             yield x
-            break
-    for x in iterable:
-        yield x
-#+END_SRC
-
-Primer:
-
-#+BEGIN_SRC python :return value
-from itertools import dropwhile
-return list(dropwhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
-#+END_SRC
-
-#+RESULTS:
-| 6 | 4 | 1 |
-
+    #+END_SRC
 
 ** ~takewhile~
 - Iterator koji vraća elemente dok je predikat zadovoljen.
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    from itertools import takewhile
+    return list(takewhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
+    #+END_SRC
+
+    #+RESULTS:
+    | 1 | 4 |
+
 - Ekvivalentno sa:
-#+BEGIN_SRC python
-def takewhile(predicate, iterable):
-    for x in iterable:
-        if predicate(x):
-            yield x
-        else:
-            break
-#+END_SRC
 
-Primer:
-
-#+BEGIN_SRC python :results value
-from itertools import takewhile
-return list(takewhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
-#+END_SRC
-
-#+RESULTS:
-| 1 | 4 |
+    #+BEGIN_SRC python
+    def takewhile(predicate, iterable):
+        for x in iterable:
+            if predicate(x):
+                yield x
+            else:
+                break
+    #+END_SRC
 
 ** ~tee~
 - Deli dati iterabilni objekat na više.
+
 - Ekvivalentno sa:
+
 #+BEGIN_SRC python
 def tee(iterable, n=2):
     it = iter(iterable)
     deques = [collections.deque() for i in range(n)]
     def gen(mydeque):
         while True:
-            if not mydeque:             # when the local deque is empty
+            if not mydeque:             # ako je lokalni dek prazan...
                 try:
-                    newval = next(it)   # fetch a new value and
+                    newval = next(it)   # preuzmi novu vrednosti i...
                 except StopIteration:
                     return
-                for d in deques:        # load it to all the deques
+                for d in deques:        # dodaj ih na sve dekove.
                     d.append(newval)
             yield mydeque.popleft()
     return tuple(gen(d) for d in deques)
@@ -917,18 +928,18 @@ def tee(iterable, n=2):
 >>> ''.join(d.keys())
 'bacde'
 
->>> # regular unsorted dictionary
+>>> # nesortirani rečnik
 >>> d = {'banana': 3, 'apple': 4, 'pear': 1, 'orange': 2}
 
->>> # dictionary sorted by key
+>>> # rečnik sortiran po zatakom ključu
 >>> OrderedDict(sorted(d.items(), key=lambda t: t[0]))
 OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
 
->>> # dictionary sorted by value
+>>> # rečnik sortiran po vrednosti
 >>> OrderedDict(sorted(d.items(), key=lambda t: t[1]))
 OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
 
->>> # dictionary sorted by length of the key string
+>>> # rečnik sortiran po dužini ključa
 >>> OrderedDict(sorted(d.items(), key=lambda t: len(t[0])))
 OrderedDict([('pear', 1), ('apple', 4), ('orange', 2), ('banana', 3)])
 #+END_SRC
@@ -985,14 +996,14 @@ deque(['f', 'g', 'h', 'i', 'j'])
 #+END_SRC
 
 ** Counter
-- Podklasa ~dict~ tipa za prebrojavanje objekta koji mogu da se /heširaju/.
+- Podklasa ~dict~ tipa za prebrojavanje objekata koji mogu da se /heširaju/.
 - Ključevi su objekti a vrednosti su njihov ukupan broj.
 
 #+BEGIN_SRC python
->>> c = Counter()                           # a new, empty counter
->>> c = Counter('gallahad')                 # a new counter from an iterable
->>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
->>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+>>> c = Counter()                           # prazan Counter
+>>> c = Counter('gallahad')                 # Novi Counter iz iterable
+>>> c = Counter({'red': 4, 'blue': 2})      # Novi Counter iz rečnika
+>>> c = Counter(cats=4, dogs=8)             # Novi Counter upotrebom keyword arg.
 
 >>> c = Counter(['eggs', 'ham'])
 >>> c['bacon']                              # count of a missing element is zero
@@ -1035,7 +1046,7 @@ Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
 - /Diamond problem/.
 - Problem kod naivnog pretraživanja "po dubini".
 
-#+attr_html: :width 20% 
+#+attr_html: :style height: 500px;
 [[./slike/Diamond_inheritance.svg]]
 
 #+attr_html: :class footer :style clear: both;
@@ -1078,6 +1089,8 @@ class LoggingOD(LoggingDict, collections.OrderedDict):
  <class 'object'>)
 #+END_SRC
 
+=OrderedDict= je ispred =dict= pa će =super= pozvati =OrderedDict.__setitem__=.
+
 #+attr_html: :class footer
 [[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
 
@@ -1107,6 +1120,7 @@ cs = ColoredShape(color='red', shapename='circle')
 - Kod primera sa konstruktorom ~__init__~ metoda postoji i u ~object~ korenskoj
   klasi. Izuzetak se može pojaviti ukoliko nismo iscrpeli sve parametre u
   ~**kwds~ što je svakako greška.
+
 ** Pretraga metoda
 - Ukoliko metoda ne postoji u korenskoj ~object~ klasi najbolje je kreirati
   koren naše hijerarhije sa datom metodom.
@@ -1267,8 +1281,8 @@ MovableColoredShape(color='red', shapename='triangle',
   
 ** Async kod sa ~time.sleep(1)~
    
-  #+NAME: time-sleep
-  #+BEGIN_SRC python :results output :exports both
+#+NAME: time-sleep
+#+BEGIN_SRC python :results output :exports both
 import asyncio
 import time
 from datetime import datetime
@@ -1299,29 +1313,28 @@ loop.close()
 
 end = time.time()
 print("Total time: {}".format(end - start))
-  #+END_SRC
+#+END_SRC
 
-  
-  #+attr_html: :class footer
-  [[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]] 
+#+attr_html: :class footer
+[[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]]
 
 ** Async kod sa ~time.sleep(1)~ - rezultati
    
   #+RESULTS: time-sleep
   #+begin_example
   Task A: Compute factorial(2)
-  SLEEP 2021-03-09 16:56:42.376919
+  SLEEP 2022-03-15 18:17:53.571698
   Task A: Compute factorial(3)
-  SLEEP 2021-03-09 16:56:43.378432
+  SLEEP 2022-03-15 18:17:54.572835
   Task A: factorial(3) is 6n
   Task B: Compute factorial(2)
-  SLEEP 2021-03-09 16:56:44.380052
+  SLEEP 2022-03-15 18:17:55.573957
   Task B: Compute factorial(3)
-  SLEEP 2021-03-09 16:56:45.381594
+  SLEEP 2022-03-15 18:17:56.575035
   Task B: Compute factorial(4)
-  SLEEP 2021-03-09 16:56:46.383240
+  SLEEP 2022-03-15 18:17:57.576067
   Task B: factorial(4) is 24n
-  Total time: 5.008708477020264
+  Total time: 5.005323648452759
   #+end_example
 
   Vidimo da se prvo izvršio /Task A/ pa onda /Task B/ odnosno =time.sleep()=
@@ -1329,12 +1342,11 @@ print("Total time: {}".format(end - start))
 
 ** Async kod sa ~asyncio.sleep(1)~
    
-  #+NAME: async-sleep
-  #+BEGIN_SRC python :results output :exports both
+#+NAME: async-sleep
+#+BEGIN_SRC python :results output :exports both
 import asyncio
 import time
 from datetime import datetime
-
 
 async def custom_sleep():
     print('SLEEP {}n'.format(datetime.now()))
@@ -1348,7 +1360,6 @@ async def factorial(name, number):
         f *= i
     print('Task {}: factorial({}) is {}n'.format(name, number, f))
 
-
 start = time.time()
 loop = asyncio.get_event_loop()
 
@@ -1361,29 +1372,28 @@ loop.close()
 
 end = time.time()
 print("Total time: {}".format(end - start))
-  #+END_SRC
+#+END_SRC
 
-  
-  #+attr_html: :class footer
-  [[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]] 
+#+attr_html: :class footer
+[[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]]
   
 ** Async kod sa ~asyncio.sleep(1)~ - rezultati
 
   #+RESULTS: async-sleep
   #+begin_example
   Task A: Compute factorial(2)
-  SLEEP 2021-03-09 16:57:23.677806n
+  SLEEP 2022-03-15 18:18:23.826275n
   Task B: Compute factorial(2)
-  SLEEP 2021-03-09 16:57:23.677851n
+  SLEEP 2022-03-15 18:18:23.826297n
   Task A: Compute factorial(3)
-  SLEEP 2021-03-09 16:57:24.679801n
+  SLEEP 2022-03-15 18:18:24.827522n
   Task B: Compute factorial(3)
-  SLEEP 2021-03-09 16:57:24.679930n
+  SLEEP 2022-03-15 18:18:24.827565n
   Task A: factorial(3) is 6n
   Task B: Compute factorial(4)
-  SLEEP 2021-03-09 16:57:25.681821n
+  SLEEP 2022-03-15 18:18:25.828750n
   Task B: factorial(4) is 24n
-  Total time: 3.006331443786621
+  Total time: 3.0036144256591797
   #+end_example
 
   U ovom slučaju vidimo da poziv =await asyncio.sleep(1)= oslobađa /Even Loop/ i
