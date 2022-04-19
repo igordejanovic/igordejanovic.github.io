@@ -1,5 +1,5 @@
 #+TITLE: Programski jezik Go
-#+SUBTITLE: Bazirano na Go verziji 1.14.2 i [[https://tour.golang.org/][A Tour of Go]]
+#+SUBTITLE: Bazirano na Go verziji 1.18 i [[https://tour.golang.org/][A Tour of Go]]. U izradi.
 #+EXPORT_FILE_NAME: index.html
 #+SETUPFILE: ../../courses-startup.org
 #+REVEAL_TRANS: slide
@@ -20,7 +20,6 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
 * Instalacija i podešavanja
 ** Instalacija
-   
 - Koristiti instaler za OS
 - ...ili raspakovati tarball/zip i podesiti =PATH= varijablu na =go/bin= folder
 - Na primer:
@@ -40,19 +39,36 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
   #+END_SRC
   
 ** /Workspace/ direktorijum
-   
+
 - Direktorijum za Go kod
 - Podrazumevano =$HOME/go=
 - Ukoliko želite da promenite morate podesiti =GOPATH= varijablu
- 
+
+#+begin_note
+Ovo je zastareli način rada. U novijim verzijama koristi se sistem modula dok je
+od verzije 1.18 podržan i radni proces sa /workspaces/ upotrebom [[https://go.dev/blog/get-familiar-with-workspaces][go.work fajl]].
+#+end_note
+
 ** Testiranje instalacije
 
   #+BEGIN_SRC bash
   $ go version
-  go version go1.14.2 linux/amd64
+  go version go1.18 linux/amd64
   #+END_SRC
    
-- Napraviti =src/hello= u /workspace/ direktorijumu (dakle =~/go/src/hello=)
+- Napraviti =hello= direktorijumu i preći u njega:
+
+  #+begin_src sh
+  mkdir hello
+  cd hello
+  #+end_src
+
+- Inicijalizovati modul:
+
+  #+begin_src sh
+  go mod init examples/hello
+  #+end_src
+
 - Napraviti fajl =hello.go= sa sadržajem:
 
   #+BEGIN_SRC go
@@ -61,14 +77,13 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
   import "fmt"
 
   func main() {
-	  fmt.Printf("Здраво, свете!\n")
+      fmt.Printf("Здраво, свете!\n")
   }
   #+END_SRC
   
-- Preći u projektni folder, pokrenuti =build= i zatim startovati program:
+- Pokrenuti =go build= i zatim startovati program:
 
   #+BEGIN_SRC bash
-  $ cd ~/go/src/hello
   $ go build
   $ ./hello
   Здраво, свете!
@@ -76,193 +91,224 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
 
 * Kako pisati Go kod?
 ** Uvod
-   
-   Go alati podrazumevaju određene konvencije u organizaciji foldera i
-   programskog koda.
-   
-   Bazirano na [[https://golang.org/doc/code.html][How to Write Go Code]]
-   
-** /Workspaces/
-   
-   - Obično se sav Go kod smešta na jedno mesto koje zovemo /workspace/
-   - Na ovom mestu se nalazi veći broj repozitorijuma pod sistemima za kontrolu
-     verzija (npr. =git=).
-   - Svaki repozitorijum se sastoji od jednog ili više paketa
-   - Svaki paket se sastoji od jednog ili više Go fajlova u jednom direktorijumu
-   - Putanja (/path/) do direktorijuma paketa određuje njegov /import path/
+Ova sekcija objašnjava osnovne radnje prilikom razvoja Go programa. Upotrebu Go
+alata, standardni način za kreiranje inicijalnog projekta, preuzimanje,
+izgradnju, instalaciju i pokretanje Go programa.
 
-** /Workspaces/
-   
-  #+BEGIN_SRC
-  bin/
-      hello                          # command executable
-      outyet                         # command executable
-  src/
-    github.com/golang/example/
-        .git/                        # Git repository metadata
-    hello/
-        hello.go                     # command source
-    outyet/
-        main.go                      # command source
-        main_test.go                 # test source
-    stringutil/
-        reverse.go                   # package source
-        reverse_test.go              # test source
-      golang.org/x/image/
-          .git/                      # Git repository metadata
-    bmp/
-        reader.go                    # package source
-        writer.go                    # package source
-      ... (many more repositories and packages omitted) ...
-  #+END_SRC
+Bazirano na [[https://golang.org/doc/code.html][How to Write Go Code]]
 
-** =GOPATH=
+** Paketi
+Go programi su organizovani u pakete (eng. /packages/) - kolekcija fajlova unutar
+istog foldera koji se zajedno kompajliraju.
 
-- Podrazumevano =$HOME/go= na Unix-like sistemima ili =%USERPOFILE%\go= na
-  Windows-u.
-- =go env GOPATH= komanda daje informaciju o tekućoj lokaciji tj. sadržaj
-  =GOPATH= varijable ili podrazumevanu lokaciju ukoliko nije podešena.
-- Da bi instalirani Go programi bili dostupni:
-  #+BEGIN_SRC bash
-  $ export PATH=$PATH:$(go env GOPATH)/bin
-  #+END_SRC
-  
-** Import putanja (/import path/)
-   
-- Kratke putanje za standardnu biblioteku. Na primer: =fmt=, =net/http=
-- Putanja je relativna u odnosu na =$GOPATH/src=
-- Mora biti jedinstvena
-- Dobra praksa je upotreba domena VCS hosting sajtova. Na primer:
-  #+BEGIN_SRC
-  $GOPATH/src/github.com/user
-  #+END_SRC
-  
+** Moduli
+- Repozitorijum projekta sadrži jedan ili više modula.
+- Modul je kolekcija više paketa koji se zajedno objavljuju.
+- Svaki modul ima svoju putanju/naziv koja predstavlja putanju do lokacije na
+  internetu gde se kod može preuzeti (npr. =github.com/mojnalog/moj_modul=).
+- Puna putanja paketa za import predstavlja prefix koji čini ime modula i zatim
+  ime paketa.
+- Na primer, modul [[https://github.com/google/go-cmp][github.com/google/go-cmp]] sadrži paket =cmp= tako da bi buna
+  putanja za import bila [[https://github.com/google/go-cmp/tree/master/cmp][github.com/google/go-cmp/cmp]].
+- Paketi standardne biblioteke nemaju prefiks. Na primer: =fmt=, =net/http=
+
 ** Prvi Go program
-   
-   #+BEGIN_SRC shell
-   $ mkdir $GOPATH/src/github.com/user/hello
-   #+END_SRC
-   
-   - Fajl =hello.go=
-   #+BEGIN_SRC go
-    package main
+- Napraviti =hello= direktorijumu i preći u njega:
 
-    import "fmt"
+  #+begin_src sh
+  mkdir hello
+  cd hello
+  #+end_src
 
-    func main() {
+- Inicijalizovati modul:
+
+  #+begin_src sh
+  $ go mod init example/user/hello
+  go: creating new go.mod: module example/user/hello
+  $ cat go.mod
+  module example/user/hello
+
+  go 1.18
+  #+end_src
+
+- Napraviti fajl =hello.go= sa sadržajem:
+
+  #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
       fmt.Printf("Здраво, свете!\n")
-    }
-   #+END_SRC
-   
-   #+BEGIN_SRC shell
-   $ go install github.com/user/hello
-   # ili
-   $ cd $GOPATH/src/github.com/user/hello
-   $ go install
-   #+END_SRC
-   
-   - =hello= program će biti instaliran u =$GOPATH/bin/=
+  }
+  #+END_SRC
 
-   #+BEGIN_SRC shell
-   $ $GOPATH/bin/hello
-   Здраво, свете!
-   # ili samo
-   $ hello
-   Здраво, свете!
-   #+END_SRC
+#+REVEAL: split
+
+- Pokrenuti =go build= i zatim startovati program:
+
+  #+BEGIN_SRC bash
+  $ go build
+  $ ./hello
+  Здраво, свете!
+  #+END_SRC
+
+- Instalirati program sa:
+
+  #+begin_src bash
+  go install
+  #+end_src
+
+- =hello= program će biti instaliran u =$GOBIN= folder (podrazumevano =~/go/bin=).
+
+  #+BEGIN_SRC shell
+$ echo $GOBIN
+~/repos/gocode/bin
+$ which hello
+~/repos/gocode/bin/hello
+  #+END_SRC
+
+- Za podešavanje okruženja na portabilan način možemo koristiti =go env=.
+  #+begin_src shell
+  go env -w GOBIN=/somewhere/else/bin
+  #+end_src
+
+  #+REVEAL: split
    
-   #+REVEAL: split
-   
-   - Sledeći korak je da promenu zabeležimo u sistemu za kontrolu verzija:
-   #+BEGIN_SRC shell
-   $ cd $GOPATH/src/github.com/user/hello
-   $ git init
-   Initialized empty Git repository in /home/user/work/src/github.com/user/hello/.git/
-   $ git add hello.go
-   $ git commit -m "initial commit"
-   [master (root-commit) 0b4507d] initial commit
-   1 file changed, 1 insertion(+)
-     create mode 100644 hello.go
-   #+END_SRC
+- Sledeći korak je da promenu zabeležimo u sistemu za kontrolu verzija:
+  #+BEGIN_SRC shell
+$ git init
+Initialized empty Git repository in /home/igor/NTP/hello/.git/
+$ git add hello.go go.mod
+$ git commit -m "Initial commit"
+[main (root-commit) 62d03dd] Initial commit
+ 2 files changed, 11 insertions(+)
+ create mode 100644 go.mod
+ create mode 100644 hello.go
+  #+END_SRC
 
 ** Prva Go biblioteka
-   
-   #+BEGIN_SRC bash
-   $ mkdir $GOPATH/src/github.com/user/stringutil
-   #+END_SRC
-   
-   #+BEGIN_SRC go
-   // Package stringutil contains utility functions for working with strings.
-   package stringutil
+- Kreiramo biblioteku koju ćemo koristiti iz =hello= programa.
+#+BEGIN_SRC bash
+# Iz hello foldera
+$ mkdir morestrings
+$ cd morestrings
+#+END_SRC
 
-   // Reverse returns its argument string reversed rune-wise left to right.
-   func Reverse(s string) string {
-     r := []rune(s)
-     for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
-       r[i], r[j] = r[j], r[i]
-     }
-     return string(r)
-   }
-   #+END_SRC
-   
-   - Provera ispravnosti biblioteke
-   #+BEGIN_SRC shell
-   $ go build github.com/user/stringutil
-   # ili ako smo već u folderu stringutil
-   $ go build
-   #+END_SRC
-   
-   #+REVEAL: split
-    
-   - Modifikovati program =hello.go=
-   
-   #+BEGIN_SRC go
-   package main
+- pravimo fajl =reverse.go=
 
-   import (
-     "fmt"
+#+BEGIN_SRC go
+// Package morestrings implements additional functions to manipulate UTF-8
+// encoded strings, beyond what is provided in the standard "strings" package.
+package morestrings
 
-     "github.com/user/stringutil"
-   )
+// ReverseRunes returns its argument string reversed rune-wise left to right.
+func ReverseRunes(s string) string {
+    r := []rune(s)
+    for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
+        r[i], r[j] = r[j], r[i]
+    }
+    return string(r)
+}
+#+END_SRC
 
-   func main() {
-     fmt.Println(stringutil.Reverse("!етевс ,овардЗ"))
-   }
-   #+END_SRC
-   
-   #+BEGIN_SRC shell
-   $ go install github.com/user/hello
-   $ hello
-   Здраво, свете!
-   #+END_SRC
+- Provera ispravnosti biblioteke
+#+BEGIN_SRC shell
+$ go build
+#+END_SRC
 
+Komanda ne proizvodi ispis već kompajlirani kod kešira.
 
-   #+BEGIN_SRC
-   bin/
-     hello                 # command executable
-   src/
-       github.com/user/
-           hello/
-               hello.go      # command source
-           stringutil/
-               reverse.go    # package source
-   #+END_SRC
+#+REVEAL: split
+
+- Modifikovati program =hello.go=
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+
+    "example/user/hello/morestrings"
+)
+
+func main() {
+    fmt.Println(stringutil.Reverse("!2 етевс ,овардЗ"))
+}
+#+END_SRC
+
+#+BEGIN_SRC shell
+$ go install example/user/hello
+$ hello
+Здраво, свете 2!
+#+END_SRC
 
 ** Imenovanje paketa
-   
-   - Prvi iskaz u svakom Go fajlu mora biti:
-     #+BEGIN_SRC go
-     package name
-     #+END_SRC
-   - ...gde je =name= ime paketa koje se koristi pri /import/-u
-   - Svi fajlovi koji pripadaju istom paketu moraju koristiti isto ime
-   - Go konvencija je da je ime paketa poslednji element import putanje. Primer:
-     ukoliko se paket importuje sa =crypto/rot13= tada njegovo ime treba da bude
-     =rot13=
-   - Izvršne komande moraju biti u paketu =main=
-   - Ne zahteva se da ime paketa bude jedinstveno kod svih paketa koji se
-     importuju ali se zahteva da putanja bude
-     
+- Prvi iskaz u svakom Go fajlu mora biti:
+  #+BEGIN_SRC go
+  package <name>
+  #+END_SRC
+- ...gde je =<name>= ime paketa koje se koristi pri /import/-u
+- Svi fajlovi koji pripadaju istom paketu moraju koristiti isto ime
+- Go konvencija je da je ime paketa poslednji element import putanje. Primer:
+  ukoliko se paket importuje sa =crypto/rot13= tada njegovo ime treba da bude
+  =rot13=
+- Izvršne komande moraju biti u paketu =main=
+- Ne zahteva se da ime paketa bude jedinstveno kod svih paketa koji se importuju
+  ali se zahteva da putanja bude
+
+** Udaljeni paketi (/Remote packages/)
+- Import putanja može biti u obliku URL-a do repozitorijuma za kontrolu
+  verzija (npr. Git ili Mercurial)
+
+  Na primer:
+
+  #+begin_src go
+package main
+
+import (
+    "fmt"
+
+    "example/user/hello/morestrings"
+    "github.com/google/go-cmp/cmp"
+)
+
+func main() {
+    fmt.Println(morestrings.ReverseRunes("!oG ,olleH"))
+    fmt.Println(cmp.Diff("Hello World", "Hello Go"))
+}
+  #+end_src
+
+  #+REVEAL: split
+
+Pošto smo dodali novu zavisnost potrebno je da ažuriramo =go.mod= fajl. To je
+automatizovano kroz komandu =go mod tidy=.
+#+begin_src sh
+$ go mod tidy
+go: finding module for package github.com/google/go-cmp/cmp
+go: downloading github.com/google/go-cmp v0.5.7
+go: found github.com/google/go-cmp/cmp in github.com/google/go-cmp v0.5.7
+go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+$ go install example/user/hello
+$ hello
+Hello, Go!
+  string(
+-   "Hello World",
++   "Hello Go",
+  )
+$ cat go.mod
+module example/user/hello
+
+go 1.18
+
+require github.com/google/go-cmp v0.5.7
+#+end_src
+
+#+REVEAL: split
+
+Preuzete zavisnosti se keširaju u =pkg/mod= podfolderu foldera na koji pokazuje
+promenjiva =$GOPATH=. Ovaj keš se može obrisati sa =go clean -modcache=.
+
 ** Promena imena pri /import/-u paketa
    
   #+BEGIN_SRC
@@ -284,532 +330,499 @@ https://en.wikipedia.org/wiki/Go_(programming_language)
   https://golang.org/ref/spec#Import_declarations
 
 ** Testiranje
-   
-   - /Lightweight/ test okvir u paketu =testing= + =go test= komanda
-   - Jedinični test se piše u fajlu koji se završava na =_test.go= i koji sadrži
-     funkcije oblika =TestXXX= sa signaturom =func (t *testing.T)=
-   - =go test= poziva sve funkcije i ako ona pozove =t.Error= ili =t.Fail= test
-     se smatra neuspešnim
+- /Lightweight/ test okvir u paketu =testing= + =go test= komanda
+- Jedinični test se piše u fajlu koji se završava na =_test.go= i koji sadrži
+  funkcije oblika =TestXXX= sa signaturom =func (t *testing.T)=
+- =go test= poziva sve funkcije i ako ona pozove =t.Error= ili =t.Fail= test se
+  smatra neuspešnim
      
-   #+REVEAL: split
+ #+REVEAL: split
 
-   - Fajl =$GOPATH/src/github.com/user/stringutil/reverse_test.go=
+ - Fajl =morestrings/reverse_test.go=
    #+BEGIN_SRC go
-   package stringutil
+ package morestrings
 
-   import "testing"
+ import "testing"
 
-   func TestReverse(t *testing.T) {
+ func TestReverseRunes(t *testing.T) {
      cases := []struct {
-       in, want string
+         in, want string
      }{
-       {"Hello, world", "dlrow ,olleH"},
-       {"Hello, 世界", "界世 ,olleH"},
-       {"", ""},
+         {"Hello, world", "dlrow ,olleH"},
+         {"Hello, 世界", "界世 ,olleH"},
+         {"", ""},
      }
      for _, c := range cases {
-       got := Reverse(c.in)
-       if got != c.want {
-         t.Errorf("Reverse(%q) == %q, want %q", c.in, got, c.want)
-       }
+         got := ReverseRunes(c.in)
+         if got != c.want {
+             t.Errorf("ReverseRunes(%q) == %q, want %q", c.in, got, c.want)
+         }
      }
-   }
+ }
    #+END_SRC
    
    #+BEGIN_SRC shell
-   $ go test github.com/user/stringutil
-   ok  	github.com/user/stringutil 0.165s
-   # ili samo
-   $ go test
-   ok  	github.com/user/stringutil 0.165s
+$ cd morestrings
+$ go test
+PASS
+ok      example/user/hello/morestrings 0.001s
+$
    #+END_SRC
    
-** Udaljeni paketi (/Remote packages/)
-   
-   - Import putanja može biti u obliku URL-a do repozitorijuma za kontrolu
-     verzija (npr. Git ili Mercurial)
-   - =go get= alat će preuzeti kod iz udaljenog repozitorijuma ako nije dostupan
-     u lokalnom radnom prostoru (/workspace/)
-   - Zavisni paketi dostupni preko udaljenih repozitorijuma se takođe automatski
-     preuzimaju
-   - Za više informacija videti =go help importpath=
-
 * Go Tour
+Interaktivno učenje Go jezika:
   
-  Interaktivno učenje Go jezika:
-  
-  - https://tour.golang.org/
-  - https://github.com/golang/tour
+- https://go.dev/tour/
+- https://github.com/golang/tour
 
-  Pokretanje lokalno:
+Lokalna instalacija:
 
-  #+BEGIN_SRC
-  $ go get golang.org/x/tour
-  $ tour
-  #+END_SRC
+#+BEGIN_SRC
+$ go install golang.org/x/website/tour
+$ tour
+#+END_SRC
 
 * Paketi, varijable, funkcije
 ** Paketi
-   
-   - Svaki Go program se sastoji od paketa
-   - Program počinje izvršavanje u paketu =main= i funkciji =func main()=
-   #+BEGIN_SRC go
-   package main
+- Svaki Go program se sastoji od paketa
+- Program počinje izvršavanje u paketu =main= i funkciji =func main()=
+ #+BEGIN_SRC go
+ package main
 
-   import (
-     "fmt"
-     "math/rand"
-   )
+ import (
+   "fmt"
+   "math/rand"
+ )
 
-   func main() {
-     fmt.Println("My favorite number is", rand.Intn(10))
-   }
-   #+END_SRC
+ func main() {
+   fmt.Println("My favorite number is", rand.Intn(10))
+ }
+ #+END_SRC
    
-   - Paket se referencira po poslednjoj komponenti import putanje (u prethodnom
-     primeru =rand=).
+ - Paket se referencira po poslednjoj komponenti import putanje (u prethodnom
+   primeru =rand=).
      
 ** =Import= iskaz
-   
-   - Navođenje paketa koji se koriste u posmatranom fajlu
-   - Može se navesti više paketa unutar zagrada (tzv. /factored import/)
-   #+BEGIN_SRC go
-   package main
+- Navođenje paketa koji se koriste u posmatranom fajlu
+- Može se navesti više paketa unutar zagrada (tzv. /factored import/)
+ #+BEGIN_SRC go
+ package main
 
-   import (
-     "fmt"
-     "math"
-   )
+ import (
+   "fmt"
+   "math"
+ )
 
-   func main() {
-     fmt.Printf("Now you have %g problems.\n", math.Sqrt(7))
-   }
-   #+END_SRC
+ func main() {
+   fmt.Printf("Now you have %g problems.\n", math.Sqrt(7))
+ }
+ #+END_SRC
    
 ** Eksportovana imena
-   
-   Ime je eksportovano iz paketa (odnosno može se importovati u drugim paketima)
-   ako počinje velikim slovom.
-   
-   #+BEGIN_SRC go
-   package main
+Ime je eksportovano iz paketa (odnosno može se importovati u drugim paketima)
+ako počinje velikim slovom.
 
-   import (
-     "fmt"
-     "math"
-   )
+#+BEGIN_SRC go
+package main
 
-   func main() {
-     fmt.Println(math.pi)  // <-- treba math.Pi
-   }
-   #+END_SRC
-   
-   Imenima koji počinju malim slovom ne može se pristupiti izvan paketa u kome
-   su definisani.
+import (
+  "fmt"
+  "math"
+)
+
+func main() {
+  fmt.Println(math.pi)  // <-- treba math.Pi
+}
+#+END_SRC
+
+Imenima koji počinju malim slovom ne može se pristupiti izvan paketa u kome
+su definisani.
 
 ** Funkcije
+- Funkcije mogu imati nula ili više argumenata
+ #+BEGIN_SRC go
+ package main
 
-   - Funkcije mogu imati nula ili više argumenata
-   #+BEGIN_SRC go
-   package main
+ import "fmt"
 
-   import "fmt"
+ func add(x int, y int) int {
+   return x + y
+ }
 
-   func add(x int, y int) int {
-     return x + y
-   }
-
-   func main() {
-     fmt.Println(add(42, 13))
-   }
-   #+END_SRC
+ func main() {
+   fmt.Println(add(42, 13))
+ }
+ #+END_SRC
    
-   - Ili kraće
-   #+BEGIN_SRC go
-   package main
+- Ili kraće
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   func add(x, y int) int {
-     return x + y
-   }
+ func add(x, y int) int {
+   return x + y
+ }
 
-   func main() {
-     fmt.Println(add(42, 13))
-   }
-   #+END_SRC
+ func main() {
+   fmt.Println(add(42, 13))
+ }
+ #+END_SRC
 
-
-   
 ** Višestruke povratne vrednosti
-   
-   - Funkcije mogu vratiti proizvoljan broj rezultata
-   #+BEGIN_SRC go
-   package main
+- Funkcije mogu vratiti proizvoljan broj rezultata
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   func swap(x, y string) (string, string) {
-     return y, x
-   }
+ func swap(x, y string) (string, string) {
+   return y, x
+ }
 
-   func main() {
-     a, b := swap("hello", "world")
-     fmt.Println(a, b)
-   }
-   #+END_SRC
+ func main() {
+   a, b := swap("hello", "world")
+   fmt.Println(a, b)
+ }
+ #+END_SRC
 
 ** Imenovane povratne vrednosti
-  
-   - Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
-     =return= iskaz bez argumenata (tzv. /naked return/)
+- Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
+  =return= iskaz bez argumenata (tzv. /naked return/)
      
-   #+BEGIN_SRC go
-   package main
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   func split(sum int) (x, y int) {
-     x = sum * 4 / 9
-     y = sum - x
-     return
-   }
+ func split(sum int) (x, y int) {
+   x = sum * 4 / 9
+   y = sum - x
+   return
+ }
 
-   func main() {
-     fmt.Println(split(17))
-   }
-   #+END_SRC
+ func main() {
+   fmt.Println(split(17))
+ }
+ #+END_SRC
 
 ** Varijable
-   
-   - =var= iskaz definiše varijable. Tip se navodi na kraju
-   - =var= iskaz se može koristiti na nivou paketa ili funkcije
+- =var= iskaz definiše varijable. Tip se navodi na kraju
+- =var= iskaz se može koristiti na nivou paketa ili funkcije
  
-   #+BEGIN_SRC go
-   package main
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   var c, python, java bool
+ var c, python, java bool
 
-   func main() {
-     var i int
-     fmt.Println(i, c, python, java)
-   }
-   #+END_SRC
+ func main() {
+   var i int
+   fmt.Println(i, c, python, java)
+ }
+ #+END_SRC
 
 ** Varijable sa inicijalizatorima
-   
-   - =var= iskaz može imati inicijalizatore, jedan po varijabli
-   - Ako se koristi inicijalizator, tip može da se izostavi jer može da se
-     odredi na osnovu inicijalizatora
+- =var= iskaz može imati inicijalizatore, jedan po varijabli
+- Ako se koristi inicijalizator, tip može da se izostavi jer može da se
+  odredi na osnovu inicijalizatora
      
-   #+BEGIN_SRC go
-   package main
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   var i, j int = 1, 2
+ var i, j int = 1, 2
 
-   func main() {
-     var c, python, java = true, false, "no!"
-     fmt.Println(i, j, c, python, java)
-   }
-   #+END_SRC
+ func main() {
+   var c, python, java = true, false, "no!"
+   fmt.Println(i, j, c, python, java)
+ }
+ #+END_SRC
 
 ** Kratka deklaracija varijabli
-   
-   - Unutar funkcija, kraći oblik deklaracije baziran na ~:=~ dodeli može da se
-     koristi
+- Unutar funkcija, kraći oblik deklaracije baziran na ~:=~ dodeli može da se
+  koristi
      
-   #+BEGIN_SRC go
-   package main
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   func main() {
-     var i, j int = 1, 2
-     k := 3
-     c, python, java := true, false, "no!"
+ func main() {
+   var i, j int = 1, 2
+   k := 3
+   c, python, java := true, false, "no!"
 
-     fmt.Println(i, j, k, c, python, java)
-   }
-   #+END_SRC
+   fmt.Println(i, j, k, c, python, java)
+ }
+ #+END_SRC
 
-   - Ovo nije moguće koristiti van funkcije jer svaki iskaz mora početi sa
-     ključnom rečju
+ - Ovo nije moguće koristiti van funkcije jer svaki iskaz mora početi sa
+   ključnom rečju
 
 ** Osnovni tipovi
+Osnovni tipovi u Go-u su:
+
+ #+BEGIN_SRC
+ bool
+
+ string
+
+ int  int8  int16  int32  int64
+ uint uint8 uint16 uint32 uint64 uintptr
+
+ byte // alias for uint8
+
+ rune // alias for int32
+      // represents a Unicode code point
+
+ float32 float64
+
+ complex64 complex128
+ #+END_SRC
    
-   - Osnovni tipovi u Go-u su:
+ #+REVEAL: split
 
-   #+BEGIN_SRC
-   bool
+ #+BEGIN_SRC go
+ package main
 
-   string
+ import (
+   "fmt"
+   "math/cmplx"
+ )
 
-   int  int8  int16  int32  int64
-   uint uint8 uint16 uint32 uint64 uintptr
+ var (
+   ToBe   bool       = false
+   MaxInt uint64     = 1<<64 - 1
+   z      complex128 = cmplx.Sqrt(-5 + 12i)
+ )
 
-   byte // alias for uint8
+ func main() {
+   fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
+   fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
+   fmt.Printf("Type: %T Value: %v\n", z, z)
+ }
+ #+END_SRC
 
-   rune // alias for int32
-        // represents a Unicode code point
-
-   float32 float64
-
-   complex64 complex128
-   #+END_SRC
-   
-   #+REVEAL: split
-
-   #+BEGIN_SRC go
-   package main
-
-   import (
-     "fmt"
-     "math/cmplx"
-   )
-
-   var (
-     ToBe   bool       = false
-     MaxInt uint64     = 1<<64 - 1
-     z      complex128 = cmplx.Sqrt(-5 + 12i)
-   )
-
-   func main() {
-     fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
-     fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
-     fmt.Printf("Type: %T Value: %v\n", z, z)
-   }
-   #+END_SRC
-   
-   #+BEGIN_SRC
-   Type: bool Value: false
-   Type: uint64 Value: 18446744073709551615
-   Type: complex128 Value: (2+3i)
-   #+END_SRC
+ #+RESULTS:
+ : Type: bool Value: false
+ : Type: uint64 Value: 18446744073709551615
+ : Type: complex128 Value: (2+3i)
 
 ** Nulte vrednosti
-   
-   - Varijable deklarisane bez inicijalizatora se inicijalizuju na podrazumevane
-     nulte vrednosti:
-     - =0= za numeričke tipove
-     - =false= za =boolean= tip
-     - =""= (prazan string) za =string= tip
+- Varijable deklarisane bez inicijalizatora se inicijalizuju na podrazumevane
+  nulte vrednosti:
+  - =0= za numeričke tipove
+  - =false= za =boolean= tip
+  - =""= (prazan string) za =string= tip
  
-   #+BEGIN_SRC go
-   package main
+  #+BEGIN_SRC go
+  package main
 
-   import "fmt"
+  import "fmt"
 
-   func main() {
-     var i int
-     var f float64
-     var b bool
-     var s string
-     fmt.Printf("%v %v %v %q\n", i, f, b, s)
-   }
-   #+END_SRC
-   
-   #+BEGIN_SRC
-   0 0 false ""
-   #+END_SRC
+  func main() {
+    var i int
+    var f float64
+    var b bool
+    var s string
+    fmt.Printf("%v %v %v %q\n", i, f, b, s)
+  }
+  #+END_SRC
+
+  #+RESULTS:
+  : 0 0 false ""
 
 ** Konverzija tipova
+- Izraz oblika =T(v)= konvertuje vrednost =v= u tip =T=
+- Na primer:
+ #+BEGIN_SRC go
+ var i int = 42
+ var f float64 = float64(i)
+ var u uint = uint(f)
+ #+END_SRC
    
-   - Izraz oblika =T(v)= konvertuje vrednost =v= u tip =T=
-   - Na primer:
-   #+BEGIN_SRC go
-   var i int = 42
-   var f float64 = float64(i)
-   var u uint = uint(f)
-   #+END_SRC
-   
-   - ... ili jednostavnije:
-   #+BEGIN_SRC go
-   i := 42
-   f := float64(i)
-   u := uint(f)
-   #+END_SRC
-   
-   - Za razliku od C-a u Go-u dodela između različitih tipova zahteva
-     eksplicitnu konverziju
-   
-   #+BEGIN_SRC go
-   package main
+ - ... ili jednostavnije:
+ #+BEGIN_SRC go
+ i := 42
+ f := float64(i)
+ u := uint(f)
+ #+END_SRC
 
-   import (
-     "fmt"
-     "math"
-   )
+ #+REVEAL: split
 
-   func main() {
-     var x, y int = 3, 4
-     var f float64 = math.Sqrt(float64(x*x + y*y))
-     var z uint = uint(f)
-     fmt.Println(x, y, z)
-   }
-   #+END_SRC
+ - Za razliku od C-a u Go-u dodela između različitih tipova zahteva eksplicitnu
+   konverziju
+   
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func main() {
+   var x, y int = 3, 4
+   var f float64 = math.Sqrt(float64(x*x + y*y))
+   var z uint = uint(f)
+   fmt.Println(x, y, z)
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : 3 4 5
 
 ** Inferencija tipova (/Type inference/)
-   
-   - Kada je desna strana iskaza dodele (bilo ~:=~ bilo  ~var =~) tipizirana,
-     leva strana će biti istog tipa
+- Kada je desna strana iskaza dodele (bilo ~:=~ bilo  ~var =~) tipizirana,
+  leva strana će biti istog tipa
      
-   #+BEGIN_SRC go
-   var i int
-   j := i // j is an int
-   #+END_SRC
+ #+BEGIN_SRC go
+ var i int
+ j := i // j is an int
+ #+END_SRC
    
-   - Ali ako je na desnoj strani netipizirana numerička konstanta, tip zavisi od
-     preciznosti konstante:
+ - Ali ako je na desnoj strani netipizirana numerička konstanta, tip zavisi od
+   preciznosti konstante:
 
-   #+BEGIN_SRC go
-   i := 42           // int
-   f := 3.142        // float64
-   g := 0.867 + 0.5i // complex128
-   #+END_SRC
+ #+BEGIN_SRC go
+ i := 42           // int
+ f := 3.142        // float64
+ g := 0.867 + 0.5i // complex128
+ #+END_SRC
 
 ** Konstante
+- Deklarisane kao varijable ali upotrebom ključne reči =const=
+- Mogu biti osnovnih tipova
+- Ne mogu se definisati upotrebom ~:=~
    
-   - Deklarisane kao varijable ali upotrebom ključne reči =const=
-   - Mogu biti osnovnih tipova
-   - Ne mogu se definisati upotrebom ~:=~
-   
-   #+BEGIN_SRC go
-   package main
+ #+BEGIN_SRC go
+ package main
 
-   import "fmt"
+ import "fmt"
 
-   const Pi = 3.14
+ const Pi = 3.14
 
-   func main() {
-     const World = "世界"
-     fmt.Println("Hello", World)
-     fmt.Println("Happy", Pi, "Day")
+ func main() {
+   const World = "世界"
+   fmt.Println("Hello", World)
+   fmt.Println("Happy", Pi, "Day")
 
-     const Truth = true
-     fmt.Println("Go rules?", Truth)
-   }
-   #+END_SRC
+   const Truth = true
+   fmt.Println("Go rules?", Truth)
+ }
+ #+END_SRC
    
 ** Numeričke konstante
+- Vrednosti proizvoljne preciznosti (/arbitrary-precision/)
+- Kod netipiziranih konstanti tip se određuje na osnovu konteksta
+ #+BEGIN_SRC go
+ package main
 
-   - Vrednosti proizvoljne preciznosti (/arbitrary-precision/)
-   - Kod netipiziranih konstanti tip se određuje na osnovu konteksta
-   #+BEGIN_SRC go
-   package main
+ import "fmt"
 
-   import "fmt"
+ const (
+   // Create a huge number by shifting a 1 bit left 100 places.
+   // In other words, the binary number that is 1 followed by 100 zeroes.
+   Big = 1 << 100
+   // Shift it right again 99 places, so we end up with 1<<1, or 2.
+   Small = Big >> 99
+ )
 
-   const (
-     // Create a huge number by shifting a 1 bit left 100 places.
-     // In other words, the binary number that is 1 followed by 100 zeroes.
-     Big = 1 << 100
-     // Shift it right again 99 places, so we end up with 1<<1, or 2.
-     Small = Big >> 99
-   )
+ func needInt(x int) int { return x*10 + 1 }
+   
+ func needFloat(x float64) float64 {
+   return x * 0.1
+ }
 
-   func needInt(x int) int { return x*10 + 1 }
+ func main() {
+   fmt.Println(needInt(Small))
+   fmt.Println(needFloat(Small))
+   fmt.Println(needFloat(Big))
+   fmt.Println(needInt(Big))  // <-- constant overflow
+ }
+ #+END_SRC
    
-   func needFloat(x float64) float64 {
-     return x * 0.1
-   }
-
-   func main() {
-     fmt.Println(needInt(Small))
-     fmt.Println(needFloat(Small))
-     fmt.Println(needFloat(Big))
-     fmt.Println(needInt(Big))  // <-- constant overflow
-   }
-   #+END_SRC
+ #+REVEAL: split
    
-   #+REVEAL: split
+ #+BEGIN_SRC go
+ const Huge = 1e1000
    
-   #+BEGIN_SRC go
-   const Huge = 1e1000
+ // Sledeća linija ne može da se kompajlira
+ // Greška je 'constant 1.00000e+1000 overflows float64'
+ fmt.Println(Huge)
    
-   # Sledeća linija ne može da se kompajlira
-   # Greška je 'constant 1.00000e+1000 overflows float64'
-   fmt.Println(Huge)
+ // Ali ovo radi bez problema jer se kalkulacija obavlja od strane kompajlera
+ // u vreme kompajliranja
+ fmt.Println(Huge / 1e999)
+ #+END_SRC
    
-   # Ali ovo radi bez problema jer se kalkulacija obavlja od strane kompajlera
-   # u vreme kompajliranja
-   fmt.Println(Huge / 1e999)
-   #+END_SRC
-   
-   #+attr_html: :class footer :style clear: both;
-   https://blog.golang.org/constants
+ #+attr_html: :class footer :style clear: both;
+ https://blog.golang.org/constants
    
 ** Enumerisane konstante (=iota=)
-
-   - Kada nam je potrebna enumeracija
+- Kada nam je potrebna enumeracija
    
-   #+BEGIN_SRC go
-   const (
-       CategoryBooks = iota // 0
-       CategoryHealth       // 1
-       CategoryClothing     // 2
-   )
-   #+END_SRC
+ #+BEGIN_SRC go
+ const (
+     CategoryBooks = iota // 0
+     CategoryHealth       // 1
+     CategoryClothing     // 2
+ )
+ #+END_SRC
    
-   - ili u kombinaciji sa tipom (da bi kompajler mogao da spreči greške sa
-     tipovima)
+- ili u kombinaciji sa tipom (da bi kompajler mogao da spreči greške sa
+  tipovima)
      
-   #+BEGIN_SRC go
-   type Stereotype int
+#+BEGIN_SRC go
+type Stereotype int
 
-   const (
-       TypicalNoob Stereotype = iota // 0
-       TypicalHipster                // 1
-       TypicalUnixWizard             // 2
-       TypicalStartupFounder         // 3
-   )
-   #+END_SRC
+const (
+    TypicalNoob Stereotype = iota // 0
+    TypicalHipster                // 1
+    TypicalUnixWizard             // 2
+    TypicalStartupFounder         // 3
+)
+#+END_SRC
    
-   #+attr_html: :class footer :style clear: both;
-   https://splice.com/blog/iota-elegant-constants-golang/
+#+attr_html: :class footer :style clear: both;
+https://splice.com/blog/iota-elegant-constants-golang/
 
+#+REVEAL: split
    
-   #+REVEAL: split
+Ako želimo da preskočimo vrednosti
    
-   - Ako želimo da preskočimo vrednosti
-   
-   #+BEGIN_SRC go
-   type AudioOutput int
+ #+BEGIN_SRC go
+ type AudioOutput int
 
-   const (
-       OutMute AudioOutput = iota // 0
-       OutMono                    // 1
-       OutStereo                  // 2
-       _
-       _
-       OutSurround                // 5
-   )
-   #+END_SRC
+ const (
+     OutMute AudioOutput = iota // 0
+     OutMono                    // 1
+     OutStereo                  // 2
+     _
+     _
+     OutSurround                // 5
+ )
+ #+END_SRC
    
-   - Možemo kreirati i izraze sa =iota=
+Možemo kreirati i izraze sa =iota=
    
-   #+BEGIN_SRC go
-   type Allergen int
+ #+BEGIN_SRC go
+ type Allergen int
 
-   const (
-       IgEggs Allergen = 1 << iota // 1 << 0 which is 00000001
-       IgChocolate                 // 1 << 1 which is 00000010
-       IgNuts                      // 1 << 2 which is 00000100
-       IgStrawberries              // 1 << 3 which is 00001000
-       IgShellfish                 // 1 << 4 which is 00010000
-   )
-   #+END_SRC
+ const (
+     IgEggs Allergen = 1 << iota // 1 << 0 which is 00000001
+     IgChocolate                 // 1 << 1 which is 00000010
+     IgNuts                      // 1 << 2 which is 00000100
+     IgStrawberries              // 1 << 3 which is 00001000
+     IgShellfish                 // 1 << 4 which is 00010000
+ )
+ #+END_SRC
 
-
-   
-   
-
-
-   #+attr_html: :class footer :style clear: both;
-   https://splice.com/blog/iota-elegant-constants-golang/
+ #+attr_html: :class footer :style clear: both;
+ https://splice.com/blog/iota-elegant-constants-golang/
 
 * Iskazi kontrole toka: =for=, =if=, =else=, =switch= i =defer=
 ** =For= iskaz
