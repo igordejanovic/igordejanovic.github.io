@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Go</h1>
 <h2 class="subtitle">Bazirano na Go verziji 1.18 i <a href="https://tour.golang.org/">A Tour of Go</a>. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-04-19 Tue 21:04, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-03 Tue 14:39, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -110,7 +110,7 @@ podesiti <code>PATH</code>:
 
 </ul>
 
-<div class="note" id="orgb08af3e">
+<div class="note" id="org1d2529e">
 <p>
 Ovo je zastareli način rada. U novijim verzijama koristi se sistem modula dok je
 od verzije 1.18 podržan i radni proces sa <i>workspaces</i> upotrebom <a href="https://go.dev/blog/get-familiar-with-workspaces">go.work fajl</a>.
@@ -1274,39 +1274,38 @@ Možemo kreirati i izraze sa <code>iota</code>
 <h3 id="6-1"><span class="section-number-3">6.1.</span> <code>For</code> iskaz</h3>
 <ul>
 <li>Go ima samo jedan iskaz za petlje &#x2013; <code>for</code></li>
-<li>Tri komponente:
+<li><p>
+Tri komponente:
+</p>
 <ul>
 <li><i>init iskaz</i> &#x2013; izvršava se pre prve iteracije</li>
 <li><i>uslov</i> &#x2013; evaluira se pre svake iteracije i u zavisnosti od rezultata
 ciklus se izvršava ili se petlja prekida</li>
 <li><i>post iskaz</i> &#x2013; izvršava se na kraju svake iteracije</li>
 
-</ul></li>
-
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" >  package main
 
-   import "fmt"
+  import "fmt"
 
-   func main() {
-     sum := 0
-     for i := 0; i &lt; 10; i++ {
-       sum += i
-     }
-     fmt.Println(sum)
-   }
+  func main() {
+    sum := 0
+    for i := 0; i &lt; 10; i++ {
+      sum += i
+    }
+    fmt.Println(sum)
+  }
 </code></pre>
-</div>
+</div></li>
 
-<ul>
 <li>Zagrade <code>()</code> se ne navode kao u nekim drugim jezicima ali je navođenje <code>{}</code>
 za telo petlje obavezno</li>
-<li>Varijable kreirane u <i>init</i> iskazu su dostupne samo unutar petlje</li>
-
-</ul>
+<li><p>
+Varijable kreirane u <i>init</i> iskazu su dostupne samo unutar petlje
+</p>
 
 </section>
 <section>
@@ -1318,93 +1317,101 @@ za telo petlje obavezno</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import "fmt"
+ import "fmt"
 
-   func main() {
-     sum := 1
-     for ; sum &lt; 1000; {
-       sum += sum
-     }
-     fmt.Println(sum)
+ func main() {
+   sum := 1
+   for ; sum &lt; 1000; {
+     sum += sum
    }
+   fmt.Println(sum)
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-2">
 <h3 id="6-2"><span class="section-number-3">6.2.</span> <code>for</code> je <code>while</code> u Go-u</h3>
 <ul>
-<li>Kada nemamo <i>init</i> i <i>post</i> iskaz možemo izostaviti <code>;</code> i dobijamo
-ekvivalent <code>while</code> petlje u drugim jezicima</li>
-
-</ul>
+<li><p>
+Kada nemamo <i>init</i> i <i>post</i> iskaz možemo izostaviti <code>;</code> i dobijamo
+ekvivalent <code>while</code> petlje u drugim jezicima
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import "fmt"
+ import "fmt"
 
-   func main() {
-     sum := 1
-     for sum &lt; 1000 {
-       sum += sum
-     }
-     fmt.Println(sum)
+ func main() {
+   sum := 1
+   for sum &lt; 1000 {
+     sum += sum
    }
+   fmt.Println(sum)
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-3">
 <h3 id="6-3"><span class="section-number-3">6.3.</span> &ldquo;Beskonačna&rdquo; petlja</h3>
 <ul>
-<li>Ako se izostavi i uslov dobijamo beskonačnu petlju</li>
-
-</ul>
+<li><p>
+Ako se izostavi i uslov dobijamo beskonačnu petlju
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   func main() {
-     for {
-     }
+ func main() {
+   for {
    }
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-4">
 <h3 id="6-4"><span class="section-number-3">6.4.</span> Uslovi &#x2013; <code>if</code> iskaz</h3>
 <ul>
-<li>Kao i kod <code>for</code> i kod <code>if</code> iskaza zagrade nije potrebno navoditi</li>
-
-</ul>
+<li><p>
+Kao i kod <code>for</code> i kod <code>if</code> iskaza zagrade nije potrebno navoditi
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import (
-     "fmt"
-     "math"
-   )
+ import (
+   "fmt"
+   "math"
+ )
 
-   func sqrt(x float64) string {
-     if x &lt; 0 {
-       return sqrt(-x) + "i"
-     }
-     return fmt.Sprint(math.Sqrt(x))
+ func sqrt(x float64) string {
+   if x &lt; 0 {
+     return sqrt(-x) + "i"
    }
+   return fmt.Sprint(math.Sqrt(x))
+ }
 
-   func main() {
-     fmt.Println(sqrt(2), sqrt(-4))
-   }
+ func main() {
+   fmt.Println(sqrt(2), sqrt(-4))
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-5">
@@ -1412,76 +1419,80 @@ ekvivalent <code>while</code> petlje u drugim jezicima</li>
 <ul>
 <li>Kao i <code>for</code> i <code>if</code> može da ima kratak iskaz (najčešće <code>:=</code>) koji se
 izvršava pre uslova</li>
-<li>Varijable deklarisane u ovom iskazu su dostupne samo unutar <code>if</code> iskaza</li>
-
-</ul>
+<li><p>
+Varijable deklarisane u ovom iskazu su dostupne samo unutar <code>if</code> iskaza
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import (
-     "fmt"
-     "math"
+ import (
+   "fmt"
+   "math"
+ )
+
+ func pow(x, n, lim float64) float64 {
+   if v := math.Pow(x, n); v &lt; lim {
+     return v
+   }
+   return lim
+ }
+
+ func main() {
+   fmt.Println(
+     pow(3, 2, 10),
+     pow(3, 3, 20),
    )
-
-   func pow(x, n, lim float64) float64 {
-     if v := math.Pow(x, n); v &lt; lim {
-       return v
-     }
-     return lim
-   }
-
-   func main() {
-     fmt.Println(
-       pow(3, 2, 10),
-       pow(3, 3, 20),
-     )
-   }
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-6">
 <h3 id="6-6"><span class="section-number-3">6.6.</span> <code>if</code> i <code>else</code></h3>
 <ul>
-<li>Varijable deklarisane u <code>if</code> kratkom iskazu su dostupne i u opcionom <code>else</code>
-bloku</li>
-
-</ul>
+<li><p>
+Varijable deklarisane u <code>if</code> kratkom iskazu su dostupne i u opcionom <code>else</code>
+bloku
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import (
-     "fmt"
-     "math"
+ import (
+   "fmt"
+   "math"
+ )
+
+ func pow(x, n, lim float64) float64 {
+   if v := math.Pow(x, n); v &lt; lim {
+     return v
+   } else {
+     fmt.Printf("%g &gt;= %g\n", v, lim)
+   }
+   // can't use v here, though
+   return lim
+ }
+
+ func main() {
+   fmt.Println(
+     pow(3, 2, 10),
+     pow(3, 3, 20),
    )
-
-   func pow(x, n, lim float64) float64 {
-     if v := math.Pow(x, n); v &lt; lim {
-       return v
-     } else {
-       fmt.Printf("%g &gt;= %g\n", v, lim)
-     }
-     // can't use v here, though
-     return lim
-   }
-
-   func main() {
-     fmt.Println(
-       pow(3, 2, 10),
-       pow(3, 3, 20),
-     )
-   }
+ }
 </code></pre>
 </div>
 
 <pre>
-   27 &gt;= 20
-   9 20
-</pre>
+ 27 &gt;= 20
+ 9 20
+</pre></li>
+
+</ul>
 
 </section>
 <section id="slide-6-7">
@@ -1489,36 +1500,35 @@ bloku</li>
 <ul>
 <li>Kraći način pisanja sekvence <code>if/else</code> iskaza. Izvršava prvi <code>case</code> blok
 gde je vrednost jednaka vrednošću izraza uslova</li>
-<li>Može imati kratak iskaz kao i <code>if</code></li>
-
-</ul>
+<li><p>
+Može imati kratak iskaz kao i <code>if</code>
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import (
-     "fmt"
-     "runtime"
-   )
+ import (
+   "fmt"
+   "runtime"
+ )
 
-   func main() {
-     fmt.Print("Go runs on ")
-     switch os := runtime.GOOS; os {
-     case "darwin":
-       fmt.Println("OS X.")
-     case "linux":
-       fmt.Println("Linux.")
-     default:
-       // freebsd, openbsd,
-       // plan9, windows...
-       fmt.Printf("%s.\n", os)
-     }
+ func main() {
+   fmt.Print("Go runs on ")
+   switch os := runtime.GOOS; os {
+   case "darwin":
+     fmt.Println("OS X.")
+   case "linux":
+     fmt.Println("Linux.")
+   default:
+     // freebsd, openbsd,
+     // plan9, windows...
+     fmt.Printf("%s.\n", os)
    }
+ }
 </code></pre>
-</div>
+</div></li>
 
-<ul>
 <li>Za razliku od drugih jezika izvršava se samo jedan <code>case</code> blok (nema
 &ldquo;propadanja&rdquo;). Takođe <code>case</code> prihvata izraz koji ne mora biti konstanta i
 čija vrednost ne mora biti numerička</li>
@@ -1532,76 +1542,80 @@ gde je vrednost jednaka vrednošću izraza uslova</li>
 <li>Evaluacija <code>case</code> blokova ide od vrha prema dnu dok se ne nađe prvi blok
 čija vrednost je jednaka zadatom uslovu</li>
 
-<li><code>f()</code> se ne poziva ako je <code>i==0</code></li>
+<li><p>
+<code>f()</code> se ne poziva ako je <code>i==0</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="go" >  switch i {
+  case 0:
+  case f():
+  }
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="go" > package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ func main() {
+   fmt.Println("When's Saturday?")
+   today := time.Now().Weekday()
+   switch time.Saturday {
+   case today + 0:
+     fmt.Println("Today.")
+   case today + 1:
+     fmt.Println("Tomorrow.")
+   case today + 2:
+     fmt.Println("In two days.")
+   default:
+     fmt.Println("Too far away.")
+   }
+ }
+</code></pre>
+</div></li>
 
 </ul>
-
-<div class="org-src-container">
-
-<pre><code class="go" >    switch i {
-    case 0:
-    case f():
-    }
-</code></pre>
-</div>
-
-<div class="org-src-container">
-
-<pre><code class="go" >   package main
-
-   import (
-     "fmt"
-     "time"
-   )
-
-   func main() {
-     fmt.Println("When's Saturday?")
-     today := time.Now().Weekday()
-     switch time.Saturday {
-     case today + 0:
-       fmt.Println("Today.")
-     case today + 1:
-       fmt.Println("Tomorrow.")
-     case today + 2:
-       fmt.Println("In two days.")
-     default:
-       fmt.Println("Too far away.")
-     }
-   }
-</code></pre>
-</div>
 
 </section>
 <section id="slide-6-9">
 <h3 id="6-9"><span class="section-number-3">6.9.</span> <code>switch</code> bez uslova</h3>
 <ul>
 <li>Ekvivalentno sa <code>switch true</code></li>
-<li>Ćistiji način pisanja dugih if-then-else lanaca</li>
-
-</ul>
+<li><p>
+Čistiji način pisanja dugih if-then-else lanaca
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import (
-     "fmt"
-     "time"
-   )
+ import (
+   "fmt"
+   "time"
+ )
 
-   func main() {
-     t := time.Now()
-     switch {
-     case t.Hour() &lt; 12:
-       fmt.Println("Good morning!")
-     case t.Hour() &lt; 17:
-       fmt.Println("Good afternoon.")
-     default:
-       fmt.Println("Good evening.")
-     }
+ func main() {
+   t := time.Now()
+   switch {
+   case t.Hour() &lt; 12:
+     fmt.Println("Good morning!")
+   case t.Hour() &lt; 17:
+     fmt.Println("Good afternoon.")
+   default:
+     fmt.Println("Good evening.")
    }
+ }
 </code></pre>
-</div>
+</div></li>
+
+</ul>
 
 </section>
 <section id="slide-6-10">
@@ -1609,67 +1623,71 @@ gde je vrednost jednaka vrednošću izraza uslova</li>
 <ul>
 <li>Odlaže izvršavanje funkcije dok se ne vratimo iz funkcije u kojoj se
 nalazimo</li>
-<li>Parametri funkcije se evaluiraju na mestu poziva <code>defer</code> ali se ciljna
-funkcija ne poziva do povratka</li>
-
-</ul>
+<li><p>
+Parametri funkcije se evaluiraju na mestu poziva <code>defer</code> ali se ciljna
+funkcija ne poziva do povratka
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import "fmt"
+ import "fmt"
 
-   func main() {
-     defer fmt.Println("world")
+ func main() {
+   defer fmt.Println("world")
 
-     fmt.Println("hello")
-   }
+   fmt.Println("hello")
+ }
 </code></pre>
 </div>
 
 <pre>
-   hello
-   world
-</pre>
+ hello
+ world
+</pre></li>
+
+</ul>
 
 </section>
 <section id="slide-6-11">
 <h3 id="6-11"><span class="section-number-3">6.11.</span> Stekovanje <code>defer</code> poziva</h3>
 <ul>
-<li><code>defer</code> pozivi se smeštaju na stek i po povratku funcije se izvršavaju u
-LIFO redosledu</li>
-
-</ul>
+<li><p>
+<code>defer</code> pozivi se smeštaju na stek i po povratku funkcije se izvršavaju u
+LIFO redosledu
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   package main
+<pre><code class="go" > package main
 
-   import "fmt"
+ import "fmt"
 
-   func main() {
-     fmt.Println("counting")
+ func main() {
+   fmt.Println("counting")
 
-     for i := 0; i &lt; 10; i++ {
-       defer fmt.Println(i)
-     }
-
-     fmt.Println("done")
+   for i := 0; i &lt; 10; i++ {
+     defer fmt.Println(i)
    }
+
+   fmt.Println("done")
+ }
 </code></pre>
 </div>
 
 <pre>
-   counting
-   done
-   9
-   8
-   ...
+ counting
+ done
+ 9
+ 8
+ ...
 </pre>
 
 <ul>
 <li>Više detalja možete naći u <a href="https://blog.golang.org/defer-panic-and-recover">ovom blog post-u</a></li>
+
+</ul></li>
 
 </ul>
 
@@ -1692,8 +1710,8 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >      i := 42
-      p = &amp;i  // p je pokazivač na vrednost 42
+<pre><code class="go" >   i := 42
+   p = &amp;i  // p je pokazivač na vrednost 42
 </code></pre>
 </div></li>
 
@@ -1703,16 +1721,17 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >      fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
-      *p = 21         // postavljanje i vrednosti kroz pokazivač p
+<pre><code class="go" >   fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
+   *p = 21         // postavljanje i vrednosti kroz pokazivač p
 </code></pre>
 </div>
 
 <ul>
 <li>Ovo se još naziva i <i>dereferenciranje</i> ili <i>indirekcija</i></li>
-<li>Za razliku od jezika C, Go nema pokazivačku aritmetiku</li>
 
 </ul></li>
+
+<li>Za razliku od jezika C, Go nema pokazivačku aritmetiku</li>
 
 </ul>
 
@@ -1721,24 +1740,30 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      i, j := 42, 2701
+ func main() {
+   i, j := 42, 2701
 
-      p := &amp;i         // point to i
-      fmt.Println(*p) // read i through the pointer
-      *p = 21         // set i through the pointer
-      fmt.Println(i)  // see the new value of i
+   p := &amp;i         // point to i
+   fmt.Println(*p) // read i through the pointer
+   *p = 21         // set i through the pointer
+   fmt.Println(i)  // see the new value of i
 
-      p = &amp;j         // point to j
-      *p = *p / 37   // divide j through the pointer
-      fmt.Println(j) // see the new value of j
-    }
+   p = &amp;j         // point to j
+   *p = *p / 37   // divide j through the pointer
+   fmt.Println(j) // see the new value of j
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+42
+21
+73
+</pre>
 
 </section>
 <section id="slide-7-2">
@@ -1750,20 +1775,25 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      X int
-      Y int
-    }
+ type Vertex struct {
+   X int
+   Y int
+ }
 
-    func main() {
-      fmt.Println(Vertex{1, 2})
-    }
+ func main() {
+   fmt.Println(Vertex{1, 2})
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+{1 2}
+</pre>
+
 
 </section>
 <section>
@@ -1775,22 +1805,26 @@ LIFO redosledu</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      X int
-      Y int
-    }
+ type Vertex struct {
+   X int
+   Y int
+ }
 
-    func main() {
-      v := Vertex{1, 2}
-      v.X = 4
-      fmt.Println(v.X)
-    }
+ func main() {
+   v := Vertex{1, 2}
+   v.X = 4
+   fmt.Println(v.X)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+4
+</pre>
 
 </section>
 <section id="slide-7-3">
@@ -1799,32 +1833,34 @@ LIFO redosledu</li>
 <li>Poljima strukture se može pristupiti preko pokazivača na strukturu</li>
 <li>Sintaksno, ako imamo pokazivač <code>p</code> na strukturu, polju <code>X</code> bi mogli
 pristupiti sa <code>(*p).X</code></li>
-<li><p>
-Pošto je ovakva sintaksa teža za korišćenje uvedena je prečica <code>p.X</code> tj.
-nije potrebno eksplicitno dereferenciranje
-</p>
+<li>Pošto je ovakva sintaksa teža za korišćenje uvedena je prečica <code>p.X</code> tj.
+nije potrebno eksplicitno dereferenciranje</li>
+
+</ul>
 
 <div class="org-src-container">
 
-<pre><code class="go" >      package main
+<pre><code class="go" > package main
 
-      import "fmt"
+ import "fmt"
 
-      type Vertex struct {
-        X int
-        Y int
-      }
+ type Vertex struct {
+   X int
+   Y int
+ }
 
-      func main() {
-        v := Vertex{1, 2}
-        p := &amp;v
-        p.X = 1e9
-        fmt.Println(v)
-      }
+ func main() {
+   v := Vertex{1, 2}
+   p := &amp;v
+   p.X = 1e9
+   fmt.Println(v)
+ }
 </code></pre>
-</div></li>
+</div>
 
-</ul>
+<pre class="example">
+{1000000000 2}
+</pre>
 
 </section>
 <section id="slide-7-4">
@@ -1839,26 +1875,30 @@ tom slučaju redosled je irelevantan</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      X, Y int
-    }
+ type Vertex struct {
+   X, Y int
+ }
 
-    var (
-      v1 = Vertex{1, 2}  // has type Vertex
-      v2 = Vertex{X: 1}  // Y:0 is implicit
-      v3 = Vertex{}      // X:0 and Y:0
-      p  = &amp;Vertex{1, 2} // has type *Vertex
-    )
+ var (
+   v1 = Vertex{1, 2}  // has type Vertex
+   v2 = Vertex{X: 1}  // Y:0 is implicit
+   v3 = Vertex{}      // X:0 and Y:0
+   p  = &amp;Vertex{1, 2} // has type *Vertex
+ )
 
-    func main() {
-      fmt.Println(v1, p, v2, v3)
-    }
+ func main() {
+   fmt.Println(v1, p, v2, v3)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+{1 2} &amp;{1 2} {1 0} {0 0}
+</pre>
 
 </section>
 <section id="slide-7-5">
@@ -1872,22 +1912,28 @@ tom slučaju redosled je irelevantan</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      var a [2]string
-      a[0] = "Hello"
-      a[1] = "World"
-      fmt.Println(a[0], a[1])
-      fmt.Println(a)
+ func main() {
+   var a [2]string
+   a[0] = "Hello"
+   a[1] = "World"
+   fmt.Println(a[0], a[1])
+   fmt.Println(a)
 
-      primes := [6]int{2, 3, 5, 7, 11, 13}
-      fmt.Println(primes)
-    }
+   primes := [6]int{2, 3, 5, 7, 11, 13}
+   fmt.Println(primes)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+Hello World
+[Hello World]
+[2 3 5 7 11 13]
+</pre>
 
 </section>
 <section id="slide-7-6">
@@ -1897,36 +1943,38 @@ tom slučaju redosled je irelevantan</li>
 <li>Isečak je &ldquo;prozor&rdquo; na niz koji ima dinamičku veličinu</li>
 <li><code>[]T</code> &#x2013; isečak tipa <code>T</code></li>
 <li><p>
-Isečak se formira iznad niza na sledeći način:
+Isečak se formira nad potpornim nizom na sledeći način:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >     a[low : high]
+<pre><code class="go" >  a[low : high]
 </code></pre>
 </div></li>
 
-<li><p>
-Ovo formira polu-otvoren interval elemenata uključujući prvi ali
-isključujući poslednji
-</p>
-
-<div class="org-src-container">
-
-<pre><code class="go" >      package main
-
-      import "fmt"
-
-      func main() {
-        primes := [6]int{2, 3, 5, 7, 11, 13}
-
-        var s []int = primes[1:4]
-        fmt.Println(s)
-      }
-</code></pre>
-</div></li>
+<li>Ovo formira polu-otvoren interval elemenata uključujući prvi ali
+isključujući poslednji</li>
 
 </ul>
+
+<div class="org-src-container">
+
+<pre><code class="go" > package main
+
+ import "fmt"
+
+ func main() {
+   primes := [6]int{2, 3, 5, 7, 11, 13}
+
+   var s []int = primes[1:4]
+   fmt.Println(s)
+ }
+</code></pre>
+</div>
+
+<pre class="example">
+[3 5 7]
+</pre>
 
 </section>
 <section id="slide-7-7">
@@ -1939,35 +1987,35 @@ isključujući poslednji
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      names := [4]string{
-        "John",
-        "Paul",
-        "George",
-        "Ringo",
-      }
-      fmt.Println(names)
+ func main() {
+   names := [4]string{
+     "John",
+     "Paul",
+     "George",
+     "Ringo",
+   }
+   fmt.Println(names)
 
-      a := names[0:2]
-      b := names[1:3]
-      fmt.Println(a, b)
+   a := names[0:2]
+   b := names[1:3]
+   fmt.Println(a, b)
 
-      b[0] = "XXX"
-      fmt.Println(a, b)
-      fmt.Println(names)
-    }
+   b[0] = "???"
+   fmt.Println(a, b)
+   fmt.Println(names)
+ }
 </code></pre>
 </div>
 
-<pre>
-    [John Paul George Ringo]
-    [John Paul] [Paul George]
-    [John XXX] [XXX George]
-    [John XXX George Ringo]
+<pre class="example">
+[John Paul George Ringo]
+[John Paul] [Paul George]
+[John ???] [??? George]
+[John ??? George Ringo]
 </pre>
 
 </section>
@@ -1975,44 +2023,50 @@ isključujući poslednji
 <h3 id="7-8"><span class="section-number-3">7.8.</span> Literali za isečke</h3>
 <div class="org-src-container">
 
-<pre><code class="go" >   [3]bool{true, true, false}
+<pre><code class="go" >[3]bool{true, true, false}
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class="go" >   []bool{true, true, false}
+<pre><code class="go" >[]bool{true, true, false}
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      q := []int{2, 3, 5, 7, 11, 13}
-      fmt.Println(q)
+ func main() {
+   q := []int{2, 3, 5, 7, 11, 13}
+   fmt.Println(q)
 
-      r := []bool{true, false, true, true, false, true}
-      fmt.Println(r)
+   r := []bool{true, false, true, true, false, true}
+   fmt.Println(r)
 
-      s := []struct {
-        i int
-        b bool
-      }{
-        {2, true},
-        {3, false},
-        {5, true},
-        {7, true},
-        {11, false},
-        {13, true},
-      }
-      fmt.Println(s)
-    }
+   s := []struct {
+     i int
+     b bool
+   }{
+     {2, true},
+     {3, false},
+     {5, true},
+     {7, true},
+     {11, false},
+     {13, true},
+   }
+   fmt.Println(s)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+[2 3 5 7 11 13]
+[true false true true false true]
+[{2 true} {3 false} {5 true} {7 true} {11 false} {13 true}]
+</pre>
 
 </section>
 <section id="slide-7-9">
@@ -2027,10 +2081,10 @@ Ekvivalentni izrazi:
 
 <div class="org-src-container">
 
-<pre><code class="go" >      a[0:10]
-      a[:10]
-      a[0:]
-      a[:]
+<pre><code class="go" >   a[0:10]
+   a[:10]
+   a[0:]
+   a[:]
 </code></pre>
 </div></li>
 
@@ -2041,29 +2095,29 @@ Ekvivalentni izrazi:
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      s := []int{2, 3, 5, 7, 11, 13}
+ func main() {
+   s := []int{2, 3, 5, 7, 11, 13}
 
-      s = s[1:4]
-      fmt.Println(s)
+   s = s[1:4]
+   fmt.Println(s)
 
-      s = s[:2]
-      fmt.Println(s)
+   s = s[:2]
+   fmt.Println(s)
 
-      s = s[1:]
-      fmt.Println(s)
-    }
+   s = s[1:]
+   fmt.Println(s)
+ }
 </code></pre>
 </div>
 
 <pre>
-    [3 5 7]
-    [3 5]
-    [5]
+ [3 5 7]
+ [3 5]
+ [5]
 </pre>
 
 </section>
@@ -2084,70 +2138,71 @@ kapacitetom</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      s := []int{2, 3, 5, 7, 11, 13}
-      printSlice(s)
+ func main() {
+   s := []int{2, 3, 5, 7, 11, 13}
+   printSlice(s)
 
-      // Slice the slice to give it zero length.
-      s = s[:0]
-      printSlice(s)
+   // Slice the slice to give it zero length.
+   s = s[:0]
+   printSlice(s)
 
-      // Extend its length.
-      s = s[:4]
-      printSlice(s)
+   // Extend its length.
+   s = s[:4]
+   printSlice(s)
 
-      // Drop its first two values.
-      s = s[2:]
-      printSlice(s)
-    }
+   // Drop its first two values.
+   s = s[2:]
+   printSlice(s)
+ }
 
-    func printSlice(s []int) {
-      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
-    }
+ func printSlice(s []int) {
+   fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+ }
 </code></pre>
 </div>
 
 <pre>
-    len=6 cap=6 [2 3 5 7 11 13]
-    len=0 cap=6 []
-    len=4 cap=6 [2 3 5 7]
-    len=2 cap=4 [5 7]
+ len=6 cap=6 [2 3 5 7 11 13]
+ len=0 cap=6 []
+ len=4 cap=6 [2 3 5 7]
+ len=2 cap=4 [5 7]
 </pre>
-
 
 </section>
 <section id="slide-7-11">
 <h3 id="7-11"><span class="section-number-3">7.11.</span> Prazni (<i>nil</i>) isečci</h3>
 <ul>
 <li><i>Nula</i> vrednost za isečak je <code>nil</code></li>
-<li>Ovakav isečak ima dužinu i kapacitet <code>0</code> i nema potporni niz</li>
-
-</ul>
+<li><p>
+Ovakav isečak ima dužinu i kapacitet <code>0</code> i nema potporni niz
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" >  package main
 
-    import "fmt"
+  import "fmt"
 
-    func main() {
-      var s []int
-      fmt.Println(s, len(s), cap(s))
-      if s == nil {
-        fmt.Println("nil!")
-      }
+  func main() {
+    var s []int
+    fmt.Println(s, len(s), cap(s))
+    if s == nil {
+      fmt.Println("nil!")
     }
+  }
 </code></pre>
 </div>
 
 <pre>
-    [] 0 0
-    nil!
-</pre>
+  [] 0 0
+  nil!
+</pre></li>
+
+</ul>
 
 </section>
 <section id="slide-7-12">
@@ -2159,7 +2214,7 @@ kapacitetom</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >     a := make([]int, 5)  // len(a)=5
+<pre><code class="go" >  a := make([]int, 5)  // len(a)=5
 </code></pre>
 </div></li>
 
@@ -2169,51 +2224,51 @@ moguće je definisati i kapacitet
 
 <div class="org-src-container">
 
-<pre><code class="go" >        b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+<pre><code class="go" >     b := make([]int, 0, 5) // len(b)=0, cap(b)=5
 
-       b = b[:cap(b)] // len(b)=5, cap(b)=5
-       b = b[1:]      // len(b)=4, cap(b)=4
+    b = b[:cap(b)] // len(b)=5, cap(b)=5
+    b = b[1:]      // len(b)=4, cap(b)=4
 </code></pre>
-</div></li>
-
-</ul>
+</div>
 
 </section>
 <section>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" >  package main
 
-    import "fmt"
+  import "fmt"
 
-    func main() {
-      a := make([]int, 5)
-      printSlice("a", a)
+  func main() {
+    a := make([]int, 5)
+    printSlice("a", a)
 
-      b := make([]int, 0, 5)
-      printSlice("b", b)
+    b := make([]int, 0, 5)
+    printSlice("b", b)
 
-      c := b[:2]
-      printSlice("c", c)
+    c := b[:2]
+    printSlice("c", c)
 
-      d := c[2:5]
-      printSlice("d", d)
-    }
+    d := c[2:5]
+    printSlice("d", d)
+  }
 
-    func printSlice(s string, x []int) {
-      fmt.Printf("%s len=%d cap=%d %v\n",
-        s, len(x), cap(x), x)
-    }
+  func printSlice(s string, x []int) {
+    fmt.Printf("%s len=%d cap=%d %v\n",
+      s, len(x), cap(x), x)
+  }
 </code></pre>
 </div>
 
 <pre>
-    a len=5 cap=5 [0 0 0 0 0]
-    b len=0 cap=5 []
-    c len=2 cap=5 [0 0]
-    d len=3 cap=3 [0 0 0]
-</pre>
+  a len=5 cap=5 [0 0 0 0 0]
+  b len=0 cap=5 []
+  c len=2 cap=5 [0 0]
+  d len=3 cap=3 [0 0 0]
+</pre></li>
+
+</ul>
 
 </section>
 <section id="slide-7-13">
@@ -2225,41 +2280,47 @@ moguće je definisati i kapacitet
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import (
-      "fmt"
-      "strings"
-    )
+ import (
+   "fmt"
+   "strings"
+ )
 
-    func main() {
-      // Create a tic-tac-toe board.
-      board := [][]string{
-        []string{"_", "_", "_"},
-        []string{"_", "_", "_"},
-        []string{"_", "_", "_"},
-      }
+ func main() {
+   // Create a tic-tac-toe board.
+   board := [][]string{
+     []string{"_", "_", "_"},
+     []string{"_", "_", "_"},
+     []string{"_", "_", "_"},
+   }
 
-      // The players take turns.
-      board[0][0] = "X"
-      board[2][2] = "O"
-      board[1][2] = "X"
-      board[1][0] = "O"
-      board[0][2] = "X"
+   // The players take turns.
+   board[0][0] = "X"
+   board[2][2] = "O"
+   board[1][2] = "X"
+   board[1][0] = "O"
+   board[0][2] = "X"
 
-      for i := 0; i &lt; len(board); i++ {
-        fmt.Printf("%s\n", strings.Join(board[i], " "))
-      }
-    }
+   for i := 0; i &lt; len(board); i++ {
+     fmt.Printf("%s\n", strings.Join(board[i], " "))
+   }
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+X _ X
+O _ X
+_ _ O
+</pre>
 
 </section>
 <section id="slide-7-14">
 <h3 id="7-14"><span class="section-number-3">7.14.</span> Dodavanje na isečak</h3>
 <div class="org-src-container">
 
-<pre><code class="go" >    func append(s []T, vs ...T) []T
+<pre><code class="go" > func append(s []T, vs ...T) []T
 </code></pre>
 </div>
 
@@ -2275,63 +2336,76 @@ moguće je definisati i kapacitet
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      var s []int
-      printSlice(s)
+ func main() {
+   var s []int
+   printSlice(s)
 
-      // append works on nil slices.
-      s = append(s, 0)
-      printSlice(s)
+   // append works on nil slices.
+   s = append(s, 0)
+   printSlice(s)
 
-      // The slice grows as needed.
-      s = append(s, 1)
-      printSlice(s)
+   // The slice grows as needed.
+   s = append(s, 1)
+   printSlice(s)
 
-      // We can add more than one element at a time.
-      s = append(s, 2, 3, 4)
-      printSlice(s)
-    }
+   // We can add more than one element at a time.
+   s = append(s, 2, 3, 4)
+   printSlice(s)
+ }
 
-    func printSlice(s []int) {
-      fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
-    }
+ func printSlice(s []int) {
+   fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+ }
 </code></pre>
 </div>
 
 <pre>
-    len=0 cap=0 []
-    len=1 cap=1 [0]
-    len=2 cap=2 [0 1]
-    len=5 cap=6 [0 1 2 3 4]
+ len=0 cap=0 []
+ len=1 cap=1 [0]
+ len=2 cap=2 [0 1]
+ len=5 cap=6 [0 1 2 3 4]
 </pre>
 
 </section>
 <section id="slide-7-15">
 <h3 id="7-15"><span class="section-number-3">7.15.</span> <code>range</code></h3>
 <ul>
-<li><code>range</code> forma <code>for</code> petlje iterira kroz elemente isečaka ili mape</li>
-
-</ul>
+<li><p>
+<code>range</code> forma <code>for</code> petlje iterira kroz elemente isečaka ili mape
+</p>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" >  package main
 
-    import "fmt"
+  import "fmt"
 
-    var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+  var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
 
-    func main() {
-      for i, v := range pow {
-        fmt.Printf("2**%d = %d\n", i, v)
-      }
+  func main() {
+    for i, v := range pow {
+      fmt.Printf("2**%d = %d\n", i, v)
     }
+  }
 </code></pre>
 </div>
+
+<pre class="example">
+2**0 = 1
+2**1 = 2
+2**2 = 4
+2**3 = 8
+2**4 = 16
+2**5 = 32
+2**6 = 64
+2**7 = 128
+</pre></li>
+
+</ul>
 
 </section>
 <section>
@@ -2344,8 +2418,8 @@ upotrebom specijalnog imena <code>_</code>
 
 <div class="org-src-container">
 
-<pre><code class="go" >      for i, _ := range pow
-      for _, value := range pow
+<pre><code class="go" >   for i, _ := range pow
+   for _, value := range pow
 </code></pre>
 </div></li>
 
@@ -2355,27 +2429,40 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 
 <div class="org-src-container">
 
-<pre><code class="go" >      for i := range pow
+<pre><code class="go" >   for i := range pow
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class="go" >      package main
+<pre><code class="go" >   package main
 
-      import "fmt"
+   import "fmt"
 
-      func main() {
-        pow := make([]int, 10)
-        for i := range pow {
-          pow[i] = 1 &lt;&lt; uint(i) // == 2**i
-        }
-        for _, value := range pow {
-          fmt.Printf("%d\n", value)
-        }
-      }
+   func main() {
+     pow := make([]int, 10)
+     for i := range pow {
+       pow[i] = 1 &lt;&lt; uint(i) // == 2**i
+     }
+     for _, value := range pow {
+       fmt.Printf("%d\n", value)
+     }
+   }
 </code></pre>
-</div></li>
+</div>
+
+<pre class="example" id="org94ab832">
+  1
+  2
+  4
+  8
+  16
+  32
+  64
+  128
+  256
+  512
+</pre></li>
 
 </ul>
 
@@ -2392,53 +2479,62 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      Lat, Long float64
-    }
+ type Vertex struct {
+   Lat, Long float64
+ }
 
-    var m map[string]Vertex
+ var m map[string]Vertex
 
-    func main() {
-      m = make(map[string]Vertex)
-      m["Bell Labs"] = Vertex{
-        40.68433, -74.39967,
-      }
-      fmt.Println(m["Bell Labs"])
-    }
+ func main() {
+   m = make(map[string]Vertex)
+   m["Bell Labs"] = Vertex{
+     40.68433, -74.39967,
+   }
+   fmt.Println(m["Bell Labs"])
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+{40.68433 -74.39967}
+</pre>
 
 </section>
 <section id="slide-7-17">
 <h3 id="7-17"><span class="section-number-3">7.17.</span> Literali za mape</h3>
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      Lat, Long float64
-    }
+ type Vertex struct {
+   Lat, Long float64
+ }
 
-    var m = map[string]Vertex{
-      "Bell Labs": Vertex{
-        40.68433, -74.39967,
-      },
-      "Google": Vertex{
-        37.42202, -122.08408,
-      },
-    }
+ var m = map[string]Vertex{
+   "Bell Labs": Vertex{
+     40.68433, -74.39967,
+   },
+   "Google": Vertex{
+     37.42202, -122.08408,
+   },
+ }
 
-    func main() {
-      fmt.Println(m)
-    }
+ func main() {
+   fmt.Println(m)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
+</pre>
+
 
 </section>
 <section>
@@ -2450,35 +2546,39 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    type Vertex struct {
-      Lat, Long float64
-    }
+ type Vertex struct {
+   Lat, Long float64
+ }
 
-    var m = map[string]Vertex{
-      "Bell Labs": {40.68433, -74.39967},
-      "Google":    {37.42202, -122.08408},
-    }
+ var m = map[string]Vertex{
+   "Bell Labs": {40.68433, -74.39967},
+   "Google":    {37.42202, -122.08408},
+ }
 
-    func main() {
-      fmt.Println(m)
-    }
+ func main() {
+   fmt.Println(m)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
+</pre>
 
 </section>
 <section id="slide-7-18">
 <h3 id="7-18"><span class="section-number-3">7.18.</span> Izmena vrednosti mapa</h3>
 <ul>
-<li>postavljanje vrednosti</li>
-
-</ul>
+<li><p>
+postavljanje vrednosti
+</p>
 <div class="org-src-container">
 
-<pre><code class="go" >    m[key] = elem
+<pre><code class="go" >  m[key] = elem
 </code></pre>
 </div>
 
@@ -2488,7 +2588,7 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </ul>
 <div class="org-src-container">
 
-<pre><code class="go" >    elem = m[key]
+<pre><code class="go" >  elem = m[key]
 </code></pre>
 </div>
 
@@ -2498,7 +2598,7 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </ul>
 <div class="org-src-container">
 
-<pre><code class="go" >    delete(m, key)
+<pre><code class="go" >  delete(m, key)
 </code></pre>
 </div>
 
@@ -2508,39 +2608,48 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </ul>
 <div class="org-src-container">
 
-<pre><code class="go" >     elem, ok = m[key]
+<pre><code class="go" >   elem, ok = m[key]
 </code></pre>
 </div>
 <p>
 Ako element postoji <code>ok</code> će imati vrednost <code>true</code> inače <code>false</code>
-</p>
+</p></li>
+
+</ul>
 
 </section>
 <section>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func main() {
-      m := make(map[string]int)
+ func main() {
+   m := make(map[string]int)
 
-      m["Answer"] = 42
-      fmt.Println("The value:", m["Answer"])
+   m["Answer"] = 42
+   fmt.Println("The value:", m["Answer"])
 
-      m["Answer"] = 48
-      fmt.Println("The value:", m["Answer"])
+   m["Answer"] = 48
+   fmt.Println("The value:", m["Answer"])
 
-      delete(m, "Answer")
-      fmt.Println("The value:", m["Answer"])
+   delete(m, "Answer")
+   fmt.Println("The value:", m["Answer"])
 
-      v, ok := m["Answer"]
-      fmt.Println("The value:", v, "Present?", ok)
-    }
+   v, ok := m["Answer"]
+   fmt.Println("The value:", v, "Present?", ok)
+ }
 </code></pre>
 </div>
+
+<pre class="example">
+The value: 42
+The value: 48
+The value: 0
+The value: 0 Present? false
+</pre>
 
 </section>
 <section id="slide-7-19">
@@ -2554,33 +2663,33 @@ dobijati nazad kao povratne vrednosti</li>
 
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import (
-      "fmt"
-      "math"
-    )
+ import (
+   "fmt"
+   "math"
+ )
 
-    func compute(fn func(float64, float64) float64) float64 {
-      return fn(3, 4)
-    }
+ func compute(fn func(float64, float64) float64) float64 {
+   return fn(3, 4)
+ }
 
-    func main() {
-      hypot := func(x, y float64) float64 {
-        return math.Sqrt(x*x + y*y)
-      }
-      fmt.Println(hypot(5, 12))
+ func main() {
+   hypot := func(x, y float64) float64 {
+     return math.Sqrt(x*x + y*y)
+   }
+   fmt.Println(hypot(5, 12))
 
-      fmt.Println(compute(hypot))
-      fmt.Println(compute(math.Pow))
-    }
+   fmt.Println(compute(hypot))
+   fmt.Println(compute(math.Pow))
+ }
 </code></pre>
 </div>
 
-<pre>
-    13
-    5
-    81
+<pre class="example">
+13
+5
+81
 </pre>
 
 </section>
@@ -2594,31 +2703,47 @@ funkciju (<i>bounded</i>)</li>
 
 </ul>
 
+</section>
+<section>
+
 <div class="org-src-container">
 
-<pre><code class="go" >    package main
+<pre><code class="go" > package main
 
-    import "fmt"
+ import "fmt"
 
-    func adder() func(int) int {
-      sum := 0
-      return func(x int) int {
-        sum += x
-        return sum
-      }
-    }
+ func adder() func(int) int {
+   sum := 0
+   return func(x int) int {
+     sum += x
+     return sum
+   }
+ }
 
-    func main() {
-      pos, neg := adder(), adder()
-      for i := 0; i &lt; 10; i++ {
-        fmt.Println(
-          pos(i),
-          neg(-2*i),
-        )
-      }
-    }
+ func main() {
+   pos, neg := adder(), adder()
+   for i := 0; i &lt; 10; i++ {
+     fmt.Println(
+       pos(i),
+       neg(-2*i),
+     )
+   }
+ }
 </code></pre>
 </div>
+
+<pre class="example" id="org2bbe3b9">
+0 0
+1 -2
+3 -6
+6 -12
+10 -20
+15 -30
+21 -42
+28 -56
+36 -72
+45 -90
+</pre>
 
 </section>
 </section>
