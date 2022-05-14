@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-14 Sat 15:46, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-14 Sat 16:48, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -399,9 +399,9 @@ fn main() {
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3.</span> Izmenjivost (<i>mutability</i>)</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Promenjivost (<i>mutability</i>)</h3>
 <ul>
-<li>Varijable su podrazumevano neizmenjive (<i>immutable</i>).</li>
+<li>Varijable su podrazumevano nepromenjive (<i>immutable</i>).</li>
 <li><p>
 Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
 <code>mut</code>.
@@ -852,7 +852,457 @@ fn main() {
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5.</span> Literatura</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Osnovni programski koncepti</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Varijable i promenjivost (<i>mutability</i>)</h3>
+<ul>
+<li>Varijable su podrazumevano nepromenjive.</li>
+<li><p>
+Jednom kada dobiju vrednost (<i>binding</i>) ta vrednost se ne može promeniti
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >    fn main() {
+        let x = 5;
+        println!("The value of x is: {}", x);
+        x = 6;     // greška
+        println!("The value of x is: {}", x);
+    }
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >    $ cargo run
+    Compiling variables v0.1.0 (file:///projects/variables)
+    error[E0384]: cannot assign twice to immutable variable `x`
+    --&gt; src/main.rs:4:5
+    |
+    2 |     let x = 5;
+    |         -
+    |         |
+    |         first assignment to `x`
+    |         help: consider making this binding mutable: `mut x`
+    3 |     println!("The value of x is: {}", x);
+    4 |     x = 6;
+    |     ^^^^^ cannot assign twice to immutable variable
+
+    For more information about this error, try `rustc --explain E0384`.
+    error: could not compile `variables` due to previous error
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> <code>mut</code> ključna reč</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Konstante - <code>const</code></h3>
+<ul>
+<li>Slično kao nepromenjive varijable sa sledećim razlikama:
+<ul>
+<li>Uvek su nepromenjive</li>
+<li>Mogu se inicijalizovati samo konstantnim izrazom (poznatim u vreme kompajliranja)</li>
+<li>Validne za celokupno vreme izvršavanja programa u opsegu važenja gde su
+definisane (<i>scope</i>)</li>
+<li>Mora se eksplicitno definisati tip</li>
+
+</ul></li>
+<li>Kompajler će konstante &ldquo;ubaciti&rdquo; na mestu upotrebe</li>
+<li><p>
+Po konvenciji imena konstanti se pišu velikim slovima
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >    const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Tipovi podataka</h3>
+<ul>
+<li>Svaka vrednost u Rust-u ima tip. Tipovi moraju biti poznati u vreme
+kompajliranja (statički tipiziran jezik).</li>
+<li><p>
+Kompajler će probati da odredi tipove (<i>type inference</i>). Ako nije moguće
+zahteva se da definišemo tip eksplicitno.
+</p>
+
+<p>
+Npr:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >    let guess: u32 = "42".parse().expect("Not a number!");
+</code></pre>
+</div>
+<p>
+Ovde nije moguće odrediti tip jer <code>str::parse</code> funkcija može vratiti različite
+brojne tipove (funkcija je generička) a ne postoji način da se tip automatski
+odredi.
+</p>
+
+<p>
+Signatura je:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >    pub fn parse&lt;F&gt;(&amp;self) -&gt; Result&lt;F, &lt;F as FromStr&gt;::Err&gt;
+    where
+        F: FromStr
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> <i>Integer</i> tipovi</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Dužina</th>
+<th scope="col" class="org-left">Signed</th>
+<th scope="col" class="org-left">Unsigned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">8-bit</td>
+<td class="org-left">i8</td>
+<td class="org-left">u8</td>
+</tr>
+
+<tr>
+<td class="org-left">16-bit</td>
+<td class="org-left">i16</td>
+<td class="org-left">u16</td>
+</tr>
+
+<tr>
+<td class="org-left">32-bit</td>
+<td class="org-left">i32</td>
+<td class="org-left">u32</td>
+</tr>
+
+<tr>
+<td class="org-left">64-bit</td>
+<td class="org-left">i64</td>
+<td class="org-left">u64</td>
+</tr>
+
+<tr>
+<td class="org-left">128-bit</td>
+<td class="org-left">i128</td>
+<td class="org-left">u128</td>
+</tr>
+
+<tr>
+<td class="org-left">arch</td>
+<td class="org-left">isize</td>
+<td class="org-left">usize</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Literali brojeva</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Literali</th>
+<th scope="col" class="org-left">Primeri</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Decimal</td>
+<td class="org-left">98_222</td>
+</tr>
+
+<tr>
+<td class="org-left">Hex</td>
+<td class="org-left">0xff</td>
+</tr>
+
+<tr>
+<td class="org-left">Octal</td>
+<td class="org-left">0o77</td>
+</tr>
+
+<tr>
+<td class="org-left">Binary</td>
+<td class="org-left">0b1111_0000</td>
+</tr>
+
+<tr>
+<td class="org-left">Byte (u8 only)</td>
+<td class="org-left">b&rsquo;A&rsquo;</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7.</span> <i>Floating-Point</i> tipovi</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}
+</code></pre>
+</div>
+
+<p>
+IEEE-754 standard
+</p>
+
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Operacije nad brojevima</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let floored = 2 / 3; // Results in 0
+
+    // remainder
+    let remainder = 43 % 5;
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9.</span> <i>Boolean</i> tip</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let t = true;
+
+    let f: bool = false; // with explicit type annotation
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-10">
+<h3 id="5-10"><span class="section-number-3">5.10.</span> Tip karaktera</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let c = 'z';
+    let z = 'ℤ';
+    let heart_eyed_cat = '😻';
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-11">
+<h3 id="5-11"><span class="section-number-3">5.11.</span> Torke (<i>tuples</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}
+</code></pre>
+</div>
+
+<ul>
+<li>Raspakivanje torki (<i>destructuring</i>):</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {}", y);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pristup elementima torke:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-5-12">
+<h3 id="5-12"><span class="section-number-3">5.12.</span> Nizovni tip</h3>
+<ul>
+<li>Svaki element nizovnog tipa mora imati isti tip</li>
+<li><p>
+Dimenzija niza je nepromenjiva (alociran je na steku)
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >    fn main() {
+        let a = [1, 2, 3, 4, 5];
+    }
+</code></pre>
+</div></li>
+
+<li><p>
+Tip se može eksplitino definisati na sledeći način (niz dužine <code>5</code> tipa <code>i32</code>):
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >    let a: [i32; 5] = [1, 2, 3, 4, 5];
+</code></pre>
+</div></li>
+
+<li><p>
+Inicijalizacija svih elemenata na istu vrednost se obavlja na sledeći način:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >  let a = [3; 5];
+</code></pre>
+</div>
+<p>
+Gde je vrednost svakog elementa <code>3</code> a dužina niza <code>5</code>.
+</p></li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Indeksni pristup:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-5-13">
+<h3 id="5-13"><span class="section-number-3">5.13.</span> Funkcije</h3>
+</section>
+<section id="slide-5-14">
+<h3 id="5-14"><span class="section-number-3">5.14.</span> Komentari</h3>
+</section>
+<section id="slide-5-15">
+<h3 id="5-15"><span class="section-number-3">5.15.</span> Kontrola toka</h3>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Koncept vlasništva (<i>Ownership</i>)</h2>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Strukture</h2>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Enumeracije i podudaranje obrazaca (<i>Pattern Matching</i>)</h2>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Moduli</h2>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Kolekcije</h2>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Obrada grešaka</h2>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Generički tipovi, osobine (<i>Traits</i>) i životni vek (<i>Lifetimes</i>)</h2>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Literatura</h2>
 <ul>
 <li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
 

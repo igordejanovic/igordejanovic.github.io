@@ -231,9 +231,9 @@ fn main() {
 }
 #+end_src
 
-** Izmenjivost (/mutability/)
+** Promenjivost (/mutability/)
 
-- Varijable su podrazumevano neizmenjive (/immutable/).
+- Varijable su podrazumevano nepromenjive (/immutable/).
 - Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
   =mut=.
 
@@ -574,5 +574,237 @@ fn main() {
 }
 #+end_src
 
+* Osnovni programski koncepti
+** Varijable i promenjivost (/mutability/)
+- Varijable su podrazumevano nepromenjive.
+- Jednom kada dobiju vrednost (/binding/) ta vrednost se ne može promeniti
+
+  #+begin_src rust
+    fn main() {
+        let x = 5;
+        println!("The value of x is: {}", x);
+        x = 6;     // greška
+        println!("The value of x is: {}", x);
+    }
+  #+end_src
+
+  #+REVEAL: split
+
+  #+begin_src sh
+    $ cargo run
+    Compiling variables v0.1.0 (file:///projects/variables)
+    error[E0384]: cannot assign twice to immutable variable `x`
+    --> src/main.rs:4:5
+    |
+    2 |     let x = 5;
+    |         -
+    |         |
+    |         first assignment to `x`
+    |         help: consider making this binding mutable: `mut x`
+    3 |     println!("The value of x is: {}", x);
+    4 |     x = 6;
+    |     ^^^^^ cannot assign twice to immutable variable
+
+    For more information about this error, try `rustc --explain E0384`.
+    error: could not compile `variables` due to previous error
+  #+end_src
+** =mut= ključna reč
+
+#+begin_src rust
+fn main() {
+    let mut x = 5;
+    println!("The value of x is: {}", x);
+    x = 6;
+    println!("The value of x is: {}", x);
+}
+#+end_src
+** Konstante - =const=
+
+- Slično kao nepromenjive varijable sa sledećim razlikama:
+  - Uvek su nepromenjive
+  - Mogu se inicijalizovati samo konstantnim izrazom (poznatim u vreme kompajliranja)
+  - Validne za celokupno vreme izvršavanja programa u opsegu važenja gde su
+    definisane (/scope/)
+  - Mora se eksplicitno definisati tip
+- Kompajler će konstante "ubaciti" na mestu upotrebe
+- Po konvenciji imena konstanti se pišu velikim slovima
+
+  #+begin_src rust
+    const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
+  #+end_src
+
+** Tipovi podataka
+- Svaka vrednost u Rust-u ima tip. Tipovi moraju biti poznati u vreme
+  kompajliranja (statički tipiziran jezik).
+- Kompajler će probati da odredi tipove (/type inference/). Ako nije moguće
+  zahteva se da definišemo tip eksplicitno.
+
+  Npr:
+  #+begin_src rust
+    let guess: u32 = "42".parse().expect("Not a number!");
+  #+end_src
+  Ovde nije moguće odrediti tip jer =str::parse= funkcija može vratiti različite
+  brojne tipove (funkcija je generička) a ne postoji način da se tip automatski
+  odredi.
+
+  Signatura je:
+  #+begin_src rust
+    pub fn parse<F>(&self) -> Result<F, <F as FromStr>::Err>
+    where
+        F: FromStr
+  #+end_src
+
+** /Integer/ tipovi
+
+| Dužina  | Signed | Unsigned |
+|---------+--------+----------|
+| 8-bit   | i8     | u8       |
+| 16-bit  | i16    | u16      |
+| 32-bit  | i32    | u32      |
+| 64-bit  | i64    | u64      |
+| 128-bit | i128   | u128     |
+| arch    | isize  | usize    |
+
+** Literali brojeva
+
+| Literali       | Primeri     |
+|----------------+-------------|
+| Decimal        | 98_222      |
+| Hex            | 0xff        |
+| Octal          | 0o77        |
+| Binary         | 0b1111_0000 |
+| Byte (u8 only) | b'A'        |
+
+** /Floating-Point/ tipovi
+
+#+begin_src rust
+fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}
+#+end_src
+
+IEEE-754 standard
+
+** Operacije nad brojevima
+
+#+begin_src rust
+fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let floored = 2 / 3; // Results in 0
+
+    // remainder
+    let remainder = 43 % 5;
+}
+#+end_src
+
+** /Boolean/ tip
+#+begin_src rust
+fn main() {
+    let t = true;
+
+    let f: bool = false; // with explicit type annotation
+}
+#+end_src
+
+** Tip karaktera
+
+#+begin_src rust
+fn main() {
+    let c = 'z';
+    let z = 'ℤ';
+    let heart_eyed_cat = '😻';
+}
+#+end_src
+
+** Torke (/tuples/)
+#+begin_src rust
+fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}
+#+end_src
+
+- Raspakivanje torki (/destructuring/):
+#+begin_src rust
+fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {}", y);
+}
+#+end_src
+
+#+REVEAL: split
+
+Pristup elementima torke:
+#+begin_src rust
+fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}
+#+end_src
+
+** Nizovni tip
+
+- Svaki element nizovnog tipa mora imati isti tip
+- Dimenzija niza je nepromenjiva (alociran je na steku)
+    #+begin_src rust
+    fn main() {
+        let a = [1, 2, 3, 4, 5];
+    }
+    #+end_src
+
+- Tip se može eksplitino definisati na sledeći način (niz dužine =5= tipa =i32=):
+    #+begin_src rust
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
+    #+end_src
+
+- Inicijalizacija svih elemenata na istu vrednost se obavlja na sledeći način:
+  #+begin_src rust
+  let a = [3; 5];
+  #+end_src
+  Gde je vrednost svakog elementa =3= a dužina niza =5=.
+
+#+REVEAL: split
+
+Indeksni pristup:
+
+#+begin_src rust
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}
+#+end_src
+
+
+** Funkcije
+** Komentari
+** Kontrola toka
+* Koncept vlasništva (/Ownership/)
+* Strukture
+* Enumeracije i podudaranje obrazaca (/Pattern Matching/)
+* Moduli
+* Kolekcije
+* Obrada grešaka
+* Generički tipovi, osobine (/Traits/) i životni vek (/Lifetimes/)
 * Literatura
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
