@@ -1,0 +1,578 @@
+#+TITLE: Programski jezik Rust
+#+SUBTITLE: Bazirano na verziji 1.58.1. U izradi.
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Uvod
+- Jezik opšte namene, kompajliran i statički tipiziran sa inferencom tipova
+- Sistemsko programiranje ali sa osobinama višeg nivoa apstrakcije kao što su
+  funkcionalno programiranje
+- 2010, Graydon Hoare, Mozilla Research
+- Performanse i sigurnost
+- Ne koristi /garbage collector/ ali obezbeđuje memorijsku sigurnost kroz /borrow
+  checker/
+- Sintaksno sličan C++. Uticaj i OCaml-a, Haskell-a i Erlang-a.
+- Koristi se u velikim firmama: Amazon, Facebook, Google, Microsoft...
+- Od 2016 godine na SO upitniku konstantno prvi u kategoriji /"most loved
+  programming languages"/
+* Instalacija i podešavanje
+** Instalacija
+- Rust stiže sa alatom za upravljanje lanca alata =rustup=
+
+#+begin_src sh
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+#+end_src
+
+- Provera instalacije
+
+#+begin_src sh
+~> rustc --version
+rustc 1.58.1 (db9d1b20b 2022-01-20)
+#+end_src
+
+** Pregled instalacije
+#+begin_src sh
+~> rustup show
+Default host: x86_64-unknown-linux-gnu
+rustup home:  /home/igor/.rustup
+
+installed toolchains
+--------------------
+
+stable-x86_64-unknown-linux-gnu (default)
+nightly-x86_64-unknown-linux-gnu
+
+active toolchain
+----------------
+
+stable-x86_64-unknown-linux-gnu (default)
+rustc 1.58.1 (db9d1b20b 2022-01-20)
+#+end_src
+
+** Ažuriranje
+Za ažuriranje instalacije na najnoviju verziju
+
+#+begin_src sh
+rustup update
+#+end_src
+
+** Dokumentacija
+
+Rust stiže sa veoma dobrom dokumentacijom i knjigama koje su dostupne direktno
+iz instalacije.
+
+#+begin_src sh
+rustup doc
+#+end_src
+
+* Početak
+** Hello, World!
+
+#+begin_src sh
+$ mkdir hello_world
+$ cd hello_world
+#+end_src
+
+File =main.rs=:
+#+begin_src rust
+fn main() {
+    println!("Hello, world!");
+}
+#+end_src
+
+** Kompajliranje i pokretanje
+
+#+begin_src sh
+$ rustc main.rs
+$ ./main
+Hello, world!
+#+end_src
+** Hello, Cargo!
+- Alat za razrešavanje zavisnosti i upravljanje projektom.
+
+#+begin_src sh
+~> cargo --version
+cargo 1.58.0 (f01b232bc 2022-01-19)
+#+end_src
+
+- Kreiranje projekta sa =cargo= alatom:
+
+#+begin_src sh
+$ cargo new hello_cargo
+$ cd hello_cargo
+#+end_src
+
+** Sadržaj kreiranog projekta
+Fajl =cargo.toml= čuva konfiguraciju projekta. Format je [[https://toml.io/en/][TOML]] (/Tom’s Obvious,
+Minimal Language/):
+
+#+begin_src toml
+[package]
+name = "hello_cargo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+#+end_src
+
+Fajl =src/main.rs=:
+#+begin_src rust
+fn main() {
+    println!("Hello, world!");
+}
+#+end_src
+** Pokretanje
+
+#+begin_src rust
+$ cargo build
+   Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
+#+end_src
+
+Izvršni fajl se može naći na lokaciji =target/debug/hello_cargo=:
+
+#+begin_src sh
+$ ./target/debug/hello_cargo
+Hello, world!
+#+end_src
+
+Ali =cargo= omgućava i jednostavniji način pokretanja:
+#+begin_src sh
+$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+     Running `target/debug/hello_cargo`
+Hello, world!
+#+end_src
+
+** Provera
+Takođe je moguće brzo proveriti da li se kod kompajlira:
+
+#+begin_src sh
+$ cargo check
+   Checking hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
+#+end_src
+
+** Izgradnja finalne verzije
+- U toku razvoja koristimo izgradnju za degabovanje koja se brže završi ali je
+  izvršni kod neoptimalan.
+
+- Za finalnu verziju je potrebno izgradnju obaviti na sledeći način:
+
+    #+begin_src rust
+    cargo build --release
+    #+end_src
+
+- Ovo će obaviti dodatne optimizacije koje će duže trajati ali će krajnji kod
+  biti optimizovan.
+
+** Cargo kao konvencija
+
+Praktično svi Rust projekti koriste Cargo tako da je unifikovan način izgradnje
+projekata. Uglavnom se svodi na:
+
+#+begin_src sh
+$ git clone example.org/someproject
+$ cd someproject
+$ cargo build
+#+end_src
+
+* Igra pogađanja brojeva
+** Podešavanje projekta
+#+begin_src rust
+$ cargo new guessing_game
+$ cd guessing_game
+#+end_src
+
+Fajl =Cargo.toml=:
+#+begin_src toml
+[package]
+name = "guessing_game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+#+end_src
+
+Fajl =src/main.rs=:
+#+begin_src rust
+fn main() {
+    println!("Hello, world!");
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.50s
+     Running `target/debug/guessing_game`
+Hello, world!
+#+end_src
+
+** Preuzimanje broja sa standardnog ulaza
+
+#+begin_src rust
+use std::io;
+
+fn main() {
+    println!("Guess the number!");
+
+    println!("Please input your guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
+}
+#+end_src
+
+** Izmenjivost (/mutability/)
+
+- Varijable su podrazumevano neizmenjive (/immutable/).
+- Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
+  =mut=.
+
+  #+begin_src rust
+  let apples = 5; // immutable
+  let mut bananas = 5; // mutable
+  #+end_src
+
+- Isto važi i za parametre funkcija:
+
+  #+begin_src rust
+  io::stdin()
+      .read_line(&mut guess)
+  #+end_src
+
+** Obrada mogućih grešaka upotrebom =Result= tipa
+
+=read_line= može da završi neuspešno. Zato vraća =io::Result= tip koji predstavlja
+enumeraciju (/enum/) tip i ima dve vrednosti: =Ok= i =Err=.
+
+#+begin_src rust
+io::stdin()
+    .read_line(&mut guess)
+    .expect("Failed to read line");
+#+end_src
+
+=expect= implementiran na =Ok= varijanti će vratiti vrednost koja je sadržana unutar
+varijante dok implementacija nad =Err= varijanti prekida izvršavanje programa.
+
+** Pokretanje
+
+#+begin_src rust
+$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 6.44s
+     Running `target/debug/guessing_game`
+Guess the number!
+Please input your guess.
+6
+You guessed: 6
+#+end_src
+
+** Generisanje slučajnog broja
+Koristimo =rand= paket (sanduk - /crate/ u terminologiji Cargo-a).
+
+Sekcija =[dependencies]= u fajlu =Cargo.toml=:
+#+begin_src toml
+[dependencies]
+rand = "0.8.3"
+#+end_src
+
+#+begin_src sh
+$ cargo build
+    Updating crates.io index
+  Downloaded rand v0.8.3
+  Downloaded libc v0.2.86
+  ...
+   Compiling rand_chacha v0.3.0
+   Compiling rand v0.8.3
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.53s
+#+end_src
+
+Cargo koristi [[https://semver.org/][Semantic Versioning]]. Rust paketi se preuzimaju sa sajta [[https://crates.io/][crates.io]]
+i keširaju lokalno.
+
+** Ponovljivost izgradnje - /Cargo.lock/
+- Prvi put kada se pokrene =cargo build= kreira se fajl =Cargo.lock= sa
+  informacijama o verzijama svih sanduka koji su instalirani.
+- Svako sledeće pokretanje izgradnje koristi iste verzije.
+- =Cargo.lock= je potrebno čuvati u sistemu kontrole verzija (npr. =git=) da bi se
+  osigurala ponovljivost.
+
+** Ažuriranje sanduka
+- Ažuriranje na nove verzije sanduka se obavlja sa:
+
+  #+begin_src sh
+  $ cargo update
+    Updating crates.io index
+    Updating rand v0.8.3 -> v0.8.4
+  #+end_src
+- Poštuje se semantičko verzioniranje tj. automatski se ažurira na sledeću
+  verziju koja je manja od naredne glavne (/major/) verzije.
+- Ako prelazimo na novu glavnu verziju to moramo uraditi izmenom verzije u
+  =Cargo.toml= fajlu.
+
+** Generisanje slučajnog broja
+
+Fajl =src/main.rs=:
+#+begin_src rust
+use std::io;
+use rand::Rng;
+
+fn main() {
+    println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
+    println!("The secret number is: {}", secret_number);
+
+    println!("Please input your guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
+}
+#+end_src
+
+U =gen_range= koristimo izraz opsega (/range expression/). Interval je zatvoren na
+donjoj granici i otvoren na gornjoj. Za interval zatvoren i od gore možemo
+pisati ~1..=100~.
+
+** Dokumentacija za lokalne sanduke
+
+Da bi znali koje metode i funkcije su nam dostupne možemo koristiti ugrađenu
+dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
+
+#+begin_src sh
+cargo doc --open
+#+end_src
+
+
+** Pokretanje programa
+
+#+begin_src sh
+$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.53s
+     Running `target/debug/guessing_game`
+Guess the number!
+The secret number is: 7
+Please input your guess.
+4
+You guessed: 4
+#+end_src
+
+** Poređenje tajnog broja sa zadatim
+
+Fajl =src/main.rs=
+#+begin_src rust
+use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
+
+fn main() {
+    // --snip--
+
+    println!("You guessed: {}", guess);
+
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!"),
+    }
+}
+#+end_src
+- Koristimo =std::cmp::Ordering= enum koji ima varijante =Less=, =Greater= i =Equal=
+- =match= izraz poredi zadatu vrednost sa vrednostima zadatim u telu i izvršava
+  granu koja se podudara. Grane =match= izraza se u Rust terminologiji zovu "ruke" (/arms/).
+
+** Popravka tipova
+Kod sa prethodnog slajda nije ispravan:
+#+begin_src sh
+$ cargo build
+   Compiling libc v0.2.86
+   ...
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+error[E0308]: mismatched types
+  --> src/main.rs:22:21
+   |
+22 |     match guess.cmp(&secret_number) {
+   |                     ^^^^^^^^^^^^^^ expected struct `String`, found integer
+   |
+   = note: expected reference `&String`
+              found reference `&{integer}`
+
+error[E0283]: type annotations needed for `{integer}`
+   --> src/main.rs:8:44
+    |
+8   |     let secret_number = rand::thread_rng().gen_range(1..101);
+    |         -------------                      ^^^^^^^^^ cannot infer type for type `{integer}`
+    |         |
+    |         consider giving `secret_number` a type
+    |
+    = note: multiple `impl`s satisfying `{integer}: SampleUniform` found in the `rand` crate:
+            - impl SampleUniform for i128;
+            - impl SampleUniform for i16;
+            - impl SampleUniform for i32;
+            - impl SampleUniform for i64;
+            and 8 more
+...
+#+end_src
+
+#+REVEAL: split
+
+Osnova greške je neslaganje tipova. Sa ulaza prihvatamo =String= dok nam je tajni
+broj =integer=.
+
+** Konverzija stringa u broj
+
+Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
+
+#+begin_src rust
+// --snip--
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+
+    println!("You guessed: {}", guess);
+
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => println!("You win!"),
+    }
+#+end_src
+
+#+REVEAL: split
+
+Sada se program komapajlira.
+
+#+begin_src sh
+$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/guessing_game`
+Guess the number!
+The secret number is: 58
+Please input your guess.
+  76
+You guessed: 76
+Too big!
+#+end_src
+
+** Omogućavanje višestrukog pogađanja - upotreba petlje
+
+Fajl =src/main.rs=:
+#+begin_src rust
+// --snip--
+
+    println!("The secret number is: {}", secret_number);
+
+    loop {
+        println!("Please input your guess.");
+
+        // --snip--
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => println!("You win!"),
+        }
+    }
+}
+#+end_src
+
+
+** Prekid rada
+
+Problem je kako prekinuti program kada korisnik pogodi broj?
+
+#+begin_src rust
+// --snip--
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+#+end_src
+
+** Rukovanje neispravnim ulazom
+
+#+begin_src rust
+// --snip--
+
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
+        println!("You guessed: {}", guess);
+
+        // --snip--
+#+end_src
+
+Potrebno je još obrisati liniju koja prikazuje generisani broj.
+
+** Finalni kod
+
+#+begin_src rust
+use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
+
+fn main() {
+    println!("Guess the number!");
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
+    loop {
+        println!("Please input your guess.");
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        println!("You guessed: {}", guess);
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+#+end_src
+
+* Literatura
+- Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.

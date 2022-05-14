@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Programski jezik Rust</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Programski jezik Rust</h1>
+<h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2022-05-14 Sat 15:46, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
+<ul>
+<li>Jezik opšte namene, kompajliran i statički tipiziran sa inferencom tipova</li>
+<li>Sistemsko programiranje ali sa osobinama višeg nivoa apstrakcije kao što su
+funkcionalno programiranje</li>
+<li>2010, Graydon Hoare, Mozilla Research</li>
+<li>Performanse i sigurnost</li>
+<li>Ne koristi <i>garbage collector</i> ali obezbeđuje memorijsku sigurnost kroz <i>borrow
+checker</i></li>
+<li>Sintaksno sličan C++. Uticaj i OCaml-a, Haskell-a i Erlang-a.</li>
+<li>Koristi se u velikim firmama: Amazon, Facebook, Google, Microsoft&#x2026;</li>
+<li>Od 2016 godine na SO upitniku konstantno prvi u kategoriji <i>&ldquo;most loved
+programming languages&rdquo;</i></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Instalacija i podešavanje</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Instalacija</h3>
+<ul>
+<li>Rust stiže sa alatom za upravljanje lanca alata <code>rustup</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+</code></pre>
+</div>
+
+<ul>
+<li>Provera instalacije</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; rustc --version
+rustc 1.58.1 (db9d1b20b 2022-01-20)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Pregled instalacije</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; rustup show
+Default host: x86_64-unknown-linux-gnu
+rustup home:  /home/igor/.rustup
+
+installed toolchains
+--------------------
+
+stable-x86_64-unknown-linux-gnu (default)
+nightly-x86_64-unknown-linux-gnu
+
+active toolchain
+----------------
+
+stable-x86_64-unknown-linux-gnu (default)
+rustc 1.58.1 (db9d1b20b 2022-01-20)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Ažuriranje</h3>
+<p>
+Za ažuriranje instalacije na najnoviju verziju
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >rustup update
+</code></pre>
+</div>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Dokumentacija</h3>
+<p>
+Rust stiže sa veoma dobrom dokumentacijom i knjigama koje su dostupne direktno
+iz instalacije.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >rustup doc
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Početak</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Hello, World!</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ mkdir hello_world
+$ cd hello_world
+</code></pre>
+</div>
+
+<p>
+File <code>main.rs</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    println!("Hello, world!");
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Kompajliranje i pokretanje</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ rustc main.rs
+$ ./main
+Hello, world!
+</code></pre>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Hello, Cargo!</h3>
+<ul>
+<li>Alat za razrešavanje zavisnosti i upravljanje projektom.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; cargo --version
+cargo 1.58.0 (f01b232bc 2022-01-19)
+</code></pre>
+</div>
+
+<ul>
+<li>Kreiranje projekta sa <code>cargo</code> alatom:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo new hello_cargo
+$ cd hello_cargo
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Sadržaj kreiranog projekta</h3>
+<p>
+Fajl <code>cargo.toml</code> čuva konfiguraciju projekta. Format je <a href="https://toml.io/en/">TOML</a> (<i>Tom’s Obvious,
+Minimal Language</i>):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="toml" >[package]
+name = "hello_cargo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+</code></pre>
+</div>
+
+<p>
+Fajl <code>src/main.rs</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    println!("Hello, world!");
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Pokretanje</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >$ cargo build
+   Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
+</code></pre>
+</div>
+
+<p>
+Izvršni fajl se može naći na lokaciji <code>target/debug/hello_cargo</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ ./target/debug/hello_cargo
+Hello, world!
+</code></pre>
+</div>
+
+<p>
+Ali <code>cargo</code> omgućava i jednostavniji način pokretanja:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+     Running `target/debug/hello_cargo`
+Hello, world!
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Provera</h3>
+<p>
+Takođe je moguće brzo proveriti da li se kod kompajlira:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo check
+   Checking hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Izgradnja finalne verzije</h3>
+<ul>
+<li>U toku razvoja koristimo izgradnju za degabovanje koja se brže završi ali je
+izvršni kod neoptimalan.</li>
+
+<li><p>
+Za finalnu verziju je potrebno izgradnju obaviti na sledeći način:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >    cargo build --release
+</code></pre>
+</div></li>
+
+<li>Ovo će obaviti dodatne optimizacije koje će duže trajati ali će krajnji kod
+biti optimizovan.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Cargo kao konvencija</h3>
+<p>
+Praktično svi Rust projekti koriste Cargo tako da je unifikovan način izgradnje
+projekata. Uglavnom se svodi na:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ git clone example.org/someproject
+$ cd someproject
+$ cargo build
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Igra pogađanja brojeva</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Podešavanje projekta</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >$ cargo new guessing_game
+$ cd guessing_game
+</code></pre>
+</div>
+
+<p>
+Fajl <code>Cargo.toml</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="toml" >[package]
+name = "guessing_game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+</code></pre>
+</div>
+
+<p>
+Fajl <code>src/main.rs</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    println!("Hello, world!");
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.50s
+     Running `target/debug/guessing_game`
+Hello, world!
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Preuzimanje broja sa standardnog ulaza</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >use std::io;
+
+fn main() {
+    println!("Guess the number!");
+
+    println!("Please input your guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Izmenjivost (<i>mutability</i>)</h3>
+<ul>
+<li>Varijable su podrazumevano neizmenjive (<i>immutable</i>).</li>
+<li><p>
+Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
+<code>mut</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let apples = 5; // immutable
+  let mut bananas = 5; // mutable
+</code></pre>
+</div></li>
+
+<li><p>
+Isto važi i za parametre funkcija:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  io::stdin()
+      .read_line(&amp;mut guess)
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Obrada mogućih grešaka upotrebom <code>Result</code> tipa</h3>
+<p>
+<code>read_line</code> može da završi neuspešno. Zato vraća <code>io::Result</code> tip koji predstavlja
+enumeraciju (<i>enum</i>) tip i ima dve vrednosti: <code>Ok</code> i <code>Err</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >io::stdin()
+    .read_line(&amp;mut guess)
+    .expect("Failed to read line");
+</code></pre>
+</div>
+
+<p>
+<code>expect</code> implementiran na <code>Ok</code> varijanti će vratiti vrednost koja je sadržana unutar
+varijante dok implementacija nad <code>Err</code> varijanti prekida izvršavanje programa.
+</p>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Pokretanje</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 6.44s
+     Running `target/debug/guessing_game`
+Guess the number!
+Please input your guess.
+6
+You guessed: 6
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Generisanje slučajnog broja</h3>
+<p>
+Koristimo <code>rand</code> paket (sanduk - <i>crate</i> u terminologiji Cargo-a).
+</p>
+
+<p>
+Sekcija <code>[dependencies]</code> u fajlu <code>Cargo.toml</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="toml" >[dependencies]
+rand = "0.8.3"
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo build
+    Updating crates.io index
+  Downloaded rand v0.8.3
+  Downloaded libc v0.2.86
+  ...
+   Compiling rand_chacha v0.3.0
+   Compiling rand v0.8.3
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.53s
+</code></pre>
+</div>
+
+<p>
+Cargo koristi <a href="https://semver.org/">Semantic Versioning</a>. Rust paketi se preuzimaju sa sajta <a href="https://crates.io/">crates.io</a>
+i keširaju lokalno.
+</p>
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Ponovljivost izgradnje - <i>Cargo.lock</i></h3>
+<ul>
+<li>Prvi put kada se pokrene <code>cargo build</code> kreira se fajl <code>Cargo.lock</code> sa
+informacijama o verzijama svih sanduka koji su instalirani.</li>
+<li>Svako sledeće pokretanje izgradnje koristi iste verzije.</li>
+<li><code>Cargo.lock</code> je potrebno čuvati u sistemu kontrole verzija (npr. <code>git</code>) da bi se
+osigurala ponovljivost.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Ažuriranje sanduka</h3>
+<ul>
+<li><p>
+Ažuriranje na nove verzije sanduka se obavlja sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >  $ cargo update
+    Updating crates.io index
+    Updating rand v0.8.3 -&gt; v0.8.4
+</code></pre>
+</div></li>
+<li>Poštuje se semantičko verzioniranje tj. automatski se ažurira na sledeću
+verziju koja je manja od naredne glavne (<i>major</i>) verzije.</li>
+<li>Ako prelazimo na novu glavnu verziju to moramo uraditi izmenom verzije u
+<code>Cargo.toml</code> fajlu.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-9">
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Generisanje slučajnog broja</h3>
+<p>
+Fajl <code>src/main.rs</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >use std::io;
+use rand::Rng;
+
+fn main() {
+    println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
+    println!("The secret number is: {}", secret_number);
+
+    println!("Please input your guess.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut guess)
+        .expect("Failed to read line");
+
+    println!("You guessed: {}", guess);
+}
+</code></pre>
+</div>
+
+<p>
+U <code>gen_range</code> koristimo izraz opsega (<i>range expression</i>). Interval je zatvoren na
+donjoj granici i otvoren na gornjoj. Za interval zatvoren i od gore možemo
+pisati <code>1..=100</code>.
+</p>
+
+</section>
+<section id="slide-4-10">
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Dokumentacija za lokalne sanduke</h3>
+<p>
+Da bi znali koje metode i funkcije su nam dostupne možemo koristiti ugrađenu
+dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo doc --open
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-4-11">
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Pokretanje programa</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.53s
+     Running `target/debug/guessing_game`
+Guess the number!
+The secret number is: 7
+Please input your guess.
+4
+You guessed: 4
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-12">
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Poređenje tajnog broja sa zadatim</h3>
+<p>
+Fajl <code>src/main.rs</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
+
+fn main() {
+    // --snip--
+
+    println!("You guessed: {}", guess);
+
+    match guess.cmp(&amp;secret_number) {
+        Ordering::Less =&gt; println!("Too small!"),
+        Ordering::Greater =&gt; println!("Too big!"),
+        Ordering::Equal =&gt; println!("You win!"),
+    }
+}
+</code></pre>
+</div>
+<ul>
+<li>Koristimo <code>std::cmp::Ordering</code> enum koji ima varijante <code>Less</code>, <code>Greater</code> i <code>Equal</code></li>
+<li><code>match</code> izraz poredi zadatu vrednost sa vrednostima zadatim u telu i izvršava
+granu koja se podudara. Grane <code>match</code> izraza se u Rust terminologiji zovu &ldquo;ruke&rdquo; (<i>arms</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-4-13">
+<h3 id="4-13"><span class="section-number-3">4.13.</span> Popravka tipova</h3>
+<p>
+Kod sa prethodnog slajda nije ispravan:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo build
+   Compiling libc v0.2.86
+   ...
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+error[E0308]: mismatched types
+  --&gt; src/main.rs:22:21
+   |
+22 |     match guess.cmp(&amp;secret_number) {
+   |                     ^^^^^^^^^^^^^^ expected struct `String`, found integer
+   |
+   = note: expected reference `&amp;String`
+              found reference `&amp;{integer}`
+
+error[E0283]: type annotations needed for `{integer}`
+   --&gt; src/main.rs:8:44
+    |
+8   |     let secret_number = rand::thread_rng().gen_range(1..101);
+    |         -------------                      ^^^^^^^^^ cannot infer type for type `{integer}`
+    |         |
+    |         consider giving `secret_number` a type
+    |
+    = note: multiple `impl`s satisfying `{integer}: SampleUniform` found in the `rand` crate:
+            - impl SampleUniform for i128;
+            - impl SampleUniform for i16;
+            - impl SampleUniform for i32;
+            - impl SampleUniform for i64;
+            and 8 more
+...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Osnova greške je neslaganje tipova. Sa ulaza prihvatamo <code>String</code> dok nam je tajni
+broj <code>integer</code>.
+</p>
+
+</section>
+<section id="slide-4-14">
+<h3 id="4-14"><span class="section-number-3">4.14.</span> Konverzija stringa u broj</h3>
+<p>
+Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >// --snip--
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut guess)
+        .expect("Failed to read line");
+
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+
+    println!("You guessed: {}", guess);
+
+    match guess.cmp(&amp;secret_number) {
+        Ordering::Less =&gt; println!("Too small!"),
+        Ordering::Greater =&gt; println!("Too big!"),
+        Ordering::Equal =&gt; println!("You win!"),
+    }
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Sada se program komapajlira.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/guessing_game`
+Guess the number!
+The secret number is: 58
+Please input your guess.
+  76
+You guessed: 76
+Too big!
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-15">
+<h3 id="4-15"><span class="section-number-3">4.15.</span> Omogućavanje višestrukog pogađanja - upotreba petlje</h3>
+<p>
+Fajl <code>src/main.rs</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >// --snip--
+
+    println!("The secret number is: {}", secret_number);
+
+    loop {
+        println!("Please input your guess.");
+
+        // --snip--
+
+        match guess.cmp(&amp;secret_number) {
+            Ordering::Less =&gt; println!("Too small!"),
+            Ordering::Greater =&gt; println!("Too big!"),
+            Ordering::Equal =&gt; println!("You win!"),
+        }
+    }
+}
+</code></pre>
+</div>
+
+
+</section>
+<section id="slide-4-16">
+<h3 id="4-16"><span class="section-number-3">4.16.</span> Prekid rada</h3>
+<p>
+Problem je kako prekinuti program kada korisnik pogodi broj?
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >// --snip--
+
+        match guess.cmp(&amp;secret_number) {
+            Ordering::Less =&gt; println!("Too small!"),
+            Ordering::Greater =&gt; println!("Too big!"),
+            Ordering::Equal =&gt; {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-4-17">
+<h3 id="4-17"><span class="section-number-3">4.17.</span> Rukovanje neispravnim ulazom</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >// --snip--
+
+        io::stdin()
+            .read_line(&amp;mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) =&gt; num,
+            Err(_) =&gt; continue,
+        };
+
+        println!("You guessed: {}", guess);
+
+        // --snip--
+</code></pre>
+</div>
+
+<p>
+Potrebno je još obrisati liniju koja prikazuje generisani broj.
+</p>
+
+</section>
+<section id="slide-4-18">
+<h3 id="4-18"><span class="section-number-3">4.18.</span> Finalni kod</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
+
+fn main() {
+    println!("Guess the number!");
+    let secret_number = rand::thread_rng().gen_range(1..101);
+
+    loop {
+        println!("Please input your guess.");
+        let mut guess = String::new();
+        io::stdin()
+            .read_line(&amp;mut guess)
+            .expect("Failed to read line");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) =&gt; num,
+            Err(_) =&gt; continue,
+        };
+        println!("You guessed: {}", guess);
+        match guess.cmp(&amp;secret_number) {
+            Ordering::Less =&gt; println!("Too small!"),
+            Ordering::Greater =&gt; println!("Too big!"),
+            Ordering::Equal =&gt; {
+                println!("You win!");
+                break;
+            }
+        }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Literatura</h2>
+<ul>
+<li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>
