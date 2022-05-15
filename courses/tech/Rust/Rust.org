@@ -1,6 +1,7 @@
 #+TITLE: Programski jezik Rust
 #+SUBTITLE: Bazirano na verziji 1.58.1. U izradi.
 #+EXPORT_FILE_NAME: index.html
+#+EXPORT_REVEAL_HLEVEL: 10
 #+SETUPFILE: ../../courses-startup.org
 
 * Uvod
@@ -576,6 +577,7 @@ fn main() {
 
 * Osnovni programski koncepti
 ** Varijable i promenjivost (/mutability/)
+*** Varijable i promenjivost (/mutability/)
 - Varijable su podrazumevano nepromenjive.
 - Jednom kada dobiju vrednost (/binding/) ta vrednost se ne može promeniti
 
@@ -608,7 +610,7 @@ fn main() {
     For more information about this error, try `rustc --explain E0384`.
     error: could not compile `variables` due to previous error
   #+end_src
-** =mut= ključna reč
+*** =mut= ključna reč
 
 #+begin_src rust
 fn main() {
@@ -619,7 +621,6 @@ fn main() {
 }
 #+end_src
 ** Konstante - =const=
-
 - Slično kao nepromenjive varijable sa sledećim razlikama:
   - Uvek su nepromenjive
   - Mogu se inicijalizovati samo konstantnim izrazom (poznatim u vreme kompajliranja)
@@ -634,6 +635,7 @@ fn main() {
   #+end_src
 
 ** Tipovi podataka
+*** Tipovi podataka
 - Svaka vrednost u Rust-u ima tip. Tipovi moraju biti poznati u vreme
   kompajliranja (statički tipiziran jezik).
 - Kompajler će probati da odredi tipove (/type inference/). Ako nije moguće
@@ -653,8 +655,7 @@ fn main() {
     where
         F: FromStr
   #+end_src
-
-** /Integer/ tipovi
+*** /Integer/ tipovi
 
 | Dužina  | Signed | Unsigned |
 |---------+--------+----------|
@@ -665,7 +666,7 @@ fn main() {
 | 128-bit | i128   | u128     |
 | arch    | isize  | usize    |
 
-** Literali brojeva
+*** Literali brojeva
 
 | Literali       | Primeri     |
 |----------------+-------------|
@@ -675,7 +676,7 @@ fn main() {
 | Binary         | 0b1111_0000 |
 | Byte (u8 only) | b'A'        |
 
-** /Floating-Point/ tipovi
+*** /Floating-Point/ tipovi
 
 #+begin_src rust
 fn main() {
@@ -687,7 +688,7 @@ fn main() {
 
 IEEE-754 standard
 
-** Operacije nad brojevima
+*** Operacije nad brojevima
 
 #+begin_src rust
 fn main() {
@@ -709,7 +710,7 @@ fn main() {
 }
 #+end_src
 
-** /Boolean/ tip
+*** /Boolean/ tip
 #+begin_src rust
 fn main() {
     let t = true;
@@ -718,7 +719,7 @@ fn main() {
 }
 #+end_src
 
-** Tip karaktera
+*** Tip karaktera
 
 #+begin_src rust
 fn main() {
@@ -728,7 +729,7 @@ fn main() {
 }
 #+end_src
 
-** Torke (/tuples/)
+*** Torke (/tuples/)
 #+begin_src rust
 fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
@@ -761,8 +762,7 @@ fn main() {
 }
 #+end_src
 
-** Nizovni tip
-
+*** Nizovni tip
 - Svaki element nizovnog tipa mora imati isti tip
 - Dimenzija niza je nepromenjiva (alociran je na steku)
     #+begin_src rust
@@ -795,11 +795,369 @@ fn main() {
 }
 #+end_src
 
-
 ** Funkcije
+*** Funkcije
+#+begin_src rust
+fn main() {
+    println!("Hello, world!");
+
+    another_function();
+}
+
+fn another_function() {
+    println!("Another function.");
+}
+#+end_src
+- Za imenovanje funkcija kao i varijabli koristi se /snake_case/.
+*** Funkcije - parametri
+#+begin_src rust
+fn main() {
+    print_labeled_measurement(5, 'h');
+}
+
+fn print_labeled_measurement(value: i32, unit_label: char) {
+    println!("The measurement is: {}{}", value, unit_label);
+}
+#+end_src
+
+*** Iskazi i izrazi
+- Rust je jezik baziran na izrazima (/expression-based/)
+- Iskazi (/statements/) su jezičke konstrukcije koje nemaju povratnu vrednost.
+  Izrazi (/expressions/) se evaluiraju u određeni rezultat, tj. imaju vrednost.
+- Primer: =let= je iskaz tj. nema povratnu vrednost. Ovo možete pisati:
+  #+begin_src rust
+  let y = 6;
+  #+end_src
+  Ali ovo ne:
+  #+begin_src rust
+  let x = (let y = 6);
+  #+end_src
+
+#+REVEAL: split
+
+Blok koda je takođe izraz. Šta je vrednost u koju se evaluira?
+
+#+begin_src rust
+{
+    let x = 3;
+    x + 1
+}
+#+end_src
+
+Vrednost bloka je vrednost poslednjeg izraza, tj. =x+1=. Primetite da tu ne
+koristimo =;= jer terminacija ovim karakterom pretvara izraz u iskaz.
+
+#+REVEAL: split
+
+Zbog ovoga je sasvim legalno da pišemo:
+
+#+begin_src rust
+fn main() {
+    let y = {
+        let x = 3;
+        x + 1
+    };
+
+    println!("The value of y is: {}", y);
+}
+#+end_src
+
+#+RESULTS:
+: The value of y is: 4
+*** Povratne vrednosti funkcija
+Vrednost funkcije je vrednost bloka koji predstavlja telo funkcije, dakle
+poslednjeg izraza unutar tela funkcije.
+
+#+begin_src rust
+fn five() -> i32 {
+    5
+}
+
+fn main() {
+    let x = five();
+
+    println!("The value of x is: {}", x);
+}
+#+end_src
+
+#+RESULTS:
+: The value of x is: 5
+
+#+REVEAL: split
+
+Ili na primer:
+#+begin_src rust
+fn main() {
+    let x = plus_one(5);
+
+    println!("The value of x is: {}", x);
+}
+
+fn plus_one(x: i32) -> i32 {
+    x + 1
+}
+#+end_src
+
+#+RESULTS:
+: The value of x is: 6
+
+#+REVEAL: split
+
+Ukoliko izraz =x+1= terminiramo sa =;= kod se neće kompajlirati jer funkcija
+deklariše da vraća tip =i32= dok sada vraća =()= (tzv. /unit type/) odnosno nema
+povratnu vrednost jer je poslednja instrukcija iskaz.
+
+#+begin_src rust
+fn main() {
+    let x = plus_one(5);
+
+    println!("The value of x is: {}", x);
+}
+
+fn plus_one(x: i32) -> i32 {
+    x + 1;
+}
+#+end_src
+
+#+begin_example
+error[E0308]: mismatched types
+ --> src/main.rs:8:24
+  |
+8 | fn plus_one(x: i32) -> i32 {
+  |    --------            ^^^ expected `i32`, found `()`
+  |    |
+  |    implicitly returns `()` as its body has no tail or `return` expression
+9 |     x + 1;
+  |          - help: consider removing this semicolon
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `cargo4UyKF0` due to previous error
+#+end_example
+
+
+
 ** Komentari
+Komentari se pišu posle =//=. Ne postoji sintaksa za blok komentar kao npr. u
+C/C++. Ovo bi bili validni komentari:
+#+begin_src rust
+// So we’re doing something complicated here, long enough that we need
+// multiple lines of comments to do it! Whew! Hopefully, this comment will
+// explain what’s going on.
+
+fn main() {
+    let lucky_number = 7; // I’m feeling lucky today
+}
+...
+fn main() {
+    // I’m feeling lucky today
+    let lucky_number = 7;
+}
+#+end_src
+
+#+REVEAL: split
+
+Postoje i komentari za dokumentaciju koji predstavljaju posebnu sintaksu za
+komentare koji su deo API dokumentacije. Oni se pišu posle =///=. Na primer:
+#+begin_src rust
+/// Adds one to the number given.
+///
+/// # Examples
+///
+/// ```
+/// let arg = 5;
+/// let answer = my_crate::add_one(arg);
+///
+/// assert_eq!(6, answer);
+/// ```
+pub fn add_one(x: i32) -> i32 {
+    x + 1
+}
+#+end_src
 ** Kontrola toka
-* Koncept vlasništva (/Ownership/)
+*** =if= izrazi
+#+begin_src rust
+fn main() {
+    let number = 3;
+
+    if number < 5 {
+        println!("condition was true");
+    } else {
+        println!("condition was false");
+    }
+}
+#+end_src
+
+*** =if-else=
+#+begin_src rust
+fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");
+    } else if number % 2 == 0 {
+        println!("number is divisible by 2");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+}
+#+end_src
+*** =if= u =let= iskazima
+=if= je izraz pa se može koristiti gde god možemo pisati i bilo koji drugi izraz.
+
+#+begin_src rust
+fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!("The value of number is: {}", number);
+}
+#+end_src
+
+#+RESULTS:
+: The value of number is: 5
+
+#+REVEAL: split
+
+Ali se grane moraju slagati po tipu. Ovo je pogrešno jer je prva grana tipa
+=i32= dok je =else= grana tipa =str=.
+
+#+begin_src rust
+fn main() {
+    let condition = true;
+
+    let number = if condition { 5 } else { "six" };
+
+    println!("The value of number is: {}", number);
+}
+#+end_src
+*** Petlje
+Rust ima tri tipa petlje:
+- =loop= - za beskontačne petlje
+- =while= - uslovna petlja
+- =for= - petlja za iteraciju kroz iteratore
+
+*** =loop=
+
+#+begin_src rust
+fn main() {
+    loop {
+        println!("again!");
+    }
+}
+#+end_src
+
+*** =loop= labele
+Ukoliko imamo ugnježdene =loop= iskaze možemo koristiti labele prilikom izlaska sa
+=break= instrukcijom.
+
+#+begin_src rust
+fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {}", count);
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {}", remaining);
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {}", count);
+}
+#+end_src
+
+*** =loop= kao izraz
+=loop= može imati povratnu vrednost. Povratna vrednost se definiše kao parametar
+=break= instrukcije.
+
+#+begin_src rust
+fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!("The result is {}", result);
+}
+#+end_src
+*** =while=
+#+begin_src rust
+fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{}!", number);
+
+        number -= 1;
+    }
+
+    println!("LIFTOFF!!!");
+}
+#+end_src
+*** =for=
+Iteraciju kroz uređenu kolekciju, kao što je niz, možemo obaviti sa =while= petljom.
+#+begin_src rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+    let mut index = 0;
+
+    while index < 5 {
+        println!("the value is: {}", a[index]);
+
+        index += 1;
+    }
+}
+#+end_src
+
+#+REVEAL: split
+Ali je za tu namenu prirodnije i sigurnije koristiti =for= petlju. Takođe će se
+program brže izvršavati.
+
+#+begin_src rust
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a {
+        println!("the value is: {}", element);
+    }
+}
+#+end_src
+
+#+REVEAL: split
+=for= petlje su najčešći oblik petlji u upotrebi u Rust-u. Koriste se npr. i u
+situaciji kada je potrebno izvršiti petlju određeni broj puta.
+
+#+begin_src rust
+fn main() {
+    for number in (1..4).rev() {
+        println!("{}!", number);
+    }
+    println!("LIFTOFF!!!");
+}
+#+end_src
+
+#+RESULTS:
+: 3!
+: 2!
+: 1!
+: LIFTOFF!!!
+
+* Vlasništvo i pozamljivanje (/Ownership and borrowing/)
 * Strukture
 * Enumeracije i podudaranje obrazaca (/Pattern Matching/)
 * Moduli
