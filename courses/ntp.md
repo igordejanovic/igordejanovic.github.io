@@ -12,3 +12,4 @@ layout: page
 1. [textX](tech/textX/)
 1. [Pharo/Smalltalk](tech/Pharo/)
 1. [Programski jezik Go](tech/GoLang/)
+1. [Programski jezik Rust](tech/Rust/)

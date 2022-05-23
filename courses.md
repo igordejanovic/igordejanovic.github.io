@@ -28,6 +28,7 @@ order: 2
 - [Testiranje Python koda](courses/tech/python-testing/)
 - [Pharo/Smalltalk](courses/tech/Pharo/index.html)
 - [Go](courses/tech/GoLang/index.html)
+- [Rust](courses/tech/Rust/index.html)
 - [Django](courses/tech/django/)
 - [Docker](courses/tech/docker/)
 - [D3](courses/tech/d3.html)
