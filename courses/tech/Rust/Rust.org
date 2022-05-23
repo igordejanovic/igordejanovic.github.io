@@ -934,8 +934,6 @@ For more information about this error, try `rustc --explain E0308`.
 error: could not compile `cargo4UyKF0` due to previous error
 #+end_example
 
-
-
 ** Komentari
 Komentari se pišu posle =//=. Ne postoji sintaksa za blok komentar kao npr. u
 C/C++. Ovo bi bili validni komentari:
@@ -1157,7 +1155,590 @@ fn main() {
 : 1!
 : LIFTOFF!!!
 
-* Vlasništvo i pozamljivanje (/Ownership and borrowing/)
+* Vlasništvo i pozajmljivanje (/Ownership and borrowing/)
+** Vlasništvo
+- Jedan od najvažnijih koncepata jezika.
+- Skup pravila koji omogućavaju upravljanje memorijom.
+- Garancije za memorijsku sigurnost bez upotrebe /garbage collector/-a
+- Sve provere se obavljaju u vreme kompajliranja - rezultuje odličnim
+  performansama u vreme izvršavanja.
+
+** Stek i hip (/Stack and Heap/)
+- Stek - alokacija prostora za podatke čija je veličina poznata u vreme
+  kompajliranja.
+  - Brža alokacija i dealokacija - jednostavan mehanizam, LIFO struktura.
+  - Brži pristup - lokalne varijable, keširanje pristupa.
+- Hip - slobodna alokacija u vreme izvršavanja.
+  - Sporija alokacija i dealokacija.
+  - Sporiji pristup - proizvoljna lokacija.
+
+** Pravila vlasništva
+1. Svaka vrednost u Rust-u ima varijablu koja se naziva /vlasnikom/ (/owner/).
+2. U svakom trenutku postoji samo jedan vlasnik.
+3. Kada vlasnik izađe iz opsega važenja (/scope/) vrednost se dealocira (/drop/).
+
+** Opseg važenja varijable (/Variable Scope/)
+
+#+begin_src rust
+{                      // s nije validno ovde jer još nije deklarisano
+    let s = "hello";   // s je validno od ove pozicije
+
+    // koristimo s
+}   // ovde opseg prestaje da važi i s više nije validno
+#+end_src
+
+** =String= tip
+
+- Demonstracija vlasništva nad tipom koji se alocira na hipu.
+
+  #+begin_src rust
+  let mut s = String::from("hello");
+  s.push_str(", world!"); // push_str() dodaje literal na string
+  println!("{}", s); // hello, world!`
+  #+end_src
+
+- Memorija se alocira sa hipa u vreme izvršavanja.
+- Moramo vratiti memoriju alokatoru kada nam više nije potrebna.
+
+#+REVEAL: split
+
+- Alokacija stringa se obavlja na liniji:
+
+  #+begin_src rust
+  let mut s = String::from("hello");
+  #+end_src
+
+- Ali dealokacija je teža:
+  - /Garbage collector/
+  - /Memory waste/
+  - /Double-free/
+
+#+REVEAL: split
+
+- Rust kompajler će dodati kod koji radi dealokaciju kada vlasnik napusti opseg važenja.
+- Poziva se funkcija =drop= nad tipom i ova funkcija je zadužena da obavi dealokaciju.
+
+  #+begin_src rust
+  {
+        let s = String::from("hello"); // s postaje validno
+
+        // koristimo s
+  }  // <- s izlazi iz opsega i poziva se "drop"
+  #+end_src
+
+** Dodela vrednosti
+
+- Kopiranje vrednosti =x= u =y=. Obe varijable sada imaju vrednost =5=.
+
+  #+begin_src rust
+  let x = 5;
+  let y = x;
+  #+end_src
+
+- Ali sa =String= tipom dešava se nešto drugo.
+
+  #+begin_src rust
+  let s1 = String::from("hello");
+  #+end_src
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./images/string-type.png]]
+
+#+REVEAL: split
+
+- Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
+  (tzv. /shallow copy/).
+
+  #+begin_src rust
+  let s1 = String::from("hello");
+  let s2 = s1;
+  #+end_src
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./images/string-type-2.png]]
+
+Što je problematično jer kada i =s1= i =s2= napuste opseg pokušaće se dvostruka
+dealokacija iste memorije na hipu (/double free/).
+
+#+REVEAL: split
+
+Ako bi se i hip memorija kopirala (tzv. /deep copy/) imali bismo validnu situaciju
+ali bi takva operacija bila veoma "skupa".
+
+#+attr_html: :style height: 500px;
+#+ATTR_ORG: :width 300px
+[[./images/string-type-3.png]]
+
+** Premeštanje (/Move/)
+
+Ako probamo da kompajliramo sledeći kod:
+
+#+begin_src rust
+let s1 = String::from("hello");
+let s2 = s1;
+
+println!("{}, world!", s1);
+#+end_src
+
+Dobićemo grešku:
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0382]: borrow of moved value: `s1`
+ --> src/main.rs:5:28
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value borrowed here after move
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+Ono što nam kompajler kaže je da se u iskazu:
+
+#+begin_src rust
+let s2 = s1;
+#+end_src
+
+promenio vlasnik ovog stringa. Novi vlasnik je sada =s2= dok je varijabla =s1=
+postala nevalidna i nije je više moguće koristiti.
+
+Kažemo da se obavilo "premeštanje" (/move/) vrednosti iz =s1= u =s2=.
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./images/string-type-4.png]]
+
+Čime se ispunjava prvo pravilo vlasništva i sprečava /double free/ greška.
+
+** Kloniranje
+
+Posledica prethodnog je da Rust nikada neće automatski obaviti duboko kopiranje
+varijable jer bi to moglo da izazove loše performanse.
+
+Duboko kopiranje (stek+hip) radimo sa =clone= metodom:
+
+#+begin_src rust
+let s1 = String::from("hello");
+let s2 = s1.clone();
+
+println!("s1 = {}, s2 = {}", s1, s2);
+#+end_src
+
+Sada je lako pronaći u kodu sva mesta gde se obavlja potencijalno "skupa"
+operacija dubokog kopiranja.
+
+** /Copy/ tipovi
+
+Kako onda radi primer koji smo videli prethodno? Zašto ne dolazi do premeštanja
+i invalidacije =y= varijable?
+
+#+begin_src rust
+let x = 5;
+let y = x;
+
+println!("x = {}, y = {}", x, y);
+#+end_src
+
+- Kod prostih tipova čija je veličina poznata u vreme kompajliranja i koji mogu
+  u celosti stati na stek nema razlike između dubokog i plitkog kopiranja.
+- Ovakvi tipovi su anotirani sa /Copy/ trejtom (/Trait/). Tipovi koji su na ovaj
+  način anotirani ne obavljaju premeštanje već uvek kopiranje.
+- Implikacija je da se varijabla sa desne strane dodele može koristiti i nakon
+  dodele.
+- Rust će sprečiti /Copy/ anotaciju ako tip implementira i /Drop/ jer to znači da
+  radi neku specijalnu alokaciju pa mu je potrebna i posebna dealokacija što
+  znači da mora da se radi premeštanje.
+
+** Vlasništvo i funkcije
+
+- Semantika prenosa parametara kod poziva funkcija je slična semantici dodele.
+
+#+begin_src rust
+fn main() {
+    let s = String::from("hello");  // s postaje validno
+
+    takes_ownership(s);             // s vrednost se premešta u funkciju...
+                                    // ... tako da s nije validno od ove pozicije
+
+    let x = 5;                      // x postaje validno
+
+    makes_copy(x);                  // x bi se premestilo u funkciju,
+                                    // ali i32 je Copy, tako da je ok
+                                    // da se x koristi i posle
+
+} // x izlazi iz opsega, zatim s. Ali pošto je s premešteno ništa posebno se
+  // ne dešava.
+
+fn takes_ownership(some_string: String) { // some_string ulazi u opseg
+    println!("{}", some_string);
+} // some_string izlazi iz opsega i poziva se `drop`. Memorija sa hipa se
+  // oslobađa.
+
+fn makes_copy(some_integer: i32) { // some_integer ulazi u opseg
+    println!("{}", some_integer);
+} // some_integer izlazi iz opsega. Pošto nije 'Drop', ništa posebno se ne
+  // događa (osim "skidanja" sa steka naravno)
+#+end_src
+
+** Povratne vrednosti i opsezi
+
+Prilikom vraćanja vrednosti iz funkcije takođe može doći do premeštanja vlasništva.
+
+#+begin_src rust
+fn main() {
+    let s1 = gives_ownership();         // gives_ownership premešta povratnu
+                                        // vrednost u s1
+
+    let s2 = String::from("hello");     // s2 postaje validno
+
+    let s3 = takes_and_gives_back(s2);  // s2 se premešta u funkciju
+                                        // takes_and_gives_back, koja premešta
+                                        // povratnu vrednost u s3
+} // s3 izlazi iz opsega i poziva se `drop`. s2 je premeštena pa se ništa
+  // ne dešava. s1 takođe izlazi iz opsega i dealocira se.
+
+fn gives_ownership() -> String {             // gives_ownership će premestiti
+                                             // svoju povratnu vrednost u funkciju
+                                             // koja je poziva
+
+    let some_string = String::from("yours"); // some_string postaje validno
+
+    some_string                              // some_string se premešta
+                                             // u funkciju pozivaoca
+}
+
+// Ova funkcija uzima vlasništvo nad stringom i vraća ga nazad
+fn takes_and_gives_back(a_string: String) -> String { // a_string postaje validno
+
+    a_string  // a_string se premešta u funkciju pozivaoca
+}
+#+end_src
+
+#+REVEAL: split
+
+- Često nam je potrebno da varijablu koristimo i posle slanja u funkciju.
+- Mogli bi je stalo vraćati zajedno sa rezultatom funkcije na primer upotrebom torki.
+
+#+begin_src rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+}
+
+fn calculate_length(s: String) -> (String, usize) {
+    let length = s.len();
+
+    (s, length)
+}
+#+end_src
+
+Ali je to naporno. Postoji koncept u Rust-u koji je namenjen u ovakvim
+situacijama i baziran je na referencama i pozajmljivanju vrednosti.
+** Reference i pozajmljivanje (/References and Borrowing/)
+- Referenca je poput pointera, sadrži adresu vrednosti koju poseduje neka druga
+  varijabla.
+- Za razliku od pointera, reference u Rust-u su garantovano validne.
+
+#+begin_src rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}
+#+end_src
+
+#+attr_html: :style height: 400px;
+#+ATTR_ORG: :width 300px
+[[./images/reference.png]]
+
+** Referenciranje
+
+- Primena operatora =&= nad varijablom nazivamo /referenciranje/.
+
+  #+begin_src rust
+  let s1 = String::from("hello");
+  let len = calculate_length(&s1);
+  #+end_src
+
+- Sintaksa =&s1= nam omogućava da kreiramo referencu na vrednost čiji vlasnik je
+  =s1= bez uzimanja vlasništva.
+- Pošto referenca nije vlasnik ne dolazi do dealokacije prilikom izlaska iz
+  opsega.
+- Operacija obrnuta referenciranju naziva se /dereferenciranje/ i vrši se =*=
+  operatorom nad referencom (npr. =*s2= je vrednost na koju referencira =s2=).
+- Operaciju referenciranja nazivamo pozajmljivanjem (/borrowing/).
+
+#+REVEAL: split
+
+- Takođe, parametar funkcije može biti referenca.
+#+begin_src rust
+fn calculate_length(s: &String) -> usize { // s je referenca na String
+    s.len()
+} // s izlazi iz opsega ali pošto nema vlasništvo nad vrednošću
+  // ništa se ne dešava.
+#+end_src
+
+** Promena pozajmljene vrednosti
+
+Šta se dešava ukoliko pokušamo da modifikujemo pozajmljenu vrednost?
+
+#+begin_src rust
+fn main() {
+    let s = String::from("hello");
+    change(&s);
+}
+
+fn change(some_string: &String) {
+    some_string.push_str(", world");
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&` reference
+ --> src/main.rs:8:5
+  |
+7 | fn change(some_string: &String) {
+  |                        ------- help: consider changing this to be a mutable reference: `&mut String`
+8 |     some_string.push_str(", world");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&` reference, so the data it refers
+  to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+** Promenjive reference
+
+Kao i varijable, i reference su podrazumevano nepromenjiva (/immutable/). Moramo
+biti eksplicitni ukoliko nam treba promenjiva referenca.
+
+#+begin_src rust
+fn main() {
+    let mut s = String::from("hello");
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
+}
+#+end_src
+
+** Više promenjivih referenci nad istom vrednošću
+
+Rust ne dozvoljava da isti podatak u jednom trenutku ima više promenjivih
+referenci.
+
+#+begin_src rust
+let mut s = String::from("hello");
+
+let r1 = &mut s;
+let r2 = &mut s;
+
+println!("{}, {}", r1, r2);
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+ --> src/main.rs:5:14
+  |
+4 |     let r1 = &mut s;
+  |              ------ first mutable borrow occurs here
+5 |     let r2 = &mut s;
+  |              ^^^^^^ second mutable borrow occurs here
+6 |
+7 |     println!("{}, {}", r1, r2);
+  |                        -- first borrow later used here
+
+For more information about this error, try `rustc --explain E0499`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+Ovim ograničenjem Rust, u vreme kompajliranja, sprečava klasu grešaka koje
+dovode do nedefinisanog ponašanja i koje zovemo /data races/. Ove greške se veoma
+teško otkrivaju i otklanjaju i mogu nastati ukoliko su zadovoljeni sledeći
+uslovi:
+
+- Dva ili više pointera pristupaju istim podacima u isto vreme,
+- Bar jedan pointer se koristi za izmenu podatka,
+- Ne postoji mehanizam za sinhronizaciju pristupa.
+
+#+REVEAL: split
+
+Više promenjivih referenci možemo imati ali ne u istom opsegu:
+
+#+begin_src rust
+let mut s = String::from("hello");
+
+{
+    let r1 = &mut s;
+} // r1 ovde izlazi iz opsega tako da možemo krairati nove reference
+
+let r2 = &mut s;
+#+end_src
+
+** Kombinacija promenjivih i nepromenjivih referenci
+
+Slično pravilo postoji i ukoliko imamo kombinaciju promenjivih i nepromenjivih
+referenci:
+
+#+begin_src rust
+let mut s = String::from("hello");
+
+let r1 = &s; // ovo je OK
+let r2 = &s; // ovo je OK
+let r3 = &mut s; // GREŠKA!
+
+println!("{}, {}, and {}", r1, r2, r3);
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+ --> src/main.rs:6:14
+  |
+4 |     let r1 = &s; // no problem
+  |              -- immutable borrow occurs here
+5 |     let r2 = &s; // no problem
+6 |     let r3 = &mut s; // BIG PROBLEM
+  |              ^^^^^^ mutable borrow occurs here
+7 |
+8 |     println!("{}, {}, and {}", r1, r2, r3);
+  |                                -- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+- Ne možemo istovremeno imati nepromenjive i promenjive reference jer korisnici
+  nepromenjivih referenci ne očekuju da se podaci menjaju.
+- Možemo imati više nepromenjivih referenci jer niko ne može da menja podatke i
+  time utiče na druge.
+
+** Opseg važenja reference
+
+Opseg važenja reference počinje od mesta gde je uvedena pa do njene poslednje
+upotrebe. Na primer, ovo je validno:
+
+#+begin_src rust
+let mut s = String::from("hello");
+
+let r1 = &s; // OK
+let r2 = &s; // OK
+println!("{} and {}", r1, r2);
+// varijable r1 i r2 se ne koriste u nastavku pa njihov opseg
+// prestaje da važi.
+
+let r3 = &mut s; // zato je ovo OK
+println!("{}", r3);
+#+end_src
+
+Ova osobina referenci se naziva /Non-Lexical Lifetimes (NLL)/.
+
+** "Viseće" reference
+- U jezicima sa pointerima lako je kreirati pointer na deo memorije koji je dealociran.
+- Rust garantovano sprečava ovakve greške. Reference su uvek validne u Rust-u.
+
+#+begin_src rust
+fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -> &String {
+    let s = String::from("hello");
+
+    &s
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0106]: missing lifetime specifier
+ --> src/main.rs:5:16
+  |
+5 | fn dangle() -> &String {
+  |                ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but there is no value
+  for it to be borrowed from
+help: consider using the `'static` lifetime
+  |
+5 | fn dangle() -> &'static String {
+  |                ~~~~~~~~
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+- Mehanizam koji ovo sprečava naziva se "vreme života" (/lifetime/) i biće
+  detaljnije obrađeno u nastavku.
+- U prevodu Rust nam poručuje:
+
+  #+begin_quote
+  Tip povratne vrednosti ove funkcije je pozajmljena vrednost, ali vrednost koja
+  je pozajmljena posle povratka više ne postoji.
+  #+end_quote
+
+** Šta se tačno desilo
+
+#+begin_src rust
+fn dangle() -> &String { // dangle vraća referencu na String
+
+    let s = String::from("hello"); // s je novi String
+
+    &s // Vraćamo referencu na String s
+} // s izlazi iz opsega i poziva se `drop`. Memorija se oslobađa.
+  // OPASNOST! Vraćena referenca će biti "viseća".
+#+end_src
+
+Kako se može rešiti. Vratićemo posedovanu (/owned/) vrednost, tj uradićemo
+premeštanje vrednosti u funkciju pozivaoca.
+
+#+begin_src rust
+fn no_dangle() -> String {
+    let s = String::from("hello");
+
+    s
+}
+#+end_src
+
+** Pravila referenciranja
+
+1. U svakom trenutku možemo imati ili jednu promenjivu ili proizvoljan broj
+   nepromenjivih referenci.
+1. Reference uvek moraju biti validne.
+
 * Strukture
 * Enumeracije i podudaranje obrazaca (/Pattern Matching/)
 * Moduli

@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-15 Sun 13:50, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-23 Mon 18:11, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -1447,7 +1447,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org953438a">
+<pre class="example" id="org4c22bf6">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1461,8 +1461,6 @@ error[E0308]: mismatched types
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `cargo4UyKF0` due to previous error
 </pre>
-
-
 
 </section>
 <section id="slide-5-5">
@@ -1768,7 +1766,821 @@ LIFTOFF!!!
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6.</span> Vlasništvo i pozamljivanje (<i>Ownership and borrowing</i>)</h2>
+<h2 id="6"><span class="section-number-2">6.</span> Vlasništvo i pozajmljivanje (<i>Ownership and borrowing</i>)</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Vlasništvo</h3>
+<ul>
+<li>Jedan od najvažnijih koncepata jezika.</li>
+<li>Skup pravila koji omogućavaju upravljanje memorijom.</li>
+<li>Garancije za memorijsku sigurnost bez upotrebe <i>garbage collector</i>-a</li>
+<li>Sve provere se obavljaju u vreme kompajliranja - rezultuje odličnim
+performansama u vreme izvršavanja.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Stek i hip (<i>Stack and Heap</i>)</h3>
+<ul>
+<li>Stek - alokacija prostora za podatke čija je veličina poznata u vreme
+kompajliranja.
+<ul>
+<li>Brža alokacija i dealokacija - jednostavan mehanizam, LIFO struktura.</li>
+<li>Brži pristup - lokalne varijable, keširanje pristupa.</li>
+
+</ul></li>
+<li>Hip - slobodna alokacija u vreme izvršavanja.
+<ul>
+<li>Sporija alokacija i dealokacija.</li>
+<li>Sporiji pristup - proizvoljna lokacija.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Pravila vlasništva</h3>
+<ol>
+<li>Svaka vrednost u Rust-u ima varijablu koja se naziva <i>vlasnikom</i> (<i>owner</i>).</li>
+<li>U svakom trenutku postoji samo jedan vlasnik.</li>
+<li>Kada vlasnik izađe iz opsega važenja (<i>scope</i>) vrednost se dealocira (<i>drop</i>).</li>
+
+</ol>
+
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Opseg važenja varijable (<i>Variable Scope</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >{                      // s nije validno ovde jer još nije deklarisano
+    let s = "hello";   // s je validno od ove pozicije
+
+    // koristimo s
+}   // ovde opseg prestaje da važi i s više nije validno
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> <code>String</code> tip</h3>
+<ul>
+<li><p>
+Demonstracija vlasništva nad tipom koji se alocira na hipu.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let mut s = String::from("hello");
+  s.push_str(", world!"); // push_str() dodaje literal na string
+  println!("{}", s); // hello, world!`
+</code></pre>
+</div></li>
+
+<li>Memorija se alocira sa hipa u vreme izvršavanja.</li>
+<li>Moramo vratiti memoriju alokatoru kada nam više nije potrebna.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li><p>
+Alokacija stringa se obavlja na liniji:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let mut s = String::from("hello");
+</code></pre>
+</div></li>
+
+<li>Ali dealokacija je teža:
+<ul>
+<li><i>Garbage collector</i></li>
+<li><i>Memory waste</i></li>
+<li><i>Double-free</i></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>Rust kompajler će dodati kod koji radi dealokaciju kada vlasnik napusti opseg važenja.</li>
+<li><p>
+Poziva se funkcija <code>drop</code> nad tipom i ova funkcija je zadužena da obavi dealokaciju.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  {
+        let s = String::from("hello"); // s postaje validno
+
+        // koristimo s
+  }  // &lt;- s izlazi iz opsega i poziva se "drop"
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Dodela vrednosti</h3>
+<ul>
+<li><p>
+Kopiranje vrednosti <code>x</code> u <code>y</code>. Obe varijable sada imaju vrednost <code>5</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let x = 5;
+  let y = x;
+</code></pre>
+</div></li>
+
+<li><p>
+Ali sa <code>String</code> tipom dešava se nešto drugo.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let s1 = String::from("hello");
+</code></pre>
+</div></li>
+
+</ul>
+
+
+<div id="org8f9f59e" class="figure">
+<p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
+</p>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li><p>
+Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
+(tzv. <i>shallow copy</i>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let s1 = String::from("hello");
+  let s2 = s1;
+</code></pre>
+</div></li>
+
+</ul>
+
+
+<div id="orgde98ea9" class="figure">
+<p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
+</p>
+</div>
+
+<p>
+Što je problematično jer kada i <code>s1</code> i <code>s2</code> napuste opseg pokušaće se dvostruka
+dealokacija iste memorije na hipu (<i>double free</i>).
+</p>
+
+</section>
+<section>
+
+<p>
+Ako bi se i hip memorija kopirala (tzv. <i>deep copy</i>) imali bismo validnu situaciju
+ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
+</p>
+
+
+<div id="org650f4ec" class="figure">
+<p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-6-7">
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Premeštanje (<i>Move</i>)</h3>
+<p>
+Ako probamo da kompajliramo sledeći kod:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let s1 = String::from("hello");
+let s2 = s1;
+
+println!("{}, world!", s1);
+</code></pre>
+</div>
+
+<p>
+Dobićemo grešku:
+</p>
+
+<pre class="example" id="orge50e94b">
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0382]: borrow of moved value: `s1`
+ --&gt; src/main.rs:5:28
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{}, world!", s1);
+  |                            ^^ value borrowed here after move
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `ownership` due to previous error
+</pre>
+
+</section>
+<section>
+
+<p>
+Ono što nam kompajler kaže je da se u iskazu:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let s2 = s1;
+</code></pre>
+</div>
+
+<p>
+promenio vlasnik ovog stringa. Novi vlasnik je sada <code>s2</code> dok je varijabla <code>s1</code>
+postala nevalidna i nije je više moguće koristiti.
+</p>
+
+<p>
+Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <code>s1</code> u <code>s2</code>.
+</p>
+
+
+<div id="org2db72f6" class="figure">
+<p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
+</p>
+</div>
+
+<p>
+Čime se ispunjava prvo pravilo vlasništva i sprečava <i>double free</i> greška.
+</p>
+
+</section>
+<section id="slide-6-8">
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Kloniranje</h3>
+<p>
+Posledica prethodnog je da Rust nikada neće automatski obaviti duboko kopiranje
+varijable jer bi to moglo da izazove loše performanse.
+</p>
+
+<p>
+Duboko kopiranje (stek+hip) radimo sa <code>clone</code> metodom:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let s1 = String::from("hello");
+let s2 = s1.clone();
+
+println!("s1 = {}, s2 = {}", s1, s2);
+</code></pre>
+</div>
+
+<p>
+Sada je lako pronaći u kodu sva mesta gde se obavlja potencijalno &ldquo;skupa&rdquo;
+operacija dubokog kopiranja.
+</p>
+
+</section>
+<section id="slide-6-9">
+<h3 id="6-9"><span class="section-number-3">6.9.</span> <i>Copy</i> tipovi</h3>
+<p>
+Kako onda radi primer koji smo videli prethodno? Zašto ne dolazi do premeštanja
+i invalidacije <code>y</code> varijable?
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let x = 5;
+let y = x;
+
+println!("x = {}, y = {}", x, y);
+</code></pre>
+</div>
+
+<ul>
+<li>Kod prostih tipova čija je veličina poznata u vreme kompajliranja i koji mogu
+u celosti stati na stek nema razlike između dubokog i plitkog kopiranja.</li>
+<li>Ovakvi tipovi su anotirani sa <i>Copy</i> trejtom (<i>Trait</i>). Tipovi koji su na ovaj
+način anotirani ne obavljaju premeštanje već uvek kopiranje.</li>
+<li>Implikacija je da se varijabla sa desne strane dodele može koristiti i nakon
+dodele.</li>
+<li>Rust će sprečiti <i>Copy</i> anotaciju ako tip implementira i <i>Drop</i> jer to znači da
+radi neku specijalnu alokaciju pa mu je potrebna i posebna dealokacija što
+znači da mora da se radi premeštanje.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-10">
+<h3 id="6-10"><span class="section-number-3">6.10.</span> Vlasništvo i funkcije</h3>
+<ul>
+<li>Semantika prenosa parametara kod poziva funkcija je slična semantici dodele.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let s = String::from("hello");  // s postaje validno
+
+    takes_ownership(s);             // s vrednost se premešta u funkciju...
+                                    // ... tako da s nije validno od ove pozicije
+
+    let x = 5;                      // x postaje validno
+
+    makes_copy(x);                  // x bi se premestilo u funkciju,
+                                    // ali i32 je Copy, tako da je ok
+                                    // da se x koristi i posle
+
+} // x izlazi iz opsega, zatim s. Ali pošto je s premešteno ništa posebno se
+  // ne dešava.
+
+fn takes_ownership(some_string: String) { // some_string ulazi u opseg
+    println!("{}", some_string);
+} // some_string izlazi iz opsega i poziva se `drop`. Memorija sa hipa se
+  // oslobađa.
+
+fn makes_copy(some_integer: i32) { // some_integer ulazi u opseg
+    println!("{}", some_integer);
+} // some_integer izlazi iz opsega. Pošto nije 'Drop', ništa posebno se ne
+  // događa (osim "skidanja" sa steka naravno)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-11">
+<h3 id="6-11"><span class="section-number-3">6.11.</span> Povratne vrednosti i opsezi</h3>
+<p>
+Prilikom vraćanja vrednosti iz funkcije takođe može doći do premeštanja vlasništva.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let s1 = gives_ownership();         // gives_ownership premešta povratnu
+                                        // vrednost u s1
+
+    let s2 = String::from("hello");     // s2 postaje validno
+
+    let s3 = takes_and_gives_back(s2);  // s2 se premešta u funkciju
+                                        // takes_and_gives_back, koja premešta
+                                        // povratnu vrednost u s3
+} // s3 izlazi iz opsega i poziva se `drop`. s2 je premeštena pa se ništa
+  // ne dešava. s1 takođe izlazi iz opsega i dealocira se.
+
+fn gives_ownership() -&gt; String {             // gives_ownership će premestiti
+                                             // svoju povratnu vrednost u funkciju
+                                             // koja je poziva
+
+    let some_string = String::from("yours"); // some_string postaje validno
+
+    some_string                              // some_string se premešta
+                                             // u funkciju pozivaoca
+}
+
+// Ova funkcija uzima vlasništvo nad stringom i vraća ga nazad
+fn takes_and_gives_back(a_string: String) -&gt; String { // a_string postaje validno
+
+    a_string  // a_string se premešta u funkciju pozivaoca
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Često nam je potrebno da varijablu koristimo i posle slanja u funkciju.</li>
+<li>Mogli bi je stalo vraćati zajedno sa rezultatom funkcije na primer upotrebom torki.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let s1 = String::from("hello");
+
+    let (s2, len) = calculate_length(s1);
+
+    println!("The length of '{}' is {}.", s2, len);
+}
+
+fn calculate_length(s: String) -&gt; (String, usize) {
+    let length = s.len();
+
+    (s, length)
+}
+</code></pre>
+</div>
+
+<p>
+Ali je to naporno. Postoji koncept u Rust-u koji je namenjen u ovakvim
+situacijama i baziran je na referencama i pozajmljivanju vrednosti.
+</p>
+</section>
+<section id="slide-6-12">
+<h3 id="6-12"><span class="section-number-3">6.12.</span> Reference i pozajmljivanje (<i>References and Borrowing</i>)</h3>
+<ul>
+<li>Referenca je poput pointera, sadrži adresu vrednosti koju poseduje neka druga
+varijabla.</li>
+<li>Za razliku od pointera, reference u Rust-u su garantovano validne.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&amp;s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &amp;String) -&gt; usize {
+    s.len()
+}
+</code></pre>
+</div>
+
+
+<div id="org3d59b56" class="figure">
+<p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-6-13">
+<h3 id="6-13"><span class="section-number-3">6.13.</span> Referenciranje</h3>
+<ul>
+<li><p>
+Primena operatora <code>&amp;</code> nad varijablom nazivamo <i>referenciranje</i>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >  let s1 = String::from("hello");
+  let len = calculate_length(&amp;s1);
+</code></pre>
+</div></li>
+
+<li>Sintaksa <code>&amp;s1</code> nam omogućava da kreiramo referencu na vrednost čiji vlasnik je
+<code>s1</code> bez uzimanja vlasništva.</li>
+<li>Pošto referenca nije vlasnik ne dolazi do dealokacije prilikom izlaska iz
+opsega.</li>
+<li>Operacija obrnuta referenciranju naziva se <i>dereferenciranje</i> i vrši se <code>*</code>
+operatorom nad referencom (npr. <code>*s2</code> je vrednost na koju referencira <code>s2</code>).</li>
+<li>Operaciju referenciranja nazivamo pozajmljivanjem (<i>borrowing</i>).</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>Takođe, parametar funkcije može biti referenca.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn calculate_length(s: &amp;String) -&gt; usize { // s je referenca na String
+    s.len()
+} // s izlazi iz opsega ali pošto nema vlasništvo nad vrednošću
+  // ništa se ne dešava.
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-14">
+<h3 id="6-14"><span class="section-number-3">6.14.</span> Promena pozajmljene vrednosti</h3>
+<p>
+Šta se dešava ukoliko pokušamo da modifikujemo pozajmljenu vrednost?
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let s = String::from("hello");
+    change(&amp;s);
+}
+
+fn change(some_string: &amp;String) {
+    some_string.push_str(", world");
+}
+</code></pre>
+</div>
+
+<pre class="example" id="orgd8a5dd7">
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
+ --&gt; src/main.rs:8:5
+  |
+7 | fn change(some_string: &amp;String) {
+  |                        ------- help: consider changing this to be a mutable reference: `&amp;mut String`
+8 |     some_string.push_str(", world");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `some_string` is a `&amp;` reference, so the data it refers
+  to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `ownership` due to previous error
+</pre>
+
+</section>
+<section id="slide-6-15">
+<h3 id="6-15"><span class="section-number-3">6.15.</span> Promenjive reference</h3>
+<p>
+Kao i varijable, i reference su podrazumevano nepromenjiva (<i>immutable</i>). Moramo
+biti eksplicitni ukoliko nam treba promenjiva referenca.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let mut s = String::from("hello");
+    change(&amp;mut s);
+}
+
+fn change(some_string: &amp;mut String) {
+    some_string.push_str(", world");
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-16">
+<h3 id="6-16"><span class="section-number-3">6.16.</span> Više promenjivih referenci nad istom vrednošću</h3>
+<p>
+Rust ne dozvoljava da isti podatak u jednom trenutku ima više promenjivih
+referenci.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut s = String::from("hello");
+
+let r1 = &amp;mut s;
+let r2 = &amp;mut s;
+
+println!("{}, {}", r1, r2);
+</code></pre>
+</div>
+
+<pre class="example" id="orgfc9cd09">
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0499]: cannot borrow `s` as mutable more than once at a time
+ --&gt; src/main.rs:5:14
+  |
+4 |     let r1 = &amp;mut s;
+  |              ------ first mutable borrow occurs here
+5 |     let r2 = &amp;mut s;
+  |              ^^^^^^ second mutable borrow occurs here
+6 |
+7 |     println!("{}, {}", r1, r2);
+  |                        -- first borrow later used here
+
+For more information about this error, try `rustc --explain E0499`.
+error: could not compile `ownership` due to previous error
+</pre>
+
+</section>
+<section>
+
+<p>
+Ovim ograničenjem Rust, u vreme kompajliranja, sprečava klasu grešaka koje
+dovode do nedefinisanog ponašanja i koje zovemo <i>data races</i>. Ove greške se veoma
+teško otkrivaju i otklanjaju i mogu nastati ukoliko su zadovoljeni sledeći
+uslovi:
+</p>
+
+<ul>
+<li>Dva ili više pointera pristupaju istim podacima u isto vreme,</li>
+<li>Bar jedan pointer se koristi za izmenu podatka,</li>
+<li>Ne postoji mehanizam za sinhronizaciju pristupa.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Više promenjivih referenci možemo imati ali ne u istom opsegu:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut s = String::from("hello");
+
+{
+    let r1 = &amp;mut s;
+} // r1 ovde izlazi iz opsega tako da možemo krairati nove reference
+
+let r2 = &amp;mut s;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-17">
+<h3 id="6-17"><span class="section-number-3">6.17.</span> Kombinacija promenjivih i nepromenjivih referenci</h3>
+<p>
+Slično pravilo postoji i ukoliko imamo kombinaciju promenjivih i nepromenjivih
+referenci:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut s = String::from("hello");
+
+let r1 = &amp;s; // ovo je OK
+let r2 = &amp;s; // ovo je OK
+let r3 = &amp;mut s; // GREŠKA!
+
+println!("{}, {}, and {}", r1, r2, r3);
+</code></pre>
+</div>
+
+<pre class="example" id="orgc446dc8">
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+ --&gt; src/main.rs:6:14
+  |
+4 |     let r1 = &amp;s; // no problem
+  |              -- immutable borrow occurs here
+5 |     let r2 = &amp;s; // no problem
+6 |     let r3 = &amp;mut s; // BIG PROBLEM
+  |              ^^^^^^ mutable borrow occurs here
+7 |
+8 |     println!("{}, {}, and {}", r1, r2, r3);
+  |                                -- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `ownership` due to previous error
+</pre>
+
+</section>
+<section>
+
+<ul>
+<li>Ne možemo istovremeno imati nepromenjive i promenjive reference jer korisnici
+nepromenjivih referenci ne očekuju da se podaci menjaju.</li>
+<li>Možemo imati više nepromenjivih referenci jer niko ne može da menja podatke i
+time utiče na druge.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-18">
+<h3 id="6-18"><span class="section-number-3">6.18.</span> Opseg važenja reference</h3>
+<p>
+Opseg važenja reference počinje od mesta gde je uvedena pa do njene poslednje
+upotrebe. Na primer, ovo je validno:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut s = String::from("hello");
+
+let r1 = &amp;s; // OK
+let r2 = &amp;s; // OK
+println!("{} and {}", r1, r2);
+// varijable r1 i r2 se ne koriste u nastavku pa njihov opseg
+// prestaje da važi.
+
+let r3 = &amp;mut s; // zato je ovo OK
+println!("{}", r3);
+</code></pre>
+</div>
+
+<p>
+Ova osobina referenci se naziva <i>Non-Lexical Lifetimes (NLL)</i>.
+</p>
+
+</section>
+<section id="slide-6-19">
+<h3 id="6-19"><span class="section-number-3">6.19.</span> &ldquo;Viseće&rdquo; reference</h3>
+<ul>
+<li>U jezicima sa pointerima lako je kreirati pointer na deo memorije koji je dealociran.</li>
+<li>Rust garantovano sprečava ovakve greške. Reference su uvek validne u Rust-u.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let reference_to_nothing = dangle();
+}
+
+fn dangle() -&gt; &amp;String {
+    let s = String::from("hello");
+
+    &amp;s
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example" id="org13453b0">
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:5:16
+  |
+5 | fn dangle() -&gt; &amp;String {
+  |                ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but there is no value
+  for it to be borrowed from
+help: consider using the `'static` lifetime
+  |
+5 | fn dangle() -&gt; &amp;'static String {
+  |                ~~~~~~~~
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `ownership` due to previous error
+</pre>
+
+<ul>
+<li>Mehanizam koji ovo sprečava naziva se &ldquo;vreme života&rdquo; (<i>lifetime</i>) i biće
+detaljnije obrađeno u nastavku.</li>
+<li><p>
+U prevodu Rust nam poručuje:
+</p>
+
+<blockquote>
+<p>
+Tip povratne vrednosti ove funkcije je pozajmljena vrednost, ali vrednost koja
+je pozajmljena posle povratka više ne postoji.
+</p>
+</blockquote></li>
+
+</ul>
+
+</section>
+<section id="slide-6-20">
+<h3 id="6-20"><span class="section-number-3">6.20.</span> Šta se tačno desilo</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn dangle() -&gt; &amp;String { // dangle vraća referencu na String
+
+    let s = String::from("hello"); // s je novi String
+
+    &amp;s // Vraćamo referencu na String s
+} // s izlazi iz opsega i poziva se `drop`. Memorija se oslobađa.
+  // OPASNOST! Vraćena referenca će biti "viseća".
+</code></pre>
+</div>
+
+<p>
+Kako se može rešiti. Vratićemo posedovanu (<i>owned</i>) vrednost, tj uradićemo
+premeštanje vrednosti u funkciju pozivaoca.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn no_dangle() -&gt; String {
+    let s = String::from("hello");
+
+    s
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-6-21">
+<h3 id="6-21"><span class="section-number-3">6.21.</span> Pravila referenciranja</h3>
+<ol>
+<li>U svakom trenutku možemo imati ili jednu promenjivu ili proizvoljan broj
+nepromenjivih referenci.</li>
+<li>Reference uvek moraju biti validne.</li>
+
+</ol>
+
 </section>
 </section>
 <section>
