@@ -360,7 +360,6 @@ dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
 cargo doc --open
 #+end_src
 
-
 ** Pokretanje programa
 
 #+begin_src sh
@@ -499,7 +498,6 @@ Fajl =src/main.rs=:
     }
 }
 #+end_src
-
 
 ** Prekid rada
 
@@ -1157,13 +1155,14 @@ fn main() {
 
 * Vlasništvo i pozajmljivanje (/Ownership and borrowing/)
 ** Vlasništvo
+*** Vlasništvo
 - Jedan od najvažnijih koncepata jezika.
 - Skup pravila koji omogućavaju upravljanje memorijom.
 - Garancije za memorijsku sigurnost bez upotrebe /garbage collector/-a
 - Sve provere se obavljaju u vreme kompajliranja - rezultuje odličnim
   performansama u vreme izvršavanja.
 
-** Stek i hip (/Stack and Heap/)
+*** Stek i hip (/Stack and Heap/)
 - Stek - alokacija prostora za podatke čija je veličina poznata u vreme
   kompajliranja.
   - Brža alokacija i dealokacija - jednostavan mehanizam, LIFO struktura.
@@ -1172,12 +1171,12 @@ fn main() {
   - Sporija alokacija i dealokacija.
   - Sporiji pristup - proizvoljna lokacija.
 
-** Pravila vlasništva
+*** Pravila vlasništva
 1. Svaka vrednost u Rust-u ima varijablu koja se naziva /vlasnikom/ (/owner/).
 2. U svakom trenutku postoji samo jedan vlasnik.
 3. Kada vlasnik izađe iz opsega važenja (/scope/) vrednost se dealocira (/drop/).
 
-** Opseg važenja varijable (/Variable Scope/)
+*** Opseg važenja varijable (/Variable Scope/)
 
 #+begin_src rust
 {                      // s nije validno ovde jer još nije deklarisano
@@ -1187,7 +1186,7 @@ fn main() {
 }   // ovde opseg prestaje da važi i s više nije validno
 #+end_src
 
-** =String= tip
+*** =String= tip
 
 - Demonstracija vlasništva nad tipom koji se alocira na hipu.
 
@@ -1226,7 +1225,7 @@ fn main() {
   }  // <- s izlazi iz opsega i poziva se "drop"
   #+end_src
 
-** Dodela vrednosti
+*** Dodela vrednosti
 
 - Kopiranje vrednosti =x= u =y=. Obe varijable sada imaju vrednost =5=.
 
@@ -1271,7 +1270,7 @@ ali bi takva operacija bila veoma "skupa".
 #+ATTR_ORG: :width 300px
 [[./images/string-type-3.png]]
 
-** Premeštanje (/Move/)
+*** Premeštanje (/Move/)
 
 Ako probamo da kompajliramo sledeći kod:
 
@@ -1321,7 +1320,7 @@ Kažemo da se obavilo "premeštanje" (/move/) vrednosti iz =s1= u =s2=.
 
 Čime se ispunjava prvo pravilo vlasništva i sprečava /double free/ greška.
 
-** Kloniranje
+*** Kloniranje
 
 Posledica prethodnog je da Rust nikada neće automatski obaviti duboko kopiranje
 varijable jer bi to moglo da izazove loše performanse.
@@ -1338,7 +1337,7 @@ println!("s1 = {}, s2 = {}", s1, s2);
 Sada je lako pronaći u kodu sva mesta gde se obavlja potencijalno "skupa"
 operacija dubokog kopiranja.
 
-** /Copy/ tipovi
+*** /Copy/ tipovi
 
 Kako onda radi primer koji smo videli prethodno? Zašto ne dolazi do premeštanja
 i invalidacije =y= varijable?
@@ -1360,7 +1359,7 @@ println!("x = {}, y = {}", x, y);
   radi neku specijalnu alokaciju pa mu je potrebna i posebna dealokacija što
   znači da mora da se radi premeštanje.
 
-** Vlasništvo i funkcije
+*** Vlasništvo i funkcije
 
 - Semantika prenosa parametara kod poziva funkcija je slična semantici dodele.
 
@@ -1391,7 +1390,7 @@ fn makes_copy(some_integer: i32) { // some_integer ulazi u opseg
   // događa (osim "skidanja" sa steka naravno)
 #+end_src
 
-** Povratne vrednosti i opsezi
+*** Povratne vrednosti i opsezi
 
 Prilikom vraćanja vrednosti iz funkcije takođe može doći do premeštanja vlasništva.
 
@@ -1449,6 +1448,7 @@ fn calculate_length(s: String) -> (String, usize) {
 Ali je to naporno. Postoji koncept u Rust-u koji je namenjen u ovakvim
 situacijama i baziran je na referencama i pozajmljivanju vrednosti.
 ** Reference i pozajmljivanje (/References and Borrowing/)
+*** Reference i pozajmljivanje (/References and Borrowing/)
 - Referenca je poput pointera, sadrži adresu vrednosti koju poseduje neka druga
   varijabla.
 - Za razliku od pointera, reference u Rust-u su garantovano validne.
@@ -1471,7 +1471,7 @@ fn calculate_length(s: &String) -> usize {
 #+ATTR_ORG: :width 300px
 [[./images/reference.png]]
 
-** Referenciranje
+*** Referenciranje
 
 - Primena operatora =&= nad varijablom nazivamo /referenciranje/.
 
@@ -1498,7 +1498,7 @@ fn calculate_length(s: &String) -> usize { // s je referenca na String
   // ništa se ne dešava.
 #+end_src
 
-** Promena pozajmljene vrednosti
+*** Promena pozajmljene vrednosti
 
 Šta se dešava ukoliko pokušamo da modifikujemo pozajmljenu vrednost?
 
@@ -1529,7 +1529,7 @@ For more information about this error, try `rustc --explain E0596`.
 error: could not compile `ownership` due to previous error
 #+end_example
 
-** Promenjive reference
+*** Promenjive reference
 
 Kao i varijable, i reference su podrazumevano nepromenjiva (/immutable/). Moramo
 biti eksplicitni ukoliko nam treba promenjiva referenca.
@@ -1545,7 +1545,7 @@ fn change(some_string: &mut String) {
 }
 #+end_src
 
-** Više promenjivih referenci nad istom vrednošću
+*** Više promenjivih referenci nad istom vrednošću
 
 Rust ne dozvoljava da isti podatak u jednom trenutku ima više promenjivih
 referenci.
@@ -1602,7 +1602,7 @@ let mut s = String::from("hello");
 let r2 = &mut s;
 #+end_src
 
-** Kombinacija promenjivih i nepromenjivih referenci
+*** Kombinacija promenjivih i nepromenjivih referenci
 
 Slično pravilo postoji i ukoliko imamo kombinaciju promenjivih i nepromenjivih
 referenci:
@@ -1643,7 +1643,7 @@ error: could not compile `ownership` due to previous error
 - Možemo imati više nepromenjivih referenci jer niko ne može da menja podatke i
   time utiče na druge.
 
-** Opseg važenja reference
+*** Opseg važenja reference
 
 Opseg važenja reference počinje od mesta gde je uvedena pa do njene poslednje
 upotrebe. Na primer, ovo je validno:
@@ -1663,7 +1663,7 @@ println!("{}", r3);
 
 Ova osobina referenci se naziva /Non-Lexical Lifetimes (NLL)/.
 
-** "Viseće" reference
+*** "Viseće" reference
 - U jezicima sa pointerima lako je kreirati pointer na deo memorije koji je dealociran.
 - Rust garantovano sprečava ovakve greške. Reference su uvek validne u Rust-u.
 
@@ -1710,7 +1710,7 @@ error: could not compile `ownership` due to previous error
   je pozajmljena posle povratka više ne postoji.
   #+end_quote
 
-** Šta se tačno desilo
+*** Šta se tačno desilo
 
 #+begin_src rust
 fn dangle() -> &String { // dangle vraća referencu na String
@@ -1733,11 +1733,237 @@ fn no_dangle() -> String {
 }
 #+end_src
 
-** Pravila referenciranja
+*** Pravila referenciranja
 
 1. U svakom trenutku možemo imati ili jednu promenjivu ili proizvoljan broj
    nepromenjivih referenci.
 1. Reference uvek moraju biti validne.
+** Isečci (/Slice/ tip)
+*** /Slice/
+- Isečci (/slices/) omogućavaju referenciranje kontinualne sekvence unutar
+  kolekcije umesto cele kolekcije
+
+*** Primer
+Funkcija koja za zadati string vraća prvu reč.
+
+#+begin_src rust
+fn first_word(s: &String) -> usize {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    s.len()
+}
+#+end_src
+
+- Dakle, vraćamo indeks kraja reči. Pozivaoc sada ima potrebne informacije da dođe do tražene reči.
+- Problem: dva podatka koja su u vezi ali moramo tu vezu ručno da održavamo jer
+  nemamo garanciju da će broj koji je vraćen biti validan i u budućnosti (npr.
+  string može da se promeni ili da izađe iz opsega).
+
+#+REVEAL: split
+
+#+begin_src rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s); // word će dobiti vrednost 5
+
+    s.clear(); // string s postaje ""
+
+    // word je i dalje 5 iako to više nije ispravno
+}
+#+end_src
+
+#+REVEAL: split
+
+Problem postaje još ozbiljniji ako npr. napišemo funkciju =second_word= koja vraća
+drugu reč zadatog stringa. Po analogiji sa prethodnim, trebali bi da vratimo
+početak i kraj druge reči.
+
+#+begin_src rust
+fn second_word(s: &String) -> (usize, usize) {
+#+end_src
+
+Sada imamo tri podatka o kojima moramo da vodimo računa.
+
+*** String isečak
+
+Problem rešavamo upotrebom isečaka.
+
+#+begin_src rust
+let s = String::from("hello world");
+
+let hello = &s[0..5];
+let world = &s[6..11];
+#+end_src
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+Sintaksa =s[x..y]= kreira isečak nad sekvencom =s=. S obzirom da ovaj tip (=[T]=) nema
+poznatu veličinu u vreme kompajliranja, ne možemo ga alocirati na steku, odnosno
+ne možemo ga dodeliti lokalnim varijablama ili prosleđivati kao parametar
+funkcije. Zato se u praksi koristi referenca na isečak (=&[T]=) (često se zove i
+/fat pointer/).
+
+Dakle, u praksi mnogo češće srećemo sintaksu =&s[x..y]=.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+attr_html: :style height: 600px;
+#+ATTR_ORG: :width 300px
+[[./images/slice.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+*** Isečci i sintaksa opsega (/range/)
+
+#+begin_src rust
+let s = String::from("hello");
+
+let slice = &s[0..2];
+let slice = &s[..2];
+#+end_src
+
+#+begin_src rust
+let s = String::from("hello");
+
+let len = s.len();
+
+let slice = &s[3..len];
+let slice = &s[3..];
+#+end_src
+
+#+begin_src rust
+let s = String::from("hello");
+
+let len = s.len();
+
+let slice = &s[0..len];
+let slice = &s[..];
+#+end_src
+
+*** Modifikacija primera da koristi string isečke
+
+#+begin_src rust
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
+}
+#+end_src
+
+Isti API i za =second_word=.
+
+#+begin_src rust
+fn second_word(s: &String) -> &str {
+#+end_src
+
+#+REVEAL: split
+
+Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
+#+begin_src rust
+fn main() {
+    let mut s = String::from("hello world");
+
+    let word = first_word(&s);
+
+    s.clear(); // GREŠKA!
+
+    println!("the first word is: {}", word);
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/ownership)
+error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
+  --> src/main.rs:18:5
+   |
+16 |     let word = first_word(&s);
+   |                           -- immutable borrow occurs here
+17 |
+18 |     s.clear(); // error!
+   |     ^^^^^^^^^ mutable borrow occurs here
+19 |
+20 |     println!("the first word is: {}", word);
+   |                                       ---- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `ownership` due to previous error
+#+end_example
+
+Ne samo da je API lakši za upotrebu već je čitava klasa grešaka koje se teško
+otkrivaju eliminisana u vreme kompajliranja.
+
+*** String literali su reference na isečke
+
+#+begin_src rust
+let s = "Hello, world!";
+#+end_src
+
+Tip od =s= je =&str=. =str= je string isečak.
+
+*** String isečci kao parametri funkcija
+
+#+begin_src rust
+fn first_word(s: &String) -> &str {
+#+end_src
+
+Ali će iskusni Rust programeri pisati:
+
+#+begin_src rust
+fn first_word(s: &str) -> &str {
+#+end_src
+
+Jer će ova funkcija moći da se koristi i za =&str= i za =&String=. Ovde se
+upotrebljava tzv. /Deref Coercion/ odnosno mogućnosti tipova da se dereferenciraju
+u drugi tip. Npr. =&String= će se automatski dereferencirati u =&str= ukoliko je to
+potrebno. Operacija je efikasna.
+
+#+REVEAL: split
+
+#+begin_src rust
+fn main() {
+    let my_string = String::from("hello world");
+
+    // `first_word` works on slices of `String`s, whether partial or whole
+    let word = first_word(&my_string[0..6]);
+    let word = first_word(&my_string[..]);
+    // `first_word` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s
+    let word = first_word(&my_string);
+
+    let my_string_literal = "hello world";
+
+    // `first_word` works on slices of string literals, whether partial or whole
+    let word = first_word(&my_string_literal[0..6]);
+    let word = first_word(&my_string_literal[..]);
+
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word = first_word(my_string_literal);
+}
+#+end_src
+
+*** Upotreba isečaka nad drugim strukturama
+
+#+begin_src rust
+let a = [1, 2, 3, 4, 5];
+
+let slice = &a[1..3]; // referenca na isečak tipa &[i32]
+
+assert_eq!(slice, &[2, 3]);
+#+end_src
 
 * Strukture
 * Enumeracije i podudaranje obrazaca (/Pattern Matching/)
@@ -1747,3 +1973,4 @@ fn no_dangle() -> String {
 * Generički tipovi, osobine (/Traits/) i životni vek (/Lifetimes/)
 * Literatura
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
+- Slice is NOT reference, https://github.com/rust-lang/book/issues/3070
