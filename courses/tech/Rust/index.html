@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-24 Tue 12:03, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-25 Wed 17:37, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -1445,7 +1445,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org366125e">
+<pre class="example" id="org8aabde2">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1464,8 +1464,8 @@ error: could not compile `cargo4UyKF0` due to previous error
 <section id="slide-5-5">
 <h3 id="5-5"><span class="section-number-3">5.5.</span> Komentari</h3>
 <p>
-Komentari se pišu posle <code>//</code>. Ne postoji sintaksa za blok komentar kao npr. u
-C/C++. Ovo bi bili validni komentari:
+Komentari se pišu posle <code>//</code> ili u formi blok komentara <code>/*.... */</code> kao i u C++-u.
+Ovo bi bili validni komentari:
 </p>
 <div class="org-src-container">
 
@@ -1480,6 +1480,10 @@ fn main() {
 fn main() {
     // I’m feeling lucky today
     let lucky_number = 7;
+    /* this is block comment
+       which can span multiple lines.
+       Nesting is allowed.
+     */
 }
 </code></pre>
 </div>
@@ -1921,7 +1925,7 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 </ul>
 
 
-<div id="orgd956577" class="figure">
+<div id="orgfc0858c" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1945,7 +1949,7 @@ Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
 </ul>
 
 
-<div id="org87fe531" class="figure">
+<div id="org83e7b33" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -1964,7 +1968,7 @@ ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
 </p>
 
 
-<div id="org30239de" class="figure">
+<div id="orgf6b1cc1" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -1989,7 +1993,7 @@ println!("{}, world!", s1);
 Dobićemo grešku:
 </p>
 
-<pre class="example" id="orgd0aac02">
+<pre class="example" id="orga40fdaa">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2030,7 +2034,7 @@ Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <cod
 </p>
 
 
-<div id="orgd94988d" class="figure">
+<div id="org4854b44" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2234,7 +2238,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org1c52608" class="figure">
+<div id="org183c229" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2300,7 +2304,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org8c11d90">
+<pre class="example" id="org7a83aaf">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2356,7 +2360,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org2f9a9c3">
+<pre class="example" id="org05ab631">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2430,7 +2434,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org21dcdbe">
+<pre class="example" id="orge193cb4">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2513,7 +2517,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org49fb782">
+<pre class="example" id="orge7f85ff">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2701,7 +2705,7 @@ Dakle, u praksi mnogo češće srećemo sintaksu <code>&amp;s[x..y]</code>.
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="orgd049bf7" class="figure">
+<div id="org20fa444" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
@@ -2791,7 +2795,7 @@ Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
 </code></pre>
 </div>
 
-<pre class="example" id="org8355afd">
+<pre class="example" id="org44d1436">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
