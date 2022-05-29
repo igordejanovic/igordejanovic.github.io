@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-25 Wed 17:37, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-29 Sun 17:00, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -1445,7 +1445,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org8aabde2">
+<pre class="example" id="orge065e77">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1925,7 +1925,7 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 </ul>
 
 
-<div id="orgfc0858c" class="figure">
+<div id="org6e0081f" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1949,7 +1949,7 @@ Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
 </ul>
 
 
-<div id="org83e7b33" class="figure">
+<div id="org93954f1" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -1968,7 +1968,7 @@ ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
 </p>
 
 
-<div id="orgf6b1cc1" class="figure">
+<div id="orgea49984" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -1993,7 +1993,7 @@ println!("{}, world!", s1);
 Dobićemo grešku:
 </p>
 
-<pre class="example" id="orga40fdaa">
+<pre class="example" id="org8472244">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2034,7 +2034,7 @@ Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <cod
 </p>
 
 
-<div id="org4854b44" class="figure">
+<div id="org337999e" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2238,7 +2238,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org183c229" class="figure">
+<div id="org114e29f" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2304,7 +2304,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org7a83aaf">
+<pre class="example" id="org0fe4fa5">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2360,7 +2360,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org05ab631">
+<pre class="example" id="org7edd30c">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2434,7 +2434,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="orge193cb4">
+<pre class="example" id="org6c5468a">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2517,7 +2517,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="orge7f85ff">
+<pre class="example" id="orgbb3a205">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2705,7 +2705,7 @@ Dakle, u praksi mnogo češće srećemo sintaksu <code>&amp;s[x..y]</code>.
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="org20fa444" class="figure">
+<div id="orgd26a480" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
@@ -2795,7 +2795,7 @@ Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
 </code></pre>
 </div>
 
-<pre class="example" id="org44d1436">
+<pre class="example" id="org8a0db97">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2909,6 +2909,703 @@ assert_eq!(slice, &amp;[2, 3]);
 <section>
 <section id="slide-8">
 <h2 id="8"><span class="section-number-2">8.</span> Enumeracije i podudaranje obrazaca (<i>Pattern Matching</i>)</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> <i>Enum</i> tip</h3>
+<div class="outline-text-3" id="text-8-1">
+</div>
+</section>
+<section id="slide-8-1-1">
+<h4 id="8-1-1"><span class="section-number-4">8.1.1.</span> <i>Enum</i> tip</h4>
+<ul>
+<li>Definisanje tipa navođenjem svih mogućih varijanti</li>
+<li>Varijanta može da sadrži dodatne podatke</li>
+<li>Slično sa algebarskim tipovima podataka (<i>algebraic data types</i>) u funkcionalnim
+jezicima, npr. F#, OCaml i Haskell-u. Ova vrsta algebarskog tipa je poznata i
+pod nazivom <i>sum type</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-8-1-2">
+<h4 id="8-1-2"><span class="section-number-4">8.1.2.</span> Primer - IP adresa</h4>
+<ul>
+<li>IP adresa predstavlja identifikaciju mrežnih interfejsa u uređajima koji
+komuniciraju posredstvom Internet protokola (<i>Internet Protocol - IP</i>).</li>
+<li>Trenutno imamo u upotrebi staru verziju 4 i novu verziju 6 koja će vremenom
+zameniti verziju 4.</li>
+<li>Verzija 4 je dužine 32 bita i navodi se kao četiri okteta u obliku npr.
+<code>192.0.2.1</code></li>
+<li>Verzija 6 je dužine 128 bita i navodi se kao 8 grupa od po 4 heksa cifre
+razdvojene sa <code>:</code>, npr. <code>2001:db8:0:1234:0:567:8:1</code></li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+U Rust-u možemo pisati sledeće:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum IpAddrKind {
+    V4,
+    V6,
+}
+</code></pre>
+</div>
+
+<p>
+Dok vrednosti možemo kreirati sa:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >let four = IpAddrKind::V4;
+let six = IpAddrKind::V6;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-1-3">
+<h4 id="8-1-3"><span class="section-number-4">8.1.3.</span> Primer - IP adresa - funkcija</h4>
+<p>
+Sada možemo pisati funkciju koja prima ovaj tip čime je moguće proslediti bilo
+koju varijantu kao argument.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn route(ip_kind: IpAddrKind) {}
+
+...
+
+route(IpAddrKind::V4);
+route(IpAddrKind::V6);
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-1-4">
+<h4 id="8-1-4"><span class="section-number-4">8.1.4.</span> Primer - IP adresa - vrednost</h4>
+<ul>
+<li>Ali kako da definišemo konkretnu vrednost IP adrese?</li>
+<li>Prva ideja bi mogla biti da koristimo strukturu.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum IpAddrKind {
+    V4,
+    V6,
+}
+
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
+
+let home = IpAddr {
+    kind: IpAddrKind::V4,
+    address: String::from("127.0.0.1"),
+};
+
+let loopback = IpAddr {
+    kind: IpAddrKind::V6,
+    address: String::from("::1"),
+};
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ali, sa <code>enum</code> tipom možemo to uraditi i bolje. <code>Enum</code> varijante mogu sadržati
+dodatne podatke.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+let home = IpAddr::V4(String::from("127.0.0.1"));
+
+let loopback = IpAddr::V6(String::from("::1"));
+</code></pre>
+</div>
+
+</section>
+<section>
+<p>
+Vrednost sadržana u varijanti ne mora biti ista za sve varijante. Na primer,
+IPv4 se sastoji od 4 okteta i možda želimo da vrednost navodimo i čuvamo u tom
+obliku.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+let home = IpAddr::V4(127, 0, 0, 1);
+
+let loopback = IpAddr::V6(String::from("::1"));
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-1-5">
+<h4 id="8-1-5"><span class="section-number-4">8.1.5.</span> Primer - IP adresa - std biblioteka</h4>
+<p>
+U standardnoj biblioteci možemo pronaći tip <code>IpAddr</code>. Definisan je na sledeći
+način.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-1-6">
+<h4 id="8-1-6"><span class="section-number-4">8.1.6.</span> Primer  - <i>Message</i></h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+<p>
+Sledeće strukture sadrže iste podatke kao prethodni <code>enum</code> tip.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct QuitMessage; // unit struct
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // tuple struct
+struct ChangeColorMessage(i32, i32, i32); // tuple struct
+</code></pre>
+</div>
+
+<p>
+Ali, prednost <code>enum</code> tipa je što je to jedinstven tip pa možemo npr. napraviti
+funkciju koja prima bilo koju vrednost/varijantu ovog tipa.
+</p>
+
+</section>
+<section>
+<p>
+Nad <code>enum</code> tipom možemo implementirati metode upotrebom <code>imlp</code> ključne reči.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >impl Message {
+    fn call(&amp;self) {
+        // telo metode se ovde definiše
+    }
+}
+
+let m = Message::Write(String::from("hello"));
+m.call();
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> <code>Option</code> enumeracija</h3>
+<div class="outline-text-3" id="text-8-2">
+</div>
+</section>
+<section id="slide-8-2-1">
+<h4 id="8-2-1"><span class="section-number-4">8.2.1.</span> <code>Option</code> enumeracija</h4>
+<ul>
+<li>Čest slučaj da vrednost može biti nešto ili ništa.</li>
+<li>Npr. ako funkcija vraća prvi element iz liste koja nije prazna dobićemo prvi
+element, međutim ako je lista prazna povratna vrednost je ništa.</li>
+<li>Ovaj koncept se u različitim jezicima različito implementira. Često se koristi
+specijalna vrednost <code>null</code> (ili <code>nil</code>, <code>none</code> i sl.) i sve varijable mogu biti <code>null</code>
+ili <code>non-null</code>. Problem je što programer ne definiše mogućnost ove vrednosti
+kroz tip pa samim tim kompajler nema mogućnost da proveri da li kod ispravno
+obrađuje ovu mogućnost.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+U prezentaciji iz 2009 godine pod nazivom <i>Null References: The Billion Dollar
+Mistake</i> Tony Hoare, koji je prvi uveo <code>null</code> vrednost kao koncept je napisao
+sledeće:
+</p>
+
+<blockquote>
+<p>
+I call it my billion-dollar mistake. At that time, I was designing the first
+comprehensive type system for references in an object-oriented language. My goal
+was to ensure that all use of references should be absolutely safe, with
+checking performed automatically by the compiler. But I couldn’t resist the
+temptation to put in a null reference, simply because it was so easy to
+implement. This has led to innumerable errors, vulnerabilities, and system
+crashes, which have probably caused a billion dollars of pain and damage in the
+last forty years.
+</p>
+</blockquote>
+
+</section>
+<section>
+
+<p>
+<code>Option</code> je generički <code>enum</code> tip u Rust-u.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Option&lt;T&gt; {
+    None,
+    Some(T),
+}
+</code></pre>
+</div>
+
+<p>
+Primeri upotrebe:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >let some_number = Some(5);           // tip je Option&lt;i32&gt;
+let some_string = Some("a string");  // tip je Option&lt;&amp;str&gt;
+
+let absent_number: Option&lt;i32&gt; = None;    // nemoguć inference
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-2-2">
+<h4 id="8-2-2"><span class="section-number-4">8.2.2.</span> Zašto je <code>Option&lt;T&gt;</code> bolji od <code>null</code>?</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >let x: i8 = 5;
+let y: Option&lt;i8&gt; = Some(5);
+
+let sum = x + y;
+</code></pre>
+</div>
+
+<pre class="example" id="org5e5b6e0">
+$ cargo run
+   Compiling enums v0.1.0 (file:///projects/enums)
+error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
+ --&gt; src/main.rs:5:17
+  |
+5 |     let sum = x + y;
+  |                 ^ no implementation for `i8 + Option&lt;i8&gt;`
+  |
+  = help: the trait `Add&lt;Option&lt;i8&gt;&gt;` is not implemented for `i8`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `enums` due to previous error
+</pre>
+
+</section>
+<section id="slide-8-2-3">
+<h4 id="8-2-3"><span class="section-number-4">8.2.3.</span> Kako obrađivati <code>Option&lt;T&gt;</code> podatke?</h4>
+<ul>
+<li>Moramo eksplicitno obraditi vrednost <code>Option&lt;T&gt;</code> i mogućnost da vrednost bude
+<code>None</code>.</li>
+<li><code>Option&lt;T&gt;</code> tip ima <a href="https://doc.rust-lang.org/stable/std/option/enum.Option.html">bogat API</a> koji je potrebno znati jer je ovaj tip vrlo često
+u upotrebi.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let x = Some(2);
+let y = None;
+assert_eq!(x.or(y), Some(2));
+
+let x = None;
+let y = Some(100);
+assert_eq!(x.or(y), Some(100));
+</code></pre>
+</div>
+
+<ul>
+<li>Često koristimo jezičke konstrukcije koje omogućavaju obradu obe varijante.</li>
+
+</ul>
+
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> <code>match</code> konstrukcija za kontrolu toka</h3>
+<div class="outline-text-3" id="text-8-3">
+</div>
+</section>
+<section id="slide-8-3-1">
+<h4 id="8-3-1"><span class="section-number-4">8.3.1.</span> <code>match</code> izraz</h4>
+<ul>
+<li>Moćan izraz kontrole toka baziran na podudaranju obrazaca (<i>Pattern Matching</i>).</li>
+<li>Obrazac može biti literal, naziv varijable, džoker (<i>wildcards</i>) itd.</li>
+<li><code>match</code> izraz će izvršiti podudaranje uz iscrpljivanje svih mogućnost. Ukoliko
+neka mogućnost nije obrađena kompajler će prijaviti grešku.</li>
+
+</ul>
+
+</section>
+<section id="slide-8-3-2">
+<h4 id="8-3-2"><span class="section-number-4">8.3.2.</span> <code>match</code> kao mašina za sortiranje novčića</h4>
+<p>
+Za početak možemo <code>match</code> izraz posmatrati kao automat za sortiranje novčića.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; 1,
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter =&gt; 25,
+    }
+}
+</code></pre>
+</div>
+
+<ul>
+<li><code>match</code> počinje sa izrazom proizvoljnog tipa.</li>
+<li>U telu se nalaze &ldquo;ruke&rdquo; (<i>arms</i>) gde svaka ruka ima levu stranu koja predstavlja
+obrazac za podudaranje i desnu stranu (posle <code>=&gt;</code>) koja predstavlja kod koji se
+evaluira u slučaju podudaranja. Ruke su razdvojene zarezima.</li>
+<li>Ruke se podudaraju u redosledu navođenja.</li>
+<li>Povratna vrednost celog <code>match</code> izraza biće vrednost evaluiranog koda ruke čije
+je podudaranje uspelo</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Možemo na desnoj strani koristiti proizvoljan izraz pa i blok koda.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; {
+            println!("Lucky penny!");
+            1
+        }
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter =&gt; 25,
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-3-3">
+<h4 id="8-3-3"><span class="section-number-4">8.3.3.</span> Povezivanje imena pri podudaranju (<i>binding</i>)</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    Arizona,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; 1,
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter(state) =&gt; {
+            println!("State quarter from {:?}!", state);
+            25
+        }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-3-4">
+<h4 id="8-3-4"><span class="section-number-4">8.3.4.</span> <code>match</code> je iscrpan</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn value_in_cents(coin: Coin) -&gt; u8 {
+    match coin {
+        Coin::Penny =&gt; 1,
+        Coin::Nickel =&gt; 5,
+        Coin::Dime =&gt; 10,
+        Coin::Quarter(UsState::Alabama) | Coin::Quarter(UsState::Alaska) =&gt; 25
+    }
+}
+</code></pre>
+</div>
+
+<pre class="example" id="orgb10369f">
+$ cargo run
+   Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
+error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
+  --&gt; src/main.rs:21:11
+   |
+13 | / enum Coin {
+14 | |     Penny,
+15 | |     Nickel,
+16 | |     Dime,
+17 | |     Quarter(UsState),
+   | |     ------- not covered
+18 | | }
+   | |_- `Coin` defined here
+...
+21 |       match coin {
+   |             ^^^^ pattern `Quarter(Arizona)` not covered
+   |
+   = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
+   = note: the matched value is of type `Coin`
+</pre>
+
+</section>
+<section id="slide-8-3-5">
+<h4 id="8-3-5"><span class="section-number-4">8.3.5.</span> Podudaranje sa <code>Option&lt;T&gt;</code> tipom</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
+    match x {
+        None =&gt; None,
+        Some(i) =&gt; Some(i + 1),
+    }
+}
+
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Pošto je <code>match</code> iscrpan ne možemo zaboraviti da obradimo <code>None</code> slučaj.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
+    match x {
+        Some(i) =&gt; Some(i + 1),
+    }
+}
+</code></pre>
+</div>
+
+<pre class="example" id="org9397889">
+$ cargo run
+   Compiling enums v0.1.0 (file:///projects/enums)
+error[E0004]: non-exhaustive patterns: `None` not covered
+   --&gt; src/main.rs:3:15
+    |
+3   |         match x {
+    |               ^ pattern `None` not covered
+    |
+    = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
+    = note: the matched value is of type `Option&lt;i32&gt;`
+
+For more information about this error, try `rustc --explain E0004`.
+error: could not compile `enums` due to previous error
+</pre>
+
+</section>
+<section id="slide-8-3-6">
+<h4 id="8-3-6"><span class="section-number-4">8.3.6.</span> Podrazumevana obrada preostalih slučajeva</h4>
+<ul>
+<li>Želimo na specifičan način obradimo samo nekoliko slučajeva dok za sve ostale
+radimo podrazumevanu obradu.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let dice_roll = 9;
+match dice_roll {
+    3 =&gt; add_fancy_hat(),
+    7 =&gt; remove_fancy_hat(),
+    other =&gt; move_player(other),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
+</code></pre>
+</div>
+
+<ul>
+<li>Rust će nas upozoriti ako dodamo ruku posle one koja obrađuje sve slučajeve
+jer ta se ruka nikada neće upotrebiti.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Ako želimo da obradimo sve slučajeve ali nas vrednost ne interesuje možemo
+koristiti <code>_</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let dice_roll = 9;
+match dice_roll {
+    3 =&gt; add_fancy_hat(),
+    7 =&gt; remove_fancy_hat(),
+    _ =&gt; reroll(),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn reroll() {}
+</code></pre>
+</div>
+</section>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4.</span> <code>if let</code> kontrola toka</h3>
+<p>
+<code>if let</code> nam omogućava kombinaciju <code>if</code> i <code>let</code> iskaze u manje opširan iskaz za obradu
+samo jednog slučaja poklapanja i ignorisanje ostalih.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let config_max = Some(3u8);
+match config_max {
+    Some(max) =&gt; println!("The maximum is configured to be {}", max),
+    _ =&gt; (),
+}
+</code></pre>
+</div>
+
+<p>
+Ovo možemo konciznije iskazati sa:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let config_max = Some(3u8);
+if let Some(max) = config_max {
+    println!("The maximum is configured to be {}", max);
+}
+</code></pre>
+</div>
+
+<ul>
+<li>Gubimo iscrpnost <code>match</code> izraza.</li>
+<li>Sintaksni šećer u situacijama kada želimo da ignorišemo ostale mogućnosti.</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="note" id="orgaeb2fd1">
+<p>
+Obrasci za podudaranje <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">mogu imati dve forme</a>: poništiv (<i>refutable</i>) i neponištiv
+(<i>irrefutable</i>). Obrazac koji uvek mora uspeti (npr. <code>let x = 5;</code>) je neponištiv.
+Obrazac koji ne mora da uspe uvek je poništiv (npr. <code>if let Some(x) = a_value</code>
+neće uspeti za <code>a_value==None</code>).
+</p>
+
+<p>
+Parametri funkcija, <code>let</code> iskazi i <code>for</code> petlje prihvataju samo neponištive obrasce
+jer program ne može uraditi ništa smisleno ukoliko podudaranje ne uspe.
+</p>
+
+<p>
+<code>if let</code> i <code>while let</code> prihvataju i poništive i neponištive obrasce ali će nas
+kompajler upozoriti ukoliko koristimo neponištive.
+</p>
+
+</div>
+
+</section>
+<section>
+<p>
+Možemo koristiti i <code>else</code> granu. Sledeće je ekvivalentno.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut count = 0;
+match coin {
+    Coin::Quarter(state) =&gt; println!("State quarter from {:?}!", state),
+    _ =&gt; count += 1,
+}
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let mut count = 0;
+if let Coin::Quarter(state) = coin {
+    println!("State quarter from {:?}!", state);
+} else {
+    count += 1;
+}
+</code></pre>
+</div>
+
 </section>
 </section>
 <section>
@@ -2937,6 +3634,7 @@ assert_eq!(slice, &amp;[2, 3]);
 <ul>
 <li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
 <li>Slice is NOT reference, <a href="https://github.com/rust-lang/book/issues/3070">https://github.com/rust-lang/book/issues/3070</a></li>
+<li><a href="https://rust-lang.github.io/rfcs/0505-api-comment-conventions.html">RFC 505: API documentation conventions</a></li>
 
 </ul>
 </section>

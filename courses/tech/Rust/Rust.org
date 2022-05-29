@@ -1971,6 +1971,526 @@ assert_eq!(slice, &[2, 3]);
 
 * Strukture
 * Enumeracije i podudaranje obrazaca (/Pattern Matching/)
+** /Enum/ tip
+*** /Enum/ tip
+- Definisanje tipa navođenjem svih mogućih varijanti
+- Varijanta može da sadrži dodatne podatke
+- Slično sa algebarskim tipovima podataka (/algebraic data types/) u funkcionalnim
+  jezicima, npr. F#, OCaml i Haskell-u. Ova vrsta algebarskog tipa je poznata i
+  pod nazivom /sum type/.
+
+*** Primer - IP adresa
+- IP adresa predstavlja identifikaciju mrežnih interfejsa u uređajima koji
+  komuniciraju posredstvom Internet protokola (/Internet Protocol - IP/).
+- Trenutno imamo u upotrebi staru verziju 4 i novu verziju 6 koja će vremenom
+  zameniti verziju 4.
+- Verzija 4 je dužine 32 bita i navodi se kao četiri okteta u obliku npr.
+  =192.0.2.1=
+- Verzija 6 je dužine 128 bita i navodi se kao 8 grupa od po 4 heksa cifre
+  razdvojene sa =:=, npr. =2001:db8:0:1234:0:567:8:1=
+
+#+REVEAL: split
+
+U Rust-u možemo pisati sledeće:
+
+#+begin_src rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+#+end_src
+
+Dok vrednosti možemo kreirati sa:
+#+begin_src rust
+let four = IpAddrKind::V4;
+let six = IpAddrKind::V6;
+#+end_src
+
+*** Primer - IP adresa - funkcija
+
+Sada možemo pisati funkciju koja prima ovaj tip čime je moguće proslediti bilo
+koju varijantu kao argument.
+
+#+begin_src rust
+fn route(ip_kind: IpAddrKind) {}
+
+...
+
+route(IpAddrKind::V4);
+route(IpAddrKind::V6);
+#+end_src
+
+*** Primer - IP adresa - vrednost
+
+- Ali kako da definišemo konkretnu vrednost IP adrese?
+- Prva ideja bi mogla biti da koristimo strukturu.
+
+#+begin_src rust
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
+
+let home = IpAddr {
+    kind: IpAddrKind::V4,
+    address: String::from("127.0.0.1"),
+};
+
+let loopback = IpAddr {
+    kind: IpAddrKind::V6,
+    address: String::from("::1"),
+};
+#+end_src
+
+#+REVEAL: split
+
+Ali, sa =enum= tipom možemo to uraditi i bolje. =Enum= varijante mogu sadržati
+dodatne podatke.
+
+#+begin_src rust
+enum IpAddr {
+    V4(String),
+    V6(String),
+}
+
+let home = IpAddr::V4(String::from("127.0.0.1"));
+
+let loopback = IpAddr::V6(String::from("::1"));
+#+end_src
+
+#+REVEAL: split
+Vrednost sadržana u varijanti ne mora biti ista za sve varijante. Na primer,
+IPv4 se sastoji od 4 okteta i možda želimo da vrednost navodimo i čuvamo u tom
+obliku.
+
+#+begin_src rust
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+let home = IpAddr::V4(127, 0, 0, 1);
+
+let loopback = IpAddr::V6(String::from("::1"));
+#+end_src
+
+*** Primer - IP adresa - std biblioteka
+
+U standardnoj biblioteci možemo pronaći tip =IpAddr=. Definisan je na sledeći
+način.
+
+#+begin_src rust
+struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+#+end_src
+
+*** Primer  - /Message/
+
+#+begin_src rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+#+end_src
+
+#+REVEAL: split
+Sledeće strukture sadrže iste podatke kao prethodni =enum= tip.
+
+#+begin_src rust
+struct QuitMessage; // unit struct
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // tuple struct
+struct ChangeColorMessage(i32, i32, i32); // tuple struct
+#+end_src
+
+Ali, prednost =enum= tipa je što je to jedinstven tip pa možemo npr. napraviti
+funkciju koja prima bilo koju vrednost/varijantu ovog tipa.
+
+#+REVEAL: split
+Nad =enum= tipom, kao i drugim tipovima, možemo implementirati metode upotrebom
+=imlp= ključne reči.
+
+#+begin_src rust
+impl Message {
+    fn call(&self) {
+        // telo metode se ovde definiše
+    }
+}
+
+let m = Message::Write(String::from("hello"));
+m.call();
+#+end_src
+
+** =Option= enumeracija
+*** =Option= enumeracija
+
+- Čest slučaj da vrednost može biti nešto ili ništa.
+- Npr. ako funkcija vraća prvi element iz liste koja nije prazna dobićemo prvi
+  element, međutim ako je lista prazna povratna vrednost je ništa.
+- Ovaj koncept se u različitim jezicima različito implementira. Često se koristi
+  specijalna vrednost =null= (ili =nil=, =none= i sl.) i sve varijable mogu biti =null=
+  ili =non-null=. Problem je što programer ne definiše mogućnost ove vrednosti
+  kroz tip pa samim tim kompajler nema mogućnost da proveri da li kod ispravno
+  obrađuje ovu mogućnost.
+
+#+REVEAL: split
+
+U prezentaciji iz 2009 godine pod nazivom /Null References: The Billion Dollar
+Mistake/ Tony Hoare, koji je prvi uveo =null= vrednost kao koncept je napisao
+sledeće:
+
+#+begin_quote
+I call it my billion-dollar mistake. At that time, I was designing the first
+comprehensive type system for references in an object-oriented language. My goal
+was to ensure that all use of references should be absolutely safe, with
+checking performed automatically by the compiler. But I couldn’t resist the
+temptation to put in a null reference, simply because it was so easy to
+implement. This has led to innumerable errors, vulnerabilities, and system
+crashes, which have probably caused a billion dollars of pain and damage in the
+last forty years.
+#+end_quote
+
+#+REVEAL: split
+
+=Option= je generički =enum= tip u Rust-u.
+#+begin_src rust
+enum Option<T> {
+    None,
+    Some(T),
+}
+#+end_src
+
+Primeri upotrebe:
+#+begin_src rust
+let some_number = Some(5);           // tip je Option<i32>
+let some_string = Some("a string");  // tip je Option<&str>
+
+let absent_number: Option<i32> = None;    // nemoguć inference
+#+end_src
+
+*** Zašto je =Option<T>= bolji od =null=?
+
+#+begin_src rust
+let x: i8 = 5;
+let y: Option<i8> = Some(5);
+
+let sum = x + y;
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling enums v0.1.0 (file:///projects/enums)
+error[E0277]: cannot add `Option<i8>` to `i8`
+ --> src/main.rs:5:17
+  |
+5 |     let sum = x + y;
+  |                 ^ no implementation for `i8 + Option<i8>`
+  |
+  = help: the trait `Add<Option<i8>>` is not implemented for `i8`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `enums` due to previous error
+#+end_example
+
+*** Kako obrađivati =Option<T>= podatke?
+
+- Moramo eksplicitno obraditi vrednost =Option<T>= i mogućnost da vrednost bude
+  =None=.
+- =Option<T>= tip ima [[https://doc.rust-lang.org/stable/std/option/enum.Option.html][bogat API]] koji je potrebno znati jer je ovaj tip vrlo često
+  u upotrebi.
+
+#+begin_src rust
+let x = Some(2);
+let y = None;
+assert_eq!(x.or(y), Some(2));
+
+let x = None;
+let y = Some(100);
+assert_eq!(x.or(y), Some(100));
+#+end_src
+
+- Često koristimo jezičke konstrukcije koje omogućavaju obradu obe varijante.
+
+** =match= konstrukcija za kontrolu toka
+*** =match= izraz
+- Moćan izraz kontrole toka baziran na podudaranju obrazaca (/Pattern Matching/).
+- Obrazac može biti literal, naziv varijable, džoker (/wildcards/) itd.
+- =match= izraz će izvršiti podudaranje uz iscrpljivanje svih mogućnost. Ukoliko
+  neka mogućnost nije obrađena kompajler će prijaviti grešku.
+
+*** =match= kao mašina za sortiranje novčića
+Za početak možemo =match= izraz posmatrati kao automat za sortiranje novčića.
+
+#+begin_src rust
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+#+end_src
+
+- =match= počinje sa izrazom proizvoljnog tipa.
+- U telu se nalaze "ruke" (/arms/) gde svaka ruka ima levu stranu koja predstavlja
+  obrazac za podudaranje i desnu stranu (posle ~=>~) koja predstavlja kod koji se
+  evaluira u slučaju podudaranja. Ruke su razdvojene zarezima.
+- Ruke se podudaraju u redosledu navođenja.
+- Povratna vrednost celog =match= izraza biće vrednost evaluiranog koda ruke čije
+  je podudaranje uspelo
+
+#+REVEAL: split
+
+Možemo na desnoj strani koristiti proizvoljan izraz pa i blok koda.
+#+begin_src rust
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => {
+            println!("Lucky penny!");
+            1
+        }
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
+}
+#+end_src
+
+*** Povezivanje imena pri podudaranju (/binding/)
+
+#+begin_src rust
+#[derive(Debug)]
+enum UsState {
+    Alabama,
+    Alaska,
+    Arizona,
+    // --snip--
+}
+
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter(UsState),
+}
+
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(state) => {
+            println!("State quarter from {:?}!", state);
+            25
+        }
+    }
+}
+#+end_src
+
+*** =match= je iscrpan
+
+#+begin_src rust
+fn value_in_cents(coin: Coin) -> u8 {
+    match coin {
+        Coin::Penny => 1,
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter(UsState::Alabama) | Coin::Quarter(UsState::Alaska) => 25
+    }
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
+error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
+  --> src/main.rs:21:11
+   |
+13 | / enum Coin {
+14 | |     Penny,
+15 | |     Nickel,
+16 | |     Dime,
+17 | |     Quarter(UsState),
+   | |     ------- not covered
+18 | | }
+   | |_- `Coin` defined here
+...
+21 |       match coin {
+   |             ^^^^ pattern `Quarter(Arizona)` not covered
+   |
+   = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
+   = note: the matched value is of type `Coin`
+#+end_example
+
+*** Podudaranje sa =Option<T>= tipom
+
+#+begin_src rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+let five = Some(5);
+let six = plus_one(five);
+let none = plus_one(None);
+#+end_src
+
+#+REVEAL: split
+
+Pošto je =match= iscrpan ne možemo zaboraviti da obradimo =None= slučaj.
+
+#+begin_src rust
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        Some(i) => Some(i + 1),
+    }
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling enums v0.1.0 (file:///projects/enums)
+error[E0004]: non-exhaustive patterns: `None` not covered
+   --> src/main.rs:3:15
+    |
+3   |         match x {
+    |               ^ pattern `None` not covered
+    |
+    = help: ensure that all possible cases are being handled, possibly by adding wildcards or more match arms
+    = note: the matched value is of type `Option<i32>`
+
+For more information about this error, try `rustc --explain E0004`.
+error: could not compile `enums` due to previous error
+#+end_example
+
+*** Podrazumevana obrada preostalih slučajeva
+
+- Želimo na specifičan način obradimo samo nekoliko slučajeva dok za sve ostale
+  radimo podrazumevanu obradu.
+
+#+begin_src rust
+let dice_roll = 9;
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    other => move_player(other),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn move_player(num_spaces: u8) {}
+#+end_src
+
+- Rust će nas upozoriti ako dodamo ruku posle one koja obrađuje sve slučajeve
+  jer ta se ruka nikada neće upotrebiti.
+
+#+REVEAL: split
+
+Ako želimo da obradimo sve slučajeve ali nas vrednost ne interesuje možemo
+koristiti =_=.
+
+#+begin_src rust
+let dice_roll = 9;
+match dice_roll {
+    3 => add_fancy_hat(),
+    7 => remove_fancy_hat(),
+    _ => reroll(),
+}
+
+fn add_fancy_hat() {}
+fn remove_fancy_hat() {}
+fn reroll() {}
+#+end_src
+** =if let= kontrola toka
+
+=if let= nam omogućava kombinaciju =if= i =let= iskaze u manje opširan iskaz za obradu
+samo jednog slučaja poklapanja i ignorisanje ostalih.
+
+#+begin_src rust
+let config_max = Some(3u8);
+match config_max {
+    Some(max) => println!("The maximum is configured to be {}", max),
+    _ => (),
+}
+#+end_src
+
+Ovo možemo konciznije iskazati sa:
+
+#+begin_src rust
+let config_max = Some(3u8);
+if let Some(max) = config_max {
+    println!("The maximum is configured to be {}", max);
+}
+#+end_src
+
+- Gubimo iscrpnost =match= izraza.
+- Sintaksni šećer u situacijama kada želimo da ignorišemo ostale mogućnosti.
+
+#+REVEAL: split
+
+#+begin_note
+Obrasci za podudaranje [[https://doc.rust-lang.org/book/ch18-02-refutability.html][mogu imati dve forme]]: poništiv (/refutable/) i neponištiv
+(/irrefutable/). Obrazac koji uvek mora uspeti (npr. =let x = 5;=) je neponištiv.
+Obrazac koji ne mora da uspe uvek je poništiv (npr. =if let Some(x) = a_value=
+neće uspeti za ~a_value==None~).
+
+Parametri funkcija, =let= iskazi i =for= petlje prihvataju samo neponištive obrasce
+jer program ne može uraditi ništa smisleno ukoliko podudaranje ne uspe.
+
+=if let= i =while let= prihvataju i poništive i neponištive obrasce ali će nas
+kompajler upozoriti ukoliko koristimo neponištive.
+#+end_note
+
+#+REVEAL: split
+Možemo koristiti i =else= granu. Sledeće je ekvivalentno.
+
+#+begin_src rust
+let mut count = 0;
+match coin {
+    Coin::Quarter(state) => println!("State quarter from {:?}!", state),
+    _ => count += 1,
+}
+#+end_src
+
+#+begin_src rust
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+    println!("State quarter from {:?}!", state);
+} else {
+    count += 1;
+}
+#+end_src
+
 * Moduli
 * Kolekcije
 * Obrada grešaka
@@ -1978,3 +2498,4 @@ assert_eq!(slice, &[2, 3]);
 * Literatura
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - Slice is NOT reference, https://github.com/rust-lang/book/issues/3070
+- [[https://rust-lang.github.io/rfcs/0505-api-comment-conventions.html][RFC 505: API documentation conventions]]
