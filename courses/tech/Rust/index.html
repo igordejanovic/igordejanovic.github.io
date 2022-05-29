@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-29 Sun 17:00, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-29 Sun 19:22, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -1445,7 +1445,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="orge065e77">
+<pre class="example" id="org73176e9">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1925,7 +1925,7 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 </ul>
 
 
-<div id="org6e0081f" class="figure">
+<div id="orgb8b5671" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1949,7 +1949,7 @@ Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
 </ul>
 
 
-<div id="org93954f1" class="figure">
+<div id="org2a4cac0" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -1968,7 +1968,7 @@ ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
 </p>
 
 
-<div id="orgea49984" class="figure">
+<div id="org856aa3b" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -1993,7 +1993,7 @@ println!("{}, world!", s1);
 Dobićemo grešku:
 </p>
 
-<pre class="example" id="org8472244">
+<pre class="example" id="orgdc1cb2b">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2034,7 +2034,7 @@ Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <cod
 </p>
 
 
-<div id="org337999e" class="figure">
+<div id="orgf1aa15a" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2238,7 +2238,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org114e29f" class="figure">
+<div id="org680ece4" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2304,7 +2304,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org0fe4fa5">
+<pre class="example" id="org1e4393b">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2360,7 +2360,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org7edd30c">
+<pre class="example" id="org08490c2">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2434,7 +2434,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org6c5468a">
+<pre class="example" id="org7d082d7">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2517,7 +2517,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="orgbb3a205">
+<pre class="example" id="org948fa38">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2705,7 +2705,7 @@ Dakle, u praksi mnogo češće srećemo sintaksu <code>&amp;s[x..y]</code>.
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="orgd26a480" class="figure">
+<div id="org9e1b9ca" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
@@ -2795,7 +2795,7 @@ Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
 </code></pre>
 </div>
 
-<pre class="example" id="org8a0db97">
+<pre class="example" id="orgd5c332d">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3128,7 +3128,8 @@ funkciju koja prima bilo koju vrednost/varijantu ovog tipa.
 </section>
 <section>
 <p>
-Nad <code>enum</code> tipom možemo implementirati metode upotrebom <code>imlp</code> ključne reči.
+Nad <code>enum</code> tipom, kao i drugim tipovima, možemo implementirati metode upotrebom
+<code>imlp</code> ključne reči.
 </p>
 
 <div class="org-src-container">
@@ -3225,7 +3226,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="org5e5b6e0">
+<pre class="example" id="org0a16cbe">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3394,7 +3395,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="orgb10369f">
+<pre class="example" id="org1e66579">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3451,7 +3452,7 @@ Pošto je <code>match</code> iscrpan ne možemo zaboraviti da obradimo <code>Non
 </code></pre>
 </div>
 
-<pre class="example" id="org9397889">
+<pre class="example" id="org279ccb2">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -3559,7 +3560,7 @@ if let Some(max) = config_max {
 </section>
 <section>
 
-<div class="note" id="orgaeb2fd1">
+<div class="note" id="org9bf0693">
 <p>
 Obrasci za podudaranje <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">mogu imati dve forme</a>: poništiv (<i>refutable</i>) i neponištiv
 (<i>irrefutable</i>). Obrazac koji uvek mora uspeti (npr. <code>let x = 5;</code>) je neponištiv.
@@ -3626,6 +3627,995 @@ if let Coin::Quarter(state) = coin {
 <section>
 <section id="slide-12">
 <h2 id="12"><span class="section-number-2">12.</span> Generički tipovi, osobine (<i>Traits</i>) i životni vek (<i>Lifetimes</i>)</h2>
+<div class="outline-text-2" id="text-12">
+</div>
+</section>
+<section id="slide-12-1">
+<h3 id="12-1"><span class="section-number-3">12.1.</span> Generički tipovi (<i>generics</i>)</h3>
+<div class="outline-text-3" id="text-12-1">
+</div>
+</section>
+<section id="slide-12-1-1">
+<h4 id="12-1-1"><span class="section-number-4">12.1.1.</span> Generički tipovi (<i>generics</i>)</h4>
+<ul>
+<li>Mehanizam za eliminaciju dupliranja koda.</li>
+<li>Generički tipovi su apstraktne zamene za konkretne tipove u druge osobine u
+vreme izvršavanja.</li>
+<li>Omogućavaju nam da na apstraktan način iskažemo osobine tipova i njihove veze
+sa drugim tipovima bez znanja o tome koji će se konkretni tipovi naći na
+njihovom mestu u vreme kompajliranja i izvršavanja koda.</li>
+<li>Na primer funkcije mogu primiti generičke parametre. Takođe, složeni tipovi
+mogu biti parametrizovani generičkim tipovima (primer je <code>Option&lt;T&gt;</code>).</li>
+
+</ul>
+
+</section>
+<section id="slide-12-1-2">
+<h4 id="12-1-2"><span class="section-number-4">12.1.2.</span> Uklanjanje duplog koda upotrebom funkcija</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest(list: &amp;[i32]) -&gt; i32 {
+    let mut largest = list[0];
+
+    for &amp;item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+}
+</code></pre>
+</div>
+
+
+</section>
+<section>
+
+<p>
+Postupak eliminacije duplog koda je podrazumevao sledeće:
+</p>
+
+<ol>
+<li>Identifikacija duplog koda.</li>
+<li>Ekstrakcija koda u funkciju, definisanje parametara i povratne vrednosti.</li>
+<li>Zamena instanci duplog koda sa pozivom funkcije.</li>
+
+</ol>
+
+</section>
+<section id="slide-12-1-3">
+<h4 id="12-1-3"><span class="section-number-4">12.1.3.</span> Uklanjanje duplog koda upotrebom generičkih funkcija</h4>
+<p>
+Imamo funkciju za pronalaženje najvećeg elementa u listi sa različitim tipovima.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest_i32(list: &amp;[i32]) -&gt; i32 {
+    let mut largest = list[0];
+    for &amp;item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn largest_char(list: &amp;[char]) -&gt; char {
+    let mut largest = list[0];
+    for &amp;item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest_i32(&amp;number_list);
+    println!("The largest number is {}", result);
+    let char_list = vec!['y', 'm', 'a', 'q'];
+    let result = largest_char(&amp;char_list);
+    println!("The largest char is {}", result);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Funkcije su gotovo identične. Razlika je samo u tipu. Pišemo generičku funkciju
+tako što definišemo generički tip unutar <code>&lt;&gt;</code> posle naziva funkcije:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
+</code></pre>
+</div>
+
+<p>
+<code>T</code> je generički tip i u vreme kompajliranja biće zamenjen sa konkretnim tipom.
+</p>
+
+</section>
+<section>
+
+<p>
+Sada je naš kod sledeći:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest&lt;T&gt;(list: &amp;[T]) -&gt; T {
+    let mut largest = list[0];
+
+    for &amp;item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!("The largest char is {}", result);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ali se ne kompajlira.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `&gt;` cannot be applied to type `T`
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` due to previous error
+</code></pre>
+</div>
+
+<p>
+Tip <code>T</code> može biti bilo koji tip pa i tip koji ne definiše operaciju <code>&gt;</code> koja se
+koristi u kodu. Dakle, moramo ograničiti koji tipovi su mogući.
+</p>
+
+<p>
+Videćemo kako se ovo radi u nastavku u priči o osobinama (<i>Traits</i>).
+</p>
+
+</section>
+<section id="slide-12-1-4">
+<h4 id="12-1-4"><span class="section-number-4">12.1.4.</span> Generički tipovi u strukturama</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Tipovi oba polja moraju biti isti.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let wont_work = Point { x: 5, y: 4.0 };
+}
+</code></pre>
+</div>
+
+<pre class="example" id="orga8dadea">
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0308]: mismatched types
+ --&gt; src/main.rs:7:38
+  |
+7 |     let wont_work = Point { x: 5, y: 4.0 };
+  |                                      ^^^ expected integer, found floating-point number
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `chapter10` due to previous error
+</pre>
+
+</section>
+<section>
+
+<p>
+Ako želimo da polja imaju različite tipove onda moramo imati različite generičke tipove.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+fn main() {
+    let both_integer = Point { x: 5, y: 10 };
+    let both_float = Point { x: 1.0, y: 4.0 };
+    let integer_and_float = Point { x: 5, y: 4.0 };
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-1-5">
+<h4 id="12-1-5"><span class="section-number-4">12.1.5.</span> Generički tipovi u enumeracijama</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-1-6">
+<h4 id="12-1-6"><span class="section-number-4">12.1.6.</span> Definicije metoda</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn x(&amp;self) -&gt; &amp;T {
+        &amp;self.x
+    }
+}
+
+fn main() {
+    let p = Point { x: 5, y: 10 };
+
+    println!("p.x = {}", p.x());
+}
+</code></pre>
+</div>
+
+<p>
+Pošto smo naveli <code>&lt;T&gt;</code> iza ključne reči <code>impl</code> Rust dalje zna da je tip <code>T</code> generički
+a ne konkretni tip tako da je metoda <code>x</code> za <code>Point&lt;T&gt;</code> definisana nad svim tipovima
+<code>T</code>.
+</p>
+
+</section>
+<section>
+
+<p>
+Mogli smo npr. metodu definisati samo za određeni <code>Point</code> tip.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >impl Point&lt;f32&gt; {
+    fn distance_from_origin(&amp;self) -&gt; f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+</code></pre>
+</div>
+
+<p>
+Ovaj <code>impl</code> blok definiše metodu <code>distance_from_origin</code> ali samo za <code>Point&lt;f32&gt;</code> dok
+ostali <code>Point</code> tipovi neće imati ovu metodu.
+</p>
+
+</section>
+<section id="slide-12-1-7">
+<h4 id="12-1-7"><span class="section-number-4">12.1.7.</span> Generički tipovi u metodama i <code>impl</code> blokovima</h4>
+<p>
+Generički tipovi u strukturama i metodama ne moraju biti isti. Na primer, možemo
+kreirati metodu <code>mixup</code> koja uzima dve instance <code>Point</code> i vraća novi <code>Point</code> tip gde
+će prvo polje imati isti tip kao prva tačka a drugo polje kao druga tačka.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Point&lt;X1, Y1&gt; {
+    x: X1,
+    y: Y1,
+}
+
+impl&lt;X1, Y1&gt; Point&lt;X1, Y1&gt; {
+    fn mixup&lt;X2, Y2&gt;(self, other: Point&lt;X2, Y2&gt;) -&gt; Point&lt;X1, Y2&gt; {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
+    let p3 = p1.mixup(p2);
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+}
+</code></pre>
+</div>
+
+<ul>
+<li>Generički tipovi <code>X2</code> i <code>Y2</code> su navedeni samo u metodi jer su relevantni samo u
+njenom kontekstu.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-1-8">
+<h4 id="12-1-8"><span class="section-number-4">12.1.8.</span> Performanse</h4>
+<p>
+Upotreba generičkog koda ne dovodi do degradacije performansi. Rust koristi
+tehniku monomorfizacije (<i>Monomorphization</i>) kod koje će kompajler instancirati
+konkretan kod za svaki tip posebno.
+</p>
+
+<p>
+To bi značilo sledeće. Ako imamo kod:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let integer = Some(5);
+let float = Some(5.0)
+</code></pre>
+</div>
+
+<p>
+Kompajler će proizvesti kod ekvivalentan sledećem:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Option_i32 {
+    Some(i32),
+    None,
+}
+
+enum Option_f64 {
+    Some(f64),
+    None,
+}
+
+fn main() {
+    let integer = Option_i32::Some(5);
+    let float = Option_f64::Some(5.0);
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-12-2">
+<h3 id="12-2"><span class="section-number-3">12.2.</span> Osobine (<i>Traits</i>) - definisanje zajedničkog ponašanja</h3>
+<div class="outline-text-3" id="text-12-2">
+</div>
+</section>
+<section id="slide-12-2-1">
+<h4 id="12-2-1"><span class="section-number-4">12.2.1.</span> <i>Traits</i></h4>
+<ul>
+<li><i>Trait</i> definiše funkcionalnost koju tip može deliti sa drugim tipovima.</li>
+<li>U drugim jezicima sličan koncept naziva se interfejs.</li>
+<li>Možemo koristiti <i>ograničenja kroz osobine</i> (<i>Trait bounds</i>) da definišemo da
+generički tip mora zadovoljiti određena ograničenja.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-2-2">
+<h4 id="12-2-2"><span class="section-number-4">12.2.2.</span> Definisanje osobina</h4>
+<ul>
+<li>Primer definisanja media agregator biblioteke koja može da prikaze sažetak
+podataka koji se može čuvati u <code>NewsArticle</code> ili <code>Tweet</code> instanci.</li>
+<li>Definišemo <code>Summary</code> osobinu da opišemo ovu funkcionalnost.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub trait Summary {
+    fn summarize(&amp;self) -&gt; String;
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2-3">
+<h4 id="12-2-3"><span class="section-number-4">12.2.3.</span> Implementacija osobina</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&amp;self) -&gt; String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Metode osobina se pozivaju kao i obične metode. Jedina razlika je u tome što
+metode osobina moraju biti dostupne u opsegu (uključiti ih sa <code>use</code>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >use aggregator::{Summary, Tweet};
+
+fn main() {
+    let tweet = Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    };
+
+    println!("1 new tweet: {}", tweet.summarize());
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="note" id="org5a7db08">
+<p>
+Ograničenje u upotrebi osobina je da možemo implementirati osobinu nad tipom
+jedino ako je bar jedno od njih lokalno za naš sanduk. Ovo pravilo je deo skupa
+pravila koji se nazivaju <i>coherence</i>. Konkretno ovo pravilo zove se <i>orphan rule</i> i
+sprečava nekompatibilne implementacije osobina nad tipovima od strane više
+sanduka.
+</p>
+
+<p>
+Bez ovog pravila moglo bi se desiti da dva različita sanduka implementiraju istu
+osobinu nad istim tipom na različite načine i kompajler ne bi znao koju verziju
+da koristi.
+</p>
+
+</div>
+</section>
+<section id="slide-12-2-4">
+<h4 id="12-2-4"><span class="section-number-4">12.2.4.</span> Podrazumevana implementacija</h4>
+<p>
+Osobina može imati podrazumevanu implementaciju metoda.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub trait Summary {
+    fn summarize(&amp;self) -&gt; String {
+        String::from("(Read more...)")
+    }
+}
+</code></pre>
+</div>
+
+<p>
+Da bi koristili podrazumevanu implementaciju možemo navesti prazno telo u <code>impl</code>
+bloku:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >impl Summary for NewsArticle {}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+I zatim možemo pozvati <code>summarize</code> metodu:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >let article = NewsArticle {
+        headline: String::from("Penguins win the Stanley Cup Championship!"),
+        location: String::from("Pittsburgh, PA, USA"),
+        author: String::from("Iceburgh"),
+        content: String::from(
+            "The Pittsburgh Penguins once again are the best \
+             hockey team in the NHL.",
+        ),
+    };
+
+    println!("New article available! {}", article.summarize());
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Podrazumevana implementacija može biti redefinisana prilikom implementacije.</li>
+<li>Takođe, podrazumevane metode mogu pozivati druge metode.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub trait Summary {
+    fn summarize_author(&amp;self) -&gt; String;
+
+    fn summarize(&amp;self) -&gt; String {
+        format!("(Read more from {}...)", self.summarize_author())
+    }
+}
+</code></pre>
+</div>
+
+<p>
+Sada je potrebno i dovoljno da prilikom implementacije definišemo
+<code>summarize_author</code> metodu:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >impl Summary for Tweet {
+    fn summarize_author(&amp;self) -&gt; String {
+        format!("@{}", self.username)
+    }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-12-2-5">
+<h4 id="12-2-5"><span class="section-number-4">12.2.5.</span> Osobine kao parametri</h4>
+<ul>
+<li>Sada možemo koristiti osobine da definišemo funkcije koje rade nad parametrima
+različitog tipa.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify(item: &amp;impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+</code></pre>
+</div>
+
+<p>
+Sada funkcija <code>notify</code> radi nad svim tipovima koji implementiraju <code>Summary</code>
+</p>
+
+</section>
+<section>
+
+<p>
+Prethodna upotreba <code>impl</code> kod parametra je sintaksni šećer za opšti oblik
+navođenja ograničenja kroz osobine.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify&lt;T: Summary&gt;(item: &amp;T) {
+    println!("Breaking news! {}", item.summarize());
+}
+</code></pre>
+</div>
+
+<p>
+Ograničenja kroz osobine (<i>Trait bounds</i>) stavljamo posle dvotačke kod navođenja
+generičkog tipa. Kompajler će verifikovati da sve što koristimo nad vrednostima
+ovog tipa unutar funkcije je zaista definisano osobinama navedenim u zaglavlju.
+</p>
+
+</section>
+<section>
+
+<p>
+<code>impl Trait</code> sintakse je konciznija kod jednostavnih primera ali je puna sintaksa
+bolja kod složenijih primera.
+</p>
+
+<p>
+Na primer:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify(item1: &amp;impl Summary, item2: &amp;impl Summary) {
+</code></pre>
+</div>
+
+<p>
+bi u punoj sintaksi bilo:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify&lt;T: Summary&gt;(item1: &amp;T, item2: &amp;T) {
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2-6">
+<h4 id="12-2-6"><span class="section-number-4">12.2.6.</span> Višestruke osobine kod ograničenja</h4>
+<p>
+Možemo definisati i više ograničenja upotrebom <code>+</code> sintakse. Na primer, ako
+parametar mora da implementira <code>Summary</code> i <code>Display</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify(item: &amp;(impl Summary + Display)) {
+</code></pre>
+</div>
+
+<p>
+ili u punoj sintaksi:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn notify&lt;T: Summary + Display&gt;(item: &amp;T) {
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2-7">
+<h4 id="12-2-7"><span class="section-number-4">12.2.7.</span> <code>where</code> klauzula u ograničenjima</h4>
+<ul>
+<li>Ukoliko imamo više ograničenja osnovna sintaksa može da smanji čitkost.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn some_function&lt;T: Display + Clone, U: Clone + Debug&gt;(t: &amp;T, u: &amp;U) -&gt; i32 {
+</code></pre>
+</div>
+
+<ul>
+<li><code>where</code> klauzula izmešta definisanje ograničenja posle zaglavlja funkcije čime
+se postiže bolja čitkost:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2-8">
+<h4 id="12-2-8"><span class="section-number-4">12.2.8.</span> <code>impl Trait</code> kao povratna vrednost funkcije</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn returns_summarizable() -&gt; impl Summary {
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+</code></pre>
+</div>
+
+<p>
+Posebno značajno u kontekstu zatvorenja (<i>closures</i>) i iteratora gde je konkretan
+tip previše složen za pisanje ili je poznat samo kompajleru.
+</p>
+
+<div class="note" id="org3190239">
+<p>
+<code>impl Trait</code> sintaksa za povratne vrednosti je moguća samo ako funkcija vraća
+jedan tip koji implementira datu osobinu. Na primer, ova funkcija neće raditi
+ako funkcija može vratiti <code>NewsArticle</code> ili <code>Tweet</code>.
+</p>
+
+</div>
+
+</section>
+<section id="slide-12-2-9">
+<h4 id="12-2-9"><span class="section-number-4">12.2.9.</span> Popravka <code>largest</code> generičke funkcije</h4>
+<p>
+Na prethodnim sladovima imali smo funkciju <code>largest</code>. Sada možemo da završimo
+njenu definiciju.
+</p>
+
+<p>
+Greška je bila sledeća:
+</p>
+<pre class="example" id="orgc6f11cd">
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `&gt;` cannot be applied to type `T`
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` due to previous error
+</pre>
+
+</section>
+<section>
+
+<p>
+Dakle, moramo ograničiti tipove na one koji podržavaju poređnje. Ova osobina se
+u standardnoj biblioteci zove <code>std::cmp::PartialOrd</code>, pa ćemo prepraviti zaglavlje
+funkcije na sledeći način:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest&lt;T: PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Međutim, sada imamo još jednu grešku:
+</p>
+<pre class="example" id="org15bd7d3">
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0508]: cannot move out of type `[T]`, a non-copy slice
+ --&gt; src/main.rs:2:23
+  |
+2 |     let mut largest = list[0];
+  |                       ^^^^^^^
+  |                       |
+  |                       cannot move out of here
+  |                       move occurs because `list[_]` has type `T`, which does not implement the `Copy` trait
+  |                       help: consider borrowing here: `&amp;list[0]`
+
+error[E0507]: cannot move out of a shared reference
+ --&gt; src/main.rs:4:18
+  |
+4 |     for &amp;item in list {
+  |         -----    ^^^^
+  |         ||
+  |         |data moved here
+  |         |move occurs because `item` has type `T`, which does not implement the `Copy` trait
+  |         help: consider removing the `&amp;`: `item`
+
+Some errors have detailed explanations: E0507, E0508.
+For more information about an error, try `rustc --explain E0507`.
+error: could not compile `chapter10` due to 2 previous errors
+</pre>
+
+</section>
+<section>
+
+<p>
+Uvodimo dodatno ograničenje da generički tip mora biti i <code>Copy</code>. Tako da je puno
+rešenje sledeće:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn largest&lt;T: PartialOrd + Copy&gt;(list: &amp;[T]) -&gt; T {
+    let mut largest = list[0];
+
+    for &amp;item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!("The largest char is {}", result);
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-2-10">
+<h4 id="12-2-10"><span class="section-number-4">12.2.10.</span> Upotreba osobina ograničenja za uslovnu implementaciju metoda</h4>
+<p>
+Ako želimo da implementiramo metodu samo nad tipovima koji implementiraju
+određene osobine.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >use std::fmt::Display;
+
+struct Pair&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Pair&lt;T&gt; {
+    fn new(x: T, y: T) -&gt; Self {
+        Self { x, y }
+    }
+}
+
+impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
+    fn cmp_display(&amp;self) {
+        if self.x &gt;= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-3">
+<h3 id="12-3"><span class="section-number-3">12.3.</span> Validacija referenci kroz životni vek (<i>Lifetimes</i>)</h3>
+
 </section>
 </section>
 <section>

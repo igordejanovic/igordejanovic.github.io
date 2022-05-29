@@ -2495,6 +2495,760 @@ if let Coin::Quarter(state) = coin {
 * Kolekcije
 * Obrada grešaka
 * Generički tipovi, osobine (/Traits/) i životni vek (/Lifetimes/)
+** Generički tipovi (/generics/)
+*** Generički tipovi (/generics/)
+- Mehanizam za eliminaciju dupliranja koda.
+- Generički tipovi su apstraktne zamene za konkretne tipove u druge osobine u
+  vreme izvršavanja.
+- Omogućavaju nam da na apstraktan način iskažemo osobine tipova i njihove veze
+  sa drugim tipovima bez znanja o tome koji će se konkretni tipovi naći na
+  njihovom mestu u vreme kompajliranja i izvršavanja koda.
+- Na primer funkcije mogu primiti generičke parametre. Takođe, složeni tipovi
+  mogu biti parametrizovani generičkim tipovima (primer je =Option<T>=).
+
+*** Uklanjanje duplog koda upotrebom funkcija
+
+#+begin_src rust
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number > largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number > largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let mut largest = number_list[0];
+
+    for number in number_list {
+        if number > largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {}", largest);
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+fn largest(list: &[i32]) -> i32 {
+    let mut largest = list[0];
+
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+}
+#+end_src
+
+
+#+REVEAL: split
+
+Postupak eliminacije duplog koda je podrazumevao sledeće:
+
+1. Identifikacija duplog koda.
+2. Ekstrakcija koda u funkciju, definisanje parametara i povratne vrednosti.
+3. Zamena instanci duplog koda sa pozivom funkcije.
+
+*** Uklanjanje duplog koda upotrebom generičkih funkcija
+
+Imamo funkciju za pronalaženje najvećeg elementa u listi sa različitim tipovima.
+#+begin_src rust
+fn largest_i32(list: &[i32]) -> i32 {
+    let mut largest = list[0];
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn largest_char(list: &[char]) -> char {
+    let mut largest = list[0];
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+    let result = largest_i32(&number_list);
+    println!("The largest number is {}", result);
+    let char_list = vec!['y', 'm', 'a', 'q'];
+    let result = largest_char(&char_list);
+    println!("The largest char is {}", result);
+}
+#+end_src
+
+#+REVEAL: split
+
+Funkcije su gotovo identične. Razlika je samo u tipu. Pišemo generičku funkciju
+tako što definišemo generički tip unutar =<>= posle naziva funkcije:
+
+#+begin_src rust
+fn largest<T>(list: &[T]) -> T {
+#+end_src
+
+=T= je generički tip i u vreme kompajliranja biće zamenjen sa konkretnim tipom.
+
+#+REVEAL: split
+
+Sada je naš kod sledeći:
+
+#+begin_src rust
+fn largest<T>(list: &[T]) -> T {
+    let mut largest = list[0];
+
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&char_list);
+    println!("The largest char is {}", result);
+}
+#+end_src
+
+#+REVEAL: split
+
+Ali se ne kompajlira.
+
+#+begin_src rust
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `>` cannot be applied to type `T`
+ --> src/main.rs:5:17
+  |
+5 |         if item > largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` due to previous error
+#+end_src
+
+Tip =T= može biti bilo koji tip pa i tip koji ne definiše operaciju =>= koja se
+koristi u kodu. Dakle, moramo ograničiti koji tipovi su mogući.
+
+Videćemo kako se ovo radi u nastavku u priči o osobinama (/Traits/).
+
+*** Generički tipovi u strukturama
+
+#+begin_src rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
+}
+#+end_src
+
+#+REVEAL: split
+
+Tipovi oba polja moraju biti isti.
+
+#+begin_src rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let wont_work = Point { x: 5, y: 4.0 };
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0308]: mismatched types
+ --> src/main.rs:7:38
+  |
+7 |     let wont_work = Point { x: 5, y: 4.0 };
+  |                                      ^^^ expected integer, found floating-point number
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `chapter10` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+Ako želimo da polja imaju različite tipove onda moramo imati različite generičke tipove.
+
+#+begin_src rust
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+
+fn main() {
+    let both_integer = Point { x: 5, y: 10 };
+    let both_float = Point { x: 1.0, y: 4.0 };
+    let integer_and_float = Point { x: 5, y: 4.0 };
+}
+#+end_src
+
+*** Generički tipovi u enumeracijama
+
+#+begin_src rust
+enum Option<T> {
+    Some(T),
+    None,
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+#+end_src
+
+*** Definicije metoda
+
+#+begin_src rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+fn main() {
+    let p = Point { x: 5, y: 10 };
+
+    println!("p.x = {}", p.x());
+}
+#+end_src
+
+Pošto smo naveli =<T>= iza ključne reči =impl= Rust dalje zna da je tip =T= generički
+a ne konkretni tip tako da je metoda =x= za =Point<T>= definisana nad svim tipovima
+=T=.
+
+#+REVEAL: split
+
+Mogli smo npr. metodu definisati samo za određeni =Point= tip.
+
+#+begin_src rust
+impl Point<f32> {
+    fn distance_from_origin(&self) -> f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+#+end_src
+
+Ovaj =impl= blok definiše metodu =distance_from_origin= ali samo za =Point<f32>= dok
+ostali =Point= tipovi neće imati ovu metodu.
+
+*** Generički tipovi u metodama i =impl= blokovima
+
+Generički tipovi u strukturama i metodama ne moraju biti isti. Na primer, možemo
+kreirati metodu =mixup= koja uzima dve instance =Point= i vraća novi =Point= tip gde
+će prvo polje imati isti tip kao prva tačka a drugo polje kao druga tačka.
+
+#+begin_src rust
+struct Point<X1, Y1> {
+    x: X1,
+    y: Y1,
+}
+
+impl<X1, Y1> Point<X1, Y1> {
+    fn mixup<X2, Y2>(self, other: Point<X2, Y2>) -> Point<X1, Y2> {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
+    let p3 = p1.mixup(p2);
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+}
+#+end_src
+
+- Generički tipovi =X2= i =Y2= su navedeni samo u metodi jer su relevantni samo u
+  njenom kontekstu.
+
+*** Performanse
+
+Upotreba generičkog koda ne dovodi do degradacije performansi. Rust koristi
+tehniku monomorfizacije (/Monomorphization/) kod koje će kompajler instancirati
+konkretan kod za svaki tip posebno.
+
+To bi značilo sledeće. Ako imamo kod:
+
+#+begin_src rust
+let integer = Some(5);
+let float = Some(5.0)
+#+end_src
+
+Kompajler će proizvesti kod ekvivalentan sledećem:
+#+begin_src rust
+enum Option_i32 {
+    Some(i32),
+    None,
+}
+
+enum Option_f64 {
+    Some(f64),
+    None,
+}
+
+fn main() {
+    let integer = Option_i32::Some(5);
+    let float = Option_f64::Some(5.0);
+}
+#+end_src
+** Osobine (/Traits/) - definisanje zajedničkog ponašanja
+*** /Traits/
+- /Trait/ definiše funkcionalnost koju tip može deliti sa drugim tipovima.
+- U drugim jezicima sličan koncept naziva se interfejs.
+- Možemo koristiti /ograničenja kroz osobine/ (/Trait bounds/) da definišemo da
+  generički tip mora zadovoljiti određena ograničenja.
+
+*** Definisanje osobina
+
+- Primer definisanja media agregator biblioteke koja može da prikaze sažetak
+  podataka koji se može čuvati u =NewsArticle= ili =Tweet= instanci.
+- Definišemo =Summary= osobinu da opišemo ovu funkcionalnost.
+
+#+begin_src rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+#+end_src
+
+*** Implementacija osobina
+
+#+begin_src rust
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Metode osobina se pozivaju kao i obične metode. Jedina razlika je u tome što
+metode osobina moraju biti dostupne u opsegu (uključiti ih sa =use=).
+
+#+begin_src rust
+use aggregator::{Summary, Tweet};
+
+fn main() {
+    let tweet = Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    };
+
+    println!("1 new tweet: {}", tweet.summarize());
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_note
+Ograničenje u upotrebi osobina je da možemo implementirati osobinu nad tipom
+jedino ako je bar jedno od njih lokalno za naš sanduk. Ovo pravilo je deo skupa
+pravila koji se nazivaju /coherence/. Konkretno ovo pravilo zove se /orphan rule/ i
+sprečava nekompatibilne implementacije osobina nad tipovima od strane više
+sanduka.
+
+Bez ovog pravila moglo bi se desiti da dva različita sanduka implementiraju istu
+osobinu nad istim tipom na različite načine i kompajler ne bi znao koju verziju
+da koristi.
+#+end_note
+*** Podrazumevana implementacija
+
+Osobina može imati podrazumevanu implementaciju metoda.
+
+#+begin_src rust
+pub trait Summary {
+    fn summarize(&self) -> String {
+        String::from("(Read more...)")
+    }
+}
+#+end_src
+
+Da bi koristili podrazumevanu implementaciju možemo navesti prazno telo u =impl=
+bloku:
+
+#+begin_src rust
+impl Summary for NewsArticle {}
+#+end_src
+
+#+REVEAL: split
+
+I zatim možemo pozvati =summarize= metodu:
+
+#+begin_src rust
+let article = NewsArticle {
+        headline: String::from("Penguins win the Stanley Cup Championship!"),
+        location: String::from("Pittsburgh, PA, USA"),
+        author: String::from("Iceburgh"),
+        content: String::from(
+            "The Pittsburgh Penguins once again are the best \
+             hockey team in the NHL.",
+        ),
+    };
+
+    println!("New article available! {}", article.summarize());
+#+end_src
+
+#+REVEAL: split
+
+- Podrazumevana implementacija može biti redefinisana prilikom implementacije.
+- Takođe, podrazumevane metode mogu pozivati druge metode.
+
+#+begin_src rust
+pub trait Summary {
+    fn summarize_author(&self) -> String;
+
+    fn summarize(&self) -> String {
+        format!("(Read more from {}...)", self.summarize_author())
+    }
+}
+#+end_src
+
+Sada je potrebno i dovoljno da prilikom implementacije definišemo
+=summarize_author= metodu:
+
+#+begin_src rust
+impl Summary for Tweet {
+    fn summarize_author(&self) -> String {
+        format!("@{}", self.username)
+    }
+}
+#+end_src
+*** Osobine kao parametri
+
+- Sada možemo koristiti osobine da definišemo funkcije koje rade nad parametrima
+  različitog tipa.
+
+#+begin_src rust
+pub fn notify(item: &impl Summary) {
+    println!("Breaking news! {}", item.summarize());
+}
+#+end_src
+
+Sada funkcija =notify= radi nad svim tipovima koji implementiraju =Summary=
+
+#+REVEAL: split
+
+Prethodna upotreba =impl= kod parametra je sintaksni šećer za opšti oblik
+navođenja ograničenja kroz osobine.
+
+#+begin_src rust
+pub fn notify<T: Summary>(item: &T) {
+    println!("Breaking news! {}", item.summarize());
+}
+#+end_src
+
+Ograničenja kroz osobine (/Trait bounds/) stavljamo posle dvotačke kod navođenja
+generičkog tipa. Kompajler će verifikovati da sve što koristimo nad vrednostima
+ovog tipa unutar funkcije je zaista definisano osobinama navedenim u zaglavlju.
+
+#+REVEAL: split
+
+=impl Trait= sintakse je konciznija kod jednostavnih primera ali je puna sintaksa
+bolja kod složenijih primera.
+
+Na primer:
+
+#+begin_src rust
+pub fn notify(item1: &impl Summary, item2: &impl Summary) {
+#+end_src
+
+bi u punoj sintaksi bilo:
+
+#+begin_src rust
+pub fn notify<T: Summary>(item1: &T, item2: &T) {
+#+end_src
+
+*** Višestruke osobine kod ograničenja
+
+Možemo definisati i više ograničenja upotrebom =+= sintakse. Na primer, ako
+parametar mora da implementira =Summary= i =Display=:
+#+begin_src rust
+pub fn notify(item: &(impl Summary + Display)) {
+#+end_src
+
+ili u punoj sintaksi:
+
+#+begin_src rust
+pub fn notify<T: Summary + Display>(item: &T) {
+#+end_src
+
+*** =where= klauzula u ograničenjima
+
+- Ukoliko imamo više ograničenja osnovna sintaksa može da smanji čitkost.
+
+#+begin_src rust
+fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
+#+end_src
+
+- =where= klauzula izmešta definisanje ograničenja posle zaglavlja funkcije čime
+  se postiže bolja čitkost:
+
+#+begin_src rust
+fn some_function<T, U>(t: &T, u: &U) -> i32
+    where T: Display + Clone,
+          U: Clone + Debug
+{
+#+end_src
+
+*** =impl Trait= kao povratna vrednost funkcije
+#+begin_src rust
+fn returns_summarizable() -> impl Summary {
+    Tweet {
+        username: String::from("horse_ebooks"),
+        content: String::from(
+            "of course, as you probably already know, people",
+        ),
+        reply: false,
+        retweet: false,
+    }
+}
+#+end_src
+
+Posebno značajno u kontekstu zatvorenja (/closures/) i iteratora gde je konkretan
+tip previše složen za pisanje ili je poznat samo kompajleru.
+
+#+begin_note
+=impl Trait= sintaksa za povratne vrednosti je moguća samo ako funkcija vraća
+jedan tip koji implementira datu osobinu. Na primer, ova funkcija neće raditi
+ako funkcija može vratiti =NewsArticle= ili =Tweet=.
+#+end_note
+
+*** Popravka =largest= generičke funkcije
+
+Na prethodnim sladovima imali smo funkciju =largest=. Sada možemo da završimo
+njenu definiciju.
+
+Greška je bila sledeća:
+#+begin_example
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `>` cannot be applied to type `T`
+ --> src/main.rs:5:17
+  |
+5 |         if item > largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn largest<T: std::cmp::PartialOrd>(list: &[T]) -> T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+Dakle, moramo ograničiti tipove na one koji podržavaju poređnje. Ova osobina se
+u standardnoj biblioteci zove =std::cmp::PartialOrd=, pa ćemo prepraviti zaglavlje
+funkcije na sledeći način:
+
+#+begin_src rust
+fn largest<T: PartialOrd>(list: &[T]) -> T {
+#+end_src
+
+#+REVEAL: split
+
+Međutim, sada imamo još jednu grešku:
+#+begin_example
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0508]: cannot move out of type `[T]`, a non-copy slice
+ --> src/main.rs:2:23
+  |
+2 |     let mut largest = list[0];
+  |                       ^^^^^^^
+  |                       |
+  |                       cannot move out of here
+  |                       move occurs because `list[_]` has type `T`, which does not implement the `Copy` trait
+  |                       help: consider borrowing here: `&list[0]`
+
+error[E0507]: cannot move out of a shared reference
+ --> src/main.rs:4:18
+  |
+4 |     for &item in list {
+  |         -----    ^^^^
+  |         ||
+  |         |data moved here
+  |         |move occurs because `item` has type `T`, which does not implement the `Copy` trait
+  |         help: consider removing the `&`: `item`
+
+Some errors have detailed explanations: E0507, E0508.
+For more information about an error, try `rustc --explain E0507`.
+error: could not compile `chapter10` due to 2 previous errors
+#+end_example
+
+#+REVEAL: split
+
+Uvodimo dodatno ograničenje da generički tip mora biti i =Copy=. Tako da je puno
+rešenje sledeće:
+
+#+begin_src rust
+fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+
+    for &item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&number_list);
+    println!("The largest number is {}", result);
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&char_list);
+    println!("The largest char is {}", result);
+}
+#+end_src
+
+*** Upotreba osobina ograničenja za uslovnu implementaciju metoda
+
+Ako želimo da implementiramo metodu samo nad tipovima koji implementiraju
+određene osobine.
+#+begin_src rust
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+#+end_src
+
+** Validacija referenci kroz životni vek (/Lifetimes/)
+
 * Literatura
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - Slice is NOT reference, https://github.com/rust-lang/book/issues/3070
