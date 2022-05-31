@@ -3248,6 +3248,292 @@ impl<T: Display + PartialOrd> Pair<T> {
 #+end_src
 
 ** Validacija referenci kroz životni vek (/Lifetimes/)
+*** Životni vek (/Lifetime/)
+- Svaka referenca ima životni vek, opseg u kome je referenca validna.
+- U dosta situacija kompajler automatski može da zaključi koji je životni vek
+  reference. Kada to nije u stanju moramo da uradimo ručnu anotaciju.
+- Anotacijama životnog veka dovodimo u vezu životni vek različitih referenci.
+
+*** Sprečavanje "visećih" referenci
+
+#+begin_src rust
+{
+        let r;
+
+        {
+            let x = 5;
+            r = &x;
+        }
+
+        println!("r: {}", r);
+    }
+
+#+end_src
+
+#+begin_example
+ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0597]: `x` does not live long enough
+  --> src/main.rs:7:17
+   |
+7  |             r = &x;
+   |                 ^^ borrowed value does not live long enough
+8  |         }
+   |         - `x` dropped here while still borrowed
+9  |
+10 |         println!("r: {}", r);
+   |                           - borrow later used here
+
+For more information about this error, try `rustc --explain E0597`.
+error: could not compile `chapter10` due to previous error
+#+end_example
+
+*** /Borrow Checker/
+- Rust kompajler ima komponentu /borrow checker/ koja proverava da li su sve
+  pozajmice validne.
+
+#+begin_src rust
+{
+    let r;                // ---------+-- 'a
+                          //          |
+    {                     //          |
+        let x = 5;        // -+-- 'b  |
+        r = &x;           //  |       |
+    }                     // -+       |
+                          //          |
+    println!("r: {}", r); //          |
+}                         // ---------+
+#+end_src
+
+- Program je odbačen jer =r= referencira vrednost čiji životni vek (='b=) je kraći
+  od životnog veka varijable =r= (='a=). Ukoliko bi se ovo dozvolilo, =r= bi u jednom
+  delu referencirala nevalidnu vrednost.
+
+#+REVEAL: split
+
+Varijable imaju životni vek koji je jednak sinstaksnom opsegu u kome je
+varijabla definisana. Životni vek imaju i reference koje pozajmljuju vrednost i
+smeštaju se u varijable (npr. =r=&x= iz prethodnog primera).
+
+#+begin_note
+Jedno od pravila je da referenca na varijablu (tj. vrednost) ne može da živi
+duže od same varijable. Odnosno /životni vek varijable mora da sadrži životni
+vek reference pozajmljene od te varijable/.
+#+end_note
+
+#+begin_src rust
+{
+    let r;
+    {
+        let x = 5;
+        r = &x;           // -+- &x ne može da živi duže od
+    }                     // -+  ovog životnog veka
+    println!("r: {}", r);
+}
+#+end_src
+
+#+REVEAL: split
+
+Ako smestimo referencu u varijablu, referenca mora biti ispravna za ceo životni
+vek varijable u koju je smeštena.
+
+#+begin_note
+Kažemo da /životni vek reference mora da sadrži životni vek varijable u koju je
+smeštena/.
+#+end_note
+
+#+begin_src rust
+{
+    let r;
+    {
+        let x = 5;
+        r = &x;           // -+- životni vek bilo čega što
+    }                     //  |  se smesti u r mora da živi
+    println!("r: {}", r); // -+  bar ovoliko
+}
+#+end_src
+
+Vidimo da ovo pravilo nije zadovoljeno. =&x= ne živi dovoljno dugo jer =x= ne živi
+dovoljno dugo.
+
+#+REVEAL: split
+
+Ako prethodna dva pravila objedinimo možemo reći da:
+
+#+begin_note
+/Životni vek varijable mora da sadrži životni vek svih varijabli koje pozajmljuju
+vrednost od posmatrane varijable/.
+#+end_note
+
+Odnosno, varijabla može otići iz opsega tek kada ne postoji više ni jedna
+varijabla koja čuva pozajmljenu vrednost.
+
+#+REVEAL: split
+
+Sledeći kod je prihvaćen. Referenca =r= ne živi duže od podatka koji referencira
+(=x=).
+
+#+begin_src rust
+{
+    let x = 5;            // ----------+-- 'b
+                          //           |
+    let r = &x;           // --+-- 'a  |
+                          //   |       |
+    println!("r: {}", r); //   |       |
+                          // --+       |
+}                         // ----------+
+#+end_src
+
+*** Generički životni vekovi u funkcijama
+
+- Kreiramo funkciju =longest= koja vraća duži od dva prosleđena stringa.
+  Prosleđujemo referencu na string isečak =&str=.
+
+#+begin_src rust
+fn main() {
+    let string1 = String::from("abcd");
+    let string2 = "xyz";
+
+    let result = longest(string1.as_str(), string2);
+    println!("The longest string is {}", result);
+}
+#+end_src
+
+#+REVEAL: split
+
+Ovaj program nije prihvaćen.
+#+begin_src rust
+fn longest(x: &str, y: &str) -> &str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+#+end_src
+
+#+begin_example
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0106]: missing lifetime specifier
+ --> src/main.rs:9:33
+  |
+9 | fn longest(x: &str, y: &str) -> &str {
+  |               ----     ----     ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but the signature does not say
+  whether it is borrowed from `x` or `y`
+help: consider introducing a named lifetime parameter
+  |
+9 | fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+  |           ++++     ++          ++          ++
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `chapter10` due to previous error
+#+end_example
+
+#+REVEAL: split
+
+- Zašto program nije prihvaćen?
+- /Borrow checker/ nije u stanju da odredi u kojoj relaciji su reference =x= i =y= sa
+  povratnom vrednošću koja je takođe referenca.
+- Tj. povratna vrednost mora biti pozajmljena od nekud, ali kompajler ne može da
+  odredi da li je pozamljena od =x= ili =y= ili od neke globalne vrednosti.
+- Ova informacija je potrebna da bi se obavila kalkulacija i provera životnog veka.
+
+*** Sintaksa za anotaciju životnog veka
+
+- Da bi pomogli kompajleru reference označavamo sa životnim vekom i time
+  dovodimo u vezu različite reference (npr. parametre i povratne vrednosti
+  funkcije).
+- Anotacija je oblika ='a=. Iza apostrofa se piše ime anotacije koje je najčešće
+  jedno malo slovo sa početka alfabeta (='a, 'b,...=).
+- *Važno:* anotacije životnog veka ne menjaju životni vek reference već samo
+  pomažu kompajleru u proveri.
+
+#+begin_src rust
+&i32        // referenca
+&'a i32     // referenca sa eksplicitnim životnim vekom
+&'a mut i32 // promenjiva referenca sa eksplicitnim životnim vekom
+#+end_src
+
+- Jedna anotacija nema puno smisla. Funkciju imaju tek kada anotiramo više
+  referenci jer se dovode u vezu ako imaju isto ime.
+- Uvedimo funkciju =lt= koja vraća životni vek varijable/vrednosti i relaciju
+  između životnih vekova ='a≥'b= odnosno ='b≤'a= koja znači da ='a= obuhvata ='b=
+  odnosno ='b= je sadržano u ='a=.
+
+*** Anotacija životnog veka u signaturama funkcija
+
+- Sledeća anotacija za funkciju =longest= je ispravna jer referenca koja se vraća
+  može biti =x= ili =y= u zavisnosti od dužine stringa. Stoga je potrebno da imamo
+  strožiji uslov da je životni vek povratne vrednosti u vezi sa životnim vekom
+  oba parametra.
+
+#+begin_src rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+#+end_src
+
+- Ovim kažemo kompajleru da za neki generički životni vek ='a=, funkcija prima dve
+  reference čiji životni vek vrednosti obuhvata ='a= i vraća referencu koja mora
+  biti validna bar koliko i životni vek ='a= tj. životni vek povratne reference
+  mora da obuvati ='a=. Ukoliko takav životni vek postoji kod se prihvata.
+- Signatura dovodi u vezu obe ulazne reference sa izlaznom.
+
+#+REVEAL: split
+
+Posmatrajmo kod koji poziva funkciju =longest=:
+
+#+begin_src rust
+fn main() {
+    let string1 = String::from("abcd");
+    {
+        let string2 = "xyz";
+        let result = longest(string1.as_str(), string2);
+    }
+    println!("The longest string is {}", result);
+}
+#+end_src
+
+Za kod mora da postoji ='a= tako da važi:
+
+#+begin_example
+lt(string1) ≥ 'a     # životni vek vrednosti prvog parametara sadrži 'a
+lt(string2) ≥ 'a     # životni vek vrednosti drugog parametara sadrži 'a
+'a ≥ lt(result)       # 'a mora da sadrži životni veku result varijable
+#+end_example
+
+Što ne može biti ispunjeno istovremeno, tj. ne postoji ='a= koje ispunjava ova
+ograničenja.
+
+#+REVEAL: split
+
+Drugi način razmišljanja je da povratna vrednost funkcije pozajmljuje od
+vrednosti ulaznih parametara označenih istim imenom životnog veka.
+
+#+begin_src rust
+fn main() {
+    let string1 = String::from("abcd");
+    {
+        let string2 = "xyz";
+        let result = longest(string1.as_str(), string2);
+    }
+    println!("The longest string is {}", result);
+}
+#+end_src
+
+Što znači da =result= pozajmljuje od =string1= i =string2= i ta pozajmica traje sve
+vreme života varijable =result= što ne može biti validno jer varijabla živi duže
+od vrednosti =string2=.
+
+Iako, možemo videti da će, zbog dužine stringa, vraćena vrednost biti =string1= i
+program je validan, kompajler ovo ne može da zaključi.
 
 * Literatura
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.

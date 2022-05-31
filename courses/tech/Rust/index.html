@@ -35,7 +35,7 @@
 <h1 class="title">Programski jezik Rust</h1>
 <h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-05-29 Sun 19:22, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-05-30 Mon 18:09, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
@@ -1445,7 +1445,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org73176e9">
+<pre class="example" id="org742089a">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1925,7 +1925,7 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 </ul>
 
 
-<div id="orgb8b5671" class="figure">
+<div id="orgaacb245" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1949,7 +1949,7 @@ Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
 </ul>
 
 
-<div id="org2a4cac0" class="figure">
+<div id="org1450eaf" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -1968,7 +1968,7 @@ ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
 </p>
 
 
-<div id="org856aa3b" class="figure">
+<div id="org95a572c" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -1993,7 +1993,7 @@ println!("{}, world!", s1);
 Dobićemo grešku:
 </p>
 
-<pre class="example" id="orgdc1cb2b">
+<pre class="example" id="org17d7bbb">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2034,7 +2034,7 @@ Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <cod
 </p>
 
 
-<div id="orgf1aa15a" class="figure">
+<div id="org96155cc" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2238,7 +2238,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org680ece4" class="figure">
+<div id="org2f094ac" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2304,7 +2304,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org1e4393b">
+<pre class="example" id="org01deb83">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2360,7 +2360,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org08490c2">
+<pre class="example" id="orgddaed51">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2434,7 +2434,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org7d082d7">
+<pre class="example" id="orgdad9264">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2517,7 +2517,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org948fa38">
+<pre class="example" id="org70d5d8b">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2705,7 +2705,7 @@ Dakle, u praksi mnogo češće srećemo sintaksu <code>&amp;s[x..y]</code>.
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="org9e1b9ca" class="figure">
+<div id="orgc953d91" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
@@ -2795,7 +2795,7 @@ Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
 </code></pre>
 </div>
 
-<pre class="example" id="orgd5c332d">
+<pre class="example" id="org72a2c11">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3226,7 +3226,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="org0a16cbe">
+<pre class="example" id="org0814af1">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3395,7 +3395,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="org1e66579">
+<pre class="example" id="orgf6e067a">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3452,7 +3452,7 @@ Pošto je <code>match</code> iscrpan ne možemo zaboraviti da obradimo <code>Non
 </code></pre>
 </div>
 
-<pre class="example" id="org279ccb2">
+<pre class="example" id="orgbb7aa8a">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -3560,7 +3560,7 @@ if let Some(max) = config_max {
 </section>
 <section>
 
-<div class="note" id="org9bf0693">
+<div class="note" id="org7cfd14f">
 <p>
 Obrasci za podudaranje <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">mogu imati dve forme</a>: poništiv (<i>refutable</i>) i neponištiv
 (<i>irrefutable</i>). Obrazac koji uvek mora uspeti (npr. <code>let x = 5;</code>) je neponištiv.
@@ -3916,7 +3916,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="orga8dadea">
+<pre class="example" id="org5f81f0d">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -4205,7 +4205,7 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="org5a7db08">
+<div class="note" id="org3760707">
 <p>
 Ograničenje u upotrebi osobina je da možemo implementirati osobinu nad tipom
 jedino ako je bar jedno od njih lokalno za naš sanduk. Ovo pravilo je deo skupa
@@ -4453,7 +4453,7 @@ Posebno značajno u kontekstu zatvorenja (<i>closures</i>) i iteratora gde je ko
 tip previše složen za pisanje ili je poznat samo kompajleru.
 </p>
 
-<div class="note" id="org3190239">
+<div class="note" id="org5432103">
 <p>
 <code>impl Trait</code> sintaksa za povratne vrednosti je moguća samo ako funkcija vraća
 jedan tip koji implementira datu osobinu. Na primer, ova funkcija neće raditi
@@ -4473,7 +4473,7 @@ njenu definiciju.
 <p>
 Greška je bila sledeća:
 </p>
-<pre class="example" id="orgc6f11cd">
+<pre class="example" id="org9f9a277">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -4514,7 +4514,7 @@ funkcije na sledeći način:
 <p>
 Međutim, sada imamo još jednu grešku:
 </p>
-<pre class="example" id="org15bd7d3">
+<pre class="example" id="orge9c5560">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -4615,6 +4615,394 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </section>
 <section id="slide-12-3">
 <h3 id="12-3"><span class="section-number-3">12.3.</span> Validacija referenci kroz životni vek (<i>Lifetimes</i>)</h3>
+<div class="outline-text-3" id="text-12-3">
+</div>
+</section>
+<section id="slide-12-3-1">
+<h4 id="12-3-1"><span class="section-number-4">12.3.1.</span> Životni vek (<i>Lifetime</i>)</h4>
+<ul>
+<li>Svaka referenca ima životni vek, opseg u kome je referenca validna.</li>
+<li>U dosta situacija kompajler automatski može da zaključi koji je životni vek
+reference. Kada to nije u stanju moramo da uradimo ručnu anotaciju.</li>
+<li>Anotacijama životnog veka dovodimo u vezu životni vek različitih referenci.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-3-2">
+<h4 id="12-3-2"><span class="section-number-4">12.3.2.</span> Sprečavanje &ldquo;visećih&rdquo; referenci</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >{
+        let r;
+
+        {
+            let x = 5;
+            r = &amp;x;
+        }
+
+        println!("r: {}", r);
+    }
+
+</code></pre>
+</div>
+
+<pre class="example" id="orgfe8739a">
+ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0597]: `x` does not live long enough
+  --&gt; src/main.rs:7:17
+   |
+7  |             r = &amp;x;
+   |                 ^^ borrowed value does not live long enough
+8  |         }
+   |         - `x` dropped here while still borrowed
+9  |
+10 |         println!("r: {}", r);
+   |                           - borrow later used here
+
+For more information about this error, try `rustc --explain E0597`.
+error: could not compile `chapter10` due to previous error
+</pre>
+
+</section>
+<section id="slide-12-3-3">
+<h4 id="12-3-3"><span class="section-number-4">12.3.3.</span> <i>Borrow Checker</i></h4>
+<ul>
+<li>Rust kompajler ima komponentu <i>borrow checker</i> koja proverava da li su sve
+pozajmice validne.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >{
+    let r;                // ---------+-- 'a
+                          //          |
+    {                     //          |
+        let x = 5;        // -+-- 'b  |
+        r = &amp;x;           //  |       |
+    }                     // -+       |
+                          //          |
+    println!("r: {}", r); //          |
+}                         // ---------+
+</code></pre>
+</div>
+
+<ul>
+<li>Program je odbačen jer <code>r</code> referencira vrednost čiji životni vek (<code>'b</code>) je kraći
+od životnog veka varijable <code>r</code> (<code>'a</code>). Ukoliko bi se ovo dozvolilo, <code>r</code> bi u jednom
+delu referencirala nevalidnu vrednost.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Varijable imaju životni vek koji je jednak sinstaksnom opsegu u kome je
+varijabla definisana. Životni vek imaju i reference koje pozajmljuju vrednost i
+smeštaju se u varijable (npr. <code>r=&amp;x</code> iz prethodnog primera).
+</p>
+
+<div class="note" id="org1b26442">
+<p>
+Jedno od pravila je da referenca na varijablu (tj. vrednost) ne može da živi
+duže od same varijable. Odnosno <i>životni vek varijable mora da sadrži životni
+vek reference pozajmljene od te varijable</i>.
+</p>
+
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >{
+    let r;
+    {
+        let x = 5;
+        r = &amp;x;           // -+- &amp;x ne može da živi duže od
+    }                     // -+  ovog životnog veka
+    println!("r: {}", r);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ako smestimo referencu u varijablu, referenca mora biti ispravna za ceo životni
+vek varijable u koju je smeštena.
+</p>
+
+<div class="note" id="org2ba6f26">
+<p>
+Kažemo da <i>životni vek reference mora da sadrži životni vek varijable u koju je
+smeštena</i>.
+</p>
+
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >{
+    let r;
+    {
+        let x = 5;
+        r = &amp;x;           // -+- životni vek bilo čega što
+    }                     //  |  se smesti u r mora da živi
+    println!("r: {}", r); // -+  bar ovoliko
+}
+</code></pre>
+</div>
+
+<p>
+Vidimo da ovo pravilo nije zadovoljeno. <code>&amp;x</code> ne živi dovoljno dugo jer <code>x</code> ne živi
+dovoljno dugo.
+</p>
+
+</section>
+<section>
+
+<p>
+Ako prethodna dva pravila objedinimo možemo reći da:
+</p>
+
+<div class="note" id="orgba459a8">
+<p>
+<i>Životni vek varijable mora da sadrži životni vek svih varijabli koje pozajmljuju
+vrednost od posmatrane varijable</i>.
+</p>
+
+</div>
+
+<p>
+Odnosno, varijabla može otići iz opsega tek kada ne postoji više ni jedna
+varijabla koja čuva pozajmljenu vrednost.
+</p>
+
+</section>
+<section>
+
+<p>
+Sledeći kod je prihvaćen. Referenca <code>r</code> ne živi duže od podatka koji referencira
+(<code>x</code>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >{
+    let x = 5;            // ----------+-- 'b
+                          //           |
+    let r = &amp;x;           // --+-- 'a  |
+                          //   |       |
+    println!("r: {}", r); //   |       |
+                          // --+       |
+}                         // ----------+
+</code></pre>
+</div>
+
+</section>
+<section id="slide-12-3-4">
+<h4 id="12-3-4"><span class="section-number-4">12.3.4.</span> Generički životni vekovi u funkcijama</h4>
+<ul>
+<li>Kreiramo funkciju <code>longest</code> koja vraća duži od dva prosleđena stringa.
+Prosleđujemo referencu na string isečak <code>&amp;str</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let string1 = String::from("abcd");
+    let string2 = "xyz";
+
+    let result = longest(string1.as_str(), string2);
+    println!("The longest string is {}", result);
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Ovaj program nije prihvaćen.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn longest(x: &amp;str, y: &amp;str) -&gt; &amp;str {
+    if x.len() &gt; y.len() {
+        x
+    } else {
+        y
+    }
+}
+</code></pre>
+</div>
+
+<pre class="example" id="org99be459">
+$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:9:33
+  |
+9 | fn longest(x: &amp;str, y: &amp;str) -&gt; &amp;str {
+  |               ----     ----     ^ expected named lifetime parameter
+  |
+  = help: this function's return type contains a borrowed value, but the signature does not say
+  whether it is borrowed from `x` or `y`
+help: consider introducing a named lifetime parameter
+  |
+9 | fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
+  |           ++++     ++          ++          ++
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `chapter10` due to previous error
+</pre>
+
+</section>
+<section>
+
+<ul>
+<li>Zašto program nije prihvaćen?</li>
+<li><i>Borrow checker</i> nije u stanju da odredi u kojoj relaciji su reference <code>x</code> i <code>y</code> sa
+povratnom vrednošću koja je takođe referenca.</li>
+<li>Tj. povratna vrednost mora biti pozajmljena od nekud, ali kompajler ne može da
+odredi da li je pozamljena od <code>x</code> ili <code>y</code> ili od neke globalne vrednosti.</li>
+<li>Ova informacija je potrebna da bi se obavila kalkulacija i provera životnog veka.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-3-5">
+<h4 id="12-3-5"><span class="section-number-4">12.3.5.</span> Sintaksa za anotaciju životnog veka</h4>
+<ul>
+<li>Da bi pomogli kompajleru reference označavamo sa životnim vekom i time
+dovodimo u vezu različite reference (npr. parametre i povratne vrednosti
+funkcije).</li>
+<li>Anotacija je oblika <code>'a</code>. Iza apostrofa se piše ime anotacije koje je najčešće
+jedno malo slovo sa početka alfabeta (<code>'a, 'b,...</code>).</li>
+<li><b>Važno:</b> anotacije životnog veka ne menjaju životni vek reference već samo
+pomažu kompajleru u proveri.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >&amp;i32        // referenca
+&amp;'a i32     // referenca sa eksplicitnim životnim vekom
+&amp;'a mut i32 // promenjiva referenca sa eksplicitnim životnim vekom
+</code></pre>
+</div>
+
+<ul>
+<li>Jedna anotacija nema puno smisla. Funkciju imaju tek kada anotiramo više
+referenci jer se dovode u vezu ako imaju isto ime.</li>
+<li>Uvedimo funkciju <code>lt</code> koja vraća životni vek varijable/vrednosti i relaciju
+između životnih vekova <code>'a≥'b</code> odnosno <code>'b≤'a</code> koja znači da <code>'a</code> obuhvata <code>'b</code>
+odnosno <code>'b</code> je sadržano u <code>'a</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-12-3-6">
+<h4 id="12-3-6"><span class="section-number-4">12.3.6.</span> Anotacija životnog veka u signaturama funkcija</h4>
+<ul>
+<li>Sledeća anotacija za funkciju <code>longest</code> je ispravna jer referenca koja se vraća
+može biti <code>x</code> ili <code>y</code> u zavisnosti od dužine stringa. Stoga je potrebno da imamo
+strožiji uslov da je životni vek povratne vrednosti u vezi sa životnim vekom
+oba parametra.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn longest&lt;'a&gt;(x: &amp;'a str, y: &amp;'a str) -&gt; &amp;'a str {
+    if x.len() &gt; y.len() {
+        x
+    } else {
+        y
+    }
+}
+</code></pre>
+</div>
+
+<ul>
+<li>Ovim kažemo kompajleru da za neki generički životni vek <code>'a</code>, funkcija prima dve
+reference čiji životni vek vrednosti obuhvata <code>'a</code> i vraća referencu koja mora
+biti validna bar koliko i životni vek <code>'a</code> tj. životni vek povratne reference
+mora da obuvati <code>'a</code>. Ukoliko takav životni vek postoji kod se prihvata.</li>
+<li>Signatura dovodi u vezu obe ulazne reference sa izlaznom.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Posmatrajmo kod koji poziva funkciju <code>longest</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let string1 = String::from("abcd");
+    {
+        let string2 = "xyz";
+        let result = longest(string1.as_str(), string2);
+    }
+    println!("The longest string is {}", result);
+}
+</code></pre>
+</div>
+
+<p>
+Za kod mora da postoji <code>'a</code> tako da važi:
+</p>
+
+<pre class="example" id="orga8338ec">
+lt(string1) ≥ 'a     # životni vek vrednosti prvog parametara sadrži 'a
+lt(string2) ≥ 'a     # životni vek vrednosti drugog parametara sadrži 'a
+'a ≥ lt(result)       # 'a mora da sadrži životni veku result varijable
+</pre>
+
+<p>
+Što ne može biti ispunjeno istovremeno, tj. ne postoji <code>'a</code> koje ispunjava ova
+ograničenja.
+</p>
+
+</section>
+<section>
+
+<p>
+Drugi način razmišljanja je da povratna vrednost funkcije pozajmljuje od
+vrednosti ulaznih parametara označenih istim imenom životnog veka.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let string1 = String::from("abcd");
+    {
+        let string2 = "xyz";
+        let result = longest(string1.as_str(), string2);
+    }
+    println!("The longest string is {}", result);
+}
+</code></pre>
+</div>
+
+<p>
+Što znači da <code>result</code> pozajmljuje od <code>string1</code> i <code>string2</code> i ta pozajmica traje sve
+vreme života varijable <code>result</code> što ne može biti validno jer varijabla živi duže
+od vrednosti <code>string2</code>.
+</p>
+
+<p>
+Iako, možemo videti da će, zbog dužine stringa, vraćena vrednost biti <code>string1</code> i
+program je validan, kompajler ovo ne može da zaključi.
+</p>
 
 </section>
 </section>
