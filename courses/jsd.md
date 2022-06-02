@@ -24,19 +24,6 @@ layout: page
 1. [Anatomija jednog DSL-a](jsd/05-anatomija-dsla/)
 1. [Informacije za ispitni projekat](jsd/projekat/)
 
-{% comment %}
-## Slajdovi na enastava.io (uskoro ovde)
-1. Spoofax
-1. Grafičke sintakse i alati
-1. Dizajn jezika specifičnih za domen
-
-## U pripremi
-1. Rascal
-1. MPS
-1. Evolucija jezika specifičnih za domen
-1. Upravljanje verzijama
-{% endcomment %}
-
 ## Literatura
 
 ### Osnovna
@@ -58,3 +45,11 @@ layout: page
 - Beazley, David M. *Python essential reference*. Addison-Wesley Professional,
   2009.
 
+## Projekti prethodnih generacija (izbor)
+
+- [Web automation DSL](https://github.com/Tim6FTN/wash-lang-prototype)
+- [EasyColorLang - Writing of TextMate grammars made easy](https://github.com/IgorMaj/SyntaxColoring)
+- [Domain Specific Language for Source Code Formatting](https://github.com/simsimkic/dsl)
+- [A domain-specific language for definining web-based surveys](https://github.com/majak96/dsl-project)
+- [DSL for generating Web applications](https://github.com/vtanja/JSD)
+- [Sprint DSL for SCRUM](https://github.com/vlaksi/JSZD-Proj)
