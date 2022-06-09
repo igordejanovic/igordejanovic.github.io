@@ -47,6 +47,7 @@ layout: page
 
 ## Projekti prethodnih generacija (izbor)
 
+- [A Domain-Specific Language (DSL) for simplified music notation](https://github.com/E2Music/pyTabs)
 - [Web automation DSL](https://github.com/Tim6FTN/wash-lang-prototype)
 - [EasyColorLang - Writing of TextMate grammars made easy](https://github.com/IgorMaj/SyntaxColoring)
 - [Domain Specific Language for Source Code Formatting](https://github.com/simsimkic/dsl)
