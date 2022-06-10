@@ -5,12 +5,12 @@ sidebar: true
 order: 10
 ---
 
-<img style="margin: 10px;" align="left" src="/img/profile.jpg"/> I work as an
-associate professor at the Faculty of technical sciences, University of Novi
-Sad.  When I was a kid I got struck by a passion for programming and computers
-in general. That passion never left me. Nowadays I am particularly interested
-in Domain-Specific Languages and Model-Driven Engineering. I strongly believe
-that the future of programming is in languages fit for the purpose, with both
+<img style="margin: 10px;" align="left" src="/img/profile.jpg"/> I work as a
+full professor at the Faculty of technical sciences, University of Novi Sad.
+When I was a kid I got struck by a passion for programming and computers in
+general. That passion never left me. Nowadays I am particularly interested in
+Domain-Specific Languages and Model-Driven Engineering. I strongly believe that
+the future of programming is in languages fit for the purpose, with both
 abstract and concrete syntaxes fully aligned with the domain. I always strive
 for simplicity - simple tools, simple processes.
 
