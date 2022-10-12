@@ -1325,6 +1325,7 @@ b = div_by_maker(2)
 b(20)                 # = 10
 b(10)                 # = 5
 #+END_SRC
+** TODO Postepeno tipiziranje (/Gradual Typing/)
 
 * Operatori i izrazi (TODO)
 * Struktura programa i kontrola toka
@@ -1454,6 +1455,86 @@ for line in open("foo.txt"):
     continue # Preskoči je
   # Obradi sve linije koje nisu prazne
 #+END_SRC
+** Prepoznavanje obrazaca (/Pattern Matching/)
+- Python 3.10
+- [[https://peps.python.org/pep-0636/][PEP 636]]
+- Iskaz prepoznavanja strukture i povezivanja varijabli (/binding/)
+
+#+begin_src python
+command = input("What are you doing next? ")
+# analyze the result of command.split()
+[action, obj] = command.split()
+... # interpret action, obj
+#+end_src
+
+- Šta ako komanda ima više od dve reči?
+
+#+REVEAL: split
+
+#+begin_src python
+match command.split():
+    case [action, obj]:
+        ... # interpret action, obj
+#+end_src
+
+- povezuje ~action = subject[0]~ i ~obj = subject[1]~.
+
+#+REVEAL: split
+
+- Može imati više grana:
+
+#+begin_src python
+match command.split():
+    case [action]:
+        ... # interpret single-verb action
+    case [action, obj]:
+        ... # interpret action, obj
+#+end_src
+
+#+REVEAL: split
+
+- Struktura obrazca može imati i konkretne vrednosti:
+
+#+begin_src python
+match command.split():
+    case ["quit"]:
+        print("Goodbye!")
+        quit_game()
+    case ["look"]:
+        current_room.describe()
+    case ["get", obj]:
+        character.get(obj, current_room)
+    case ["go", direction]:
+        current_room = current_room.neighbor(direction)
+    # The rest of your commands go here
+#+end_src
+
+#+REVEAL: split
+
+- Podrazumevani obrazac i prepoznavanje više vrednosti:
+
+#+begin_src python
+match command.split():
+    case ["quit"]: ... # Code omitted for brevity
+    case ["go", direction]: ...
+    case ["drop", *objects]: ...
+    ... # Other cases
+    case _:
+        print(f"Sorry, I couldn't understand {command!r}")
+#+end_src
+
+#+REVEAL: split
+
+- Obrasci se mogu komponovati:
+
+#+begin_src python
+match command.split():
+    ... # Other cases
+    case ["north"] | ["go", "north"]:
+        current_room = current_room.neighbor("north")
+    case ["get", obj] | ["pick", "up", obj] | ["pick", obj, "up"]:
+        ... # Code for picking up the given object
+#+end_src
 
 * Funkcije i funkcionalno programiranje
 ** Osnove
@@ -2302,6 +2383,9 @@ isinstance(b, C)  # False, B ne nasleđuje C
 issubclass(B,A)   # True
 issubclass(C,A)   # False
 #+END_SRC
+** TODO /dataclass/
+- Python 3.7
+- [[https://peps.python.org/pep-0557/][PEP 557]]
 
 * Moduli i paketi
 ** Moduli i =import= iskaz

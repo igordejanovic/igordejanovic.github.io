@@ -35,13 +35,13 @@
 <h1 class="title">Programski jezik Python</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-10-25 Mon 09:47, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2022-10-12 Wed 11:41, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org4392f83">
-<h2 id="org4392f83">Sadržaj</h2>
-<div id="text-table-of-contents">
+<section id="slide-orgaea3ef9">
+<h2 id="orgaea3ef9">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Kratak pregled Python-a</a></li>
 <li><a href="#/slide-2">2. Leksičke konvencije i sintaksa</a></li>
@@ -2050,6 +2050,126 @@ else:
   # Obradi sve linije koje nisu prazne
 </code></pre>
 </div>
+</section>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9.</span> Prepoznavanje obrazaca (<i>Pattern Matching</i>)</h3>
+<ul>
+<li>Python 3.10</li>
+<li><a href="https://peps.python.org/pep-0636/">PEP 636</a></li>
+<li>Iskaz prepoznavanja strukture i povezivanja varijabli (<i>binding</i>)</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >command = input("What are you doing next? ")
+# analyze the result of command.split()
+[action, obj] = command.split()
+... # interpret action, obj
+</code></pre>
+</div>
+
+<ul>
+<li>Šta ako komanda ima više od dve reči?</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="python" >match command.split():
+    case [action, obj]:
+        ... # interpret action, obj
+</code></pre>
+</div>
+
+<ul>
+<li>povezuje <code>action = subject[0]</code> i <code>obj = subject[1]</code>.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>Može imati više grana:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >match command.split():
+    case [action]:
+        ... # interpret single-verb action
+    case [action, obj]:
+        ... # interpret action, obj
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Struktura obrazca može imati i konkretne vrednosti:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >match command.split():
+    case ["quit"]:
+        print("Goodbye!")
+        quit_game()
+    case ["look"]:
+        current_room.describe()
+    case ["get", obj]:
+        character.get(obj, current_room)
+    case ["go", direction]:
+        current_room = current_room.neighbor(direction)
+    # The rest of your commands go here
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Podrazumevani obrazac i prepoznavanje više vrednosti:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >match command.split():
+    case ["quit"]: ... # Code omitted for brevity
+    case ["go", direction]: ...
+    case ["drop", *objects]: ...
+    ... # Other cases
+    case _:
+        print(f"Sorry, I couldn't understand {command!r}")
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Obrasci se mogu komponovati:</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >match command.split():
+    ... # Other cases
+    case ["north"] | ["go", "north"]:
+        current_room = current_room.neighbor("north")
+    case ["get", obj] | ["pick", "up", obj] | ["pick", obj, "up"]:
+        ... # Code for picking up the given object
+</code></pre>
+</div>
 
 </section>
 </section>
@@ -3570,7 +3690,7 @@ Pomoć: <code>random</code> modul
 <section id="slide-9-10">
 <h3 id="9-10"><span class="section-number-3">9.10.</span> <a href="http://www.jetbrains.com/pycharm/">PyCharm</a></h3>
 
-<div id="org420434c" class="figure">
+<div id="org0c21428" class="figure">
 <p><img src="./images/PyCharm.png" alt="PyCharm.png" />
 </p>
 </div>
@@ -3593,7 +3713,7 @@ koda&#x2026;</li>
 <section id="slide-9-12">
 <h3 id="9-12"><span class="section-number-3">9.12.</span> <a href="http://pydev.org/">Eclipse PyDev</a></h3>
 
-<div id="org04e3d7c" class="figure">
+<div id="orge7745da" class="figure">
 <p><img src="./images/PyDev.png" alt="PyDev.png" />
 </p>
 </div>
