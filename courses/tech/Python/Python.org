@@ -1325,7 +1325,82 @@ b = div_by_maker(2)
 b(20)                 # = 10
 b(10)                 # = 5
 #+END_SRC
-** TODO Postepeno tipiziranje (/Gradual Typing/)
+** Postepeno tipiziranje (/Gradual Typing/)
+*** Statičko vs. dinamičko tipiziranje
+- Statičko - tipovi poznati u vreme kompajliranja. Provera tipova (/type
+  checking/) može da se uradi od strane kompajlera.
+- Dinamičko - tipovi poznati u vreme izvršavanja (/run-time/). Provera tipova nije
+  moguća a priori.
+
+*** Prednosti statičkog tipiziranja
+- Greške u tipovima pronalazi kompajler.
+- Bolji opis očekivanih ulaza funkcija. Automatska dokumentacija.
+- Lakše i bezbednije refaktorisanje.
+
+
+*** Postepeno tipiziranje
+- Pristup kod koga delovi koda mogu biti statički tipizirani dok drugi delovi
+  mogu biti dinamički tipizirani.
+- Moguća je delimična provera tipova.
+- Postepeno se deo koji je statički tipoiziran može povećavati.
+- Sve netipizirane varijable i parametri funkcija se implicitno tretiraju kao
+  tip /Any/ koji je kompatibilan sa svim tipovima i svi tipovi su kompatibilni sa
+  njim.
+
+*** Nagoveštaji tipova (/Type Hints/)
+- Pristup kod koga se sprovodi postepeno tipiziranje navođenjem nagoveštaja koji
+  su opcioni.
+- Nagoveštaje koristi statički proveravač tipova (/Static Type Checker/) - poseban
+  alat koji se izvršava nad izvornim kodom kao deo CI/CD procedura.
+- Uvedeno u Python verziji 3.5
+- Statički proveravač tipova - [[http://www.mypy-lang.org/][mypy]]
+
+*** Primeri
+
+#+begin_src python
+def greeting(name: str) -> str:
+    return 'Hello ' + name
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src python
+def count_truthy(elements: List[Any]) -> int:
+    return sum(1 for elem in elements if elem)
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src python
+from typing import TypeVar, Text
+
+AnyStr = TypeVar('AnyStr', Text, bytes)
+
+def concat(x: AnyStr, y: AnyStr) -> AnyStr:
+    return x + y
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src python
+from typing import Dict, List, Optional
+
+class Node:
+    ...
+
+class SymbolTable(Dict[str, List[Node]]):
+    def push(self, name: str, node: Node) -> None:
+        self.setdefault(name, []).append(node)
+
+    def pop(self, name: str) -> Node:
+        return self[name].pop()
+
+    def lookup(self, name: str) -> Optional[Node]:
+        nodes = self.get(name)
+        if nodes:
+            return nodes[-1]
+        return None
+#+end_src
 
 * Operatori i izrazi (TODO)
 * Struktura programa i kontrola toka
@@ -2383,9 +2458,25 @@ isinstance(b, C)  # False, B ne nasleđuje C
 issubclass(B,A)   # True
 issubclass(C,A)   # False
 #+END_SRC
-** TODO /dataclass/
+** /dataclass/
 - Python 3.7
 - [[https://peps.python.org/pep-0557/][PEP 557]]
+- Definisanje tipa/klase namenjene čuvanju podataka
+- /Promenjive imenovane torke sa podrazumevanim vrednostima/
+
+#+begin_src python
+@dataclass
+class InventoryItem:
+    '''Class for keeping track of an item in inventory.'''
+    name: str
+    unit_price: float
+    quantity_on_hand: int = 0
+
+    def total_cost(self) -> float:
+        return self.unit_price * self.quantity_on_hand
+#+end_src
+
+- ~@dataclass~ anotacija dodaje podrazumevane metode ~__init__~, ~__repr__~, ~__eq__~, ...
 
 * Moduli i paketi
 ** Moduli i =import= iskaz
