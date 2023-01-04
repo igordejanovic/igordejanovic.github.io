@@ -497,6 +497,153 @@ to run =profiler-stop= as the profiler introduces small run-time overhead.
 
 *** References
 - Emacs Info on Elisp - =SPC h i or M-x info= - follow =Elisp= and then =Debugging=.
+** Guix tips and tricks :guix:linux:
+:PROPERTIES:
+:EXPORT_FILE_NAME: guix-tips-and-tricks
+:END:
+*** Useful [[https://guix.gnu.org/][Guix]] commands
+
+| subcommand (guix ...)                     | description                                   |
+|-------------------------------------------+-----------------------------------------------|
+| =describe --format=channel=                 | Decribe channels in Guile format              |
+| =search <what>=                             | Search packages                               |
+| =install <packages>=                        | Install packages and make a new generation    |
+| =package --list-installed (or -I)=          | List installed packages                       |
+| =package -A=                                | List available packages                       |
+| =package -A wlr=                            | List available containing given word in name  |
+| add =--profile=<path>= to previous commands | List installed packages from given profile    |
+| =package --roll-back=                       | Roll-back to previous generation              |
+| =package --list-generations=                | List generations                              |
+| =package --switch-generation <>=            | Switch to given generation by number          |
+| =size <package>=                            | Report size of package and its deps           |
+| =graph -M 2 <package>=                      | Produce =dot= graph of deps with depth 2        |
+|                                           | ..pipe to =xdot -= to visualize                 |
+| =weather <package>=                         | Check if package is available as a substitute |
+| =pull=                                      | Update channels                               |
+
+- List system level packages (works only of a full Guix system):
+  #+begin_src sh
+  guix packages --list-installed --profile=/run/current-system/profile
+  #+end_src
+
+*** Additional channels
+In =~/.config/guix/channels.scm=:
+#+begin_src scheme
+(cons*
+ (channel
+  (name 'nonguix)
+  (url "https://gitlab.com/nonguix/nonguix")
+  (introduction
+   (make-channel-introduction
+    "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+    (openpgp-fingerprint
+     "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+ (channel
+  (name 'guix-gaming-games)
+  (url "https://gitlab.com/guix-gaming-channels/games.git")
+  (introduction
+   (make-channel-introduction
+    "c23d64f1b8cc086659f8781b27ab6c7314c5cca5"
+    (openpgp-fingerprint
+     "50F3 3E2E 5B0C 3D90 0424  ABE8 9BDC F497 A4BB CC7F"))))
+
+ %default-channels)
+#+end_src
+*** Run Guix in VM
+#+begin_src sh
+wget https://ftp.gnu.org/gnu/guix/guix-system-vm-image-1.4.0.x86_64-linux.qcow2
+qemu-system-x86_64 \
+   -nic user,model=virtio-net-pci \
+   -enable-kvm -m 2048 \
+   -device virtio-blk,drive=myhd \
+   -drive if=none,file=guix-system-vm-image-1.4.0.x86_64-linux.qcow2,id=myhd
+#+end_src
+
+*** Install Guix in VM
+#+begin_src sh
+wget https://ftp.gnu.org/gnu/guix/guix-system-install-1.4.0.x86_64-linux.iso
+wget https://ftp.gnu.org/gnu/guix/guix-system-install-1.4.0.x86_64-linux.iso.sig
+gpg --verify guix-system-install-1.4.0.x86_64-linux.iso.sig
+# Ako nemam GPG javni ključ
+wget https://sv.gnu.org/people/viewgpg.php?user_id=15145 -qO - | gpg --import -
+
+# Copy on a USB stick
+dd if=guix-system-install-1.4.0.x86_64-linux.iso of=/dev/sdX status=progress
+sync
+
+# Run in VM
+qemu-img create -f qcow2 guix-system-igord.qcow2 50G
+qemu-system-x86_64 -m 1024 -smp 1 -enable-kvm \
+  -nic user,model=virtio-net-pci -boot menu=on,order=d \
+  -drive file=guix-system-igord.qcow2 \
+  -drive media=cdrom,file=guix-system-install-1.4.0.x86_64-linux.iso
+  #+end_src
+
+- Follow installation instructions.
+- After the installation is complete run the image in VM as described in a
+  previous node.
+  #+begin_src sh
+    qemu-system-x86_64 -m 1024 -smp 1 -enable-kvm \
+    -nic user,model=virtio-net-pci -boot menu=on,order=d \
+    -drive file=guix-system-igord.qcow2
+  #+end_src
+- System config is in =/etc/config.scm=. To change configuration run:
+  #+begin_src sh
+guix pull
+sudo guix system reconfigure /etc/config.scm
+  #+end_src
+
+See the manual.
+
+*** Mount local folder inside QEMU
+#+begin_src sh
+qemu-system-x86_64 -m 2048 -smp 1 -enable-kvm \
+-nic user,model=virtio-net-pci -boot menu=on,order=d \
+-drive file=guix-system-igord.qcow2 -virtfs local,path=/home/igor/repos/config/guix/,security_model=passthrough,mount_tag=host0,id=host0
+#+end_src
+
+- Inside the guest:
+  #+begin_src sh
+    mkdir config
+    sudo mount -t 9p -o trans=virtio,version=9p2000.L host0 ~/config
+  #+end_src
+*** Running Guix Shell
+#+begin_src sh
+guix shell --container python coreutils procps grep less util-linux bash -- bash
+#+end_src
+
+- or simply:
+  #+begin_src sh
+    guix shell -e '(@ (gnu) %base-packages)'
+  #+end_src
+- or with isolation just to the current folder:
+  #+begin_src sh
+    guix shell --container -e '(@ (gnu) %base-packages)'
+  #+end_src
+
+*** Interesting install config with non-free stuff
+- [[https://www.reddit.com/r/GUIX/comments/epckio/gnu_system_with_wayland_and_sway/][On reddit]]
+*** Configure new system inside QEMU from Arch
+- Configuration in =~/repos/config/guix=.
+- [[*Mount local folder inside QEMU][Mount the folder]] inside QEMU and run the image.
+- Reconfigure with =sudo guix system reconfigure ~/config/system.scm=
+*** Copy paste with QEMU
+- For this [[https://spice-space.org/][SPICE]] is used. See [[https://www.linux-kvm.org/page/SPICE][this tutorial]].
+- But it looks like it wont work with sway.
+*** Use sway/wayland inside QEMU
+- [[https://ask.fedoraproject.org/t/run-sway-in-qemu/23753][Interesting try]]. It kinda works.
+  #+begin_src sh
+    qemu-system-x86_64 \
+    -m 2G -smp 1 -enable-kvm \
+    -nic user,model=virtio-net-pci \
+    -boot menu=on,order=d \
+    -drive file=guix-system-igord.qcow2 \
+    -virtfs local,path=/home/igor/repos/config/,security_model=passthrough,mount_tag=host0,id=host0 \
+    -device intel-hda \
+    -device hda-duplex \
+    -device virtio-vga-gl \
+    -display gtk,gl=on
+  #+end_src
 ** TODO Loading =ctypes= with an older =libffi= :python:linux:
 The error I faced the other day when I tried to run a Python application I was
 working on was:
