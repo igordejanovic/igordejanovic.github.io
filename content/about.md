@@ -23,7 +23,7 @@ aligned with the domain. I always strive for simplicity - simple tools, simple
 processes.
 
 I am user, supporter, and developer of Free/Libre Open-Source Software. Some of
-my FLOSS projects are described [here]({{< relref "projects" >}}). Check it out at [github](https://github.com/%7B%7B%20site.github%20%7D%7D).
+my FLOSS projects are described [here]({{< relref "projects" >}}). Check it out at [github](https://github.com/igordejanovic).
 
 Some of my research is listed at [my university page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
 
