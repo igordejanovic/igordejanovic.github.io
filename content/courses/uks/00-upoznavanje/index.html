@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Upravljanje konfiguracijom softvera</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Upravljanje konfiguracijom softvera</h1>
+<h2 class="subtitle">Upoznavanje sa predmetom</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2022-10-04 Tue 14:00, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Opšte informacije</h2>
+<ul>
+<li>Broj ESPB: 6</li>
+<li>Fond časova: 3+2</li>
+<li>Predmetni nastavnik: <a href="http://igordejanovic.net">dr Igor Dejanović</a> (igord na uns ac rs)</li>
+<li>Predmetni asistent:
+<ul>
+<li>MSc Vladimir Inđić, vladaindjic na uns.ac.rs</li>
+
+</ul></li>
+<li>Materijali sa predavanja su dostupni na linku:
+<ul>
+<li><a href="https://www.igordejanovic.net/courses/uks.html">https://www.igordejanovic.net/courses/uks.html</a></li>
+
+</ul></li>
+<li>Materijali za vežbe biće dostupni preko GitHub-a i Gugl grupe.</li>
+<li>Komunikacija se obavlja preko Gugl grupe:
+<ul>
+<li><a href="https://groups.google.com/g/kzi-uks">https://groups.google.com/g/kzi-uks</a></li>
+<li><i>Obavezno se prijavite!</i></li>
+
+</ul></li>
+<li>Konsultacije se obavljaju po potrebi uz najavu na email</li>
+<li>Dogovor o usmenim ispitima se obavlja preko grupe:
+<ul>
+<li><a href="https://groups.google.com/d/forum/dejanovic-ispiti">https://groups.google.com/d/forum/dejanovic-ispiti</a></li>
+<li><i>Ne zaboravite da se prijavite kada položite praktični deo!</i></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Šta predstavlja upravljanje konfiguracijom softvera?</h2>
+<ul>
+<li>Upravljanje konfiguracijom softvera (<i>Software Configuration Management</i>)
+predstavlja disciplinu koja se bavi kontrolisanom evolucijom složenih
+softverskih sistema.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>Estublier, <i>Software configuration management: a roadmap</i>, in Proceedings of
+the conference on The future of Software engineering, pp. 279–289, ACM, 2000</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Zašto koristiti SCM?</h2>
+<ul>
+<li>Softverski proizvodi često “žive” godinama pa čak i decenijama.</li>
+<li>Softverski proizvodi su često izuzetno kompleksni.</li>
+<li>Da bi obezbedili kontinualnu evoluciju moramo uvesti procese, tehnike i alate
+koji će to omogućiti.</li>
+<li>Praksa je pokazala da je uspeh projekta direktno povezan sa upotrebom
+efikasnih SCM tehnika i alata.</li>
+<li>Prva 4 na listi od 12 koraka za bolji razvoj softvera<sup>1</sup> istaknutog softver
+inženjera, pisca i autora izuzetno popularnog servisa <a href="http://stackoverflow.com/">StackOverflow</a> <a href="http://www.joelonsoftware.com/AboutMe.html">Joela
+Spolskog</a> predstavljaju SCM tehnike (kontrola verzija izvornog koda,
+automatizovana i kontinualna izgradnja i praćenje grešaka).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/">J. Spolsky, The joel test: 12 steps to better code</a>, August 2000.</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Zašto koristiti SCM?</h2>
+<ul>
+<li>Podrška za paralelni rad. Ručno spajanje paralelnih izmena nije ni malo
+zabavno.</li>
+<li>Upotreba SCM alata, pre svega distribuiranih sistema za kontrolu verzija je
+dovela do pojave tzv. društvenog kodiranja (<a href="http://www.techrepublic.com/blog/it-consultant/social-coding-the-next-wave-in-development/">Social Coding</a>) i servisa kao što
+su <a href="https://github.com/">GitHub</a>, <a href="https://bitbucket.org/">BitBucket</a> i dr. Ovo je omogućilo eksploziju razvoja slobodnog
+softvera.</li>
+<li class="fragment roll-in">Zato što vam to traži poslodavac.</li>
+<li class="fragment roll-in">Zato što vam to traži klijent.</li>
+<li class="fragment roll-in"><b>Savet:</b> Ako firma ne koristi SCM tehnike (pre svega kontrolu verzija)
+zapitajte se da li želite da radite u takvoj firmi.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Cilj predmeta</h2>
+<ul>
+<li>Savladavanje teoretskih osnova discipline upravljanja konfiguracijom softvera
+(<i>Software Configuration Management</i>).</li>
+<li>Osposobljavanje za uvođenje i primenu procesa upravljanja konfiguracijom
+softvera.</li>
+<li>Upoznavanje sa industrijskim standardima, okvirima i alatima iz oblasti
+upravljanja konfiguracijom softvera.</li>
+<li>Savladavanje modernih SCM tehnologija (Git, pytest, GitHub/GitLab, Docker,
+Docker Compose, Chef/Ansimble/Teraform).</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Struktura ocene</h2>
+<ul>
+<li>Predispitne obaveze - 60%</li>
+<li>Teorijski deo ispita - 40%</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Projekat</h2>
+<ul>
+<li>Timski rad - timovi od 4±1 studenta.</li>
+<li>Obavezna upotreba sistema za kontrolu verzija (<a href="https://git-scm.com/">Git</a>).</li>
+<li>Obavezna upotreba sistema za praćenje projekta (<a href="https://github.com/">GitHub</a>).</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Projekat - raspodela bodova</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Aktivnost</th>
+<th scope="col" class="org-center">Bodovi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Model</td>
+<td class="org-center">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Implementacija projekta</td>
+<td class="org-center">20</td>
+</tr>
+
+<tr>
+<td class="org-left">Implementacija testova</td>
+<td class="org-center">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Git</td>
+<td class="org-center">10</td>
+</tr>
+
+<tr>
+<td class="org-left">GitHub</td>
+<td class="org-center">10</td>
+</tr>
+
+<tr>
+<td class="org-left">SCM</td>
+<td class="org-center">8</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Ukupno</b></td>
+<td class="org-center"><b>60</b></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+<i>I pored timskog rada svi bodovi se dobijaju individualno.</i>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Plan izvođenja nastave</h2>
+<ol>
+<li>Upoznavanje sa predmetom</li>
+<li>Programski jezik Python</li>
+<li>Osnove upravljanja konfiguracijom softvera</li>
+<li><a href="https://www.djangoproject.com/">Django framework</a></li>
+<li>Upravljanje izvornim kodom (<i>Source Code Management</i>)</li>
+<li>DVCS, Git</li>
+<li>Git</li>
+<li>Postavka zadatka. Modelovanje rešenja (plantUML)</li>
+<li>docker, docker-compose</li>
+<li>Pisanje dokumentacije (mkdocs, Sphinx)</li>
+<li>Infrastructure as Code (IaC) - (Chef, Puppet, Ansimble, Terraform, Kubernetes) - videćemo šta od alata</li>
+<li>Testiranje (pytest, PyUnit, doctest), TDD, kontinualna integracija (Jenkins, GitHub Actions, GitLab pipelines)</li>
+<li>Prezentacije projekata</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Projektni zadatak</h2>
+<ul>
+<li>Veb aplikacija za upravljanje promenama.</li>
+<li>Slično GitHub-u.</li>
+<li>Od zahteva za promenom do uvođenja i puštanja u rad.</li>
+<li>Veza prema promenama u izvornom kodu - koristiti GitHub.</li>
+<li><del>Krajnji cilj: definisan SCM proces za upravljanje promenama, podržan
+aplikacijom. Preći na sopstvenu aplikaciju u upravljanju projektom</del>
+(<a href="https://en.wikipedia.org/wiki/Eating_your_own_dog_food">dogfooding</a>)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Osnove upravljanja konfiguracijom softvera</h2>
+<ul>
+<li>Osnovni pojmovi i koncepti.</li>
+<li>Šta sve obuhvata SCM? Koji su razlozi uvođenja?</li>
+<li>Tradicionalna i moderna shvatanja SCM discipline.</li>
+<li>SCM procesi.</li>
+<li>SCM obrasci i preporučena praksa (<i>best practice</i>).</li>
+<li>SCM alati.</li>
+<li>SCM industrijski okviri i standardi.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Upravljanje izvornim kodom (<i>Source Code Management</i>)</h2>
+<ul>
+<li>Algoritmi i modeli. Distribuirani i centralizovani sistemi.</li>
+<li>Upravljanje alternativnih tokovima razvoja. Grananje.</li>
+<li>Formiranje osnovne linije (<i>Baseline</i>).</li>
+<li>Upravljanje konkurentnim radom. Optimističko i pesimističko zaključavanje.</li>
+<li>Preporučena praksa.</li>
+<li>Alati.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Sistemi za kontrolu verzija</h2>
+<ul>
+<li>Pregled osnovnih osobina najpopularnijih alata za kontrolu verzija
+(Subversion, Mercurial, Bazaar, Git).</li>
+<li>Detaljno upoznavanje sa Git alatom.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> Upravljanje promenama (<i>Change Control</i>)</h2>
+<ul>
+<li>Šta predstavlja upravljanje promenama?</li>
+<li>Kakve sve promene mogu nastati i u kojim fazama životnog ciklusa?</li>
+<li>Kako se promene prate? Životni ciklus zahteva za promenom.</li>
+<li>Kako se analizira uticaj promena na komponente sistema?</li>
+<li>Izveštavanje.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> Upravljanje izgradnjom i uvođenje (<i>Build and Deploy</i>)</h2>
+<ul>
+<li>Šta predstavlja izgradnja a šta uvođenje softvera?</li>
+<li>Zašto je potrebno postupak automatizovati?</li>
+<li>Kako se izgradnja i uvođenje mogu automatizovati?</li>
+<li>Šta predstavlja kontinualna izgradnja (<i>Continuous Build</i>) i kontinualna dostava
+(<i>Continuous Delivery</i>)?</li>
+<li>Puppet, Teraform, Fabric, Docker, &#x2026;</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> Upravljanje izdanjima (<i>Release Management</i>)</h2>
+<ul>
+<li>Šta predstavlja izdanje softvera?</li>
+<li>Zašto je bitno da uvedemo upravljanje u ovaj segment?</li>
+<li>Tehnike vođenja verzija izdanja?</li>
+<li>Alternativna izdanja.</li>
+<li>Sledljivost i povezivanje izdanja za komponente i njihove verzije od kojih je
+izdanje kreirano.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Literatura za predmet</h2>
+<ul>
+<li>J. Humble and D. Farley, <i>Continuous delivery: reliable software releases
+through build, test and deployment automation</i> Addison-Wesley Professional,
+2010</li>
+<li>S. Berczuk and B. Appleton, <i>Software configuration management patterns:
+effective teamwork, practical integration</i>, Addison-Wesley Professional, 2003</li>
+<li>M. Handbook, <i>Configuration management guidance, tech. rep., MIL-HDBK-61A
+(SE)</i>, Department of Defense–United States of America, 2001</li>
+<li>Scott Chacon and Ben Straub, <a href="https://git-scm.com/book/en/v2">Pro Git</a>. APress, 2014.</li>
+<li>Beazley, David M. <i>Python essential reference</i> Addison-Wesley Professional.</li>
+<li><a href="https://docs.python.org/release/3.4.0/tutorial/">The Python Tutorial</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

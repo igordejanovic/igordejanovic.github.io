@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8"/>
+<title>Системи за контролу верзија</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Системи за контролу верзија</h1>
+<h2 class="subtitle"><i>Version Control Systems - VCS</i></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2022-12-08 Thu 18:37, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+</section>
+
+<section>
+<section id="slide-orge803aa2">
+<h2 id="orge803aa2">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Проблеми, подела и особине</a></li>
+<li><a href="#/slide-2">2. Централизовани системи</a></li>
+<li><a href="#/slide-3">3. Дистрибуирани системи за контролу верзија</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Проблеми, подела и особине</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Проблем са конкурентним изменама</h3>
+<ul>
+<li>Конкурентни развој подразумева да различити људи мењају исте ресурсе у исто
+време.</li>
+<li>Како очувати све измене? Како их спојити на конзистентан начин?</li>
+<li>Посебан проблем – чување историје промена.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Проблем са конкурентним изменама</h3>
+
+<div id="orgaaf811a" class="figure">
+<p><img src="./images/KonkurentneIzmene-1.svg" alt="KonkurentneIzmene-1.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+Љубинка и Жика преузимају фајл А из дељеног репозиторијума.
+</p>
+
+</section>
+<section>
+
+
+<div id="orgf85a582" class="figure">
+<p><img src="./images/KonkurentneIzmene-2.svg" alt="KonkurentneIzmene-2.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+Љубинка враћа измењену верзију фајла А.
+</p>
+
+</section>
+<section>
+
+
+<div id="org674e506" class="figure">
+<p><img src="./images/KonkurentneIzmene-3.svg" alt="KonkurentneIzmene-3.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+Жика враћа измењену верзију преко Љубинкине верзије.
+Љубинкина измена је изгубљена.
+</p>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Контрола верзија - <i>Version Control</i></h3>
+<ul>
+<li>Контрола верзија (енг. <i>Version Control</i>) је општи назив за активност праћења
+промена и спајања конкурентних промена над артифактима од интереса за
+посматрану активност, уз очување историје.</li>
+<li>У случају развоја софтвера артифакти који су предмет праћења могу бити било
+који дигитални садржаји који су део софтверског пројекта: модели, програмски
+код, документација, конфигурациони фајлови, мултимедијални садржаји и сл.</li>
+<li>Представља део шире дисциплине под називом управљање конфигурацијом софтвера
+(енг. <i>Software Configuration Management - SCM</i>). SCM је инжењерска дисциплина
+која омогућава контролисано праћење и еволуцију софтверског производа.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Систем за контролу верзија</h3>
+<ul>
+<li>Систем за контролу верзија (<i>Version Control System - VCS</i>) управља променама
+над дигиталним артифактима (најчешће фајловима и фолдерима).</li>
+<li>Даје <i>увид у све промене</i> које су учињене над артифактима који су предмет
+контроле верзија са свим релевантним метаподацима као што су:
+
+<ul>
+<li>Ко је начинио промену?</li>
+<li>Када је промена учињена?</li>
+<li>Шта је том приликом промењено и на који начин?</li>
+<li>Над којом верзијом је промена учињена, односно које</li>
+<li>промене су претходиле?</li>
+<li>&#x2026;</li>
+
+</ul></li>
+
+<li>Омогућава <i>враћање на верзију из прошлости</i> и креирање <i>алтернативних токова</i>
+развоја/варијанти.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Модели управљања конкурентним променама</h3>
+<ul>
+<li>Песимистички (<i>Lock-Modify-Unlock</i>)
+<ul>
+<li>Конкурентне измене се избегавају закључавањем</li>
+<li>Примена могућа само код централизованих система</li>
+<li>Мане:
+<ul>
+<li>Смањена "пропусност" система – посебно изражено код пројеката са већим
+бројем учесника</li>
+<li>Синдром "отишао на ручак"</li>
+
+</ul></li>
+
+</ul></li>
+<li>Оптимистички (<i>Copy-Modify-Merge</i>)
+<ul>
+<li>Конкурентне промене се удружују накнадно (операција <i>Merge</i>).</li>
+<li>Висока пропусност – сваки учесник може да ажурира произвољан артифакт.</li>
+<li>Мане:
+<ul>
+<li>Конкурентне промене могу бити у конфликту што се разрешава приликом
+операције спајања.</li>
+<li>Код произвољних бинарних фајлова где семантика садржаја није позната
+алату овај приступ не може да се користи.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Основни концепти</h3>
+<ul>
+<li>Промена (<i>Change/Delta/Patch</i>)</li>
+<li>Скуп промена (<i>ChangeSet</i>)</li>
+<li>Репозиторијум</li>
+<li>Радна стабло/копија (<i>Working Tree/Copy</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Постојеће архитектуре</h3>
+<ul>
+<li>Централизована или <i>client-server</i> архитектура.
+<ul>
+<li>Сва историја је у репозиторијуму централног сервера. Клијенти имају само
+текућу верзију.</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="orgf7300cd" class="figure">
+<p><img src="./images/Centralizovana-arhitektura.svg" alt="Centralizovana-arhitektura.svg" class="org-svg" style="height: 200px;" />
+</p>
+</div>
+
+<ul>
+<li>Дистрибуирана или <i>peer-to-peer</i> архитектура.
+<ul>
+<li>Сваки клијент има пуну историју измена.</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="org53934c3" class="figure">
+<p><img src="./images/Distribuirana-arhitektura.svg" alt="Distribuirana-arhitektura.svg" class="org-svg" style="height: 200px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Централизовани системи за контролу верзија</h3>
+<ul>
+<li>Клијент-сервер архитектура.</li>
+<li>Предности:
+<ul>
+<li>Могуће је успоставити строжију контролу.</li>
+<li>Бољи увид у текуће стање пројекта.</li>
+
+</ul></li>
+<li>Мане:
+<ul>
+<li>Све промене се виде на централном серверу што обесхрабује програмере на
+експериментисање.</li>
+<li>Једна тачка отказа.</li>
+<li>Код рада без интернета имамо појаву великих и нефокусираних промена
+(<i>commit</i>).</li>
+<li>Лошија скалабилност у поређењу са дистрибуираним.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-1-9">
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Дистрибуирани системи за контролу верзија</h3>
+<ul>
+<li>Системи који су имплементирани у складу са дистрибуираном архитектуром
+(<i>peer-to-peer</i>) називају се дистрибуираним системима за контролу верзија
+(<i>Distributed Version Control Systems - DVCS</i>).</li>
+<li>Предности:
+<ul>
+<li>Рад без мреже. Креирање мањих, фокусираних промена (<i>commit</i>).</li>
+<li>Једноставно креирање репозиторијума и експериментисање.</li>
+<li>Једноставно гранање – сваки репозиторијум је грана развоја.</li>
+<li>Једноставно креирање подтимова.</li>
+<li>Једноставно базирање пројекта на већ постојећем (енг. <i>forking</i>).</li>
+<li>Одлична скалабилност – пример: Линукс кернел.</li>
+<li>Нов начин рада – друштвено кодирање (енг. <i>social coding</i>). Видети сајтове
+<a href="https://github.com/">github.com</a>, <a href="https://gitlab.com/">gitlab.org</a> и <a href="https://bitbucket.org/">bitbucket.org</a>.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-1-10">
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Основне VCS операције</h3>
+<ul>
+<li><i>Clone</i> код DVCS, <i>checkout</i> код централизованих – Креирање радне копије.</li>
+<li><i>Commit</i> – Регистровање нове промене.</li>
+<li><i>Update</i> – Преузимање туђих промена</li>
+<li><i>Pull/Push</i> код DVCS – Пријем/слање промена из/у удаљених репозиторијума.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Централизовани системи</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Најпознатији представници</h3>
+<ul>
+<li>Subversion – <a href="http://subversion.apache.org/">http://subversion.apache.org/</a></li>
+<li>CVS – <a href="http://savannah.nongnu.org/projects/cvs">http://savannah.nongnu.org/projects/cvs</a></li>
+<li>Perforce – <a href="http://www.perforce.com/">http://www.perforce.com/</a></li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Шта је Subversion?</h3>
+<ul>
+<li>Централизовани VCS отвореног кода настао као замена за времешни CVS.</li>
+<li>Репозиторијум у којој се чува целокупна историја пројекта се налази на
+централном серверу.</li>
+<li>Програмери приступају одређеним верзијама пројекта употребом SVN клијената.</li>
+<li>Постоји више клијената у употреби: <b>svn</b>, <b>TortoiseSVN</b>, <b>Subclipse</b>,
+<b>Subversive</b>&#x2026;</li>
+<li>Сваки члан тима може изабрати са којим ће клијентом да ради.</li>
+<li>Може користити и више клијената уколико жели.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Subversion архитектура</h3>
+
+<div id="orgaa999de" class="figure">
+<p><img src="./images/SVN-Arhitektura.png" alt="SVN-Arhitektura.png" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>B. Collins-Sussman, B. W. Fitzpatrick, and C. M. Pilato, <b>Version Control with
+Subversion</b>, For Subversion 1.7.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Модел Subversion репозиторијума</h3>
+<ul>
+<li>Репозиторијум је моделован као фајл систем са верзијама.</li>
+<li>Почетна верзија је 0 и фајл систем је празан.</li>
+<li>Операције над фајл системом су ACID
+(<i>Atomicity-Consistency-Isolation-Durability</i>) операције.</li>
+<li>Свака успешна измена фајл система увећава верзију за 1.</li>
+
+</ul>
+
+
+<div id="org62c32d0" class="figure">
+<p><img src="./images/SVNFileSystem.png" alt="SVNFileSystem.png" style="height: 400px;" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>B. Collins-Sussman, B. W. Fitzpatrick, and C. M. Pilato, <b>Version Control with Subversion</b>, For Subversion 1.7.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Дистрибуирани системи за контролу верзија</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Дистрибуирани системи - најпознатији представници</h3>
+<ul>
+<li>Git – <a href="http://git-scm.com/">http://git-scm.com/</a></li>
+<li>Mercurial – <a href="http://mercurial.selenic.com/">http://mercurial.selenic.com/</a></li>
+<li>Bazzar – <a href="http://bazaar.canonical.com/">http://bazaar.canonical.com/</a></li>
+<li>Fossil - <a href="https://fossil-scm.org/">https://fossil-scm.org/</a></li>
+<li>Darcs - <a href="http://darcs.net/">http://darcs.net/</a></li>
+<li>Pijul - <a href="https://pijul.org/">https://pijul.org/</a></li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> DVCS репозиторијум</h3>
+
+<div id="orgae33444" class="figure">
+<p><img src="./images/DVCS-repo.svg" alt="DVCS-repo.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Комуникација између репозиторијума</h3>
+
+<div id="orgd22f5e2" class="figure">
+<p><img src="./images/DVCS-repos-push-pull.svg" alt="DVCS-repos-push-pull.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Git</h3>
+<ul>
+<li>Развој започео Линус Торвалдс, у априлу 2005. године, после промене политике
+лиценцирања <i>BitKeeper</i>-а који је до тада коришћен за развој Линукс кернела.</li>
+<li>Изузетно брз и скалабилан.</li>
+<li>Писан највећим делом на језику Ц, али су делови писани у перлу, бешу итд.</li>
+<li>Криптографска аутентификација историје промена.</li>
+<li>Проблеми са превођењем на <i>Windows</i> платформу. Али то је сада мање-више решено.</li>
+<li>Не прати фајлове већ садржај. Измене се експлицитно додају у међузону (индекс) пре регистровања промене.</li>
+<li>Репозиторијум је потребно повремено “очистити”.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Mercurial</h3>
+<ul>
+<li>Брз, скалабилан и портабилан.</li>
+<li>Писан највећим делом на језику Пајтон са критичним деловима написаним на Ц-у.</li>
+<li>Једноставан за коришћење. Команде по узору на Subversion.</li>
+<li>Један извшни фајл проширив путем екстензија.</li>
+<li>Репозиторијум је адитивне природе. Није промењив и није потребно чишћење као
+код Git-а. Величина репозиторијума је увек минимална.</li>
+<li>Проблематичан код великих фајлова.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Bazaar</h3>
+<ul>
+<li>За сада најспорији од “велике тројке”.</li>
+<li>Писан највећим делом на језику Пајтон са деловима написаним на Ц-у.</li>
+<li>Подржан од стране компаније <i>Canonical</i>.</li>
+<li>Директна подршка за различите процесе.</li>
+<li>Праћење назива директоријума и фајлова. Јака подршка за промене имена и
+премештање фајлова.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Fossil</h3>
+<ul>
+<li>Иницијална верзија у 2006 години. Написан на програмском језику Ц. Подаци се
+чувају у SQLite бази.</li>
+<li>Иницијално коришћен на SQLite пројекту али данас се користи од стране више пројеката.</li>
+<li>Поред система за контролу верзија обезбеђује дистрибуирану базу багова, форум,
+вики. Ово омогућава пуни дистрибуирани рад и у режиму без интернета.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Darcs</h3>
+<ul>
+<li>Имплементиран на програмском језику <i>Haskell</i>. Развој започет 2003. године.</li>
+<li>Базиран на теорији закрпа (<i>Theory of patches</i>).</li>
+<li>Репозиторијум је парцијално уређени скуп закрпа.</li>
+<li>Операција примене независних закрпа је комутативна.</li>
+<li>Закрпа А зависи од Б ако Б уводи садржај који А мења.</li>
+<li>Већина других система је базирана на стању (<i>Snapshot</i>) док је базиран на
+променама, зато се многе операције (<i>merge</i>, <i>rebase</i>, <i>cherry-pick</i>) могу да се
+изведу употребом стандардних <i>pull</i> и <i>push</i> операција.</li>
+<li>Још увек нерешени проблеми са експоненцијалном сложеношћу операције спајања у
+појединим случајевима, као и нерешена <a href="http://bugs.darcs.net/issue1520">грешка код рекурзивних спајања</a>.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Pijul</h3>
+<ul>
+<li>Релативно млад пројекат. Развој започет 2016. год. Имплементиран на
+програмском језику <i>Rust</i>.</li>
+<li>Гради се на добрим идејама из <i>Darcs</i>-a али решава проблеме са перформансама и
+сложеношћу имплементације.</li>
+<li>Оно што је грана у другим системима се моделује каналима (<i>Channels</i>). Свака
+закрпа може да припада каналима.</li>
+<li>Конфликти су "грађани првог реда" и разрешење конфликта је нова
+промена/закрпа. Једном разрешени конфликт је разрешен трајно.</li>
+<li>Могуће је радити над репозиторијумима који су парцијално клонирани и све
+промене су конзистентне са "главним/пуним" репозиторијумом. Ово обезбеђује и
+ефикасан рад у моделу моно-репозиторијума.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

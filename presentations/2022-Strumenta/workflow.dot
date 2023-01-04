@@ -1,0 +1,30 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+94086994081808[ label="{Model|}"]
+
+94086994111584[ label="{Package|name: ID\l}"]
+
+94086994230992[ label="{*Element|}"]
+
+94086994236576[ label="{Task|name: ID\lsteps: list[ID]\l}"]
+
+
+
+94086994081808 -> 94086994230992[arrowtail=diamond, dir=both, headlabel="elements 0..*"]
+94086994111584 -> 94086994230992[arrowtail=diamond, dir=both, headlabel="elements 0..*"]
+94086994230992 -> 94086994111584 [dir=back]
+94086994230992 -> 94086994236576 [dir=back]
+94086994236576 -> 94086994236576[headlabel="next "]
+
+}

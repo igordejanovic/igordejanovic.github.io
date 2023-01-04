@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Softverski obrasci i komponente</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Softverski obrasci i komponente</h1>
+<h2 class="subtitle">Upoznavanje sa predmetom</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2022-10-04 Tue 13:25, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Opšte informacije</h2>
+<ul>
+<li>Broj ESPB: 5</li>
+<li>Fond časova: 2+2</li>
+<li>Predmetni nastavnik: dr Igor Dejanović, igord na uns.ac.rs</li>
+<li>Predmetni asistenti:
+<ul>
+<li>MSc Vladimir Inđić, vladaindjic na uns.ac.rs</li>
+<li>BSc Ivan Mršulja, ivan.mrsulja na uns.ac.rs</li>
+
+</ul></li>
+<li>Materijali sa predavanja su dostupni na linku
+<a href="http://www.igordejanovic.net/courses/sok.html">http://www.igordejanovic.net/courses/sok.html</a></li>
+<li>Materijali za vežbe biće dostupni preko GitHub-a i Google grupe.</li>
+<li>Komunikacija i obaveštenja se obavljaju preko Google grupe:
+<ul>
+<li><a href="https://groups.google.com/g/sok-siit-2022/">https://groups.google.com/g/sok-siit-2022/</a></li>
+<li><i>Obavezno se prijavite!</i></li>
+
+</ul></li>
+<li>Dogovor i obaveštenja o usmenim ispitima se obavljaju preko Google grupe:
+<ul>
+<li><a href="https://groups.google.com/g/dejanovic-ispiti">https://groups.google.com/g/dejanovic-ispiti</a></li>
+<li><i>Ne zaboravite da se prijavite na ovu grupu kada položite praktični deo!</i></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Cilj predmeta</h2>
+<ul>
+<li>Osposobljavanje za prepoznavanje i primenu softverskih obrazaca</li>
+<li>Osposobljavanje za primenu komponentno baziranog razvoja (<i>Component-Based
+Development - CBD</i>)</li>
+<li>Savladavanje modernih tehnologija baziranih na komponentnom razvoju</li>
+<li>Integracija postojećih, slobodno dostupnih komponenti i rešenja u cilju
+izgradnje složenih softverskih proizvoda</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Struktura ocene</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-center" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-center">Praktični deo</th>
+<th scope="col" class="org-center">Teorija</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-center">60%</td>
+<td class="org-center">40%</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Projekat</h2>
+<ul>
+<li>Timski rad - timovi od 4 ± 1 studenta</li>
+<li>Obavezna upotreba sistema za kontrolu verzija (git)</li>
+<li>Obavezna upotreba sistema za upravljanje projektom (GitLab)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Projekat - raspodela bodova</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Aktivnost</th>
+<th scope="col" class="org-center">Bodovi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Model komponenti</td>
+<td class="org-center">10</td>
+</tr>
+
+<tr>
+<td class="org-left">Implementacija komponenti</td>
+<td class="org-center">20</td>
+</tr>
+
+<tr>
+<td class="org-left">Implementacija projekta</td>
+<td class="org-center">18</td>
+</tr>
+
+<tr>
+<td class="org-left">Git aktivnost</td>
+<td class="org-center">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Gitlab aktivnost</td>
+<td class="org-center">6</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Ukupno</b></td>
+<td class="org-center"><b>60</b></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Ukus SOK-a - prezentacije starijih generacija</h2>
+<ul>
+<li>Gen. 2007/08 – Generički IDE za razvoj (<i>Code Editor – CodEd</i>): Swing,
+OSGI(Apache Felix)
+
+<ul>
+<li>Multi-level tim – cela nastavna grupa je veliki tim koji se deli na
+podtimove</li>
+<li>Podrška za proizvoljne programske jezike (specijalizacija za Javu): custom
+parser, syntax highlighting, code outline, search/replace&#x2026;</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="orgdd2462e" class="figure">
+<p><img src="./images/CodEd-StrukturniPogled.png" alt="CodEd-StrukturniPogled.png" style="height: 400px;" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Ukus SOK-a - prezentacije starijih generacija</h2>
+<ul>
+<li>Gen. 2008/09 – Extensible Graph Analysis and Transformation Engine (ExGATE):
+Swing, OSGI (Eclipse Eqinox).
+
+<ul>
+<li>Pojedinačni timovi</li>
+<li>Generiči editor za kreiranje, analizu, transformaciju i vizuelizaciju
+grafova</li>
+<li>Podrška za pretrage grafova, layouting, generisanje&#x2026;</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="org02b9b78" class="figure">
+<p><img src="./images/ExGERM-visualizer.jpg" alt="ExGERM-visualizer.jpg" style="height: 400px;" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Prezentacija ExGERM tima</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=qOWJA0aa_JM">https://www.youtube.com/watch?v=qOWJA0aa_JM</a></li>
+<li><a href="https://www.youtube.com/watch?v=eBd7YdmPZt4">https://www.youtube.com/watch?v=eBd7YdmPZt4</a></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Generacija 2011-2015</h2>
+<ul>
+<li><i>Ex</i> tensible <i>P</i> latform for <i>S</i> tructure <i>V</i> isualization and <i>N</i> avigation
+(<i>ExPreSsiVeNess</i>)</li>
+<li>Vizualizacija i navigacija nad strukturama tipa grafa</li>
+<li>Promenjivi modeli: razne vrste POJO objektnih grafova</li>
+<li>Promenjive konkretne sintakse</li>
+<li>Brz pregled i navigacija</li>
+<li>Operacije: pan, point zoom in/out, tree outline, bird-view, filter,
+search, dobijanje detalja o tekućem objektu itd</li>
+<li>Opciono: konzola za upravljanje platformom: izmena sintaksi,
+izmena modela itd</li>
+
+<li>Tehnologije:
+<ul>
+<li>Integraciona platforma – Eclipse Equinox (OSGi)</li>
+<li>GUI – Eclipse Rich Client Platform (RCP) + SWT/JFace</li>
+<li>Vizualizacija grafova – GEF (Draw2d, Zest)</li>
+<li>I naravno: git i GitLab</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Generacija 2016-</h2>
+<ul>
+<li><i>Ex</i> tensible <i>P</i> latform for <i>S</i> tructure <i>V</i> isualization and <i>N</i> avigation
+(<i>ExPreSsiVeNess</i>)</li>
+<li>Vizualizacija i navigacija nad strukturama tipa grafa</li>
+<li>Promenjivi modeli: razne vrste POPO objektnih grafova</li>
+<li>Promenjive konkretne sintakse</li>
+<li>Brz pregled i navigacija</li>
+<li>Operacije: pan, point zoom in/out, tree outline, bird-view, filter,
+search, dobijanje detalja o tekućem objektu itd</li>
+<li>Opciono: konzola za upravljanje platformom: izmena sintaksi,
+izmena modela itd</li>
+<li>Tehnologije:
+<ul>
+<li>Integraciona platforma – Python setuptools</li>
+<li>Server strana: <a href="https://www.djangoproject.com/">Django</a></li>
+<li>Baza: <a href="https://www.mongodb.com/">MongoDB</a>, <a href="https://www.sqlite.org/">SQLite</a> ili <a href="https://www.postgresql.org/">PostgreSQL</a></li>
+<li>GUI – HTML, CSS, JavaScript</li>
+<li>Vizualizacija grafova – <a href="https://d3js.org/">D3.js</a></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Literatura</h2>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>C. Szyperski, <i>Component Software: Beyond Object-Oriented Programming</i>,
+Addison-Wesley Longman Publishing Co., Inc., 2002</li>
+<li><a href="https://docs.python.org/3/tutorial/index.html">The Python Tutorial</a></li>
+<li>Allen B. Downey, <a href="http://greenteapress.com/wp/think-python-2e/">Think Python 2nd Edition</a></li>
+<li><a href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html">Package Discovery and Resource Access using pkg_resources</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

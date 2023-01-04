@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8"/>
+<title>Управљање конфигурацијом софтвера</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Управљање конфигурацијом софтвера</h1>
+<h2 class="subtitle">Основе управљања конфигурацијом софтвера</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2022-10-27 Thu 17:15, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+</section>
+
+<section>
+<section id="slide-orgaa58cf0">
+<h2 id="orgaa58cf0">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Дефиниција</a></li>
+<li><a href="#/slide-2">2. Мотивација</a></li>
+<li><a href="#/slide-3">3. Управљање конфигурацијом (УК)</a></li>
+<li><a href="#/slide-4">4. Управљање конфигурацијом софтвера (УКС)</a></li>
+<li><a href="#/slide-5">5. Унапређење процеса</a></li>
+<li><a href="#/slide-6">6. Имплементација УКС унутар организације</a></li>
+<li><a href="#/slide-7">7. Литература</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Дефиниција</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Управљање конфигурацијом</h3>
+<blockquote>
+<p>
+Процес за успоставу и одржавање конзистенције функционалних и физичких особина
+као и перформанси производа у складу са захтевима, дизајном и оперативним
+информацијама током његовог животног циклуса<sup>*</sup>.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> M. Handbook, <i>Configuration management guidance</i>, tech. rep., MIL-HDBK-61A
+(SE) Department of Defense–United States of America, 2001
+</p>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Управљање конфигурацијом</h3>
+<blockquote>
+<p>
+Дисциплина која се бави идентификацијом свих компоненти и њихових међусобиних
+веза, у систему који континуално еволуира, у циљу очувања интегритета,
+следљивости и контроле промена у току животног циклуса система<sup>*</sup>.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> Британски стандард BS 6488:1984 - <i>Code of practice for configuration
+management of computer-based systems</i>
+</p>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Управљање конфигурацијом</h3>
+<blockquote>
+<p>
+Управљање конфигурацијом представља јединствену идентификацију, контролисано
+складиштење, контролисану измену и извештавање о статусу изабраних производа,
+њихових радних везија и компоненти за време животног циклуса система<sup>*</sup>.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> A. Hass, <i>Configuration management principles and practice</i>. Addison-Wesley
+Professional, 2003.
+</p>
+
+</section>
+<section>
+
+<blockquote>
+<p>
+Управљање конфигурацијом софтвера представља контролу еволуције сложених
+софтверских система<sup>*</sup>.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> J. Estublier, <i>Software configuration management: a roadmap</i>, in Proceedings of
+the conference on The future of Software engineering, pp. 279–289, ACM, 2000.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Мотивација</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Управљање конфигурацијом софтвера</h3>
+<ul>
+<li>Организациони оквир за управљање развојем софтверских система кроз све фазе
+животног циклуса</li>
+<li>Омогућава управљање пројектом на структуриран, уређен и продуктиван начин.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Зашто користити УКС?</h3>
+<p>
+Успешност технолошких пројеката:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Методологија</th>
+<th scope="col" class="org-right">Агилна</th>
+<th scope="col" class="org-right"><i>Waterfall</i></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Успешних</td>
+<td class="org-right">42%</td>
+<td class="org-right">13%</td>
+</tr>
+
+<tr>
+<td class="org-left">Проблематичних</td>
+<td class="org-right">47%</td>
+<td class="org-right">59%</td>
+</tr>
+
+<tr>
+<td class="org-left">Пропалих</td>
+<td class="org-right">11%</td>
+<td class="org-right">28%</td>
+</tr>
+</tbody>
+</table>
+
+<ul class="footer" style="clear: both;">
+<li>Standish Group Chaos Study Report 2020</li>
+
+</ul>
+
+</section>
+<section>
+<ul>
+<li>Софтверски производи често “живе” годинама па чак и деценијама.</li>
+<li>Софтверски производи су често изузетно комплексни.</li>
+<li>Да би обезбедили континуалну еволуцију морамо увести процесе, технике и алате
+који ће то омогућити.</li>
+<li>Пракса је показала да је успех пројекта директно повезан са употребом
+ефикасних техника и алата УКС.</li>
+<li>Прва 4 на листи од 12 корака за бољи развој софтвера<sup>1</sup> истакнутог софтвер
+инжењера, писца и аутора изузетно популарног сервиса <a href="http://stackoverflow.com/">StackOverflow</a> <a href="http://www.joelonsoftware.com/AboutMe.html">Џоула
+Сполског</a> представљају технике УКС (контрола верзија изворног кода,
+аутоматизована и континуална изградња и праћење грешака).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/">J. Spolsky, The joel test: 12 steps to better code</a>, August 2000.</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Управљање конфигурацијом (УК)</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Ставка конфигурације (<i>Configuration Item</i>)</h3>
+<ul>
+<li>Према стандарду ANSI/IEEE 1042-1987, ставка конфигурације - СК (<i>Configuration
+Item</i> или <i>Software Configuration Item</i>) представља основну јединицу
+идентификације и праћења.</li>
+<li>Било који артифакт над којим се може вршити контрола верзија, који се може
+пратити.</li>
+<li>На пример, то може бити фајл или директоријум код фајл базираних система,
+објекти смештени у објектно оријентисаним базама података и сл.</li>
+<li>Готово сви системи за контролу верзија данас у употреби имају фиксну СК - а то
+је фајл.</li>
+<li>Можемо рећи да је текуће стање пројекта скуп текућих стања свих ставки
+конфигурације.</li>
+<li>Верзија фајла такође се може посматрати као ставка конфигурације.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Ставка конфигурације и промене - животни циклус</h3>
+
+<div id="org578ad47" class="figure">
+<p><img src="./images/ConfigurationItem-Cycle.png" alt="ConfigurationItem-Cycle.png" style="height: 300px;" />
+</p>
+</div>
+
+<ul>
+<li>Ставка конфигурације настаје из плана.</li>
+<li>Касније верзије настају као производ захтева за променом.</li>
+<li>Захтев за променом настаје на основу искуства у току коришћења.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Референтна верзија (<i>Baseline</i>)</h3>
+<ul>
+<li>Референтна верзија може да значи следеће:
+<ul>
+<li>Идентификација тачних верзија свих СК који чине део једног издања.</li>
+<li>Идентификација тачних верзија СК које су одобрене да постану део следећег
+издања кроз установљен процес ревизије и одобравања промена.</li>
+
+</ul></li>
+<li>Чини основу која је предмет следећих промена.</li>
+<li>У системима за управљање изворним кодом најчешће се спроводи кроз процес
+"означавања" (енг. <i>Tagging</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Традиционална дефиниција УК-a</h3>
+<ul>
+<li>Идентификација конфигурације (<i>Configuration Identification</i>)</li>
+<li>Управљање променама (<i>Change Control</i>)</li>
+<li>Праћење статуса (<i>Status Accounting</i>)</li>
+<li>Ревизија и верификација (<i>Configuration Verification and Audit</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Структура процеса УК</h3>
+
+<div id="orgd7e1c3c" class="figure">
+<p><img src="./images/SCM-LogicalStructure.svg" alt="SCM-LogicalStructure.svg" class="org-svg" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Anne Mette Jonassen Hass, <i>Configuration Management Principles and Practice</i>,
+Addison-Wesley Professional, 2003.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Архитектура система УК</h3>
+
+<div id="org8be6562" class="figure">
+<p><img src="./images/SCM-architecture.png" alt="SCM-architecture.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Идентификација конфигурације (<i>Configuration Identification</i>)</h3>
+<ul>
+<li>Обезбеђивање јединствене идентификације за сваки артифакт који је предмет
+праћења.</li>
+<li>Најчешће су предмети праћења разне врсте фајлова: изворни код, бинарни
+фајлови, слике, документа, конфигурациони фајлови итд.</li>
+<li>Идентификација често подразумева и именовање директоријума и фајлова на
+смислен начин који ће поједноставити праћење.</li>
+<li>Артифакти праћења не морају увек бити фајлови у фајл систему већ могу бити
+елементи у репозиторијумима који нису базирани на фајл систему. На пример,
+модели у репозиторијумима модела или документи у системима за управљање
+документима.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Идентификација у контексту</h3>
+
+<div id="orgfdfee6e" class="figure">
+<p><img src="./images/Identification.png" alt="Identification.png" style="height: 400px;" />
+</p>
+</div>
+
+<ul>
+<li>Процес идентификације започиње у два случаја: првобитно креирање ставке
+конфигурације и појава захтева за променом.</li>
+<li>Излаз представљају метаподаци за ставку конфигурације.</li>
+<li>Свака организација прави своју конвенцију јединствене идентификације. Често је
+ова шема наметнута алатима који се користе за УК.</li>
+<li>Поред идентификације ставке конфигурације потребно је идентификовати и сваки
+захтев за променом као и сваку нову верзију ставке конфигурације.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Управљање променама (<i>Change Control</i>)</h3>
+<ul>
+<li>Промене су неизбежне: људи праве грешке, клијенти захтевају промене, радно
+окружење производа еволуира.</li>
+<li>Пуна контрола и управљање захтевима за променама и имплементираним променама
+на основу захтева.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Управљање променама у контексту</h3>
+
+<div id="orgc947921" class="figure">
+<p><img src="./images/ChangeControl.png" alt="ChangeControl.png" style="height: 500px;" />
+</p>
+</div>
+
+<ul>
+<li>Управљање променама је иницирано догађајем.</li>
+<li>Излаз активности управљања променама је документован догађај као и захтеви за
+променама који су резултат тог догађаја.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11.</span> Догађаји</h3>
+<ul>
+<li>Управљање променама је иницирано догађајем. Догађај може да се посматра и као
+жеља за променом али обично није тако формулисан.</li>
+<li>Догађај може представљати и опсервацију да се десило нешто неочекивано или
+погрешно током употребе ставке конфигурације.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>Догађај може бити, на пример:
+
+<ul>
+<li>Лоша формулација уочена за време ревизије документа.</li>
+<li>Грешка у кодирању уочена за време проласка кроз програмски код.</li>
+<li>Идеја за проширење или побољшање функционалности настала од стране клијента
+за време коришћења производа.</li>
+<li>Грешка пронађена за време интеграционог теста.</li>
+<li>Жеља за побољшањем производа када је производ већ испоручен и у фази је
+активне употребе.</li>
+<li>Упит особљу за помоћ у вези начина употребе производа.</li>
+<li>Прелазак на нову верзију коришћених библиотека и платформи које нису уназад
+компатибилне са претходним верзијама.</li>
+
+</ul></li>
+
+<li>Догађај се документује у облику регистрације догађаја.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-12">
+<h3 id="3-12"><span class="section-number-3">3.12.</span> Захтеви за променама (<i>Change Requests</i>)</h3>
+<ul>
+<li>Захтеви за променама настају као последица регистрације догађаја.</li>
+<li>Неки захтеви за променама могу бити планирани (на пример захтеви настали за
+време ревизије документа), а неки и не (на пример захтев клијента за
+променом).</li>
+<li>Захтеви за променама даље пролазе кроз активност идентификације јер су предмет
+праћења.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-13">
+<h3 id="3-13"><span class="section-number-3">3.13.</span> Праћење статуса (<i>Status Accounting</i>)</h3>
+<ul>
+<li>Ова активност обезбеђује информације потребне за ефикасно управљање развојем и
+одржавањем производа.</li>
+<li>Друге активностим УК обезбеђују потребне податке у виду метаподатака о
+ставкама конфигурације као и информације о променама.</li>
+<li>Праћење статуса омогућава екстракцију, уређење и форматирање информација о
+ставкама конфигурације и променама на захтевани начин.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-14">
+<h3 id="3-14"><span class="section-number-3">3.14.</span> Праћење статуса - метрике</h3>
+<ul>
+<li>Увођење метрика које могу указати на уска грла у развоју.</li>
+<li>Пример метрика: број дефеката у једном издању, број линија кода у уведеном
+софтверу, густима дефеката (број дефеката на хиљаду линија кода).</li>
+<li>Намена:
+<ul>
+<li>Мерење напретка пројекта</li>
+<li>Мерење квалитета производа</li>
+<li>Напор уложен за израду производа</li>
+<li>Унапређење односа \(\frac{вредност\ производа}{цена}\).</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-3-15">
+<h3 id="3-15"><span class="section-number-3">3.15.</span> Праћење статуса у контексту</h3>
+
+<div id="org13ca5c5" class="figure">
+<p><img src="./images/StatusAccounting.png" alt="StatusAccounting.png" style="height: 500px;" />
+</p>
+</div>
+
+<ul>
+<li>Праћење статуса и извештавање може се обавити у било ком тренутку.</li>
+<li>Излаз ове активности је извештај према задатим критеријумима.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-16">
+<h3 id="3-16"><span class="section-number-3">3.16.</span> Ревизија и верификација (<i>Configuration Verification and Audit</i>)</h3>
+<ul>
+<li>Осигурава да софтверски производ који се испоручује одговара постављеним
+захтевима, да је комплетан, да су сви захтеви за променама узети у обзир и да
+су испоштоване успостављене процедуре УКС.</li>
+<li>Комплетност подразумева и све потребне метаподатке који омогућавају комплетан
+увид у историју промена које су довеле до верзије која се испоручује.</li>
+<li>Тест извештаји и документација се користе као основа утврђивања задовољења
+постављених захтева.</li>
+<li>Ова активност се најчешће посматра као део процеса осигурања квалитета.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Ова активност такође се бави дефинисањем:
+</p>
+<ul>
+<li>Ко и када ће обавити ревизију.</li>
+<li>Обављање ревизије над референтним верзијама.</li>
+<li>Креирање извештаја о обављеним ревизијама.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Управљање конфигурацијом софтвера (УКС)</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgf3379d3" class="outline-3">
+<h3 id="orgf3379d3">Software Configuration Management (SCM)</h3>
+
+</div>
+
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Управљање конфигурацијом софтвера</h3>
+<p>
+У контексту развоја софтвера управљање конфигурацијом се може посматрати кроз
+следеће активности:
+</p>
+
+<ul>
+<li>Управљање изворним кодом (<i>Source Code Management</i>)</li>
+<li>Управљање изградњом (<i>Build Engineering</i>)</li>
+<li>Управљање конфигурацијом окружења (<i>Environment Configuration</i>)</li>
+<li>Управљање променама (<i>Change Control</i>)</li>
+<li>Управљање издањима (<i>Release Management</i>)</li>
+<li>Управљање увођењем (<i>Deployment</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Управљање изворним кодом (<i>Source Code Management</i>)</h3>
+<ul>
+<li>Једна од најважнијих УКС дисциплина.</li>
+<li>Бави се:
+
+<ul>
+<li>Чувањем свих ставки конфигурације које учествују у изградњи производа.</li>
+<li>Праћењем промена над ставкама конифигурације и интеграцијом конкурентних
+промена.</li>
+<li>Креирањем и праћењем алтернативних токова развоја.</li>
+<li>Враћање и увид у историјске верзије произвољних стакви конфигурације.</li>
+
+</ul></li>
+
+<li>Даје основу за извођење осталих УКС активности.</li>
+<li>У тесној вези је са праћењем дефеката и захтева који су најчешће интегрисани
+са алатима и процесима управљања изворним кодом.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Основни принципи управљање изворним кодом</h3>
+<ul>
+<li>Сав кôд је у сигурном складишту и не може бити изгубљен.</li>
+<li>Конкурентне промене се једноставно интегришу. Конфликти се једноставно
+разрешавају.</li>
+<li>За кôд се воде белешке о значајним тренуцима развоја (референтне верзије).</li>
+<li>Управљање варијантама мора бити једноставно употребом грана.</li>
+<li>Кôд промењен у једној варијанти (грани) може се лако пренети на другу
+варијанту.</li>
+<li>У сваком тренутку имамо потпуну следљивост и можемо добити информације ко је,
+када и због чега променио изворни кôд? Шта је тачно при томе промењено?</li>
+<li>Можемо у сваком тренутку поништити промену.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Управљање изградњом софтвера (<i>Build Engineering</i>)</h3>
+<ul>
+<li>Активност усмерена на изградњу извршне верзије софвера из изворног кода путем
+аутоматизованих процедура на сигуран и брз начин.</li>
+<li>Бави се идентификацијом зависности у време компајлирања и извршавања као и
+других техничких услова потребних за ефикасну изградњу готовог производа.</li>
+<li>Изузетно важна за агилне и итеративне методологије.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Принципи управљања изградњом софтвера</h3>
+<ul>
+<li>Изградња је разумљива и поновљива.</li>
+<li>Изворни кôд и зависности за компајлирање се могу лако одредити.</li>
+<li>Узрок неуспеле изградње се може једноставно установити и проблем се може брзо
+отклонити.</li>
+<li>Изградња мора бити потпуно аутоматизована.</li>
+<li>Скрипте за аутоматизовању изградњу морају бити читке и морају се једноставно
+одржавати.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Управљање конфигурацијом окружења (<i>Environment Configuration</i>)</h3>
+<ul>
+<li>Идентификација и управљање зависностима производа у време извршавања
+(<i>runtime dependencies</i>).</li>
+<li>Развојно окружење је често другачије од продукционог или QA (<i>Quality
+Assurance</i>).</li>
+<li>Аутоматизација управљања параметрима окружења (нпр. промењиве окружења,
+конекција са базом, повезивање са веб сервисима).</li>
+<li>Значајно за активност увођења (<i>deployment</i>).</li>
+<li>Уколико се одради лоше може довести до несагледивих последица.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Управљање променама (<i>Change Control</i>)</h3>
+<ul>
+<li>Поред управљања изворним кодом један од најзначајнијих активности у УКС.</li>
+<li>Контролисана измена продукционог окружења (или <i>QA</i> окружења).</li>
+<li>Такође есенцијална активност за одређивање које издање производа ће постати
+део продукционог окружења.</li>
+<li>У великим фирмама често реализована кроз одбор за управљање променама
+(<i>Change Control Board - CCB</i>).</li>
+<li>Процес који прописује начин разрешавања захтева за променама (<i>Request for
+Change</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Принципи управљање променама</h3>
+<ul>
+<li>Промене морају бити планиране.</li>
+<li>Промене морају бити разумљиве укључујући и утицај који ће имати на
+продукционо окружење.</li>
+<li>Начин одобравања и ауторизација промена мора бити успостављена.</li>
+<li>Процедуре за хитне измене морају бити прописане у случајевима инцидентних
+ситуација.</li>
+<li>Мора постојати јасна следљивост за све извршене промене - Ко је промену
+тражио? Ко је одобрио? Када је промена извршена над продукционим окружењем?
+Који је статус промене?</li>
+
+</ul>
+
+</section>
+<section id="slide-4-9">
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Управљање издањима (<i>Release Management</i>)</h3>
+<ul>
+<li>Процес креирања финалног производа на основу извршне верзије креиране у
+процесу изграње.</li>
+<li>Дефинише стандарде паковања и именовања (идентификације) производа.</li>
+<li>Следљивост ка уграђеним променама и одобрењима датих промена од стране <i>CCB</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-10">
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Принципи управљања издањима</h3>
+<ul>
+<li>Издања се могу идентификовати путем непромењивог идентификатора.</li>
+<li>Издања морају бити запакована са свим зависностима.</li>
+<li>Креирање издања мора бити аутоматизовано у циљу избегавања људске грешке.</li>
+<li>Креирање издања мора бити брзо и поуздано да би се могло користити код
+агилног и итеративног развоја.</li>
+<li>Мора постојати начин верификације издања у циљу утврђивања градивних СК.</li>
+<li>Садржај издања мора бити добро познат, укључујући и везу према захтевима.</li>
+<li>Мора постојати механизам извештавања о свим креираним издањима и њиховим
+садржајима.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-11">
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Управљање увођењем (<i>Deployment</i>)</h3>
+<ul>
+<li>Последња фаза у УКС процесу.</li>
+<li>Увођење издања у продукционо окружење.</li>
+<li>Такође се бави поништавањем акције (враћање на претходну верзију) у случају
+проблема.</li>
+<li>Најчешће посао посебног тима (<i>Operations Team</i>).</li>
+<li>Праћење активне верзије издања и евентуалних неауторизованих модификација
+продукционог окружења.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-12">
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Принципи управљања увођењем</h3>
+<ul>
+<li>Увођење издања (или враћање на старо) мора бити поуздано и једноставно.</li>
+<li>Увођење издања (или враћање на старо) мора креирати дневник (лог) свих
+промена.</li>
+<li>Само ауторизовано особље може вршити ову активност.</li>
+<li>У многим организацијама раздвојене надлежности између развојног тима и тима за
+увођење&#x2026;</li>
+<li>&#x2026;али последњих година развојни тимови преузимају посао увођења софтвера
+који развијају.</li>
+<li>Морају постојати механизми за откривање неауторизованих промена.</li>
+<li>Процедура за проверу верзије издања у продукцији (или QA) мора бити јасно
+дефинисана.</li>
+<li>Процес увођења мора бити стално ревидиран и унапређиван.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Унапређење процеса</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> <i>Capability Maturity Model</i></h3>
+<ul>
+<li>Модел за процену зрелости организације и нивоа формализације спровођења и
+континуалних унапређења процеса.</li>
+<li>Проблем који се решава је како да организација обезбеди развој који је
+конзистентан и поновљив уз оптимално коришћење ресурса.</li>
+<li>Настао 1986 после студије коју је финансирала U.S. DoD.</li>
+<li>Намењен пре свега процесима развоја софтвера али се може применити и на друге процесе.</li>
+<li>2006 <i>Software Engineering Institute</i> на <i>Carnegie Mellon</i> универзитету развија
+нови модел <i>Capability Maturity Model Integration</i> чији је циљ да наследи и
+унапреди <i>CMM</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Нивои <i>CMM</i></h3>
+
+<div id="org5ccf23d" class="figure">
+<p><img src="images/cmm.svg" alt="cmm.svg" class="org-svg" style="width: 100%; height: auto;" />
+</p>
+</div>
+
+<ul>
+<li><i>Ниво 1</i> - хаотичан, ad hoc, базиран на индивидуалном хероизму,</li>
+<li><i>Ниво 2</i> - процеси су довољно документовани да је поновљивост могућа,</li>
+<li><i>Ниво 3</i> - процеси су потпуно документовани и стандардизовани,</li>
+<li><i>Ниво 4</i> - процесима се управља у складу са договореним метрикама,</li>
+<li><i>Ниво 5</i> - процесима се управља и врши се континуална оптимизација и унапређење.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Имплементација УКС унутар организације</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Процена текућих процеса УКС</h3>
+<ul>
+<li>Свака организација која развија софтвер спроводи одређене процесе УКС иако
+можда нису формални и о њима се не размишља као УКС.</li>
+<li>За процену се могу поставити следећа питања:
+<ul>
+<li>Како се фајлови идентификују?</li>
+<li>Како се идентификују издања софтвера?</li>
+<li>Како се контролишу референтне верзије?</li>
+<li>Који су фајлови укључени у вако издање? Како се издање креира?</li>
+<li>Како се идентификују и прате захтеви за променама?</li>
+<li>&#x2026;</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Анализа захтева</h3>
+<ul>
+<li>Шта је циљ који организација жели да постигне увођењем УКС?</li>
+<li>На пример циљ може бити:
+<ul>
+<li>постизање одређеног нивоа SW-CMM сертификације,</li>
+<li>постизање ISO-9000 сертификације,</li>
+<li>или једноставно унапређење процеса.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Улоге у успостављању процеса УКС</h3>
+<ul>
+<li>Особа за контакт за процесе УКС.</li>
+<li>Менаџери морају обезбедити потребне ресурсе и алате потребне за увођење
+процеса УКС</li>
+<li>Одбор за контролу и ревизију (<i>Control and Review Board</i>) - анализира и одобрава
+увођење промена.</li>
+<li>Обезбеђивање квалитета (<i>Quality Assurance - QA</i>) је неопходно за верификацију
+да се документовани процеси УКС спроводе.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Литература</h2>
+<ol>
+<li>M. Handbook, <i>Configuration management guidance</i>, tech. rep., MIL-HDBK-61A
+(SE) Department of Defense–United States of America, 2001.</li>
+<li>A. Hass, <i>Configuration management principles and practice</i>. Addison-Wesley
+Professional, 2003.</li>
+<li>J. Keyes, <i>Software Configuration Management</i>, Auerbach Publications, 2004.</li>
+<li>J. Estublier, <i>Software configuration management: a roadmap</i>, in Proceedings of
+the conference on The future of Software engineering, pp. 279–289, ACM, 2000.</li>
+<li>R. Aiello and L. Sachs, <i>Configuration Management Best Practices: Practical
+Methods that Work in the Real World</i>. Addison-Wesley Professional, 1st
+ed., 2010.</li>
+
+</ol>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

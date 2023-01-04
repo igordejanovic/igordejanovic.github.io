@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>A course on Domain-Specific Languages</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">A course on Domain-Specific Languages</h1>
+<h2 class="subtitle">A guide for exchange programmes students</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2021-11-16 Tue 15:18, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Base information</h2>
+<ul>
+<li>Professor: <a href="http://igordejanovic.net">dr Igor Dejanović</a> (igord at uns ac rs)</li>
+<li>Both practical and theoretical parts of the course are handled by the course
+professor.</li>
+<li>Consultations may be scheduled via e-mail.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Introduction to the field of DSLs</h2>
+<p>
+The best place to start is to read the blog post of Federico Tomassetti.
+</p>
+<ul>
+<li><a href="https://tomassetti.me/domain-specific-languages/"><i>The complete guide to (external) Domain Specific Languages</i></a>, published on <a href="https://tomassetti.me/">the
+author&rsquo;s blog</a>, February 2017.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Course project</h2>
+<ul>
+<li>Practical part of the course is fulfilled by implementing a DSL for the
+domain of student&rsquo;s choosing.</li>
+<li>The language must be implemented in <a href="https://github.com/textX/textX">textX</a> using Python.</li>
+<li>It must have a code generator or interpreter.</li>
+<li>Optionally a Visual Studio Code plugin may be developed to make using the
+language easier. See the <a href="https://github.com/textX/textX-LS">textX-LS</a> project.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Theoretical part of the exam</h2>
+<p>
+Is fulfilled by oral exam. The student must show the basic knowledge of the DSL
+field.
+</p>
+
+<p>
+The examination is based on the Markus Völter&rsquo;s book (see the last slide).
+Relevant chapters are:
+</p>
+<ul>
+<li>Introduction to DSLs</li>
+<li>Conceptual Foundations</li>
+<li>Concrete and Abstract Syntax</li>
+<li>Scoping and Linking</li>
+<li>Constraints</li>
+<li>Type Systems</li>
+<li>Transformation and Generation</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Literature and resources</h2>
+<ul>
+<li>M. Völter, <a href="http://dslbook.org/"><i>DSL Engineering: Designing, Implementing and Using Domain-Specific
+Languages</i></a>. 2013 (the book is a donationware)</li>
+<li>Federico Tomassetti, <a href="https://tomassetti.me/domain-specific-languages/"><i>The complete guide to (external) Domain Specific
+Languages</i></a>, published on <a href="https://tomassetti.me/">the author&rsquo;s blog</a>, February 2017. (this post is the
+place to start if you don&rsquo;t know anything about DSLs).</li>
+<li><a href="http://textx.github.io/textX/latest/">textX</a> documentation and tutorials. Be sure to check two youtube videos.</li>
+<li><a href="https://github.com/pyflies/pyflies">pyFlies</a> is a more complex example of DSL in the field of psychological experiments.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

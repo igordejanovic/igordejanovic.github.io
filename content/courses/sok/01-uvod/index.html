@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Softverski obrasci i komponente</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Softverski obrasci i komponente</h1>
+<h2 class="subtitle">Uvod</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2022-10-25 Tue 16:28, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-orgcfcc1be">
+<h2 id="orgcfcc1be">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Uvod</a></li>
+<li><a href="#/slide-2">2. Softverski obrasci</a></li>
+<li><a href="#/slide-3">3. Softverski antiobrasci</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Razvoj softvera</h3>
+<ul>
+<li>Razvoj softvera je težak a razvoj softvera na takav način da se rešenje može
+ponovo upotrebiti je još teže.</li>
+<li>Dobar, proširiv i fleksibilan dizajn je teško a verovatno i nemoguće odraditi
+<i>iz prve</i> za neiskusnog projektanta.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Iskustvo</h3>
+<ul>
+<li>Iskusni projektanti, tj. eksperti, ipak prave dobar dizajn.</li>
+<li>Eksperti znaju nešto što početnici ne znaju. Šta je to?</li>
+
+</ul>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Ponovno korišćenje dobrih rešenja</h3>
+<p>
+Eksperti će ponovo primenjivati rešenja koja su se pokazala kao dobra u
+prošlosti.
+</p>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Ponovna iskoristljivost - reusability</h3>
+<p>
+Definicija sa <i>The Free Dictionary</i>:
+</p>
+
+<blockquote>
+<p>
+The ability to use all or the greater part of the same programming code or
+system design in another application.
+</p>
+</blockquote>
+
+<ul class="footer" style="clear: both;">
+<li><a href="http://encyclopedia2.thefreedictionary.com/reusability/">http://encyclopedia2.thefreedictionary.com/reusability/</a></li>
+
+</ul>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Ponovna iskoristljivost - Zašto?</h3>
+<ul>
+<li>Da ne bi izmišljali <i>toplu vodu</i>.</li>
+<li>Upotreba već postojećih rešenja - brža izgradnja softvera.</li>
+<li>Već korišćen softver je bolje testiran - robusnost.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Ponovna iskoristljivost - Kako?</h3>
+<ul>
+<li>Na nivou koda - biblioteke, okviri za razvoj (<i>frameworks</i>), softverske
+komponente itd.</li>
+<li>Na nivou dizajna  - dizajn obrasci.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Softverski obrasci</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Šta je obrazac?</h3>
+<p>
+Christopher Alexander i sar. su napisali<sup>*</sup>:
+</p>
+
+<blockquote>
+<p>
+Each pattern describes a problem which occurs over and over again in our
+environment, and then describes the core of the solution to that problem, in
+such a way that you can use this solution a million times over, without ever
+doing it the same way twice.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> Christopher Alexander, Sara Ishikawa, Murray Silverstein, Max Jacobson,
+Ingrid Fiksdahl-King, and Shlomo Angel. <i>A Pattern Language</i>. Oxford University
+Press, New York, 1977.
+</p>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> &#x2026;ili u slobodnom prevodu</h3>
+<blockquote>
+<p>
+Svaki obrazac <i>opisuje problem</i> koji se <i>pojavljuje nanovo</i> u našem okruženju, i
+zatim <i>opisuje suštinu rešenja</i> datog problema na takav način da rešenje možete
+primeniti milion puta a da nikada ne rešite problem na potpuno identičan način.
+</p>
+</blockquote>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Šta je softverski obrazac?</h3>
+<p>
+Recept nastao na bazi kumuliranog ekspertskog znanja i iskustva u rešavanju
+određenog rekurentnog problema u razvoju softvera koji opisuje problem, rešenje
+i kontekst u kome je rešenje primenjivo kao i prednosti i mane rešenja.
+</p>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Gradivni elementi softverskog obrazca</h3>
+<ul>
+<li><i>Naziv</i> - Obezbeđuje lako referenciranje na obrazac. Čini deo vokabulara i
+omogućava komunikaciju.</li>
+<li><i>Problem</i> - Opis problema i konteksta u kome se obrazac može primeniti. Često
+se navodi i lista preduslova za upotrebu obrasca.</li>
+<li><i>Rešenje</i> - Elementi, međusobne veze, saradnja i odgovornost. Apstraktno je da
+bi moglo biti primenjeno u različitim konkretnim kontekstima.</li>
+<li><i>Posledice</i> - opisuju šta je to što dobijamo a šta gubimo upotrebom datog
+obrasca (<i>trade-offs</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> U čemu je prednost upotrebe softverskih obrazaca?</h3>
+<ul>
+<li>Učenje na tuđim greškama.</li>
+<li>Manje iskusni projektanti mogu praviti dobar dizajn.</li>
+<li>Lakša komunikacija. Konzistentan vokabular.</li>
+<li>Lakša analiza dizajna složenog softvera. Obrasci imaju svoju <b>mustru</b>.</li>
+<li>Lakše uključivanje novih ljudi na projekat.</li>
+<li>Poznavanje unapred svih eventualnih problema koje rešenje može da izazove.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Izbor programskog jezika</h3>
+<p>
+Izbor programskog jezika i programske paradigme sa stanovišta softverskih
+obrazaca je važan!
+</p>
+
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Organizacija</h3>
+<ul>
+<li>Klasifikacija i katalogizacija u cilju lakšeg pronalaženja.</li>
+<li>Različiti autori - različite klasifikacije.</li>
+<li>Različiti domeni - različiti obrasci.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Klasifikacija OO dizajn obrazaca</h3>
+
+<div id="org494c711" class="figure">
+<p><img src="./images/patternspace.png" alt="patternspace.png" style="height: 700px;" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Klasifikacija OO dizajn obrazaca</h3>
+<p>
+Klasifikacija OO dizajn obrazaca prema [1]:
+</p>
+
+<ul>
+<li>Fundamentalni</li>
+<li>Kreacioni</li>
+<li>Particioni</li>
+<li>Strukturalni</li>
+<li>Obrasci ponašanja</li>
+<li>Obrasci za konkurentni dizajn</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns
+Illustrated with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Softverski antiobrasci</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Softverski antiobrasci</h3>
+<ul>
+<li>U razvoju softvera antiobrasci predstavljaju obrasce koji su se pokazali
+neefikasnim i kontraproduktivnim u praksi<sup>*</sup>.</li>
+<li>Još se zovu i <i>pitfalls</i> ili <i>dark patterns</i>.</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li><code>*</code> <a href="http://en.wikipedia.org/wiki/Anti-pattern">Anti-pattern</a>, From Wikipedia, the free encyclopedia</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Kako ih prepoznati?</h3>
+<p>
+Antiobrasci iskazuju sledeće osobine:
+</p>
+
+<ul>
+<li>Rekurentan obrazac akcije, procesa ili strukture koji je inicijalno izgledao
+kao dobar ali je u praksi pokazao da donosi više problema nego rešenja,</li>
+<li>Refaktorisano rešenje problema postoji, jasno je dokumentovano i dokazano u
+praksi.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Neki od primera antiobrazaca</h3>
+<p>
+Primeri antiobrazaca su<sup>*</sup>:
+</p>
+
+<ul>
+<li><i>Cargo cult programming</i> - Korišćenje obrazaca i metoda bez razumevanja zbog
+čega se koriste.</li>
+<li><i>God object</i> - Koncentrisanje previše funkcionalnosti u jedan element dizajna
+(najčešće klasu).</li>
+<li><i>Big ball of mud</i> - Sistem bez jasne strukture.</li>
+<li><i>Copy and paste programming</i> - Kopiranje i izmena postojećeg koda umesto
+kreiranja generičkog rešenja.i</li>
+<li><i>Not Invented Here (NIH) sindrom</i> - Tendencija ka izmišljanju <b>tople vode</b>
+umesto korišćenja postojećeg, oprobanog rešenja.</li>
+<li><i>Premature optimization</i> - Optimizovanje softvera prerano na uštrb dobrog
+dizajna i funkcionalnosti.</li>
+<li><i>Dependency hell</i> - Problemi sa verzijama zavisnih komponenti i softvera.</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li><code>*</code> Za širi spisak videti <a href="http://en.wikipedia.org/wiki/Anti-pattern">http://en.wikipedia.org/wiki/Anti-pattern</a></li>
+
+</ul>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Literatura</h3>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+<li><a href="http://en.wikipedia.org/wiki/Anti-pattern">Anti-pattern</a>, From Wikipedia, the free encyclopedia</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

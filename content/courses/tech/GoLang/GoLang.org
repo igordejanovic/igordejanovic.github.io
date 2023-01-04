@@ -1,0 +1,3131 @@
+#+TITLE: Programski jezik Go
+#+SUBTITLE: Bazirano na Go verziji 1.19 i [[https://tour.golang.org/][A Tour of Go]]. U izradi.
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+#+PROPERTY: header-args:go :exports both :eval never-export
+#+REVEAL_TRANS: slide
+
+* Uvod
+** Osnovne osobine
+   
+- Statički tipiziran, kompajliran programski jezik
+- Google: Robert Griesemer, [[https://en.wikipedia.org/wiki/Rob_Pike][Rob Pike]], i [[https://en.wikipedia.org/wiki/Ken_Thompson][Ken Thompson]]
+- Sličan C-u ali sa /memory safety/, /garbage collection/ i direktnom podrškom
+  za konkurentno programiranje ([[https://en.wikipedia.org/wiki/Communicating_sequential_processes][Communicating Sequential Processes (CSP)]])
+- Efikasnost, jednostavnost i čitkost
+- Akcenat na mrežnom i /multi-core/ softveru
+- Razvoj započet 2007, javno dostupan od 2009
+
+#+attr_html: :class footer :style clear: both;
+https://en.wikipedia.org/wiki/Go_(programming_language)
+
+* Instalacija i podešavanja
+** Instalacija
+- Koristiti instaler za OS
+- ...ili raspakovati tarball/zip i podesiti =PATH= varijablu na =go/bin= folder
+- Na primer:
+
+  #+BEGIN_SRC bash
+  wget https://dl.google.com/go/go$VERSION.$OS-$ARCH.tar.gz
+  mkdir -p ~/install/go
+  tar -C ~/install/go -xzf go$VERSION.$OS-$ARCH.tar.gz
+  #+END_SRC
+  
+- gde je =VERSION= - tekuća verzija (trenutno 1.19.3), =OS= - operativni sistem
+  (npr. =linux=) a =ARCH= - arhitektura (npr. =amd64=)
+- podesiti =PATH=:
+
+  #+BEGIN_SRC bash
+  export PATH=$PATH:~/install/go/
+  #+END_SRC
+  
+** /Workspace/ direktorijum
+
+- Direktorijum za Go kod
+- Podrazumevano =$HOME/go=
+- Ukoliko želite da promenite morate podesiti =GOPATH= varijablu
+
+#+begin_note
+Ovo je zastareli način rada. U novijim verzijama koristi se sistem modula dok je
+od verzije 1.18 podržan i radni proces sa /workspaces/ upotrebom [[https://go.dev/blog/get-familiar-with-workspaces][go.work fajl]].
+#+end_note
+
+** Testiranje instalacije
+
+  #+BEGIN_SRC bash
+  $ go version
+  go version go1.19.3 linux/amd64
+  #+END_SRC
+   
+- Napraviti =hello= direktorijumu i preći u njega:
+
+  #+begin_src sh
+  mkdir hello
+  cd hello
+  #+end_src
+
+- Inicijalizovati modul:
+
+  #+begin_src sh
+  go mod init examples/hello
+  #+end_src
+
+- Napraviti fajl =hello.go= sa sadržajem:
+
+  #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
+      fmt.Printf("Здраво, свете!\n")
+  }
+  #+END_SRC
+  
+- Pokrenuti =go build= i zatim startovati program:
+
+  #+BEGIN_SRC bash
+  $ go build
+  $ ./hello
+  Здраво, свете!
+  #+END_SRC
+
+* Kako pisati Go kod?
+** Uvod
+Ova sekcija objašnjava osnovne radnje prilikom razvoja Go programa. Upotrebu Go
+alata, standardni način za kreiranje inicijalnog projekta, preuzimanje,
+izgradnju, instalaciju i pokretanje Go programa.
+
+Bazirano na [[https://golang.org/doc/code.html][How to Write Go Code]]
+
+** Paketi
+Go programi su organizovani u pakete (eng. /packages/) - kolekcija fajlova unutar
+istog foldera koji se zajedno kompajliraju.
+
+** Moduli
+- Repozitorijum projekta sadrži jedan ili više modula.
+- Modul je kolekcija više paketa koji se zajedno objavljuju.
+- Svaki modul ima svoju putanju/naziv koja predstavlja putanju do lokacije na
+  internetu gde se kod može preuzeti (npr. =github.com/mojnalog/moj_modul=).
+- Puna putanja paketa za import predstavlja prefix koji čini ime modula i zatim
+  ime paketa.
+- Na primer, modul [[https://github.com/google/go-cmp][github.com/google/go-cmp]] sadrži paket =cmp= tako da bi buna
+  putanja za import bila [[https://github.com/google/go-cmp/tree/master/cmp][github.com/google/go-cmp/cmp]].
+- Paketi standardne biblioteke nemaju prefiks. Na primer: =fmt=, =net/http=
+
+** Prvi Go program
+- Napraviti =hello= direktorijumu i preći u njega:
+
+  #+begin_src sh
+  mkdir hello
+  cd hello
+  #+end_src
+
+- Inicijalizovati modul:
+
+  #+begin_src sh
+  $ go mod init example/user/hello
+  go: creating new go.mod: module example/user/hello
+  $ cat go.mod
+  module example/user/hello
+
+  go 1.19
+  #+end_src
+
+- Napraviti fajl =hello.go= sa sadržajem:
+
+  #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
+      fmt.Printf("Здраво, свете!\n")
+  }
+  #+END_SRC
+
+#+REVEAL: split
+
+- Pokrenuti =go build= i zatim startovati program:
+
+  #+BEGIN_SRC bash
+  $ go build
+  $ ./hello
+  Здраво, свете!
+  #+END_SRC
+
+- Instalirati program sa:
+
+  #+begin_src bash
+  go install
+  #+end_src
+
+- =hello= program će biti instaliran u =$GOBIN= folder (podrazumevano =~/go/bin=).
+
+  #+BEGIN_SRC shell
+$ echo $GOBIN
+~/repos/gocode/bin
+$ which hello
+~/repos/gocode/bin/hello
+  #+END_SRC
+
+- Za podešavanje okruženja na portabilan način možemo koristiti =go env=.
+  #+begin_src shell
+  go env -w GOBIN=/somewhere/else/bin
+  #+end_src
+
+  #+REVEAL: split
+   
+- Sledeći korak je da promenu zabeležimo u sistemu za kontrolu verzija:
+  #+BEGIN_SRC shell
+$ git init
+Initialized empty Git repository in /home/igor/NTP/hello/.git/
+$ git add hello.go go.mod
+$ git commit -m "Initial commit"
+[main (root-commit) 62d03dd] Initial commit
+ 2 files changed, 11 insertions(+)
+ create mode 100644 go.mod
+ create mode 100644 hello.go
+  #+END_SRC
+
+** Prva Go biblioteka
+- Kreiramo biblioteku koju ćemo koristiti iz =hello= programa.
+#+BEGIN_SRC bash
+# Iz hello foldera
+$ mkdir morestrings
+$ cd morestrings
+#+END_SRC
+
+- pravimo fajl =reverse.go=
+
+#+BEGIN_SRC go
+// Package morestrings implements additional functions to manipulate UTF-8
+// encoded strings, beyond what is provided in the standard "strings" package.
+package morestrings
+
+// ReverseRunes returns its argument string reversed rune-wise left to right.
+func ReverseRunes(s string) string {
+    r := []rune(s)
+    for i, j := 0, len(r)-1; i < len(r)/2; i, j = i+1, j-1 {
+        r[i], r[j] = r[j], r[i]
+    }
+    return string(r)
+}
+#+END_SRC
+
+- Provera ispravnosti biblioteke
+#+BEGIN_SRC shell
+$ go build
+#+END_SRC
+
+Komanda ne proizvodi ispis već kompajlirani kod kešira.
+
+#+REVEAL: split
+
+- Modifikovati program =hello.go=
+
+#+BEGIN_SRC go
+package main
+
+import (
+    "fmt"
+
+    "example/user/hello/morestrings"
+)
+
+func main() {
+    fmt.Println(stringutil.Reverse("!2 етевс ,овардЗ"))
+}
+#+END_SRC
+
+#+BEGIN_SRC shell
+$ go install example/user/hello
+$ hello
+Здраво, свете 2!
+#+END_SRC
+
+** Imenovanje paketa
+- Prvi iskaz u svakom Go fajlu mora biti:
+  #+BEGIN_SRC go
+  package <name>
+  #+END_SRC
+- ...gde je =<name>= ime paketa koje se koristi pri /import/-u
+- Svi fajlovi koji pripadaju istom paketu moraju koristiti isto ime paketa
+- Go konvencija je da je ime paketa poslednji element import putanje. Primer:
+  ukoliko se paket importuje sa =crypto/rot13= tada njegovo ime treba da bude
+  =rot13=
+- Izvršne komande moraju biti u paketu =main=
+- Ne zahteva se da ime paketa bude jedinstveno kod svih paketa koji se importuju
+  ali se zahteva da putanja bude
+
+** Udaljeni paketi (/Remote packages/)
+- Import putanja može biti u obliku URL-a do repozitorijuma za kontrolu
+  verzija (npr. Git ili Mercurial)
+
+  Na primer:
+
+  #+begin_src go
+package main
+
+import (
+    "fmt"
+
+    "example/user/hello/morestrings"
+    "github.com/google/go-cmp/cmp"
+)
+
+func main() {
+    fmt.Println(morestrings.ReverseRunes("!oG ,olleH"))
+    fmt.Println(cmp.Diff("Hello World", "Hello Go"))
+}
+  #+end_src
+
+  #+REVEAL: split
+
+Pošto smo dodali novu zavisnost potrebno je da ažuriramo =go.mod= fajl. To je
+automatizovano kroz komandu =go mod tidy=.
+#+begin_src sh
+$ go mod tidy
+go: finding module for package github.com/google/go-cmp/cmp
+go: downloading github.com/google/go-cmp v0.5.7
+go: found github.com/google/go-cmp/cmp in github.com/google/go-cmp v0.5.7
+go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+$ go install example/user/hello
+$ hello
+Hello, Go!
+  string(
+-   "Hello World",
++   "Hello Go",
+  )
+$ cat go.mod
+module example/user/hello
+
+go 1.18
+
+require github.com/google/go-cmp v0.5.7
+#+end_src
+
+#+REVEAL: split
+
+Preuzete zavisnosti se keširaju u =pkg/mod= podfolderu foldera na koji pokazuje
+promenjiva =$GOPATH=. Ovaj keš se može obrisati sa =go clean -modcache=.
+
+** Promena imena pri /import/-u paketa
+   
+  #+BEGIN_SRC
+  Import declaration          Local name of Sin
+
+  import   "lib/math"         math.Sin
+  import m "lib/math"         m.Sin
+  import . "lib/math"         Sin
+  #+END_SRC
+  
+  - Import paketa bez upotrebe lokalnog imena (zbog /side-effect/-a)
+  
+  #+BEGIN_SRC
+  import _ "lib/math"
+  #+END_SRC
+
+  
+  #+attr_html: :class footer :style clear: both;
+  https://golang.org/ref/spec#Import_declarations
+
+** Testiranje
+- /Lightweight/ test okvir u paketu =testing= + =go test= komanda
+- Jedinični test se piše u fajlu koji se završava na =_test.go= i koji sadrži
+  funkcije oblika =TestXXX= sa signaturom =func (t *testing.T)=
+- =go test= poziva sve funkcije i ako ona pozove =t.Error= ili =t.Fail= test se
+  smatra neuspešnim
+     
+ #+REVEAL: split
+
+ - Fajl =morestrings/reverse_test.go=
+   #+BEGIN_SRC go
+ package morestrings
+
+ import "testing"
+
+ func TestReverseRunes(t *testing.T) {
+     cases := []struct {
+         in, want string
+     }{
+         {"Hello, world", "dlrow ,olleH"},
+         {"Hello, 世界", "界世 ,olleH"},
+         {"", ""},
+     }
+     for _, c := range cases {
+         got := ReverseRunes(c.in)
+         if got != c.want {
+             t.Errorf("ReverseRunes(%q) == %q, want %q", c.in, got, c.want)
+         }
+     }
+ }
+   #+END_SRC
+   
+   #+BEGIN_SRC shell
+$ cd morestrings
+$ go test
+PASS
+ok      example/user/hello/morestrings 0.001s
+$
+   #+END_SRC
+   
+* Go Tour
+Interaktivno učenje Go jezika:
+  
+- https://go.dev/tour/
+- https://github.com/golang/tour
+
+Lokalna instalacija:
+
+#+BEGIN_SRC
+$ go install golang.org/x/website/tour
+$ tour
+#+END_SRC
+
+* Paketi, varijable, funkcije
+** Paketi
+- Svaki Go program se sastoji od paketa
+- Program počinje izvršavanje u paketu =main= i funkciji =func main()=
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math/rand"
+ )
+
+ func main() {
+   fmt.Println("My favorite number is", rand.Intn(10))
+ }
+ #+END_SRC
+   
+ - Paket se referencira po poslednjoj komponenti import putanje (u prethodnom
+   primeru =rand=).
+     
+** =Import= iskaz
+- Navođenje paketa koji se koriste u posmatranom fajlu
+- Može se navesti više paketa unutar zagrada (tzv. /factored import/)
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func main() {
+   fmt.Printf("Now you have %g problems.\n", math.Sqrt(7))
+ }
+ #+END_SRC
+   
+** Eksportovana imena
+Ime je eksportovano iz paketa (odnosno može se importovati u drugim paketima)
+ako počinje velikim slovom.
+
+#+BEGIN_SRC go
+package main
+
+import (
+  "fmt"
+  "math"
+)
+
+func main() {
+  fmt.Println(math.pi)  // <-- treba math.Pi
+}
+#+END_SRC
+
+Imenima koji počinju malim slovom ne može se pristupiti izvan paketa u kome
+su definisani.
+
+** Funkcije
+- Funkcije mogu imati nula ili više parametara
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func add(x int, y int) int {
+   return x + y
+ }
+
+ func main() {
+   fmt.Println(add(42, 13))
+ }
+ #+END_SRC
+   
+- Ili kraće
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func add(x, y int) int {
+   return x + y
+ }
+
+ func main() {
+   fmt.Println(add(42, 13))
+ }
+ #+END_SRC
+
+** Višestruke povratne vrednosti
+- Funkcije mogu vratiti proizvoljan broj rezultata
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func swap(x, y string) (string, string) {
+   return y, x
+ }
+
+ func main() {
+   a, b := swap("hello", "world")
+   fmt.Println(a, b)
+ }
+ #+END_SRC
+
+** Imenovane povratne vrednosti
+- Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
+  =return= iskaz bez argumenata (tzv. /naked return/)
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func split(sum int) (x, y int) {
+   x = sum * 4 / 9
+   y = sum - x
+   return
+ }
+
+ func main() {
+   fmt.Println(split(17))
+ }
+ #+END_SRC
+
+** Varijable
+- =var= iskaz definiše varijable. Tip se navodi na kraju
+- =var= iskaz se može koristiti na nivou paketa ili funkcije
+ 
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ var c, python, java bool
+
+ func main() {
+   var i int
+   fmt.Println(i, c, python, java)
+ }
+ #+END_SRC
+
+** Varijable sa inicijalizatorima
+- =var= iskaz može imati inicijalizatore, jedan po varijabli
+- Ako se koristi inicijalizator, tip može da se izostavi jer može da se
+  odredi na osnovu inicijalizatora
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ var i, j int = 1, 2
+
+ func main() {
+   var c, python, java = true, false, "no!"
+   fmt.Println(i, j, c, python, java)
+ }
+ #+END_SRC
+
+** Kratka deklaracija varijabli
+- Unutar funkcija, kraći oblik deklaracije baziran na ~:=~ dodeli može da se
+  koristi
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   var i, j int = 1, 2
+   k := 3
+   c, python, java := true, false, "no!"
+
+   fmt.Println(i, j, k, c, python, java)
+ }
+ #+END_SRC
+
+ - Ovo nije moguće koristiti van funkcije jer svaki iskaz mora početi sa
+   ključnom rečju
+
+** Osnovni tipovi
+Osnovni tipovi u Go-u su:
+
+ #+BEGIN_SRC
+ bool
+
+ string
+
+ int  int8  int16  int32  int64
+ uint uint8 uint16 uint32 uint64 uintptr
+
+ byte // alias for uint8
+
+ rune // alias for int32
+      // represents a Unicode code point
+
+ float32 float64
+
+ complex64 complex128
+ #+END_SRC
+   
+ #+REVEAL: split
+
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math/cmplx"
+ )
+
+ var (
+   ToBe   bool       = false
+   MaxInt uint64     = 1<<64 - 1
+   z      complex128 = cmplx.Sqrt(-5 + 12i)
+ )
+
+ func main() {
+   fmt.Printf("Type: %T Value: %v\n", ToBe, ToBe)
+   fmt.Printf("Type: %T Value: %v\n", MaxInt, MaxInt)
+   fmt.Printf("Type: %T Value: %v\n", z, z)
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : Type: bool Value: false
+ : Type: uint64 Value: 18446744073709551615
+ : Type: complex128 Value: (2+3i)
+
+** Nulte vrednosti
+- Varijable deklarisane bez inicijalizatora se inicijalizuju na podrazumevane
+  nulte vrednosti:
+  - =0= za numeričke tipove
+  - =false= za =boolean= tip
+  - =""= (prazan string) za =string= tip
+ 
+  #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
+    var i int
+    var f float64
+    var b bool
+    var s string
+    fmt.Printf("%v %v %v %q\n", i, f, b, s)
+  }
+  #+END_SRC
+
+  #+RESULTS:
+  : 0 0 false ""
+
+** Konverzija tipova
+- Izraz oblika =T(v)= konvertuje vrednost =v= u tip =T=
+- Na primer:
+ #+BEGIN_SRC go
+ var i int = 42
+ var f float64 = float64(i)
+ var u uint = uint(f)
+ #+END_SRC
+   
+ - ... ili jednostavnije:
+ #+BEGIN_SRC go
+ i := 42
+ f := float64(i)
+ u := uint(f)
+ #+END_SRC
+
+ #+REVEAL: split
+
+ - Za razliku od C-a u Go-u dodela između različitih tipova zahteva eksplicitnu
+   konverziju
+   
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func main() {
+   var x, y int = 3, 4
+   var f float64 = math.Sqrt(float64(x*x + y*y))
+   var z uint = uint(f)
+   fmt.Println(x, y, z)
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : 3 4 5
+
+** Inferencija tipova (/Type inference/)
+- Kada je desna strana iskaza dodele (bilo ~:=~ bilo  ~var =~) tipizirana,
+  leva strana će biti istog tipa
+     
+ #+BEGIN_SRC go
+ var i int
+ j := i // j is an int
+ #+END_SRC
+   
+ - Ali ako je na desnoj strani netipizirana numerička konstanta, tip zavisi od
+   preciznosti konstante:
+
+ #+BEGIN_SRC go
+ i := 42           // int
+ f := 3.142        // float64
+ g := 0.867 + 0.5i // complex128
+ #+END_SRC
+
+** Konstante
+- Deklarisane kao varijable ali upotrebom ključne reči =const=
+- Mogu biti osnovnih tipova
+- Ne mogu se definisati upotrebom ~:=~
+   
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ const Pi = 3.14
+
+ func main() {
+   const World = "世界"
+   fmt.Println("Hello", World)
+   fmt.Println("Happy", Pi, "Day")
+
+   const Truth = true
+   fmt.Println("Go rules?", Truth)
+ }
+ #+END_SRC
+   
+** Numeričke konstante
+- Vrednosti proizvoljne preciznosti (/arbitrary-precision/)
+- Kod netipiziranih konstanti tip se određuje na osnovu konteksta
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ const (
+   // Create a huge number by shifting a 1 bit left 100 places.
+   // In other words, the binary number that is 1 followed by 100 zeroes.
+   Big = 1 << 100
+   // Shift it right again 99 places, so we end up with 1<<1, or 2.
+   Small = Big >> 99
+ )
+
+ func needInt(x int) int { return x*10 + 1 }
+   
+ func needFloat(x float64) float64 {
+   return x * 0.1
+ }
+
+ func main() {
+   fmt.Println(needInt(Small))
+   fmt.Println(needFloat(Small))
+   fmt.Println(needFloat(Big))
+   fmt.Println(needInt(Big))  // <-- constant overflow
+ }
+ #+END_SRC
+   
+ #+REVEAL: split
+   
+ #+BEGIN_SRC go
+ const Huge = 1e1000
+   
+ // Sledeća linija ne može da se kompajlira
+ // Greška je 'constant 1.00000e+1000 overflows float64'
+ fmt.Println(Huge)
+   
+ // Ali ovo radi bez problema jer se kalkulacija obavlja od strane kompajlera
+ // u vreme kompajliranja
+ fmt.Println(Huge / 1e999)
+ #+END_SRC
+   
+ #+attr_html: :class footer :style clear: both;
+ https://blog.golang.org/constants
+   
+** Enumerisane konstante (=iota=)
+- Kada nam je potrebna enumeracija
+   
+ #+BEGIN_SRC go
+ const (
+     CategoryBooks = iota // 0
+     CategoryHealth       // 1
+     CategoryClothing     // 2
+ )
+ #+END_SRC
+   
+- ili u kombinaciji sa tipom (da bi kompajler mogao da spreči greške sa
+  tipovima)
+     
+#+BEGIN_SRC go
+type Stereotype int
+
+const (
+    TypicalNoob Stereotype = iota // 0
+    TypicalHipster                // 1
+    TypicalUnixWizard             // 2
+    TypicalStartupFounder         // 3
+)
+#+END_SRC
+   
+#+attr_html: :class footer :style clear: both;
+https://splice.com/blog/iota-elegant-constants-golang/
+
+#+REVEAL: split
+   
+Ako želimo da preskočimo vrednosti
+   
+ #+BEGIN_SRC go
+ type AudioOutput int
+
+ const (
+     OutMute AudioOutput = iota // 0
+     OutMono                    // 1
+     OutStereo                  // 2
+     _
+     _
+     OutSurround                // 5
+ )
+ #+END_SRC
+   
+Možemo kreirati i izraze sa =iota=
+   
+ #+BEGIN_SRC go
+ type Allergen int
+
+ const (
+     IgEggs Allergen = 1 << iota // 1 << 0 which is 00000001
+     IgChocolate                 // 1 << 1 which is 00000010
+     IgNuts                      // 1 << 2 which is 00000100
+     IgStrawberries              // 1 << 3 which is 00001000
+     IgShellfish                 // 1 << 4 which is 00010000
+ )
+ #+END_SRC
+
+ #+attr_html: :class footer :style clear: both;
+ https://splice.com/blog/iota-elegant-constants-golang/
+
+* Iskazi kontrole toka: =for=, =if=, =else=, =switch= i =defer=
+** =For= iskaz
+- Go ima samo jedan iskaz za petlje -- =for=
+- Tri komponente:
+  - /init iskaz/ -- izvršava se pre prve iteracije
+  - /uslov/ -- evaluira se pre svake iteracije i u zavisnosti od rezultata
+    ciklus se izvršava ili se petlja prekida
+  - /post iskaz/ -- izvršava se na kraju svake iteracije
+     
+   #+BEGIN_SRC go
+   package main
+
+   import "fmt"
+
+   func main() {
+     sum := 0
+     for i := 0; i < 10; i++ {
+       sum += i
+     }
+     fmt.Println(sum)
+   }
+   #+END_SRC
+
+   #+RESULTS:
+   : 45
+
+  #+REVEAL: split
+
+- Zagrade =()= se ne navode kao u nekim drugim jezicima ali je navođenje ={}= za
+  telo petlje obavezno
+- Varijable kreirane u /init/ iskazu su dostupne samo unutar petlje
+- /init/ i /post/ iskazi su opcioni
+   
+#+BEGIN_SRC go
+package main
+
+import "fmt"
+
+func main() {
+  sum := 1
+  for ; sum < 1000; {
+    sum += sum
+  }
+  fmt.Println(sum)
+}
+#+END_SRC
+   
+** =for= je =while= u Go-u
+- Kada nemamo /init/ i /post/ iskaz možemo izostaviti =;= i dobijamo
+  ekvivalent =while= petlje u drugim jezicima
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   sum := 1
+   for sum < 1000 {
+     sum += sum
+   }
+   fmt.Println(sum)
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : 1024
+
+** "Beskonačna" petlja
+- Ako se izostavi i uslov dobijamo beskonačnu petlju
+   
+ #+BEGIN_SRC go
+ package main
+
+ func main() {
+   for {
+   }
+ }
+ #+END_SRC
+   
+** Uslovi -- =if= iskaz
+- Kao i kod =for= i kod =if= iskaza zagrade nije potrebno navoditi
+   
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func sqrt(x float64) string {
+   if x < 0 {
+     return sqrt(-x) + "i"
+   }
+   return fmt.Sprint(math.Sqrt(x))
+ }
+
+ func main() {
+   fmt.Println(sqrt(2), sqrt(-4))
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : 1.4142135623730951 2i
+
+** =if= sa kratkim iskazom
+- Kao i =for= i =if= može da ima kratak iskaz (najčešće ~:=~) koji se
+  izvršava pre uslova
+- Varijable deklarisane u ovom iskazu su dostupne samo unutar =if= iskaza
+ 
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func pow(x, n, lim float64) float64 {
+   if v := math.Pow(x, n); v < lim {
+     return v
+   }
+   return lim
+ }
+
+ func main() {
+   fmt.Println(
+     pow(3, 2, 10),
+     pow(3, 3, 20),
+   )
+ }
+ #+END_SRC
+
+ #+ATTR_REVEAL: :frag (roll-in)
+ #+begin_src example
+ : 9 20
+ #+end_src
+
+** =if= i =else=
+- Varijable deklarisane u =if= kratkom iskazu su dostupne i u opcionom =else=
+  bloku
+
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func pow(x, n, lim float64) float64 {
+   if v := math.Pow(x, n); v < lim {
+     return v
+   } else {
+     fmt.Printf("%g >= %g\n", v, lim)
+   }
+   // can't use v here, though
+   return lim
+ }
+
+ func main() {
+   fmt.Println(
+     pow(3, 2, 10),
+     pow(3, 3, 20),
+   )
+ }
+ #+END_SRC
+
+ #+ATTR_REVEAL: :frag (roll-in)
+ #+begin_src example
+ : 27 >= 20
+ : 9 20
+ #+end_src
+
+** =switch= iskaz
+- Kraći način pisanja sekvence =if/else= iskaza. Izvršava prvi =case= blok
+  gde je vrednost jednaka vrednošću izraza uslova
+- Može imati kratak iskaz kao i =if=
+ 
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "runtime"
+ )
+
+ func main() {
+   fmt.Print("Go runs on ")
+   switch os := runtime.GOOS; os {
+   case "darwin":
+     fmt.Println("OS X.")
+   case "linux":
+     fmt.Println("Linux.")
+   default:
+     // freebsd, openbsd,
+     // plan9, windows...
+     fmt.Printf("%s.\n", os)
+   }
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : Go runs on Linux.
+
+ #+REVEAL: split
+
+- Za razliku od drugih jezika izvršava se samo jedan =case= blok (nema
+  "propadanja"). Takođe =case= prihvata izraz koji ne mora biti konstanta i
+  čija vrednost ne mora biti numerička
+
+** Evaluacija =switch= iskaza
+- Evaluacija =case= blokova ide od vrha prema dnu dok se ne nađe prvi blok
+  čija vrednost je jednaka zadatom uslovu
+   
+- =f()= se ne poziva ako je ~i==0~
+
+ #+BEGIN_SRC go
+  switch i {
+  case 0:
+  case f():
+  }
+ #+END_SRC
+
+#+REVEAL: split
+
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ func main() {
+   fmt.Println("When's Saturday?")
+   today := time.Now().Weekday()
+   switch time.Saturday {
+   case today + 0:
+     fmt.Println("Today.")
+   case today + 1:
+     fmt.Println("Tomorrow.")
+   case today + 2:
+     fmt.Println("In two days.")
+   default:
+     fmt.Println("Too far away.")
+   }
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : When's Saturday?
+ : Too far away.
+
+** =switch= bez uslova
+- Ekvivalentno sa =switch true=
+- Čistiji način pisanja dugih if-then-else lanaca
+   
+ #+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ func main() {
+   t := time.Now()
+   switch {
+   case t.Hour() < 12:
+     fmt.Println("Good morning!")
+   case t.Hour() < 17:
+     fmt.Println("Good afternoon.")
+   default:
+     fmt.Println("Good evening.")
+   }
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : Good afternoon.
+
+** =defer= iskaz
+- Odlaže izvršavanje funkcije dok se ne vratimo iz funkcije u kojoj se
+  nalazimo
+- Parametri funkcije se evaluiraju na mestu poziva =defer= ali se ciljna
+  funkcija ne poziva do povratka
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   defer fmt.Println("world")
+
+   fmt.Println("hello")
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ : hello
+ : world
+
+** Stekovanje =defer= poziva
+- =defer= pozivi se smeštaju na stek i po povratku funkcije se izvršavaju u
+  LIFO redosledu
+     
+ #+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   fmt.Println("counting")
+
+   for i := 0; i < 10; i++ {
+     defer fmt.Println(i)
+   }
+
+   fmt.Println("done")
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ #+begin_example
+ counting
+ done
+ 9
+ 8
+ ...
+ 0
+ #+end_example
+
+  - Više detalja možete naći u [[https://blog.golang.org/defer-panic-and-recover][ovom blog post-u]]
+
+* =struct=, =slice= i =map=
+** Pokazivači (=Pointers=)
+- Memorijska adresa vrednosti varijable
+- =*T= je pokazivač na vrednost tipa =T=
+- =&= operator vraća pokazivač na zadati argument/vrednost
+
+   #+BEGIN_SRC go
+   i := 42
+   p = &i  // p je pokazivač na vrednost 42
+   #+END_SRC
+   
+- =*= operator označava vrednost na koju pokazivač pokazuje
+
+   #+BEGIN_SRC go
+   fmt.Println(*p) // čitanje i vrednosti kroz pokazivač p
+   *p = 21         // postavljanje i vrednosti kroz pokazivač p
+   #+END_SRC
+      
+  - Ovo se još naziva i /dereferenciranje/ ili /indirekcija/
+
+- Za razliku od jezika C, Go nema pokazivačku aritmetiku
+
+#+REVEAL: split
+   
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   i, j := 42, 2701
+
+   p := &i         // point to i
+   fmt.Println(*p) // read i through the pointer
+   *p = 21         // set i through the pointer
+   fmt.Println(i)  // see the new value of i
+
+   p = &j         // point to j
+   *p = *p / 37   // divide j through the pointer
+   fmt.Println(j) // see the new value of j
+ }
+#+END_SRC
+
+#+RESULTS:
+: 42
+: 21
+: 73
+
+** Strukture (=struct=)
+- Kolekcija polja
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   X int
+   Y int
+ }
+
+ func main() {
+   fmt.Println(Vertex{1, 2})
+ }
+#+END_SRC
+
+#+RESULTS:
+: {1 2}
+
+#+REVEAL: split
+
+- Poljima se pristupa upotrebom =.= operatora
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   X int
+   Y int
+ }
+
+ func main() {
+   v := Vertex{1, 2}
+   v.X = 4
+   fmt.Println(v.X)
+ }
+#+END_SRC
+
+#+RESULTS:
+: 4
+
+** Pokazivači na strukture
+- Poljima strukture se može pristupiti preko pokazivača na strukturu
+- Sintaksno, ako imamo pokazivač =p= na strukturu, polju =X= bi mogli
+  pristupiti sa =(*p).X=
+- Pošto je ovakva sintaksa teža za korišćenje uvedena je prečica =p.X= tj.
+  nije potrebno eksplicitno dereferenciranje
+     
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   X int
+   Y int
+ }
+
+ func main() {
+   v := Vertex{1, 2}
+   p := &v
+   p.X = 1e9
+   fmt.Println(v)
+ }
+#+END_SRC
+
+#+RESULTS:
+: {1000000000 2}
+
+** =struct= literali
+- Kreiranje strukture listanjem vrednosti njenih polja
+- Moguće je koristiti sintaksu =Name:= za postavljanje vrednosti polja i u
+  tom slučaju redosled je irelevantan
+- Ukoliko se koristi operator =&= vraća se pokazivač na strukturu
+   
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   X, Y int
+ }
+
+ var (
+   v1 = Vertex{1, 2}  // has type Vertex
+   v2 = Vertex{X: 1}  // Y:0 is implicit
+   v3 = Vertex{}      // X:0 and Y:0
+   p  = &Vertex{1, 2} // has type *Vertex
+ )
+
+ func main() {
+   fmt.Println(v1, p, v2, v3)
+ }
+#+END_SRC
+
+#+RESULTS:
+: {1 2} &{1 2} {1 0} {0 0}
+
+** Nizovi (=Arrays=)
+- =[n]T= -- niz od =n= elemenata tipa =T=
+- =var a [10]int= -- niz od 10 elemenata tipa =int=
+- Nizovi su fiksne veličine
+ 
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   var a [2]string
+   a[0] = "Hello"
+   a[1] = "World"
+   fmt.Println(a[0], a[1])
+   fmt.Println(a)
+
+   primes := [6]int{2, 3, 5, 7, 11, 13}
+   fmt.Println(primes)
+ }
+#+END_SRC
+
+#+RESULTS:
+: Hello World
+: [Hello World]
+: [2 3 5 7 11 13]
+
+** Isečci (=Slices=)
+- Niz je fiksne dužine
+- Isečak je "prozor" na niz koji ima dinamičku veličinu
+- =[]T= -- isečak tipa =T=
+- Isečak se formira nad potpornim nizom na sledeći način:
+     
+  #+BEGIN_SRC go
+  a[low : high]
+  #+END_SRC
+     
+- Ovo formira polu-otvoren interval elemenata uključujući prvi ali
+  isključujući poslednji
+     
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   primes := [6]int{2, 3, 5, 7, 11, 13}
+
+   var s []int = primes[1:4]
+   fmt.Println(s)
+ }
+#+END_SRC
+
+#+RESULTS:
+: [3 5 7]
+
+** Isečci kao pokazivači
+- Isečci se ponašaju kao pokazivači na nizove ispod njih
+- Izmena elementa kroz isečak menja elemente niza
+   
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   names := [4]string{
+     "John",
+     "Paul",
+     "George",
+     "Ringo",
+   }
+   fmt.Println(names)
+
+   a := names[0:2]
+   b := names[1:3]
+   fmt.Println(a, b)
+
+   b[0] = "???"
+   fmt.Println(a, b)
+   fmt.Println(names)
+ }
+#+END_SRC
+
+#+RESULTS:
+: [John Paul George Ringo]
+: [John Paul] [Paul George]
+: [John ???] [??? George]
+: [John ??? George Ringo]
+
+** Literali za isečke
+#+BEGIN_SRC go
+[3]bool{true, true, false}
+#+END_SRC
+
+#+BEGIN_SRC go
+[]bool{true, true, false}
+#+END_SRC
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   q := []int{2, 3, 5, 7, 11, 13}
+   fmt.Println(q)
+
+   r := []bool{true, false, true, true, false, true}
+   fmt.Println(r)
+
+   s := []struct {
+     i int
+     b bool
+   }{
+     {2, true},
+     {3, false},
+     {5, true},
+     {7, true},
+     {11, false},
+     {13, true},
+   }
+   fmt.Println(s)
+ }
+#+END_SRC
+
+#+RESULTS:
+: [2 3 5 7 11 13]
+: [true false true true false true]
+: [{2 true} {3 false} {5 true} {7 true} {11 false} {13 true}]
+
+** Podrazumevane granice intervala
+- Kada se kreira isečak niza moguće je izostaviti bilo koju granicu.
+- Podrazumevana donja granica je =0=
+- Podrazumevana gornja granica je dužina niza
+- Ekvivalentni izrazi:
+
+  #+BEGIN_SRC go
+   a[0:10]
+   a[:10]
+   a[0:]
+   a[:]
+  #+END_SRC
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   s := []int{2, 3, 5, 7, 11, 13}
+
+   s = s[1:4]
+   fmt.Println(s)
+
+   s = s[:2]
+   fmt.Println(s)
+
+   s = s[1:]
+   fmt.Println(s)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ [3 5 7]
+ [3 5]
+ [5]
+#+END_SRC
+
+** Dužina i kapacitet isečka
+- Isečak ima /dužinu/ i /kapacitet/
+- Dužina je broj elemenata isečka. Kapacitet je broj elemenata počevši od
+  prvog elementa isečka do poslednjeg elementa potpornog niza.
+- dužina i kapacitet isečka =s=: =len(s)=, =cap(s)=
+- Dužina isečka se može povećati ponovnim isecanjem (/reslicing/) u skladu sa
+  kapacitetom
+    
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   s := []int{2, 3, 5, 7, 11, 13}
+   printSlice(s)
+
+   // Slice the slice to give it zero length.
+   s = s[:0]
+   printSlice(s)
+
+   // Extend its length.
+   s = s[:4]
+   printSlice(s)
+
+   // Drop its first two values.
+   s = s[2:]
+   printSlice(s)
+ }
+
+ func printSlice(s []int) {
+   fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ len=6 cap=6 [2 3 5 7 11 13]
+ len=0 cap=6 []
+ len=4 cap=6 [2 3 5 7]
+ len=2 cap=4 [5 7]
+#+END_SRC
+
+** Prazni (/nil/) isečci
+- /Nula/ vrednost za isečak je =nil=
+- Ovakav isečak ima dužinu i kapacitet =0= i nema potporni niz
+ 
+ #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
+    var s []int
+    fmt.Println(s, len(s), cap(s))
+    if s == nil {
+      fmt.Println("nil!")
+    }
+  }
+ #+END_SRC
+   
+ #+BEGIN_SRC
+  [] 0 0
+  nil!
+ #+END_SRC
+
+** Kreiranje isečaka sa =make=
+- =make= funkcija alocira niz sa nultim vrednostima i vraća njegov isečak
+     
+  #+BEGIN_SRC go
+  a := make([]int, 5)  // len(a)=5
+  #+END_SRC
+     
+- moguće je definisati i kapacitet
+
+  #+BEGIN_SRC go
+     b := make([]int, 0, 5) // len(b)=0, cap(b)=5
+
+    b = b[:cap(b)] // len(b)=5, cap(b)=5
+    b = b[1:]      // len(b)=4, cap(b)=4
+  #+END_SRC
+     
+ #+REVEAL: split
+   
+ #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  func main() {
+    a := make([]int, 5)
+    printSlice("a", a)
+
+    b := make([]int, 0, 5)
+    printSlice("b", b)
+
+    c := b[:2]
+    printSlice("c", c)
+
+    d := c[2:5]
+    printSlice("d", d)
+  }
+
+  func printSlice(s string, x []int) {
+    fmt.Printf("%s len=%d cap=%d %v\n",
+      s, len(x), cap(x), x)
+  }
+ #+END_SRC
+   
+ #+BEGIN_SRC
+  a len=5 cap=5 [0 0 0 0 0]
+  b len=0 cap=5 []
+  c len=2 cap=5 [0 0]
+  d len=3 cap=3 [0 0 0]
+ #+END_SRC
+
+** Isečak isečaka
+- Isečak može da sadrži bilo koji tip, uključujući i druge isečke
+ 
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "strings"
+ )
+
+ func main() {
+   // Create a tic-tac-toe board.
+   board := [][]string{
+     []string{"_", "_", "_"},
+     []string{"_", "_", "_"},
+     []string{"_", "_", "_"},
+   }
+
+   // The players take turns.
+   board[0][0] = "X"
+   board[2][2] = "O"
+   board[1][2] = "X"
+   board[1][0] = "O"
+   board[0][2] = "X"
+
+   for i := 0; i < len(board); i++ {
+     fmt.Printf("%s\n", strings.Join(board[i], " "))
+   }
+ }
+#+END_SRC
+
+#+RESULTS:
+: X _ X
+: O _ X
+: _ _ O
+
+** Dodavanje na isečak
+#+BEGIN_SRC go
+ func append(s []T, vs ...T) []T
+#+END_SRC
+
+- Prvi parametar je isečak, ostali su vrednosti koje se dodaju
+- Povratna vrednost je novi isečak koji sadrži nove elemente
+- Ako potporni niz nema dovoljan kapacitet alocira se novi
+
+#+REVEAL: split
+
+#+BEGIN_SRC go :exports both
+ package main
+
+ import "fmt"
+
+ func main() {
+   var s []int
+   printSlice(s)
+
+   // append works on nil slices.
+   s = append(s, 0)
+   printSlice(s)
+
+   // The slice grows as needed.
+   s = append(s, 1)
+   printSlice(s)
+
+   // We can add more than one element at a time.
+   s = append(s, 2, 3, 4)
+   printSlice(s)
+ }
+
+ func printSlice(s []int) {
+   fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+ }
+#+END_SRC
+
+#+RESULTS:
+: len=0 cap=0 []
+: len=1 cap=1 [0]
+: len=2 cap=2 [0 1]
+: len=5 cap=6 [0 1 2 3 4]
+
+** =range=
+- =range= forma =for= petlje iterira kroz elemente isečaka ili mape
+ 
+ #+BEGIN_SRC go
+  package main
+
+  import "fmt"
+
+  var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+
+  func main() {
+    for i, v := range pow {
+      fmt.Printf("2**%d = %d\n", i, v)
+    }
+  }
+ #+END_SRC
+
+ #+RESULTS:
+ : 2**0 = 1
+ : 2**1 = 2
+ : 2**2 = 4
+ : 2**3 = 8
+ : 2**4 = 16
+ : 2**5 = 32
+ : 2**6 = 64
+ : 2**7 = 128
+
+#+REVEAL: split
+
+- Ukoliko ne koristite indeks pri iteraciji moguće ga je ignorisati
+  upotrebom specijalnog imena =_=
+
+  #+BEGIN_SRC go
+   for i, _ := range pow
+   for _, value := range pow
+  #+END_SRC
+
+- Ako vam treba samo indeks možete izostaviti drugu varijablu:
+
+  #+BEGIN_SRC go
+   for i := range pow
+  #+END_SRC
+
+  #+BEGIN_SRC go
+   package main
+
+   import "fmt"
+
+   func main() {
+     pow := make([]int, 10)
+     for i := range pow {
+       pow[i] = 1 << uint(i) // == 2**i
+     }
+     for _, value := range pow {
+       fmt.Printf("%d\n", value)
+     }
+   }
+  #+END_SRC
+
+  #+RESULTS:
+  #+begin_example
+  1
+  2
+  4
+  8
+  16
+  32
+  64
+  128
+  256
+  512
+  #+end_example
+
+
+** Mape
+- Mapiranje ključeva na vrednosti -- asocijativni niz
+- Nula vrednost je =nil=
+- =nil= mapa nema ključeve niti se ključevi mogu dodati
+- =make= funkcija vraća inicijalizovanu mapu spremnu za upotrebu
+ 
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   Lat, Long float64
+ }
+
+ var m map[string]Vertex
+
+ func main() {
+   m = make(map[string]Vertex)
+   m["Bell Labs"] = Vertex{
+     40.68433, -74.39967,
+   }
+   fmt.Println(m["Bell Labs"])
+ }
+#+END_SRC
+
+#+RESULTS:
+: {40.68433 -74.39967}
+
+** Literali za mape
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   Lat, Long float64
+ }
+
+ var m = map[string]Vertex{
+   "Bell Labs": Vertex{
+     40.68433, -74.39967,
+   },
+   "Google": Vertex{
+     37.42202, -122.08408,
+   },
+ }
+
+ func main() {
+   fmt.Println(m)
+ }
+#+END_SRC
+
+#+RESULTS:
+: map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
+
+#+REVEAL: split
+
+- Ime tipa literala se može izostaviti:
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   Lat, Long float64
+ }
+
+ var m = map[string]Vertex{
+   "Bell Labs": {40.68433, -74.39967},
+   "Google":    {37.42202, -122.08408},
+ }
+
+ func main() {
+   fmt.Println(m)
+ }
+#+END_SRC
+
+#+RESULTS:
+: map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
+
+** Izmena vrednosti mapa
+- postavljanje vrednosti
+ #+BEGIN_SRC go
+  m[key] = elem
+ #+END_SRC
+   
+ - čitanje vrednosti
+ #+BEGIN_SRC go
+  elem = m[key]
+ #+END_SRC
+   
+ - brisanje
+ #+BEGIN_SRC go
+  delete(m, key)
+ #+END_SRC
+   
+ - čitanje i provera da li element postoji
+ #+BEGIN_SRC go
+   elem, ok = m[key]
+ #+END_SRC
+ Ako element postoji =ok= će imati vrednost =true= inače =false=
+   
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   m := make(map[string]int)
+
+   m["Answer"] = 42
+   fmt.Println("The value:", m["Answer"])
+
+   m["Answer"] = 48
+   fmt.Println("The value:", m["Answer"])
+
+   delete(m, "Answer")
+   fmt.Println("The value:", m["Answer"])
+
+   v, ok := m["Answer"]
+   fmt.Println("The value:", v, "Present?", ok)
+ }
+#+END_SRC
+
+#+RESULTS:
+: The value: 42
+: The value: 48
+: The value: 0
+: The value: 0 Present? false
+
+** Funkcije kao vrednosti
+- Funkcije su u Go-u vrednosti takođe.
+- Mogu se čuvati kao varijable, prosleđivati kao parametri funkcije ili
+  dobijati nazad kao povratne vrednosti
+     
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ func compute(fn func(float64, float64) float64) float64 {
+   return fn(3, 4)
+ }
+
+ func main() {
+   hypot := func(x, y float64) float64 {
+     return math.Sqrt(x*x + y*y)
+   }
+   fmt.Println(hypot(5, 12))
+
+   fmt.Println(compute(hypot))
+   fmt.Println(compute(math.Pow))
+ }
+#+END_SRC
+
+#+RESULTS:
+: 13
+: 5
+: 81
+
+** Zatvorenja (/Closures/)
+- Go funkcije mogu biti /zatvorenja/ u smislu da funkcija može da referencira
+  vrednosti koje se nalaze izvan nje na mestu njenog kreiranja čak i kada se
+  pozove sa drugog mesta. Kažemo da su referencirane vrednosti "vezane" za
+  funkciju (/bounded/)
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func adder() func(int) int {
+   sum := 0
+   return func(x int) int {
+     sum += x
+     return sum
+   }
+ }
+
+ func main() {
+   pos, neg := adder(), adder()
+   for i := 0; i < 10; i++ {
+     fmt.Println(
+       pos(i),
+       neg(-2*i),
+     )
+   }
+ }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0 0
+1 -2
+3 -6
+6 -12
+10 -20
+15 -30
+21 -42
+28 -56
+36 -72
+45 -90
+#+end_example
+
+* Metode i interfejsi
+** Metode i interfejsi
+- Go nema klase ali se mogu definisati metode nad tipovima
+- Metoda je funkcija koja ima specijalni parametar prijemnik (/receiver/)
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func (v *Vertex) Abs() float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func main() {
+   v := Vertex{3, 4}
+   fmt.Println(v.Abs())
+ }
+#+END_SRC
+   
+** Metode su funkcije
+- Metode se u osnovi ponašaju kao obične funkcije
+   
+#+BEGIN_SRC go :exports both
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func Abs(v Vertex) float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func main() {
+   v := Vertex{3, 4}
+   fmt.Println(Abs(v))
+ }
+#+END_SRC
+
+#+RESULTS:
+: 5
+
+#+REVEAL: split
+
+- Metode se ne moraju definisati samo nad strukturama. Na primer:
+
+#+BEGIN_SRC go :exports both
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type MyFloat float64
+
+ func (f MyFloat) Abs() float64 {
+   if f < 0 {
+     return float64(-f)
+   }
+   return float64(f)
+ }
+
+ func main() {
+   f := MyFloat(-math.Sqrt2)
+   fmt.Println(f.Abs())
+ }
+#+END_SRC
+
+#+RESULTS:
+: 1.4142135623730951
+
+** Pokazivački prijemnici (/Pointer receivers/)
+- Prijemnik može biti pokazivačkog tipa
+- U tom slučaju metoda može ažurirati vrednost prijemnika
+- S obzirom da je ovo često potrebno, a i performanse su bolje jer nema
+  kopiranja, pokazivački prijemnici su češći
+     
+  #+BEGIN_SRC go
+   package main
+
+   import (
+     "fmt"
+     "math"
+   )
+
+   type Vertex struct {
+     X, Y float64
+   }
+   func (v Vertex) Abs() float64 {
+     return math.Sqrt(v.X*v.X + v.Y*v.Y)
+   }
+   func (v *Vertex) Scale(f float64) {
+     v.X = v.X * f
+     v.Y = v.Y * f
+   }
+
+   func main() {
+     v := Vertex{3, 4}
+     v.Scale(10)
+     fmt.Println(v.Abs())
+   }
+  #+END_SRC
+
+** Pokazivači i funkcije
+   
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func Abs(v Vertex) float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func Scale(v *Vertex, f float64) {    // ako uklonimo `*`?
+   v.X = v.X * f
+   v.Y = v.Y * f
+ }
+
+ func main() {
+   v := Vertex{3, 4}
+   Scale(&v, 10)
+   fmt.Println(Abs(v))
+ }
+#+END_SRC
+
+#+RESULTS:
+: 50
+
+** Metode i indirekcija pokazivača
+   
+- Funkcija sa pokazivačkim argumentom mora primiti pokazivač
+ 
+  #+BEGIN_SRC go
+   var v Vertex
+   ScaleFunc(v, 5)  // Compile error!
+   ScaleFunc(&v, 5) // OK
+  #+END_SRC
+     
+- ali metode mogu primiti bilo vrednosti bilo pokazivače kao prijemnike
+
+  #+BEGIN_SRC go
+   var v Vertex
+   v.Scale(5)  // OK
+   p := &v
+   p.Scale(10) // OK
+  #+END_SRC
+     
+- Za iskaz =v.Scale(5)= Go će pozvati metodu sa pokazivačkim prijemnikom iako
+  =v= u ovom slučaju može biti vrednost a ne pokazivač
+- Odnosno Go će automatski interpretirati iskaz kao =(&v).Scale(5)= pošto
+  =Scale= metoda ima pokazivački prijemnik
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func (v *Vertex) Scale(f float64) {
+   v.X = v.X * f
+   v.Y = v.Y * f
+ }
+
+ func ScaleFunc(v *Vertex, f float64) {
+   v.X = v.X * f
+   v.Y = v.Y * f
+ }
+
+ func main() {
+   v := Vertex{3, 4}
+   v.Scale(2)
+   ScaleFunc(&v, 10)
+
+   p := &Vertex{4, 3}
+   p.Scale(3)
+   ScaleFunc(p, 8)
+
+   fmt.Println(v, p)
+ }
+#+END_SRC
+
+#+RESULTS:
+: {60 80} &{96 72}
+
+#+REVEAL: split
+   
+- Isto imamo i u suprotnom smeru
+- Funkcije koje primaju vrednosne argumente ne mogu prihvatiti pokazivač
+
+#+BEGIN_SRC go
+ var v Vertex
+ fmt.Println(AbsFunc(v))  // OK
+ fmt.Println(AbsFunc(&v)) // Compile error!
+#+END_SRC
+   
+- ali metode sa vrednosnim prijemnikom mogu prihvatiti bilo vrednosti bilo pokazivače
+
+  #+BEGIN_SRC go
+    var v Vertex
+    fmt.Println(v.Abs()) // OK
+    p := &v
+    fmt.Println(p.Abs()) // OK
+  #+END_SRC
+   
+  Go će u ovom slučaju interpretirati =p.Abs()= kao =(*p).Abs()=
+
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func (v Vertex) Abs() float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func AbsFunc(v Vertex) float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func main() {
+   v := Vertex{3, 4}
+   fmt.Println(v.Abs())
+   fmt.Println(AbsFunc(v))
+
+   p := &Vertex{4, 3}
+   fmt.Println(p.Abs())
+   fmt.Println(AbsFunc(*p))
+ }
+#+END_SRC
+
+** Kada koristiti vrednosni a kada pokazivački prijemnik?
+   
+Dva razloga za upotrebu pokazivačkog prijemnika:
+
+1. Kada metoda treba da modifikuje prijemnik
+2. Izbegavanje kopiranja prijemnika
+
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "math"
+ )
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func (v *Vertex) Scale(f float64) {
+   v.X = v.X * f
+   v.Y = v.Y * f
+ }
+
+ func (v *Vertex) Abs() float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+
+ func main() {
+   v := &Vertex{3, 4}
+   fmt.Printf("Before scaling: %+v, Abs: %v\n", v, v.Abs())
+   v.Scale(5)
+   fmt.Printf("After scaling: %+v, Abs: %v\n", v, v.Abs())
+ }
+#+END_SRC
+   
+** Interfejsi
+   
+- Interfejs tip je definisan skupom signatura metoda
+- Kažemo da tip implementira interfejs ako implementira skup metoda koje
+  interfejs definiše (implicitno)
+- Varijabla tipa interfejsa može sadžati bilo koju vrednost koja implementira
+  dati skup metoda interfejsa
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ type Abser interface {
+   Abs() float64
+ }
+
+ func main() {
+   var a Abser
+   f := MyFloat(-math.Sqrt2)
+   v := Vertex{3, 4}
+   a = f  // a MyFloat implements Abser
+   a = &v // a *Vertex implements Abser
+   a = v                // In this line, v is a Vertex (not *Vertex)
+   fmt.Println(a.Abs()) // and does NOT implement Abser.
+ }
+
+ type MyFloat float64
+
+ func (f MyFloat) Abs() float64 {
+   if f < 0 {
+     return float64(-f)
+   }
+   return float64(f)
+ }
+
+ type Vertex struct {
+   X, Y float64
+ }
+
+ func (v *Vertex) Abs() float64 {
+   return math.Sqrt(v.X*v.X + v.Y*v.Y)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+./compile7.go:22:4: cannot use v (type Vertex) as type Abser in assignment:
+  Vertex does not implement Abser (Abs method has pointer receiver)
+#+END_SRC
+   
+** Interfejsi se implementiraju implicitno
+   
+- Tip implementira interfejs tako što implementira metode interfejsa
+- Ne postoji =implements= ključna reč
+- Implicitni interfejsi razdvajaju definiciju od implementacije
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type I interface {
+   M()
+ }
+
+ type T struct {
+   S string
+ }
+
+ // This method means type T implements the interface I,
+ // but we don't need to explicitly declare that it does so.
+ func (t T) M() {
+   fmt.Println(t.S)
+ }
+
+ func main() {
+   var i I = T{"hello"}
+   i.M()
+ }
+#+END_SRC
+
+** Interfejs vrednosti
+   
+- Interfejs vrednosti možemo zamisliti kao uređeni par vrednosti i konkretnog
+  tipa:
+
+  #+BEGIN_SRC
+  (value, type)
+  #+END_SRC
+     
+- Interfejs vrednost čuva konkretnu vrednost tipa koji implementira dati
+  interfejs
+- Poziv metode interfejsa izvršava poziv metode tipa vrednosti nad sadržanom
+  vrednošću
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ type I interface {
+   M()
+ }
+
+ type T struct {
+   S string
+ }
+ func (t *T) M() {
+   fmt.Println(t.S)
+ }
+
+ type F float64
+ func (f F) M() {
+   fmt.Println(f)
+ }
+
+ func main() {
+   var i I
+   i = &T{"Hello"}
+   describe(i)
+   i.M()
+   i = F(math.Pi)
+   describe(i)
+   i.M()
+ }
+
+ func describe(i I) {
+   fmt.Printf("(%v, %T)\n", i, i)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ (&{Hello}, *main.T)
+ Hello
+ (3.141592653589793, main.F)
+ 3.141592653589793
+#+END_SRC
+
+** interfejs vrednosti sa =nil= sadržanom vrednošću
+   
+- Ako je vrednost sadržana u interfejsu =nil= metoda se poziva sa =nil= prijemnikom
+- Iako interfejs sadrži =nil= vrednost on nije =nil= interfejs
+- U Go-u je normalno da se metoda pozove sa =nil= prijemnikom
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+type I interface {
+  M()
+}
+
+type T struct {
+  S string
+}
+
+func (t *T) M() {
+  if t == nil {
+    fmt.Println("<nil>")
+    return
+  }
+  fmt.Println(t.S)
+}
+
+func main() {
+  var i I
+  var t *T
+  i = t
+  describe(i)
+  i.M()
+  i = &T{"hello"}
+  describe(i)
+  i.M()
+}
+
+func describe(i I) {
+  fmt.Printf("(%v, %T)\n", i, i)
+}
+#+END_SRC
+
+#+BEGIN_SRC
+(<nil>, *main.T)
+<nil>
+(&{hello}, *main.T)
+hello
+#+END_SRC
+    
+** =nil= interfejs vrednost
+   
+- =nil= interfejs ne sadrži ni vrednost ni tip
+- Pozivanje metode nad =nil= interfejsom je /run-time/ greška jer ne znamo
+  tip koji bi odredio metodu koju treba pozvati
+     
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ type I interface {
+   M()
+ }
+
+ func main() {
+   var i I
+   describe(i)
+   i.M()
+ }
+
+ func describe(i I) {
+   fmt.Printf("(%v, %T)\n", i, i)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ (<nil>, <nil>)
+ panic: runtime error: invalid memory address or nil pointer dereference
+ [signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x488ac1]
+
+ goroutine 1 [running]:
+ main.main()
+   /tmp/compile12.go:12 +0x91
+#+END_SRC
+
+** Prazan interfejs
+   
+- Tip interfejsa bez ijedne metode je poznat kao "prazan interfejs" (/empty
+  interface/)
+
+  #+BEGIN_SRC go
+  interface{}
+  #+END_SRC
+
+- Prazan interfejs može sadržati vrednost bilo kog tipa (svaki tip
+  implementira 0 metoda)
+- Koriste se za čuvanje vrednosti nepoznatog tipa
+- Npr. =fmt.Print= prihvata proizvoljan broj argumenata tipa =interface{}=
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   var i interface{}
+   describe(i)
+
+   i = 42
+   describe(i)
+
+   i = "hello"
+   describe(i)
+ }
+
+ func describe(i interface{}) {
+   fmt.Printf("(%v, %T)\n", i, i)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ (<nil>, <nil>)
+ (42, int)
+ (hello, string)
+#+END_SRC
+
+** /Type assertions/
+   
+- Omogućava pristup tipu vrednosti sadržane u interfejsu
+ 
+   #+BEGIN_SRC go
+     t := i.(T)
+   #+END_SRC
+   
+- Prethodni iskaz tvrdi da =i= sadrži vrednost tipa =T= i dodeljuje tu
+  vrednost varijabli =t= tipa =T=
+- Ukoliko =i= ne sadrži vrednost tipa =T= program se prekida uz =panic=
+  grešku
+- Za proveru da li interfejs sadrži vrednost određenog tipa koristi se
+  /comma-ok/ iskaz
+     
+  #+BEGIN_SRC go
+   t, ok := i.(T)
+  #+END_SRC
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   var i interface{} = "hello"
+
+   s := i.(string)
+   fmt.Println(s)
+
+   s, ok := i.(string)
+   fmt.Println(s, ok)
+
+   f, ok := i.(float64)
+   fmt.Println(f, ok)
+
+   f = i.(float64) // panic
+   fmt.Println(f)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ hello
+ hello true
+ 0 false
+ panic: interface conversion: interface {} is string, not float64
+#+END_SRC
+     
+** /Type switches/
+   
+- Omogućava više /type assertions/ u nizu
+- Slično običnom =switch= iskazu ali svaki =case= navodi tip a ne vrednost
+
+#+BEGIN_SRC go
+ switch v := i.(type) {
+ case T:
+     // here v has type T
+ case S:
+     // here v has type S
+ default:
+     // no match; here v has the same type as i
+ }
+#+END_SRC
+   
+- Vrednost u zaglavlju se navodi slično kao /type assertion/ ali se umesto
+  tipa piše ključna reč =type=
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func do(i interface{}) {
+   switch v := i.(type) {
+   case int:
+     fmt.Printf("Twice %v is %v\n", v, v*2)
+   case string:
+     fmt.Printf("%q is %v bytes long\n", v, len(v))
+   default:
+     fmt.Printf("I don't know about type %T!\n", v)
+   }
+ }
+
+ func main() {
+   do(21)
+   do("hello")
+   do(true)
+ }
+#+END_SRC
+
+#+RESULTS:
+: Twice 21 is 42
+: "hello" is 5 bytes long
+: I don't know about type bool!
+
+** /Stringers/
+   
+- Jedan od najviše korišćenih interfajsa je =Stringer= definisan u =fmt=
+  paketu
+ 
+#+BEGIN_SRC go
+ type Stringer interface {
+     String() string
+ }
+#+END_SRC
+
+- =Stringer= je tip koji može da se transformiše u string
+- =fmt= paket (i mnogi drugi) zahtevaju ovaj interfejs kada štampaju
+  vrednosti
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+package main
+
+import "fmt"
+
+type Person struct {
+  Name string
+  Age  int
+}
+
+func (p Person) String() string {
+  return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+}
+
+func main() {
+  a := Person{"Arthur Dent", 42}
+  z := Person{"Zaphod Beeblebrox", 9001}
+  fmt.Println(a, z)
+}
+#+END_SRC
+
+#+BEGIN_SRC
+Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
+#+END_SRC
+ 
+** Greške
+   
+- Greške se opisuju sa =error= vrednostima
+- =error= tip je ugrađeni interfejs
+ 
+  #+BEGIN_SRC go
+   type error interface {
+       Error() string
+   }
+  #+END_SRC
+     
+- Funkcije često vraćaju =error= vrednosti i pozivaoci bi trebali da
+  proveravaju da li je greška =nil=
+     
+  #+BEGIN_SRC go
+   i, err := strconv.Atoi("42")
+   if err != nil {
+       fmt.Printf("couldn't convert number: %v\n", err)
+       return
+   }
+   fmt.Println("Converted integer:", i)
+  #+END_SRC
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ type MyError struct {
+   When time.Time
+   What string
+ }
+
+ func (e *MyError) Error() string {
+   return fmt.Sprintf("at %v, %s",
+     e.When, e.What)
+ }
+
+ func run() error {
+   return &MyError{
+     time.Now(),
+     "it didn't work",
+   }
+ }
+
+ func main() {
+   if err := run(); err != nil {
+     fmt.Println(err)
+   }
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
+#+END_SRC
+
+** /Readers/
+   
+- =io= paket definiše =io.Reader= interfejs
+
+  #+BEGIN_SRC go
+   func (T) Read(b []byte) (n int, err error)
+  #+END_SRC
+     
+- Ovaj interfejs implementiraju mnogi tipovi: fajlovi, mrežne konekcije,
+  kompresori itd.
+- =Read= metoda puni zadati =byte= isečak sa podacima i vraća broj bajtova
+  koji su upisani i grešku ukoliko je ima. Specijalna greška =io.EOF=
+  označava da se došlo do kraja.
+     
+#+REVEAL: split
+
+- Sledeći kod kreira =strings.Reader= i vrši čitanje po 8 bajtova odjednom
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "io"
+   "strings"
+ )
+
+ func main() {
+   r := strings.NewReader("Hello, Reader!")
+
+   b := make([]byte, 8)
+   for {
+     n, err := r.Read(b)
+     fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+     fmt.Printf("b[:n] = %q\n", b[:n])
+     if err == io.EOF {
+       break
+     }
+   }
+ }
+#+END_SRC
+
+#+RESULTS:
+: n = 8 err = <nil> b = [72 101 108 108 111 44 32 82]
+: b[:n] = "Hello, R"
+: n = 6 err = <nil> b = [101 97 100 101 114 33 32 82]
+: b[:n] = "eader!"
+: n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
+: b[:n] = ""
+
+* Konkurencija
+** Go rutine /Goroutines/
+   
+- Go rutina je nit (/thread/) kreirana i upravljana od strane Go izvršnog
+  okruženja (/runtime/)
+     
+  #+BEGIN_SRC go
+   go f(x, y, z)
+  #+END_SRC
+     
+  startuje novu Go rutinu koja izvršava
+     
+  #+BEGIN_SRC go
+   f(x, y, z)
+  #+END_SRC
+     
+- Evaluacija =f=, =x=, =y= i =z= se dešava u tekućoj Go rutini dok se
+  izvršavanje funkcije =f= odvija u novoj Go rutini
+
+- Izvršavanje svih Go rutina odvija se u istom adresnom prostoru tako da
+  pristup deljenoj memoriji mora biti sinhronizovan. Paket =sync= definiše
+  korisne primitive za sinhronizaciju iako u Go-u ovo često nije neophodno.
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ func say(s string) {
+   for i := 0; i < 5; i++ {
+     time.Sleep(100 * time.Millisecond)
+     fmt.Println(s)
+   }
+ }
+
+ func main() {
+   go say("world")
+   say("hello")
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ hello
+ world
+ world
+ hello
+ world
+ ...
+#+END_SRC
+
+** Kanali (/Channels/)
+   
+- Tipizirane veze preko kojih se mogu slati vrednosti upotrebom operatora
+  kanala (/channel operator/) - =<-=
+     
+  #+BEGIN_SRC go
+   ch <- v    // Send v to channel ch.
+   v := <-ch  // Receive from ch, and assign value to v.
+  #+END_SRC
+     
+- Tok podataka je u smeru strelice
+
+- Kanali se kreiraju dinamički upotrebom =make= funkcije
+
+  #+BEGIN_SRC go
+   ch := make(chan int)
+  #+END_SRC
+     
+- Podrazumevano čitanje i pisanje u kanal je blokirajuće dok druga strana ne
+  obavi suprotnu operaciju. Ovo omogućava implicitnu sinhronizaciju Go
+  rutina.
+     
+#+REVEAL: split
+
+- Sledeći primer vrši sumiranje brojeva isečka tako što se posao deli između
+  dve Go rutine
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func sum(s []int, c chan int) {
+   sum := 0
+   for _, v := range s {
+     sum += v
+   }
+   c <- sum // send sum to c
+ }
+
+ func main() {
+   s := []int{7, 2, 8, -9, 4, 0}
+
+   c := make(chan int)
+   go sum(s[:len(s)/2], c)
+   go sum(s[len(s)/2:], c)
+   x, y := <-c, <-c // receive from c
+
+   fmt.Println(x, y, x+y)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+ -5 17 12
+#+END_SRC
+
+** Baferovani kanali
+   
+- Kanali mogu biti baferovani i u tom slučaju pisanje se blokira samo ukoliko
+  je kanal pun. Čitanje se blokira samo ukoliko je kanal prazan.
+     
+- Kreiranje bafera omogućeno je drugim parametrom =make= funkcije
+
+  #+BEGIN_SRC go
+   ch := make(chan int, 100)
+  #+END_SRC
+     
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import "fmt"
+
+ func main() {
+   ch := make(chan int, 2)
+   ch <- 1
+   ch <- 2
+   ch <- 3   // overflow blocks current Go rutine!
+   fmt.Println(<-ch)
+   fmt.Println(<-ch)
+ }
+#+END_SRC
+
+#+BEGIN_SRC
+fatal error: all goroutines are asleep - deadlock!
+#+END_SRC
+
+** Zatvaranje kanala
+   
+- Go rutina koja šalje podatke može zatvoriti kanal =close= funkcijom da
+  signalizira da neće više slati podatke
+- Go rutina koja prima podatke koristi /comma-ok/ idiom da testira da li je
+  kanal zatvoren
+     
+  #+BEGIN_SRC go
+   v, ok := <-ch
+  #+END_SRC
+     
+  =ok= će biti =false= ako više nema podataka i kanal je zatvoren
+     
+- Petlja ~for i := range c~ prihvata podatke sa kanala =c= sve dok se ne
+  kanal ne zatvori
+     
+- *Napomena*: samo pošiljalac zatvara kanal, nikada rutina koja prihvata
+  podatke. Slanje na zatvoren kanal izaziva =panic=.
+
+- *Napomena 2*: Kanale nije neophodno zatvoriti. To se radi samo ukoliko je
+  potrebno signalizirati prijemniku da nema više podataka, npr. kada se
+  koristi =range= petlja
+     
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+ )
+
+ func fibonacci(n int, c chan int) {
+   x, y := 0, 1
+   for i := 0; i < n; i++ {
+     c <- x
+     x, y = y, x+y
+   }
+   close(c)
+ }
+
+ func main() {
+   c := make(chan int, 10)
+   go fibonacci(cap(c), c)
+   for i := range c {
+     fmt.Println(i)
+   }
+ }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0
+1
+1
+2
+...
+34
+#+end_example
+
+** =select=
+   
+- =select= iskaz omogućava Go rutini da čeka na više komunikacionih operacija
+- =select= blokira dok jedna od grana nije u mogućnosti da se izvrši. Ukoliko
+  je više u mogućnosti da se izvrši izbor se vrši slučajno
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ func fibonacci(c, quit chan int) {
+   x, y := 0, 1
+   for {
+     select {
+     case c <- x:
+       x, y = y, x+y
+     case <-quit:
+       fmt.Println("quit")
+       return
+     }
+   }
+ }
+
+ func main() {
+   c := make(chan int)
+   quit := make(chan int)
+   go func() {
+     for i := 0; i < 10; i++ {
+       fmt.Println(<-c)
+     }
+     quit <- 0
+   }()
+   fibonacci(c, quit)
+ }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0
+1
+1
+...
+34
+quit
+#+end_example
+
+** =select/default=
+   
+- =default= grana =select= iskaza se izvršava ukoliko nijedna druga nije spremna
+- Koristite =default= da čitate ili pišete bez blokiranja
+
+#+BEGIN_SRC go
+ select {
+ case i := <-c:
+     // use i
+ default:
+     // receiving from c would block
+ }
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC go
+ package main
+
+ import (
+   "fmt"
+   "time"
+ )
+
+ func main() {
+   tick := time.Tick(100 * time.Millisecond)
+   boom := time.After(500 * time.Millisecond)
+   for {
+     select {
+     case <-tick:
+       fmt.Println("tick.")
+     case <-boom:
+       fmt.Println("BOOM!")
+       return
+     default:
+       fmt.Println("    .")
+       time.Sleep(50 * time.Millisecond)
+     }
+   }
+ }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+    .
+tick.
+    .
+    .
+tick.
+BOOM!
+#+end_example
+
+** =sync.Mutex=
+   
+- Ukoliko nam je potreban isključiv pristup deljenim podacima
+- Kod koji pristupa pišemo između =Lock/Unlock= poziva
+
+#+BEGIN_SRC go
+  // SafeCounter is safe to use concurrently.
+  type SafeCounter struct {
+    v   map[string]int
+    mux sync.Mutex
+  }
+  // Inc increments the counter for the given key.
+  func (c *SafeCounter) Inc(key string) {
+    c.mux.Lock()
+    // Lock so only one goroutine at a time can access the map c.v.
+    c.v[key]++
+    c.mux.Unlock()
+  }
+  // Value returns the current value of the counter for the given key.
+  func (c *SafeCounter) Value(key string) int {
+    c.mux.Lock()
+    // Lock so only one goroutine at a time can access the map c.v.
+    defer c.mux.Unlock()
+    return c.v[key]
+  }
+
+  func main() {
+    c := SafeCounter{v: make(map[string]int)}
+    for i := 0; i < 1000; i++ {
+      go c.Inc("somekey")
+    }
+    time.Sleep(time.Second)
+    fmt.Println(c.Value("somekey"))
+  }
+#+END_SRC
+
+* Reference
+- [[https://golang.org/doc/][Go Documentation]]
+- [[https://tour.golang.org/][A Tour of Go]]
+- [[https://golang.org/doc/code.html][How to Write Go Code]]
+- [[https://github.com/golang/go/wiki][The Go Wiki]]
+- [[https://splice.com/blog/iota-elegant-constants-golang/][iota: Elegant Constants in Golang]]
+- [[https://golang.org/doc/effective_go.html][Effective Go]]

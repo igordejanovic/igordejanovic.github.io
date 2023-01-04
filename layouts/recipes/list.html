@@ -1,0 +1,27 @@
+{{ partial "header" . }}
+
+{{ partial "header/header" . }}
+
+{{ if .Content }}
+<div class='entry'>
+  {{ partial "entry/content" . }}
+</div>
+{{ end }}
+
+<div class='container list-container'>
+  <ul class='list'>
+    {{ range .Paginator.Pages }}
+      {{ .Render "li" }}
+    {{ end }}
+  </ul>
+
+  {{ partial "nav/pagination" . }}
+</div>
+
+<div class='container sep-before'>
+{{- $shuffle := .Site.Params.settings.taxonomyCloudShuffle -}}
+{{- $taxonomy := "rtags" -}}
+{{ partial "extras/taxonomy_cloud" ( dict "Taxonomy" $taxonomy "Shuffle" $shuffle "Scope" . ) }}
+</div>
+
+{{ partial "footer" . }}

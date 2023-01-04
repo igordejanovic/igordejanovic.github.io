@@ -1,0 +1,1183 @@
+#+title: Random bits and pieces
+#+subtitle: ...about programming, languages, tools, FLOSS software...
+#+author: Igor Dejanović
+#+hugo_base_dir: .
+#+hugo_section: /
+#+options: creator:t author:nil
+
+* Posts
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: /
+:EXPORT_HUGO_MENU: :menu main
+:EXPORT_HUGO_TYPE: home
+:END:
+* Courses (in Serbian)
+:PROPERTIES:
+:EXPORT_HUGO_LINKTITLE: Courses/Предавања
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: courses
+:EXPORT_HUGO_MENU: :menu main
+:END:
+
+** Напомена
+Слајдови су рађени у [[https://revealjs.com/][reveal.js]] оквиру. Следеће пречице су корисне:
+- =Esc= - приказ 2д мапе, навигација могућа са стрелицама
+- =Ctrl-Shift-F= - претрага по задатој речи
+- =M= - садржај
+- =?= - преглед пречица
+
+Уколико желите да слајдове читате офлајн можете их конвертовати у PDF тако што
+додате =?print-pdf= на крај URL-а и из веб прегледача /“одштампате”/ у фајл
+(=Ctrl-P=).
+
+* Predmeti
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: courses
+:EXPORT_HUGO_WEIGHT: auto
+:END:
+** ЈСД
+:PROPERTIES:
+:EXPORT_HUGO_SECTION_FRAG: jsd
+:END:
+*** Језици специфични за домен (/Domain-Specific Languages/)
+:PROPERTIES:
+:CUSTOM_ID: course-jsd
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_LINKTITLE: JSD
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3001
+:END:
+#+begin_quote
+Границе мог језика су границе мог света.
+
+                    — /Ludwig Wittgenstein/
+#+end_quote
+
+1. [[file:00-upoznavanje/][О предмету]]
+2. [[file:../tech/Python/][Програмски језик Пајтон]]
+   - [[file:../tech/Python/zadaci.html][Задаци]]
+3. [[file:01-uvod/][Увод у језике специфичне за домен]]
+4. [[file:02-jezicke-sintakse-i-metamodelovanje/][Језичке синтаксе и метамоделовање]]
+5. [[file:03-tekstualne-sintakse/][Текстуалне синтаксе]]
+6. [[file:../tech/arpeggio/][Arpeggio]]
+   - [[file:../tech/arpeggio/zadaci.html][Задаци]]
+7. parglare
+8. [[file:../tech/textX/][textX]]
+   - [[file:../tech/textX/zadaci.html][Задаци]]
+9. [[file:04-generisanje-programskog-koda/][Генерисање програмског кода]]
+10. [[file:05-anatomija-dsla/][Анатомија једног ЈСД-а]]
+11. [[file:projekat/][Информације за испитни пројекат]]
+12. [[file:ispitna_pitanja/][Испитна питања]]
+
+**** Литература
+***** Основна
+- Игор Дејановић, /Језици специфични за домен/, Факултет техничких
+  наука, Нови Сад, 2021. (доступно у скриптарници ФТН-а)
+
+***** Додатна
+- M. Völter, [[http://dslbook.org/][/DSL Engineering: Designing, Implementing
+  and Using Domain-Specific Languages/]]. 2013.
+- S. Kelly and J.-P. Tolvanen, /Domain-Specific Modeling: Enabling Full Code
+  Generation./ Wiley-IEEE Computer Society Pr, March 2008
+- A. Kleppe, /Software language engineering: creating domain-specific languages
+  using metamodels./ Addison-Wesley, 2009
+- Federico Tomassetti, [[https://tomassetti.me/domain-specific-languages/][/The
+  complete guide to (external) Domain Specific Languages/]], published on [[https://tomassetti.me/][the
+  author's blog]], February 2017.
+- Alessio Stalla,
+  [[https://tomassetti.me/domain-specific-languages-in-python-with-textx/][Quick
+  Domain-Specific Languages in Python with textX]]
+- Beazley, David M. /Python essential reference/. Addison-Wesley Professional,
+  2009. [@2009]
+
+***** Пројекти претходних генерација (избор)
+- [[https://github.com/E2Music/pyTabs][A Domain-Specific Language (DSL) for simplified music notation]]
+- [[https://github.com/Tim6FTN/wash-lang-prototype][Web automation DSL]]
+- [[https://github.com/IgorMaj/SyntaxColoring][EasyColorLang - Writing of TextMate grammars made easy]]
+- [[https://github.com/simsimkic/dsl][Domain Specific Language for Source Code Formatting]]
+- [[https://github.com/majak96/dsl-project][A domain-specific language for definining web-based surveys]]
+- [[https://github.com/vtanja/JSD][DSL for generating Web applications]]
+- [[https://github.com/vlaksi/JSZD-Proj][Sprint DSL for SCRUM]]
+*** Информације за пројекат
+:PROPERTIES:
+:EXPORT_FILE_NAME: projekat
+:END:
+**** Teme
+- Predloženi projekti moraju biti bazirani na textX ili parglare bibliotekama.
+- Mogu biti JSD implementacije ili unapređenja pomenutih biblioteka.
+- Jezici mogu da definišu i podršku za editore (code completion, syntax
+  highlighting itd. za npr. VS Code) -- poželjno posebno kod većih timova.
+  Videti projekte [[https://github.com/textX/textX-LS][textX-LS]] i [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]].
+
+**** O vođenju projekta
+- Svi projekti moraju biti otvorenog koda javno hostovani na GitHub-u. Izbor
+  licence se ostavlja članovima tima, ali mora biti [[https://opensource.org/licenses][OSI odobrena]].
+- Predlog se piše u README fajlu projekta i šalje se link predmetnom profesoru
+  na odobrenje.
+- Zadaci na projektu se definišu u sklopu [[https://github.com/features/issues/][GitHub issues]].
+- Tekuće stanje se prati upotrebom [[https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards][Kanban table]].
+
+**** Potrebno proveriti pre slanja profesoru na pregled
+- Projekat može da se instalira u modu za razvoj sa =pip install -e=.
+  - Da bi ovo bilo moguće projekat mora imati =setup.py= odnosno =setup.cfg= sa
+    validnim meta-podacima.
+  - Proverite da li =python setup.py bdist_wheel= pakuje sve potrebne fajlove u
+    rezultujći wheel fajl.
+  - Ukoliko se ispravno podesi projekat je moguće instalirati u virtuelno
+    okruženje upotrebom pip komande direktno iz git repozitorijuma. Na primer:
+    #+begin_src sh
+    pip install git+https://github.com/textX/textX.git
+    #+end_src
+  - Za dodatne informacije pogledati [[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/][Python uputstvo za pakovanje i distribuciju
+    projekata]].
+
+- Svi textX jezici i generatori su registrovani na odgovarajući način u
+  =setup.cfg= i dostupni =textx= komandi. Vidite [[http://textx.github.io/textX/stable/registration/][textX registraciju i otkrivanje]].
+  Kao primer videti [[https://github.com/textX/textX/blob/master/setup.cfg][sam textX projekat]].
+
+  Generatori se mogu pozvati sa:
+  #+begin_src sh
+  textx generate ...
+  #+end_src
+
+- README.md mora da sardži opis projekta, uputstvo za instalaciju i primer
+  upotrebe. Jezik može biti srpski ili engleski ali mora biti konzistentno
+  korišćen.
+*** Испитна питања
+:PROPERTIES:
+:EXPORT_FILE_NAME: ispitna_pitanja
+:END:
+#+begin_quote
+У изради.
+#+end_quote
+
+1. Дефиниши софтверски језик.
+2. Дефиниши домен.
+3. Шта је језик специфичан за домен?
+4. Када језик можемо сматрати ЈСД?
+5. У чему је разлика између језика специфичног за домен и језика опште намене?
+6. Шта је главни разлог подизања продуктивности употребом ЈСД?
+7. Опиши проблем менталног мапирања код развоја софтвера.
+8. Како ЈСД утиче на квалитет софтвера?
+9. Како ЈСД утиче на еволуцију и одржавање апликација?
+10. Опиши главне архитектуре приликом израде ЈСД. Предности и мане.
+11. Градивни елементи језика.
+12. Шта је апстрактна синтакса језика? Наведи пример.
+13. Шта је конкретна синтакса језика? Наведи пример.
+14. Како можемо дефинисати семантику језика?
+15. Класификација језика према врсти конкретне синтаксе.
+16. Текстуалне синтаксе - предности и мане.
+17. Графичке синтаксе - предности и мане.
+18. Подела ЈСД према врсти домена. Наведи пример.
+19. Подела ЈСД према начину имплементације (интерни/екстерни). Предности и мане. Наведи пример.
+20. Мане/критике ЈСД.
+21. Шта су језичке радионице?
+22. Приступи у изради језичких радионица.
+23. Шта су пројекциони едитори? У чему се разликују од радионица базираних на парсирању.
+24. Шта је парсирање или синтаксна анализа?
+25. Шта је стабло парсирања или стабло конкретне синтаксе?
+26. Шта је стабло апстрактне синтаксе? По чему се разликује од стабла парсирања?
+    Објасни на примеру.
+27. Шта је секундарна нотација/синтакса?
+28. Како дефинишемо модел?
+29. Које су основне карактеристике модела?
+30. Шта је мета-модел?
+31. Шта је мета-метамодел? Које мета-метамоделе познајеш?
+32. Шта је мета-језик?
+33. Објасни стек за мета-моделовање. Паралела са класичним програмским језицима.
+34. Шта представљају "мета" везе (/conformsTo/) између мета-нивоа? Каква је
+    разлика између веза истанцирања унутар једног мета-нивоа и између
+    мета-нивоа?
+35. Које операције користимо при мета-моделовању?
+36. Шта је апстракција? Између којих мета-нивоа стека за мета-моделовање се користи?
+37. Шта је класификација? Каква је веза са мета-нивоима стека за
+    мета-моделовање? Где се може користити?
+38. Шта је генерализација?
+39. Шта су токен модели а шта модели типова?
+40. Шта је MOF?
+41. Шта је ECore?
+42. Објасни усклађеност елемената кроз мета-нивое на примеру.
+43. Објасни како се спроводи анализа домена.
+44. Шта је свеприсутни језик?
+
+** УКС
+:PROPERTIES:
+:EXPORT_HUGO_SECTION_FRAG: uks
+:END:
+*** Управљање конфигурацијом софтвера (/Software-Configuration Management/)
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_LINKTITLE: UKS
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3002
+:END:
+1. [[file:00-upoznavanje/][О предмету]]
+2. [[file:../tech/Python/][Програмски језик Пајтон]]
+3. [[file:01-osnove/][Основе управљања конфигурацијом софтвера]]
+4. [[file:02-upravljanje-izvornim-kodom/][Управљање изворним кодом]]
+5. [[file:../tech/sistemi-za-kontrolu-verzija/][Системи за контролу верзија - Увод]]
+6. [[file:../tech/git/][Git]]
+7. [[file:../tech/django/][Django]]
+8. [[file:../tech/docker/][Docker]]
+9. [[file:../tech/python-testing/][Тестирање Пајтон кода]]
+*** Испитна питања
+:PROPERTIES:
+:EXPORT_FILE_NAME: projekat
+:END:
+**** Основе УКС
+1. Дефиниши појам "Управљање конфигурацијом софтвера"?
+2. Мотиви за увођење УКС.
+3. Шта је ставка конфигурације? Како настаје? Опиши њен живтни циклус.
+4. Шта је референтна верзија?
+5. Којe су активности у традиционалном УК.
+6. Архитектура система УК
+7. Дефиниши идентификацију конфигурације? Које особине мора да има?
+8. Чиме се бави активност управљања променама? Шта су захтеви за променама?
+9. Шта је догађај код активности управљања променама?
+10. Чиме се бави активност праћења статуса?
+11. Чиме се бави активност ревизије и верификације?
+12. Опиши активност управљања изворним кодом. Шта нам омогућава? Које алате познајеш?
+13. Опиши активност управљања изградњом софтвера. Шта нам омогућава? Којe алате
+    познајеш?
+14. Опиши активност управљања конфигурацијом окружења.
+15. Опиши активност управљања променама. Који су основни принципи?
+16. Опиши актиност управљања издањима. Који су основни принципи?
+17. Опиши актиност управљања увођењем. Који су основни принципи?
+18. Које се активности обављају приликом увођења УКС у организацији?
+19. Како се обавља процена текућих процеса УКС?
+20. Шта је /Capability Maturity Model/? Који су његови нивои?
+**** Управљање изворним кодом
+**** /Git/
+**** /Docker/
+** Софтверски обрасци и компоненте (/Software Patterns and Components/)
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION_FRAG: sok
+:EXPORT_HUGO_LINKTITLE: SOK
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3003
+:END:
+1. [[file:00-upoznavanje/][О предмету]]
+2. [[file:01-uvod/][Увод]]
+3. [[file:02-kreacioni/][Фундаментални и креациони обрасци]]
+   - [[file:primeri/creational.factorymethod.zip][/Factory Method/ пример]]
+   - [[file:primeri/creational.prototype.zip][/Prototype/ пример]]
+4. [[file:03-strukturalni/][Структурални обрасци]]
+   - [[file:primeri/structural.composite.zip][/Composite/ пример]]
+   - [[file:primeri/structural.proxy.zip][/Proxy/ пример]]
+5. [[file:04-obrasci-ponasanja/][Обрасци понашања]]
+6. [[file:../tech/dependency-injection/][Dependency Injection]]
+7. [[file:razvoj-baziran-na-komponentama/][Развој базиран на компонентама]]
+8. [[file:../tech/setuptools/][Компонентни развој у Пајтону]]
+9. [[file:projektni-zadatak/][Пројектни задатак]]
+10. [[file:../tech/django/][Django]]
+11. [[file:../tech/d3/][D3]]
+12. [[file:../tech/git/][Git]]
+13. [[file:05-mikroservisni-obrasci/][Микросервисни обрасци]]
+** Напредне технике програмирања (СИИТ) (/Advanced Programming Tehniques/)
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION_FRAG: ntp-siit
+:EXPORT_HUGO_LINKTITLE: NTP-SIIT
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3004
+:END:
+1. [[file:00-upoznavanje/][О предмету]]
+2. [[file:napredni-python/][Напредни Пајтон]]
+3. [[file:jsd-uvod/][Увод у језике специфичне за домен]]
+4. [[file:../tech/textX/][textX]]
+5. [[file:../tech/Pharo/][Pharo/Smalltalk]]
+6. [[file:../tech/GoLang/][Програмски језик Гоу]]
+7. [[file:../tech/Rust/][Програмски језик Раст]]
+** Напредне технике програмирања (СИТ) (/Advanced Programming Tehniques/)
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION_FRAG: ntp-sit
+:EXPORT_HUGO_LINKTITLE: NTP-SIT
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3005
+:END:
+1. [[file:../ntp-siit/00-upoznavanje/][О предмету]]
+2. [[file:../ntp-siit/napredni-python/][Напредни Пајтон]]
+3. [[file:../ntp-siit/jsd-uvod/][Увод у језике специфичне за домен]]
+4. [[file:../tech/textX/][textX]]
+5. [[file:../tech/Pharo/][Pharo/Smalltalk]]
+6. [[file:../tech/GoLang/][Програмски језик Гоу]]
+7. [[file:../tech/Rust/][Програмски језик Раст]]
+** Технологије
+:PROPERTIES:
+:EXPORT_FILE_NAME: index
+:EXPORT_HUGO_SECTION_FRAG: tech
+:EXPORT_HUGO_LINKTITLE: Tech
+:EXPORT_HUGO_TYPE: course
+:EXPORT_HUGO_WEIGHT: 3005
+:END:
+- [[file:textX][textX]]
+- [[file:arpeggio][Arpeggio]]
+- [[file:parglare][parglare]]
+- [[file:Python][Programski jezik Python]]
+- [[file:python-testing][Testiranje Python koda]]
+- [[file:Pharo][Pharo/Smalltalk]]
+- [[file:GoLang][Go]]
+- [[file:Rust][Rust]]
+- [[file:django][Django]]
+- [[file:docker][Docker]]
+- [[file:d3][D3]]
+* Mentoring (in Serbian)
+:PROPERTIES:
+:EXPORT_HUGO_LINKTITLE: Mentoring
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: mentoring
+:EXPORT_HUGO_TYPE: page
+:EXPORT_HUGO_MENU: :menu main
+:END:
+Овде можете пронаћи информације за завршне дипломске и мастер радове као и за
+теме за докторате.
+
+* Open-source
+:PROPERTIES:
+:CUSTOM_ID: projects
+:EXPORT_FILE_NAME: projects
+:EXPORT_HUGO_SECTION: /
+:EXPORT_HUGO_MENU: :menu main
+:END:
+
+Here are short descriptions of some of [[https://en.wikipedia.org/wiki/Free_and_open-source_software][FOSS]] projects I started a while ago. I
+use these tools in my work, research and teaching Domain-Specific Languages
+course.
+
+** [[https://textx.github.io/textX/][textX]]
+:PROPERTIES:
+:CUSTOM_ID: textx
+:END:
+textX is a meta-language (i.e. a language for language definition) for
+domain-specific language (DSL) specification in Python inspired by
+[[https://eclipse.org/Xtext/][Xtext]].
+
+From a single grammar description textX automatically builds a meta-model (in
+the form of Python classes) and a parser for your language. Parser will parse
+expressions on your language and automatically build a graph of Python objects
+(i.e. the model) corresponding to the meta-model.
+
+Read more information [[https://textx.github.io/textX/][here]] or see the project on [[https://github.com/textX/textX][GitHub]].
+
+** [[https://textx.github.io/igordejanovic/parglare/][parglare]]
+Parglare is a modern approach to old-school parsing algorithms - LR and GLR. It
+uses integrated scanner (a.k.a scannerless parsing), have an extensive support
+for debugging, tracing and visualization. For grammar specification a BNF-like
+notation is used.
+
+Read more information [[./parglare/][here]] or see the project on [[https://github.com/igordejanovic/parglare/][GitHub]].
+
+** [[https://textx.github.io/Arpeggio/][Arpeggio]]
+:PROPERTIES:
+:CUSTOM_ID: arpeggio
+:END:
+Arpeggio is recursive descent parser with backtracking and memoization (a.k.a.
+pacrat parser) for Python. Arpeggio grammars are based on the PEG formalism.
+Arpeggio's main use is a foundation for a tool-chain for DSL development but it
+can be used for all sort of general purpose parsing.
+
+It is used as a parsing tehnology for textX.
+
+Read more information [[https://textx.github.io/Arpeggio/][here]] or see the project on [[https://github.com/textX/Arpeggio/][GitHub]].
+
+* Recipes
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: recipes
+:EXPORT_HUGO_MENU: :menu main
+:EXPORT_FILE_NAME: _index
+:END:
+These posts are recipes, notes, and tips created while solving technical
+problems or using software tools. For years I've kept these note private but I
+realize that they could be useful to others so I'll gradually move them here.
+I'll try to keep them updated and the GitHub link provided will show the
+updates.
+
+* All recipes
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: recipes
+:EXPORT_HUGO_AUTO_SET_LASTMOD: t
+:EXPORT_HUGO_FRONT_MATTER_KEY_REPLACE: tags>rtags
+:END:
+** TODO Deploying Hugo site on GitHub Pages :github:hugo:
+There is a [[https://github.com/benmatselby/hugo-deploy-gh-pages][GitHub Action to build and deploy a Hugo site to GitHub Pages]]. I made
+a fork that I'll be using just to be sure what I'm running and to introduce
+additional changes if needed. Following the docs, make a
+=.github/workflow/deploy-site.yaml= with the following content (adapt as needed):
+#+begin_src yaml
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v1
+      with:
+        submodules: true
+
+    - name: Hugo Deploy GitHub Pages
+      uses: igordejanovic/hugo-deploy-gh-pages@master
+      env:
+        HUGO_VERSION: 0.105.0
+        TARGET_REPO: igordejanovic/igordejanovic.github.io
+        TARGET_BRANCH: master
+        TOKEN: ${{ secrets.TOKEN }}
+        CNAME: www.igordejanovic.net
+#+end_src
+
+- The best approach is to use =HUGO_VERSION= the same as your local. Check local
+  version by running =hugo version=.
+- =with: submodules= is needed if site uses resources as [[https://git-scm.com/book/en/v2/Git-Tools-Submodules][git submodules]] (e.g. a
+  theme checked out as a submodule).
+- =secrets.TOKEN= is a repo secret, named =TOKEN= (can be called differently),
+  produced from GitHub [[https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token][/Personal Access Token/ (PAT)]]. PAT is a token for
+  accessing GitHub API using your credentials. Treat it as a password.
+- /Not working at the moment/: GitHub offers fine-grained PATs, which can be
+  restricted to access only a particular repo with a particular set of access
+  rights (/currently in Beta and it seems that push is not supported/).
+  1. Create it by going to =your profile->Settings->Developer settings->Personal
+     access tokens->Fine-grained tokens=
+  2. Choose expiration. Remember, you will have to renew it when expired.
+  3. Choose access to only site repo.
+  4. Choose these set of rights: commit, push, read secrets.
+  5. Store PAT in a safe place (e.g. password manager). It will be needed for
+     creating repo secret.
+- /Use this for now/: PAT *classic* are tokens that enable access to all repos, thus
+  they should be replaced ASAP with fine-grained PATs above.
+  1. Create it by going to =your profile->Settings->Developer settings->Personal
+     access tokens->Tokens (classic)=
+  2. Type in note, expiration and enable =repo= scope. This gives full access to
+     all repos to anyone who has the token!
+- Create repo secret to be used as a =TOKEN= environment variable from the =yaml=
+  workflow config above.
+  - Go to site repo =Settings->Security-Secrets->Actions=.
+  - Click =New repository secret= button, give it a name (e.g. =TOKEN=) and paste
+    =PAT= as a value.
+  - Remember, GitHub action code will have credentials you gave while creating
+    =PAT= in the previous step. So be sure to trust the action you will be
+    running. The best is to fork the action, do the code review to be sure what
+    the action will be doing, and use your fork. From time to time pull upstream
+    changes and review them.
+- Now, whenever you push to =master= branch the workflow will run and it will
+  clone, build and deploy your site.
+
+*** Troubleshooting
+**** Error building site, process: readAndProcessContent,  No such File or Directory, lstat...
+This error is reported if there are symbolic links in the content folder with
+unexisting targets. See [[https://discourse.gohugo.io/t/static-directory-error-decorate-lstat-no-such-file-or-directory/33317][here]]. To find all symbolic links do:
+#+begin_src sh
+find -type l .
+#+end_src
+
+**** fatal: detected dubious ownership in repository at '/github/workspace/public'
+Reported when =public= folder in the git repo is not empty. No need to keep it in
+the repo as it is built by Hugo during deploy. Remove it and add it to
+=.gitignore=.
+
+**** fatal: credential url cannot be parsed: =https://***...=
+This happens if you have newline at the end of PAT for secret token.
+
+**** Testing locally
+As per docs. Clone Hugo action repo and build the docker image:
+#+begin_src sh
+docker build --pull --rm -f "Dockerfile" -t hugodeployghpages:latest
+#+end_src
+
+Now, you can run the docker locally (=GIT_TRACE= and =GIT_CURL_VERBOSE= are used for
+verbose git commands debugging).
+#+begin_src
+docker run --rm \
+  -eHUGO_EXTENDED=true \
+  -eGIT_TRACE=true \
+  -eGIT_CURL_VERBOSE=true \
+-eGITHUB_TOKEN=<paste token here> \
+  -eGITHUB_ACTOR=igordejanovic \
+  -eTARGET_REPO=igordejanovic/igordejanovic.github.io \
+  -v "$(pwd)":/site/ \
+  --workdir /site \
+  hugodeployghpages
+#+end_src
+**** Only the last commit visible!
+- Create =.nojekyll= file:
+  #+begin_src sh
+touch .nojekyll
+  #+end_src
+  This will prevent Jekyll to run.
+- Change hugo action to deploy =public= folder to the =gh-pages= branch. That branch
+  can be git orphan branch recreated from scratch with each deploy. This will
+  keep repo tidy.
+
+** DONE Debugging Elisp :emacs:programming:
+CLOSED: [2022-12-31 Sat 13:36]
+:PROPERTIES:
+:EXPORT_FILE_NAME: debugging-elisp
+:END:
+*** print debugging
+*** =debug=
+
+=debug= is a Lisp machine stack back-trace debugger.
+
+Usual workflow:
+
+1. Choose the way to initiate debugger. E.g. call =debug-on-entry= and choose a
+   function. See bellow for other options.
+2. Do some operation that should eventually call the function.
+3. In the backtrace inspect the state, step through, look at locals, evaluate
+   expressions etc. See bellow for useful shortcuts.
+
+
+- Initiating debugger - useful shortcuts/functions ::
+  - =debug-on-error= - enters the debugger if an error is found.
+  - =debug-on-entry= - starts debugger when entering the given function. Multiple
+    function can be given by calling this function many times. To remove a
+    function use =cancel-debug-on-entry=.
+  - =debug-on-message= - this is a variable. If non-nil it is interpreted as a
+    regex which is matched against printed messages and it breaks into debugger
+    if a match is found. Useful if you see a message printed and would like to
+    investigate the location.
+  - =debug-watch= - run debugger when variable changes. To remove use function
+    =cancel-debug-watch=.
+  - In addition, a call to =(debug)= can be used in the code to break into
+    debugger. Thus, find a place where =debug= call won't introduce side-effects
+    and insert it. Don't forget to re-evaluate =defun= after change (=eval-defun=).
+    Also, don't forget to remove =(debug)= call and re-evaluate =defun= again when
+    finished debugging.
+
+- Useful shortcuts/functions in the backtrace buffer ::
+  - =g l - debugger-list-functions= - list function instrumented to break into.
+  - =p - debugger-toggle-locals= - show/hide local variables for the given stack
+    frame.
+  - =z o - backtrace-multi-line= - pretty-print the stack backtrace line.
+  - =z c - backtrace-single-line= - returns to a single line representation (undo
+    previous).
+  - =g b - debugger-frame= - request entry to debugger when the frame exits. Will
+    be marked with asterisk at the left side.
+  - =u - debugger-frame-clear= - undo previous command.
+  - =d - debugger-step-through= - make a step through subexpressions evaluations.
+  - =c - debugger-continue= - continue evaluating without stopping. Stop on the
+    next marked frame with =debugger-frame=.
+  - =r - debugger-return-value= -
+  - =E - debugger-eval-expression= - evaluate given expression in the context of
+    the stack frame at point. For investigating local variables see
+    =debugger-toggle-locals= above. /This should be checked!/
+  - =backtrace-goto-source= - this should go to the source location of the current
+    stack frame, but [[https://emacs.stackexchange.com/questions/64926/emacs-elisp-debugger-how-do-i-make-the-debugger-jump-to-source-when-i-press-s][it's not working at the moment]] which is pity as it would
+    really make a huge difference.
+
+*** =edebug=
+=edebug= is a source-level debugger. It provides a step-by-step execution through
+the source code.
+
+Breaking into debugger is performed using the code instrumentation, i.e. the
+original code is replaced with a slightly modified code which calls the
+debugger.
+
+- Useful shortcuts/functions ::
+  - =SPC u , e d - eval-defun= with universal prefix - instrument current
+    function. Evaluating without the prefix will remove instrumentation.
+
+**** Tracing
+
+=edebug= can record an execution trace capturing in a =*edebug-trace*= buffer each
+function called with parameters and return values.
+
+Set =edebug-trace= to non-nil to enable this mode.
+
+This is handy to find out a call path to the interesting place for investigation.
+
+*** profiling
+Profiling is used to figure out why the code is running slow and to find
+critical places to optimize.
+
+But, I find it also a convenient method to figure out a flow of control inside
+of a piece of complex code I'm not familiar with. I just run the profiler and
+then invoke a functionality I would like to investigate. After that, profiler
+will give me a nice tree of calls so I will quickly be able to figure out what
+functions are important and their dependencies.
+
+/Is navigation to the exact location in the source code possible?/
+
+To start the profiler run =profiler-start=. Then, invoke functionality that is
+under inspection. After that run =profiler-report= to get the report. Don't forget
+to run =profiler-stop= as the profiler introduces small run-time overhead.
+
+*** References
+- Emacs Info on Elisp - =SPC h i or M-x info= - follow =Elisp= and then =Debugging=.
+** TODO Loading =ctypes= with an older =libffi= :python:linux:
+The error I faced the other day when I tried to run a Python application I was
+working on was:
+
+#+begin_example
+  File "/home/igor/.asdf/installs/python/3.8.4/lib/python3.8/ctypes/__init__.py", line 7, in <module>
+    from _ctypes import Union, Structure, Array
+ImportError: libffi.so.7: cannot open shared object file: No such file or directory
+#+end_example
+
+Python =ctypes= uses =libffi=. The version of Python required by the application was
+older than system level Python (managed by [[https://asdf-vm.com/][asdf]]). The =libffi= required ABI was v7
+while the system installed =libffi= was v8.
+
+To solve the issue I did the following:
+
+1. Download an older version of =libffi= from the [[https://wiki.archlinux.org/title/Arch_Linux_Archive][Arch Linux Archive]]:
+
+   #+begin_src sh
+   wget https://archive.archlinux.org/packages/l/libffi/libffi-3.3-4-x86_64.pkg.tar.zst
+   wget https://archive.archlinux.org/packages/l/libffi/libffi-3.3-4-x86_64.pkg.tar.zst.sig
+   # Check the signature
+   pacman-key --verify libffi-3.3-4-x86_64.pkg.tar.zst.sig
+   #+end_src
+
+2. Unpack the library and put it in a user directory (e.g. =~/.local/lib=):
+
+   #+begin_src sh
+   # List file in the package
+   tar -lf libffi-3.3-4-x86_64.pkg.tar.zst
+   # Extract library to local lib directory
+   mkdir -p ~/.local/lib/
+   tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf libffi-3.3-4-x86_64.pkg.tar.zst 'usr/lib/libffi.so.*'
+   #+end_src
+
+   #+begin_note
+    =--xform= takes a sed-like regex patter to transform target file name. In this
+    case it will remove path info, thus flattening the extraction.
+   #+end_note
+
+3. Now, instruct dynamic library loader to first search into =~/.local/lib= when
+resolving dynamic libraries. For this, an environment variable =LD_LIBRARY_PATH=
+is used.
+
+   #+begin_src sh
+   LD_LIBRARY_PATH=~/.local/lib/ python <some_application>
+   #+end_src
+
+The required =libffi= library will be found and the =ctypes= will load correctly.
+
+*Note:* These kind of problems are motivation for looking into functional package
+managers like Guix and Nix.
+
+** TODO Finding a library where symbol required by a binary is defined
+:PROPERTIES:
+:EXPORT_FILE_NAME: find-library-where-symbol-defined
+:END:
+
+Tools: nm, objdump, readelf
+
+- [[https://en.wikipedia.org/wiki/Name_mangling][Name Mangling]]
+- [[https://stackoverflow.com/questions/19916119/how-do-i-find-where-a-symbol-is-defined-among-static-libraries][How do I find where a symbol is defined among static libraries]]
+- [[https://stackoverflow.com/questions/34732/how-do-i-list-the-symbols-in-a-so-file][How do I list the symbols in a .so file]]
+- IBM [[https://developer.ibm.com/tutorials/l-dynamic-libraries/][Anatomy of Linux dynamic libraries]]
+- [[https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html][PLT and GOT - the key to code sharing and dynamic libraries]]
+- [[https://www.howtogeek.com/devops/how-to-use-ltrace-to-trace-library-calls/][ltrace usage]]
+
+** DONE Debugging Qt plugins loading
+The error I got when a Qt application is launched was:
+
+#+begin_example
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "/usr/lib/qt/plugins" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+#+end_example
+
+To get more information instruct Qt to provide debugging information during
+plugin loading:
+
+#+begin_src sh
+export QT_DEBUG_PLUGINS=1
+#+end_src
+
+Now the error provides more context:
+
+#+begin_example
+Cannot load library /usr/lib/qt/plugins/platforms/libqxcb.so: (/usr/lib/libQt5XcbQpa.so.5: undefined symbol: _ZTI27QPlatformServiceColorPicker, version Qt_5_PRIVATE_API)
+QLibraryPrivate::loadPlugin failed on "/usr/lib/qt/plugins/platforms/libqxcb.so" : "Cannot load library /usr/lib/qt/plugins/platforms/libqxcb.so: (/usr/lib/libQt5XcbQpa.so.5: undefined symbol: _ZTI27QPlatformServiceColorPicker, version Qt_5_PRIVATE_API)"
+#+end_example
+
+So library =libQt5XcbQpa.so.5= is trying to use symbol
+=_ZTI27QPlatformServiceColorPicker= which is not found. Qt is implemented in C++
+and the symbol name is obviously mangled so lets demangle:
+
+#+begin_src sh
+c++filt _ZTI27QPlatformServiceColorPicker
+#+end_src
+
+#+RESULTS:
+: typeinfo for QPlatformServiceColorPicker
+
+It's a reference to a class =QPlatformServiceColorPicker=. /How we can find a
+library where this is defined?/
+
+
+In addition, Qt has its own environment variable for plugins =QT_PLUGIN_PATH=. To
+load plugins from different folder use:
+#+begin_src sh
+QT_PLUGIN_PATH=~/.local/lib/ <command>
+#+end_src
+
+Additional notes:
+- To list all dynamic symbols from the library:
+  #+begin_src sh
+  nm -D <library>
+  #+end_src
+- To list undefined symbols (e.g. symbols required to be found in other
+  libraries):
+  #+begin_src sh
+  nm -D -u <library>
+  #+end_src
+
+
+*** Old
+As a bonus, in a similar fashion I solved error in loading Qt plugins by
+downloading an older version of =qt-base= package and extracting plugins:
+
+    #+begin_src sh
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf qt5-base-5.15.1-3-x86_64.pkg.tar.zst '*libqxcb*' '*libQt5XcbQpa.so*'
+    #+end_src
+
+The error was:
+
+#+begin_example
+QLibraryPrivate::loadPlugin failed on "/usr/lib/qt/plugins/platforms/libqxcb.so" : "Cannot load library /usr/lib/qt/plugins/platforms/libqxcb.so: (/usr/lib/libQt5XcbQpa.so.5: undefined symbol: _ZTI27QPlatformServiceColorPicker, version Qt_5_PRIVATE_API)"
+#+end_example
+
+It was interesting that =libqxcb.so= wasn't compatible with the library from the
+same =qt-base= package.
+
+*** All the packages needed
+For the record, here are all packages I needed for this to work. The process is
+repetitive so it could be automated for the given date, and list of packages.
+
+#+begin_src sh
+# ffi
+wget https://archive.archlinux.org/packages/l/libffi/libffi-3.3-4-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/l/libffi/libffi-3.3-4-x86_64.pkg.tar.zst.sig
+pacman-key --verify libffi-3.3-4-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf libffi-3.3-4-x86_64.pkg.tar.zst 'usr/lib/libffi.so.*'
+
+# qt-base
+wget https://archive.archlinux.org/packages/q/qt5-base/qt5-base-5.15.1-3-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/q/qt5-base/qt5-base-5.15.1-3-x86_64.pkg.tar.zst.sig
+pacman-key --verify qt5-base-5.15.1-3-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf qt5-base-5.15.1-3-x86_64.pkg.tar.zst '*libqxcb*' '*libQt5XcbQpa.so*'
+
+# breeze theme
+wget https://archive.archlinux.org/packages/b/breeze/breeze-5.16.90-1-x86_64.pkg.tar.xz
+wget https://archive.archlinux.org/packages/b/breeze/breeze-5.16.90-1-x86_64.pkg.tar.xz.sig
+pacman-key --verify breeze-5.16.90-1-x86_64.pkg.tar.xz.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf breeze-5.16.90-1-x86_64.pkg.tar.xz '*\.so*'
+
+# qt5-quickcontrols2
+wget https://archive.archlinux.org/packages/q/qt5-quickcontrols2/qt5-quickcontrols2-5.15.1-1-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/q/qt5-quickcontrols2/qt5-quickcontrols2-5.15.1-1-x86_64.pkg.tar.zst.sig
+pacman-key --verify qt5-quickcontrols2-5.15.1-1-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf qt5-quickcontrols2-5.15.1-1-x86_64.pkg.tar.zst '*\.so*'
+
+#qt5-wayland
+wget https://archive.archlinux.org/packages/q/qt5-wayland/qt5-wayland-5.15.1-1-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/q/qt5-wayland/qt5-wayland-5.15.1-1-x86_64.pkg.tar.zst.sig
+pacman-key --verify qt5-wayland-5.15.1-1-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf qt5-wayland-5.15.1-1-x86_64.pkg.tar.zst '*\.so*'
+
+#kguiaddons
+wget https://archive.archlinux.org/packages/k/kguiaddons/kguiaddons-5.68.0-1-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/k/kguiaddons/kguiaddons-5.68.0-1-x86_64.pkg.tar.zst.sig
+pacman-key --verify kguiaddons-5.68.0-1-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf kguiaddons-5.68.0-1-x86_64.pkg.tar.zst '*\.so*'
+#+end_src
+*** Fixing monaco client
+#+begin_src
+wget https://archive.archlinux.org/packages/q/qt5-base/qt5-base-5.14.2-3-x86_64.pkg.tar.zst
+wget https://archive.archlinux.org/packages/q/qt5-base/qt5-base-5.14.2-3-x86_64.pkg.tar.zst.sig
+pacman-key --verify qt5-base-5.14.2-3-x86_64.pkg.tar.zst.sig
+tar  -C ~/.local/lib/ --wildcards --xform='s#^.+/##x' -xvf qt5-base-5.14.2-3-x86_64.pkg.tar.zst '*libqxcb*' '*libQt5XcbQpa.so*'
+#+end_src
+** TODO Developing project scaffolding for textX
+** Slow Libre Office file opening :linux:
+:PROPERTIES:
+:EXPORT_DATE: 2015-10-10
+:END:
+
+If you are experiencing a several seconds delay while opening files with Libre
+Office (Open Office might be affected to) it might be the same issue I run into
+today.
+
+It seems that during startup LO polls printers over [[https://wiki.archlinux.org/index.php/CUPS][CUPS daemon]]. If there is a
+problem with the network and configured printers are not reachable you will
+experience a several seconds delay with each file open. This will not affect
+opening a file in the already running instance of LO.
+
+The current workaround I use is to disable CUPS
+
+#+begin_example
+sudo systemctl stop org.cups.cupsd
+sudo systemctl disable org.cups.cupsd
+#+end_example
+
+... and start it only when I plan to do some printing and the printers are
+reachable:
+
+#+begin_example
+sudo systemctl start org.cups.cupsd
+#+end_example
+* Interviews
+:PROPERTIES:
+:EXPORT_FILE_NAME: interviews
+:EXPORT_HUGO_SECTION: /
+:EXPORT_HUGO_MENU: :menu main
+:END:
+- In this episode of [[https://www.pythonpodcast.com/][Python.__init__ podcast]] recorded on June 2020, I'm speaking
+  with [[https://twitter.com/TobiasMacey][Tobias Macey]] about building DSLs and parsers in Python using [[http://textx.github.io/textX/][textX]].
+
+  - [[https://www.pythonpodcast.com/textx-domain-specific-language-episode-269/][Build Your Own Domain Specific Language in Python With textX - Episode 269]]
+
+- In this episode of [[https://beyondparsing.com/][Beyond Parsing podcast]] recorded on April 2020, I'm speaking
+  with [[http://tomassetti.me/][Federico Tomassetti]] and [[https://specificlanguages.com/][Sergej Koščejev]] about my experiences in teaching
+  DSLs, introducing DSLs into companies and the business values of DSLs.
+
+  - [[https://beyondparsing.com/interview-with-igor-dejanovic/][Beyond Parsing: Interview with Igor Dejanović]]
+
+* About
+:PROPERTIES:
+:EXPORT_FILE_NAME: about
+:EXPORT_HUGO_SECTION: /
+:EXPORT_HUGO_MENU: :menu main
+:END:
+
+
+#+ATTR_ORG: :width 300px
+[[./images/igord.jpg]]
+
+I work as a professor of Computer Science and Software Engineering at the
+Faculty of technical sciences, University of Novi Sad.
+
+When I was a kid I got struck by a passion for programming and computers in
+general. That passion never left me.
+
+Nowadays I am particularly interested in Domain-Specific Languages and
+Model-Driven Engineering. I strongly believe that the future of programming is
+in languages fit for the purpose, with both abstract and concrete syntaxes fully
+aligned with the domain. I always strive for simplicity - simple tools, simple
+processes.
+
+I am user, supporter, and developer of Free/Libre Open-Source Software. Some of
+my FLOSS projects are described [[#projects][here]]. Check it out at [[https://github.com/%7B%7B%20site.github%20%7D%7D][github]].
+
+Some of my research is listed at [[http://informatika.ftn.uns.ac.rs/IgorDejanovic/][my university page]].
+
+To contact me follow social links/icons on the left.
+
+** OpenPGP info
+:PROPERTIES:
+:CUSTOM_ID: openpgp-info
+:END:
+Key ID: [[http://pgp.mit.edu/pks/lookup?search=0x40E22A6D&op=index&exact=on][0x40E22A6D]]
+
+Fingerprint: 0481 C23F 822A 62D0 A755 51EC A508 E264 40E2 2A6D
+
+#+begin_example
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mQENBFfabjsBCADdJiIulepY6rffXr2A2DGP9W3sMhpxuk76gVArI4ifIexZEA/B
+so+36aAzKmTPJFKlkJd2O4ScY5EEQT7X9dWtOIYw3nVqD9nePLTVI7DYV/vSJk0s
+Kq0qLhduOga4CdFq7ypeoELIfNdrUWdSP7xCZzBkuoReF4r8IXpxemzBhL75nTJv
+oVM+JGlW5aQrXpD7N7+9Krx7PHXejKec2O+bwamKDK0JQWbmnl60XHFQxtl3tzUM
+bXuYK/S29u22udA4ReNuI60xgrzcNqutE+oC8AN967bH8Y2rcLzj6IfJFreOVKD8
+IxwDSLaoui62zBfc8svIxQ5BZUBWXUmWtrE1ABEBAAG0KUlnb3IgRGVqYW5vdmlj
+IDxpZ29yLmRlamFub3ZpY0BnbWFpbC5jb20+iQE3BBMBCAAhBQJX2m47AhsDBQsJ
+CAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEKUI4mRA4iptiRUH/3MG5FJSNWB1WUf1
+GuqpofWjaResTnqBXrfgWYO4RE4Zlq7658YoV8KopoawQ9gRpunzFwt54h9eyXJ2
+rS7rKmSnuxT8++XS0hJUVCETVItuGuZO2o5aKE0viVgLwujQtQnfcSKFe2vgoNNJ
+bW4gq99qq5HEi0O7ur3GEnMH09oPuK4JmXMgccYuJ5typIbL5I9IRC3EO1c/VsCH
+b/9V/hV4ClhDInlT3Oqd+D5YK3OG7e6JXEUeTpGidr/ZYZ/UAjiJ6yj1JjUm7F25
+PZ386aeNYHJdA3k3gnIel8Nu7eVCfpdFqVLO9ASwWHvAOqBZOxjtDM3wGJq5433j
+hiInk1m5AQ0EV9puOwEIAOrpbLKuTFbUbKBjqnIdIFO57FD/3URuGw7sMtjGrNJd
+WrTDYtGBhNJtmp+i8Ia6EwnLVOHEkteQ9j+LiFr33/X3IpLUkYGW8GzHjin9+uWF
+pMzzqj/NQ/Ut927bYtEquwrlPAI7vLmQnlEZx4Oi5MwgsUH3DXsKXE2XS4fmLXwz
+NuMM54ioL+ZzTns3T3ay+qXh/yNHQ/aKxo4CURjEHShEzJx8I5GdyRmRTXiVIfKf
+HBVPPR26ibDSfY9mQiVEN1fcxQjNYZLbuBf31JjODMPkqqgoWe/gZ04wMZB3vz0V
+/WP+f2HnYKL1+XNan2d+bJzju60+YYOD92qToGV5yKsAEQEAAYkBHwQYAQgACQUC
+V9puOwIbDAAKCRClCOJkQOIqbTJgB/4kok0mmGwf0YDNTC9uO0BrtOAng9mMTU2B
+S2OenYpfNkzMptQdwpuNDsGWTt+IeFYBu8IpVkDebhCBlGpQAPZY/CHQvT5UgmqZ
+Nmkjqt4uWU956vVhQq3fIH4ZoQ81zSDD8W+ZkM1DD7pmMTvuirJ7p3/DkyKtb55U
+HJxwFQKoHsIoQinje35Hy+lToN7rflD0d6DXwfR/9W6rKu+QWVBYQ5+BaSMft9OL
+p7IzcuMDOEB1b3Nfw+9T/o/ybcpfsT25sspyZ3cXiH1NQ5GQHBVmEMEltDtE7ETT
+v5xBR3eULRG/s5YufU84oAZ4Xf1DEFrF/kcVw4VEfK8/LY/+vvBm
+=frLo
+-----END PGP PUBLIC KEY BLOCK-----
+#+end_example
+* All Posts
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: posts
+:EXPORT_HUGO_TYPE: post
+:EXPORT_HUGO_FRONT_MATTER_KEY_REPLACE: tags>ptags
+:END:
+** TODO Playing with Guix :linux:
+** TODO Migrating personal site to Org/Hugo :emacs:
+:PROPERTIES:
+:EXPORT_DATE: 2022-12-28
+:EXPORT_FILE_NAME: migrating-personal-site-to-org-hugo
+:END:
+** Parglare Python parser :programming:python:
+:PROPERTIES:
+:EXPORT_DATE: 2017-08-09
+:EXPORT_FILE_NAME: parglare-python-parser
+:END:
+
+With this post I'm announcing availability of [[https://github.com/igordejanovic/parglare][a new Python parser]] based on LR(1)
+and GLR algorithms.
+
+For years I've been working with and developing [[https://en.wikipedia.org/wiki/Parsing_expression_grammar][PEG]] based parsers (see [[https://github.com/igordejanovic/Arpeggio][Arpeggio]]
+and [[https://github.com/igordejanovic/textX][textX]]). PEGs have some really nice properties: they represent a concise
+description of top-down parsers and are easy to understand and debug.
+Furthermore, with choice operator being ordered PEG grammars can't be ambiguous.
+Backtracking is natural and easy to implement giving it unlimited lookahead. A
+composition of PEG grammars will give a valid PEG grammar, although it [[http://tratt.net/laurie/blog/entries/parsing_the_solved_problem_that_isnt.html][might not
+be what you would expect]].
+
+But, there are some drawbacks.
+
+*** PEG drawbacks
+First, PEG based parser are naturally implemented as top-down parsers which is
+troublesome for left-recursive grammar rules. This leads to unnatural grammar
+specification for some languages which would be much easier to describe using
+left recursion.
+
+Second, PEG parsers deal with ambiguity by implicitly resolving it with
+left-to-right ordered choice operator. This hides ambiguity and forces you to
+think imperatively during grammar construction. There are even situations when
+there exists no valid order of the rules for the language one wish to describe.
+This leads to a problem where you can't be sure what language your grammar
+describes.
+
+Third, the most straight-forward way to implement PEG parser is by mutually
+recursive function calls. Parser state is thus kept on the program stack which
+is not easy to manipulate. This makes error recovery hard to implement. In order
+to recover from an error you would have to restore the state where you consumed
+the most of the input and try to skip erroneous input or create expected tokens.
+Recovering that state would mean to recover the program stack. Another technique
+would be to implement explicit stack but that would kill much of the PEG
+attractiveness.
+
+*** Parglare
+With parglare I wanted to keep most of the good stuff from Arpeggio/textX but to
+use more robust algorithm with a solid scientific theory and to alleviate some
+of the PEG's drawbacks.
+
+LR parsing is invented by Donald Knuth in 1965. It is based on Context-Free
+Grammars and Push-Down Automata (PDA) construction process which if successful
+proves that the grammar is indeed LR(1) and that any input that correspond to
+the grammar can be parsed deterministically.
+
+I wanted parglare to be a scannerless parser. Separate tokenization/scanning
+phase leads to a lot of grief. Parglare will recognize tokens on the fly and
+given the right parsing context this eliminates a lot of potential source of
+lexical ambiguities.
+
+Parsing is a process of transforming a flat sequence of tokens to some other
+form, tree being a most common. This doesn't imply that the input must be text
+at all. It can be sequence of any objects. Parglare indeed can parse anything by
+introducing the concept of [[http://www.igordejanovic.net/parglare/recognizers/][recognizers]]. You can also see in [[https://github.com/igordejanovic/parglare/blob/master/tests/func/test_parse_list_of_objects.py][this test]] how a list
+of integer is being parsed.
+
+Both Arpeggio and textX provide a handy visualization features which can really
+help in understanding the grammar and parsing process. Parglare also provides
+[[http://www.igordejanovic.net/parglare/pglr/][pglr command]] which can be used to visualize LR automata and GLR parsing trace.
+
+[[http://www.igordejanovic.net/parglare/grammar/][Grammar language]] is based on a pure BNF without any extensions at the moment.
+This might lead to a more verbose grammar but the actions are really
+straight-forward to write. In the future a syntactic sugar will be added for
+some common idioms.
+
+[[http://www.igordejanovic.net/parglare/actions/][Actions]] can be called on-the-fly during parsing or applied on the parser tree
+afterwards. The parse tree is built using default actions. Calling actions on
+the fly is again something that can hardly be done with PEG parsers because of
+backtracking.
+
+[[http://www.igordejanovic.net/parglare/recovery/][Error recovery]] was much easier to implement as the parser state is explicit. In
+parglare you can use built-in error recovery strategy or write your own.
+
+From the same grammar Parglare can construct both LR(1) (modified LALR(1), or
+SLR tables) and GLR parser. GLR could be used if the parser needs more than one
+token of lookahead to deduce next step or if the language is inherently
+ambiguous. In case of ambiguous parse, all trees will be returned by the GLR
+parser (a.k.a. the parse forest). Common sub-tree sharing is used which reduce
+memory usage significantly. Some common pitfalls with GLR algorithm are taken
+care of which is [[https://github.com/igordejanovic/parglare/blob/master/tests/func/test_special_grammars.py][tested using published grammars]] that are specifically crafted
+to confuse GLR parser.
+
+Describing everything that can be done with parglare would make this post too
+long, so if I've got you interested, you can find more info in [[http://www.igordejanovic.net/parglare/][the docs]].
+
+*** Where is it heading?
+There are a lot of plans for parglare. First I would like to build some optional
+syntactic sugar for grammar language that would reduce boiler-plate for some
+common idioms. I'm also thinking about providing some implicit transformation to
+AST similar to textX. Lexical ambiguity detection for overlapping regexes would
+be nice too. And, of course, performance optimization is something that needs to
+be tackled from time to time.
+
+But I'll definitely try to keep the core simple and all additions optional.
+
+If you have ideas, advices or any other feedback please use comment section
+bellow.
+
+** My Spacemacs Odyssey :emacs:
+:PROPERTIES:
+:EXPORT_DATE: 2016-11-08
+:EXPORT_FILE_NAME: my-spacemacs-odyssey
+:END:
+I'm a long time vim user and I just love vim modal editing approach. But, I
+always admired Emacs extensibity, introspection and self-documenting
+capabilities. Although I gave Emacs a try couple of times in the past I just
+couldn't get used to non-modal editing and cumbersome finger-stretching keyboard
+bindings. For some time I was keeping an eye on [[http://spacemacs.org/][spacemacs]], emacs distribution
+geared towards vim users. It looked like a perfect blend of vim and emacs so I
+gave it a try.
+
+Although spacemacs is still beta the switch-over was surprisingly smooth. It
+took me just a few days to get to the speed thanks to [[https://www.emacswiki.org/emacs/Evil][Evil mode]], a vim-like
+modal editing support which is enabled by default in spacemacs. Evil works
+remarkably good, even some often used plugins are ported like, for example,
+[[https://github.com/tpope/vim-surround][surround]].
+
+First impression are default settings which are most of the time just what I
+want. Configuration is done in =.spacemacs= file which is well organized and
+commented. Much of the functionality is accessible using key combination
+starting with space bar (hence the name of the distribution) followed by a
+letter which is easy to remember most of the time (=SPC b= - for buffer actions,
+=SPC f= - for file actions, =SPC p= - for project actions etc.). If you don't know
+the right key that proceeds a helpful popup is displayed with the keys that can
+be tried next (thanks to [[https://github.com/justbur/emacs-which-key][which-key]]). You can easily ask emacs to describe
+keybindings, key, package, function (=SPC d= and than =b= for bindings, =k= for keys,
+=p= for package, =f= for function, =v= for variable, =m= for mode). Help on anything is
+triggered with =SPC F1=. In all cases a fuzzy searchable list is displayed thanks
+to [[https://github.com/emacs-helm/helm][helm]] package (Emacs incremental completion and selection narrowing
+framework).
+
+You can quickly toggle some settings using =SPC t= prefix and than appropriate
+letter. For example to turn on/off indent guide use =SPC t i=. To directly call
+emacs lisp function use =M-x= and than type the part of the name.
+
+Of course, configuration, keybindings, moving around and editing is just a part
+of the story. We all depend heavily on various plugins and extensions that makes
+our life easier. Here are some comments on few of them.
+
+*** Helm
+[[https://github.com/emacs-helm/helm][Helm]] is emacs incremental completion and selection narrowing framework. It is
+integrated with most packages that provides a list to select from. I was very
+impressed by a [[https://www.emacswiki.org/emacs/HelmSwoop][helm-swoop]] functionality which I use most of the time now to
+search inside the buffer.
+
+The functionality similar to this can be achieved in vim using [[https://github.com/Shougo/unite.vim][unite]] but helm
+feels more powerful and better integrated with the rest of the editor.
+
+*** Magit
+For git in vim I used [[https://github.com/tpope/vim-fugitive][fugitive]] which is great. In emacs a standard package is
+[[https://github.com/magit/magit][Magit]]. I find Magit to be as capable as fugitive or even more with a much easier
+to learn interface. Keybindings are easier to grasp and the way of work is just
+more logical. For fugitive It took me quite some time to get to the speed.
+
+To call magit status use =SPC g s= or to call magit menu =SPC g m=. =SPC g= is prefix
+for some of the more frequently used Magit commands. Check out blame mode, it is
+really nice =SPC g b=.
+
+*** flycheck
+Flycheck is syntax checker for emacs. I didn't have to do much to have it
+working. It /just works/. For various programming languages you have to install
+external tools. Check the docs.
+
+*** Yasnippet
+In vim I used [[https://github.com/SirVer/ultisnips][Ultisnips]] plugin for snippets. In spacemacs the default is
+[[https://github.com/joaotavora/yasnippet][yasnippet]]. Yasnippet provides you what you would expect from a capable
+snippet/template engine. You can create new snippet by calling =yas-new-snippet=
+function. In the snippet buffer you can test the snippet =C-c C-t= and save it
+with =C-c C-c= when you are satisfied with the result. Nice feature of yasnippet
+is that you can use any emacs lisp expression on entered text which gives you
+great flexibility on what can be done with the engine. Ultisnips use Python for
+similar feature.
+
+*** Org mode
+And last but not least is [[http://orgmode.org/][Org mode]]. If there is one package that is worth using
+emacs for it's this one. I could say that it blew my mind and changed the way I
+work. I knew for this gem a long time ago and actually used [[https://github.com/jceb/vim-orgmode][its vim clone]] but
+emacs Org mode is just fantastic. This tool let you organize all your notes,
+todos, schedules in hierarchical structure in plain text files while giving you
+agenda and todo list overview over all files. It provides you with time tracking
+and pomodoro technique all in the same context. It let you work with tables
+seamlessly just as you would edit actual spreadsheet. It really facilitates [[http://gettingthingsdone.com/][GTD]]
+very well. Now I do all my work organization, note-taking activities and
+time-tracking in a set of Org mode files.
+
+*** Final thoughts
+All in all, this was a pleasant experience for me. After a two weeks of using
+spacemacs I can say that I feel fully productive and the journey has just begun.
+I still get impressed by spac(emacs) features every day. Although still in beta
+it is really well thought-out distribution with a nice configuration and set of
+defaults and packages.
+
+Furthermore, default Evil mode gives me opportunity to nurture and don't forget
+my vim-fu.
+** Implementing Martin Fowler's state machine DSL in textX :dsl:textX:
+:PROPERTIES:
+:EXPORT_FILE_NAME: implementing-martin-fowler-state-machine-dsl-in-textx
+:EXPORT_DATE: 2016-05-06
+:END:
+
+Well, you know what they say:
+
+#+begin_quote
+You aren't making a DSL tool if you haven't
+implemented [[http://www.martinfowler.com/aboutMe.html][Martin Fowler's]] State Machine language using your tool yet ;)
+#+end_quote
+
+
+This is a well known DSL example from his book [[http://www.martinfowler.com/books/dsl.html][Domain-Specific Languages]]. If you
+are doing stuff in the field of DSLs you should definitely read this book. There
+is an [[http://www.informit.com/articles/article.aspx?p=1592379&seqNum=1][excerpt from the book]] available on-line so I advise you to read it before
+watching the video below.
+
+Another book which I also highly recommend is [[http://dslbook.org/][DSL Engineering: Designing,
+Implementing and Using Domain-Specific Languages]] by [[http://voelter.de/about][Markus Völter]]. Also an
+excelent read, although oriented more towards modeling languages with graphical
+syntaxes (a.k.a. Domain-Specific Modeling), is the book [[http://dsmbook.com/][Domain-Specific
+Modeling: Enabling Full Code Generation]] by [[http://www.metacase.com/stevek.html][Steven Kelly]] and [[http://www.metacase.com/jpt.html][Juha-Pekka
+Tolvanen]].
+
+In the video bellow I am explaining the implementation of the Martin Fowler's
+State Machine language in [[https://github.com/igordejanovic/textX/][textX]] by:
+
+- Specifying the grammar of the language
+- Creating source code generator by generating a nice /dot/ state charts
+- Creating model interpreter in Python
+
+This tutorial is a good overview of textX workflow and capabilities but if you
+want to see basic introduction together with installation and the first steps I
+suggest you to watch [[http://igordejanovic.net/2016/05/04/video-introduction-to-textx/][video introduction to textX]] first.
+
+Full source code presented in the video is available at [[https://github.com/igordejanovic/textX/tree/master/examples/StateMachine][the project GitHub
+repository]]. I hope you will enjoy watching this video as much I enjoyed
+playing with this little language.
+
+#+md: {{< youtube HI14jk0JIR0 >}}
+
+** Video introduction to textX :dsl:textX:
+:PROPERTIES:
+:EXPORT_DATE: 2016-05-04
+:EXPORT_FILE_NAME: video-introduction-to-textx
+:END:
+
+Finally got some time to record first video for [[http://igordejanovic.net/textX/][textX]]. In this video I will show
+you how to install textX and do some first steps. This is my first video
+tutorial so please bear with me ;)
+
+#+md: {{< youtube CN2IVtInapo >}}
+

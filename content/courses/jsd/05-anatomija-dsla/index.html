@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Anatomija jednog JSD-a</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Anatomija jednog JSD-a</h1>
+<h2 class="subtitle">Slajdovi u izradi</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2019-12-20 Fri 11:11, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org5476d18">
+<h2 id="org5476d18">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. DOMMLite</a></li>
+<li><a href="#/slide-2">2. mobl</a></li>
+<li><a href="#/slide-3">3. pyFlies</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> DOMMLite</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1</span> Šta je DOMMLite?</h3>
+<ul>
+<li>DOMMLite<sup>1</sup> je jezik za opis statičke strukture poslovnih aplikacija.<sup>2</sup></li>
+<li>Opisuje entitete, njihove atribute, validatore, veze između entiteta,
+primitivne tipove, pakete, servise i sl.</li>
+<li>Generator koda na osnovu DOMMLite mograma generiše naprednu <i>CRUD</i> aplikaciju
+sa podrškom za pretrage, filtriranje, sortiranje, definisanje servisnih
+metoda, validacije itd. Implementiran u xText-u.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>I. Dejanović, <i>Metamodel, editor modela i generator poslovnih aplikacija</i>.
+magistarska teza, April 2008.</li>
+<li>I. Dejanović, G. Milosavljević, B. Perišić, and M. Tumbas, <i>A domain-specific
+language for defining static structure of database applications</i>, Computer
+Science and Information Systems, vol. 7, pp. 409–440, June 2010. ISSN
+1820-0214</li>
+
+</ol>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2</span> Osnovne osobine</h3>
+<ul>
+<li>Opis entiteta, ključeva, veza jedan na jedan, jedan na više, više na više.</li>
+<li>Tekstualna sintaksa. Puna eclipse integracija (dopuna i bojenje koda,
+strukturni pogled, navigacija, validacija sintakse).</li>
+<li>Veliki broj standardnih parametarskih validatora uz mogućnost definisanja
+dodatnih u samom jeziku uz implementaciju na jeziku ciljne platforme.</li>
+<li>Podrška za definisanje korisničkih tipova podataka, validatora i oznaka.</li>
+<li>Generator koda za Django web okvir za razvoj<sup>1</sup>. Generisanje pune CRUD
+aplikacije sa pretragama, filtriranjem, sortiranjem itd.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.djangoproject.com">http://www.djangoproject.com</a></li>
+
+</ol>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3</span> Model</h3>
+
+<div class="figure">
+<p><img src="./images/Model.png" alt="Model.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4</span> Paketi</h3>
+
+<div class="figure">
+<p><img src="./images/Package.png" alt="Package.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5</span> Entiteti</h3>
+
+<div class="figure">
+<p><img src="./images/Entity.png" alt="Entity.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6</span> Konkretna sintaksa</h3>
+
+<div class="figure">
+<p><img src="./images/BuildIns.png" alt="BuildIns.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7</span> Odeljci</h3>
+
+<div class="figure">
+<p><img src="./images/FeatureCompartment.png" alt="FeatureCompartment.png" style="height: 350px;" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/OperationCompartment.png" alt="OperationCompartment.png" style="height: 250px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8</span> Odeljci - konkretna sintaksa</h3>
+
+<div class="figure">
+<p><img src="./images/compartments-syntax.png" alt="compartments-syntax.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-9">
+<h3 id="1-9"><span class="section-number-3">1.9</span> Odeljci - strukturni prikaz</h3>
+
+<div class="figure">
+<p><img src="./images/outline.png" alt="outline.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-10">
+<h3 id="1-10"><span class="section-number-3">1.10</span> Odeljci - mapiranje na ekranske forme</h3>
+
+<div class="figure">
+<p><img src="./images/django-validatori.png" alt="django-validatori.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-11">
+<h3 id="1-11"><span class="section-number-3">1.11</span> Atributi i reference</h3>
+
+<div class="figure">
+<p><img src="./images/Feature.png" alt="Feature.png" style="height: 300px;" />
+</p>
+</div>
+
+<div class="column" style="float:left; width: 50%">
+
+<div class="figure">
+<p><img src="./images/Property.png" alt="Property.png" style="height: 300px;" />
+</p>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+
+<div class="figure">
+<p><img src="./images/TypedElement.png" alt="TypedElement.png" style="height: 300px;" />
+</p>
+</div>
+</div>
+
+</section>
+<section id="slide-1-12">
+<h3 id="1-12"><span class="section-number-3">1.12</span> Atributi i reference - konkretna sintaksa</h3>
+
+<div class="figure">
+<p><img src="./images/BuildIns.png" alt="BuildIns.png" />
+</p>
+</div>
+
+
+</section>
+<section id="slide-1-13">
+<h3 id="1-13"><span class="section-number-3">1.13</span> Oznake (<i>Tags</i>)</h3>
+<ul>
+<li>Služe za opis dodatne semantike elementa nad kojim su definisane.</li>
+<li>DOMMLite poseduje <i>11 ugrađenih oznaka</i> (<code>plural, searchBy, orderBy, finder,
+  filterFields...</code>) a korisnik može definisati na nivou mograma i svoje oznake.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-14">
+<h3 id="1-14"><span class="section-number-3">1.14</span> Primer - podrška za specifičnosti prirodnih jezika</h3>
+
+<div class="figure">
+<p><object type="image/svg+xml" data="./images/Akuzativ.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-1-15">
+<h3 id="1-15"><span class="section-number-3">1.15</span> Validatori</h3>
+<ul>
+<li>Definisanje uslova koji mora biti ispunjen da bi se instanca elementa modela
+nad kojom je primenjen smatrala ispravnom.</li>
+<li>DOMMLite poseduje <i>33 ugrađena validatora</i> (<code>isAlphaNumeric, isOnlyDigits,
+  isValidEmail...</code>) a na nivou mograma mogu biti definisani korisnički.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-16">
+<h3 id="1-16"><span class="section-number-3">1.16</span> Primer upotrebe validatora</h3>
+
+<div class="figure">
+<p><object type="image/svg+xml" data="./images/Validatori.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-1-17">
+<h3 id="1-17"><span class="section-number-3">1.17</span> Servisi</h3>
+
+<div class="figure">
+<p><img src="./images/Service.png" alt="Service.png" style="height: 500px;" />
+</p>
+</div>
+
+
+</section>
+<section id="slide-1-18">
+<h3 id="1-18"><span class="section-number-3">1.18</span> Podrška za <i>finder</i> metode</h3>
+
+<div class="figure">
+<p><img src="./images/Services.png" alt="Services.png" style="height: 400px;" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/finder.png" alt="finder.png" style="height: 300px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-19">
+<h3 id="1-19"><span class="section-number-3">1.19</span> Dopuna koda</h3>
+
+<div class="figure">
+<p><img src="./images/DopunaKoda1.png" alt="DopunaKoda1.png" style="height: 350px;" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/DopunaKoda2.png" alt="DopunaKoda2.png" style="height: 350px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-20">
+<h3 id="1-20"><span class="section-number-3">1.20</span> Generator koda</h3>
+
+<div class="figure">
+<p><object type="image/svg+xml" data="./images/Generisanje.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-1-21">
+<h3 id="1-21"><span class="section-number-3">1.21</span> Prikaz generisane forme</h3>
+
+<div class="figure">
+<p><img src="./images/django-validatori.png" alt="django-validatori.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> mobl</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> mobl</h3>
+<p style="text-align: center;">
+TODO
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> pyFlies</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> pyFlies</h3>
+<p style="text-align: center;">
+TODO
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/lib/js/head.min.js"></script>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

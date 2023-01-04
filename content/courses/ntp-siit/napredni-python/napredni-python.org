@@ -1,0 +1,1520 @@
+#+TITLE: Napredne tehnike programiranja u Python-u
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
+* Specijalne metode
+** Specijalne metode
+- Često se zovu i *magične* metode
+- Posebno se tretiraju od strane Python interpretera tj. imaju posebnu semantiku
+- Format naziva je ~__xxx__~
+- Neki od primera:
+  - ~__init__~
+  - ~__str__~
+  - ~__eq__~
+  - ~...~
+- Implementacija *protokola*
+** Iterabilni objekti
+- Moguće ih je koristiti u npr. ~for~ pelji.
+  #+BEGIN_SRC python
+  for i in iterabilni_objekat:
+  #+END_SRC
+- Poziv ugrađene funkcije ~iter~ nad iterabilnim objektom vraća iterator
+  objekat.
+- Kada je potrebna iteracija Python poziva ~__iter__~ metodu nad našim objektom.
+  Ova funkcija treba da vrati iterator objekat.
+- Iterator objekti implementiraju tzv. ~iterator~ protokol.
+  - ~__next__~ metoda -- sledeći element ili izuzetak ~StopIteration~ ukoliko
+    smo stigli do kraja.
+** Iterabilni objekti - primer
+- Primer ~TextXMetaModel~ klasa [[https://github.com/igordejanovic/textX][textX]] projekta.
+  #+BEGIN_SRC python
+  def __iter__(self):
+      """
+      Iterate over all classes in the current namespace and imported
+      namespaces.
+      """
+
+      # Current namespace
+      for name in self._current_namespace:
+          yield self._current_namespace[name]
+
+      # Imported namespaces
+      for namespace in \
+              self._imported_namespaces[self._namespace_stack[-1]]:
+          for name in namespace:
+              # yield class
+              yield namespace[name]
+  #+END_SRC
+- U ovom slučaju ~__iter__~ metoda je generator (vraća elemente sa ~yield~).
+** Provera pripadnosti kolekciji
+- Operator ~in~ služi za testiranje pripadnosti:
+  #+BEGIN_SRC python
+  if a in neka_kolekcija:
+  #+END_SRC
+- Ukoliko želimo da omogućimo ~in~ test sa našim objektima potrebno je
+  definisati specijalnu metodu ~__contains__~:
+  #+BEGIN_SRC python :language python
+  def __contains__(self, name):
+      """
+      Check if given name is contained in the current namespace.
+      The name can be fully qualified.
+      """
+      try:
+          self[name]
+          return True
+      except KeyError:
+          return False
+  #+END_SRC
+** Pristup elementu kolekcije po ključu
+- Specijalna metoda ~__getitem__~ omogućava upotrebu operatora ~[]~.
+  #+BEGIN_SRC python
+  >>> a = [1, 2, 3]
+  >>> a.__getitem__(2)
+  3
+  >>> b = { "foo": 45, "bar": 34}
+  >>> b.__getitem__(34)
+  ---------------------------------------------------------------------------
+  KeyError                                  Traceback (most recent call last)
+  ...
+  KeyError: 34
+  >>> b.__getitem__("foo")
+  45
+  #+END_SRC
+** Pristup elementu kolekcije po ključu - primer
+   #+BEGIN_SRC python
+  def __getitem__(self, name):
+      """
+      Search for and return class and peg_rule with the given name.
+      Returns:
+          TextXClass, ParsingExpression
+      """
+      if "." in name:
+          # Name is fully qualified
+          namespace, name = name.rsplit('.', 1)
+          return self.namespaces[namespace][name]
+      else:
+          # If not fully qualified search in the current namespace
+          # and after that in the imported_namespaces
+          if name in self._current_namespace:
+              return self._current_namespace[name]
+
+          for namespace in \
+                  self._imported_namespaces[self._namespace_stack[-1]]:
+              if name in namespace:
+                  return namespace[name]
+
+          raise KeyError("{} metaclass does not exists in the metamodel "
+                          .format(name))
+   #+END_SRC
+** Pristup atributu objekta
+- Dve specijalne metode: ~__getattr__~ i ~__getattribute__~
+  #+BEGIN_SRC python
+  obj.neki_atribut
+  #+END_SRC
+** ~__getattr__~
+- Poziva se ukoliko standardnim mehanizmima nije pronađen atribut objekta. Kao
+  parametar prima ime atributa i vraća njegovu vrednost ukoliko postoji ili
+  podiže izuzetak ~AttributeError~ ukoliko atribut ne postoji.
+  #+BEGIN_SRC python
+  class A:
+      def __init__(self):
+          self.additional = {'foo': 5, 'bar': 7.4}
+          # .a će biti pronađeno standardnim mehanizmom
+          self.a = 3
+
+      def __getattr__(self, key):
+          if key in self.additional:
+              return self.additional[key]
+          else:
+              raise AttributeError
+
+  if __name__ == '__main__':
+      a = A()
+      print(a.a)
+      print(a.foo)
+      print(a.bla)
+  #+END_SRC
+** Postavljanje vrednosti i brisanje atributa
+- ~object.__setattr__(self, name, value)~ - kada se pozove ~object.name = value~
+  - Obratiti pažnju na rekurziju! Ne raditi u telu metode ~self.name = value~
+    već ~self.__dict__[name] = value~.
+- ~object.__delattr__(self, name)~ - kada se pozove ~del object.name~
+** ~__getattribute__~
+- Specijalna metoda nižeg nivoa.
+- Podrazumevana implementacija obavlja podrazumevanu pretragu:
+  - Prvo se proverava ~__dict__~ rečnik instance a zatim klasa prateći MRO lanac.
+  - Ukoliko se atribut ne pronađe poziva se ~__getattr__~
+- Ovu metodu je retko potrebno redefinisati.
+- Paziti prilikom pisanja na beskonačanu rekurziju! Najbolje je pozvati
+  na kraju nadimplementaciju ~object.__getattribute__(self, name)~
+** Operatori
+- Svi operatori u Python-u su definisani specijalnim metodama. Na primer:
+  - ~-~ - ~__sub__~
+  - ~+~ - ~__add__~
+  - ~*~ - ~__mul__~
+  - ~+=~ - ~__iadd__~ - (za *mutable* objekte)
+  - ...
+** Poređenje objekata
+- Ukoliko želimo da instance naše klase mogu da se porede (npr. da bi mogli da
+  sortiramo niz objekata) potrebno je implementirati specijalne metode:
+  - ~__eq__~ za operator jednakosti ~==~
+  - ~__ne__~ za operator nejednakosti ~!=~
+  - ~__lt__~ za operator *manje* - ~<~
+  - ~__le__~ za operator *manje ili jednako* - ~<=~
+  - ~__gt__~ za operator *veće* - ~>~
+  - ~__ge__~ za operator *veće ili jednako* - ~>=~
+- Nije potrebno ručno definisati sve operatore jer su prirodno međuzavisni.
+  Python u sklopu modula ~functools~ nudi dekorator ~total_ordering~ (videti u
+  sekciji ~functools~) koji automatski kreira nedostajuće operatore poređenja.
+  
+* /Properties/
+** /Properties/
+- Tzv. kalkulisani ili izvedeni atributi.
+- Generalizacija /getter/ i /setter/ mehanizma.
+- Sintaksa ostaje kao kod direktnog pristupa atributu.
+
+** /Properties/ - primer
+   #+BEGIN_SRC python
+    class ...:
+    ...
+        @property
+        def full_file_name(self):
+            return os.path.join(self.file_path, self.file_name)
+
+        @full_file_name.setter
+        def full_file_name(self, filename):
+            path_name, file_name = os.path.split(filename)
+            self.file_path = path_name
+            self.file_name = file_name
+            model_name, __ = os.path.splitext(file_name)
+            self.name = model_name
+   #+END_SRC
+
+/Property/ atributima se pristupa kao običnim atributima:
+
+#+BEGIN_SRC python
+obj.full_file_name = '/neka/putanja/neko_ime.ext'
+#+END_SRC
+
+- Objekat čuva atribute ~file_path~ i ~file_name~.
+- Atribut ~full_file_name~ je izveden.
+  
+** ~__setattr__~ i ~@property~
+   
+#+BEGIN_SRC python :results output
+class A:
+    @property
+    def a(self):
+        print("get")
+        return 5
+    @a.setter
+    def a(self, val):
+        print("set")
+
+    def __setattr__(self, name, value):
+        if name == 'a':
+            print('setattr')
+        super().__setattr__(name, value)
+a = A()
+a.a = 10
+out = a.a
+#+END_SRC
+
+#+RESULTS:
+: setattr
+: set
+: get
+* /List comprehensions/ i generatori
+** /List comprehensions/
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 40%">
+#+BEGIN_SRC python
+nums = [1, 2, 3, 4, 5]
+squares = []
+for n in nums:
+  squares.append(n * n)
+
+# Ekvivalentno
+nums = [1, 2, 3, 4, 5]
+squares = [n * n for n in nums]
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 60%">
+#+BEGIN_SRC python
+# Opšti oblik sintakse
+[expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN ]
+
+# Što je ekvivalentno sa
+s = []
+for item1 in iterable1:
+  if condition1:
+    for item2 in iterable2:
+      if condition2:
+        ...
+        for itemN in iterableN:
+          if conditionN: s.append(expression)
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+** /List comprehensions/ primeri
+
+#+BEGIN_SRC python
+a = [-3, 5, 2, -10, 7, 8]
+b = 'abc'
+
+c = [2*s for s in a]                # c = [-6,10,4,-20,14,16]
+d = [s for s in a if s >= 0]        # d = [5,2,7,8]
+e = [(x, y) for x in a              # e = [(5,'a'),(5,'b'),(5,'c'),
+           for y in b               #      (2,'a'),(2,'b'),(2,'c'),
+           if x > 0 ]               #      (7,'a'),(7,'b'),(7,'c'),
+                                    #      (8,'a'),(8,'b'),(8,'c')]
+
+f = [(1,2), (3,4), (5,6)]
+g = [math.sqrt(x * x + y * y)       # g = [2.23606, 5.0, 7.81024]
+     for x, y in f]
+#+END_SRC
+
+** Generator izrazi
+Slično kao /list comprehensions/ ali ne kreiraju listu već generator objekat
+koji izračunava vrednosti na zahtev (lenja evaluacija).
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 60%">
+#+BEGIN_SRC python
+# Opšti oblik sintakse
+(expression for item1 in iterable1 if condition1
+            for item2 in iterable2 if condition2
+            ...
+            for itemN in iterableN if conditionN )
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+BEGIN_SRC python
+>>> a = [1, 2, 3, 4]
+>>> b = (10*i for i in a)
+>>> b
+<generator object at 0x590a8>
+>>> b.next()
+10
+>>> b.next()
+20
+...
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+** Generator izrazi - primer
+
+#+BEGIN_SRC python
+f = open("data.txt")
+lines = (t.strip() for t in f)
+
+comments = (t for t in lines if t[0] == '#')
+for c in comments:
+  print(c)
+
+# Uvek se može konvertovati u listu
+clist = list(comments)
+#+END_SRC
+
+* Deskriptori
+** /Descriptors/
+- Generalizacija prilagođavanja pristupu atributima objekata.
+- Npr. /properties/ iz prethodne sekcije su implementirani mehanizmom
+  deskriptora.
+- Ukoliko interpreter pronađe atribut na nivou klase i taj atribut je objekat
+  koji ima neku od metoda ~__get__~, ~__set__~, ~__del__~ tada će ovim metodama
+  biti prosleđeno dobavljanje, postavljanje ili brisanje atributa respektivno.
+  
+** Problem sa /properties/
+   
+#+BEGIN_SRC python :results output
+class Order:
+    def __init__(self, name, price, quantity):
+        self._name = name
+        self.price = price
+        self._quantity = quantity
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        if value < 0:
+            raise ValueError('Cannot be negative.')
+        self._quantity = value
+
+    def total(self):
+        return self.price * self.quantity
+
+apple_order = Order('apple', 1, 10)
+print(apple_order.total())
+try:
+    apple_order.quantity = -10
+except ValueError as e:
+    print('Woops:', str(e))
+#+END_SRC
+
+#+RESULTS:
+: 10
+: Woops: Cannot be negative.
+
+#+attr_html: :class footer :style clear: both;
+https://dev.to/dawranliou/writing-descriptors-in-python-36
+
+** Rešenje upotrebom deskriptora (1)
+   
+   #+BEGIN_SRC python :session :results none
+   class NonNegative:
+   
+    def __get__(self, instance, owner):
+        return instance.__dict__[self.name]
+        
+    def __set__(self, instance, value):
+        if value < 0:
+            raise ValueError('Cannot be negative.')
+        instance.__dict__[self.name] = value
+        
+    def __set_name__(self, owner, name):
+        self.name = name
+   #+END_SRC
+
+   #+attr_html: :class footer :style clear: both;
+   - https://dev.to/dawranliou/writing-descriptors-in-python-36
+   - https://docs.python.org/3/howto/descriptor.html
+   
+** Rešenje upotrebom deskriptora (2)
+   
+   #+BEGIN_SRC python :session :results output
+   class Order:
+   
+      price = NonNegative()
+      quantity = NonNegative()
+
+      def __init__(self, name, price, quantity):
+          self._name = name
+          self.price = price
+          self.quantity = quantity
+
+      def total(self):
+          return self.price * self.quantity
+        
+   apple_order = Order('apple', 1, 10)
+   print(apple_order.total())
+    
+   try:
+       apple_order.quantity = -10
+   except ValueError as e:
+       print('Woops:', str(e))
+   #+END_SRC
+
+   #+RESULTS:
+   : 10
+   : Woops: Cannot be negative.
+
+  #+attr_html: :class footer :style clear: both;
+  https://dev.to/dawranliou/writing-descriptors-in-python-36
+
+* Dekoratori(/Decorators/)
+** Dekoratori
+- Dekorator obrazac.
+- Funkcije koje prihvataju kao parametar funkciju (ili uopšte ~callable~) i
+  vraćaju izmenjenu verziju.
+  
+  #+BEGIN_SRC python
+  @trace
+  def square(x):
+    return x*x
+
+  # Ovo je ekvivalentno sa
+  def square(x):
+    return x*x
+  square = trace(square)
+  #+END_SRC
+  
+  #+BEGIN_SRC python
+  enable_tracing = True
+  if enable_tracing:
+    debug_log = open("debug.log","w")
+  def trace(func):
+    if enable_tracing:
+      def callf(*args,**kwargs):
+        debug_log.write("Calling %s: %s, %s\n" %
+                (func._ _name_ _, args, kwargs))
+        r = func(*args,**kwargs)
+        debug_log.write("%s returned %s\n" %
+                        (func._ _name, r))
+        return r
+      return callf
+    else:
+      return func
+  #+END_SRC
+  
+** Dekoratori (2)
+
+Mogu da se stekuju.
+
+#+BEGIN_SRC python
+@foo
+@bar
+@spam
+def grok(x):
+  pass
+#+END_SRC
+
+je isto što i
+
+#+BEGIN_SRC python
+def grok(x):
+  pass
+grok = foo(bar(spam(grok)))
+#+END_SRC
+
+** Dekoratori (3)
+
+Mogu da imaju parametre.
+
+#+BEGIN_SRC python
+@eventhandler('BUTTON')
+def handle_button(msg):
+  ...
+
+@eventhandler('RESET')
+def handle_reset(msg):
+  ...
+
+# Sto je ekvivalentno sa
+def handle_button(msg):
+...
+temp = eventhandler('BUTTON')
+handle_button = temp(handle_button)
+#+END_SRC
+
+#+BEGIN_SRC python
+# Event handler decorator
+event_handlers = { }
+def eventhandler(event):
+  def register_function(f):
+    event_handlers[event] = f
+    return f
+  return register_function
+#+END_SRC
+
+* ~functools~ modul - podrška za funkcije višeg reda.
+** ~partial~
+- Delimična (parcijalna) primena funkcije.
+- Određeni parametri se *zamrzavaju*. Nova funkcija prihvata manji broj
+  parametara.
+  
+#+BEGIN_SRC python
+>>> from functools import partial
+>>> basetwo = partial(int, base=2)
+>>> basetwo.__doc__ = 'Konverzija stringa broja u bazi 2 u int.'
+>>> basetwo('10010')
+18
+
+>>> stepen = lambda a, b: a ** b
+>>> kvadrat = partial(stepen, b=2)
+>>> kvadrat(5)
+25
+>>> kub = partial(stepen, b=3)
+>>> kub(5)
+125
+
+>>> from operator import mul
+>>> dvaputa = partial(mul, 2)
+>>> dvaputa(10)
+20
+>>> triputa = partial(mul, 3)
+>>> triputa(5)
+15
+#+END_SRC
+
+** ~reduce~
+- Primena date funkcije koja prima dva parametra na iterabilnu kolekciju s leva
+  na desno tako što se kao prvi parametar koristi rezultat prethodne evaluacije
+  dok se kao drugi parametar koristi sledeći element kolekcije.
+  
+#+BEGIN_SRC python
+reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+#+END_SRC
+
+izračunava
+
+#+BEGIN_SRC
+(((1+2)+3)+4)+5)
+#+END_SRC
+
+- Postoji i kao ugrađena (*build-in*) funkcija u Python 2.
+
+** ~reduce~ ekvivalentan Python kod
+#+BEGIN_SRC python
+def reduce(function, iterable, initializer=None):
+    it = iter(iterable)
+    if initializer is None:
+        try:
+            initializer = next(it)
+        except StopIteration:
+            raise TypeError('reduce() of empty sequence with no initial value')
+    accum_value = initializer
+    for x in it:
+        accum_value = function(accum_value, x)
+    return accum_value
+#+END_SRC
+
+** Primer: množenje niza elemenata
+   
+#+BEGIN_SRC python
+niz = range(1, 10)
+#+END_SRC
+
+~for~ petlja:
+
+#+BEGIN_SRC python
+proizvod = 1
+for elem in niz:
+    proizvod *= elem
+#+END_SRC
+
+~reduce~:
+
+#+BEGIN_SRC python
+proizvod = reduce(lambda x, y: x*y, niz)
+#+END_SRC
+
+** Kreiranje funkcije za množenje niza elemenata
+Kompozicija funkcija ~partial~ + ~reduce~ (funkcionalno):
+#+BEGIN_SRC python
+from functools import reduce, partial
+amul = partial(reduce, lambda x, y: x*y)
+# ili upotrebom mul operatora
+from operator import mul
+amul = partial(reduce, mul)
+#+END_SRC
+
+Sa ~for~ petljom (imperativno):
+#+BEGIN_SRC python
+def amul(niz):
+  proizvod = 1
+  for elem in niz:
+      proizvod *= elem
+  return proizvod
+#+END_SRC
+
+Oba primera kreiraju funkciju ~amul~ koja množi elemente prosleđenog iterabilnog
+objekta:
+
+#+BEGIN_SRC python
+amul(range(1, 100))
+#+END_SRC
+
+** ~update_wrapper~ i ~wraps~
+- Kod dekoracije funkcija ažurira dekorisanu funkciju da spolja "izgleda" kao
+  originalna.
+  
+#+BEGIN_SRC python
+>>> from functools import wraps
+>>> def my_decorator(f):
+...     @wraps(f)
+...     def wrapper(*args, **kwds):
+...         print 'Calling decorated function'
+...         return f(*args, **kwds)
+...     return wrapper
+...
+>>> @my_decorator
+... def example():
+...     """Docstring"""
+...     print 'Called example function'
+...
+>>> example()
+Calling decorated function
+Called example function
+>>> example.__name__
+'example'
+>>> example.__doc__
+'Docstring'
+#+END_SRC
+
+** ~total_ordering~
+- "Dopuna" specijalnih metoda za poređenje. Koristi se kao dekorator klase.
+- Klasa treba da definiše jednu od ~__lt__~, ~__le__~, ~__gt__~, ili ~__ge__()~
+  metoda uz ~__eq__~.
+  
+#+BEGIN_SRC python
+@total_ordering
+class Student:
+    def _is_valid_operand(self, other):
+        return (hasattr(other, "lastname") and
+                hasattr(other, "firstname"))
+    def __eq__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return ((self.lastname.lower(), self.firstname.lower()) ==
+                (other.lastname.lower(), other.firstname.lower()))
+    def __lt__(self, other):
+        if not self._is_valid_operand(other):
+            return NotImplemented
+        return ((self.lastname.lower(), self.firstname.lower()) <
+                (other.lastname.lower(), other.firstname.lower()))
+#+END_SRC
+
+#+attr_html: :class footer :style clear: both;
+https://docs.python.org/3/library/functools.html
+** /Least recently used (LRU)/ keš
+Keširanje povratne vrednosti funkcije u cilju optimizacije sporijih funkcija.
+
+#+begin_src python
+@lru_cache(maxsize=32)
+def get_pep(num):
+    'Retrieve text of a Python Enhancement Proposal'
+    resource = 'https://www.python.org/dev/peps/pep-%04d/' % num
+    try:
+        with urllib.request.urlopen(resource) as s:
+            return s.read()
+    except urllib.error.HTTPError:
+        return 'Not Found'
+
+>>> for n in 8, 290, 308, 320, 8, 218, 320, 279, 289, 320, 9991:
+...     pep = get_pep(n)
+...     print(n, len(pep))
+
+>>> get_pep.cache_info()
+CacheInfo(hits=3, misses=8, maxsize=32, currsize=8)
+#+end_src
+
+#+attr_html: :class footer :style clear: both;
+https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
+
+* ~itertools~ modul - pomoćne funkcije za iteraciju
+** ~chain~
+- Iteracije kroz više iterabilnih objekata prema zadatom redosledu.
+- Tretiranje niza sekvenci kao jedne sekvence.
+
+- Upotreba:
+
+    #+BEGIN_SRC python :results output
+    from itertools import chain
+    a = [1, 2, 3]
+    b = 'abc'
+    for i in chain(a, b):
+        print(i, end=' ')
+    #+END_SRC
+
+    #+RESULTS:
+    : 1 2 3 a b c
+
+- Ekvivalentno sa sledećim Python kodom:
+
+    #+BEGIN_SRC python
+    def chain(*iterables):
+        for it in iterables:
+            for element in it:
+                yield element
+    #+END_SRC
+
+** ~cycle~
+- Beskonačna iteracija kroz zadati iterabilni objekat *u krug*.
+
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    from itertools import cycle, islice
+    return list(islice(cycle('ABCD'), 10))
+    #+END_SRC
+
+    #+RESULTS:
+    | A | B | C | D | A | B | C | D | A | B |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python :language python
+    def cycle(iterable):
+        saved = []
+        for element in iterable:
+            yield element
+            saved.append(element)
+        while saved:
+            for element in saved:
+                yield element
+    #+END_SRC
+
+** ~filter~
+- Kreira iterator koji filtrira i vraća samo one elemente zadatog iterabilnog
+  objekta koji zadovoljavaju određeni predikat.
+- U Python 2 ~ifilter~ radi kao generator dok ~filter~ radi kao obična funkcija.
+  
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    return list(filter(lambda x: x % 2, range(10)))
+    #+END_SRC
+
+    #+RESULTS:
+    | 1 | 3 | 5 | 7 | 9 |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def filter(predicate, iterable):
+        if predicate is None:
+            predicate = bool
+        for x in iterable:
+            if predicate(x):
+                yield x
+    #+END_SRC
+
+** ~map~
+- Kreira iterator koji vraća vrednost zadate funkcije gde se parametri zadate
+  funkcije uzimaju iz datih iterabilnih objekata.
+- U Python 2 ~imap~ radi kao generator dok ~map~ radi kao obična funkcija.
+
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    return list(map(pow, (2, 3, 10), (5, 2, 3)))
+    #+END_SRC
+
+    #+RESULTS:
+    | 32 | 9 | 1000 |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def map(function, *iterables):
+        iterables = [iter(x) for x in iterables]
+        while True:
+            try:
+                args = [next(it) for it in iterables]
+            except StopIteration:
+                break
+            if function is None:
+                yield tuple(args)
+            else:
+                yield function(*args)
+    #+END_SRC
+
+** ~zip~
+- Kreira iterator koji istovremeno iterira kroz više iterabilnih objekata
+  vraćajući n-torke gde svaki element pripada odgovarajućem iterabilnom objektu.
+- U Python 2 ~izip~ radi kao generator dok ~zip~ radi kao obična funkcija.
+
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    return list(zip('ABCD', 'xy'))
+    #+END_SRC
+
+    #+RESULTS:
+    | A | x |
+    | B | y |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def zip(*iterables):
+        iterators = map(iter, iterables)
+        while iterators:
+            yield tuple(map(next, iterators))
+    #+END_SRC
+
+** ~groupby~
+- Kreira iterator koji vraća grupe elemenata prema zadatoj ~key~ funkciji.
+- Kolekcija nad kojom pozivamo ~groupby~ mora biti sortirana prema istoj ~key~
+  funkciji.
+  
+#+BEGIN_SRC python
+groups = []
+uniquekeys = []
+data = sorted(data, key=keyfunc)
+for k, g in groupby(data, keyfunc):
+    groups.append(list(g))
+    uniquekeys.append(k)
+#+END_SRC
+
+** ~dropwhile~
+- Iterator koji odbacuje prve elemente za koje je dati predikat istinit i zatim
+  vraća sve preostale redom.
+
+- Primer:
+
+    #+BEGIN_SRC python :return value
+    from itertools import dropwhile
+    return list(dropwhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
+    #+END_SRC
+
+    #+RESULTS:
+    | 6 | 4 | 1 |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def dropwhile(predicate, iterable):
+        iterable = iter(iterable)
+        for x in iterable:
+            if not predicate(x):
+                yield x
+                break
+        for x in iterable:
+            yield x
+    #+END_SRC
+
+** ~takewhile~
+- Iterator koji vraća elemente dok je predikat zadovoljen.
+- Primer:
+
+    #+BEGIN_SRC python :results value
+    from itertools import takewhile
+    return list(takewhile(lambda x: x < 5, [1, 4, 6, 4, 1]))
+    #+END_SRC
+
+    #+RESULTS:
+    | 1 | 4 |
+
+- Ekvivalentno sa:
+
+    #+BEGIN_SRC python
+    def takewhile(predicate, iterable):
+        for x in iterable:
+            if predicate(x):
+                yield x
+            else:
+                break
+    #+END_SRC
+
+** ~tee~
+- Deli dati iterabilni objekat na više.
+
+- Ekvivalentno sa:
+
+#+BEGIN_SRC python
+def tee(iterable, n=2):
+    it = iter(iterable)
+    deques = [collections.deque() for i in range(n)]
+    def gen(mydeque):
+        while True:
+            if not mydeque:             # ako je lokalni dek prazan...
+                try:
+                    newval = next(it)   # preuzmi novu vrednosti i...
+                except StopIteration:
+                    return
+                for d in deques:        # dodaj ih na sve dekove.
+                    d.append(newval)
+            yield mydeque.popleft()
+    return tuple(gen(d) for d in deques)
+#+END_SRC
+
+* ~collections~ - high-performance container datatypes
+** OrderedDict
+- Nasleđuje ~dict~ i dodaje osobinu uređenosti. Iteracija vraća ključeve u
+  redosledu u kom su dodavani u kolekciju.
+- Dodaje metodu ~move_to_end(key, last=True)~ koja postojeći ključ pomera na
+  kraj kolekcije.
+  
+#+BEGIN_SRC python
+>>> d = OrderedDict.fromkeys('abcde')
+>>> d.move_to_end('b')
+>>> ''.join(d.keys())
+'acdeb'
+>>> d.move_to_end('b', last=False)
+>>> ''.join(d.keys())
+'bacde'
+
+>>> # nesortirani rečnik
+>>> d = {'banana': 3, 'apple': 4, 'pear': 1, 'orange': 2}
+
+>>> # rečnik sortiran po zatakom ključu
+>>> OrderedDict(sorted(d.items(), key=lambda t: t[0]))
+OrderedDict([('apple', 4), ('banana', 3), ('orange', 2), ('pear', 1)])
+
+>>> # rečnik sortiran po vrednosti
+>>> OrderedDict(sorted(d.items(), key=lambda t: t[1]))
+OrderedDict([('pear', 1), ('orange', 2), ('banana', 3), ('apple', 4)])
+
+>>> # rečnik sortiran po dužini ključa
+>>> OrderedDict(sorted(d.items(), key=lambda t: len(t[0])))
+OrderedDict([('pear', 1), ('apple', 4), ('orange', 2), ('banana', 3)])
+#+END_SRC
+
+** namedtuple
+- N-torke slične tipu ~tuple~ ali sa mogućnošću pristupa poljima po imenu kao
+  kod atributa objekta.
+  
+#+BEGIN_SRC python
+>>> # Basic example
+>>> Point = namedtuple('Point', ['x', 'y'])
+>>> p = Point(11, y=22)     # instantiate with positional or keyword arguments
+>>> p[0] + p[1]             # indexable like the plain tuple (11, 22)
+33
+>>> x, y = p                # unpack like a regular tuple
+>>> x, y
+(11, 22)
+>>> p.x + p.y               # fields also accessible by name
+33
+>>> p                       # readable __repr__ with a name=value style
+Point(x=11, y=22)
+#+END_SRC
+
+** deque
+- Linearna struktura sa efikasnim ~O(1)~ ubacivanjem i uzimanjem elementa sa obe
+  strane.
+- Slično ~list~ tipu ali ~list~ tip ima složenost ~O(n)~ za ubacivanje i
+  izbacivanje elementa sa početka liste.
+
+#+BEGIN_SRC python
+>>> from collections import deque
+>>> d = deque('ghi')                 # make a new deque with three items
+>>> for elem in d:                   # iterate over the deque's elements
+...     print(elem.upper())
+G
+H
+I
+
+>>> d.append('j')                    # add a new entry to the right side
+>>> d.appendleft('f')                # add a new entry to the left side
+>>> d                                # show the representation of the deque
+deque(['f', 'g', 'h', 'i', 'j'])
+
+>>> d.pop()                          # return and remove the rightmost item
+'j'
+>>> d.popleft()                      # return and remove the leftmost item
+'f'
+>>> list(d)                          # list the contents of the deque
+['g', 'h', 'i']
+>>> d[0]                             # peek at leftmost item
+'g'
+>>> d[-1]                            # peek at rightmost item
+'i'
+#+END_SRC
+
+** Counter
+- Podklasa ~dict~ tipa za prebrojavanje objekata koji mogu da se /heširaju/.
+- Ključevi su objekti a vrednosti su njihov ukupan broj.
+
+#+BEGIN_SRC python
+>>> c = Counter()                           # prazan Counter
+>>> c = Counter('gallahad')                 # Novi Counter iz iterable
+>>> c = Counter({'red': 4, 'blue': 2})      # Novi Counter iz rečnika
+>>> c = Counter(cats=4, dogs=8)             # Novi Counter upotrebom keyword arg.
+
+>>> c = Counter(['eggs', 'ham'])
+>>> c['bacon']                              # count of a missing element is zero
+0
+
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> sorted(c.elements())
+['a', 'a', 'a', 'a', 'b', 'b']
+
+>>> Counter('abracadabra').most_common(3)  
+[('a', 5), ('r', 2), ('b', 2)]
+
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> d = Counter(a=1, b=2, c=3, d=4)
+>>> c.subtract(d)
+>>> c
+Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+#+END_SRC
+
+** defaultdict
+- Nasleđuje ~dict~ i omogućava kreiranje elementa sa podrazumevanom vrednošću
+  ukoliko se pokuša pristup nepostojećem elementu.
+- Kao parametar prima ~default_factory~ što mora biti ~callable~ koji će se
+  pozvati da kreira novi element.
+  
+#+BEGIN_SRC python
+>>> s = [('yellow', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+>>> d = defaultdict(list)
+>>> for k, v in s:
+...     d[k].append(v)
+...
+>>> sorted(d.items())
+[('blue', [2, 4]), ('red', [1]), ('yellow', [1, 3])]
+#+END_SRC
+
+* Višestruko nasleđivanje i MRO
+** Višestruko nasleđivanje
+- Python podržava višestruko nasleđivanje.
+- Problem razrešavanja metode/atributa iz nadklasa.
+- /Diamond problem/.
+- Problem kod naivnog pretraživanja "po dubini".
+
+#+attr_html: :style height: 500px;
+[[./slike/Diamond_inheritance.svg]]
+
+#+attr_html: :class footer :style clear: both;
+[[https://en.wikipedia.org/wiki/Multiple_inheritance][Wikipedia: Multiple inheritance]]
+
+** /Method Resolution Order/ (MRO)
+- Mehanizam/algoritam za razrešavanje u kontekstu višestrukog nasleđivanja
+- C3 linearizacija
+- Programski jezik /Dylan/
+- Dva pravila:
+  - Podklase se pretražuju pre nadklasa
+  - Pretražuju se u redosledu navođenja
+- Za primer sa prethodnog slajda: =D B C A=
+
+** ~super~
+- Dinamički određuje metodu/atribut na osnovu MRO.
+- Klase koje koriste višestruko nasleđivanje treba da se pišu na određeni način.
+- Obavezno koristiti =super= umesto direktnog navođenja klase.
+ 
+** ~super~
+
+#+BEGIN_SRC python
+class LoggingDict(dict):
+    def __setitem__(self, key, value):
+        logging.info('Setting %r to %r' % (key, value))
+        super().__setitem__(key, value)
+#+END_SRC
+
+#+BEGIN_SRC python
+class LoggingOD(LoggingDict, collections.OrderedDict):
+    pass
+#+END_SRC
+
+#+BEGIN_SRC python
+>>> pprint(LoggingOD.mro())
+(<class '__main__.LoggingOD'>,
+ <class '__main__.LoggingDict'>,
+ <class 'collections.OrderedDict'>,
+ <class 'dict'>,
+ <class 'object'>)
+#+END_SRC
+
+=OrderedDict= je ispred =dict= pa će =super= pozvati =OrderedDict.__setitem__=.
+
+#+attr_html: :class footer
+[[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
+
+** Parametri metoda
+- Situacija u kojoj signature metoda nisu iste.
+
+#+BEGIN_SRC python
+class Shape:
+    def __init__(self, shapename, **kwds):
+        self.shapename = shapename
+        super().__init__(**kwds)        
+
+class ColoredShape(Shape):
+    def __init__(self, color, **kwds):
+        self.color = color
+        super().__init__(**kwds)
+
+cs = ColoredShape(color='red', shapename='circle')
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
+
+** Pretraga metoda
+- Obratiti pažnju da ~super~ poziv traži metodu uz MRO lanac.
+- Što znači da metoda mora postojati u nadklasi ili će doći do pojave izuzetka.
+- Kod primera sa konstruktorom ~__init__~ metoda postoji i u ~object~ korenskoj
+  klasi. Izuzetak se može pojaviti ukoliko nismo iscrpeli sve parametre u
+  ~**kwds~ što je svakako greška.
+
+** Pretraga metoda
+- Ukoliko metoda ne postoji u korenskoj ~object~ klasi najbolje je kreirati
+  koren naše hijerarhije sa datom metodom.
+- Ova korenska metoda biće kraj pretrage.
+- Dodatno možemo osigurati da klase niz MRO lanac slučajno ne implementiraju
+  ciljnu metodu.
+ 
+#+BEGIN_SRC python
+class Root:
+    def draw(self):
+        # the delegation chain stops here
+        assert not hasattr(super(), 'draw')
+
+class Shape(Root):
+    def __init__(self, shapename, **kwds):
+        self.shapename = shapename
+        super().__init__(**kwds)
+    def draw(self):
+        print('Drawing.  Setting shape to:', self.shapename)
+        super().draw()
+
+class ColoredShape(Shape):
+    def __init__(self, color, **kwds):
+        self.color = color
+        super().__init__(**kwds)
+    def draw(self):
+        print('Drawing.  Setting color to:', self.color)
+        super().draw()
+
+cs = ColoredShape(color='blue', shapename='square')
+cs.draw()
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
+
+** Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje
+#+BEGIN_SRC python
+class Moveable:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def draw(self):
+        print('Drawing at position:', self.x, self.y)
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
+
+** Upotreba klasa koje nisu dizajnirane za višestruko nasleđivanje
+
+#+BEGIN_SRC python
+class MoveableAdapter(Root):
+
+    def __init__(self, x, y, **kwds):
+        self.movable = Moveable(x, y)
+        super().__init__(**kwds)
+
+    def draw(self):
+        self.movable.draw()
+        super().draw()
+
+class MovableColoredShape(ColoredShape, MoveableAdapter):
+    pass
+
+MovableColoredShape(color='red', shapename='triangle',
+                    x=10, y=20).draw()
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://rhettinger.wordpress.com/2011/05/26/super-considered-super/][Raymond Hettinger:  Python’s super() considered super!]]
+
+* async/await
+** Asinhrono programiranje
+
+  - Klasično sekvencijalno izvršavanje podrazumeva da je svaka instrukcija
+    blokirajuća pa i I/O.
+  - Gubimo dragoceno vreme dok čekamo na npr. završetak mrežnog zahteva ili
+    učitavanje podataka sa diska.
+  - Kod asynhronog programiranja registrujemo tzv. /callback/ funkcije koje se
+    izvršavaju kada su podaci zahtevani I/O pozivom spremni.
+  
+** Coroutines
+   #+BEGIN_QUOTE
+    Coroutines are computer program components that generalize subroutines for
+    non-preemptive multitasking, by allowing execution to be suspended and resumed.
+    Coroutines are well-suited for implementing familiar program components such as
+    cooperative tasks, exceptions, event loops, iterators, infinite lists and pipes.
+   #+END_QUOTE
+   
+  #+attr_html: :class footer
+  [[https://en.wikipedia.org/wiki/Coroutine][From Wikipedia, the free encyclopedia]] 
+
+** Coroutines in Python
+ 
+  #+BEGIN_SRC python
+  def jumping_range(up_to):
+      """Generator for the sequence of integers from 0 to up_to, exclusive.
+
+      Sending a value into the generator will shift the sequence by that amount.
+      """
+      index = 0
+      while index < up_to:
+          jump = yield index
+          if jump is None:
+              jump = 1
+          index += jump
+
+
+  if __name__ == '__main__':
+      iterator = jumping_range(5)
+      print(next(iterator))  # 0
+      print(iterator.send(2))  # 2
+      print(next(iterator))  # 3
+      print(iterator.send(-1))  # 2
+      for x in iterator:
+          print(x)  # 3, 4
+
+  #+END_SRC
+   
+  #+attr_html: :class footer
+  [[https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/][How the heck does async/await work in Python 3.5?]] 
+
+** ~yield from~
+   - Omogućava ulančavanje generatora/korutina.
+   - Implementacija /producer-consumer/ i /pipes/ obrazaca.
+
+  #+BEGIN_SRC python
+  def lazy_range(up_to):
+      """Generator to return the sequence of integers from 0 to up_to, exclusive."""
+      index = 0
+      def gratuitous_refactor():
+          nonlocal index
+          while index < up_to:
+              yield index
+              index += 1
+      yield from gratuitous_refactor()
+  #+END_SRC
+
+  #+attr_html: :class footer
+  [[https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/][How the heck does async/await work in Python 3.5?]] 
+  
+** /Event loop/
+   
+  #+BEGIN_QUOTE
+  In computer science, the event loop, message dispatcher, message loop, message
+  pump, or run loop is a programming construct that waits for and dispatches
+  events or messages in a program. It works by making a request to some internal
+  or external "event provider" (that generally blocks the request until an event
+  has arrived), and then it calls the relevant event handler ("dispatches the
+  event").
+  #+END_QUOTE
+   
+  #+attr_html: :class footer
+  [[https://en.wikipedia.org/wiki/Event_loop][From Wikipedia, the free encyclopedia]] 
+  
+** Async kod sa ~time.sleep(1)~
+   
+#+NAME: time-sleep
+#+BEGIN_SRC python :results output :exports both
+import asyncio
+import time
+from datetime import datetime
+
+
+async def custom_sleep():
+    print('SLEEP', datetime.now())
+    time.sleep(1)
+
+async def factorial(name, number):
+    f = 1
+    for i in range(2, number+1):
+        print('Task {}: Compute factorial({})'.format(name, i))
+        await custom_sleep()
+        f *= i
+    print('Task {}: factorial({}) is {}n'.format(name, number, f))
+
+
+start = time.time()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
+tasks = [
+    asyncio.ensure_future(factorial("A", 3)),
+    asyncio.ensure_future(factorial("B", 4)),
+]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+
+end = time.time()
+print("Total time: {}".format(end - start))
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]]
+
+** Async kod sa ~time.sleep(1)~ - rezultati
+   
+  #+RESULTS: time-sleep
+  #+begin_example
+  Task A: Compute factorial(2)
+  SLEEP 2022-10-26 16:02:51.591313
+  Task A: Compute factorial(3)
+  SLEEP 2022-10-26 16:02:52.592472
+  Task A: factorial(3) is 6n
+  Task B: Compute factorial(2)
+  SLEEP 2022-10-26 16:02:53.593721
+  Task B: Compute factorial(3)
+  SLEEP 2022-10-26 16:02:54.594089
+  Task B: Compute factorial(4)
+  SLEEP 2022-10-26 16:02:55.595270
+  Task B: factorial(4) is 24n
+  Total time: 5.006118059158325
+  #+end_example
+
+  Vidimo da se prvo izvršio /Task A/ pa onda /Task B/ odnosno =time.sleep()=
+  poziv nije oslobodio /Event Loop/
+
+** Async kod sa ~asyncio.sleep(1)~
+   
+#+NAME: async-sleep
+#+BEGIN_SRC python :results output :exports both
+import asyncio
+import time
+from datetime import datetime
+
+async def custom_sleep():
+    print('SLEEP {}n'.format(datetime.now()))
+    await asyncio.sleep(1)
+
+async def factorial(name, number):
+    f = 1
+    for i in range(2, number+1):
+        print('Task {}: Compute factorial({})'.format(name, i))
+        await custom_sleep()
+        f *= i
+    print('Task {}: factorial({}) is {}n'.format(name, number, f))
+
+start = time.time()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
+tasks = [
+    asyncio.ensure_future(factorial("A", 3)),
+    asyncio.ensure_future(factorial("B", 4)),
+]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+
+end = time.time()
+print("Total time: {}".format(end - start))
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://djangostars.com/blog/asynchronous-programming-in-python-asyncio/][Python Asyncio Tutorial. Asynchronous Programming in Python]]
+  
+** Async kod sa ~asyncio.sleep(1)~ - rezultati
+
+  #+RESULTS: async-sleep
+  #+begin_example
+  Task A: Compute factorial(2)
+  SLEEP 2022-10-26 16:03:33.711905n
+  Task B: Compute factorial(2)
+  SLEEP 2022-10-26 16:03:33.711931n
+  Task A: Compute factorial(3)
+  SLEEP 2022-10-26 16:03:34.713288n
+  Task B: Compute factorial(3)
+  SLEEP 2022-10-26 16:03:34.713412n
+  Task A: factorial(3) is 6n
+  Task B: Compute factorial(4)
+  SLEEP 2022-10-26 16:03:35.714253n
+  Task B: factorial(4) is 24n
+  Total time: 3.0045108795166016
+  #+end_example
+
+  U ovom slučaju vidimo da poziv =await asyncio.sleep(1)= oslobađa /Even Loop/ i
+  zadaci se izvršavaju naizmenično
+
+** Za dalje čitanje
+   
+- [[https://docs.python.org/3/library/asyncio-task.html][Python Docs: Coroutines and Tasks]] 
+- [[http://www.dabeaz.com/coroutines/][A Curious Course on Coroutines and Concurrency]] 
+
+* Metaklase 
+** Metaklase
+- Python klase predstavljaju "šablon" za kreiranje objekata.
+- I same klase su objekti. Šta je njihov šablon? Ko je zadužen za njihovo
+  kreiranje?
+- Klase imaju svoje "klase" koje nazivamo metaklasama.
+** Metaklase
+- Python ima podrazumevanu metaklasu ~type~ koju interpreter koristi kada naiđe
+  na definiciju klase.
+- ~type~ klasa je svoj sopstveni tip
+- Podrazumevanu klasu možemo promeniti i time uticati na kreiranje klase.
+- Pri kreiranju metaklase nasleđujemo ~type~
+- Kao što za instanciranje objekta Python poziva klasu, za kreiranje klase
+  poziva metaklasu.
+- Pojednostavljeno gledano ~class~ iskaz možemo smatrati lepšom sintaksom
+  (/Syntactic sugar/) za poziv ~type~ ili neke druge metaklase.
+
+** ~type~
+- ~type~ može da se koristi i kao funkcija koja vraća tip nekog objekta.
+
+#+BEGIN_SRC python
+>>> class Foobar:
+...     pass
+...
+>>> type(Foobar)
+<class 'type'>
+>>> foo = Foobar()
+>>> type(foo)
+<class '__main__.Foobar'>
+
+>>> isinstance(foo, Foobar)
+True
+>>> isinstance(Foobar, type)
+True
+#+END_SRC
+
+#+attr_html: :class footer
+[[https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/][Ionel Cristian Mărieș: Understanding Python metaclasses]] 
+
+** Ili predstavljeno dijagramom
+
+[[./slike/metaclass.png]]
+
+#+attr_html: :class footer
+[[https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/][Ionel Cristian Mărieș: Understanding Python metaclasses]] 
+
+** Kreiranje klase sa ~type~
+
+#+BEGIN_SRC python :results output :exports both :session
+MyClass = type('MyClass', (object,), {'a':5})
+print(MyClass.a)
+print(type(MyClass))
+#+END_SRC
+
+#+ATTR_REVEAL: :frag (roll-in)
+#+RESULTS:
+: 5
+: <class 'type'>
+
+# #+ATTR_REVEAL: :frag (roll-in)
+#+BEGIN_SRC python :results output :exports both :session
+MyClass2 = type('MyClass2', (MyClass,), {'b': True})
+print(type(MyClass2))
+print(dir(MyClass2))
+print(MyClass2.__mro__)
+
+#+END_SRC
+
+#+ATTR_REVEAL: :frag (roll-in)
+#+RESULTS:
+: <class 'type'>
+: ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'a', 'b']
+: (<class '__main__.MyClass2'>, <class '__main__.MyClass'>, <class 'object'>)
+
+** Korisnička metaklasa
+
+#+BEGIN_SRC python
+>>> class Meta(type):
+...     pass
+
+>>> class Complex(metaclass=Meta):
+...     pass
+>>> type(Complex)
+<class '__main__.Meta'>
+#+END_SRC
+
+** Specijalne metode
+- ~__new__~ - konstruktor objekta
+- ~__init__~ - inicijalizator
+
+** Za dalje čitanje
+
+ - [[https://realpython.com/python-metaclasses/][Python Metaclasses]] 
+
+** Pretraga metoda - dijagram                                      :noexport:
+#+attr_html: :width 40%
+[[./slike/object-attribute-lookup.png]]
+** Pretraga metoda - dijagram                                      :noexport:
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+[[./slike/instance-creation.png]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+[[./slike/class-creation.png]]
+#+REVEAL_HTML: </div>
+
+#+attr_html: :class footer :style clear: both;
+[[https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/][Ionel Cristian Mărieș: Understanding Python metaclasses]] 
+
+** Metaklase - više detalja                                        :noexport:
+
+[[https://blog.ionelmc.ro/2015/02/09/understanding-python-metaclasses/][Ionel Cristian Mărieș: Understanding Python metaclasses]] 

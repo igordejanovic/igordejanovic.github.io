@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8"/>
+<title>D3.js</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+<link rel="stylesheet" type="text/css" href="d3.css" />
+<script src="../../d3.v4.min.js"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">D3.js</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2022-12-06 Tue 19:30, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+</section>
+
+<section>
+<section id="slide-org9762cba">
+<h2 id="org9762cba">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Увод у D3</a></li>
+<li><a href="#/slide-2">2. Пример: три круга</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Увод у D3</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Шта је D3?</h3>
+<ul>
+<li>JavaScript библиотека за манипулацију документом (DOM) на бази података.</li>
+<li>Базирана ан веб стандардима: HTML, CSS, SVG, Canvas.</li>
+<li>Не уводи нове концепте већ користи искључиво стандардне.
+<ul>
+<li>Уколико дође до увођења нових функционалности у веб прегледачима није
+потребно мењати библиотеку.</li>
+<li>Знање које се стекне употребом D3 библиотеке је "преносиво".</li>
+<li>Лако дебаговање - може се користи уграђени дебагер.</li>
+
+</ul></li>
+<li>Примена у визуализацији података.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Селекције</h3>
+<p>
+Обичан JavaScript:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >var paragraphs = document.getElementsByTagName("p");
+for (var i = 0; i &lt; paragraphs.length; i++) {
+  var paragraph = paragraphs.item(i);
+  paragraph.style.setProperty("color", "white", null);
+}
+</code></pre>
+</div>
+
+<p>
+D3:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.selectAll("p").style("color", "white");
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.select(...)       // Селектује први.
+d3.selectAll(...)    // Селектује све.
+</code></pre>
+</div>
+
+<ul>
+<li>Сандардни CSS селектори</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.select("div")            // по тагу
+d3.select(".classname")     // по класи
+d3.select("#line")          // по идентификатору
+d3.select("[color=black]")  // по атрибуту
+d3.select("parent child")   // по садржавању
+</code></pre>
+</div>
+
+<ul>
+<li>Подселекције - филтер образац</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >// подселекција - селекција над селекцијом
+d3.select("body").selectAll("p")
+d3.selectAll("p").select("b")
+</code></pre>
+</div>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Атрибути и стилови</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >var circleDemo = d3.select("#myCircle");
+circleDemo.attr("r", 40);
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.select("body").selectAll("p").style("font-size", "12px");
+</code></pre>
+</div>
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Динамичке особине</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.selectAll("p").style("background-color", function() {
+  return "rgb(" + Math.random() * 255 + ", 100, 100)";
+});
+</code></pre>
+</div>
+
+<div class="dynamic">
+  <p>Први параграф</p>
+  <p>Други параграф</p>
+<div>
+<button id="dynamic">Покрени</button>
+<script>
+d3.select('#dynamic').on("click", function() {
+    d3.selectAll(".dynamic p").style("background-color", function() {
+        return "rgb(" + Math.random() * 255 + ", 100, 100)";
+    });
+});
+</script>
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Повезивање података - <i>binding</i></h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >var myArray = [1, 2, 3, 4];
+selection.data(myArray);
+</code></pre>
+</div>
+
+<ul>
+<li>Елементи из <code>myАrrаy</code> се <i>повезују</i> за одговарајуће елементе селекције.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Креирање и брисање елемената</h3>
+<ul>
+<li><code>enter</code> - селекција која креира нове елементе на основу нових података.</li>
+<li><code>exit</code> - селекција за брисање елемената при брисању података.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >// Update…
+var p = d3.select("body")
+  .selectAll("p")
+  .data([4, 8, 15, 16, 23, 42])
+    .text(function(d) { return d; });
+
+// Enter…
+p.enter().append("p")
+    .text(function(d) { return d; });
+
+// Exit…
+p.exit().remove();
+</code></pre>
+</div>
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Пример</h3>
+<div class="org-src-container">
+
+<pre><code class="html" >&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;d3 test&lt;/title&gt;
+    &lt;script src="https://d3js.org/d3.v4.min.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script&gt;
+var test_data = [8, 16, 23];
+d3.select("body")
+  .selectAll("p")
+  .data(test_data)
+  .enter().append("p")
+    .text(function(d) { return "I’m number " + d + "!"; })
+    .style("font-size", function(d){ return d + "px"; });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+</div>
+
+<div id="p-with-font"></div>
+<script>
+var test_data = [8, 16, 23];
+d3.select("#p-with-font")
+  .selectAll("p")
+  .data(test_data)
+  .enter().append("p")
+    .text(function(d) { return "I’m number " + d + "!"; })
+    .style("font-size", function(d){ return d + "px"; });
+</script>
+
+</section>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Прелази и анимација</h3>
+<p>
+Постепена промена боје:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.select("body").transition()
+    .style("background-color", "black");
+</code></pre>
+</div>
+
+<p>
+Промена величине кругова са задршком:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" >d3.selectAll("circle").transition()
+    .duration(750)
+    .delay(function(d, i) { return i * 10; })
+    .attr("r", function(d) { return Math.sqrt(d * scale); });
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Пример: три круга</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Пример: три круга</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >&lt;svg width="720" height="120"&gt;
+  &lt;circle cx="40" cy="60" r="10"&gt;&lt;/circle&gt;
+  &lt;circle cx="80" cy="60" r="10"&gt;&lt;/circle&gt;
+  &lt;circle cx="120" cy="60" r="10"&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+</code></pre>
+</div>
+
+<svg width="720" height="120">
+  <circle cx="40" cy="60" r="10"></circle>
+  <circle cx="80" cy="60" r="10"></circle>
+  <circle cx="120" cy="60" r="10"></circle>
+</svg>
+
+<p class="footer" style="clear: both;">
+<a href="https://bost.ocks.org/mike/circles/" class="footer" style="clear: both;">https://bost.ocks.org/mike/circles/</a>
+</p>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Селекција и стилизовање</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >var circle = d3.selectAll("circle");
+circle.style("fill", "steelblue");
+circle.attr("r", 30);
+</code></pre>
+</div>
+
+<svg id="circle-bluesteel" width="720" height="120">
+  <circle cx="40" cy="60" r="10"></circle>
+  <circle cx="80" cy="60" r="10"></circle>
+  <circle cx="120" cy="60" r="10"></circle>
+</svg>
+<script>
+    var circle = d3.selectAll("#circle-bluesteel circle");
+    circle.style("fill", "steelblue");
+    circle.attr("r", 30);
+</script>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Промена особина појединачног елемента</h3>
+<ul>
+<li>Анонимне функције.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="javascript" data-line-numbers="5">d3.select('button').on("click",
+  function(){
+    d3.selectAll("circle")
+    .attr("cx",
+         function() { return Math.random() * 720; });
+  }
+);
+</code></pre>
+</div>
+
+<button id="circle-random-start">Покрени</button>
+
+<svg id="circle-random" width="720" height="120">
+  <circle cx="40" cy="60" r="30" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="30" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="30" style="fill:steelblue;"></circle>
+</svg>
+<script>
+d3.select('#circle-random-start').on("click",  function(){
+    d3.selectAll("#circle-random circle")
+    .attr("cx", function() { return Math.random() * 720; });
+    });
+</script>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Повезивање података (<i>Data Binding</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >circle.data([32, 57, 112]);
+circle.attr("r", function(d) { return Math.sqrt(d); });
+</code></pre>
+</div>
+
+<button id="circle-binding-start">Покрени</button>
+<svg id="circle-binding" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+d3.select('#circle-binding-start').on("click",  function(){
+    var circle = d3.selectAll("#circle-binding circle");
+    circle.data([32, 57, 112]);
+    circle.attr("r", function(d) { return Math.sqrt(d); });
+    });
+</script>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Додавање елемената</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >var svg = d3.select("svg");
+svg.selectAll("circle")
+    .data([32, 57, 112, 693])
+  .enter().append("circle")
+    .attr("cy", 60)
+    .attr("cx", function(d, i) { return i * 100 + 30; })
+    .attr("r", function(d) { return Math.sqrt(d); })
+    .style("fill", "steelblue");
+</code></pre>
+</div>
+
+<button id="circle-enter-start">Покрени</button>
+<svg id="circle-enter" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-enter-start').on("click",  function(){
+        var svg = d3.select("#circle-enter");
+        svg.selectAll("circle")
+            .data([32, 57, 112, 693])
+        .enter().append("circle")
+            .attr("cy", 60)
+            .attr("cx", function(d, i) { return i * 100 + 30; })
+            .attr("r", function(d) { return Math.sqrt(d); })
+            .style("fill", "steelblue");
+    });
+</script>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Уклањање елемента</h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >svg.selectAll("circle").data([32, 57]).exit().remove();
+</code></pre>
+</div>
+
+<button id="circle-exit-start">Покрени</button>
+<svg id="circle-exit" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="200" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-exit-start').on("click",  function(){
+        var svg = d3.select("#circle-exit");
+        svg.selectAll("circle").data([32, 57]).exit().remove();
+    });
+</script>
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Ажурирање, додавање, уклањање</h3>
+<div class="column" style="float:left; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="javascript" >svg.append("circle")
+    .attr("cx", d.x)
+    .attr("cy", d.y)
+    .attr("r", 2.5);
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="javascript" >svg.selectAll("circle")
+  .data(data)
+  .enter().append("circle")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 2.5);
+</code></pre>
+</div>
+</div>
+
+<div style="clear: both;"></div>
+
+<style>
+#sets {
+    font: 14px sans-serif;
+}
+</style>
+<svg id="sets" width="720" height="240">
+  <g transform="translate(0,128)">
+    <g transform="translate(300)">
+      <circle r="110" style="fill: rgb(49, 130, 189);"></circle>
+      <text y="-120" dy=".35em" text-anchor="middle" style="font-weight: bold;">Data</text>
+      <text x="-50" dy=".35em" text-anchor="middle">Enter</text>
+    </g>
+    <text x="360" dy=".35em" text-anchor="middle">Update</text>
+    <g transform="translate(420)">
+      <circle r="110" style="fill: rgb(230, 85, 13);"></circle>
+      <text y="-120" dy=".35em" text-anchor="middle" style="font-weight: bold;">Elements</text>
+      <text x="50" dy=".35em" text-anchor="middle">Exit</text>
+    </g>
+  </g>
+</svg>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Транзиција елемената који се додају/уклањају</h3>
+<div class="column" style="float:left; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="javascript" >svg.selectAll("circle")
+.data([60, 100, 140])
+.enter().append("circle")
+    .attr("cx", function(d, i) {
+        return i * 100 + 30; })
+    .attr("cy", 60)
+    .attr("fill", "steelblue")
+    .transition()
+    .duration(1000)
+    .attr("r", 20);
+</code></pre>
+</div>
+
+<button id="circle-joins-start-left">Покрени</button>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="javascript" >svg.selectAll("circle")
+.data([60])
+.exit()
+    .transition()
+    .duration(1000)
+    .attr("r", 0).remove();
+</code></pre>
+</div>
+<button id="circle-joins-start-right">Покрени</button>
+</div>
+
+<div style="clear: both;">
+
+<svg id="circle-joins" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-joins-start-left').on("click",  function(){
+        var svg = d3.select("#circle-joins")
+        svg.selectAll("circle")
+        .data([60, 100, 140])
+        .enter().append("circle")
+            .attr("cx", function(d, i) {
+                return i * 100 + 30; })
+            .attr("cy", 60)
+            .attr("fill", "steelblue")
+            .transition()
+            .duration(1000)
+            .attr("r", 20);
+        });
+    d3.select('#circle-joins-start-right').on("click",  function(){
+        var svg = d3.select("#circle-joins")
+        svg.selectAll("circle")
+        .data([60])
+        .exit()
+            .transition()
+            .duration(1000)
+            .attr("r", 0).remove();
+        });
+</script>
+
+<p class="footer" style="clear: both;">
+<a href="https://bost.ocks.org/mike/join/" class="footer" style="clear: both;">Thinking with Joins</a>
+</p>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Примери и туторијали</h3>
+<ul>
+<li><a href="https://github.com/d3/d3/wiki/tutorials">D3 Tutorials</a></li>
+<li><a href="http://website.education.wisc.edu/~swu28/d3t/concept.html">A Beginner's Guide to Using D3</a></li>
+<li><a href="http://www.d3noob.org/2013/03/what-is-force-layout-diagram-in-d3js.html">What is a Force Layout Diagram in d3.js?</a></li>
+<li><a href="http://graus.nu/thesis/force-directed-graphs-playing-around-with-d3-js/">Force-Directed Graphs: Playing around with D3.js</a></li>
+<li><a href="https://www.dashingd3js.com/svg-basic-shapes-and-d3js">SVG Basic Shapes and D3.js</a></li>
+<li><a href="http://palerdot.in/moon-phase-visualizer/d3-moon-viz.html">d3.js - a tiny introduction with Moon Phase Visualizer</a></li>
+<li><a href="http://dhs.stanford.edu/dh/networks/">Introduction to Network Analysis and Representation</a></li>
+<li><a href="http://bl.ocks.org/mbostock/4339083">Collapsible Tree</a></li>
+
+<li>Књига: <a href="https://leanpub.com/d3-t-and-t-v4">D3 Tips and Tricks v4.x</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

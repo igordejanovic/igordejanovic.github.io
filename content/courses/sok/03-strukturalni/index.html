@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Softverski obrasci i komponente</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Softverski obrasci i komponente</h1>
+<h2 class="subtitle">Strukturalni obrasci</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2022-11-01 Tue 23:52, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-orgbebfa18">
+<h2 id="orgbebfa18">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Strukturalni softverski obrasci</a></li>
+<li><a href="#/slide-2">2. Adapter</a></li>
+<li><a href="#/slide-3">3. Bridge</a></li>
+<li><a href="#/slide-4">4. Composite</a></li>
+<li><a href="#/slide-5">5. Decorator</a></li>
+<li><a href="#/slide-6">6. Proxy</a></li>
+<li><a href="#/slide-7">7. Literatura</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Strukturalni softverski obrasci</h2>
+<p>
+Bave se udruživanjem objekata i klasa, korišćenjem nasleđivanja, kompozicije i
+delegacije, u cilju formiranja složenijih struktura.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Adapter</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Adapter</h3>
+<ul>
+<li>Prilagođavamo komponentu čija nam je funkcionalnost potrebna ali njen
+interfejs ne odgovara našim zahtevima.</li>
+<li>Npr. prilagođavanje COTS (<i>Commercial Of-The-Shelf</i>) komponenti našem sistemu
+ili prilagođavanje starih komponenti zahtevima novog sistema.</li>
+<li>Kreiranje komponente tako da je moguće koristiti u različitim, unapred
+nepoznatim, scenarijima.</li>
+<li>Poznat još i kao <i>Wrapper</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Primer</h3>
+
+<div id="orgd685248" class="figure">
+<p><img src="./images/Adapter-concrete.png" alt="Adapter-concrete.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Struktura</h3>
+
+<div id="org48c5feb" class="figure">
+<p><img src="./images/Adapter-abstract.png" alt="Adapter-abstract.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Dve verzije</h3>
+<ul>
+<li><i>Baziran na klasama i nasleđivanju</i> – Klasa koja se adaptira se nasleđuje i
+klasa naslednica implementira odgovarajući interfejs.</li>
+<li><i>Baziran na objektima i delegaciji</i> – Objektu koji se adaptira se delegiraju
+pozivi od strane adapter objekta.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Napomene</h3>
+<ul>
+<li>Količina posla koju adapter radi varira od obične konverzije parametara i
+naziva metoda do podrške za potpuno drugačiji set operacija.</li>
+<li>Izmenjivi adapteri (<i>Pluggable adapters</i>) – Kreiranje komponente tako da
+se unapred predvidi adaptacija objekata sa kojima treba da sarađuje iako
+unapred objekti i njihove klase nisu poznati. Primer <i>TreeDisplay</i>.<sup>1</sup></li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Primer - TreeDisplay</h3>
+
+<div id="org08797c8" class="figure">
+<p><img src="./images/TreeDisplay.png" alt="TreeDisplay.png" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Bridge</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Bridge</h3>
+<p>
+Razdvajanje abstrakcije od implementacije tako da se mogu nezavisno menjati.
+</p>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Primer problema</h3>
+
+<div id="org2b9b739" class="figure">
+<p><img src="./images/Bridge-concreteBad.png" alt="Bridge-concreteBad.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Primena <i>Bridge</i> obrasca</h3>
+
+<div id="orga599f7c" class="figure">
+<p><img src="./images/Bridge-concreteGood.png" alt="Bridge-concreteGood.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Struktura</h3>
+
+<div id="orgefb4692" class="figure">
+<p><img src="./images/Bridge-abstract.png" alt="Bridge-abstract.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Kada korisititi</h3>
+<ul>
+<li>Kada želimo izbeći trajno vezivanje apstrakcije i implementacije. Na primer,
+ako je potrebna izmena implementacije u vreme izvršavanja aplikacije.</li>
+<li>Kada želimo da omogućimo nezavisno proširenje apstrakcije i implementacije
+kroz nasleđivanje.</li>
+<li>Kada imamo složene hijerarhije klasa kao što je pokazano u primeru.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Instanciranje konkretne implementacije</h3>
+<p>
+Odluka o instanciranju konkretne implementacije:
+</p>
+<ul>
+<li>Konstruktor apstrakcije putem parametra (ako zna za sve implementacije).</li>
+<li>Delegiranje nadležnosti drugom objektu – videti <i>Factory Method</i>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Composite</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Composite</h3>
+<ul>
+<li>Kompozicija objekata u strukture oblika stabla.</li>
+<li>Uniformno tretiranje prostih i složenih objekata.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Struktura obrasca</h3>
+
+<div id="orgc1cc866" class="figure">
+<p><img src="./images/Composite-Abstract.png" alt="Composite-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Primer</h3>
+
+<div id="org6284cb4" class="figure">
+<p><img src="./images/Composite-Concrete.png" alt="Composite-Concrete.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Napomena</h3>
+<p>
+GOF knjiga – metode za manipulaciju child elementima u <code>Component</code> abstraktnoj klasi.
+</p>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Kada koristiti?</h3>
+<ul>
+<li>Ako želite da kreirate hijerarhije objekata tipa celina-deo.</li>
+<li>Želite da klijent može da ignoriše razlike između kompozitnih i prostih
+objekata i tretira ih na uniforman način.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Demonstracija obrasca <i>Composite</i> na primeru u Javi</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Decorator</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Decorator</h3>
+<ul>
+<li>Dodavanje odgovornosti objektu dinamički.</li>
+<li>Fleksibilna alternativa za nasleđivanje.</li>
+<li>Po strukturi sličan <i>Adapter</i> obrascu ali ima drugu namenu.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Motivacija</h3>
+
+<div id="org4366209" class="figure">
+<p><img src="./images/Decorator-ConcreteBad.png" alt="Decorator-ConcreteBad.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Primer</h3>
+
+<div id="orge7c5e87" class="figure">
+<p><img src="./images/Decorator-ConcreteGood.png" alt="Decorator-ConcreteGood.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Struktura obrasca</h3>
+
+<div id="orgc8ff8d2" class="figure">
+<p><img src="./images/Decorator-Abstract.png" alt="Decorator-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Proxy</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Proxy</h3>
+<ul>
+<li>Posredovanje između objekta koji pruža servis i objekta koji koristi servis u
+cilju implementacije kontrole pristupa, transparentnog pristupa udaljenim
+objektima, AOP tehnika i sl.</li>
+<li>Implementacija najčešće delegira pozive metoda objektu koji pruža</li>
+<li>Klijent nije svestan da postoji posrednik između njega i objekta koji
+obezbeđuje servis.</li>
+<li>Poznat i pod nazivom <i>Surrogate</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Struktura obrasca</h3>
+
+<div id="orgde2bcf6" class="figure">
+<p><img src="./images/Proxy-Abstract.png" alt="Proxy-Abstract.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Kada se koristi?</h3>
+<ul>
+<li>Odlaganje skupe inicijalizacije objekta – virtuelni proksi (<i>Virtual Proxy</i>)
+ili lenji proxy (<i>Lazy Proxy</i>).</li>
+<li>Pristup udaljenom objektu kao da je lokalni (upotrebom tehnologija za
+distribuirane objekte - CORBA, DCOM, RMI i sl.) – <i>Remote Proxy</i>.</li>
+<li>Provera prava pristupa objektu – <i>Protective Proxy</i>.</li>
+<li>Sinhronizacija pristupa (proveravanje da li je objekat zaključan prilikom
+pristupa), brojanje referenci (<i>smart pointer</i>), implementaciju AOP tehnika –
+<i>Smart Proxy</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Primer - <i>Lazy Proxy</i></h3>
+
+<div id="org49d62ee" class="figure">
+<p><img src="./images/Proxy-Concrete.png" alt="Proxy-Concrete.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> <i>Copy-On-Write</i> optimizacija</h3>
+<ul>
+<li>Posebna vrsta lenjeg ili virtuelnog proksija.</li>
+<li>Odlaganje kopiranja složenog objekta (videti <i>Prototype</i> obrazac) za trenutak
+kada se zatraži operacija modifikacije.</li>
+<li>Potrebno brojanje referenci: svako kreiranje novog proxy-ja uvećava brojač
+referenci, svako stvarno kopiranje ciljnog objekta umanjuje brojač referenci.
+Kada brojač referenci postane 0 objekat se može ukloniti.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Demonstracija obrasca <i>Proxy</i> na primeru u Javi</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Literatura</h2>
+<ul>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp;amp; Sons, Inc., vol. 1, 2002</li>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

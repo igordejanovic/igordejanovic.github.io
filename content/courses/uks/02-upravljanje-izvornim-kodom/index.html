@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Upravljanje konfiguracijom softvera</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Upravljanje konfiguracijom softvera</h1>
+<h2 class="subtitle">Upravljanje izvodnim kodom</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2020-12-04 Fri 11:48, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-orga2016aa">
+<h2 id="orga2016aa">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Sistemi za kontrolu verzija</a></li>
+<li><a href="#/slide-2">2. Osnovne definicije</a></li>
+<li><a href="#/slide-3">3. Arhitekture i modeli</a></li>
+<li><a href="#/slide-4">4. Modeli repozitorijuma</a></li>
+<li><a href="#/slide-5">5. <i>Merge</i>, <i>diff</i> i <i>patch</i></a></li>
+<li><a href="#/slide-6">6. Modeli alternativnih tokova</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Sistemi za kontrolu verzija</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1</span> Sistemi za kontrolu verzija</h3>
+<ul>
+<li>Sistem za kontrolu verzija (eng. <i>Version Control System - VCS</i>) upravlja
+promenama nad digitalnim stavkama konfiguracije (<i>Configuration Item - CI</i>).</li>
+<li>Daje uvid u sve promene koje su učinjene nad artifaktima koji su predmet
+kontrole verzija sa svim relevantnim metapodacima kao što su:
+<ul>
+<li>Ko je načinio promenu?</li>
+<li>Kada je promena učinjena?</li>
+<li>Šta je tom prilikom promenjeno i na koji način?</li>
+<li>Nad kojom verzijom je promena učinjena, odnosno koje promene su prethodile?</li>
+<li>&#x2026;</li>
+
+</ul></li>
+<li>Omogućava vraćanje na verziju iz prošlosti i kreiranje alternativnih tokova
+razvoja/varijanti.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Osnovne definicije</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Verzija</h3>
+<ul>
+<li>Verzija predstavlja stanje evoluirajuće stavke konfiguracije.</li>
+<li>Shvatanje verzije u današnjem kontekstu popularnih VCS-ova sa <i>snapshot</i>
+modelom istorije jeste da verzija predstavlja stanje projekta u određenom
+trenutku u istoriji, tj. verzija je <i>snapshot</i>.</li>
+<li>Svaka verzija u VCS-u mora biti identifikovana na jednoznačan način.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> Identifikator verzije</h3>
+<p>
+Identifikator verzije (IV) je objekat koji zadovoljava sledeća pravila:
+</p>
+<ul>
+<li><i>jedinstvenost</i> – ne sme postojati dva istorijska objekta (verzije) unutar
+istog repozitorijuma sa istim identifikatorom,</li>
+<li><i>jednostavnost</i> – IV bi, ako je moguće, trebao biti kratak i jednostavan za
+upotrebu (npr. iz korisničkog interfejsa),</li>
+<li><i>stabilnost</i> – IV ne sme da se menja u vremenu i između različitih kopija
+istog repozitorijuma kod DVCS-ova.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> Identifikator verzije - dodatne napomene</h3>
+<ul>
+<li>Kod centralizovanih sistema IV može biti numerička oznaka koja se uvećava sa
+svakom verzijom dok kod distribuiranih, zbog prirode arhitekture, moraju se
+koristiti drugi algoritmi.</li>
+<li>Najčešći algoritmi danas u upotrebi kod DVCS-ova su bazirani na kriptografskim
+jednosmernim heš funkcijama (npr. SHA1) nad sadržajem promene.</li>
+<li>S obzirom da vrednost heša nije pogodna za ručni unos neki DVCS-ovi
+pribegavaju uvođenju dodatnih jednostavnih oznaka verzija koje su lokalne
+prirode i automatski se mapiraju na globalne IV-ove. Na taj način obezbeđuje
+se jednostavnost upotrebe uz očuvanje globalne jedinstvenosti koju nudi IV
+baziran na hešu.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4</span> Promena (<i>Change</i>)</h3>
+<ul>
+<li>Definiše se najčešće kao niz operacija koje prevode stavku konfiguracije iz
+jedne verzije u drugu.</li>
+<li>Posmatra se na nivou jedne stavke konfiguracije (u kontekstu tekućih VCS-ova
+to je fajl).</li>
+<li>Skup promena (eng. <i>changeset - CS</i> ) predstavlja više logički povezanih promena
+koje prevode stanje projekta iz jedne verzije u drugu.</li>
+<li>Promena i skup promena se često nazivaju i <i>delta</i> ili <i>diff</i> (prema jednom od
+popularnijih algoritama i alata za određivanje razlike dva fajla).</li>
+
+</ul>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5</span> Radni prostor (<i>Workspace</i>) ili radna kopija (<i>Working Copy</i>)</h3>
+<ul>
+<li>Privatni prostor u kojem programer vrši izmene.</li>
+<li>Najčešće skup foldera i fajlova na lokalnom računaru programera.</li>
+<li>Prostor je izolovan u smislu da ne utiče na ostale učesnike na projektu.</li>
+<li>Programer može preuzeti nove promene sa linije koju razivija na kontrolisan
+način.</li>
+<li>Često programeri imaju više radnih kopija na svom računaru (različiti projekti
+na kojima rade).</li>
+
+</ul>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6</span> Trajna zabeleška (<i>commit</i> operacija)</h3>
+<p>
+Programer može izmene iz lokalnog radnog prostora trajno zabeležiti u VCS
+repozitorijumu i omogućiti ostalim učesnicima uvid u izmene putem <i>commit</i>
+operacije.
+</p>
+
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7</span> Alternativni tokovi razvoja</h3>
+<ul>
+<li>Projekat u svakom trenutku može imati više aktivnih linija razvoja.</li>
+<li>Razvijamo verziju 2.0 našeg proizvoda li još uvek održavamo verziju 1.x.</li>
+<li>Naš proizvod radi na više operativnih sistema (Linux, Windows, Mac).</li>
+<li>Alternativni tokovi razvoja se u VCS sistemima realizuju upotrebom <i>grana</i>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Arhitekture i modeli</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Arhitekture sistema za kontrolu verzija</h3>
+<div class="column" style="float:left; width: 50%">
+<ul>
+<li>Centralizovana ili <i>client-server</i> arhitektura.
+<ul>
+<li>Sva istorija je u repozitorijumu centralnog servera. Klijenti imaju samo
+tekuću verziju.</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="org3de8880" class="figure">
+<p><object type="image/svg+xml" data="./images/Centralizovana-arhitektura.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<ul>
+<li>Distribuirana ili <b>peer-to-peer</b> arhitektura.
+<ul>
+<li>Svaki klijent ima punu istoriju izmena.</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="orgb691b2d" class="figure">
+<p><object type="image/svg+xml" data="./images/Distribuirana-arhitektura.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> Modeli repozitorijuma</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1</span> Modeli VCS repozitorijuma</h3>
+<p>
+Najčešće korišćeni modeli VCS repozitorijuma su sledeći:
+</p>
+<ul>
+<li>Skup fajlova sa promenama.</li>
+<li>Virtuelni fajl sistem sa verzijama.</li>
+<li>Usmereni aciklični graf skupova promena.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2</span> Skup fajlova sa promenama</h3>
+<ul>
+<li>Korišćen u starijim sistemima za kontrolu verzija (SCCS, RCS, CVS).</li>
+<li>Svaki fajl je praćen nezavisno tako što se čuvala bazna verzija i promene koje
+su sledile.</li>
+<li>Verzija svakog fajla se nezavisno uvećavala i kreiranje verzije celog projekta
+se obavljalo označavanjem (<i>tagging</i>) ili se, kao odrednica za identifikaciju
+verzije, koristio datum i vreme.</li>
+<li>Podrška za transakcije i obezbeđivanje konzistencije repozitorijuma najčešće
+nije postojala ili je bila na niskom nivou.</li>
+<li>Ovakav model je dugo godina bio u upotrebi zbog svoje jednostavnosti.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3</span> Virtuelni fajl sistem sa verzijama</h3>
+
+<div id="org674e1f5" class="figure">
+<p><img src="./images/SVNFileSystem.png" alt="SVNFileSystem.png" style="height: 500px;" />
+</p>
+</div>
+
+<ul>
+<li>Model korišćen kod subversion (SVN) VCS-a.</li>
+<li>Koristi koncepte klasičnih fajl sistema - fajlove i foldere.</li>
+<li>Svaka promena nad SVN fajl sistemom rezultuje novom verzijom celokupnog fajl
+sistema tj. rezultuje novim <i>snapshot</i>-om.</li>
+<li>Ako posmatramo fajl sistem kao dvodimenzionalnu strukturu onda se fajl sistem
+sa verzijama može posmatrati trodimenzionalno pri čemu je treća dimenzija
+vreme (odnosno verzije).</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato: <i>Version Control
+with Subversion</i>
+</p>
+
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4</span> Virtuelni fajl sistem sa verzijama</h3>
+<ul>
+<li>Operacije izmene su transakcione prirode sa ACID semantikom.</li>
+<li>Upotrebom klijentskog alata moguće je vratiti se na bilo koju verziju
+repozitorijuma u prošlosti.</li>
+<li>SVN koristi referenciranje delova stabla u određenim verzijama i čuvanje samo
+razlika koje su nastale u svakoj verziji.</li>
+<li>Kompleksnost operacije kopiranja i premeštanja fajlova i čitavih podstabala je
+<i>O(1)</i> i obavljaju se gotovo trenutno uz minimalan utrošak prostora (prostor
+potreban da se zabeleže reference na kopirani sadržaj).</li>
+<li>Operacije grananja (eng. <i>branching</i>) i označavanja (eng. <i>tagging</i>) se
+obavljaju operacijom kopiranja.</li>
+<li>Kopija podstabla će imati zajedničku istoriju sa originalom do trenutka
+kopiranja.</li>
+<li>Od trenutka kopiranja svaka kopija je nezavisna.</li>
+<li>Kopija podstabla predstavlja alternativni tok razvoja pa se može koristiti (i
+koristi se) kao grana razvoja.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5</span> Usmereni aciklični graf skupova promena</h3>
+
+<div id="orgbd154cd" class="figure">
+<p><object type="image/svg+xml" data="./images/DAG.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+<ul>
+<li>Usmereni aciklični graf (<i>Directed Acyclic Graph - DAG</i>) skupova promena.</li>
+<li>Najčešće se koristi kod distribuiranih sistema za kontrolu verzija.</li>
+<li>Može se opisati kao graf čije su veze usmerene i kod koga ne postoje zatvorene
+jednosmerne putanje (acikličan je).</li>
+
+</ul>
+
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6</span> Usmereni aciklični graf skupova promena</h3>
+
+<div id="org3b81a26" class="figure">
+<p><object type="image/svg+xml" data="./images/DAG.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+<ul>
+<li>U odnosu na opšti DAG korišćena struktura ima ograničenja u pogledu broja
+mogućih ulaznih veza u svaki čvor.</li>
+<li>Ograničenja su sledeća:
+<ul>
+<li>Postoji tačno jedan čvor koji nema ulaznih veza. Ovaj čvor predstavlja
+početnu verziju repozitorijuma.</li>
+<li>Svi ostali čvorovi imaju 1 ulaznu vezu ukoliko predstavljaju obične verzije
+ili 2 ulazne veze ukoliko predstavljaju spoj (<i>merge</i>) dve prethodne verzije
+(čvorovi V5 i V7 na slici).</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7</span> Modeli upravljanja konkurentnim promenama</h3>
+<ul>
+<li>Pesimistički (<i>Lock-Modify-Unlock</i>)
+<ul>
+<li>Konkurentne izmene se izbegavaju zaključavanjem</li>
+<li>Primena moguća samo kod centralizovanih sistema</li>
+<li>Mane:
+<ul>
+<li>Smanjena propusnost sistema - posebno izraženo kod projekata sa većim
+brojem učesnika,</li>
+<li>Sindrom &ldquo;otišao na ručak&rdquo;.</li>
+
+</ul></li>
+
+</ul></li>
+<li>Optimistički (<i>Copy-Modify-Merge</i>)
+<ul>
+<li>Konkurentne promene se udružuju naknadno (operacija <i>Merge</i>).</li>
+<li>Visoka propusnost - svaki učesnik može da ažurira proizvoljan artifakt</li>
+<li>Mane:
+<ul>
+<li>Konkurentne promene mogu biti u konfliktu što se razrešava prilikom
+operacije spajanja.</li>
+<li>Kod proizvoljnih binarnih fajlova gde semantika sadržaja nije poznata
+alatu ovaj pristup ne može da se koristi.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8</span> Modelovanje istorije</h3>
+<ul>
+<li>Bazirano na zatečenom stanju - eng. <i>Snapshot</i> ili <i>State-Based Versioning</i>.</li>
+<li>Bazirano na promenama - eng. <i>Changeset</i> ili <i>Change-Based Versioning</i>.</li>
+<li>Većina današnjih sistema za kontrolu verzija koriste SS model u komunikaciji
+sa korisnikom. Korisniku je repozitorijum predstavljen kao niz stanja projekta
+u određenim trenucima vremena.</li>
+<li>Zbog ušteda u prostoru, interno se koriste CS mehanizmi tj. čuvaju se samo
+razlike u odnosu na prethodna stanja.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5</span> <i>Merge</i>, <i>diff</i> i <i>patch</i></h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1</span> Spajanje konkurentnih promena - <i>Merge</i></h3>
+<ul>
+<li>Konkurentno razvijene promene pri korišćenju optimističkog pristupa moraju u
+nekom trenutku biti spojene.</li>
+<li>Podrazumeva kreiranje integralne verzije stavke konfiguracije od više
+nezavisnih verzija.</li>
+<li>Spajanje se sastoji od operacija poređenja, detekcije konflikata, razrešenja
+konflikata i spoja.</li>
+<li>Operacija razrešenja konflikata zahteva intervenciju korisnika.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2</span> Operacija poređenja</h3>
+<ul>
+<li>Određuje razlike između dva CI.</li>
+<li>Za različite vrste CI koriste se različiti algoritmi.</li>
+<li>Na primer, različiti algoritmi se koriste u zavisnosti od toga da li je CI
+tekstulane ili binarne prirode.</li>
+<li>Većina VCS-ova tretira binarne fajlove kao sadržaj bez semantike. Određeni
+komercijalni VCS-ovi pružaju podršku za neke popularne binarne fajl formate.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3</span> Jedinica poređenja (<i>Unit of Comparison - UC</i>)</h3>
+
+<div id="org22050bf" class="figure">
+<p><object type="image/svg+xml" data="./images/UnitOfComparison.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+<ul>
+<li>Esencijalne operacije kontrole verzija su izračunavanje razlike dva CI-a,
+njihova reprezentacija i vizualizacija na ljudski čitljiv način u cilju
+analize promena i razrešavanja eventualnih konflikata.</li>
+<li>Da bi analizirali algoritme za poređenje stavki konfiguracije potrebno je
+uvesti pojam <i>jedinice poređenja</i> (<i>Unit of Comparison - UC</i>).</li>
+<li>Jedinica poređenja definiše granulaciju poređenja.</li>
+<li>Prilikom poređenja, ukoliko ustanovimo da su dve jedinice poređenja različite
+na bilo kom delu, smatramo da su u celosti različite.</li>
+<li>Kod većine sistem za kontrolu verzija jedinica poređenja je linija teksta za
+tekstualne artifakte i ceo fajl za binarne.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4</span> Određivanje, reprezentacija i čuvanje promene</h3>
+<ul>
+<li>Naivan pristup - čuvanje svake verzije u celosti.</li>
+<li>Veliki gubitci prostora s obzirom da se dve sukcesivne verzije fajla u proseku
+razlikuju u svega 2%.</li>
+<li>Delta kodiranje (<i>Delta encoding</i>) - reprezentacija samo razlika između dve
+sukcesivne verzije.</li>
+<li>Propratni efekat je poboljšanje performansi jer je delta često dosta manja od
+originalne verzije a brzine procesora su za više redova veličina veće od
+brzina jedinica spoljne memorije.</li>
+<li>Razmena verzija između repozitorijuma - slanje delti.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5</span> Algoritmi za određivanje promena u tekstualnim CI</h3>
+<p>
+Izračunavanje delti obavlja se algoritmima koji se mogu podeliti u dve klase:
+</p>
+<ul>
+<li><i>copy/insert</i> delta algoritmi:
+<ul>
+<li>Dobijanje odredišnog fajla od polaznog kreiranjem komandi kopiranja
+(<i>copy</i>) za delove koji su nepromenjeni i komandi dodavanja (<i>insert</i>) za
+delove koji su različiti.</li>
+<li>Daje bolje performanse.</li>
+
+</ul></li>
+
+<li><i>insert/delete</i> delta algoritmi:
+<ul>
+<li>Transformacija polaznog fajla u odredišni dodavanjem sadržaja koji postoji
+samo u odredišnom a ne i u polaznom (<i>insert</i>) i brisanjem sadržaja koji
+postoji samo u polaznom a ne i u odredišnom (<i>delete</i>).</li>
+<li>Ova klasa algoritama je bazirana na algoritmima za određivanje najduže
+zajedničke podsekvence (<i>Longest Common Subsequence - LCS</i> – npr. Majersov
+algoritam). Ovaj algoritam se koristi u unix <i>diff</i> alatu.</li>
+<li>Daje intuitivnije rezultate.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6</span> diff</h3>
+
+<div id="orgd4485b9" class="figure">
+<p><img src="./images/diff.png" alt="diff.png" style="height: 600px;" />
+</p>
+</div>
+
+
+<ul>
+<li><i>diff</i> je unix komanda koja će za dva ulazna tekstualne fajla odrediti razliku
+i enkodovati je upotrebom jednostavnog delta kodovanja prikazanog na slici.</li>
+<li>Delta predstavlja skup komandi za dodavanje i brisanje linija.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7</span> patch</h3>
+
+<div id="org6fcc70d" class="figure">
+<p><img src="./images/diff.png" alt="diff.png" style="height: 700px;" />
+</p>
+</div>
+
+<ul>
+<li>Upotrebom ovako kodovane razlike, <i>patch</i> komandom možemo dobiti odredišni
+fajl od polaznog.</li>
+<li>Ova tehnika je osnova za izgradnju složenih VCS sistema.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8</span> Dvostrano spajanje</h3>
+
+<div id="org4a4eaec" class="figure">
+<p><object type="image/svg+xml" data="./images/2wayMerge.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9</span> Trostrano spajanje</h3>
+
+<div id="orgff1e927" class="figure">
+<p><object type="image/svg+xml" data="./images/3wayMerge.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+</section>
+<section id="slide-5-10">
+<h3 id="5-10"><span class="section-number-3">5.10</span> Trostrano poređenje - primer</h3>
+
+<div id="org2dd3ace" class="figure">
+<p><img src="./images/3wayDiff.png" alt="3wayDiff.png" style="height: 700px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-11">
+<h3 id="5-11"><span class="section-number-3">5.11</span> Konflikti</h3>
+<ul>
+<li>Javljaju se ukoliko je došlo do konkurentnih promena nad istim jedinicama
+poređenja.</li>
+<li>Neko mora da odluči koja izmenu treba zadržati a koju odbaciti.</li>
+<li>Ova operacija, koja zahteva manuelnu intervenciju, naziva se razrešavanje
+konflikata.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-12">
+<h3 id="5-12"><span class="section-number-3">5.12</span> Spajanje konkurentnih promena nad tekstualnim CI</h3>
+<ul>
+<li>Kod tekstualnih CI, kod kojih je jedinica poređenja linija teksta, najčešće se
+spoj obavi automatski bez pojave konflikata.</li>
+<li>Konflikt se javlja ukoliko je došlo do paralelnih izmena istih linija teksta
+od strane više programera.</li>
+<li>Najčešće onaj koji poslednji pokušava da zabeleži svoju promenu u
+repozitorijumu treba da razreši konflikt.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-13">
+<h3 id="5-13"><span class="section-number-3">5.13</span> Spajanje konkurentnih promena nad binarnim CI</h3>
+<ul>
+<li>Kod binarnih CI, jedinica poređenja je najčešće ceo CI tako da nije moguće
+automatizovati spajanje već se razrešenje konflikta vrši izborom jednog od
+konkurentno razvijenih verzija.</li>
+<li>Zbog toga se, kod binarnih fajlova, ažuriranje ne radi konkurentno.</li>
+<li>Jedan od mehanizama da se to obezbedi je korišćenje pesimističkog pristupa za
+binarne fajlove.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6</span> Modeli alternativnih tokova</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1</span> Modeli alternativnih tokova ili grananja</h3>
+<ul>
+<li>Odnosi se na organizaciju i upravljanje procesom kreiranja grana, trajnih
+zabeleški (<i>commit</i>) i operacije spoja (<i>merge</i>).</li>
+<li>Proces kreiranja grana podrazumeva imenovanje grana na određeni način i
+definisanje načina na koji se grane koriste.</li>
+<li>Često korišćeni termini su razvojne grane (<i>development branches</i>), grane za
+izdanja (<i>release branches</i>), grane za ispravke grešaka (<i>bugfix branches</i>) i
+sl.</li>
+
+</ul>
+
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2</span> Primer modela grananja - <i>GitFlow</i></h3>
+
+<div id="org97c2c0b" class="figure">
+<p><object type="image/svg+xml" data="./images/GitFlow.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

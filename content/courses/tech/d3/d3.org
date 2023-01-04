@@ -1,0 +1,448 @@
+#+TITLE: D3.js
+#+SUBTITLE:
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup-cyr.org
+#+HTML_HEAD_EXTRA: <script src="../../d3.v4.min.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="d3.css" />
+
+* Садржај
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Увод у D3
+** Шта је D3?
+- JavaScript библиотека за манипулацију документом (DOM) на бази података.
+- Базирана ан веб стандардима: HTML, CSS, SVG, Canvas.
+- Не уводи нове концепте већ користи искључиво стандардне.
+  - Уколико дође до увођења нових функционалности у веб прегледачима није
+    потребно мењати библиотеку.
+  - Знање које се стекне употребом D3 библиотеке је "преносиво".
+  - Лако дебаговање - може се користи уграђени дебагер.
+- Примена у визуализацији података.
+
+** Селекције
+Обичан JavaScript:
+
+#+begin_src javascript
+var paragraphs = document.getElementsByTagName("p");
+for (var i = 0; i < paragraphs.length; i++) {
+  var paragraph = paragraphs.item(i);
+  paragraph.style.setProperty("color", "white", null);
+}
+#+end_src
+
+D3:
+
+#+begin_src javascript
+d3.selectAll("p").style("color", "white");
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src javascript
+d3.select(...)       // Селектује први.
+d3.selectAll(...)    // Селектује све.
+#+end_src
+
+- Сандардни CSS селектори
+#+begin_src javascript
+d3.select("div")            // по тагу
+d3.select(".classname")     // по класи
+d3.select("#line")          // по идентификатору
+d3.select("[color=black]")  // по атрибуту
+d3.select("parent child")   // по садржавању
+#+end_src
+
+- Подселекције - филтер образац
+
+#+begin_src javascript
+// подселекција - селекција над селекцијом
+d3.select("body").selectAll("p")
+d3.selectAll("p").select("b")
+#+end_src
+** Атрибути и стилови
+#+begin_src javascript
+var circleDemo = d3.select("#myCircle");
+circleDemo.attr("r", 40);
+#+end_src
+
+#+begin_src javascript
+d3.select("body").selectAll("p").style("font-size", "12px");
+#+end_src
+** Динамичке особине
+#+begin_src javascript
+d3.selectAll("p").style("background-color", function() {
+  return "rgb(" + Math.random() * 255 + ", 100, 100)";
+});
+#+end_src
+
+#+begin_export html
+<div class="dynamic">
+  <p>Први параграф</p>
+  <p>Други параграф</p>
+<div>
+<button id="dynamic">Покрени</button>
+<script>
+d3.select('#dynamic').on("click", function() {
+    d3.selectAll(".dynamic p").style("background-color", function() {
+        return "rgb(" + Math.random() * 255 + ", 100, 100)";
+    });
+});
+</script>
+#+end_export
+** Повезивање података - /binding/
+#+begin_src javascript
+var myArray = [1, 2, 3, 4];
+selection.data(myArray);
+#+end_src
+
+- Елементи из =myАrrаy= се /повезују/ за одговарајуће елементе селекције.
+
+** Креирање и брисање елемената
+- =enter= - селекција која креира нове елементе на основу нових података.
+- =exit= - селекција за брисање елемената при брисању података.
+
+#+begin_src javascript
+// Update…
+var p = d3.select("body")
+  .selectAll("p")
+  .data([4, 8, 15, 16, 23, 42])
+    .text(function(d) { return d; });
+
+// Enter…
+p.enter().append("p")
+    .text(function(d) { return d; });
+
+// Exit…
+p.exit().remove();
+#+end_src
+** Пример
+
+#+begin_src html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>d3 test</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <script>
+var test_data = [8, 16, 23];
+d3.select("body")
+  .selectAll("p")
+  .data(test_data)
+  .enter().append("p")
+    .text(function(d) { return "I’m number " + d + "!"; })
+    .style("font-size", function(d){ return d + "px"; });
+    </script>
+  </body>
+</html>
+#+end_src
+
+#+begin_export html
+<div id="p-with-font"></div>
+<script>
+var test_data = [8, 16, 23];
+d3.select("#p-with-font")
+  .selectAll("p")
+  .data(test_data)
+  .enter().append("p")
+    .text(function(d) { return "I’m number " + d + "!"; })
+    .style("font-size", function(d){ return d + "px"; });
+</script>
+#+end_export
+
+** Прелази и анимација
+
+Постепена промена боје:
+
+#+begin_src javascript
+d3.select("body").transition()
+    .style("background-color", "black");
+#+end_src
+
+Промена величине кругова са задршком:
+
+#+begin_src javascript
+d3.selectAll("circle").transition()
+    .duration(750)
+    .delay(function(d, i) { return i * 10; })
+    .attr("r", function(d) { return Math.sqrt(d * scale); });
+#+end_src
+
+* Пример: три круга
+** Пример: три круга
+
+#+begin_src javascript
+<svg width="720" height="120">
+  <circle cx="40" cy="60" r="10"></circle>
+  <circle cx="80" cy="60" r="10"></circle>
+  <circle cx="120" cy="60" r="10"></circle>
+</svg>
+#+end_src
+
+#+begin_export html
+<svg width="720" height="120">
+  <circle cx="40" cy="60" r="10"></circle>
+  <circle cx="80" cy="60" r="10"></circle>
+  <circle cx="120" cy="60" r="10"></circle>
+</svg>
+#+end_export
+
+#+attr_html: :class footer :style clear: both;
+https://bost.ocks.org/mike/circles/
+
+** Селекција и стилизовање
+
+#+begin_src javascript
+var circle = d3.selectAll("circle");
+circle.style("fill", "steelblue");
+circle.attr("r", 30);
+#+end_src
+
+#+begin_export html
+<svg id="circle-bluesteel" width="720" height="120">
+  <circle cx="40" cy="60" r="10"></circle>
+  <circle cx="80" cy="60" r="10"></circle>
+  <circle cx="120" cy="60" r="10"></circle>
+</svg>
+<script>
+    var circle = d3.selectAll("#circle-bluesteel circle");
+    circle.style("fill", "steelblue");
+    circle.attr("r", 30);
+</script>
+#+end_export
+
+** Промена особина појединачног елемента
+
+- Анонимне функције.
+
+#+attr_reveal: :code_attribs data-line-numbers="5"
+#+begin_src javascript
+d3.select('button').on("click",
+  function(){
+    d3.selectAll("circle")
+    .attr("cx",
+         function() { return Math.random() * 720; });
+  }
+);
+#+end_src
+
+#+begin_export html
+<button id="circle-random-start">Покрени</button>
+
+<svg id="circle-random" width="720" height="120">
+  <circle cx="40" cy="60" r="30" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="30" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="30" style="fill:steelblue;"></circle>
+</svg>
+<script>
+d3.select('#circle-random-start').on("click",  function(){
+    d3.selectAll("#circle-random circle")
+    .attr("cx", function() { return Math.random() * 720; });
+    });
+</script>
+#+end_export
+** Повезивање података (/Data Binding/)
+
+#+begin_src javascript
+circle.data([32, 57, 112]);
+circle.attr("r", function(d) { return Math.sqrt(d); });
+#+end_src
+
+#+begin_export html
+<button id="circle-binding-start">Покрени</button>
+<svg id="circle-binding" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+d3.select('#circle-binding-start').on("click",  function(){
+    var circle = d3.selectAll("#circle-binding circle");
+    circle.data([32, 57, 112]);
+    circle.attr("r", function(d) { return Math.sqrt(d); });
+    });
+</script>
+#+end_export
+
+** Додавање елемената
+#+begin_src javascript
+var svg = d3.select("svg");
+svg.selectAll("circle")
+    .data([32, 57, 112, 693])
+  .enter().append("circle")
+    .attr("cy", 60)
+    .attr("cx", function(d, i) { return i * 100 + 30; })
+    .attr("r", function(d) { return Math.sqrt(d); })
+    .style("fill", "steelblue");
+#+end_src
+
+#+begin_export html
+<button id="circle-enter-start">Покрени</button>
+<svg id="circle-enter" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="80" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-enter-start').on("click",  function(){
+        var svg = d3.select("#circle-enter");
+        svg.selectAll("circle")
+            .data([32, 57, 112, 693])
+        .enter().append("circle")
+            .attr("cy", 60)
+            .attr("cx", function(d, i) { return i * 100 + 30; })
+            .attr("r", function(d) { return Math.sqrt(d); })
+            .style("fill", "steelblue");
+    });
+</script>
+#+end_export
+
+** Уклањање елемента
+#+begin_src javascript
+svg.selectAll("circle").data([32, 57]).exit().remove();
+#+end_src
+
+#+begin_export html
+<button id="circle-exit-start">Покрени</button>
+<svg id="circle-exit" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="120" cy="60" r="20" style="fill:steelblue;"></circle>
+  <circle cx="200" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-exit-start').on("click",  function(){
+        var svg = d3.select("#circle-exit");
+        svg.selectAll("circle").data([32, 57]).exit().remove();
+    });
+</script>
+#+end_export
+** Ажурирање, додавање, уклањање
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+begin_src javascript
+svg.append("circle")
+    .attr("cx", d.x)
+    .attr("cy", d.y)
+    .attr("r", 2.5);
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+begin_src javascript
+svg.selectAll("circle")
+  .data(data)
+  .enter().append("circle")
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; })
+    .attr("r", 2.5);
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;"></div>
+
+#+begin_export html
+<style>
+#sets {
+    font: 14px sans-serif;
+}
+</style>
+<svg id="sets" width="720" height="240">
+  <g transform="translate(0,128)">
+    <g transform="translate(300)">
+      <circle r="110" style="fill: rgb(49, 130, 189);"></circle>
+      <text y="-120" dy=".35em" text-anchor="middle" style="font-weight: bold;">Data</text>
+      <text x="-50" dy=".35em" text-anchor="middle">Enter</text>
+    </g>
+    <text x="360" dy=".35em" text-anchor="middle">Update</text>
+    <g transform="translate(420)">
+      <circle r="110" style="fill: rgb(230, 85, 13);"></circle>
+      <text y="-120" dy=".35em" text-anchor="middle" style="font-weight: bold;">Elements</text>
+      <text x="50" dy=".35em" text-anchor="middle">Exit</text>
+    </g>
+  </g>
+</svg>
+#+end_export
+** Транзиција елемената који се додају/уклањају
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+begin_src javascript
+svg.selectAll("circle")
+.data([60, 100, 140])
+.enter().append("circle")
+    .attr("cx", function(d, i) {
+        return i * 100 + 30; })
+    .attr("cy", 60)
+    .attr("fill", "steelblue")
+    .transition()
+    .duration(1000)
+    .attr("r", 20);
+#+end_src
+
+#+begin_export html
+<button id="circle-joins-start-left">Покрени</button>
+#+end_export
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+begin_src javascript
+svg.selectAll("circle")
+.data([60])
+.exit()
+    .transition()
+    .duration(1000)
+    .attr("r", 0).remove();
+#+end_src
+#+begin_export html
+<button id="circle-joins-start-right">Покрени</button>
+#+end_export
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+begin_export html
+<svg id="circle-joins" width="720" height="120">
+  <circle cx="40" cy="60" r="20" style="fill:steelblue;"></circle>
+</svg>
+<script>
+    d3.select('#circle-joins-start-left').on("click",  function(){
+        var svg = d3.select("#circle-joins")
+        svg.selectAll("circle")
+        .data([60, 100, 140])
+        .enter().append("circle")
+            .attr("cx", function(d, i) {
+                return i * 100 + 30; })
+            .attr("cy", 60)
+            .attr("fill", "steelblue")
+            .transition()
+            .duration(1000)
+            .attr("r", 20);
+        });
+    d3.select('#circle-joins-start-right').on("click",  function(){
+        var svg = d3.select("#circle-joins")
+        svg.selectAll("circle")
+        .data([60])
+        .exit()
+            .transition()
+            .duration(1000)
+            .attr("r", 0).remove();
+        });
+</script>
+#+end_export
+
+#+attr_html: :class footer :style clear: both;
+[[https://bost.ocks.org/mike/join/][Thinking with Joins]]
+
+** Примери и туторијали
+- [[https://github.com/d3/d3/wiki/tutorials][D3 Tutorials]]
+- [[http://website.education.wisc.edu/~swu28/d3t/concept.html][A Beginner's Guide to Using D3]]
+- [[http://www.d3noob.org/2013/03/what-is-force-layout-diagram-in-d3js.html][What is a Force Layout Diagram in d3.js?]]
+- [[http://graus.nu/thesis/force-directed-graphs-playing-around-with-d3-js/][Force-Directed Graphs: Playing around with D3.js]]
+- [[https://www.dashingd3js.com/svg-basic-shapes-and-d3js][SVG Basic Shapes and D3.js]]
+- [[http://palerdot.in/moon-phase-visualizer/d3-moon-viz.html][d3.js - a tiny introduction with Moon Phase Visualizer]]
+- [[http://dhs.stanford.edu/dh/networks/][Introduction to Network Analysis and Representation]]
+- [[http://bl.ocks.org/mbostock/4339083][Collapsible Tree]]
+
+- Књига: [[https://leanpub.com/d3-t-and-t-v4][D3 Tips and Tricks v4.x]]

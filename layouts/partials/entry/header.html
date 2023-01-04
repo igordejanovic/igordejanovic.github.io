@@ -1,0 +1,20 @@
+<header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>
+        {{- .Title -}}
+      </h1>
+      {{ partial "header/description" . }}
+    </div>
+    {{ partial "entry/meta" . }}
+
+  {{ range $taxonomy, $pages := .Site.Taxonomies }}
+    {{- if not ( eq $taxonomy "authors" ) -}}
+      {{- if ( index $.Params $taxonomy ) -}}
+        {{- $.Scratch.Set "taxonomy" $taxonomy -}}
+        {{- partial "entry/taxonomy-list" $ -}}
+      {{- end -}}
+    {{- end -}}
+  {{ end }}
+  </div>
+</header>

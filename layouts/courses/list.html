@@ -1,0 +1,24 @@
+{{ partial "header" . }}
+
+{{ partial "header/header" . }}
+{{ $paginator := .Paginate (where .Pages "Type" "course") }}
+
+<div class='container list-container'>
+  <h2>Слајдови са предавања</h2>
+  <ul class='list'>
+    {{ range $paginator.Pages }}
+      {{ .Render "li" }}
+    {{ end }}
+  </ul>
+
+  {{ partial "nav/pagination" . }}
+</div>
+
+<style>#напомена { margin-top: 1em; }</style>
+{{ if .Content }}
+<div class='entry'>
+  {{ partial "entry/content" . }}
+</div>
+{{ end }}
+
+{{ partial "footer" . }}

@@ -1,0 +1,900 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>SWT & JFace</title>
+
+    <meta name="description" content="SWT and JFace">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>SWT & JFace</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+        <section>
+            <h2>Sadržaj</h2>
+            <ul>
+              <li>Uvod</li>
+              <li>Shell, Display, Windows, Widgets</li>
+              <li>Obrada događaja</li>
+              <li>Layouts</li>
+              <li>Grafika</li>
+              <li>JFace Viewers</li>
+              <li>Data Binding</li>
+            </ul>
+        </section>
+
+
+
+        <section>    <!-- Uvod -->
+
+          <section>
+            <h2>Šta je SWT?</h2>
+            <ul>
+              <li>Biblioteka za izradu GUI interfejsa u Javi.</li>
+              <li><i>Heavyweight</i> pristup – koriste se sistemske vizuelne komponente.</li>
+              <li>Podrška za sve standardne komponente i obradu događaja.</li>
+              <li>Rad sa slikama, fontovima. Alokacija i dealokacija resursa operativnog sistema.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>SWT vs. Swing</h2>
+            <ul>
+              <li>Za razliku od Swing-a koristi vizuelne komponente operativnog
+                sistema na kome se izvršava.</li>
+              <li>Swing koristi tzv. <i>lightweight</i> pristup – iscrtava sve
+                komponente. Aplikacije izgledaju i ponašaju se isto bez obzira
+                na OS. Troše više procesorskih resursa – sporije izvršavanje.</li>
+              <li>SWT ima prirodan <i>Look and Feel</i> – korisnici ne osećaju razliku
+                u odnosu na aplikacije pisane specijalno za njihov OS.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Šta je JFace</h2>
+            <ul>
+              <li>SWT pruža punu kontrolu nad izradom interfejsa ali je nekad
+                previše niskog nivoa.</li>
+              <li>JFace je nadogradnja višeg nivoa – najčešći poslovi se
+                obavljaju mnogo lakše nauštrb fleksibilnosti.</li>
+              <li>JFace nije zamena za SWT. Najčešće se kombinuju.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>JFace klase</h2>
+            <ul>
+              <li>U eclipse dokumentaciji referenciraju se kao <i>helper classes</i>
+                ili <i>model-based adapters</i>.</li>
+              <li>Dele se na 4 kategorije:</li>
+              <ul>
+                <li><em>Viewers</em> – Prikaz domenskih podataka u okviru
+                  standardnih SWT komponenti (MVC obrazac).</li>
+                <li><em>Actions and Contributions</em> – Pojednostavljuju i
+                  vrše organizaciju mehanizma obrade događaja.</li>
+                <li><em>Image and Font registries</em> – Upravljaju alokacijom
+                  i dealokacijom slika i fontova.</li>
+                <li><em>Dialogs and Wizards</em> – Proširuju mogućnosti SWT
+                  dijaloga za interakciju sa korisnicima.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+        </section>   <!-- Uvod -->
+
+
+        <section>   <!-- Shell, Display, Windws, Widgets -->
+
+
+          <section>
+            <h2>SWT projekat</h2>
+            <ul>
+              <li>URL projekta: <a href="http://www.eclipse.org/swt/">http://www.eclipse.org/swt/</a></li>
+              <li>Primeri: <a href="http://www.eclipse.org/swt/snippets/">http://www.eclipse.org/swt/snippets/</a></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje SWT projekta</h2>
+            <ul>
+              <li>U eclipse-u kreirati Java projekat i podesiti Build Path tako da uključi SWT biblioteke koje stižu uz eclipse.</li>
+              <li>SWT biblioteka je zavisna od GUI biblioteke OS-a.</li>
+              <li>Na primer, na linux-u SWT je implementiran preko GTK podsistema i eclipse priključci su:</li>
+            </ul>
+            <pre><code data-trim>
+plugins/org.eclipse.swt.gtk.linux.x86_xxxxx.jar
+plugins/org.eclipse.swt_xxxxx.jar
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Anatomija SWT programa – HelloSWT</h2>
+            <pre style="font-size:45%"><code data-trim class="java">
+public class HelloSWT {
+
+  public static void main(String[] args) {
+    Display display = new Display();
+    Shell shell = new Shell(display);
+
+    Text text = new Text(shell, SWT.CENTER);
+    text.setText("Hello SWT!");
+    text.pack();
+
+    shell.pack();
+    shell.open();
+
+    while(!shell.isDisposed()){
+      if(!display.readAndDispatch()){
+        display.sleep();
+      }
+    }
+  }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Anatomija SWT programa – Objašnjenje</h2>
+            <ul>
+              <li><em>Display klasa</em> – veza sa OS-om, alokacija GUI
+                resursa, propagacija događaja na odgovarajuće vizuelne
+                komponente. Koristi <i>Java Native Interface</i> (JNI) i OS
+              specifičnu biblioteku.</li>
+              <li><em>Shell klasa</em> – predstavlja glavni prozor aplikacije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Display klasa</h2>
+            <p>Najvažnije metode:</p>
+            <ul>
+              <li><em>getCurrent()</em> – static metoda koja vraća <code>Display</code>
+                objekat za koji je tekući thread EDT (<i>Event Dispatching
+                  Thread</i>).</li>
+              <li><em>syncExec/asyncExec(Runnable)</em> – sinhrono/asinhrono
+                izvršavanje koda na EDT.</li>
+              <li><em>readAndDispatch()</em> – prosleđuje događaje
+                odgovarajućim komponentama.</li>
+              <li><em>sleep()</em> – čeka na pojavu događaja.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Shell klasa</h2>
+            <ul>
+              <li>Brine se o aktivaciji, minimizaciji, maksimizaciji i
+                zatvaranju glavnog prozora.</li>
+              <li>Kontejner je za ostale vizualne komponente.</li>
+              <li>Prozori najvišeg nivoa (<i>top-level</i>) su povezana sa instancom
+                <code>Display</code> klase.</li>
+              <li>Sekundarni prozori (privremeni prozori, dijalozi i sl.)
+                nemaju direktnu vezu sa <code>Display</code> objektom.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Stilovi komponenti</h2>
+            <ul>
+
+              <li>Konstruktori vizuelnih komponenti (između ostalih i <code>Shell</code>) primaju kao jedan od parametara stil.</li>
+              <li>Podrazumenavi stil za <code>Shell</code> je
+                <code>SWT.SHELL_TRIM</code> koji podrazumeva <code>TITLE, MIN,
+                  MAX, RESIZE, CLOSE</code> stilove.</li>
+              <li>Stilovi se mogu kombinovati <code>OR</code> operatorom (|).</li>
+              <li>Pojedine platforme ne podržavaju određene stilove i zbog toga
+                se stil smatra samo preporukom.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Arhitektura SWT GUI-ja</h2>
+              <img src="SWT-JFace/SWT-Arhitektura.png" height="400" alt=""/>
+            <footer>
+              <p>M. Scarpino, S. Holder, S. Ng, and L. Mihalkovic,
+              <i>Swt/jface in action: Gui design with eclipse 3.0 (in action
+              series)</i>, Manning Publications Co., 2004.</p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h1>Demonstracija HelloSWT programa</h1>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje SWT/JFace programa</h2>
+            <ul>
+              <li>Kod samostalnih aplikacija na Build Path je potrebno
+                uključiti sledeće plugin-e iz eclipse-a:</li>
+              <ul>
+                <li><code>org.eclipse.swt_xxx</code></li>
+                <li><code>org.eclipse.swt.[tehnologija]</code></li>
+                <li><code>org.eclipse.jface_xxx</code></li>
+                <li><code>org.eclipse.jface.text_xxx</code></li>
+                <li><code>org.eclipse.jface.databinding_xxx</code></li>
+                <li><code>org.eclipse.equinox.common_xxx</code></li>
+                <li><code>org.eclipse.core.commands_xxx</code></li>
+              </ul>
+              <li>Najbolje je u Eclipse-u kreirati <i>User Library</i> i dodati
+                navedene biblioteke.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Kreiranje SWT/JFace programa – projekat</h2>
+            <img src="SWT-JFace/SWT-JFace-BuildPath.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Prvi JFace program – HelloJFace</h2>
+            <pre style="font-size:40%"><code data-trim class="java">
+public class HelloJFace extends ApplicationWindow{
+
+    public HelloJFace() {
+        super(null);
+    }
+
+    @Override
+    protected Control createContents(Composite parent) {
+        Text text = new Text(parent, SWT.CENTER);
+        text.setText("Hello SWT and JFace!");
+        text.pack();
+        return parent;
+    }
+
+    public static void main(String[] args) {
+        HelloJFace awin = new HelloJFace();
+        awin.setBlockOnOpen(true);
+        awin.open();
+        Display.getCurrent().dispose();
+    }
+}
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Prvi JFace program – objašnjenje</h2>
+            <ul>
+              <li>Klasa <code>ApplicationWindow</code> predstavlja glavni prozor aplikacije.</li>
+              <li>Ova klasa interno kreira <code>Shell</code> i <code>Display</code> objekte.</li>
+              <li>Sadržaj prozora se definiše redefinisanjem protected metode
+                <code>createContents</code>.</li>
+              <li>Metoda <code>open()</code> prozora podrazumevano nije blokirajuća jer je
+                moguće kreirati više prozora najvišeg nivoa. Ukoliko želimo da
+                <code>open()</code> poziv metode bude blokirajući, dok korisnik ne zatraži
+              zatvaranje prozora, pozivamo <code>setBlockOnOpen(true)</code>.</li>
+              <li>Na kraju je potrebno izvršiti dealokaciju svih zauzetih
+                resursa – poziv <code>Display.getCurrent().dispose()</code>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Arhitektura JFace GUI-ja</h2>
+              <img src="SWT-JFace/JFace-Arhitektura.png" height="400" alt=""/>
+            <footer>
+              <p>M. Scarpino, S. Holder, S. Ng, and L. Mihalkovic,
+              <i>Swt/jface in action: Gui design with eclipse 3.0 (in action
+              series)</i>, Manning Publications Co., 2004.</p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h1>Demonstracija HelloJFace programa</h1>
+          </section>
+
+
+          <section>
+            <h2>Hijerarhija prozora u JFace-u</h2>
+            <img src="SWT-JFace/JFace-Windows.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>SWT widget</h2>
+            <ul>
+              <li>Objekat korisničkog interfejsa koji prikazuje informacije
+                korisniku i/ili omogućava korisniku interakciju sa
+                aplikacijom.</li>
+              <li>Određeni widget-i se mogu ugrađivati jedni u druge
+                (kompozicija, videti klasu <code>Composite</code> u nastavku).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2><i>Wiget</i> klasa</h2>
+            <ul>
+              <li>Apstraktna superklasa za sve komponente grafičkog korisničkog
+                interfejsa.</li>
+              <li>Vrši unifikaciju hijerarhije nasleđivanja i nije namenjena za
+                direktno nasleđivanje od strane krajnjih korisnika.</li>
+              <li><i>Widget</i>-i se kreiraju, po završenom poslu se dealociraju
+                (metodom <code>dispose</code>).</li>
+              <li>Vrše notifikaciju događaja svim registrovanim osluškivačima.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Najvažnije metode Widget klase</h2>
+            <ul>
+              <li><em>setData(String, Object)</em> - Pridružuje objekat widget-u.</li>
+              <li><em>getData()</em> - Vraća sve pridružene objekte.</li>
+              <li><em>getData(String)</em> - Vraća pridruženi objekat identifikovan stringom.</li>
+              <li><em>getStyle()</em> - Vraća <code>int</code> koji opisuje stil <i>widget</i>-a.</li>
+              <li><em>getDisplay()</em> - Vraća <code>Display</code> objekat pridružen <i>widget</i>-u.</li>
+              <li><em>dispose()</em> - Oslobađa sistemske resurse zauzete <i>widget</i>-om.</li>
+              <li><em>isDispose()</em> - Da li je dealokacija obavljena?</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Hijerarhija Widget naslednika</h2>
+            <img src="SWT-JFace/Widgets.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2><i>Control</i> klasa</h2>
+            <ul>
+              <li>Apstraktna superklasa za sve komponente grafičkog korisničkog
+                interfejsa koji imaju direktnu reprezentaciju unutar
+                operativnog sistema.</li>
+              <li>Čuva referencu na objekat (ref. <i>handle</i>) koji predstavlja
+                objekat OS-a.</li>
+              <li>Ima svoju preferiranu veličinu.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Metode Control klase za rad sa veličinom</h2>
+            <ul style="font-size:90%">
+              <li><em>getSize()</em> - Vraća Point objekat koji opisuje
+                veličinu kontrole.</li>
+              <li><em>setSize(int, int)</em> - Postavlja veličinu kontrole.</li>
+              <li><em>setSize(Point)</em> - Postavlja veličinu kontrole.</li>
+              <li><em>computeSize(int, int)</em> - Vraća dimenzije potrebne za
+                pun prikaz kontrole.</li>
+              <li><em>computeSize(int, int, boolean)</em> - Vraća dimenzije
+                potrebne za pun prikaz kontrole, i prosleđuje informaciju da je
+                došlo do promene kontrole.</li>
+              <li><em>pack()</em> - Postavlja veličinu na preferiranu.</li>
+              <li><em>pack(boolean)</em> - Postavlja veličinu na preferiranu uz
+                indikaciju da je došlo do promene osobina kontrole.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Metode <i>Control</i> klase za rad sa lokacijom komponente</h2>
+            <ul style="font-size:80%">
+              <li><em>getLocation()</em> - Vraća relativnu poziciju komponente
+                u odnosu na roditeljsku.</li>
+              <li><em>setLocation(int, int)</em> - Postavlja relativnu poziciju
+                komponente u odnosu na roditeljsku.</li>
+              <li><em>getBounds()</em> - Vraća veličinu i poziciju u odnosu na
+                roditeljsku komponentu.</li>
+              <li><em>setBounds(int,int,int,int)</em> - Postavlja veličinu i
+                poziciju u odnosu na roditeljsku komponentu.</li>
+              <li><em>toControl(int,int)</em> - Konvertuje koordinate
+                <i>Display</i>-a u relativne koordinate kontrole.</li>
+              <li><em>toControl(Point)</em> - Konvertuje koordinate
+                <i>Display</i>-a u relativne koordinate kontrole.</li>
+              <li><em>toDisplay(int,int)</em> - Konvertuje koordinate kontrole
+                u relativne koordinate <i>Display</i>-a.</li>
+              <li><em>toDisplay(Point)</em> - Konvertuje koordinate kontrole u
+                relativne koordinate <i>Display</i>-a.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2><i>Composite</i> klasa</h2>
+            <ul>
+              <li>Omogućava "ugradnju" vizualnih komponenti jedne u druge.</li>
+              <li>Svaki <code>Composite</code> objekat ima listu svojih podkomponenti.</li>
+              <li><code>Composite</code> je kontrola pa može da se nađe svuda gde se
+                mogu naći druge vrste kontrola.</li>
+              <li>Nasleđuje <code>Scrollable</code> tako da svaki kompozit može
+                imati <i>scrollbar</i>-s.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Najvažnije metode Composite klase</h2>
+            <ul style="font-size:90%">
+              <li><em>getChildren()</em> - Vraća niz podkomponenti.</li>
+              <li><em>getLayout()</em> - Vraća objekat zadužen za prostorno
+                raspoređivanje komponenti.</li>
+              <li><em>setLayout(Layout)</em> - Postavlja objekat zadužen za
+                prostorno raspoređivanje komponenti.</li>
+              <li><em>layout(...)</em> - Vrši prostorno raspoređivanje children
+                elemenata upotrebom pridruženog Layout-a.</li>
+              <li><em>getTabList()</em> - Vraća niz kontrola u skladu sa njihovim
+                Tab rasporedom.</li>
+              <li><em>setTabList(Control[])</em> - Postavlja Tab raspored kontrola.</li>
+            </ul>
+          </section>
+
+
+        </section>  <!-- Shell, Display, Windws, Widgets -->
+
+
+
+
+        <section>   <!-- Obrada događaja -->
+
+
+          <section>
+            <h1>Obrada događaja</h1>
+          </section>
+
+
+          <section>
+            <h2>Obrada događaja</h2>
+            <ul>
+              <li>Događaji mogu biti inicirani od strane korisnika (npr. klik
+                mišem, pritisak taster) ali mogu biti izazvani i nezavisno od
+                korisnika.</li>
+              <li>Događaje iz OS-a isčitava <code>Display</code> objekat u
+                metodi <em>readAndDisplatch</em>.</li>
+              <li>Ukoliko postoji događaj, <code>Display</code> ga šalje
+                <code>Shell</code> objektu najvišeg nivoa koji je "spojen" za
+                dati <code>Display</code> objekat.</li>
+              <li><code>Shell</code> određuje kojem <code>Widget</code>-u treba
+                da prosledi događaj.</li>
+              <li><code>Widget</code> obaveštava sve osluškivače da se događaj
+                desio.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Propagacija i obrada događaja</h2>
+            <img src="SWT-JFace/EventDispatch.png" alt=""/>
+            <footer>
+              <p>M. Scarpino, S. Holder, S. Ng, and L. Mihalkovic,
+              <i>Swt/jface in action: Gui design with eclipse 3.0 (in action
+              series)</i>, Manning Publications Co., 2004.</p>
+            </footer>
+          </section>
+
+
+          <section>
+            <h2>Osluškivači – <i>Listeners</i></h2>
+            <ul style="font-size:90%">
+              <li>SWT omogućava definisanje dve vrste osluškivača: tipizirane i
+                netipizirane.</li>
+              <li><b>Netipizirani osluškivači:</b></li>
+              <ul>
+                <li>Implementiraju
+                  <code>org.eclipse.swt.widgets.Listener</code> interfejs koja
+                  definiše metodu <code>handleEvent(Event)</code>.</li>
+                <li>"Kače" se na <code>Widget</code>-e putem metode
+                  <code>addListener(int eventType, Listener)</code></li>
+                <li>Koriste generičku <code>Event</code> klasu.</li>
+              </ul>
+              <li><b>Tipizirani osluškivači:</b></li>
+              <ul>
+                <li>Osluškivači "višeg nivoa".</li>
+                <li>Implementiraju neki od <code>*Listener</code> interfejsa
+                  koji nasleđuju
+                  <code>org.eclipse.swt.internal.SWTEventListener</code>.</li>
+                <li>"Kače" se na <code>Widget</code>-e putem metoda oblika
+                  <code>add*Listener()</code>.</li>
+                <li>Koriste odgovarajuće <code>*Event</code> klase – svaki
+                  listener ima svoju <code>Event</code> klasu.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Događaji – <i>Events</i></h2>
+            <ul>
+              <li>Događaji su opisani instancama klase <code>Event</code> ili naslednicama
+                <code>TypedEvent</code>.</li>
+              <li>Pored specifičnih informacija sadrže sledeće:</li>
+              <ul>
+                <li><em>display</em> – Display objekat gde je događaj nastao.</li>
+                <li><em>widget</em> – Widget koji je izazvao događaj.</li>
+                <li><em>time</em> – vreme u koje se događaj desio.</li>
+                <li><em>data</em> – objekat koji predstavlja informacije specifične za
+                  aplikaciju.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Podrazumevana implementacija <code>Listener</code> interfejsa – Adapteri</h2>
+            <ul>
+              <li>Pojedini osluškivači imaju više metoda, ali nam često nisu sve potrebne.</li>
+              <li>Možemo kreirati objekat sa praznim telima metoda ili,
+                jednostavnije, koristiti odgovarajuće adapter klase koje
+                implementiraju dati interfejs i definišu podrazumevanu
+                implementaciju za sve metode.</li>
+              <li>Primer: <code>TreeListener</code> → <code>TreeAdapter</code></li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>JFace nadogradnja obrade događaja</h2>
+            <ul>
+              <li>Isti odgovor može biti primenjen na različite događaje.</li>
+              <li>Potrebno je razdvojiti obradu događaja od GUI komponenti koje ih generišu.</li>
+              <li>JFace nudi ove mogućnosti kroz koncepte <em>Actions</em> i <em>Contribitions</em>.</li>
+              <li>JFace polazi od sledeće tri pretpostavke da bi pojednostavio obradu događaja:</li>
+              <ul>
+                <li>Korisničke akcije će najčeše uključivati dugmadi, toolbar-ove i menije.</li>
+                <li>Svaka komponenta će imati samo jedan pridruženi događaj.</li>
+                <li>Svaki događaj će imati jedan obrađivač događaja.</li>
+              </ul>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Odgovor na događaje – Akcije</h2>
+            <ul>
+              <li>Akcije predstavljaju ne-GUI komponentu komande izazvane od strane korisnika.</li>
+              <li>Realizovani su kroz <em>Action klasu</em> koja implementira
+                <em>IAction interfejs</em>.</li>
+              <li>Objedinjuju obradu događaja (<em>run metoda</em>), stanje,
+                opis, sličicu, tooltip, akcelerator i sl.</li>
+              <li>Dodaju se na toolbar, meni ili statusnu liniju metodom
+                <em>IContributionManager.add</em>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>ContributionItem i ContributionManager</h2>
+            <ul>
+              <li>Predstavljaju objekte koji se dodaju na deljene elemente
+                korisničkog interfejsa (toolbar, meni, statusnu liniju).</li>
+              <li>Deljeni objekti UI-ja nasleđuju
+                <code>ContributionManager</code> klasu (implementiraju
+                <code>IContributionManager</code>).</li>
+              <li><code>ActionContributionItem</code> – <i>wrapper</i> za
+                <code>Action</code> objekat koji se dodaje na
+                <code>IContributionManager</code>.</li>
+              <li><code>ContributionManager</code> predstavlja kontejner za
+                <code>ContributionItem</code> objekte.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Primer saradnje <i>Action</i>, <i>ContributionItem</i> i <i>ContributionManager</i> objekata</h2>
+          </section>
+
+
+          <section>
+            <h2>Dva načina dodavanja <i>ActionContributionItem</i>-a na <i>ContributionManager</i></h2>
+            <ul>
+              <li>Pozivanjem <em>add</em> metode <code>ContributionManager</code>-a.</li>
+              <li>Pozivanjem <em>fill</em> metode <code>ActionContributionItem</code>-a.</li>
+              <li>Realizacija zavisi od objekta u koji se dodaje. Npr. na
+                toolbar-u ili <code>Composite</code> objektu može se prikazati
+                kao dugme dok će na meniju biti stavka menija.</li>
+            </ul>
+          </section>
+
+
+        </section>  <!-- Obrada događaja -->
+
+
+        <section>   <!-- Layouts -->
+
+
+          <section>
+            <h1>Prostorno raspoređivanje – <i>Layout</i></h1>
+          </section>
+
+
+          <section>
+            <h2>Prostorno raspoređivanje – Layout</h2>
+            <ul>
+              <li>Podrška za displeje različitih dimenzija kao i za dinamičku
+                promenu geometrije kontejnerskih komponenti.</li>
+              <li><em>Layout</em> – instanca ove klase upravlja veličinom i rasporedom
+                podkomponenti <code>Composite</code> objekta.</li>
+              <li><em>setLayout(Layout)</em> <code>Composite</code> objekta
+                postavlja <code>Layout</code>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Osnovne <i>Layout</i> naslednice</h2>
+            <ul>
+              <li><em>FillLayout</em> – raspoređuje komponente sleva nadesno ili od gore prema dole.</li>
+              <li><em>RowLayout</em> – raspoređuje komponente u redove.</li>
+              <li><em>GridLayout</em> – tabelarno raspoređivanje.</li>
+              <li><em>FormLayout</em> – raspoređivanje kroz definisanje zavisnosti između susednih komponenti.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Konfiguracija kontrola za <i>layout</i></h2>
+            <ul>
+              <li>Objekti <code>Control</code> klase koje se dodaju u
+                <code>Composite</code> mogu primiti konfiguraciju sa
+                <em>setLayoutData(Object)</em> pozivom.</li>
+              <li>Ovu konfiguraciju može koristiti <code>Layout</code> objekat
+                prilikom izračunavanja veličina i pozicija.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1>Primeri GridLayout i FormLayout</h1>
+          </section>
+
+        </section>  <!-- Layouts -->
+
+
+        <section>   <!-- Grafika -->
+
+
+          <section>
+            <h1>Grafika u SWT-u</h1>
+          </section>
+
+
+          <section>
+            <h2>Grafika u SWT-u</h2>
+            <ul>
+              <li>Za crtanje po kontroli koristi se <em>Graphic Context</em> –
+                klasa <em>GC</em>.</li>
+              <li>Primitive za crtanje GC klase: <em>drawLine</em>,
+                <em>drawOval</em>, <em>drawPolygon</em> itd.</li>
+              <li>Pri kreiranju GC objektu prosleđujemo <em>Drawable</em>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Drawable hijerarhija</h2>
+            <img src="SWT-JFace/Drawable.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>Obrada Paint događaja</h2>
+            <ul>
+              <li><em>Control</em> instance mogu da registruju
+                <em>PaintListener</em> objekte i delegiraju svoje
+                iscrtavanje.</li>
+              <li><em>PaintListener</em>-i implementiraju <em>paintControl</em>
+                metodu koja se poziva kada je iscrtavanje potrebno i kojoj se
+                prosleđuje <em>PaintEvent</em> objekat.</li>
+              <li><em>PaintEvent</em> sadrži GC kontrole za koju je zahtevano
+                iscrtavanje kao i oblast koja treba da se "osveži".</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h1>Primeri DrawAlpha i Scribble</h1>
+          </section>
+
+
+        </section>  <!-- Grafika -->
+
+
+
+
+        <section>   <!-- JFace Viewsers -->
+
+
+          <section>
+            <h1>JFace Viewers</h1>
+          </section>
+
+
+          <section>
+            <h2>JFace Viewers</h2>
+            <ul>
+              <li>Okvir za rad sa komponentama za prikaz strukturiranih
+                podataka (stabla, liste, tabele).</li>
+              <li>Koristi MVC pristup.</li>
+              <li>Gradi se na bazi odgovarajućih SWT widget-a.</li>
+              <li>Koristi <em>Provider</em> obrazac.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Viewer klasa</h2>
+            <ul>
+              <li>Predstavlja apstrakciju vizualne komponente i podataka koje
+                prikazuje i opisuje <em>View</em> deo <em>MVC</em>
+                obrasca.</li>
+              <li><code>Viewer</code>-i koriste <code>Provider</code>-e za
+                dobavljanje informacija koje treba da prikažu.</li>
+              <li>Najvažniji <code>Provider</code>-i implementiraju interfejse
+                <em>IContentProvider</em> i <em>IBaseLabelProvider</em>.</li>
+              <li><code>IContentProvider</code>-i se bave strukturom koja se
+                prikazuje.</li>
+              <li><code>IBaseLabelProvider</code> se bave vizuelnim
+                karakteristikama - labele i ikone.</li>
+              <li>Postoje i drugi <code>Provider</code>-i:
+                <em>ISelectionProvider</em>, <em>IColorProvider</em>,
+                <em>IFontProvider</em> itd.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Dijagram Viewer-a i Provider-a</h2>
+            <img src="SWT-JFace/Viewers.png" alt=""/>
+          </section>
+
+
+          <section>
+            <h2>JFace primeri</h2>
+            <a href="http://wiki.eclipse.org/JFaceSnippets" target="_blank">http://wiki.eclipse.org/JFaceSnippets</a>
+          </section>
+
+
+          <section>
+              <p>Primeri sa Viewerima sa JFaceSnippets-a: SimpleTreeViewer,
+              VirtualTree, TableViewerShowHide, TableViewerAlternatingColors,
+              TreeCustomMenu, StyledCellLabel, SimpleCellEditor,
+              DoubleClickCellEditor, CellEditorContentProposal...</p>
+          </section>
+
+
+        </section>  <!-- JFace Viewsers -->
+
+
+        <section>   <!-- Data binding -->
+
+          <section>
+            <h1>Data Binding</h1>
+          </section>
+
+          <section>
+              <h2>JFace Data Binding</h2>
+              <ul>
+                <li><a href="http://www.ibm.com/developerworks/opensource/library/os-ecl-jfacedb1/"
+                       target="_blank">http://www.ibm.com/developerworks/opensource/library/os-ecl-jfacedb1/</a></li>
+                <li><a
+                       href="http://www.vogella.com/articles/EclipseDataBinding/article.html"
+                       target="_blank">http://www.vogella.com/articles/EclipseDataBinding/article.html</a></li>
+              </ul>
+          </section>
+
+        </section>  <!-- Data binding -->
+
+
+
+        <section>
+          <h2>Literatura</h2>
+          <ol>
+            <li>M. Scarpino, S. Holder, S. Ng, and L. Mihalkovic, <i>Swt/jface
+                in action: Gui design with eclipse 3.0 (in action series)</i>,
+              Manning Publications Co., 2004</li>
+          </ol>
+        </section>
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>

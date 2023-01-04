@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="utf-8"/>
+<title>Микросервисни обрасци</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Микросервисни обрасци</h1>
+<h2 class="subtitle">У изради</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2022-12-20 Tue 22:00, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+</section>
+
+<section>
+<section id="slide-orgb969c0f">
+<h2 id="orgb969c0f">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Увод</a></li>
+<li><a href="#/slide-2">2. Архитектура базе података</a></li>
+<li><a href="#/slide-3">3. Обезбеђивање конзистенције</a></li>
+<li><a href="#/slide-4">4. Постављање упита</a></li>
+<li><a href="#/slide-5">5. Комуникација</a></li>
+<li><a href="#/slide-6">6. Откривање сервиса</a></li>
+<li><a href="#/slide-7">7. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Увод</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Микросервиси (<i>Microservices</i>)</h3>
+<ul>
+<li>Софтверске компоненте.</li>
+<li>Висока кохезија, слаба спрега.</li>
+<li>Комуникација се обавља путем стандардних технолошки независних протокола
+(најчешће HTTP).</li>
+<li>Могу бити имплементирани у различитим програмских језицима и технологијама.</li>
+<li>Мали су, ограниченог контекста. Независно се развијају и уводе.</li>
+<li>Имају јасно дефинисане интерфејсе путем којих комуницирају.</li>
+<li><p>
+<i>Unix</i> филозофија:
+</p>
+<blockquote>
+<p>
+Do one thing and do it well.
+</p>
+</blockquote></li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Архитектура базирана на микросервисима</h3>
+<ul>
+<li>Архитектонски стил где се апликација гради као скуп слабо спрегнутих "малих"
+сервиса (микросервиса) који сарађују.</li>
+<li>Варијанта <i>Service-Oriented Architecture</i> (SOA) али сервиси су "мали" и
+протоколи за комуникацију су једноставни (<i>light-weight</i>).</li>
+<li>Микросервиси пружају услуге и/или користе друге микросервисе.</li>
+<li>У циљу независне миграције микросервиса на нове верзије интерфејси се
+верзионирају и омогућава се клијентима да користе старе интерфејсе у прелазном
+периоду.</li>
+
+</ul>
+
+
+<div id="orgaf91d8f" class="figure">
+<p><img src="./images/msa.png" alt="msa.png" style="height: 450px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Предности у односу на монолитну архитектуру</h3>
+<ul>
+<li>Тимови могу бити технолошки хетерогени.</li>
+<li>Увођење (<i>deploy</i>) се обавља у малим инкрементима (<i>fine-grained</i>).</li>
+<li>Модуларност, декомпозиција. Лакше разумевање, развој и тестирање. Отпорност на
+"ерозију архитектуре".</li>
+<li>Боља скалабилност. Боља еластичност. Лако додавање нових микросервиса по
+потреби.</li>
+<li>Боља отпорност на отказе. Уколико један микросервис "падне" остатак
+апликације наставља да ради.</li>
+<li>Лакша миграција на нове технологије. Могућа постепеним заменама микросервиса.</li>
+<li>Интеграција хетерогених и "старих" система (<i>legacy</i>).</li>
+<li>Континуална интеграција и достава (<i>Continuous Integration/Delivery</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Мане у односу на монолитну архитектуру</h3>
+<ul>
+<li>Више "покретних делова". Захтева боље алате за увођење и надзор.</li>
+<li>Теже дебаговање. Дебаговање захтева праћење захтева кроз више микросервиса
+који се извршавају често на различитим физичким/виртуелним рачунарима.</li>
+<li>Додатни трошкови (<i>overheads</i>) услед комуникације.</li>
+<li>Додатни трошкови у случају потребе за дељењем података.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Архитектура базе података</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-database-per-service">
+<h3 id="database-per-service"><span class="section-number-3">2.1.</span> База података по сервису (<i>Database per service</i>)</h3>
+<ul>
+<li>У циљу слабог спрезања сервиса подаци над којима сервиси оперишу се
+имплементирају као приватни.</li>
+<li>Други сервиси не могу приступити подацима директно већ само кроз интерфејс
+сервиса.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<a href="https://microservices.io/patterns/data/database-per-service.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/database-per-service.html</a>
+</p>
+
+</section>
+<section id="slide-2-1-1">
+<h4 id="2-1-1"><span class="section-number-4">2.1.1.</span> Структура</h4>
+
+<div id="org8cb43b4" class="figure">
+<p><img src="images/dps-01.svg" alt="dps-01.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-1-2">
+<h4 id="2-1-2"><span class="section-number-4">2.1.2.</span> Предности</h4>
+<ul>
+<li>Подаци су део имплементације сервиса.</li>
+<li>Имплементација приватне базе се може мењати независно од остатка система.</li>
+<li>Могуће је користити хетерогене технологије.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-1-3">
+<h4 id="2-1-3"><span class="section-number-4">2.1.3.</span> Мане</h4>
+<ul>
+<li>Отежано извођење трансакција које се обављају између података различитих
+сервиса. Видети образац <a href="#/slide-3-1" class="forwardlink">Saga</a>.</li>
+<li>Отежани сложени упити који обухватају податке више сервиса. Видети образац <a href="#/slide-4-2" class="forwardlink">CQRS</a>.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-1-4">
+<h4 id="2-1-4"><span class="section-number-4">2.1.4.</span> Начини имплементације</h4>
+<ul>
+<li>Употреба једне инстанце базе за све сервисе:
+<ul>
+<li>приватне табеле по сервису,</li>
+<li>приватна шема по сервису.</li>
+
+</ul></li>
+<li>Посебна инстанца базе по сервису.</li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Дељена база података (<i>Shared database</i>)</h3>
+<ul>
+<li>У циљу подршке за ACID трансакције сервиси деле исту базу податак и могу
+слободно да приступају подацима других сервиса.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<a href="https://microservices.io/patterns/data/shared-database.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/shared-database.html</a>
+</p>
+
+</section>
+<section id="slide-2-2-1">
+<h4 id="2-2-1"><span class="section-number-4">2.2.1.</span> Структура</h4>
+
+<div id="org3ff704d" class="figure">
+<p><img src="images/dps-02.svg" alt="dps-02.svg" class="org-svg" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-2-2">
+<h4 id="2-2-2"><span class="section-number-4">2.2.2.</span> Предности</h4>
+<ul>
+<li>Једноставније за имплементацију и операцију.</li>
+<li>Једноставније трансакције (ACID) и упити (нпр. могуће JOIN између табела
+различитих сервиса).</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2-3">
+<h4 id="2-2-3"><span class="section-number-4">2.2.3.</span> Мане</h4>
+<ul>
+<li>Јача спрега између сервиса у време развоја (нпр. одржавање шеме базе мора
+бити кооринисано између тимова) и у време извршавања (нпр. један сервис може
+да закључа табелу и спречи друге сервисе да приступе).</li>
+<li>Сервиси могу да мењају податке других сервиса. Ово је могуће административно
+регулисати уколико база подржава.</li>
+<li>Иста база можда неће задовољити потребне функционалне и нефункционалне
+особине захтеване од стране неких сервиса.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Обезбеђивање конзистенције</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Saga</h3>
+<ul>
+<li>Вид дистрибуиране трансакције. Мање ригидна од <i>two-phase commit</i> (2PC).</li>
+<li>Очување конзистенције података између сервиса.</li>
+<li>Користи се када је у употреби <a href="#/slide-database-per-service" class="backwardlink">Database per service</a> образац за имплементацију
+трансакција.</li>
+<li>Низ локалних трансакција (<i>ACID</i>) које објавом поруке/догађаја иницирају следећу
+трансакцију у ланцу. Уколико нека од трансакција не успе, извршава се
+поништавање.</li>
+
+</ul>
+
+
+<div id="org19d5396" class="figure">
+<p><img src="./images/saga-01.png" alt="saga-01.png" style="height: 250px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-1-1">
+<h4 id="3-1-1"><span class="section-number-4">3.1.1.</span> Приступи</h4>
+<ul>
+<li>Два приступа у координацији трансакције:
+<ul>
+<li>Базиран на кореографији (<i>Choreography</i>) - после сваке локалне трансакције
+објављује се догађај који иницира извршавање следеће трансакције у низу.</li>
+<li>Базиран на оркестрацији (<i>Orchestration</i>) - оркестратор (посебан објекат) је
+задужен да обавести учеснике да започну или да пониште трансакцију.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-3-1-2">
+<h4 id="3-1-2"><span class="section-number-4">3.1.2.</span> Структура - кореографија</h4>
+<ol>
+<li>Сервис за наручивање прима захтев <code>POST /orders</code> креира наруџбину у стању <i>у
+обради</i></li>
+<li>Прослеђује догађај <code>Наруџбина креирана</code></li>
+<li>Сервис за купце покушава да резервише средства и објављује догађај који
+представља резултат операције: средства су резервисана или је кредит
+прекорачен.</li>
+<li>Сервис за наручивање прихвата или одбија наруџбину.</li>
+
+</ol>
+
+
+<div id="org76c7629" class="figure">
+<p><img src="images/saga-02.png" alt="saga-02.png" style="width: 60%; height: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-1-3">
+<h4 id="3-1-3"><span class="section-number-4">3.1.3.</span> Структура - оркестрација</h4>
+<ul>
+<li>Сервис за наручивање је оркестратор тј. задужен је за координацију целокупног
+процеса наручивања.</li>
+
+</ul>
+
+
+<div id="org62b5715" class="figure">
+<p><img src="./images/saga-03.png" alt="saga-03.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-1-4">
+<h4 id="3-1-4"><span class="section-number-4">3.1.4.</span> Предности</h4>
+<ul>
+<li>Слабија спрега. Мање ригидан систем.</li>
+<li>Боља скалабилност.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-1-5">
+<h4 id="3-1-5"><span class="section-number-4">3.1.5.</span> Мане</h4>
+<ul>
+<li>Мора се пажљиво моделовати редослед операција због потенцијалног поништавања.</li>
+<li>Шта радити у ситуацији када је операција неуспешна због техничког проблема
+(нпр. сервис није тренутно доступан)?</li>
+<li>Коначна конзистентност (<i>Eventual Consistency</i>).</li>
+
+</ul>
+
+</section>
+<section id="slide-event-sourcing">
+<h3 id="event-sourcing"><span class="section-number-3">3.2.</span> <i>Event sourcing (ES)</i></h3>
+<ul>
+<li>Користи се код архитектуре вођене догађајима (<i>Event-Driven</i>).</li>
+<li>Уместо чувања тренутног стања ентитета чува се низ догађаја који су мењали
+ентитет.</li>
+<li>Текуће стање се може добити применом свих догађаја до садашњег тренутка.</li>
+<li>Природно се користи са обрасцем <a href="#/slide-4-2" class="forwardlink">CQRS</a>.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2-1">
+<h4 id="3-2-1"><span class="section-number-4">3.2.1.</span> Структура код класичног приступа</h4>
+
+<div id="orgbc35948" class="figure">
+<p><img src="./images/es-01.png" alt="es-01.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-3-2-2">
+<h4 id="3-2-2"><span class="section-number-4">3.2.2.</span> Структура код <i>ES</i> приступа</h4>
+
+<div id="orga063f1b" class="figure">
+<p><img src="./images/es-02.png" alt="es-02.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-2-3">
+<h4 id="3-2-3"><span class="section-number-4">3.2.3.</span> Напомене</h4>
+<ul>
+<li>Ток догађаја треба да буде једини извор текућег стања.</li>
+<li>Предности:
+<ul>
+<li>различити модели се могу изградити применом тока догађаја у будућности.</li>
+<li>природно садржи пуну историју измена што омогућава ревизију и контролу.</li>
+
+</ul></li>
+<li>Мана: немогућност постављања упита над током догађаја - због тога се користи у
+синергији са <a href="#/slide-4-2" class="forwardlink">CQRS</a>.</li>
+<li>Додатно можемо користити брокере порука (<i>message brokers</i>) уместо базе података.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Постављање упита</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-api-composition">
+<h3 id="api-composition"><span class="section-number-3">4.1.</span> API композиција (<i>API Composition</i>)</h3>
+<ul>
+<li>У случају употребе обрасца <a href="#/slide-database-per-service" class="backwardlink"><i>Database per service</i></a> поставља се питање како
+имплементирати упите који удружују податке из различитих микросервиса.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<a href="https://microservices.io/patterns/data/api-composition.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/api-composition.html</a>
+</p>
+
+</section>
+<section id="slide-4-1-1">
+<h4 id="4-1-1"><span class="section-number-4">4.1.1.</span> Решење</h4>
+<ul>
+<li>Креирати сервис који поставља појединачне упите и затим комбинује податке у
+меморији и враћа јединствени одговор са удруженим подацима.</li>
+
+</ul>
+</section>
+<section id="slide-4-1-2">
+<h4 id="4-1-2"><span class="section-number-4">4.1.2.</span> Структура</h4>
+
+<div id="orgc30489a" class="figure">
+<p><img src="images/apic-01.png" alt="apic-01.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-1-3">
+<h4 id="4-1-3"><span class="section-number-4">4.1.3.</span> Предности и мане</h4>
+<ul>
+<li>Предности:
+<ul>
+<li>Поједностављење сложених упита.</li>
+<li>Једно место за ажурирање сложених упита.</li>
+
+</ul></li>
+<li>Мане:
+<ul>
+<li>Поједини упити могу бити неефикасни јер се велика количина података прености
+преко мреже и удружује у меморији.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-4-1-4">
+<h4 id="4-1-4"><span class="section-number-4">4.1.4.</span> Пример</h4>
+<ul>
+<li>Образац <a href="#/slide-5-3" class="forwardlink"><i>API Gateway</i></a> често ради API композицију.</li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> CQRS</h3>
+<ul>
+<li><i>Command Query Responsibility Segregation</i> (<i>CQRS</i>) се користи у ситуацији када
+имамо обрасце <a href="#/slide-database-per-service" class="backwardlink"><i>Database per service</i></a> и <a href="#/slide-event-sourcing" class="backwardlink"><i>Event sourcing</i></a> имплементиране и желимо
+да подржимо упите који удружују податке из више микросервиса.</li>
+<li>Базиран на идеји поделе захтева на оне који мењају стања и оне који само
+читају тј. немају бочне ефекте. Еквивалентно са <i>REST</i> методама за читање (<code>GET,
+  HEAD</code>) и измену стања (<code>POST, PUT, PATCH...</code>).</li>
+<li>Креирање базе која је само за читање и која се континуално ажурира обрадом
+догађаја који се емитују при промени података.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2-1">
+<h4 id="4-2-1"><span class="section-number-4">4.2.1.</span> Структура - посебне базе</h4>
+<ul>
+<li>Захтев за изменом производа <code>(1)</code> уписује текуће стање у локалну базу <code>(2)</code> и
+објављује догађај <code>(3)</code>.</li>
+<li>Сервис за упите, на основу догађаја, ажурира <code>(4)</code> свој интерни модел
+оптимизован за упите који чува у локалној бази.</li>
+
+</ul>
+
+<div id="org6353639" class="figure">
+<p><img src="./images/cqrs-01.png" alt="cqrs-01.png" style="height: 600px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-2-2">
+<h4 id="4-2-2"><span class="section-number-4">4.2.2.</span> Структура - јединствена база</h4>
+<ul>
+<li>Захтев за изменом производа <code>(1)</code> уписује тренутно стање у локалну базу <code>(2)</code> и
+ажурира модел за упите <code>(3)</code> и затим објављује догађај <code>(4)</code>.</li>
+<li>Сервис за упите чита ажуран модел за упите <code>(5)</code>.</li>
+
+</ul>
+
+<div id="org488ed6e" class="figure">
+<p><img src="./images/cqrs-02.png" alt="cqrs-02.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-4-2-3">
+<h4 id="4-2-3"><span class="section-number-4">4.2.3.</span> Предности</h4>
+<ul>
+<li>Неминовна употреба код употребе обрасца <a href="#/slide-event-sourcing" class="backwardlink"><i>Event sourcing</i></a>.</li>
+<li>Боља подела надлежности.</li>
+<li>Једноставнији упитни модел. Боље перформансе упита. Подаци су најчешће
+денормализовани у циљу постизања оптималних перформанси.</li>
+
+</ul>
+
+</section>
+<section id="slide-4-2-4">
+<h4 id="4-2-4"><span class="section-number-4">4.2.4.</span> Мане</h4>
+<ul>
+<li>Увећана сложеност.</li>
+<li>Кашњење у репликацији. Крајња доследност (<i>Eventual Consistency</i>).</li>
+<li>Дуплирање података. Постоји могућност неконзистенције.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Комуникација</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> <i>Messaging</i></h3>
+<ul>
+<li>Слање порука је у основи архитектуре вођене догађајима.</li>
+<li>Асинхрона комуникација, слабо спрезање микросервиса.</li>
+<li>Посредник (<i>message broker</i>), који мора бити високо доступан, омогућава
+баферовање и перзистенцију порука.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-1-1">
+<h4 id="5-1-1"><span class="section-number-4">5.1.1.</span> <i>Send/Receive</i> образац</h4>
+<ul>
+<li>Обично представља комуникацију између два учесника (<i>point-to-point</i>) са
+специфичном наменом, најчешће извршење акције над циљним сервисом.</li>
+<li>Овај облик је коришћен типично од стране команди.</li>
+<li>Мора се обезбедити да само циљани сервис реагује на поруку.</li>
+
+</ul>
+
+
+<div id="org1fea9dd" class="figure">
+<p><img src="./images/messaging-01.png" alt="messaging-01.png" style="height: 500px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-1-2">
+<h4 id="5-1-2"><span class="section-number-4">5.1.2.</span> <i>Publish/Subscribe</i> образац</h4>
+<ul>
+<li>Комуникација "један на више".</li>
+<li>Сервиси заинтересовани за одређене поруке се региструју (<i>subscribe</i>).</li>
+<li>Сервиси примају поруке и обрађују их у паралели различитом брзином.</li>
+<li>Основа хоризонталног скалирања.</li>
+
+</ul>
+
+<div id="org5c5c537" class="figure">
+<p><img src="./images/messaging-01.png" alt="messaging-01.png" style="height: 500px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-1-3">
+<h4 id="5-1-3"><span class="section-number-4">5.1.3.</span> <i>Request/Response</i> образац</h4>
+<ul>
+<li>Имплементира се када је потребна повратна информација, обично при
+имплементацији <a href="#/slide-5-1-1" class="backwardlink"><i>Send/Receive</i> образца</a>.</li>
+<li>Команда и догађај као реакција на команду могу бити корелирани одређеним идентификатором.</li>
+
+</ul>
+
+<div id="org93cf33d" class="figure">
+<p><img src="./images/messaging-02.png" alt="messaging-02.png" style="height: 500px; width: auto;" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> <i>Remote Procedure Invocation (RPI)</i></h3>
+<ul>
+<li>Сервиси често морају тесније сарађивати да би обрадили одређени захтев.</li>
+<li>Понекад је синхрони начин комуникације бољи. Тада користимо <i>RPI</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2-1">
+<h4 id="5-2-1"><span class="section-number-4">5.2.1.</span> Предности</h4>
+<ul>
+<li>Једноставан вид комуникације. Синхрона варијанта <a href="#/slide-5-1-3" class="backwardlink"><i>Request/Response</i> образца</a>.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2-2">
+<h4 id="5-2-2"><span class="section-number-4">5.2.2.</span> Мане</h4>
+<ul>
+<li>Јако темпорално спрезање сервиса. Морају бити доступни истовремено.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-2-3">
+<h4 id="5-2-3"><span class="section-number-4">5.2.3.</span> Приступи</h4>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Representational_state_transfer">REST</a>
+<ul>
+<li>Добро познат приступ. Основа комуникације на вебу.</li>
+<li>Најчешће се користи у комбинацији са текстуалним порукама, нпр. JSON.</li>
+
+</ul></li>
+<li><a href="https://grpc.io/">gRPC</a>
+<ul>
+<li>Развијен у Гуглу.</li>
+<li>Акценат на перформансама.</li>
+<li>Бинарне поруке базиране на технологији <a href="https://developers.google.com/protocol-buffers/">Protocol Buffers</a>.</li>
+
+</ul></li>
+<li><a href="https://thrift.apache.org/">Apache Thrift</a>
+<ul>
+<li>Развијен у Фејсбуку.</li>
+<li>Различити формати порука и транспортни протоколи.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> <i>API Gateway</i></h3>
+<ul>
+<li>Инстанца класичног ОО обрасца <i>Facade</i>. Скривање интерне сложености.</li>
+<li>Посредник за спољне клијенте.</li>
+<li>Инстанца <a href="#/slide-api-composition" class="backwardlink">обрасца API композицијe</a> за екстерне клијенте. Интеграција података са
+више микросервиса.</li>
+<li>Може имплементирати додатне функционалности, нпр. ауторизацију.</li>
+
+</ul>
+
+</section>
+<section id="slide-5-3-1">
+<h4 id="5-3-1"><span class="section-number-4">5.3.1.</span> Структура</h4>
+
+<div id="orgf5e5dc3" class="figure">
+<p><img src="./images/apig-01.png" alt="apig-01.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-3-2">
+<h4 id="5-3-2"><span class="section-number-4">5.3.2.</span> Варијанта - <i>Backends for Frontends</i></h4>
+<ul>
+<li>По један гејтвеј за сваки фронтенд.</li>
+<li>Специјализација API-ja.</li>
+
+</ul>
+
+
+<div id="orgbf4a7ae" class="figure">
+<p><img src="./images/apig-02.png" alt="apig-02.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-5-3-3">
+<h4 id="5-3-3"><span class="section-number-4">5.3.3.</span> Напомена</h4>
+<ul>
+<li>Једна тачка отказа. Обезбедити високу доступност.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Откривање сервиса</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> <i>Service Registry</i></h3>
+<ul>
+<li>За разлику од класичних дистрибуираних система код микросервисних архитектура
+сервиси нису увек на истој мрежној адреси.</li>
+<li>Како клијент сазнаје где се сервис налази?</li>
+<li>Специјални сервис који је увек на истој локацији и који има информације о
+локацијама свих других сервиса.</li>
+<li>Два приступа:
+<ul>
+<li><i>клијентски</i> при којем клијент сервис сам пита регистар,</li>
+<li><i>серверски</i> при којем имамо посредника (<i>рутер</i>) који поставља питање регистру.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-6-1-1">
+<h4 id="6-1-1"><span class="section-number-4">6.1.1.</span> Структура - клијентски</h4>
+
+<div id="org2adaac0" class="figure">
+<p><img src="./images/reg-01.png" alt="reg-01.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-6-1-2">
+<h4 id="6-1-2"><span class="section-number-4">6.1.2.</span> Структура - серверски</h4>
+
+<div id="orgcadafca" class="figure">
+<p><img src="./images/reg-02.png" alt="reg-02.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Литература</h2>
+<ul>
+<li>Hugo Filipe Oliveira Rocha, Practical Event-Driven Microservices Architecture,
+Apress, 2022.</li>
+<li>Microsoft, <a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/">Cloud Design Patterns</a></li>
+<li>Chris Richardson, <a href="https://microservices.io/">Microservice Architecture</a></li>
+<li>Wikipedia, <a href="https://en.wikipedia.org/wiki/Microservices">Microservices</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

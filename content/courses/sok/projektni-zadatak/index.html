@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Projektni zadatak</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Projektni zadatak</h1>
+<h2 class="subtitle">Softverski obrasci i komponente</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2021-11-16 Tue 16:54, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org67c7ac3">
+<h2 id="org67c7ac3">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Tema zadatka</a></li>
+<li><a href="#/slide-2">2. Motivacija</a></li>
+<li><a href="#/slide-3">3. Tehnologije</a></li>
+<li><a href="#/slide-4">4. Različite sintakse</a></li>
+<li><a href="#/slide-5">5. Modeli</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Tema zadatka</h2>
+<ul>
+<li><b>Ex</b> tensible <b>P</b> latform for <b>S</b> tructure <b>V</b> isualization and <b>N</b> avigation
+(<b>ExP</b> re <b>S</b> si <b>V</b> e <b>N</b> ess).</li>
+<li>Vizualizacija i navigacija nad strukturama tipa grafa.</li>
+<li>Promenjivi modeli: razne vrste <i>POPO</i> (<i>Plain Old Python Object</i>) objektnih
+grafova.</li>
+<li>Promenjive konkretne sintakse.</li>
+<li>Brz pregled i navigacija.</li>
+<li>Operacije: <i>pan, point zoom in/out, tree outline, bird-view, filter, search,</i>
+dobijanje detalja o tekućem objektu itd.</li>
+<li>Opciono: konzola za upravljanje platformom: izmena sintaksi, izmena modela
+itd.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Motivacija</h2>
+<ul>
+<li>Vizualizacija kao pomoć u razumevanju međuzavisnosti objekata realnih
+softverskih sistema.</li>
+<li>Pomoć u analizi složenih softverskih sistema kod npr. reinženjeringa.</li>
+<li>Primeri:
+<ul>
+<li>Vizualizacija šeme baze podataka &#x2013; isčitavanje metapodataka proizvoljne
+baze i prikaz zavisnosti između tabela.</li>
+<li>Vizualizacija strukture programskog koda &#x2013; parsiranje proizvoljnog
+programskog koda i prikaz veza nasleđivanja, referenciranja i sl.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Tehnologije</h2>
+<ul>
+<li>Integraciona platforma &#x2013; Python <code>setuptools</code> (<code>pkg_resources</code>)</li>
+<li>GUI - Web (HTML, CSS, JavaScript), <a href="http://flask.pocoo.org/">Flask</a> ili <a href="https://www.djangoproject.com/">Django</a>.</li>
+<li>Vizualizacija - <a href="https://d3js.org/">d3</a>.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Različite sintakse</h2>
+<ul>
+<li>Izmenjive sintakse realizovane kao nezavisne komponente.</li>
+<li>Osnovna sintaksa &#x2013; labelirani usmereni graf.</li>
+<li>Složenije sintakse &#x2013; sintaksa tipa UML dijagrama klasa, sintakse za opis
+procesa, sintakse za opis složenih hijerarhija itd.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Modeli</h2>
+<ul>
+<li>Obični Python objekti (POPOs &#x2013; <i>Plain Old Python Objects</i>).</li>
+<li>Modeli ne znaju za vizualizaciju (sledi se MVC obrazac).</li>
+<li>Modeli se mogu adaptirati za različite konkretne sintakse.</li>
+<li>Adaptacija se obavlja eksternim adapterima.</li>
+<li>Otvorena pitanja:
+<ul>
+<li>Izvori modela.</li>
+<li>Mehanizmi kreiranja objektnih grafova.</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

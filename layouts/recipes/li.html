@@ -1,0 +1,25 @@
+<li class='item'>
+  <header class='recipe-item-header'>
+    <h3 class='item-title'>
+      <a href='{{ .Permalink | relURL }}'>
+        {{- .Title -}}
+      </a>
+    </h3>
+    {{ range $taxonomy, $pages := .Site.Taxonomies }}
+      {{- if not ( eq $taxonomy "authors" ) -}}
+        {{- if ( index $.Params $taxonomy ) -}}
+          {{- $.Scratch.Set "taxonomy" $taxonomy -}}
+          {{- partial "entry/taxonomy-list" $ -}}
+        {{- end -}}
+      {{- end -}}
+    {{ end }}
+    {{- $dateFormat := ( .Site.Params.settings.dateFormat | default "2006, Jan 02" ) -}}
+    <div class='last-updated'>
+      {{- partial "svg/icon" "edit" -}}
+      <span class='screen-reader-text'>{{ i18n "lastUpdated" }}: </span>
+      <time class='entry-date' datetime='{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}'>
+        {{- .Lastmod.Format $dateFormat -}}
+      </time>
+    </div>
+  </header>
+</li>

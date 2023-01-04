@@ -1,0 +1,604 @@
+#+TITLE: parglare parser
+#+SUBTITLE: 
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+  :PROPERTIES:
+  :UNNUMBERED: notoc
+  :END:
+  #+REVEAL_TOC: headlines 1
+
+* Osnovne osobine
+
+- 100% Python kod
+- MIT licenca
+- LR i GLR parsiranje
+- Deklarativna pravila asocijativnosti i prioriteta
+- Fleksibilna strategija pozivanja akcija
+- Parsiranje netekstualnih sadržaja
+- Oporavak od greške
+- https://github.com/igordejanovic/parglare
+- Dokumentacija: http://www.igordejanovic.net/parglare
+
+* Instalacija
+** Instalacija
+  
+  - Sa PyPI:
+  #+BEGIN_SRC
+$ mkdir jsd       
+$ cd jsd             
+$ python -m venv venv                        
+$ source venv/bin/activate        
+(venv) $ pip install parglare                                                
+Looking in indexes: https://pypi.python.org/simple/
+Collecting parglare
+  Using cached https://files.pythonhosted.org/packages/66/60/c1bd988a93f5c9114a53452913d51be9556cc56cd7fc9801bbbf03e561da/parglare-0.10.0-py2.py3-none-any.whl
+Collecting click (from parglare)
+  Using cached https://files.pythonhosted.org/packages/fa/37/45185cb5abbc30d7257104c434fe0b07e5a195a6847506c074527aa599ec/Click-7.0-py2.py3-none-any.whl
+Installing collected packages: click, parglare
+Successfully installed click-7.0 parglare-0.10.0
+  #+END_SRC
+** Instalacija razvojne verzije
+   
+- Sa =master= grane:
+  #+BEGIN_SRC
+$ mkdir jsd       
+$ cd jsd             
+$ python -m venv venv                        
+$ source venv/bin/activate        
+
+$ pip install https://github.com/igordejanovic/parglare/archive/master.zip
+Looking in indexes: https://pypi.python.org/simple/
+Collecting https://github.com/igordejanovic/parglare/archive/master.zip
+  Downloading https://github.com/igordejanovic/parglare/archive/master.zip
+     - 6.7MB 1.4MB/s
+Requirement already satisfied: click in ./venv/lib/python3.7/site-packages (from parglare==0.11.0.dev0) (7.0)
+Installing collected packages: parglare
+  Running setup.py install for parglare ... done
+Successfully installed parglare-0.11.0.dev0
+  #+END_SRC
+  
+** Instalacija za razvoj
+   :PROPERTIES:
+   :CUSTOM_ID: installation
+   :END:
+
+- Sa =master= grane iz kloniranog git repozitorijuma:
+  #+BEGIN_SRC
+$ mkdir jsd       
+$ cd jsd             
+$ python -m venv venv                        
+$ source venv/bin/activate        
+
+$ git clone git@github.com:igordejanovic/parglare.git                     
+Cloning into 'parglare'...
+remote: Enumerating objects: 55, done.
+remote: Counting objects: 100% (55/55), done.
+remote: Compressing objects: 100% (44/44), done.
+remote: Total 6138 (delta 20), reused 29 (delta 9), pack-reused 6083
+Receiving objects: 100% (6138/6138), 7.60 MiB | 2.87 MiB/s, done.
+Resolving deltas: 100% (4065/4065), done.
+
+$ pip install -e parglare
+Looking in indexes: https://pypi.python.org/simple/
+Obtaining file:///home/igor/jsd/parglare
+Requirement already satisfied: click in ./venv/lib/python3.7/site-packages (from parglare==0.11.0.dev0) (7.0)
+Installing collected packages: parglare
+  Running setup.py develop for parglare
+Successfully installed parglare
+  #+END_SRC
+
+* Upotreba
+** Kreiranje gramatike
+   
+#+BEGIN_SRC python :results none :session intro
+grammar = r"""
+E: E '+' E
+ | E '-' E
+ | E '*' E
+ | E '/' E
+ | '(' E ')'
+ | number;
+
+terminals
+number: /\d+(\.\d+)?/;
+"""
+
+actions = {
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
+    "number": lambda _, value: float(value),
+}
+
+#+END_SRC
+
+** Parsiranje sa LR parserom
+
+#+BEGIN_SRC python :session intro :results output
+from parglare import Parser, Grammar
+g = Grammar.from_string(grammar)
+parser = Parser(g, actions=actions)
+
+result = parser.parse("2 * 3 + 4 / 2 / 2")
+
+print("Result = ", result)
+
+#+END_SRC
+
+#+RESULTS:
+: Result =  14.0
+
+#+REVEAL: split
+
+- Gramatika je višeznačna jer parser ne zna za prioritete i asocijativnosti.
+- Podrazumevano =Parser= klasa (LR parser) razrešava /Shift/Reduce/ konflikte
+  tako što preferira /Shift/ operaciju (videti [[http://www.igordejanovic.net/parglare/stable/parser/#prefer_shifts][prefer_shifts]]).
+- Ovo dovodi do evaluacije s desna na levo.
+
+** Generalizovano parsiranje
+   
+- Zamenom =Parser= klase sa =GLRParser= dobijamo generalizovano parsiranje gde
+  će u slučaju višeznačnosti biti kreirana sva stabla parsiranja.
+- U slučaju gramatike aritmetičkih izraza dobićemo sva moguća rešenja.
+
+#+BEGIN_SRC python :session intro :results output
+from parglare import GLRParser, Grammar
+g = Grammar.from_string(grammar)
+parser = GLRParser(g, consume_input=True, actions=actions)
+
+result = parser.parse("2 * 3 + 4 / 2 / 2")
+
+print("Result = ", result)
+print("Broj interpretacija = ", len(result))
+#+END_SRC
+
+#+RESULTS:
+: Result =  [2.5, 3.5, 4.0, 5.0, 3.5, 10.0, 14.0, 10.0, 7.0, 8.0, 14.0, 14.0, 5.0, 3.5]
+: Broj interpretacija =  14
+
+#+ATTR_REVEAL: :frag (roll-in)
+- Broj interpretacija je [[https://en.wikipedia.org/wiki/Catalan_number][Katalanov broj]] od =n= gde je =n= broj binarnih
+  operacija u izrazu.
+  #+BEGIN_SRC
+1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440...
+  #+END_SRC
+
+** Deklarativno razrešavanje višeznačnosti
+   
+- Deklarativno razrešavanje višeznačnosti obavljamo unutar ={}= koje navodimo po produkciji.
+- Za asocijatinost koristimo ključne reči =left= (odnosno =reduce=) i =right=
+  (odnosno =shift=).
+
+#+BEGIN_SRC python :results none :session intro
+grammar = r"""
+E: E '+' E {left}
+ | E '-' E {left}
+ | E '*' E {left}
+ | E '/' E {left}
+ | '(' E ')'
+ | number;
+
+terminals
+number: /\d+(\.\d+)?/;
+"""
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC python :session intro :results output
+from parglare import GLRParser, Grammar
+g = Grammar.from_string(grammar)
+parser = GLRParser(g, actions=actions)
+
+result = parser.parse("2 * 3 + 4 / 2 / 2")
+
+print("Result = ", result)
+#+END_SRC
+
+#+RESULTS:
+: Result =  [2.5]
+
+- Sada parser dolazi do jednog rešenja ali pogrešnog tako što evaluaciju radi s
+  leva na desno ne uzimajući u obzir prioritet (preferira /Reduce/ operaciju
+  koja znači levu asocijativnost).
+- Potrebno je definisati prioritete operacija!
+ 
+** Prioriteti
+   
+#+BEGIN_SRC python :results none :session intro
+grammar = r"""
+E: E '+' E {left, 1}
+ | E '-' E {left, 1}
+ | E '*' E {left, 2}
+ | E '/' E {left, 2}
+ | '(' E ')'
+ | number;
+
+terminals
+number: /\d+(\.\d+)?/;
+"""
+#+END_SRC
+
+#+BEGIN_SRC python :session intro :results output
+from parglare import GLRParser, Grammar
+g = Grammar.from_string(grammar)
+parser = GLRParser(g, actions=actions)
+
+result = parser.parse("2 * 3 + 4 / 2 / 2")
+
+print("Result = ", result)
+#+END_SRC
+
+#+RESULTS:
+: Result =  [7.0]
+
+- Sada je rezultat ispravan.
+
+** Kompajliranje gramatike
+   
+- Gramatika može biti unapred kompajlirana tj. LALR tablice mogu biti unapred
+  kalkulisane.
+- Ovo je značajno kod većih gramatika gde vreme kreiranja tablica nije
+  zanemarljivo.
+  
+#+BEGIN_SRC
+$ pglr compile --help
+Usage: pglr compile [OPTIONS] GRAMMAR_FILE
+
+Options:
+  --help  Show this message and exit.
+
+To compile and check your grammar run:
+
+    $ pglr compile <grammar_file>
+
+$ pglr compile robot.pg       
+Compiling...
+Grammar OK.
+#+END_SRC
+
+- Tablica se smešta u fajl sa ekstenzijom =.pgt= i biće automatski učitana
+  ukoliko postoji. Ukoliko ne postoji biće kreirana u vreme izvršavanja i
+  upisana u =.pgt= fajl.
+
+** Greške u gramatici
+   
+- Ako napravimo grešku pri pisanju gramatike =parglare= će nam dati tačnu
+  lokaciju i šta na njoj očekuje.
+   
+#+BEGIN_SRC
+$ pglr compile calc.pg
+Error in the grammar file.
+Error in file "calc.pg" at position 4,16 => "/' E  left*, 2}\n | E ".
+Expected: { or | or ; or Name or RegExTerm or StrTerm
+#+END_SRC
+
+** Detaljna analiza gramatike i mašine stanja/prelaza
+  
+#+BEGIN_SRC
+$ pglr --debug compile calc.pg
+
+ *** GRAMMAR ***
+Terminals:
+number STOP + - ^ EMPTY ) \d+(\.\d+)? ( EOF / *
+NonTerminals:
+S' E
+Productions:
+0: S' = E STOP
+1: E = E + E
+2: E = E - E
+3: E = E * E
+4: E = E / E
+5: E = E ^ E
+6: E = ( E )
+7: E = number
+
+ *** STATES ***
+State 0
+        0: S' = . E STOP   {}
+        1: E = . E + E   {STOP, -, +, ^, ), /, *}
+        2: E = . E - E   {STOP, -, +, ^, ), /, *}
+        3: E = . E * E   {STOP, -, +, ^, ), /, *}
+        4: E = . E / E   {STOP, -, +, ^, ), /, *}
+        5: E = . E ^ E   {STOP, -, +, ^, ), /, *}
+        6: E = . ( E )   {STOP, -, +, ^, ), /, *}
+        7: E = . number   {STOP, -, +, ^, ), /, *}
+    GOTO:
+      E->1
+    ACTIONS:
+      (->SHIFT:2, number->SHIFT:3
+...
+#+END_SRC
+ 
+** TODO Prepoznavači - /Recognizers/
+** TODO Pozivanje akcija
+** TODO Dodele - /Assignments/
+** TODO Ponavljanja - /Repetitions - syntactic sugar/
+** TODO Modifikatori ponavljanja - /Repetition modifiers/
+** Vizualizacija mašine stanja prelaza
+
+- Mašinu stanja prelaza možemo grafički prikazati sa:
+ 
+#+BEGIN_SRC
+$ pglr viz calc.pg
+Grammar OK.
+Generating 'calc.pg.dot' file for the grammar PDA.
+Use dot viewer (e.g. xdot) or convert to pdf by running 'dot -Tpdf -O calc.pg.dot'
+#+END_SRC
+
+#+REVEAL: split
+
+- Dobijamo =.dot= fajl koji možemo pregledati sa =.dot= pregledačima (npr. [[https://github.com/jrfonseca/xdot.py][xdot]])
+  ili konvertovati u neki grafički format (npr. =dot -Tpdf -O calc.pg.dot=)
+
+#+ATTR_ORG: :width 300px
+[[./images/calc.pg.dot.png]]
+
+** Vizualizacija GLR parsiranja
+   
+- Kod GLR parsiranja moguća je vizualizacija grafičkog traga (/tracing/).
+
+#+BEGIN_SRC
+$ pglr trace --help
+Usage: pglr trace [OPTIONS] GRAMMAR_FILE
+
+Options:
+  -f, --input-file PATH  Input file for tracing
+  -i, --input TEXT       Input string for tracing
+  --help                 Show this message and exit.
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC
+$ pglr trace calc.pg -i "2 + 3 * 5"
+#+END_SRC
+
+#+attr_html: :style height: 200px;
+#+ATTR_ORG: :width 300px
+[[./images/calc_trace.dot.png]]
+
+** TODO Primer vizualizacije za višeznačno parsiranje
+   
+- Za višeznačnu gramatiku aritmetičkih izraza (bez definisane asocijativnosti i
+  prioriteta):
+
+#+BEGIN_SRC
+$ pglr trace calc.pg -i "2 + 3 * 5"
+#+END_SRC
+
+* Primeri
+** =calc= parser
+*** =calc= parser
+    
+#+BEGIN_SRC python :session intro :results none
+grammar = r"""
+E: E '+' E {left, 1}
+ | E '-' E {left, 1}
+ | E '*' E {left, 2}
+ | E '/' E {left, 2}
+ | '(' E ')'
+ | number;
+
+terminals
+number: /\d+(\.\d+)?/;
+"""
+
+actions = {
+    "E": [lambda _, n: n[0] + n[2],
+          lambda _, n: n[0] - n[2],
+          lambda _, n: n[0] * n[2],
+          lambda _, n: n[0] / n[2],
+          lambda _, n: n[1],
+          lambda _, n: n[0]],
+    "number": lambda _, value: float(value),
+}
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC python :results output :session intro
+from parglare import Parser, Grammar
+g = Grammar.from_string(grammar)
+parser = Parser(g, actions=actions)
+
+result = parser.parse("2 * 3 + 4 / 2 / 2")
+
+print("Result = ", result)
+#+END_SRC
+
+#+RESULTS:
+: Result =  7.0
+
+*** Zadaci za vežbu
+    
+1. Proširiti =calc= primer sa operacijom stepenovanja (simbol =^=) koja ima
+   najviši prioritet i desno je asocijativna.
+   
+2. Proširiti =calc= primer sa unarnom operacijom faktorijel (simbol =!=) koja
+   ima najviši prioritet.
+   #+BEGIN_SRC
+   x! = x * (x-1) * ... * 1
+   #+END_SRC
+   
+3. Dodati mogućnost definisanja varijabli i nihove upotrebe u =calc= izrazima:
+   #+BEGIN_SRC
+   a = 4
+   b = 8
+   
+   a * 2 / b^a^2 + b * a!
+   #+END_SRC
+   - Probati uraditi samostalno. Rešenje je u =examples/calc= folderu.
+ 
+4. Dodati podršku za funkcije oblika =ime_funkcije(param1, param2...)=. Parser
+   treba da parsira proizvoljan naziv funkcije i proizvoljan broj parametara.
+   Javiti grešku ukoliko funkcija nije definisana. Podržati izračunavanje
+   vrednosti za proizvoljne funkcije iz Python =math= modula.
+
+** =Robot= jezik
+*** Gramatika
+    
+- Videti primer u folderu =examples/robot=.
+    
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+Fajl =program.rbt=
+#+BEGIN_SRC example :tangle program.rbt
+begin
+  initial 3, 1
+  up 4          // go up 4 steps
+  left 9
+  down          // step is optional
+  right 1
+end
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+Fajl =robot.pg=
+#+BEGIN_SRC example :tangle robot.pg
+program: "begin" commands=command* "end";
+command: initial | move;
+initial: INITIAL x=INT "," y=INT;
+move: direction=direction steps=INT?;
+direction: "up" | "down" | "left" | "right";
+
+// Support for C-like comments
+LAYOUT: LayoutItem | LAYOUT LayoutItem;
+LayoutItem: WS | Comment | EMPTY;
+
+terminals
+INT: /\d+/;
+INITIAL: "initial";
+WS: /\s+/;
+Comment: /\/\/.*/;
+#+END_SRC
+#+REVEAL_HTML: </div>
+
+*** Akcije
+
+#+BEGIN_SRC python :results none :session
+import os
+from parglare import Grammar, Parser
+from parglare import get_collector
+
+action = get_collector()
+
+
+@action
+def INT(_, value):
+    return int(value)
+
+
+@action
+def initial(context, nodes, x, y):
+    print("Robot initial position set to: {}, {}".format(x, y))
+    # We use context.extra to keep robot position state.
+    context.extra = (x, y)
+
+
+@action
+def program(context, nodes, commands):
+    return context.extra
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC python :results none :session
+@action
+def move(context, nodes, direction, steps):
+    steps = 1 if steps is None else steps
+    print("Moving robot {} for {} steps.".format(direction, steps))
+
+    move = {
+        "up": (0, 1),
+        "down": (0, -1),
+        "left": (-1, 0),
+        "right": (1, 0)
+    }[direction]
+
+    # Calculate new robot position
+    x, y = context.extra
+    context.extra = (x + steps * move[0], y + steps * move[1])
+#+END_SRC
+
+*** Pokretanje
+    
+#+BEGIN_SRC python :var __file__=(buffer-file-name) :session :results output
+
+def main(debug=False):
+    this_folder = os.path.dirname(__file__)
+    g = Grammar.from_file(os.path.join(this_folder, 'robot.pg'),
+                          debug=debug, debug_colors=True)
+    parser = Parser(g, actions=action.all, debug=debug,
+                    debug_colors=True)
+
+    end_position = parser.parse_file(os.path.join(this_folder, 'program.rbt'))
+
+    print("Robot stops at position: {}".format(end_position))
+
+
+if __name__ == "__main__":
+    main(debug=False)
+#+END_SRC
+
+#+RESULTS:
+: Robot initial position set to: 3, 1
+: Moving robot up for 4 steps.
+: Moving robot left for 9 steps.
+: Moving robot down for 1 steps.
+: Moving robot right for 1 steps.
+: Robot stops at position: (3, 1)
+
+*** Zadaci za vežbu
+    
+1. Dodati mogućnost kretanja po dijagonali. Na primer:
+   #+BEGIN_SRC
+    begin
+      initial 5, 8
+      up left 2
+      down left 5
+      down 5
+    end
+    #+END_SRC
+
+2. Dodati =for= petlju:
+
+   #+BEGIN_SRC
+   begin
+       initial 4, 7
+       for i in 1..10
+       begin
+         down 3
+         down right i
+       end
+    end
+   #+END_SRC
+
+#+REVEAL: split
+
+#+ATTR_HTML: :start 3
+1. Dodati koncept tekuće lokacije (ugrađene promenjive =robotx= i =roboty=),
+   operacije poređenja =<=, =>=, ~=~, i iskaz =if=:
+
+   #+BEGIN_SRC
+   begin
+       initial 4, 7
+       for i in 1..10
+       begin
+         down 3
+         if robotx > 4 up 5
+         down right i
+         if roboty < 3
+         begin
+            left 10
+            down
+         end
+       end
+    end
+   #+END_SRC
+

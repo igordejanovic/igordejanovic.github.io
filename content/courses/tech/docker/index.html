@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Docker</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Docker</h1>
+<h2 class="subtitle">Bazirano na verziji 1.12.3</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2021-11-18 Thu 14:34, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org8fe5ee9">
+<h2 id="org8fe5ee9">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Uvod</a></li>
+<li><a href="#/slide-2">2. Rad sa kontejnerima</a></li>
+<li><a href="#/slide-3">3. Rad sa slikama (<i>images</i>)</a></li>
+<li><a href="#/slide-4">4. Dockerfile</a></li>
+<li><a href="#/slide-5">5. Docker Data Volumes</a></li>
+<li><a href="#/slide-6">6. Docker Compose</a></li>
+<li><a href="#/slide-7">7. Docker Swarm</a></li>
+<li><a href="#/slide-8">8. Vizuelizacija doker kontejnera</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Motivacija</h3>
+<ul>
+<li>Uvođenje (<i>Deployment</i>)</li>
+<li>Okruženje (<i>Environment</i>)</li>
+<li>Zavisnosti (<i>Dependencies</i>)</li>
+<li>Ponovljivost (<i>Repeatability</i>)</li>
+<li>Automatizacija</li>
+
+</ul>
+
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Docker</h3>
+<ul>
+<li>Automatizacija procesa uvođenja upotrebom softverskih kontejera.</li>
+<li>Izolacija aplikacije i svih njenih zavisnosti putem linux kernel <i>cgroups</i> i
+<i>namespaces</i> mehanizama.</li>
+<li>Na Windows-u i Mac-u se izvršava u okviru virtuelne mašine.</li>
+<li>Obezbeđivanje identičnog okruženja za rad aplikacije u vreme razvoja,
+testiranja i produkcije.</li>
+<li>Ponovljivost - izbegavanje konfiguracionih problema pri promeni načina
+izvršavanja i okruženja(<i>cloud</i>, lokalno&#x2026;).</li>
+<li>Manje zauzeće resursa u odnosu na virtuelizaciju.</li>
+<li>Veoma popularan. Velika zajednica. <a href="https://hub.docker.com/">Docker Hub</a> - slično GitHub-u ali za tzv.
+doker slike (<i>Docker images</i>).</li>
+<li>Apache 2.0 licenca.</li>
+
+</ul>
+
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Arhitektura</h3>
+
+<div id="org69644c7" class="figure">
+<p><img src="./images/architecture.svg" alt="architecture.svg" />
+</p>
+</div>
+
+<ul>
+<li>Registries, images, containers</li>
+<li>Union file systems (layered): overlay2, AUFS, btrfs,&#x2026;</li>
+<li>Linux kernel namespaces and cgroups</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li><a href="https://docs.docker.com/engine/introduction/understanding-docker/">https://docs.docker.com/engine/introduction/understanding-docker/</a></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Rad sa kontejnerima</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> <i>Hello World</i> u dokeru</h3>
+<pre>
+$ docker run ubuntu:16.04 /bin/echo 'Hello world'
+Hello world
+</pre>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Interaktivni kontejner</h3>
+<pre>
+$ docker run -t -i ubuntu:16.04 /bin/bash
+root@af8bae53bdd3:/#
+</pre>
+
+<ul>
+<li><code>-t</code> - alokacija pseudo terminala</li>
+<li><code>-i</code> - spajanje na <code>STDIN</code></li>
+
+</ul>
+
+<pre>
+root@af8bae53bdd3:/# pwd
+/
+root@af8bae53bdd3:/# ls
+bin boot dev etc home lib lib64 media mnt opt proc root run sbin srv
+sys tmp usr var
+root@af8bae53bdd3:/# exit
+</pre>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> &ldquo;Demonizacija&rdquo;</h3>
+<pre>
+$ docker run -d ubuntu:16.04 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+1e5535038e285177d5214659a068137486f96ee5c2e85a4ac52dc83f2ebe4147
+
+$ docker ps
+CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES
+1e5535038e28  ubuntu:16.04  /bin/sh -c 'while tr  2 minutes ago  Up 1 minute        insane_babbage
+
+$ docker logs insane_babbage
+hello world
+hello world
+hello world
+
+$ docker stop insane_babbage
+insane_babbage
+
+$ docker ps
+CONTAINER ID  IMAGE         COMMAND               CREATED        STATUS       PORTS NAMES
+</pre>
+
+<ul>
+<li><code>-d</code> | <code>--detach</code> - ne &ldquo;kačiti&rdquo; se za STDOUT</li>
+
+</ul>
+
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Pokretanje jednostavne veb aplikacije</h3>
+<ul>
+<li>Pokretanje jednostavne <code>Python Flask</code> aplikacije.</li>
+
+</ul>
+
+<pre>
+$ docker run -d -P training/webapp python app.py
+$ docker ps -l
+CONTAINER ID  IMAGE                   COMMAND       CREATED
+bc533791f3f5  training/webapp:latest  python app.py 5 seconds ago
+
+    STATUS        PORTS                    NAMES
+    Up 2 seconds  0.0.0.0:49155-&amp;gt;5000/tcp  nostalgic_morse
+            
+</pre>
+
+<ul>
+<li><code>-P</code> - Mapiranje porta iz intervala 32768-61000 na exportovane portove
+kontejnera</li>
+<li>Može i &#x2026;</li>
+
+</ul>
+
+<pre>
+$ docker run -d -p 80:5000 training/webapp python app.py
+</pre>
+
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Python Flask aplikacija</h3>
+
+<div id="org051c54c" class="figure">
+<p><img src="./images/webapp1.png" alt="webapp1.png" style="height: 300px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> IP adresa</h3>
+<ul>
+<li>Ukoliko se kontejner izvršava na drugoj mašini treba nam IP adresa da bi
+pristupili aplikaciji.</li>
+
+</ul>
+
+<pre>
+$ docker-machine ip my-docker-vm
+192.168.99.100
+</pre>
+
+<ul>
+<li>Koristiti <a href="http://192.168.1.100:49155/">http://192.168.1.100:49155/</a> za pristup</li>
+
+</ul>
+
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> &ldquo;Prečica&rdquo; za dobijanje preslikanog porta</h3>
+<pre>
+$ docker port nostalgic_morse 5000
+0.0.0.0:49155
+</pre>
+
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Pregled dnevnika (<i>logs</i>)</h3>
+<pre>
+$ docker logs -f nostalgic_morse
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+172.17.0.1 - - [15/Dec/2016 15:14:20] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [15/Dec/2016 15:14:20] "GET /favicon.ico HTTP/1.1" 404 -
+172.17.0.1 - - [15/Dec/2016 15:14:20] "GET /favicon.ico HTTP/1.1" 404 -
+</pre>
+
+<ul>
+<li><code>-f</code> &ldquo;forever&rdquo; - terminal ostaje &ldquo;zakačen&rdquo; na STDOUT kontejnera</li>
+
+</ul>
+
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Pregled procesa</h3>
+<pre>
+$ docker top nostalgic_morse
+UID   PID    PPID     C     STIME    TTY     TIME                CMD
+root  20409  20393    0     16:10    ?       00:00:00            python app.py
+</pre>
+
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Zauzeće resursa kontejnera</h3>
+<pre>
+$ docker stats --no-stream nostalgic_morse
+CONTAINER        CPU %   MEM USAGE / LIMIT       MEM %    NET I/O               BLOCK I/O           PIDS
+elegant_meitner  0.02%   24.06 MiB / 7.493 GiB   0.31%    3.895 kB / 3.686 kB   13.33 MB / 0 B      1
+</pre>
+
+<ul>
+<li><code>--no-stream</code> - vrati prvi rezultat</li>
+
+</ul>
+
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Inspekcija kontejnera</h3>
+<pre>
+$ docker inspect nostalgic_morse
+[
+    {
+        "Id": "650bf9569f884b0bbb1274c0af88b002b4e5e6556438484ae79dcd275a4f7930",
+        "Created": "2016-12-15T15:10:53.460834861Z",
+        "Path": "python",
+        "Args": [
+            "app.py"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 20409,
+
+. . .
+</pre>
+
+</section>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Povezivanje za kontejner koji se izvršava</h3>
+<ul>
+<li>Ukoliko se pokrene interaktivna sesija pri pokretanju kontejnera navođenjem
+<code>-t -i</code> parametara, konzola se može &ldquo;otkačiti&rdquo; sa <code>Ctrl-P-Q</code>.</li>
+<li>Na konzolu kontejnera se opet može povezati sa:</li>
+
+</ul>
+
+<pre>
+$ docker attach nostalgic_morse
+</pre>
+
+</section>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Pristup kontejneru koji se izvršava</h3>
+<ul>
+<li>Nekada kontejner nema aktivan <code>shell</code>. U tom slučaju ukoliko se povežemo sa
+<code>attach</code> nemamo interakciju već imamo samo ispis aplikacije koja se izvršava.</li>
+<li>U kontekstu kontejnera koji se izvršava moguće je izvršiti proizvoljnu
+komandu.</li>
+
+</ul>
+
+<pre>
+$ docker exec -it mycontainer bash
+root@bd57610aa95a:/usr/src/redmine#
+</pre>
+
+<ul>
+<li>Ne zaboraviti završetak sesije sa <code>exit</code> ili <code>Ctrl-D</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-2-14">
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Zaustavljanje i uklanjanje kontejnera</h3>
+<pre>
+$ docker stop nostalgic_morse
+nostalgic_morse
+
+$ docker rm nostalgic_morse
+nostalgic_morse
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Rad sa slikama (<i>images</i>)</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Rad sa slikama (<i>images</i>)</h3>
+<ul>
+<li>Kontejner koji radi je baziran na slici (<i>image</i>) analogno klasi i
+instanci/objektu kod OO jezika</li>
+<li>Kod pokretanja, ako slika ne postoji lokalno preuzima se sa udaljenog
+repozitorijuma (npr. <i>Docker Hub</i>)</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Listanje slika</h3>
+<pre>
+$ docker images
+REPOSITORY          TAG       IMAGE ID        CREATED          VIRTUAL SIZE
+ubuntu              16.04     1d073211c498    3 days ago       187.9 MB
+busybox             latest    2c5ac3f849df    5 days ago       1.113 MB
+training/webapp     latest    54bb4e8718e8    5 months ago     348.7 MB
+</pre>
+
+<ul>
+<li>Repozitorijum sadrži potencijalno više varijanti slike. Na primer ubuntu
+sadrži verzije 10.04, 12.04, 12.10, 13.04, 13.10, 14.04, 16.04&#x2026;</li>
+
+<li>Da bi se pokrenula određena verzija (<i>tag</i>) slike koristi se komanda:</li>
+
+</ul>
+
+<pre>
+$ docker run -t -i ubuntu:12.04 /bin/bash
+</pre>
+
+<ul>
+<li>Ukoliko se ne navede oznaka podrazumeva se <code>latest</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Preuzimanje slika</h3>
+<ul>
+<li><code>run</code> komanda će automatski preuzeti sliku ukoliko ne postoji lokalno.</li>
+<li>Slika se može i eksplicitno preuzeti komandom <code>docker pull</code>.</li>
+
+</ul>
+
+<pre>
+$ docker pull centos
+Pulling repository centos
+b7de3133ff98: Pulling dependent layers
+5cc9e91966f7: Pulling fs layer
+511136ea3c5a: Download complete
+ef52fb1fe610: Download complete
+. . .
+
+Status: Downloaded newer image for centos
+
+$ docker run -t -i centos /bin/bash
+bash-4.1#
+</pre>
+
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Pronalaženje doker slike</h3>
+<ul>
+<li>Putem <a href="https://hub.docker.com/">Docker Hub</a> sajta.</li>
+<li>&#x2026;ili upotrebom <code>docker search</code> komande.</li>
+
+</ul>
+
+<pre>
+$ docker search sinatra
+NAME                                         DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+erikap/ruby-sinatra                          Docker for hosting Sinatra apps                 12                   [OK]
+semtech/mu-sinatra-template                  Template for running Ruby/Sinatra microser...   2                    [OK]
+zyio/sinatra                                 Tiny-ish Sinatra Dockerfile                     1                    [OK]
+samlet/microservices-sinatra-products        microservices with sinatra                      1                    [OK]
+lucymhdavies/sinatra-boilerplate             Docker image with my boilerplate for Sinat...   1                    [OK]
+thomastanmin/sinatra                         This is the docker example with auto build...   1                    [OK]
+tdiary/rpaproxy-sinatra                                                                      1                    [OK]
+convox/sinatra                               Convox base image for Sinatra                   0                    [OK]
+. . .
+</pre>
+
+<ul>
+<li><code>OFFICIAL</code> - Podrška od strane Docker, Inc.</li>
+<li><code>AUTOMATED</code> - <a href="https://docs.docker.com/engine/userguide/dockerrepos/#automated-builds">Automatizovana izgradanja</a> sa GitHub ili Bitbucket-a.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Vrste slika</h3>
+<ul>
+<li><i>base</i> ili <i>root</i> slike - izgrađene i podržane od strane Docker Inc.
+Identifikuju se prostim imenom (npr. <code>ubuntu</code>).</li>
+<li><i>korisničke</i> slike (<i>user</i> images) - imaju korisničko ime kao prefix (npr.
+<code>training/sinatra</code>). Izgrađeni i podržani od strane članova doker zajednice.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Preuzimanje korisničke slike i startovanje kontejnera</h3>
+<pre>
+$ docker pull training/sinatra
+
+$ docker run -t -i training/sinatra /bin/bash
+root@a8cb6ce02d85:/#
+</pre>
+
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Kreiranje slika</h3>
+<ul>
+<li>Dva načina:
+<ul>
+<li>Interaktivno ažuriranje stanja kontejnera i perzistencija nove verzije
+<code>commit</code> operacijom.</li>
+<li>Kreiranje <code>Dockerfile</code> fajla koji opisuje postupak izgradnje nove slike
+polazeći od postojeće i primenom niza komandi.</li>
+
+</ul></li>
+<li>Koristiti drugi način kad god je moguće.</li>
+
+</ul>
+
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Interaktivno ažuriranje stanja kontejnera</h3>
+<pre>
+$ docker run -t -i training/sinatra /bin/bash
+root@0b2616b0e5a8:/#
+
+root@0b2616b0e5a8:/# gem install json
+...
+root@0b2616b0e5a8:/# exit
+$ docker commit -m "Added json gem" -a "Kate Smith" 0b2616b0e5a8 ouruser/sinatra:v2
+4f177bd27a9ff0f6dc2a830403925b5360bfe0b93d476f7fc3231110e7f71b1c
+</pre>
+
+<ul>
+<li><code>-m</code> - <i>commit</i> poruka</li>
+<li><code>-a</code> - autor</li>
+
+</ul>
+
+</section>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Upotreba nove slike</h3>
+<pre>
+$ docker images
+REPOSITORY          TAG     IMAGE ID       CREATED       VIRTUAL SIZE
+training/sinatra    latest  5bc342fa0b91   10 hours ago  446.7 MB
+ouruser/sinatra     v2      3c59e02ddd1a   10 hours ago  446.7 MB
+ouruser/sinatra     latest  5db5f8471261   10 hours ago  446.7 MB
+
+$ docker run -t -i ouruser/sinatra:v2 /bin/bash
+root@78e82f680994:/#
+</pre>
+
+</section>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Izgradnja slike upotrebom <code>Dockerfile</code> fajla</h3>
+<pre>
+$ mkdir sinatra
+$ cd sinatra
+$ touch Dockerfile
+</pre>
+
+<p>
+Sadržaj fajla:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="docker" ># This is a comment
+FROM ubuntu:14.04
+MAINTAINER Kate Smith &lt;ksmith@example.com&gt;
+RUN apt-get update &amp;&amp; apt-get install -y ruby ruby-dev
+RUN gem install sinatra
+</code></pre>
+</div>
+
+</section>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11.</span> Docker <code>build</code> komanda</h3>
+<pre>
+$ docker build -t ouruser/sinatra:v2 .
+Sending build context to Docker daemon 2.048 kB
+Sending build context to Docker daemon
+Step 1 : FROM ubuntu:14.04
+ ---&gt;; e54ca5efa2e9
+Step 2 : MAINTAINER Kate Smith &lt;ksmith@example.com&gt;
+ ---&gt;; Using cache
+ ---&gt;; 851baf55332b
+Step 3 : RUN apt-get update &amp;&amp; apt-get install -y ruby ruby-dev
+ ---&gt;; Running in 3a2558904e9b
+Selecting previously unselected package libasan0:amd64.
+(Reading database ... 11518 files and directories currently installed.)
+...
+Removing intermediate container 3a2558904e9b
+Step 4 : RUN gem install sinatra
+ ---&amp;gt; Running in 6b81cb6313e5
+Successfully installed rack-1.5.2
+Successfully installed tilt-1.4.1
+...
+Removing intermediate container 6b81cb6313e5
+Successfully built 97feabe5d2ed
+</pre>
+
+</section>
+<section id="slide-3-12">
+<h3 id="3-12"><span class="section-number-3">3.12.</span> Docker context</h3>
+<ul>
+<li>Izgradnju slike obavlja doker demon proces.</li>
+<li>Pre početka klijent šalje zapakovan sadržaj foldera koji je prosleđen kao
+parametar.</li>
+<li>Ovaj folder minimalno treba da ima <code>Dockerfile</code> ali može imati i dodatne fajlove
+i foldere koji se mogu po potrebi ugraditi u kontejner komandom <code>ADD</code>.</li>
+
+</ul>
+
+<p class="attention">
+<b>Napomena:</b> Celokupan folder se pakuje i šalje demon procesu. Paziti da folder
+sadrži samo zaista potrebne fajlove.
+</p>
+
+</section>
+<section id="slide-3-13">
+<h3 id="3-13"><span class="section-number-3">3.13.</span> Označavanje slika (<i>tagging</i>)</h3>
+<ul>
+<li>Svakoj verziji slike možemo dati simboličku oznaku (<i>tag</i>).</li>
+
+</ul>
+
+<pre>
+$ docker tag 5db5f8471261 ouruser/sinatra:devel
+
+$ docker images ouruser/sinatra
+REPOSITORY          TAG     IMAGE ID      CREATED        VIRTUAL SIZE
+ouruser/sinatra     latest  5db5f8471261  11 hours ago   446.7 MB
+ouruser/sinatra     devel   5db5f8471261  11 hours ago   446.7 MB
+ouruser/sinatra     v2      5db5f8471261  11 hours ago   446.7 MB
+</pre>
+
+</section>
+<section id="slide-3-14">
+<h3 id="3-14"><span class="section-number-3">3.14.</span> Slanje slika na <i>Docker Hub</i></h3>
+<pre>
+$ docker push ouruser/sinatra
+The push refers to a repository [ouruser/sinatra] (len: 1)
+Sending image list
+Pushing repository ouruser/sinatra (3 tags)
+. . .
+</pre>
+
+</section>
+<section id="slide-3-15">
+<h3 id="3-15"><span class="section-number-3">3.15.</span> Uklanjanje slike sa računara</h3>
+<pre>
+$ docker rmi training/sinatra
+Untagged: training/sinatra:latest
+Deleted: 5bc342fa0b91cabf65246837015197eecfa24b2213ed6a51a8974ae250fedd8d
+Deleted: ed0fffdcdae5eb2c3a55549857a8be7fc8bc4241fb19ad714364cbfd7a56b22f
+Deleted: 5c58979d73ae448df5af1d8142436d81116187a7633082650549c52c3a2418f0
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> <a href="https://docs.docker.com/engine/reference/builder/">Dockerfile</a></h2>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> <a href="https://docs.docker.com/engine/tutorials/dockervolumes/">Docker Data Volumes</a></h2>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> <a href="https://docs.docker.com/compose/">Docker Compose</a></h2>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> <a href="https://www.docker.com/products/docker-swarm">Docker Swarm</a></h2>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Vizuelizacija doker kontejnera</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> <code>dockviz</code></h3>
+<ul>
+<li>Alat za vizualizaciju doker slika</li>
+<li>Dostupan na <a href="https://github.com/justone/dockviz">GitHub-u</a>.</li>
+<li>Može se instalirati kao doker slika:</li>
+
+</ul>
+
+<pre>
+$ docker pull nate/dockviz
+Using default tag: latest
+latest: Pulling from nate/dockviz
+8bd831364921: Pull complete
+3dfb5e1486b5: Pull complete
+607d274e6daa: Pull complete
+Digest: sha256:9afe152b794ae8480b230545ec75bc81f5e11a0b9d28158bb609479de5a95a72
+Status: Downloaded newer image for nate/dockviz:latest
+
+$ alias dockviz="docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nate/dockviz"
+</pre>
+
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Vizualizacija veza između kontejnera</h3>
+<pre>
+$ dockviz containers -d | dot -Tpng -o containers.png
+</pre>
+
+
+<div id="org78117bb" class="figure">
+<p><img src="./images/containers.png" alt="containers.png" style="height: 300px;" />
+</p>
+</div>
+
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Vizualizacija međuzavisnosti i veličina slika</h3>
+<pre>
+$ dockviz images -t -i
+└─511136ea3c5a Virtual Size: 0.0 B
+  ├─f10ebce2c0e1 Virtual Size: 103.7 MB
+  │ └─82cdea7ab5b5 Virtual Size: 255.5 KB
+  │   └─5dbd9cb5a02f Virtual Size: 1.9 KB
+  │     └─74fe38d11401 Virtual Size: 105.7 MB Tags: ubuntu:12.04, ubuntu:precise
+  ├─ef519c9ee91a Virtual Size: 100.9 MB
+  │ └─07302703becc Virtual Size: 251.0 KB
+  │   └─cf8dc907452c Virtual Size: 1.9 KB
+  │     └─a7cf8ae4e998 Virtual Size: 70.1 MB Tags: ubuntu:12.10, ubuntu:quantal
+  │       ├─e18d8001204e Virtual Size: 29.4 KB
+  │       │ └─d0525208a46c Virtual Size: 71.0 B
+  │       │   └─59dac4bae93b Virtual Size: 71.2 MB
+  │       │     └─89541b3b35f2 Virtual Size: 269.3 MB
+  │       │       └─7dac4e98548e Virtual Size: 0.0 B
+  │       │         └─341d0cc3fac8 Virtual Size: 0.0 B
+  ...
+</pre>
+
+</section>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4.</span> Reference</h3>
+<ul>
+<li><a href="https://docs.docker.com/">Docker dokumentacija</a></li>
+<li><a href="https://github.com/justone/dockviz">dockviz dokumentacija</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

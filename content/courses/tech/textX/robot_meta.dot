@@ -1,0 +1,58 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+94766644691312[ label="{Program|}"]
+
+94766646538640[ label="{*Command|}"]
+
+94766646727424[ label="{InitialCommand|+x:INT\l+y:INT\l}"]
+
+94766646733552[ label="{MoveCommand|+direction:Direction\l+steps:INT\l}"]
+
+94766646739088[ label="{Direction|up\|down\|left\|right}"]
+
+94766646744624[ label="{Comment|\\/\\/.*$}"]
+
+94766646535696[ label="{ID|}"]
+
+94766646540640[ label="{STRING|}"]
+
+94766646545584[ label="{BOOL|}"]
+
+94766644688368[ label="{INT|}"]
+
+94766644693312[ label="{FLOAT|}"]
+
+94766646570048[ label="{STRICTFLOAT|}"]
+
+94766646574992[ label="{NUMBER|}"]
+
+94766646579936[ label="{BASETYPE|}"]
+
+94766646584880[ label="{*OBJECT|}"]
+
+
+
+94766644691312 -> 94766646538640[arrowtail=diamond, dir=both, headlabel="commands 0..*"]
+94766646538640 -> 94766646727424 [dir=back]
+94766646538640 -> 94766646733552 [dir=back]
+94766646574992 -> 94766646570048 [dir=back]
+94766646574992 -> 94766644688368 [dir=back]
+94766646579936 -> 94766646574992 [dir=back]
+94766646579936 -> 94766644693312 [dir=back]
+94766646579936 -> 94766646545584 [dir=back]
+94766646579936 -> 94766646535696 [dir=back]
+94766646579936 -> 94766646540640 [dir=back]
+94766646584880 -> 94766646579936 [dir=back]
+
+}

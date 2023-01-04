@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>textX zadaci</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../reveal.js/css/theme/night.css" id="theme"/>
+
+<link rel="stylesheet" href="../../reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/zenburn.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">textX zadaci</h1>
+<h2 class="subtitle">u izradi</h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2020-12-20 Sun 18:16, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+
+<section>
+<section id="slide-org0acd773">
+<h2 id="org0acd773">Sadržaj</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-1">1. Instalacija</a></li>
+<li><a href="#/slide-2">2. Robot primer</a></li>
+<li><a href="#/slide-3">3. Expression primer</a></li>
+<li><a href="#/slide-4">4. DSL - uslov -&gt; akcija</a></li>
+</ul>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1</span> Instalacija</h2>
+<ul>
+<li><p>
+Kreirati i aktivirati Python virtuelno okruženje:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >$ mkdir JSD
+$ cd JSD
+$ python -m venv venv
+$ source venv/bin/activate     # (venv\Scripts\activate.bat na Windows-u)
+</code></pre>
+</div></li>
+
+<li><p>
+Instalirati textX sa <code>dev</code> zavisnostima:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >$ pip install textx[dev]
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2</span> Robot primer</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1</span> Uvod</h3>
+<ul>
+<li>Analizirati <a href="https://github.com/textX/textX/tree/master/examples/robot">robot primer</a></li>
+<li>Vizualizovati robot meta-model i primere modela. Isprobati i <code>dot</code> i
+<code>plantUML</code> vizualizacije.</li>
+<li>Uključiti <code>debug</code> mod i analizirati izlaz</li>
+
+</ul>
+
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2</span> <code>for</code> petlje u Robot jeziku</h3>
+<p>
+Doraditi robot primer tako da omogući <code>for</code> petlje oblika:
+</p>
+
+<pre>
+for i in 5..10
+    up 2
+    right i
+end
+</pre>
+
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3</span> <code>if</code> iskazi u robot jeziku</h3>
+<p>
+Doraditi robot primer tako da omogući <code>if</code> iskaze:
+</p>
+
+<pre>
+if x &gt; 5
+    up 1
+end
+</pre>
+
+<p>
+gde <code>x</code> i <code>y</code> variable predstavljaju tekuću poziciju robota.
+Posle <code>if</code> iskaza navodi se Bulov izraz sa standardnim operatorima <code>&lt;,&gt;,&gt;=,&lt;=,
+!=, ==, and, or, not</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3</span> Expression primer</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1</span> Uvod</h3>
+<ul>
+<li>Analizirati <a href="https://github.com/textX/textX/tree/master/examples/expression">expression primer</a></li>
+<li>Vizualizovati expression meta-model i primere modela</li>
+<li>Uključiti <code>debug</code> mod i analizirati izlaz</li>
+
+</ul>
+
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2</span> Pozivi funkcija u <code>expression</code> jeziku</h3>
+<p>
+U <code>expression</code> primeru omogućiti pozive standardnim matematičkih funkcija iz
+<code>math</code> modula.
+</p>
+
+<pre>
+a = 10;
+b = 2 * a + 17;
+
+5 * sin(a + sqrt(b + 50)) - 3 / 18
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4</span> DSL - uslov -&gt; akcija</h2>
+<p>
+Napraviti textX gramatiku za parsiranje sledećeg jezika:
+</p>
+
+<pre>
+action notify_quota_approaching https://somesite.com/api/v1/notify?user={user_id}
+
+on user.current_usage &gt;= 0.8 * max_quota trigger notify_quota_approaching with user_id = user.id
+</pre>
+
+<ul>
+<li>U prvom delu se definišu moguće akcije. Svaka akcija počinje ključnom rečju
+<code>action</code>, ima ime i REST URL koji se poziva (šalje se HTTP GET)</li>
+<li>Akcija može imati parametre - <code>user_id</code> u primeru</li>
+<li>Pravila kada se akcija poziva se definišu sa <code>on ... trigger... with</code> iskazima
+gde se definiše:
+<ul>
+<li>Logički izraz koji, ukoliko je zadovoljen, dovodi do akcije. Ovaj iskaz može
+imati standardne logičke operatore <code>and, or, not</code> kao i aritmetčko poređenje
+<code>&lt;,&gt;, &lt;=, &gt;=, ==, !=</code>.</li>
+<li>Akcija koju je potrebno pozvati navodi se posle ključne reči <code>trigger</code></li>
+<li>Posle ključne reči <code>with</code> navode se vrednosti parametara poziva akcije,
+razdvojeni zarezima. <code>with</code> deo je opcion.</li>
+
+</ul></li>
+<li>I akcija i <code>on</code> pravila može biti više</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>
