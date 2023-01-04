@@ -401,122 +401,6 @@ updates.
 :EXPORT_HUGO_AUTO_SET_LASTMOD: t
 :EXPORT_HUGO_FRONT_MATTER_KEY_REPLACE: tags>rtags
 :END:
-** TODO Deploying Hugo site on GitHub Pages :github:hugo:
-There is a [[https://github.com/benmatselby/hugo-deploy-gh-pages][GitHub Action to build and deploy a Hugo site to GitHub Pages]]. I made
-a fork that I'll be using just to be sure what I'm running and to introduce
-additional changes if needed. Following the docs, make a
-=.github/workflow/deploy-site.yaml= with the following content (adapt as needed):
-#+begin_src yaml
-name: Build and Deploy
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout master
-      uses: actions/checkout@v1
-      with:
-        submodules: true
-
-    - name: Hugo Deploy GitHub Pages
-      uses: igordejanovic/hugo-deploy-gh-pages@master
-      env:
-        HUGO_VERSION: 0.105.0
-        TARGET_REPO: igordejanovic/igordejanovic.github.io
-        TARGET_BRANCH: master
-        TOKEN: ${{ secrets.TOKEN }}
-        CNAME: www.igordejanovic.net
-#+end_src
-
-- The best approach is to use =HUGO_VERSION= the same as your local. Check local
-  version by running =hugo version=.
-- =with: submodules= is needed if site uses resources as [[https://git-scm.com/book/en/v2/Git-Tools-Submodules][git submodules]] (e.g. a
-  theme checked out as a submodule).
-- =secrets.TOKEN= is a repo secret, named =TOKEN= (can be called differently),
-  produced from GitHub [[https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token][/Personal Access Token/ (PAT)]]. PAT is a token for
-  accessing GitHub API using your credentials. Treat it as a password.
-- /Not working at the moment/: GitHub offers fine-grained PATs, which can be
-  restricted to access only a particular repo with a particular set of access
-  rights (/currently in Beta and it seems that push is not supported/).
-  1. Create it by going to =your profile->Settings->Developer settings->Personal
-     access tokens->Fine-grained tokens=
-  2. Choose expiration. Remember, you will have to renew it when expired.
-  3. Choose access to only site repo.
-  4. Choose these set of rights: commit, push, read secrets.
-  5. Store PAT in a safe place (e.g. password manager). It will be needed for
-     creating repo secret.
-- /Use this for now/: PAT *classic* are tokens that enable access to all repos, thus
-  they should be replaced ASAP with fine-grained PATs above.
-  1. Create it by going to =your profile->Settings->Developer settings->Personal
-     access tokens->Tokens (classic)=
-  2. Type in note, expiration and enable =repo= scope. This gives full access to
-     all repos to anyone who has the token!
-- Create repo secret to be used as a =TOKEN= environment variable from the =yaml=
-  workflow config above.
-  - Go to site repo =Settings->Security-Secrets->Actions=.
-  - Click =New repository secret= button, give it a name (e.g. =TOKEN=) and paste
-    =PAT= as a value.
-  - Remember, GitHub action code will have credentials you gave while creating
-    =PAT= in the previous step. So be sure to trust the action you will be
-    running. The best is to fork the action, do the code review to be sure what
-    the action will be doing, and use your fork. From time to time pull upstream
-    changes and review them.
-- Now, whenever you push to =master= branch the workflow will run and it will
-  clone, build and deploy your site.
-
-*** Troubleshooting
-**** Error building site, process: readAndProcessContent,  No such File or Directory, lstat...
-This error is reported if there are symbolic links in the content folder with
-unexisting targets. See [[https://discourse.gohugo.io/t/static-directory-error-decorate-lstat-no-such-file-or-directory/33317][here]]. To find all symbolic links do:
-#+begin_src sh
-find -type l .
-#+end_src
-
-**** fatal: detected dubious ownership in repository at '/github/workspace/public'
-Reported when =public= folder in the git repo is not empty. No need to keep it in
-the repo as it is built by Hugo during deploy. Remove it and add it to
-=.gitignore=.
-
-**** fatal: credential url cannot be parsed: =https://***...=
-This happens if you have newline at the end of PAT for secret token.
-
-**** Testing locally
-As per docs. Clone Hugo action repo and build the docker image:
-#+begin_src sh
-docker build --pull --rm -f "Dockerfile" -t hugodeployghpages:latest
-#+end_src
-
-Now, you can run the docker locally (=GIT_TRACE= and =GIT_CURL_VERBOSE= are used for
-verbose git commands debugging).
-#+begin_src
-docker run --rm \
-  -eHUGO_EXTENDED=true \
-  -eGIT_TRACE=true \
-  -eGIT_CURL_VERBOSE=true \
--eGITHUB_TOKEN=<paste token here> \
-  -eGITHUB_ACTOR=igordejanovic \
-  -eTARGET_REPO=igordejanovic/igordejanovic.github.io \
-  -v "$(pwd)":/site/ \
-  --workdir /site \
-  hugodeployghpages
-#+end_src
-**** Only the last commit visible!
-- Create =.nojekyll= file:
-  #+begin_src sh
-touch .nojekyll
-  #+end_src
-  This will prevent Jekyll to run.
-- Change hugo action to deploy =public= folder to the =gh-pages= branch. That branch
-  can be git orphan branch recreated from scratch with each deploy. This will
-  keep repo tidy.
-
 ** DONE Debugging Elisp :emacs:programming:
 CLOSED: [2022-12-31 Sat 13:36]
 :PROPERTIES:
@@ -920,6 +804,95 @@ v5xBR3eULRG/s5YufU84oAZ4Xf1DEFrF/kcVw4VEfK8/LY/+vvBm
 :EXPORT_HUGO_TYPE: post
 :EXPORT_HUGO_FRONT_MATTER_KEY_REPLACE: tags>ptags
 :END:
+** DONE Deploying Hugo site on GitHub Pages :github:hugo:
+CLOSED: [2023-01-04 Wed 19:53]
+:PROPERTIES:
+:EXPORT_FILE_NAME: deploying-hugo-site-on-github-pages
+:END:
+There is an excellent [[https://github.com/benmatselby/hugo-deploy-gh-pages][GitHub Action to build and deploy a Hugo site to GitHub
+Pages]] by [[https://github.com/benmatselby][Ben Selby]].
+
+But, the problem is that the action requires [[https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token][Personal Access Token]] to operate
+which currently require classic token with a full access to all user repo. I'm
+not comfortable with that.
+
+Another issue, it seems that it is created to deploy to another git repo as it
+nukes the target and retain only a single commit.
+
+I will here describe a less intrusive way to post hugo site using GitHub Pages.
+For this I created a [[https://github.com/igordejanovic/hugo-deploy-gh-pages][modified version of Ben's action]] just by removing all git
+related publishing code. The action now merely downloads appropriate version of
+Hugo and do the build. The actual deploy is handled by official GitHub actions.
+
+Workflow script is in most part generated by going to =Settings->Pages= and
+choosing =GitHub Actions= as source. There you have option to use Jekyll or deploy
+static pages produced by other static site builder. Chose the later and you will
+get the workflow config. There I just inserted a call to modified hugo builder.
+As of this writing you will a workflow like this:
+
+#+begin_src yaml
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Hugo Deploy GitHub Pages
+        uses: igordejanovic/hugo-deploy-gh-pages@main
+        env:
+          HUGO_VERSION: 0.105.0
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'public'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+#+end_src
+
+Save this in =.github/workflow/build-site.yaml= in your Hugo git repo.
+
+What this does is
+1. Checkout the source of the site.
+2. Do the setup.
+3. Call Hugo builder action which downloads Hugo and build the static pages.
+4. Upload =public= folder as a build artifact.
+5. Deploy uploaded artifact as a new site.
+
+This will keep site repo clean. No deployment branches (like =gh-pages=), no
+=public= folder with built static pages etc. And, no need to setup and take care
+of Private Access Tokens.
+
 ** TODO Playing with Guix :linux:
 ** TODO Migrating personal site to Org/Hugo :emacs:
 :PROPERTIES:
