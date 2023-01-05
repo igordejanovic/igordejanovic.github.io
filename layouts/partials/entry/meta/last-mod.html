@@ -1,0 +1,10 @@
+{{- $dateFormat := ( .Site.Params.settings.dateFormat | default "2006, Jan 02" ) -}}
+<span class='last-updated'>
+  {{- partial "svg/icon" "edit" -}}
+  <span class='screen-reader-text'>{{ i18n "lastUpdated" }}: </span>
+  <a href="{{(print "https://github.com/" .Site.Params.Social.Github "/igordejanovic.github.io/commits/main/content/" .Page.File) }}">
+    <time class='entry-date' datetime='{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}'>
+      {{- .Lastmod.Format $dateFormat -}}
+    </time>
+  </a>
+</span>
