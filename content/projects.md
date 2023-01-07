@@ -27,14 +27,14 @@ expressions on your language and automatically build a graph of Python objects
 Read more information [here](https://textx.github.io/textX/) or see the project on [GitHub](https://github.com/textX/textX).
 
 
-## [parglare](https://textx.github.io/igordejanovic/parglare/) {#parglare}
+## [parglare](https://www.igordejanovic.net/parglare/) {#parglare}
 
 Parglare is a modern approach to old-school parsing algorithms - LR and GLR. It
 uses integrated scanner (a.k.a scannerless parsing), have an extensive support
 for debugging, tracing and visualization. For grammar specification a BNF-like
 notation is used.
 
-Read more information [here](./parglare/) or see the project on [GitHub](https://github.com/igordejanovic/parglare/).
+Read more information [here](https://www.igordejanovic.net/parglare/) or see the project on [GitHub](https://github.com/igordejanovic/parglare/).
 
 
 ## [Arpeggio](https://textx.github.io/Arpeggio/) {#arpeggio}
