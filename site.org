@@ -549,6 +549,170 @@ guix shell --container python coreutils procps grep less util-linux bash -- bash
     -device virtio-vga-gl \
     -display gtk,gl=on
   #+end_src
+** Git tips :programming:git:
+:PROPERTIES:
+:EXPORT_FILE_NAME: git-tips
+:END:
+- Good recipes:  https://csswizardry.com/2017/05/little-things-i-like-to-do-with-git/
+*** How to get the changes on a branch in Git
+
+#+BEGIN_SRC sh
+# Changes on branch but not on HEAD (three dots)
+git diff HEAD...branch
+#
+#+END_SRC
+*** List recent branches and switch
+- source: https://github.com/rafaelrinaldi/til/blob/master/git/list-branches-by-date.md
+ #+BEGIN_SRC sh
+ $ git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)
+ # .gitconfig alias
+ [alias]
+ branches = "!sh -c \"git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)\""
+ #+END_SRC
+
+ Uses [[https://github.com/mptre/pick][pick]].
+
+*** See branches merged into other branch
+source: https://stackoverflow.com/questions/226976/how-can-i-know-if-a-branch-has-been-already-merged-into-master
+#+BEGIN_SRC sh
+git branch --merged master    # lists branches merged into master
+git branch --merged           # lists branches merged into HEAD (i.e. tip of current branch)
+git branch --no-merged        # lists branches that have not been merged
+# add -a for all branches (local/remote) or -r for remote only
+#+END_SRC
+
+*** Finding best common ancestors of two commits/branches
+
+source: https://stackoverflow.com/a/40011122/2024430
+
+#+BEGIN_SRC sh
+git merge-base <commit> <commit>
+#+END_SRC
+
+*** Check if the branch is current
+source: https://stackoverflow.com/a/53325693/2024430
+
+#+BEGIN_SRC sh
+$ git fetch && git branch -r --merged | grep -q origin/master && echo Incorporates origin/master || echo Out of date from origin/master
+
+# In ~/.gitconfig
+[alias]
+   current = !git branch -r --merged | grep -q $1 && echo Incorporates $1 || echo Out of date from $1 && :
+
+And then run:
+$ git current origin/master
+#+END_SRC
+
+*** Check if branch can merge without conflicts
+source: https://stackoverflow.com/a/6335937/2024430
+#+BEGIN_SRC sh
+git merge other-branch --no-commit --no-ff
+git merge --abort
+#+END_SRC
+
+*** See commits from a branch but not from merged in branches
+source: https://stackoverflow.com/questions/10248137/git-how-to-list-commits-on-this-branch-but-not-from-merged-branches
+
+#+BEGIN_SRC sh
+git log --first-parent
+#+END_SRC
+
+*** See what is on a branch
+#+BEGIN_SRC sh
+git log $(git merge-base first_branch HEAD)..HEAD .  # Find commit on this
+                                       branch that changed something in the current folder
+git log --no-merges master..
+git log --no-merges master..HEAD --author="Jason" .
+#+END_SRC
+
+*** See files in conflict
+#+BEGIN_SRC sh
+git diff --name-only --diff-filter=U
+#+END_SRC
+
+*** Check for conflict markers in code
+#+BEGIN_SRC sh
+git diff --check
+#+END_SRC
+
+*** Leaderboards - number of commit by user sorted
+#+BEGIN_SRC sh
+git shortlog -sn --all --no-merges
+git shortlog -sn --since='10 weeks' --until='2 weeks'
+#+END_SRC
+
+*** See recent branches you have been working on
+#+BEGIN_SRC sh
+git for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
+# alias
+recent = "for-each-ref --count=10 --sort=-committerdate refs/heads/ --format='%(refname:short)'"
+
+#+END_SRC
+
+*** Remind yourself what you have been doing
+#+BEGIN_SRC sh
+git log --all --oneline --no-merges --author=igor.dejanovic
+# alias
+recap = "log --all --oneline --no-merges --author=igor.dejanovic"
+#+END_SRC
+*** See what is changed in the merge conflict resolution
+[[https://stackoverflow.com/questions/16573555/show-conflict-diff-part-of-a-merge][SO post]]
+#+begin_src sh
+git diff hash hash^1 hash^2
+#+end_src
+*** [[https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67][git rerere - reuse recorded resolutions]]
+*** Delete local branches whose remotes were deleted
+See [[https://stackoverflow.com/questions/41592156/git-command-to-remove-local-branches-that-have-a-deleted-upstream][this SO post]].
+#+begin_src sh
+git config --global alias.gone "! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '\$2 == \"[gone]\" {print \$1}' | xargs -r git branch -D"
+#+end_src
+Now =git gone= will delete all local branches whose remotes were deleted.
+
+*** Find large files in the repo history
+- This works but is slow for large repos.
+#+begin_src sh
+git rev-list --all | while read rev ; do git ls-tree -rl --full-name $rev ; done | sort -k4 -nr | uniq > large.txt
+#+end_src
+
+- This works much faster! See https://stackoverflow.com/a/42544963/2024430
+  Use ~--since="2022-09-10"~ to return only recent blobs.
+#+begin_src sh
+git rev-list --objects --all |
+  git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' |
+  sed -n 's/^blob //p' |
+  sort --numeric-sort --key=2 |
+  cut -c 1-12,41- |
+  numfmt --field=2 --to=iec-i --suffix=b --padding=7 --round=neares
+#+end_src
+*** Compare two branches
+Some commands use [[https://apps.kde.org/kompare/][kompare]] or [[http://meldmerge.org/][meld]].
+
+- Show only file names ignoring whitespace (=-w=):
+  #+begin_src sh
+  git diff -w --name-status master..integration
+  #+end_src
+- Show changes between tips of two branches.
+  #+begin_src sh
+  git diff master..integration | kompare -
+  #+end_src
+- See the diff of modified files only between two branches in folder =src=.
+  #+begin_src sh
+  git diff -w --diff-filter=M master..integration src/ | kompare -
+  #+end_src
+- See what is on branch =integration= but not on =master= (notice three dots).
+  #+begin_src sh
+  git diff master...integration | kompare -
+  #+end_src
+- To use meld in previous recipes do the following:
+  1. Configure meld as a diff tool:
+     #+begin_src sh
+     git config --global diff.tool meld
+     #+end_src
+  2. Use git =--dir-diff=. For example:
+     #+begin_src sh
+     git difftool -d master...integration
+     #+end_src
+
 ** Debugging Elisp :emacs:programming:
 :PROPERTIES:
 :EXPORT_FILE_NAME: debugging-elisp
