@@ -444,6 +444,9 @@ hints:
        mods: Control|Shift
   #+end_src
 
+  Now you can press =Ctrl-Shift-U= to get hints overlay (a letter for each
+  recognized URL on the terminal). Press the letter to execute =xdg-open= over the
+  matched content (URL).
 
 **** Color schemes with dynamic change
 Nice color schemes can be found in [[https://github.com/eendroroy/alacritty-theme][eendroroy/alacritty-theme]] repo.
@@ -485,6 +488,7 @@ alacritty-colorscheme -V toggle one_dark.yaml papercolor_light.yaml
 
 Make keybinding in =~/.config/alacritty/alacritty.yml=:
 #+begin_src yaml :tangle "~/.config/alacritty/alacritty.yml"
+key_bindings:
   - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "one_dark.yaml",  "papercolor_light.yaml"] } }
 
 #+end_src

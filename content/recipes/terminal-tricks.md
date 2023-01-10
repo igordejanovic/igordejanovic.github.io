@@ -1,6 +1,6 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-10T18:40:02+01:00
+lastmod = 2023-01-10T18:50:43+01:00
 rtags = ["linux", "shell", "terminal"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -46,6 +46,9 @@ creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
              key: U
              mods: Control|Shift
     ```
+    Now you can press `Ctrl-Shift-U` to get hints overlay (a letter for each
+    recognized URL on the terminal). Press the letter to execute `xdg-open` over the
+    matched content (URL).
 
 
 ### Color schemes with dynamic change {#color-schemes-with-dynamic-change}
@@ -96,6 +99,7 @@ alacritty-colorscheme -V toggle one_dark.yaml papercolor_light.yaml
 Make keybinding in `~/.config/alacritty/alacritty.yml`:
 
 ```yaml
+key_bindings:
   - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "one_dark.yaml",  "papercolor_light.yaml"] } }
 ```
 
