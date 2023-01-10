@@ -1,6 +1,6 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-10T18:50:43+01:00
+lastmod = 2023-01-10T18:58:25+01:00
 rtags = ["linux", "shell", "terminal"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -14,7 +14,7 @@ creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 | C-x C-r  | Read in the contents of the inputrc file, and incorporate any bindings or variable assignments found there. |
 | C-x C-u  | Incremental undo, separately remembered for each line.                                                      |
 | C-x C-v  | Display version information about the current instance of bash.                                             |
-|          | In alacritty switch to line vi mode?                                                                        |
+|          | In zsh switch to line vi mode (equivalent to `bindkey -v`)? Exit with Ctrl-c                                |
 | C-x C-x  | Alternates the cursor with its old position. (C-x, because x has a crossing shape).                         |
 | C-x \*   | Inline shell expansion                                                                                      |
 
