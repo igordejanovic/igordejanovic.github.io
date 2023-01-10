@@ -1,6 +1,6 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-10T18:58:25+01:00
+lastmod = 2023-01-10T19:21:52+01:00
 rtags = ["linux", "shell", "terminal"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -104,7 +104,7 @@ key_bindings:
 ```
 
 
-## Spawn a new instance in the same directory {#spawn-a-new-instance-in-the-same-directory}
+### Spawn a new instance in the same directory {#spawn-a-new-instance-in-the-same-directory}
 
 Add to `~/.config/alacritty/alacritty.yml`:
 
