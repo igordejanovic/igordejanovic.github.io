@@ -1,13 +1,10 @@
 +++
 title = "Git tips"
-lastmod = 2023-01-07T23:00:39+01:00
+lastmod = 2023-01-10T18:46:24+01:00
 rtags = ["programming", "git"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
-
--   Good recipes:  <https://csswizardry.com/2017/05/little-things-i-like-to-do-with-git/>
-
 
 ## How to get the changes on a branch in Git {#how-to-get-the-changes-on-a-branch-in-git}
 
@@ -20,19 +17,17 @@ git diff HEAD...branch
 
 ## List recent branches and switch {#list-recent-branches-and-switch}
 
--   source: <https://github.com/rafaelrinaldi/til/blob/master/git/list-branches-by-date.md>
-    ```sh
-       $ git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)
-       # .gitconfig alias
-       [alias]
-       branches = "!sh -c \"git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)\""
-    ```
-    Uses [pick](https://github.com/mptre/pick).
+```sh
+$ git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)
+# .gitconfig alias
+[alias]
+branches = "!sh -c \"git checkout $(git for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs | pick | cut -f2)\""
+```
+
+[Source](https://github.com/rafaelrinaldi/til/blob/master/git/list-branches-by-date.md). Uses [pick](https://github.com/mptre/pick).
 
 
 ## See branches merged into other branch {#see-branches-merged-into-other-branch}
-
-source: <https://stackoverflow.com/questions/226976/how-can-i-know-if-a-branch-has-been-already-merged-into-master>
 
 ```sh
 git branch --merged master    # lists branches merged into master
@@ -41,19 +36,19 @@ git branch --no-merged        # lists branches that have not been merged
 # add -a for all branches (local/remote) or -r for remote only
 ```
 
+[Source](https://stackoverflow.com/questions/226976/how-can-i-know-if-a-branch-has-been-already-merged-into-master)
+
 
 ## Finding best common ancestors of two commits/branches {#finding-best-common-ancestors-of-two-commits-branches}
-
-source: <https://stackoverflow.com/a/40011122/2024430>
 
 ```sh
 git merge-base <commit> <commit>
 ```
 
+[Source](https://stackoverflow.com/a/40011122/2024430)
+
 
 ## Check if the branch is current {#check-if-the-branch-is-current}
-
-source: <https://stackoverflow.com/a/53325693/2024430>
 
 ```sh
 $ git fetch && git branch -r --merged | grep -q origin/master && echo Incorporates origin/master || echo Out of date from origin/master
@@ -66,31 +61,35 @@ And then run:
 $ git current origin/master
 ```
 
+[Source](https://stackoverflow.com/a/53325693/2024430)
+
 
 ## Check if branch can merge without conflicts {#check-if-branch-can-merge-without-conflicts}
-
-source: <https://stackoverflow.com/a/6335937/2024430>
 
 ```sh
 git merge other-branch --no-commit --no-ff
 git merge --abort
 ```
 
+[Source](https://stackoverflow.com/a/6335937/2024430)
+
 
 ## See commits from a branch but not from merged in branches {#see-commits-from-a-branch-but-not-from-merged-in-branches}
-
-source: <https://stackoverflow.com/questions/10248137/git-how-to-list-commits-on-this-branch-but-not-from-merged-branches>
 
 ```sh
 git log --first-parent
 ```
 
+[Source](https://stackoverflow.com/questions/10248137/git-how-to-list-commits-on-this-branch-but-not-from-merged-branches)
+
 
 ## See what is on a branch {#see-what-is-on-a-branch}
 
 ```sh
-git log $(git merge-base first_branch HEAD)..HEAD .  # Find commit on this
-                                       branch that changed something in the current folder
+# Find commit on this
+# branch that changed something in the current folder
+git log $(git merge-base first_branch HEAD)..HEAD .
+
 git log --no-merges master..
 git log --no-merges master..HEAD --author="Jason" .
 ```
@@ -138,11 +137,11 @@ recap = "log --all --oneline --no-merges --author=igor.dejanovic"
 
 ## See what is changed in the merge conflict resolution {#see-what-is-changed-in-the-merge-conflict-resolution}
 
-[SO post](https://stackoverflow.com/questions/16573555/show-conflict-diff-part-of-a-merge)
-
 ```sh
 git diff hash hash^1 hash^2
 ```
+
+[Source](https://stackoverflow.com/questions/16573555/show-conflict-diff-part-of-a-merge)
 
 
 ## [git rerere - reuse recorded resolutions](https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67) {#git-rerere-reuse-recorded-resolutions}
@@ -150,13 +149,11 @@ git diff hash hash^1 hash^2
 
 ## Delete local branches whose remotes were deleted {#delete-local-branches-whose-remotes-were-deleted}
 
-See [this SO post](https://stackoverflow.com/questions/41592156/git-command-to-remove-local-branches-that-have-a-deleted-upstream).
-
 ```sh
 git config --global alias.gone "! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '\$2 == \"[gone]\" {print \$1}' | xargs -r git branch -D"
 ```
 
-Now `git gone` will delete all local branches whose remotes were deleted.
+[Source](https://stackoverflow.com/questions/41592156/git-command-to-remove-local-branches-that-have-a-deleted-upstream). Now `git gone` will delete all local branches whose remotes were deleted.
 
 
 ## Find large files in the repo history {#find-large-files-in-the-repo-history}
@@ -213,3 +210,8 @@ Some commands use [kompare](https://apps.kde.org/kompare/) or [meld](http://meld
         ```sh
                   git difftool -d master...integration
         ```
+
+
+## References {#references}
+
+-   <https://csswizardry.com/2017/05/little-things-i-like-to-do-with-git/>
