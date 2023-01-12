@@ -1,6 +1,6 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-12T14:24:41+01:00
+lastmod = 2023-01-12T14:33:15+01:00
 rtags = ["linux", "shell", "terminal"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -127,6 +127,6 @@ Put this in `.zshrc`:
 plugins+=(git)
 ```
 
-This adds alias `grc` that cd to the root of the repo.
+This adds alias `grc` that cd to the root of the repo. For other aliases see [here](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git).
 
 [Source](https://stackoverflow.com/a/74648494/2024430).
