@@ -1,6 +1,6 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-10T19:21:52+01:00
+lastmod = 2023-01-12T14:24:41+01:00
 rtags = ["linux", "shell", "terminal"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -114,6 +114,19 @@ key_bindings:
 ```
 
 
-## Tricks with zsh {#tricks-with-zsh}
+## Tricks with zsh and [oh-my-zsh](https://ohmyz.sh/) {#tricks-with-zsh-and-oh-my-zsh}
 
 -   <https://www.sitepoint.com/zsh-commands-plugins-aliases-tools/>
+
+
+### Go up to the root of Git repo :oh-my-zsh: {#go-up-to-the-root-of-git-repo-oh-my-zsh}
+
+Put this in `.zshrc`:
+
+```sh
+plugins+=(git)
+```
+
+This adds alias `grc` that cd to the root of the repo.
+
+[Source](https://stackoverflow.com/a/74648494/2024430).
