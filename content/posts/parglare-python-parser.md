@@ -1,6 +1,7 @@
 +++
 title = "Parglare Python parser"
 date = 2017-08-09
+lastmod = 2023-01-15T18:37:38+01:00
 ptags = ["programming", "python"]
 type = "post"
 draft = false
@@ -108,5 +109,5 @@ be tackled from time to time.
 
 But I'll definitely try to keep the core simple and all additions optional.
 
-If you have ideas, advices or any other feedback please use comment section
-bellow.
+If you have ideas, advices or any other feedback please use [the discussion
+section on GitHub](https://github.com/igordejanovic/parglare/discussions).
