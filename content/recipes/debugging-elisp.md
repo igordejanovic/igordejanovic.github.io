@@ -1,14 +1,10 @@
 +++
 title = "Debugging Elisp"
-date = 2022-12-31T13:36:00+01:00
-lastmod = 2023-01-03T22:20:02+01:00
+lastmod = 2023-01-15T12:44:37+01:00
 rtags = ["emacs", "programming"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
-
-## print debugging {#print-debugging}
-
 
 ## `debug` {#debug}
 
