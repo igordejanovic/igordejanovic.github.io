@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sr">
 <head>
 <meta charset="utf-8"/>
-<title>Programski jezik Rust</title>
-<meta name="author" content="Igor Dejanović"/>
+<title>Програмски језик Раст</title>
+<meta name="author" content="Игор Дејановић"/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -22,7 +22,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -32,41 +32,42 @@
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide">
-<h1 class="title">Programski jezik Rust</h1>
-<h2 class="subtitle">Bazirano na verziji 1.58.1. U izradi.</h2>
-<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2022-12-15 Thu 12:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<h1 class="title">Програмски језик Раст</h1>
+<h2 class="subtitle">Базирано на верзији 1.65.0. У изради.</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2023-01-15 Sun 18:18, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
 
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Увод</h2>
 <ul>
-<li>Jezik opšte namene, kompajliran i statički tipiziran sa inferencom tipova</li>
-<li>Sistemsko programiranje ali sa osobinama višeg nivoa apstrakcije kao što su
-funkcionalno programiranje</li>
+<li>Језик опште намене, компајлиран и статички типизиран са инференцом типова</li>
+<li>Системско програмирање али са особинама вишег нивоа апстракције као што су
+функционално програмирање</li>
 <li>2010, Graydon Hoare, Mozilla Research</li>
-<li>Performanse i sigurnost</li>
-<li>Ne koristi <i>garbage collector</i> ali obezbeđuje memorijsku sigurnost kroz <i>borrow
+<li>Перформансе и сигурност</li>
+<li>Не користи <i>garbage collector</i> али обезбеђује меморијску сигурност кроз <i>borrow
 checker</i></li>
-<li>Sintaksno sličan C++. Uticaj i OCaml-a, Haskell-a i Erlang-a.</li>
-<li>Koristi se u velikim firmama: Amazon, Facebook, Google, Microsoft&#x2026;</li>
-<li>Od 2016 godine na SO upitniku konstantno prvi u kategoriji <i>&ldquo;most loved
-programming languages&rdquo;</i></li>
+<li>Синтаксно сличан C++. Утицај и OCaml-а, Haskell-а и Erlang-а.</li>
+<li>Користи се у великим фирмама: Amazon, Facebook, Google, Microsoft&#x2026;</li>
+<li>Више година за редом на SO упитнику први у категорији <i>"most loved programming
+languages"</i></li>
 
 </ul>
+
 </section>
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2.</span> Instalacija i podešavanje</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Инсталација и подешавање</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1.</span> Instalacija</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Инсталација</h3>
 <ul>
-<li>Rust stiže sa alatom za upravljanje lanca alata <code>rustup</code></li>
+<li>Раст стиже са алатом за управљање ланцем алата (енг. <i>toolchain</i>) &#x2013; <code>rustup</code></li>
 
 </ul>
 
@@ -77,20 +78,20 @@ programming languages&rdquo;</i></li>
 </div>
 
 <ul>
-<li>Provera instalacije</li>
+<li>Провера инсталације:</li>
 
 </ul>
 
 <div class="org-src-container">
 
 <pre><code class="sh" >~&gt; rustc --version
-rustc 1.58.1 (db9d1b20b 2022-01-20)
+rustc 1.65.0 (897e37553 2022-11-02)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2.</span> Pregled instalacije</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Преглед инсталације</h3>
 <div class="org-src-container">
 
 <pre><code class="sh" >~&gt; rustup show
@@ -113,9 +114,9 @@ rustc 1.58.1 (db9d1b20b 2022-01-20)
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3.</span> Ažuriranje</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Ажурирање</h3>
 <p>
-Za ažuriranje instalacije na najnoviju verziju
+За ажурирање инсталације на најновију верзију:
 </p>
 
 <div class="org-src-container">
@@ -126,10 +127,10 @@ Za ažuriranje instalacije na najnoviju verziju
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4.</span> Dokumentacija</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Документација</h3>
 <p>
-Rust stiže sa veoma dobrom dokumentacijom i knjigama koje su dostupne direktno
-iz instalacije.
+Раст стиже са веома добром документацијом и књигама које су доступне директно из
+инсталације:
 </p>
 
 <div class="org-src-container">
@@ -142,7 +143,7 @@ iz instalacije.
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3.</span> Početak</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Почетак</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
@@ -168,7 +169,7 @@ File <code>main.rs</code>:
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2.</span> Kompajliranje i pokretanje</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Компајлирање и покретање</h3>
 <div class="org-src-container">
 
 <pre><code class="sh" >$ rustc main.rs
@@ -176,23 +177,24 @@ $ ./main
 Hello, world!
 </code></pre>
 </div>
+
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Hello, Cargo!</h3>
 <ul>
-<li>Alat za razrešavanje zavisnosti i upravljanje projektom.</li>
+<li>Алат за разрешавање зависности и управљање пројектом.</li>
 
 </ul>
 
 <div class="org-src-container">
 
 <pre><code class="sh" >~&gt; cargo --version
-cargo 1.58.0 (f01b232bc 2022-01-19)
+cargo 1.65.0 (4bc8f24d3 2022-10-20)
 </code></pre>
 </div>
 
 <ul>
-<li>Kreiranje projekta sa <code>cargo</code> alatom:</li>
+<li>Креирање пројекта са <code>cargo</code> алатом:</li>
 
 </ul>
 
@@ -205,9 +207,9 @@ $ cd hello_cargo
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4.</span> Sadržaj kreiranog projekta</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Садржај креираног пројекта</h3>
 <p>
-Fajl <code>cargo.toml</code> čuva konfiguraciju projekta. Format je <a href="https://toml.io/en/">TOML</a> (<i>Tom’s Obvious,
+Фајл <code>cargo.toml</code> чува конфигурацију пројекта. Формат је <a href="https://toml.io/en/">TOML</a> (<i>Tom’s Obvious,
 Minimal Language</i>):
 </p>
 
@@ -232,9 +234,10 @@ Fajl <code>src/main.rs</code>:
 }
 </code></pre>
 </div>
+
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5.</span> Pokretanje</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Покретање</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >$ cargo build
@@ -244,7 +247,7 @@ Fajl <code>src/main.rs</code>:
 </div>
 
 <p>
-Izvršni fajl se može naći na lokaciji <code>target/debug/hello_cargo</code>:
+Извршни фајл се може наћи на локацији <code>target/debug/hello_cargo</code>:
 </p>
 
 <div class="org-src-container">
@@ -255,7 +258,7 @@ Hello, world!
 </div>
 
 <p>
-Ali <code>cargo</code> omgućava i jednostavniji način pokretanja:
+Али <code>cargo</code> омогућава и једноставнији начин покретања:
 </p>
 <div class="org-src-container">
 
@@ -268,9 +271,9 @@ Hello, world!
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6.</span> Provera</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Провера</h3>
 <p>
-Takođe je moguće brzo proveriti da li se kod kompajlira:
+Такође је могуће брзо проверити да ли се код компајлира:
 </p>
 
 <div class="org-src-container">
@@ -283,13 +286,13 @@ Takođe je moguće brzo proveriti da li se kod kompajlira:
 
 </section>
 <section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7.</span> Izgradnja finalne verzije</h3>
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Изградња финалне верзије</h3>
 <ul>
-<li>U toku razvoja koristimo izgradnju za debagovanje koja se brže završi ali
-generisani izvršni kod nije optimalan.</li>
+<li>У току развоја користимо изградњу за дебаговање која се брже заврши али
+генерисани извршни код није оптималан.</li>
 
 <li><p>
-Za finalnu verziju je potrebno izgradnju obaviti na sledeći način:
+За финалну верзију је потребно изградњу обавити на следећи начин:
 </p>
 
 <div class="org-src-container">
@@ -298,17 +301,17 @@ Za finalnu verziju je potrebno izgradnju obaviti na sledeći način:
 </code></pre>
 </div></li>
 
-<li>Ovo će obaviti dodatne optimizacije koje će duže trajati ali će krajnji kod
-biti optimizovan.</li>
+<li>Ово ће обавити додатне оптимизације које ће дуже трајати али ће крајњи код
+бити оптимизован.</li>
 
 </ul>
 
 </section>
 <section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8.</span> Cargo kao konvencija</h3>
+<h3 id="3-8"><span class="section-number-3">3.8.</span> <code>cargo</code> као конвенција</h3>
 <p>
-Praktično svi Rust projekti koriste Cargo tako da je unifikovan način izgradnje
-projekata. Uglavnom se svodi na:
+Практично сви Раст пројекти користе <code>cargo</code> тако да је унификован начин изградње
+пројеката. Углавном се своди на:
 </p>
 
 <div class="org-src-container">
@@ -318,17 +321,16 @@ $ cd someproject
 $ cargo build
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4.</span> Igra pogađanja brojeva</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Игра погађања бројева</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1.</span> Podešavanje projekta</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Подешавање пројекта</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >$ cargo new guessing_game
@@ -337,7 +339,7 @@ $ cd guessing_game
 </div>
 
 <p>
-Fajl <code>Cargo.toml</code>:
+Фајл <code>Cargo.toml</code>:
 </p>
 <div class="org-src-container">
 
@@ -351,7 +353,7 @@ edition = "2021"
 </div>
 
 <p>
-Fajl <code>src/main.rs</code>:
+Фајл <code>src/main.rs</code>:
 </p>
 <div class="org-src-container">
 
@@ -376,7 +378,7 @@ Hello, world!
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2.</span> Preuzimanje broja sa standardnog ulaza</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Преузимање броја са стандардног улаза</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >use std::io;
@@ -399,11 +401,11 @@ fn main() {
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3.</span> Promenjivost (<i>mutability</i>)</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Променљивост (<i>mutability</i>)</h3>
 <ul>
-<li>Varijable su podrazumevano nepromenjive (<i>immutable</i>).</li>
+<li>Варијабле су подразумевано непромењиве (<i>immutable</i>).</li>
 <li><p>
-Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
+Уколико желимо варијаблу чија вредност може да се мења користимо кључну реч
 <code>mut</code>.
 </p>
 
@@ -415,7 +417,7 @@ Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu re
 </div></li>
 
 <li><p>
-Isto važi i za parametre funkcija:
+Исто важи и за параметре функција:
 </p>
 
 <div class="org-src-container">
@@ -429,10 +431,10 @@ Isto važi i za parametre funkcija:
 
 </section>
 <section id="slide-4-4">
-<h3 id="4-4"><span class="section-number-3">4.4.</span> Obrada mogućih grešaka upotrebom <code>Result</code> tipa</h3>
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Обрада могућих грешака употребом <code>Result</code> типа</h3>
 <p>
-<code>read_line</code> može da završi neuspešno. Zato vraća <code>io::Result</code> tip koji predstavlja
-enumeraciju (<i>enum</i>) tip i ima dve vrednosti: <code>Ok</code> i <code>Err</code>.
+<code>read_line</code> може да заврши неуспешно. Зато враћа <code>io::Result</code> тип који представља
+тип енумерације (<i>enum</i>) и има две могуће вредности: <code>Ok</code> и <code>Err</code>.
 </p>
 
 <div class="org-src-container">
@@ -444,13 +446,13 @@ enumeraciju (<i>enum</i>) tip i ima dve vrednosti: <code>Ok</code> i <code>Err</
 </div>
 
 <p>
-<code>expect</code> implementiran na <code>Ok</code> varijanti će vratiti vrednost koja je sadržana unutar
-varijante dok implementacija nad <code>Err</code> varijanti prekida izvršavanje programa.
+<code>expect</code> имплементиран на <code>Ok</code> варијанти ће вратити вредност која је садржана унутар
+варијанте док имплементација над <code>Err</code> варијанти прекида извршавање програма.
 </p>
 
 </section>
 <section id="slide-4-5">
-<h3 id="4-5"><span class="section-number-3">4.5.</span> Pokretanje</h3>
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Покретање</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >$ cargo run
@@ -466,13 +468,13 @@ You guessed: 6
 
 </section>
 <section id="slide-4-6">
-<h3 id="4-6"><span class="section-number-3">4.6.</span> Generisanje slučajnog broja</h3>
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Генерисање случајног броја</h3>
 <p>
-Koristimo <code>rand</code> paket (sanduk - <i>crate</i> u terminologiji Cargo-a).
+Користимо <code>rand</code> пакет (сандук - <i>crate</i> у терминологији <i>Cargo</i>-a).
 </p>
 
 <p>
-Sekcija <code>[dependencies]</code> u fajlu <code>Cargo.toml</code>:
+Секција <code>[dependencies]</code> у фајлу <code>Cargo.toml</code>:
 </p>
 <div class="org-src-container">
 
@@ -496,28 +498,28 @@ rand = "0.8.3"
 </div>
 
 <p>
-Cargo koristi <a href="https://semver.org/">Semantic Versioning</a>. Rust paketi se preuzimaju sa sajta <a href="https://crates.io/">crates.io</a>
-i keširaju lokalno.
+<i>Cargo</i> користи <a href="https://semver.org/">Semantic Versioning</a>. Раст пакети се преузимају са сајта <a href="https://crates.io/">crates.io</a>
+и кеширају локално.
 </p>
 
 </section>
 <section id="slide-4-7">
-<h3 id="4-7"><span class="section-number-3">4.7.</span> Ponovljivost izgradnje - <i>Cargo.lock</i></h3>
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Поновљивост изградње - <i>Cargo.lock</i></h3>
 <ul>
-<li>Prvi put kada se pokrene <code>cargo build</code> kreira se fajl <code>Cargo.lock</code> sa
-informacijama o verzijama svih sanduka koji su instalirani.</li>
-<li>Svako sledeće pokretanje izgradnje koristi iste verzije.</li>
-<li><code>Cargo.lock</code> je potrebno čuvati u sistemu kontrole verzija (npr. <code>git</code>) da bi se
-osigurala ponovljivost.</li>
+<li>Свако следеће покретање изградње користи исте верзије.</li>
+<li>Први пут када се покрене <code>cargo build</code> креира се фајл <code>Cargo.lock</code> са
+информацијама о верзијама свих сандука који су инсталирани.</li>
+<li><code>Cargo.lock</code> је потребно чувати у систему контроле верзија (нпр. <code>git</code>) да би се
+осигурала поновљивост.</li>
 
 </ul>
 
 </section>
 <section id="slide-4-8">
-<h3 id="4-8"><span class="section-number-3">4.8.</span> Ažuriranje sanduka</h3>
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Ажурирање сандука</h3>
 <ul>
 <li><p>
-Ažuriranje na nove verzije sanduka se obavlja sa:
+Ажурирање на нове верзије сандука се обавља са:
 </p>
 
 <div class="org-src-container">
@@ -527,18 +529,18 @@ Ažuriranje na nove verzije sanduka se obavlja sa:
     Updating rand v0.8.3 -&gt; v0.8.4
 </code></pre>
 </div></li>
-<li>Poštuje se semantičko verzioniranje tj. automatski se ažurira na sledeću
-verziju koja je manja od naredne glavne (<i>major</i>) verzije.</li>
-<li>Ako prelazimo na novu glavnu verziju to moramo uraditi izmenom verzije u
-<code>Cargo.toml</code> fajlu.</li>
+<li>Поштује се семантичко верзионирање тј. аутоматски се ажурира на следећу
+верзију која је мања од наредне главне (<i>major</i>) верзије.</li>
+<li>Ако прелазимо на нову главну верзију то морамо урадити изменом верзије у
+<code>Cargo.toml</code> фајлу.</li>
 
 </ul>
 
 </section>
 <section id="slide-4-9">
-<h3 id="4-9"><span class="section-number-3">4.9.</span> Generisanje slučajnog broja</h3>
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Генерисање случајног броја</h3>
 <p>
-Fajl <code>src/main.rs</code>:
+Фајл <code>src/main.rs</code>:
 </p>
 <div class="org-src-container">
 
@@ -566,17 +568,17 @@ fn main() {
 </div>
 
 <p>
-U <code>gen_range</code> koristimo izraz opsega (<i>range expression</i>). Interval je zatvoren na
-donjoj granici i otvoren na gornjoj. Za interval zatvoren i od gore možemo
-pisati <code>1..=100</code>.
+У <code>gen_range</code> користимо израз опсега (<i>range expression</i>). Интервал је затворен на
+доњој граници и отворен на горњој. За интервал затворен и од горе можемо
+писати <code>1..=100</code>.
 </p>
 
 </section>
 <section id="slide-4-10">
-<h3 id="4-10"><span class="section-number-3">4.10.</span> Dokumentacija za lokalne sanduke</h3>
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Документација за локалне сандуке</h3>
 <p>
-Da bi znali koje metode i funkcije su nam dostupne možemo koristiti ugrađenu
-dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
+Да би знали које методе и функције су нам доступне можемо користити уграђену
+документацију за сандуке пројекта. Документацију добијамо са:
 </p>
 
 <div class="org-src-container">
@@ -587,7 +589,7 @@ dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
 
 </section>
 <section id="slide-4-11">
-<h3 id="4-11"><span class="section-number-3">4.11.</span> Pokretanje programa</h3>
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Покретање програма</h3>
 <div class="org-src-container">
 
 <pre><code class="sh" >$ cargo run
@@ -604,9 +606,9 @@ You guessed: 4
 
 </section>
 <section id="slide-4-12">
-<h3 id="4-12"><span class="section-number-3">4.12.</span> Poređenje tajnog broja sa zadatim</h3>
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Поређење тајног броја са задатим</h3>
 <p>
-Fajl <code>src/main.rs</code>
+Фајл <code>src/main.rs</code>
 </p>
 <div class="org-src-container">
 
@@ -628,17 +630,19 @@ fn main() {
 </code></pre>
 </div>
 <ul>
-<li>Koristimo <code>std::cmp::Ordering</code> enum koji ima varijante <code>Less</code>, <code>Greater</code> i <code>Equal</code></li>
-<li><code>match</code> izraz poredi zadatu vrednost sa vrednostima zadatim u telu i izvršava
-granu koja se podudara. Grane <code>match</code> izraza se u Rust terminologiji zovu &ldquo;ruke&rdquo; (<i>arms</i>).</li>
+<li>Користимо <code>std::cmp::Ordering</code> енумерисани тип који има варијанте <code>Less</code>, <code>Greater</code>
+и <code>Equal</code></li>
+<li><code>match</code> израз пореди задату вредност са вредностима задатим у телу и извршава
+грану која се подудара. Гране <code>match</code> израза се у Раст терминологији зову "руке"
+(<i>arms</i>).</li>
 
 </ul>
 
 </section>
 <section id="slide-4-13">
-<h3 id="4-13"><span class="section-number-3">4.13.</span> Popravka tipova</h3>
+<h3 id="4-13"><span class="section-number-3">4.13.</span> Поправка типова</h3>
 <p>
-Kod sa prethodnog slajda nije ispravan:
+Код са претходног слајда није исправан:
 </p>
 <div class="org-src-container">
 
@@ -677,15 +681,15 @@ error[E0283]: type annotations needed for `{integer}`
 <section>
 
 <p>
-Osnova greške je neslaganje tipova. Sa ulaza prihvatamo <code>String</code> dok nam je tajni
-broj <code>integer</code>.
+Основа грешке је неслагање типова. Са улаза прихватамо <code>String</code> док нам је тајни
+број <code>integer</code>.
 </p>
 
 </section>
 <section id="slide-4-14">
-<h3 id="4-14"><span class="section-number-3">4.14.</span> Konverzija stringa u broj</h3>
+<h3 id="4-14"><span class="section-number-3">4.14.</span> Конверзија стринга у број</h3>
 <p>
-Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
+Проблем решавамо конверзијом стринга са улаза у бројни тип.
 </p>
 
 <div class="org-src-container">
@@ -714,7 +718,7 @@ Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
 <section>
 
 <p>
-Sada se program komapajlira.
+Сада се програм компајлира.
 </p>
 
 <div class="org-src-container">
@@ -734,9 +738,9 @@ Too big!
 
 </section>
 <section id="slide-4-15">
-<h3 id="4-15"><span class="section-number-3">4.15.</span> Omogućavanje višestrukog pogađanja - upotreba petlje</h3>
+<h3 id="4-15"><span class="section-number-3">4.15.</span> Омогућавање вишеструког погађања - употреба петље</h3>
 <p>
-Fajl <code>src/main.rs</code>:
+Фајл <code>src/main.rs</code>:
 </p>
 <div class="org-src-container">
 
@@ -761,9 +765,9 @@ Fajl <code>src/main.rs</code>:
 
 </section>
 <section id="slide-4-16">
-<h3 id="4-16"><span class="section-number-3">4.16.</span> Prekid rada</h3>
+<h3 id="4-16"><span class="section-number-3">4.16.</span> Прекид рада</h3>
 <p>
-Problem je kako prekinuti program kada korisnik pogodi broj?
+Проблем је како прекинути програм када корисник погоди број?
 </p>
 
 <div class="org-src-container">
@@ -785,7 +789,7 @@ Problem je kako prekinuti program kada korisnik pogodi broj?
 
 </section>
 <section id="slide-4-17">
-<h3 id="4-17"><span class="section-number-3">4.17.</span> Rukovanje neispravnim ulazom</h3>
+<h3 id="4-17"><span class="section-number-3">4.17.</span> Руковање неисправним улазом</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >// --snip--
@@ -806,12 +810,12 @@ Problem je kako prekinuti program kada korisnik pogodi broj?
 </div>
 
 <p>
-Potrebno je još obrisati liniju koja prikazuje generisani broj.
+Потребно је још обрисати линију која приказује генерисани број.
 </p>
 
 </section>
 <section id="slide-4-18">
-<h3 id="4-18"><span class="section-number-3">4.18.</span> Finalni kod</h3>
+<h3 id="4-18"><span class="section-number-3">4.18.</span> Финални код</h3>
 <div class="org-src-container">
 
 <pre><code class="rust" >use rand::Rng;
@@ -850,21 +854,21 @@ fn main() {
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5.</span> Osnovni programski koncepti</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Основни програмски концепти</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1.</span> Varijable i promenjivost (<i>mutability</i>)</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Варијабле и променљивост (<i>mutability</i>)</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
 </section>
 <section id="slide-5-1-1">
-<h4 id="5-1-1"><span class="section-number-4">5.1.1.</span> Varijable i promenjivost (<i>mutability</i>)</h4>
+<h4 id="5-1-1"><span class="section-number-4">5.1.1.</span> Варијабле и променљивост (<i>mutability</i>)</h4>
 <ul>
-<li>Varijable su podrazumevano nepromenjive.</li>
+<li>Варијабле су подразумевано непромењиве.</li>
 <li><p>
-Jednom kada dobiju vrednost (<i>binding</i>) ta vrednost se ne može promeniti
+Једном када добију вредност (<i>binding</i>) та вредност се не може променити
 </p>
 
 <div class="org-src-container">
@@ -905,7 +909,7 @@ Jednom kada dobiju vrednost (<i>binding</i>) ta vrednost se ne može promeniti
 </ul>
 </section>
 <section id="slide-5-1-2">
-<h4 id="5-1-2"><span class="section-number-4">5.1.2.</span> <code>mut</code> ključna reč</h4>
+<h4 id="5-1-2"><span class="section-number-4">5.1.2.</span> <code>mut</code> кључна реч</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -918,20 +922,21 @@ Jednom kada dobiju vrednost (<i>binding</i>) ta vrednost se ne može promeniti
 </div>
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2.</span> Konstante - <code>const</code></h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Константе - <code>const</code></h3>
 <ul>
-<li>Slično kao nepromenjive varijable sa sledećim razlikama:
+<li>Слично као непромењиве варијабле са следећим разликама:
 <ul>
-<li>Uvek su nepromenjive</li>
-<li>Mogu se inicijalizovati samo konstantnim izrazom (poznatim u vreme kompajliranja)</li>
-<li>Validne za celokupno vreme izvršavanja programa u opsegu važenja gde su
-definisane (<i>scope</i>)</li>
-<li>Mora se eksplicitno definisati tip</li>
+<li>Увек су непромењиве</li>
+<li>Могу се иницијализовати само константним изразом (познатим у време
+компајлирања)</li>
+<li>Валидне за целокупно време извршавања програма у опсегу важења где су
+дефинисане (<i>scope</i>)</li>
+<li>Мора се експлицитно дефинисати тип</li>
 
 </ul></li>
-<li>Kompajler će konstante &ldquo;ubaciti&rdquo; na mestu upotrebe</li>
+<li>Компајлер ће константе "убацити" на месту употребе</li>
 <li><p>
-Po konvenciji imena konstanti se pišu velikim slovima
+По конвенцији имена константи се пишу великим словима
 </p>
 
 <div class="org-src-container">
@@ -944,22 +949,22 @@ Po konvenciji imena konstanti se pišu velikim slovima
 
 </section>
 <section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3.</span> Tipovi podataka</h3>
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Типови података</h3>
 <div class="outline-text-3" id="text-5-3">
 </div>
 </section>
 <section id="slide-5-3-1">
-<h4 id="5-3-1"><span class="section-number-4">5.3.1.</span> Tipovi podataka</h4>
+<h4 id="5-3-1"><span class="section-number-4">5.3.1.</span> Типови података</h4>
 <ul>
-<li>Svaka vrednost u Rust-u ima tip. Tipovi moraju biti poznati u vreme
-kompajliranja (statički tipiziran jezik).</li>
+<li>Свака вредност у Расту има тип. Типови морају бити познати у време
+компајлирања (<i>статички типизиран језик</i>).</li>
 <li><p>
-Kompajler će probati da odredi tipove (<i>type inference</i>). Ako nije moguće
-zahteva se da definišemo tip eksplicitno.
+Компајлер ће пробати да одреди типове (<i>type inference</i>). Ако није могуће
+захтева се да дефинишемо тип експлицитно.
 </p>
 
 <p>
-Npr:
+Нпр:
 </p>
 <div class="org-src-container">
 
@@ -967,13 +972,13 @@ Npr:
 </code></pre>
 </div>
 <p>
-Ovde nije moguće odrediti tip jer <code>str::parse</code> funkcija može vratiti različite
-brojne tipove (funkcija je generička) a ne postoji način da se tip automatski
-odredi.
+Овде није могуће одредити тип јер <code>str::parse</code> функција може вратити различите
+бројне типове (функција је генеричка) а не постоји начин да се тип аутоматски
+одреди.
 </p>
 
 <p>
-Signatura je:
+Сигнатура је:
 </p>
 <div class="org-src-container">
 
@@ -986,7 +991,7 @@ Signatura je:
 </ul>
 </section>
 <section id="slide-5-3-2">
-<h4 id="5-3-2"><span class="section-number-4">5.3.2.</span> <i>Integer</i> tipovi</h4>
+<h4 id="5-3-2"><span class="section-number-4">5.3.2.</span> <i>Integer</i> типови</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -999,7 +1004,7 @@ Signatura je:
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="org-left">Dužina</th>
+<th scope="col" class="org-left">Дужина</th>
 <th scope="col" class="org-left">Signed</th>
 <th scope="col" class="org-left">Unsigned</th>
 </tr>
@@ -1045,7 +1050,7 @@ Signatura je:
 
 </section>
 <section id="slide-5-3-3">
-<h4 id="5-3-3"><span class="section-number-4">5.3.3.</span> Literali brojeva</h4>
+<h4 id="5-3-3"><span class="section-number-4">5.3.3.</span> Литерали бројева</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1056,8 +1061,8 @@ Signatura je:
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="org-left">Literali</th>
-<th scope="col" class="org-left">Primeri</th>
+<th scope="col" class="org-left">Литерали</th>
+<th scope="col" class="org-left">Примери</th>
 </tr>
 </thead>
 <tbody>
@@ -1083,14 +1088,14 @@ Signatura je:
 
 <tr>
 <td class="org-left">Byte (u8 only)</td>
-<td class="org-left">b&rsquo;A&rsquo;</td>
+<td class="org-left">b'A'</td>
 </tr>
 </tbody>
 </table>
 
 </section>
 <section id="slide-5-3-4">
-<h4 id="5-3-4"><span class="section-number-4">5.3.4.</span> <i>Floating-Point</i> tipovi</h4>
+<h4 id="5-3-4"><span class="section-number-4">5.3.4.</span> <i>Floating-Point</i> типови</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1102,12 +1107,12 @@ Signatura je:
 </div>
 
 <p>
-IEEE-754 standard
+IEEE-754 стандард
 </p>
 
 </section>
 <section id="slide-5-3-5">
-<h4 id="5-3-5"><span class="section-number-4">5.3.5.</span> Operacije nad brojevima</h4>
+<h4 id="5-3-5"><span class="section-number-4">5.3.5.</span> Операције над бројевима</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1132,7 +1137,7 @@ IEEE-754 standard
 
 </section>
 <section id="slide-5-3-6">
-<h4 id="5-3-6"><span class="section-number-4">5.3.6.</span> <i>Boolean</i> tip</h4>
+<h4 id="5-3-6"><span class="section-number-4">5.3.6.</span> <i>Boolean</i> тип</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1145,7 +1150,7 @@ IEEE-754 standard
 
 </section>
 <section id="slide-5-3-7">
-<h4 id="5-3-7"><span class="section-number-4">5.3.7.</span> Tip karaktera</h4>
+<h4 id="5-3-7"><span class="section-number-4">5.3.7.</span> Тип карактера</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1158,7 +1163,7 @@ IEEE-754 standard
 
 </section>
 <section id="slide-5-3-8">
-<h4 id="5-3-8"><span class="section-number-4">5.3.8.</span> Torke (<i>tuples</i>)</h4>
+<h4 id="5-3-8"><span class="section-number-4">5.3.8.</span> Торке (<i>tuples</i>)</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1168,7 +1173,7 @@ IEEE-754 standard
 </div>
 
 <ul>
-<li>Raspakivanje torki (<i>destructuring</i>):</li>
+<li>Распакивање торки (<i>destructuring</i>):</li>
 
 </ul>
 <div class="org-src-container">
@@ -1187,7 +1192,7 @@ IEEE-754 standard
 <section>
 
 <p>
-Pristup elementima torke:
+Приступ елементима торке:
 </p>
 <div class="org-src-container">
 
@@ -1205,11 +1210,11 @@ Pristup elementima torke:
 
 </section>
 <section id="slide-5-3-9">
-<h4 id="5-3-9"><span class="section-number-4">5.3.9.</span> Nizovni tip</h4>
+<h4 id="5-3-9"><span class="section-number-4">5.3.9.</span> Низовни тип</h4>
 <ul>
-<li>Svaki element nizovnog tipa mora imati isti tip</li>
+<li>Сваки елемент низовног типа мора имати исти тип</li>
 <li><p>
-Dimenzija niza je nepromenjiva (alociran je na steku)
+Димензија низа је непромењива (алоциран је на стеку)
 </p>
 <div class="org-src-container">
 
@@ -1220,7 +1225,7 @@ Dimenzija niza je nepromenjiva (alociran je na steku)
 </div></li>
 
 <li><p>
-Tip se može eksplitino definisati na sledeći način (niz dužine <code>5</code> tipa <code>i32</code>):
+Тип се може експлицитно дефинисати на следећи начин (низ дужине <code>5</code> типа <code>i32</code>):
 </p>
 <div class="org-src-container">
 
@@ -1229,7 +1234,7 @@ Tip se može eksplitino definisati na sledeći način (niz dužine <code>5</code
 </div></li>
 
 <li><p>
-Inicijalizacija svih elemenata na istu vrednost se obavlja na sledeći način:
+Иницијализација свих елемената на исту вредност се обавља на следећи начин:
 </p>
 <div class="org-src-container">
 
@@ -1237,7 +1242,7 @@ Inicijalizacija svih elemenata na istu vrednost se obavlja na sledeći način:
 </code></pre>
 </div>
 <p>
-Gde je vrednost svakog elementa <code>3</code> a dužina niza <code>5</code>.
+Где је вредност сваког елемента <code>3</code> а дужина низа <code>5</code>.
 </p></li>
 
 </ul>
@@ -1246,7 +1251,7 @@ Gde je vrednost svakog elementa <code>3</code> a dužina niza <code>5</code>.
 <section>
 
 <p>
-Indeksni pristup:
+Индексни приступ:
 </p>
 
 <div class="org-src-container">
@@ -1262,12 +1267,12 @@ Indeksni pristup:
 
 </section>
 <section id="slide-5-4">
-<h3 id="5-4"><span class="section-number-3">5.4.</span> Funkcije</h3>
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Функције</h3>
 <div class="outline-text-3" id="text-5-4">
 </div>
 </section>
 <section id="slide-5-4-1">
-<h4 id="5-4-1"><span class="section-number-4">5.4.1.</span> Funkcije</h4>
+<h4 id="5-4-1"><span class="section-number-4">5.4.1.</span> Функције</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1282,7 +1287,7 @@ fn another_function() {
 </code></pre>
 </div>
 <ul>
-<li>Za imenovanje funkcija kao i varijabli koristi se <i>snake_case</i>.</li>
+<li>За именовање функција као и варијабли користи се <i>snake_case</i>.</li>
 
 </ul>
 </section>
@@ -1302,13 +1307,13 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
 
 </section>
 <section id="slide-5-4-3">
-<h4 id="5-4-3"><span class="section-number-4">5.4.3.</span> Iskazi i izrazi</h4>
+<h4 id="5-4-3"><span class="section-number-4">5.4.3.</span> Искази и изрази</h4>
 <ul>
-<li>Rust je jezik baziran na izrazima (<i>expression-based</i>)</li>
-<li>Iskazi (<i>statements</i>) su jezičke konstrukcije koje nemaju povratnu vrednost.
-Izrazi (<i>expressions</i>) se evaluiraju u određeni rezultat, tj. imaju vrednost.</li>
+<li>Рaст је језик базиран на изразима (<i>expression-based</i>)</li>
+<li>Искази (<i>statements</i>) су језичке конструкције које немају повратну вредност.
+Изрази (<i>expressions</i>) се евалуирају у одређени резултат, тј. имају вредност.</li>
 <li><p>
-Primer: <code>let</code> je iskaz tj. nema povratnu vrednost. Ovo možete pisati:
+Пример: <code>let</code> је исказ тј. нема повратну вредност. Ово можете писати:
 </p>
 <div class="org-src-container">
 
@@ -1330,7 +1335,7 @@ Ali ovo ne:
 <section>
 
 <p>
-Blok koda je takođe izraz. Šta je vrednost u koju se evaluira?
+Блок кода је такође израз. Шта је вредност у коју се евалуира?
 </p>
 
 <div class="org-src-container">
@@ -1343,15 +1348,15 @@ Blok koda je takođe izraz. Šta je vrednost u koju se evaluira?
 </div>
 
 <p>
-Vrednost bloka je vrednost poslednjeg izraza, tj. <code>x+1</code>. Primetite da tu ne
-koristimo <code>;</code> jer terminacija ovim karakterom pretvara izraz u iskaz.
+Вредност блока је вредност последњег израза, тј. <code>x+1</code>. Приметите да ту не
+користимо <code>;</code> јер терминација овим карактером претвара израз у исказ.
 </p>
 
 </section>
 <section>
 
 <p>
-Zbog ovoga je sasvim legalno da pišemo:
+Због овога је сасвим легално да пишемо:
 </p>
 
 <div class="org-src-container">
@@ -1372,10 +1377,10 @@ The value of y is: 4
 </pre>
 </section>
 <section id="slide-5-4-4">
-<h4 id="5-4-4"><span class="section-number-4">5.4.4.</span> Povratne vrednosti funkcija</h4>
+<h4 id="5-4-4"><span class="section-number-4">5.4.4.</span> Повратне вредности функција</h4>
 <p>
-Vrednost funkcije je vrednost bloka koji predstavlja telo funkcije, dakle
-poslednjeg izraza unutar tela funkcije.
+Вредност функције је вредност блока који представља тело функције, дакле
+последњег израза унутар тела функције.
 </p>
 
 <div class="org-src-container">
@@ -1401,7 +1406,7 @@ The value of x is: 5
 <section>
 
 <p>
-Ili na primer:
+Или на пример:
 </p>
 <div class="org-src-container">
 
@@ -1426,9 +1431,9 @@ The value of x is: 6
 <section>
 
 <p>
-Ukoliko izraz <code>x+1</code> terminiramo sa <code>;</code> kod se neće kompajlirati jer funkcija
-deklariše da vraća tip <code>i32</code> dok sada vraća <code>()</code> (tzv. <i>unit type</i>) odnosno nema
-povratnu vrednost jer je poslednja instrukcija iskaz.
+Уколико израз <code>x+1</code> терминирамо са <code>;</code> код се неће компајлирати јер функција
+декларише да враћа тип <code>i32</code> док сада враћа <code>()</code> (тзв. <i>unit type</i>) односно нема
+повратну вредност јер је последња инструкција исказ.
 </p>
 
 <div class="org-src-container">
@@ -1445,7 +1450,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org5d022a0">
+<pre class="example" id="org3a6832a">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1462,10 +1467,10 @@ error: could not compile `cargo4UyKF0` due to previous error
 
 </section>
 <section id="slide-5-5">
-<h3 id="5-5"><span class="section-number-3">5.5.</span> Komentari</h3>
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Коментари</h3>
 <p>
-Komentari se pišu posle <code>//</code> ili u formi blok komentara <code>/*.... */</code> kao i u C++-u.
-Ovo bi bili validni komentari:
+Коментари се пишу после <code>//</code> или у форми блок коментара <code>/*.... */</code> као и у C++-у.
+Ово би били валидни коментари:
 </p>
 <div class="org-src-container">
 
@@ -1492,8 +1497,8 @@ fn main() {
 <section>
 
 <p>
-Postoje i komentari za dokumentaciju koji predstavljaju posebnu sintaksu za
-komentare koji su deo API dokumentacije. Oni se pišu posle <code>///</code>. Na primer:
+Постоје и коментари за документацију који представљају посебну синтаксу за
+коментаре који су део API документације. Они се пишу после <code>///</code>. На пример:
 </p>
 <div class="org-src-container">
 
@@ -1514,12 +1519,12 @@ pub fn add_one(x: i32) -&gt; i32 {
 </div>
 </section>
 <section id="slide-5-6">
-<h3 id="5-6"><span class="section-number-3">5.6.</span> Kontrola toka</h3>
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Контрола тока</h3>
 <div class="outline-text-3" id="text-5-6">
 </div>
 </section>
 <section id="slide-5-6-1">
-<h4 id="5-6-1"><span class="section-number-4">5.6.1.</span> <code>if</code> izrazi</h4>
+<h4 id="5-6-1"><span class="section-number-4">5.6.1.</span> <code>if</code> изрази</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -1556,9 +1561,9 @@ pub fn add_one(x: i32) -&gt; i32 {
 </div>
 </section>
 <section id="slide-5-6-3">
-<h4 id="5-6-3"><span class="section-number-4">5.6.3.</span> <code>if</code> u <code>let</code> iskazima</h4>
+<h4 id="5-6-3"><span class="section-number-4">5.6.3.</span> <code>if</code> у <code>let</code> исказима</h4>
 <p>
-<code>if</code> je izraz pa se može koristiti gde god možemo pisati i bilo koji drugi izraz.
+<code>if</code> је израз па се може користити где год можемо писати и било који други израз.
 </p>
 
 <div class="org-src-container">
@@ -1581,8 +1586,8 @@ The value of number is: 5
 <section>
 
 <p>
-Ali se grane moraju slagati po tipu. Ovo je pogrešno jer je prva grana tipa
-<code>i32</code> dok je <code>else</code> grana tipa <code>str</code>.
+Али се гране морају слагати по типу. Ово је погрешно јер је прва грана типа
+<code>i32</code> док је <code>else</code> грана типа <code>str</code>.
 </p>
 
 <div class="org-src-container">
@@ -1598,14 +1603,14 @@ Ali se grane moraju slagati po tipu. Ovo je pogrešno jer je prva grana tipa
 </div>
 </section>
 <section id="slide-5-6-4">
-<h4 id="5-6-4"><span class="section-number-4">5.6.4.</span> Petlje</h4>
+<h4 id="5-6-4"><span class="section-number-4">5.6.4.</span> Петље</h4>
 <p>
-Rust ima tri tipa petlje:
+Рaст има три типа петље:
 </p>
 <ul>
-<li><code>loop</code> - za beskontačne petlje</li>
-<li><code>while</code> - uslovna petlja</li>
-<li><code>for</code> - petlja za iteraciju kroz iteratore</li>
+<li><code>loop</code> - за бесконачне петље</li>
+<li><code>while</code> - условна петља</li>
+<li><code>for</code> - петља за итерацију кроз елементе итерабилних типова</li>
 
 </ul>
 
@@ -1624,10 +1629,10 @@ Rust ima tri tipa petlje:
 
 </section>
 <section id="slide-5-6-6">
-<h4 id="5-6-6"><span class="section-number-4">5.6.6.</span> <code>loop</code> labele</h4>
+<h4 id="5-6-6"><span class="section-number-4">5.6.6.</span> <code>loop</code> лабеле</h4>
 <p>
-Ukoliko imamo ugnježdene <code>loop</code> iskaze možemo koristiti labele prilikom izlaska sa
-<code>break</code> instrukcijom.
+Уколико имамо угњеждене <code>loop</code> исказе можемо користити лабеле приликом изласка са
+<code>break</code> инструкцијом.
 </p>
 
 <div class="org-src-container">
@@ -1658,10 +1663,10 @@ Ukoliko imamo ugnježdene <code>loop</code> iskaze možemo koristiti labele pril
 
 </section>
 <section id="slide-5-6-7">
-<h4 id="5-6-7"><span class="section-number-4">5.6.7.</span> <code>loop</code> kao izraz</h4>
+<h4 id="5-6-7"><span class="section-number-4">5.6.7.</span> <code>loop</code> као израз</h4>
 <p>
-<code>loop</code> može imati povratnu vrednost. Povratna vrednost se definiše kao parametar
-<code>break</code> instrukcije.
+<code>loop</code> може имати повратну вредност. Повратна вредност се дефинише као параметар
+<code>break</code> инструкције.
 </p>
 
 <div class="org-src-container">
@@ -1703,7 +1708,7 @@ Ukoliko imamo ugnježdene <code>loop</code> iskaze možemo koristiti labele pril
 <section id="slide-5-6-9">
 <h4 id="5-6-9"><span class="section-number-4">5.6.9.</span> <code>for</code></h4>
 <p>
-Iteraciju kroz uređenu kolekciju, kao što je niz, možemo obaviti sa <code>while</code> petljom.
+Итерацију кроз уређену колекцију, као што је низ, можемо обавити са <code>while</code> петљом.
 </p>
 <div class="org-src-container">
 
@@ -1723,8 +1728,8 @@ Iteraciju kroz uređenu kolekciju, kao što je niz, možemo obaviti sa <code>whi
 </section>
 <section>
 <p>
-Ali je za tu namenu prirodnije i sigurnije koristiti <code>for</code> petlju. Takođe će se
-program brže izvršavati.
+Али је за ту намену природније и сигурније користити <code>for</code> петљу. Такође ће се
+програм брже извршавати.
 </p>
 
 <div class="org-src-container">
@@ -1742,8 +1747,8 @@ program brže izvršavati.
 </section>
 <section>
 <p>
-<code>for</code> petlje su najčešći oblik petlji u upotrebi u Rust-u. Koriste se npr. i u
-situaciji kada je potrebno izvršiti petlju određeni broj puta.
+<code>for</code> петље су најчешћи облик петљи у употреби у Расту. Користе се нпр. и у
+ситуацији када је потребно извршити петљу одређени број пута.
 </p>
 
 <div class="org-src-container">
@@ -1768,41 +1773,41 @@ LIFTOFF!!!
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6.</span> Vlasništvo i pozajmljivanje (<i>Ownership and borrowing</i>)</h2>
+<h2 id="6"><span class="section-number-2">6.</span> Власништво и позајмљивање (<i>Ownership and borrowing</i>)</h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
 <section id="slide-6-1">
-<h3 id="6-1"><span class="section-number-3">6.1.</span> Vlasništvo</h3>
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Власништво</h3>
 <div class="outline-text-3" id="text-6-1">
 </div>
 </section>
 <section id="slide-6-1-1">
-<h4 id="6-1-1"><span class="section-number-4">6.1.1.</span> Vlasništvo</h4>
+<h4 id="6-1-1"><span class="section-number-4">6.1.1.</span> Власништво</h4>
 <ul>
-<li>Jedan od najvažnijih koncepata jezika.</li>
-<li>Skup pravila koji omogućavaju upravljanje memorijom.</li>
-<li>Garancije za memorijsku sigurnost bez upotrebe <i>garbage collector</i>-a</li>
-<li>Sve provere se obavljaju u vreme kompajliranja - rezultuje odličnim
-performansama u vreme izvršavanja.</li>
+<li>Један од најважнијих концепата језика.</li>
+<li>Скуп правила који омогућавају управљање меморијом.</li>
+<li>Гаранције за меморијску сигурност без употребе <i>garbage collector</i>-а</li>
+<li>Све провере се обављају у време компајлирања - резултује одличним
+перформансама у време извршавања.</li>
 
 </ul>
 
 </section>
 <section id="slide-6-1-2">
-<h4 id="6-1-2"><span class="section-number-4">6.1.2.</span> Stek i hip (<i>Stack and Heap</i>)</h4>
+<h4 id="6-1-2"><span class="section-number-4">6.1.2.</span> Стек и хип (<i>Stack and Heap</i>)</h4>
 <ul>
-<li>Stek - alokacija prostora za podatke čija je veličina poznata u vreme
-kompajliranja.
+<li>Стек - алокација простора за податке чија је величина позната у време
+компајлирања.
 <ul>
-<li>Brža alokacija i dealokacija - jednostavan mehanizam, LIFO struktura.</li>
-<li>Brži pristup - lokalne varijable, keširanje pristupa.</li>
+<li>Бржа алокација и деалокација - једноставан механизам, LIFO структура.</li>
+<li>Бржи приступ - локалне варијабле, кеширање приступа.</li>
 
 </ul></li>
-<li>Hip - slobodna alokacija u vreme izvršavanja.
+<li>Хип - слободна алокација у време извршавања.
 <ul>
-<li>Sporija alokacija i dealokacija.</li>
-<li>Sporiji pristup - proizvoljna lokacija.</li>
+<li>Спорија алокација и деалокација.</li>
+<li>Спорији приступ - произвољна локација.</li>
 
 </ul></li>
 
@@ -1810,45 +1815,45 @@ kompajliranja.
 
 </section>
 <section id="slide-6-1-3">
-<h4 id="6-1-3"><span class="section-number-4">6.1.3.</span> Pravila vlasništva</h4>
+<h4 id="6-1-3"><span class="section-number-4">6.1.3.</span> Правила власништва</h4>
 <ol>
-<li>Svaka vrednost u Rust-u ima varijablu koja se naziva <i>vlasnikom</i> (<i>owner</i>).</li>
-<li>U svakom trenutku postoji samo jedan vlasnik.</li>
-<li>Kada vlasnik izađe iz opsega važenja (<i>scope</i>) vrednost se dealocira (<i>drop</i>).</li>
+<li>Свака вредност у Расту има варијаблу која се назива <i>власником</i> (<i>owner</i>).</li>
+<li>У сваком тренутку постоји само један власник.</li>
+<li>Када власник изађе из опсега важења (<i>scope</i>) вредност се деалоцира (<i>drop</i>).</li>
 
 </ol>
 
 </section>
 <section id="slide-6-1-4">
-<h4 id="6-1-4"><span class="section-number-4">6.1.4.</span> Opseg važenja varijable (<i>Variable Scope</i>)</h4>
+<h4 id="6-1-4"><span class="section-number-4">6.1.4.</span> Опсег важења варијабле (<i>Variable Scope</i>)</h4>
 <div class="org-src-container">
 
-<pre><code class="rust" >{                      // s nije validno ovde jer još nije deklarisano
-    let s = "hello";   // s je validno od ove pozicije
+<pre><code class="rust" >{                      // s није валидно овде јер још није декларисано
+    let s = "hello";   // s је валидно од ове позиције
 
-    // koristimo s
-}   // ovde opseg prestaje da važi i s više nije validno
+    // користимо s
+}   // овде опсег престаје да важи и s више није валидно
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-1-5">
-<h4 id="6-1-5"><span class="section-number-4">6.1.5.</span> <code>String</code> tip</h4>
+<h4 id="6-1-5"><span class="section-number-4">6.1.5.</span> <code>String</code> тип</h4>
 <ul>
 <li><p>
-Demonstracija vlasništva nad tipom koji se alocira na hipu.
+Демонстрација власништва над типом који се алоцира на хипу.
 </p>
 
 <div class="org-src-container">
 
 <pre><code class="rust" >  let mut s = String::from("hello");
-  s.push_str(", world!"); // push_str() dodaje literal na string
+  s.push_str(", world!"); // push_str() додаје литерал на стринг
   println!("{}", s); // hello, world!`
 </code></pre>
 </div></li>
 
-<li>Memorija se alocira sa hipa u vreme izvršavanja.</li>
-<li>Moramo vratiti memoriju alokatoru kada nam više nije potrebna.</li>
+<li>Меморија се алоцира са хипа у време извршавања.</li>
+<li>Морамо вратити меморију алокатору када нам више није потребна.</li>
 
 </ul>
 
@@ -1857,7 +1862,7 @@ Demonstracija vlasništva nad tipom koji se alocira na hipu.
 
 <ul>
 <li><p>
-Alokacija stringa se obavlja na liniji:
+Алокација стринга се обавља на линији:
 </p>
 
 <div class="org-src-container">
@@ -1866,7 +1871,7 @@ Alokacija stringa se obavlja na liniji:
 </code></pre>
 </div></li>
 
-<li>Ali dealokacija je teža:
+<li>Али деалокација је тежа:
 <ul>
 <li><i>Garbage collector</i></li>
 <li><i>Memory waste</i></li>
@@ -1880,18 +1885,18 @@ Alokacija stringa se obavlja na liniji:
 <section>
 
 <ul>
-<li>Rust kompajler će dodati kod koji radi dealokaciju kada vlasnik napusti opseg važenja.</li>
+<li>Раст компајлер ће додати код који ради деалокацију када власник напусти опсег важења.</li>
 <li><p>
-Poziva se funkcija <code>drop</code> nad tipom i ova funkcija je zadužena da obavi dealokaciju.
+Позива се функција <code>drop</code> над типом и ова функција је задужена да обави деалокацију.
 </p>
 
 <div class="org-src-container">
 
 <pre><code class="rust" >  {
-        let s = String::from("hello"); // s postaje validno
+        let s = String::from("hello"); // s постаје валидно
 
-        // koristimo s
-  }  // &lt;- s izlazi iz opsega i poziva se "drop"
+        // користимо s
+  }  // &lt;- s излази из опсега и позива се "drop"
 </code></pre>
 </div></li>
 
@@ -1899,10 +1904,10 @@ Poziva se funkcija <code>drop</code> nad tipom i ova funkcija je zadužena da ob
 
 </section>
 <section id="slide-6-1-6">
-<h4 id="6-1-6"><span class="section-number-4">6.1.6.</span> Dodela vrednosti</h4>
+<h4 id="6-1-6"><span class="section-number-4">6.1.6.</span> Додела вредности</h4>
 <ul>
 <li><p>
-Kopiranje vrednosti <code>x</code> u <code>y</code>. Obe varijable sada imaju vrednost <code>5</code>.
+Копирање вредности <code>x</code> у <code>y</code>. Обе варијабле сада имају вредност <code>5</code>.
 </p>
 
 <div class="org-src-container">
@@ -1913,7 +1918,7 @@ Kopiranje vrednosti <code>x</code> u <code>y</code>. Obe varijable sada imaju vr
 </div></li>
 
 <li><p>
-Ali sa <code>String</code> tipom dešava se nešto drugo.
+Али са <code>String</code> типом дешава се нешто друго.
 </p>
 
 <div class="org-src-container">
@@ -1925,7 +1930,7 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 </ul>
 
 
-<div id="orgf32e317" class="figure">
+<div id="org464426f" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1935,8 +1940,8 @@ Ali sa <code>String</code> tipom dešava se nešto drugo.
 
 <ul>
 <li><p>
-Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
-(tzv. <i>shallow copy</i>).
+Ако би се копирао само садржај са стека без имали бисмо следећу ситуацију
+(тзв. <i>shallow copy</i>).
 </p>
 
 <div class="org-src-container">
@@ -1949,35 +1954,35 @@ Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
 </ul>
 
 
-<div id="orgbc2a178" class="figure">
+<div id="org4fba51b" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
 
 <p>
-Što je problematično jer kada i <code>s1</code> i <code>s2</code> napuste opseg pokušaće se dvostruka
-dealokacija iste memorije na hipu (<i>double free</i>).
+Што је проблематично јер када и <code>s1</code> и <code>s2</code> напусте опсег покушаће се двострука
+деалокација исте меморије на хипу (<i>double free</i>).
 </p>
 
 </section>
 <section>
 
 <p>
-Ako bi se i hip memorija kopirala (tzv. <i>deep copy</i>) imali bismo validnu situaciju
-ali bi takva operacija bila veoma &ldquo;skupa&rdquo;.
+Ако би се и хип меморија копирала (tzv. <i>deep copy</i>) имали бисмо валидну ситуацију
+али би таква операција била веома "скупа".
 </p>
 
 
-<div id="orga057508" class="figure">
+<div id="orge0505b6" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-6-1-7">
-<h4 id="6-1-7"><span class="section-number-4">6.1.7.</span> Premeštanje (<i>Move</i>)</h4>
+<h4 id="6-1-7"><span class="section-number-4">6.1.7.</span> Премештање (<i>Move</i>)</h4>
 <p>
-Ako probamo da kompajliramo sledeći kod:
+Ако пробамо да компајлирамо следећи код:
 </p>
 
 <div class="org-src-container">
@@ -1990,10 +1995,10 @@ println!("{}, world!", s1);
 </div>
 
 <p>
-Dobićemo grešku:
+Добићемо грешку:
 </p>
 
-<pre class="example" id="org5116817">
+<pre class="example" id="orge50246c">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2015,7 +2020,7 @@ error: could not compile `ownership` due to previous error
 <section>
 
 <p>
-Ono što nam kompajler kaže je da se u iskazu:
+Оно што нам компајлер каже је да се у исказу:
 </p>
 
 <div class="org-src-container">
@@ -2025,34 +2030,34 @@ Ono što nam kompajler kaže je da se u iskazu:
 </div>
 
 <p>
-promenio vlasnik ovog stringa. Novi vlasnik je sada <code>s2</code> dok je varijabla <code>s1</code>
-postala nevalidna i nije je više moguće koristiti.
+променио власник овог стринга. Нови власник је сада <code>s2</code> док је варијабла <code>s1</code>
+постала невалидна и није је више могуће користити.
 </p>
 
 <p>
-Kažemo da se obavilo &ldquo;premeštanje&rdquo; (<i>move</i>) vrednosti iz <code>s1</code> u <code>s2</code>.
+Кажемо да се обавило "премештање" (<i>move</i>) вредности из <code>s1</code> у <code>s2</code>.
 </p>
 
 
-<div id="org4885f1d" class="figure">
+<div id="org9ba63b6" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
 
 <p>
-Čime se ispunjava prvo pravilo vlasništva i sprečava <i>double free</i> greška.
+Чиме се испуњава прво правило власништва и спречава <i>double free</i> грешка.
 </p>
 
 </section>
 <section id="slide-6-1-8">
-<h4 id="6-1-8"><span class="section-number-4">6.1.8.</span> Kloniranje</h4>
+<h4 id="6-1-8"><span class="section-number-4">6.1.8.</span> Клонирање</h4>
 <p>
-Posledica prethodnog je da Rust nikada neće automatski obaviti duboko kopiranje
-varijable jer bi to moglo da izazove loše performanse.
+Последица претходног је да Раст никада неће аутоматски обавити дубоко копирање
+варијабле јер би то могло да изазове лоше перформансе.
 </p>
 
 <p>
-Duboko kopiranje (stek+hip) radimo sa <code>clone</code> metodom:
+Дубоко копирање (стек+хип) радимо са <code>clone</code> методом:
 </p>
 
 <div class="org-src-container">
@@ -2065,16 +2070,16 @@ println!("s1 = {}, s2 = {}", s1, s2);
 </div>
 
 <p>
-Sada je lako pronaći u kodu sva mesta gde se obavlja potencijalno &ldquo;skupa&rdquo;
-operacija dubokog kopiranja.
+Сада је лако пронаћи у коду сва места где се обавља потенцијално "скупа"
+операција дубоког копирања.
 </p>
 
 </section>
 <section id="slide-6-1-9">
-<h4 id="6-1-9"><span class="section-number-4">6.1.9.</span> <i>Copy</i> tipovi</h4>
+<h4 id="6-1-9"><span class="section-number-4">6.1.9.</span> <i>Copy</i> типови</h4>
 <p>
-Kako onda radi primer koji smo videli prethodno? Zašto ne dolazi do premeštanja
-i invalidacije <code>y</code> varijable?
+Како онда ради пример који смо видели претходно? Зашто не долази до премештања
+и инвалидације <code>y</code> варијабле?
 </p>
 
 <div class="org-src-container">
@@ -2087,90 +2092,90 @@ println!("x = {}, y = {}", x, y);
 </div>
 
 <ul>
-<li>Kod prostih tipova čija je veličina poznata u vreme kompajliranja i koji mogu
-u celosti stati na stek nema razlike između dubokog i plitkog kopiranja.</li>
-<li>Ovakvi tipovi su anotirani sa <i>Copy</i> trejtom (<i>Trait</i>). Tipovi koji su na ovaj
-način anotirani ne obavljaju premeštanje već uvek kopiranje.</li>
-<li>Implikacija je da se varijabla sa desne strane dodele može koristiti i nakon
-dodele.</li>
-<li>Rust će sprečiti <i>Copy</i> anotaciju ako tip implementira i <i>Drop</i> jer to znači da
-radi neku specijalnu alokaciju pa mu je potrebna i posebna dealokacija što
-znači da mora da se radi premeštanje.</li>
+<li>Код простих типова чија је величина позната у време компајлирања и који могу
+у целости стати на стек нема разлике између дубоког и плитког копирања.</li>
+<li>Овакви типови су анотирани са <i>Copy</i> трејтом (<i>Trait</i>). Типови који су на овај
+начин анотирани не обављају премештање већ увек копирање.</li>
+<li>Импликација је да се варијабла са десне стране доделе може користити и након
+доделе.</li>
+<li>Раст ће спречити <i>Copy</i> анотацију ако тип имплементира и <i>Drop</i> јер то значи да
+ради неку специјалну алокацију па му је потребна и посебна деалокација што
+значи да мора да се ради премештање.</li>
 
 </ul>
 
 </section>
 <section id="slide-6-1-10">
-<h4 id="6-1-10"><span class="section-number-4">6.1.10.</span> Vlasništvo i funkcije</h4>
+<h4 id="6-1-10"><span class="section-number-4">6.1.10.</span> Власништво и функције</h4>
 <ul>
-<li>Semantika prenosa parametara kod poziva funkcija je slična semantici dodele.</li>
+<li>Семантика преноса параметара код позива функција је слична семантици доделе.</li>
 
 </ul>
 
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
-    let s = String::from("hello");  // s postaje validno
+    let s = String::from("hello");  // s постаје валидно
 
-    takes_ownership(s);             // s vrednost se premešta u funkciju...
-                                    // ... tako da s nije validno od ove pozicije
+    takes_ownership(s);             // s вредност се премешта у функцију...
+                                    // ... тако да s није валидно од ове позиције
 
-    let x = 5;                      // x postaje validno
+    let x = 5;                      // x постаје валидно
 
-    makes_copy(x);                  // x bi se premestilo u funkciju,
-                                    // ali i32 je Copy, tako da je ok
-                                    // da se x koristi i posle
+    makes_copy(x);                  // x би се преместило у функцију,
+                                    // али i32 је Copy, тако да је ok
+                                    // да се x користи и после
 
-} // x izlazi iz opsega, zatim s. Ali pošto je s premešteno ništa posebno se
-  // ne dešava.
+} // x излази из опсега, затим s. Али пошто је s премештено ништа посебно се
+  // не дешава.
 
-fn takes_ownership(some_string: String) { // some_string ulazi u opseg
+fn takes_ownership(some_string: String) { // some_string улази у опсег
     println!("{}", some_string);
-} // some_string izlazi iz opsega i poziva se `drop`. Memorija sa hipa se
-  // oslobađa.
+} // some_string излази из опсега и позива се `drop`. Меморија са хипа се
+  // ослобађа.
 
-fn makes_copy(some_integer: i32) { // some_integer ulazi u opseg
+fn makes_copy(some_integer: i32) { // some_integer улази у опсег
     println!("{}", some_integer);
-} // some_integer izlazi iz opsega. Pošto nije 'Drop', ništa posebno se ne
-  // događa (osim "skidanja" sa steka naravno)
+} // some_integer излази из опсега. Пошто није 'Drop', ништа посебно се не
+  // догађа (осим "скидања" са стека наравно)
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-1-11">
-<h4 id="6-1-11"><span class="section-number-4">6.1.11.</span> Povratne vrednosti i opsezi</h4>
+<h4 id="6-1-11"><span class="section-number-4">6.1.11.</span> Повратне вредности и опсези</h4>
 <p>
-Prilikom vraćanja vrednosti iz funkcije takođe može doći do premeštanja vlasništva.
+Приликом враћања вредности из функције такође може доћи до премештања власништва.
 </p>
 
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
-    let s1 = gives_ownership();         // gives_ownership premešta povratnu
-                                        // vrednost u s1
+    let s1 = gives_ownership();         // gives_ownership премешта повратну
+                                        // вредност у s1
 
-    let s2 = String::from("hello");     // s2 postaje validno
+    let s2 = String::from("hello");     // s2 постаје валидно
 
-    let s3 = takes_and_gives_back(s2);  // s2 se premešta u funkciju
-                                        // takes_and_gives_back, koja premešta
-                                        // povratnu vrednost u s3
-} // s3 izlazi iz opsega i poziva se `drop`. s2 je premeštena pa se ništa
-  // ne dešava. s1 takođe izlazi iz opsega i dealocira se.
+    let s3 = takes_and_gives_back(s2);  // s2 се премешта у функцију
+                                        // takes_and_gives_back, која премешта
+                                        // повратну вредност у s3
+} // s3 излази из опсега и позива се `drop`. s2 је премештена па се ништа
+  // не дешава. s1 такође излази из опсега и деалоцира се.
 
-fn gives_ownership() -&gt; String {             // gives_ownership će premestiti
-                                             // svoju povratnu vrednost u funkciju
-                                             // koja je poziva
+fn gives_ownership() -&gt; String {             // gives_ownership ће преместити
+                                             // своју повратну вредност у функцију
+                                             // која је позива
 
-    let some_string = String::from("yours"); // some_string postaje validno
+    let some_string = String::from("yours"); // some_string постаје валидно
 
-    some_string                              // some_string se premešta
-                                             // u funkciju pozivaoca
+    some_string                              // some_string се премешта
+                                             // у функцију позиваоца
 }
 
-// Ova funkcija uzima vlasništvo nad stringom i vraća ga nazad
-fn takes_and_gives_back(a_string: String) -&gt; String { // a_string postaje validno
+// Ова функција узима власништво над стрингом и враћа га назад
+fn takes_and_gives_back(a_string: String) -&gt; String { // a_string постаје валидно
 
-    a_string  // a_string se premešta u funkciju pozivaoca
+    a_string  // a_string се премешта у функцију позиваоца
 }
 </code></pre>
 </div>
@@ -2179,8 +2184,8 @@ fn takes_and_gives_back(a_string: String) -&gt; String { // a_string postaje val
 <section>
 
 <ul>
-<li>Često nam je potrebno da varijablu koristimo i posle slanja u funkciju.</li>
-<li>Mogli bi je stalo vraćati zajedno sa rezultatom funkcije na primer upotrebom torki.</li>
+<li>Често нам је потребно да варијаблу користимо и после слања у функцију.</li>
+<li>Могли би је стало враћати заједно са резултатом функције на пример употребом торки.</li>
 
 </ul>
 
@@ -2203,21 +2208,21 @@ fn calculate_length(s: String) -&gt; (String, usize) {
 </div>
 
 <p>
-Ali je to naporno. Postoji koncept u Rust-u koji je namenjen u ovakvim
-situacijama i baziran je na referencama i pozajmljivanju vrednosti.
+Али је то напорно. Постоји концепт у Раст који је намењен оваквим
+ситуацијама и базиран је на референцама и позајмљивању вредности.
 </p>
 </section>
 <section id="slide-6-2">
-<h3 id="6-2"><span class="section-number-3">6.2.</span> Reference i pozajmljivanje (<i>References and Borrowing</i>)</h3>
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Референце и позајмљивање (<i>References and Borrowing</i>)</h3>
 <div class="outline-text-3" id="text-6-2">
 </div>
 </section>
 <section id="slide-6-2-1">
-<h4 id="6-2-1"><span class="section-number-4">6.2.1.</span> Reference i pozajmljivanje (<i>References and Borrowing</i>)</h4>
+<h4 id="6-2-1"><span class="section-number-4">6.2.1.</span> Референце и позајмљивање (<i>References and Borrowing</i>)</h4>
 <ul>
-<li>Referenca je poput pointera, sadrži adresu vrednosti koju poseduje neka druga
-varijabla.</li>
-<li>Za razliku od pointera, reference u Rust-u su garantovano validne.</li>
+<li>Референца је попут поинтера, садржи адресу вредности коју поседује нека друга
+варијабла.</li>
+<li>За разлику од поинтера, референце у Расту су гарантовано валидне.</li>
 
 </ul>
 
@@ -2238,17 +2243,17 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="orgd11bfce" class="figure">
+<div id="orgedfe4cc" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-6-2-2">
-<h4 id="6-2-2"><span class="section-number-4">6.2.2.</span> Referenciranje</h4>
+<h4 id="6-2-2"><span class="section-number-4">6.2.2.</span> Референцирање</h4>
 <ul>
 <li><p>
-Primena operatora <code>&amp;</code> nad varijablom nazivamo <i>referenciranje</i>.
+Примена оператора <code>&amp;</code> над варијаблом називамо <i>референцирање</i>.
 </p>
 
 <div class="org-src-container">
@@ -2258,13 +2263,13 @@ Primena operatora <code>&amp;</code> nad varijablom nazivamo <i>referenciranje</
 </code></pre>
 </div></li>
 
-<li>Sintaksa <code>&amp;s1</code> nam omogućava da kreiramo referencu na vrednost čiji vlasnik je
-<code>s1</code> bez uzimanja vlasništva.</li>
-<li>Pošto referenca nije vlasnik ne dolazi do dealokacije prilikom izlaska iz
-opsega.</li>
-<li>Operacija obrnuta referenciranju naziva se <i>dereferenciranje</i> i vrši se <code>*</code>
-operatorom nad referencom (npr. <code>*s2</code> je vrednost na koju referencira <code>s2</code>).</li>
-<li>Operaciju referenciranja nazivamo pozajmljivanjem (<i>borrowing</i>).</li>
+<li>Синтакса <code>&amp;s1</code> нам омогућава да креирамо референцу на вредност чији власник је
+<code>s1</code> без узимања власништва.</li>
+<li>Пошто референца није власник не долази до деалокације приликом изласка из
+опсега.</li>
+<li>Операција обрнута референцирању назива се <i>дереференцирање</i> и врши се <code>*</code>
+оператором над референцом (нпр. <code>*s2</code> је вредност на коју референцира <code>s2</code>).</li>
+<li>Операцију референцирања називамо позајмљивањем (<i>borrowing</i>).</li>
 
 </ul>
 
@@ -2272,23 +2277,23 @@ operatorom nad referencom (npr. <code>*s2</code> je vrednost na koju referencira
 <section>
 
 <ul>
-<li>Takođe, parametar funkcije može biti referenca.</li>
+<li>Такође, параметар функције може бити референца.</li>
 
 </ul>
 <div class="org-src-container">
 
-<pre><code class="rust" >fn calculate_length(s: &amp;String) -&gt; usize { // s je referenca na String
+<pre><code class="rust" >fn calculate_length(s: &amp;String) -&gt; usize { // s је референца на String
     s.len()
-} // s izlazi iz opsega ali pošto nema vlasništvo nad vrednošću
-  // ništa se ne dešava.
+} // s излази из опсега али пошто нема власништво над вредношћу
+  // ништа се не дешава.
 </code></pre>
 </div>
 
 </section>
 <section id="slide-6-2-3">
-<h4 id="6-2-3"><span class="section-number-4">6.2.3.</span> Promena pozajmljene vrednosti</h4>
+<h4 id="6-2-3"><span class="section-number-4">6.2.3.</span> Промена позајмљене вредности</h4>
 <p>
-Šta se dešava ukoliko pokušamo da modifikujemo pozajmljenu vrednost?
+Шта се дешава уколико покушамо да модификујемо позајмљену вредност?
 </p>
 
 <div class="org-src-container">
@@ -2304,7 +2309,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="orga032cd0">
+<pre class="example" id="org0552153">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2322,10 +2327,10 @@ error: could not compile `ownership` due to previous error
 
 </section>
 <section id="slide-6-2-4">
-<h4 id="6-2-4"><span class="section-number-4">6.2.4.</span> Promenjive reference</h4>
+<h4 id="6-2-4"><span class="section-number-4">6.2.4.</span> Промењиве референце</h4>
 <p>
-Kao i varijable, i reference su podrazumevano nepromenjiva (<i>immutable</i>). Moramo
-biti eksplicitni ukoliko nam treba promenjiva referenca.
+Као и варијабле, и референце су подразумевано непромењива (<i>immutable</i>). Морамо
+бити експлицитни уколико нам треба промењива референца.
 </p>
 
 <div class="org-src-container">
@@ -2343,10 +2348,10 @@ fn change(some_string: &amp;mut String) {
 
 </section>
 <section id="slide-6-2-5">
-<h4 id="6-2-5"><span class="section-number-4">6.2.5.</span> Više promenjivih referenci nad istom vrednošću</h4>
+<h4 id="6-2-5"><span class="section-number-4">6.2.5.</span> Више промењивих референци над истом вредношћу</h4>
 <p>
-Rust ne dozvoljava da isti podatak u jednom trenutku ima više promenjivih
-referenci.
+Раст не дозвољава да исти податак у једном тренутку има више промењивих
+референци.
 </p>
 
 <div class="org-src-container">
@@ -2360,7 +2365,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org0891cdc">
+<pre class="example" id="org74db4d5">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2382,16 +2387,16 @@ error: could not compile `ownership` due to previous error
 <section>
 
 <p>
-Ovim ograničenjem Rust, u vreme kompajliranja, sprečava klasu grešaka koje
-dovode do nedefinisanog ponašanja i koje zovemo <i>data races</i>. Ove greške se veoma
-teško otkrivaju i otklanjaju i mogu nastati ukoliko su zadovoljeni sledeći
-uslovi:
+Овим ограничењем Раст, у време компајлирања, спречава класу грешака које
+доводе до недефинисаног понашања и које зовемо <i>data races</i>. Ове грешке се веома
+тешко откривају и отклањају и могу настати уколико су задовољени следећи
+услови:
 </p>
 
 <ul>
-<li>Dva ili više pointera pristupaju istim podacima u isto vreme,</li>
-<li>Bar jedan pointer se koristi za izmenu podatka,</li>
-<li>Ne postoji mehanizam za sinhronizaciju pristupa.</li>
+<li>Два или више поинтера приступају истим подацима у исто време,</li>
+<li>Бар један поинтер се користи за измену податка,</li>
+<li>Не постоји механизам за синхронизацију приступа.</li>
 
 </ul>
 
@@ -2399,7 +2404,7 @@ uslovi:
 <section>
 
 <p>
-Više promenjivih referenci možemo imati ali ne u istom opsegu:
+Више промењивих референци можемо имати али не у истом опсегу:
 </p>
 
 <div class="org-src-container">
@@ -2408,7 +2413,7 @@ Više promenjivih referenci možemo imati ali ne u istom opsegu:
 
 {
     let r1 = &amp;mut s;
-} // r1 ovde izlazi iz opsega tako da možemo krairati nove reference
+} // r1 овде излази из опсега тако да можемо краирати нове референце
 
 let r2 = &amp;mut s;
 </code></pre>
@@ -2416,10 +2421,10 @@ let r2 = &amp;mut s;
 
 </section>
 <section id="slide-6-2-6">
-<h4 id="6-2-6"><span class="section-number-4">6.2.6.</span> Kombinacija promenjivih i nepromenjivih referenci</h4>
+<h4 id="6-2-6"><span class="section-number-4">6.2.6.</span> Комбинација промењивих и непромењивих референци</h4>
 <p>
-Slično pravilo postoji i ukoliko imamo kombinaciju promenjivih i nepromenjivih
-referenci:
+Слично правило постоји и уколико имамо комбинацију промењивих и непромењивих
+референци:
 </p>
 
 <div class="org-src-container">
@@ -2434,7 +2439,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org99a7654">
+<pre class="example" id="org5477fc6">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2457,19 +2462,19 @@ error: could not compile `ownership` due to previous error
 <section>
 
 <ul>
-<li>Ne možemo istovremeno imati nepromenjive i promenjive reference jer korisnici
-nepromenjivih referenci ne očekuju da se podaci menjaju.</li>
-<li>Možemo imati više nepromenjivih referenci jer niko ne može da menja podatke i
-time utiče na druge.</li>
+<li>Не можемо истовремено имати непромењиве и промењиве референце јер корисници
+непромењивих референци не очекују да се подаци мењају.</li>
+<li>Можемо имати више непромењивих референци јер нико не може да мења податке и
+тиме утиче на друге.</li>
 
 </ul>
 
 </section>
 <section id="slide-6-2-7">
-<h4 id="6-2-7"><span class="section-number-4">6.2.7.</span> Opseg važenja reference</h4>
+<h4 id="6-2-7"><span class="section-number-4">6.2.7.</span> Опсег важења референце</h4>
 <p>
-Opseg važenja reference počinje od mesta gde je uvedena pa do njene poslednje
-upotrebe. Na primer, ovo je validno:
+Опсег важења референце почиње од места где је уведена па до њене последње
+употребе. На пример, ово је валидно:
 </p>
 
 <div class="org-src-container">
@@ -2479,24 +2484,24 @@ upotrebe. Na primer, ovo je validno:
 let r1 = &amp;s; // OK
 let r2 = &amp;s; // OK
 println!("{} and {}", r1, r2);
-// varijable r1 i r2 se ne koriste u nastavku pa njihov opseg
-// prestaje da važi.
+// варијабле r1 и r2 се не користе у наставку па њихов опсег
+// престаје да важи.
 
-let r3 = &amp;mut s; // zato je ovo OK
+let r3 = &amp;mut s; // зато је ово OK
 println!("{}", r3);
 </code></pre>
 </div>
 
 <p>
-Ova osobina referenci se naziva <i>Non-Lexical Lifetimes (NLL)</i>.
+Ова особина референци се назива <i>Non-Lexical Lifetimes (NLL)</i>.
 </p>
 
 </section>
 <section id="slide-6-2-8">
-<h4 id="6-2-8"><span class="section-number-4">6.2.8.</span> &ldquo;Viseće&rdquo; reference</h4>
+<h4 id="6-2-8"><span class="section-number-4">6.2.8.</span> "Висеће" референце</h4>
 <ul>
-<li>U jezicima sa pointerima lako je kreirati pointer na deo memorije koji je dealociran.</li>
-<li>Rust garantovano sprečava ovakve greške. Reference su uvek validne u Rust-u.</li>
+<li>У језицима са поинтерима лако је креирати поинтер на део меморије који је деалоциран.</li>
+<li>Раст гарантовано спречава овакве грешке. Референце су увек валидне у Расту.</li>
 
 </ul>
 
@@ -2517,7 +2522,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org2420b49">
+<pre class="example" id="org204a189">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2538,16 +2543,16 @@ error: could not compile `ownership` due to previous error
 </pre>
 
 <ul>
-<li>Mehanizam koji ovo sprečava naziva se &ldquo;vreme života&rdquo; (<i>lifetime</i>) i biće
-detaljnije obrađeno u nastavku.</li>
+<li>Механизам који ово спречава назива се "време живота" (<i>lifetime</i>) и биће
+детаљније обрађено у наставку.</li>
 <li><p>
-U prevodu Rust nam poručuje:
+У преводу Раст нам поручује:
 </p>
 
 <blockquote>
 <p>
-Tip povratne vrednosti ove funkcije je pozajmljena vrednost, ali vrednost koja
-je pozajmljena posle povratka više ne postoji.
+Тип повратне вредности ове функције је позајмљена вредност, али вредност која
+је позајмљена после повратка више не постоји.
 </p>
 </blockquote></li>
 
@@ -2555,22 +2560,22 @@ je pozajmljena posle povratka više ne postoji.
 
 </section>
 <section id="slide-6-2-9">
-<h4 id="6-2-9"><span class="section-number-4">6.2.9.</span> Šta se tačno desilo</h4>
+<h4 id="6-2-9"><span class="section-number-4">6.2.9.</span> Шта се тачно десило?</h4>
 <div class="org-src-container">
 
-<pre><code class="rust" >fn dangle() -&gt; &amp;String { // dangle vraća referencu na String
+<pre><code class="rust" >fn dangle() -&gt; &amp;String { // dangle враћа референцу на String
 
-    let s = String::from("hello"); // s je novi String
+    let s = String::from("hello"); // s је нови String
 
-    &amp;s // Vraćamo referencu na String s
-} // s izlazi iz opsega i poziva se `drop`. Memorija se oslobađa.
-  // OPASNOST! Vraćena referenca će biti "viseća".
+    &amp;s // Враћамо референцу на String s
+} // s излази из опсега и позива се `drop`. Меморија се ослобађа.
+  // ОПАСНОСТ! Враћена референца ће бити "висећа".
 </code></pre>
 </div>
 
 <p>
-Kako se može rešiti. Vratićemo posedovanu (<i>owned</i>) vrednost, tj uradićemo
-premeštanje vrednosti u funkciju pozivaoca.
+Како се може решити. Вратићемо поседовану (<i>owned</i>) вредност, тј урадићемо
+премештање вредности у функцију позиваоца.
 </p>
 
 <div class="org-src-container">
@@ -2585,32 +2590,33 @@ premeštanje vrednosti u funkciju pozivaoca.
 
 </section>
 <section id="slide-6-2-10">
-<h4 id="6-2-10"><span class="section-number-4">6.2.10.</span> Pravila referenciranja</h4>
+<h4 id="6-2-10"><span class="section-number-4">6.2.10.</span> Правила референцирања</h4>
 <ol>
-<li>U svakom trenutku možemo imati ili jednu promenjivu ili proizvoljan broj
-nepromenjivih referenci.</li>
-<li>Reference uvek moraju biti validne.</li>
+<li>У сваком тренутку можемо имати или једну промењиву или произвољан број
+непромењивих референци.</li>
+<li>Референце увек морају бити валидне.</li>
 
 </ol>
+
 </section>
 <section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3.</span> Isečci (<i>Slice</i> tip)</h3>
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Исечци (<i>Slice</i> тип)</h3>
 <div class="outline-text-3" id="text-6-3">
 </div>
 </section>
 <section id="slide-6-3-1">
 <h4 id="6-3-1"><span class="section-number-4">6.3.1.</span> <i>Slice</i></h4>
 <ul>
-<li>Isečci (<i>slices</i>) omogućavaju referenciranje kontinualne sekvence unutar
-kolekcije umesto cele kolekcije</li>
+<li>Исечци (<i>slices</i>) омогућавају референцирање континуалне секвенце унутар
+колекције уместо целе колекције</li>
 
 </ul>
 
 </section>
 <section id="slide-6-3-2">
-<h4 id="6-3-2"><span class="section-number-4">6.3.2.</span> Primer</h4>
+<h4 id="6-3-2"><span class="section-number-4">6.3.2.</span> Пример</h4>
 <p>
-Funkcija koja za zadati string vraća prvu reč.
+Функција која за задати стринг враћа прву реч.
 </p>
 
 <div class="org-src-container">
@@ -2630,10 +2636,10 @@ Funkcija koja za zadati string vraća prvu reč.
 </div>
 
 <ul>
-<li>Dakle, vraćamo indeks kraja reči. Pozivaoc sada ima potrebne informacije da dođe do tražene reči.</li>
-<li>Problem: dva podatka koja su u vezi ali moramo tu vezu ručno da održavamo jer
-nemamo garanciju da će broj koji je vraćen biti validan i u budućnosti (npr.
-string može da se promeni ili da izađe iz opsega).</li>
+<li>Дакле, враћамо индекс краја речи. Позиваоц сада има потребне информације да дође до тражене речи.</li>
+<li>Проблем: два податка која су у вези али морамо ту везу ручно да одржавамо јер
+немамо гаранцију да ће број који је враћен бити валидан и у будућности (нпр.
+стринг може да се промени или да изађе из опсега).</li>
 
 </ul>
 
@@ -2645,11 +2651,11 @@ string može da se promeni ili da izađe iz opsega).</li>
 <pre><code class="rust" >fn main() {
     let mut s = String::from("hello world");
 
-    let word = first_word(&amp;s); // word će dobiti vrednost 5
+    let word = first_word(&amp;s); // word ће добити вредност 5
 
-    s.clear(); // string s postaje ""
+    s.clear(); // стринг s постаје ""
 
-    // word je i dalje 5 iako to više nije ispravno
+    // word је и даље 5 иако то више није исправно
 }
 </code></pre>
 </div>
@@ -2658,9 +2664,9 @@ string može da se promeni ili da izađe iz opsega).</li>
 <section>
 
 <p>
-Problem postaje još ozbiljniji ako npr. napišemo funkciju <code>second_word</code> koja vraća
-drugu reč zadatog stringa. Po analogiji sa prethodnim, trebali bi da vratimo
-početak i kraj druge reči.
+Проблем постаје још озбиљнији ако нпр. напишемо функцију <code>second_word</code> која враћа
+другу реч задатог стринга. По аналогији са претходним, требали би да вратимо
+почетак и крај друге речи.
 </p>
 
 <div class="org-src-container">
@@ -2670,14 +2676,14 @@ početak i kraj druge reči.
 </div>
 
 <p>
-Sada imamo tri podatka o kojima moramo da vodimo računa.
+Сада имамо три податка о којима морамо да водимо рачуна.
 </p>
 
 </section>
 <section id="slide-6-3-3">
-<h4 id="6-3-3"><span class="section-number-4">6.3.3.</span> String isečak</h4>
+<h4 id="6-3-3"><span class="section-number-4">6.3.3.</span> Стринг исечак</h4>
 <p>
-Problem rešavamo upotrebom isečaka.
+Проблем решавамо употребом исечака.
 </p>
 
 <div class="org-src-container">
@@ -2691,30 +2697,31 @@ let world = &amp;s[6..11];
 
 <div class="column" style="float:left; width: 50%">
 <p>
-Sintaksa <code>s[x..y]</code> kreira isečak nad sekvencom <code>s</code>. S obzirom da ovaj tip (<code>[T]</code>) nema
-poznatu veličinu u vreme kompajliranja, ne možemo ga alocirati na steku, odnosno
-ne možemo ga dodeliti lokalnim varijablama ili prosleđivati kao parametar
-funkcije. Zato se u praksi koristi referenca na isečak (<code>&amp;[T]</code>) (često se zove i
+Синтакса <code>s[x..y]</code> креира исечак над секвенцом <code>s</code>. С обзиром да овај тип (<code>[T]</code>) нема
+познату величину у време компајлирања, не можемо га алоцирати на стеку, односно
+не можемо га доделити локалним варијаблама или прослеђивати као параметар
+функције. Зато се у пракси користи референца на исечак (<code>&amp;[T]</code>) (често се зове и
 <i>fat pointer</i>).
 </p>
 
 <p>
-Dakle, u praksi mnogo češće srećemo sintaksu <code>&amp;s[x..y]</code>.
+Дакле, у пракси много чешће срећемо синтаксу <code>&amp;s[x..y]</code>.
 </p>
 </div>
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="org0e28fb2" class="figure">
+<div id="orgf08f52c" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
 </div>
 
 <div style="clear: both;">
+
 </section>
 <section id="slide-6-3-4">
-<h4 id="6-3-4"><span class="section-number-4">6.3.4.</span> Isečci i sintaksa opsega (<i>range</i>)</h4>
+<h4 id="6-3-4"><span class="section-number-4">6.3.4.</span> Исечци и синтакса опсега (<i>range</i>)</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let s = String::from("hello");
@@ -2748,7 +2755,7 @@ let slice = &amp;s[..];
 
 </section>
 <section id="slide-6-3-5">
-<h4 id="6-3-5"><span class="section-number-4">6.3.5.</span> Modifikacija primera da koristi string isečke</h4>
+<h4 id="6-3-5"><span class="section-number-4">6.3.5.</span> Модификација примера да користи стринг исечке</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn first_word(s: &amp;String) -&gt; &amp;str {
@@ -2766,7 +2773,7 @@ let slice = &amp;s[..];
 </div>
 
 <p>
-Isti API i za <code>second_word</code>.
+Исти API и за <code>second_word</code>.
 </p>
 
 <div class="org-src-container">
@@ -2779,7 +2786,7 @@ Isti API i za <code>second_word</code>.
 <section>
 
 <p>
-Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
+Сада нам компајлер осигурава да увек имамо валидну референцу на реч.
 </p>
 <div class="org-src-container">
 
@@ -2788,14 +2795,14 @@ Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
 
     let word = first_word(&amp;s);
 
-    s.clear(); // GREŠKA!
+    s.clear(); // ГРЕШКА!
 
     println!("the first word is: {}", word);
 }
 </code></pre>
 </div>
 
-<pre class="example" id="org6e0d1a5">
+<pre class="example" id="org33bbb27">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2815,13 +2822,13 @@ error: could not compile `ownership` due to previous error
 </pre>
 
 <p>
-Ne samo da je API lakši za upotrebu već je čitava klasa grešaka koje se teško
-otkrivaju eliminisana u vreme kompajliranja.
+Не само да је API лакши за употребу већ је читава класа грешака које се тешко
+откривају елиминисана у време компајлирања.
 </p>
 
 </section>
 <section id="slide-6-3-6">
-<h4 id="6-3-6"><span class="section-number-4">6.3.6.</span> String literali su reference na isečke</h4>
+<h4 id="6-3-6"><span class="section-number-4">6.3.6.</span> Стринг литерали су референце на исечке</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let s = "Hello, world!";
@@ -2829,12 +2836,12 @@ otkrivaju eliminisana u vreme kompajliranja.
 </div>
 
 <p>
-Tip od <code>s</code> je <code>&amp;str</code>. <code>str</code> je string isečak.
+Тип од <code>s</code> је <code>&amp;str</code>. <code>str</code> је стринг исечак.
 </p>
 
 </section>
 <section id="slide-6-3-7">
-<h4 id="6-3-7"><span class="section-number-4">6.3.7.</span> String isečci kao parametri funkcija</h4>
+<h4 id="6-3-7"><span class="section-number-4">6.3.7.</span> Стринг исечци као параметри функција</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn first_word(s: &amp;String) -&gt; &amp;str {
@@ -2842,7 +2849,7 @@ Tip od <code>s</code> je <code>&amp;str</code>. <code>str</code> je string iseč
 </div>
 
 <p>
-Ali će iskusni Rust programeri pisati:
+Али ће искусни Раст програмери писати:
 </p>
 
 <div class="org-src-container">
@@ -2852,10 +2859,10 @@ Ali će iskusni Rust programeri pisati:
 </div>
 
 <p>
-Jer će ova funkcija moći da se koristi i za <code>&amp;str</code> i za <code>&amp;String</code>. Ovde se
-upotrebljava tzv. <i>Deref Coercion</i> odnosno mogućnosti tipova da se dereferenciraju
-u drugi tip. Npr. <code>&amp;String</code> će se automatski dereferencirati u <code>&amp;str</code> ukoliko je to
-potrebno. Operacija je efikasna.
+Јер ће ова функција моћи да се користи и за <code>&amp;str</code> и за <code>&amp;String</code>. Овде се
+употребљава тзв. <i>Deref Coercion</i> односно могућности типова да се дереференцирају
+у други тип. Нпр. <code>&amp;String</code> ће се аутоматски дереференцирати у <code>&amp;str</code> уколико је то
+потребно. Операција је ефикасна.
 </p>
 
 </section>
@@ -2888,12 +2895,12 @@ potrebno. Operacija je efikasna.
 
 </section>
 <section id="slide-6-3-8">
-<h4 id="6-3-8"><span class="section-number-4">6.3.8.</span> Upotreba isečaka nad drugim strukturama</h4>
+<h4 id="6-3-8"><span class="section-number-4">6.3.8.</span> Употреба исечака над другим структурама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let a = [1, 2, 3, 4, 5];
 
-let slice = &amp;a[1..3]; // referenca na isečak tipa &amp;[i32]
+let slice = &amp;a[1..3]; // референца на исечак типа &amp;[i32]
 
 assert_eq!(slice, &amp;[2, 3]);
 </code></pre>
@@ -2903,43 +2910,43 @@ assert_eq!(slice, &amp;[2, 3]);
 </section>
 <section>
 <section id="slide-7">
-<h2 id="7"><span class="section-number-2">7.</span> Strukture</h2>
+<h2 id="7"><span class="section-number-2">7.</span> Структуре</h2>
 </section>
 </section>
 <section>
 <section id="slide-8">
-<h2 id="8"><span class="section-number-2">8.</span> Enumeracije i podudaranje obrazaca (<i>Pattern Matching</i>)</h2>
+<h2 id="8"><span class="section-number-2">8.</span> Енумерације и подударање образаца (<i>Pattern Matching</i>)</h2>
 <div class="outline-text-2" id="text-8">
 </div>
 </section>
 <section id="slide-8-1">
-<h3 id="8-1"><span class="section-number-3">8.1.</span> <i>Enum</i> tip</h3>
+<h3 id="8-1"><span class="section-number-3">8.1.</span> <i>Enum</i> тип</h3>
 <div class="outline-text-3" id="text-8-1">
 </div>
 </section>
 <section id="slide-8-1-1">
-<h4 id="8-1-1"><span class="section-number-4">8.1.1.</span> <i>Enum</i> tip</h4>
+<h4 id="8-1-1"><span class="section-number-4">8.1.1.</span> <i>Enum</i> тип</h4>
 <ul>
-<li>Definisanje tipa navođenjem svih mogućih varijanti</li>
-<li>Varijanta može da sadrži dodatne podatke</li>
-<li>Slično sa algebarskim tipovima podataka (<i>algebraic data types</i>) u funkcionalnim
-jezicima, npr. F#, OCaml i Haskell-u. Ova vrsta algebarskog tipa je poznata i
-pod nazivom <i>sum type</i>.</li>
+<li>Дефинисање типа навођењем свих могућих варијанти</li>
+<li>Варијанта може да садржи додатне податке</li>
+<li>Слично са алгебарским типовима података (<i>algebraic data types</i>) у функционалним
+језицима, нпр. F#, OCaml и Haskell-у. Ова врста алгебарског типа је позната и
+под називом <i>sum type</i>.</li>
 
 </ul>
 
 </section>
 <section id="slide-8-1-2">
-<h4 id="8-1-2"><span class="section-number-4">8.1.2.</span> Primer - IP adresa</h4>
+<h4 id="8-1-2"><span class="section-number-4">8.1.2.</span> Пример - IP адреса</h4>
 <ul>
-<li>IP adresa predstavlja identifikaciju mrežnih interfejsa u uređajima koji
-komuniciraju posredstvom Internet protokola (<i>Internet Protocol - IP</i>).</li>
-<li>Trenutno imamo u upotrebi staru verziju 4 i novu verziju 6 koja će vremenom
-zameniti verziju 4.</li>
-<li>Verzija 4 je dužine 32 bita i navodi se kao četiri okteta u obliku npr.
+<li>IP адреса представља идентификацију мрежних интерфејса у уређајима који
+комуницирају посредством Интернет протокола (<i>Internet Protocol - IP</i>).</li>
+<li>Тренутно имамо у употреби стару верзију 4 и нову верзију 6 која ће временом
+заменити верзију 4.</li>
+<li>Верзија 4 је дужине 32 бита и наводи се као четири октета у облику нпр.
 <code>192.0.2.1</code></li>
-<li>Verzija 6 je dužine 128 bita i navodi se kao 8 grupa od po 4 heksa cifre
-razdvojene sa <code>:</code>, npr. <code>2001:db8:0:1234:0:567:8:1</code></li>
+<li>Верзија 6 је дужине 128 бита и наводи се као 8 група од по 4 хекса цифре
+раздвојене са <code>:</code>, нпр. <code>2001:db8:0:1234:0:567:8:1</code></li>
 
 </ul>
 
@@ -2947,7 +2954,7 @@ razdvojene sa <code>:</code>, npr. <code>2001:db8:0:1234:0:567:8:1</code></li>
 <section>
 
 <p>
-U Rust-u možemo pisati sledeće:
+У Расту можемо писати следеће:
 </p>
 
 <div class="org-src-container">
@@ -2960,7 +2967,7 @@ U Rust-u možemo pisati sledeće:
 </div>
 
 <p>
-Dok vrednosti možemo kreirati sa:
+Док вредности можемо креирати са:
 </p>
 <div class="org-src-container">
 
@@ -2971,10 +2978,10 @@ let six = IpAddrKind::V6;
 
 </section>
 <section id="slide-8-1-3">
-<h4 id="8-1-3"><span class="section-number-4">8.1.3.</span> Primer - IP adresa - funkcija</h4>
+<h4 id="8-1-3"><span class="section-number-4">8.1.3.</span> Пример - IP адреса - функција</h4>
 <p>
-Sada možemo pisati funkciju koja prima ovaj tip čime je moguće proslediti bilo
-koju varijantu kao argument.
+Сада можемо писати функцију која прима овај тип чиме је могуће проследити било
+коју варијанту као аргумент.
 </p>
 
 <div class="org-src-container">
@@ -2990,10 +2997,10 @@ route(IpAddrKind::V6);
 
 </section>
 <section id="slide-8-1-4">
-<h4 id="8-1-4"><span class="section-number-4">8.1.4.</span> Primer - IP adresa - vrednost</h4>
+<h4 id="8-1-4"><span class="section-number-4">8.1.4.</span> Пример - IP адреса - вредност</h4>
 <ul>
-<li>Ali kako da definišemo konkretnu vrednost IP adrese?</li>
-<li>Prva ideja bi mogla biti da koristimo strukturu.</li>
+<li>Али како да дефинишемо конкретну вредност IP адресе?</li>
+<li>Прва идеја би могла бити да користимо структуру.</li>
 
 </ul>
 
@@ -3025,8 +3032,8 @@ let loopback = IpAddr {
 <section>
 
 <p>
-Ali, sa <code>enum</code> tipom možemo to uraditi i bolje. <code>Enum</code> varijante mogu sadržati
-dodatne podatke.
+Али, са <code>enum</code> типом можемо то урадити и боље. <code>Enum</code> варијанте могу садржати
+додатне податке.
 </p>
 
 <div class="org-src-container">
@@ -3045,9 +3052,9 @@ let loopback = IpAddr::V6(String::from("::1"));
 </section>
 <section>
 <p>
-Vrednost sadržana u varijanti ne mora biti ista za sve varijante. Na primer,
-IPv4 se sastoji od 4 okteta i možda želimo da vrednost navodimo i čuvamo u tom
-obliku.
+Вредност садржана у варијанти не мора бити иста за све варијанте. На пример,
+IPv4 се састоји од 4 октета и можда желимо да вредност наводимо и чувамо у том
+облику.
 </p>
 
 <div class="org-src-container">
@@ -3065,10 +3072,10 @@ let loopback = IpAddr::V6(String::from("::1"));
 
 </section>
 <section id="slide-8-1-5">
-<h4 id="8-1-5"><span class="section-number-4">8.1.5.</span> Primer - IP adresa - std biblioteka</h4>
+<h4 id="8-1-5"><span class="section-number-4">8.1.5.</span> Пример - IP адреса - std библиотека</h4>
 <p>
-U standardnoj biblioteci možemo pronaći tip <code>IpAddr</code>. Definisan je na sledeći
-način.
+У стандардној библиотеци можемо пронаћи тип <code>IpAddr</code>. Дефинисан је на следећи
+начин.
 </p>
 
 <div class="org-src-container">
@@ -3090,7 +3097,7 @@ enum IpAddr {
 
 </section>
 <section id="slide-8-1-6">
-<h4 id="8-1-6"><span class="section-number-4">8.1.6.</span> Primer  - <i>Message</i></h4>
+<h4 id="8-1-6"><span class="section-number-4">8.1.6.</span> Пример  - <i>Message</i></h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >enum Message {
@@ -3105,7 +3112,7 @@ enum IpAddr {
 </section>
 <section>
 <p>
-Sledeće strukture sadrže iste podatke kao prethodni <code>enum</code> tip.
+Следеће структуре садрже исте податке као претходни <code>enum</code> тип.
 </p>
 
 <div class="org-src-container">
@@ -3121,22 +3128,22 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 </div>
 
 <p>
-Ali, prednost <code>enum</code> tipa je što je to jedinstven tip pa možemo npr. napraviti
-funkciju koja prima bilo koju vrednost/varijantu ovog tipa.
+Али, предност <code>enum</code> типа је што је то јединствен тип па можемо нпр. направити
+функцију која прима било коју вредност/варијанту овог типа.
 </p>
 
 </section>
 <section>
 <p>
-Nad <code>enum</code> tipom, kao i drugim tipovima, možemo implementirati metode upotrebom
-<code>imlp</code> ključne reči.
+Над <code>enum</code> типом, као и другим типовима, можемо имплементирати методе употребом
+<code>imlp</code> кључне речи.
 </p>
 
 <div class="org-src-container">
 
 <pre><code class="rust" >impl Message {
     fn call(&amp;self) {
-        // telo metode se ovde definiše
+        // тело методе се овде дефинише
     }
 }
 
@@ -3147,21 +3154,21 @@ m.call();
 
 </section>
 <section id="slide-8-2">
-<h3 id="8-2"><span class="section-number-3">8.2.</span> <code>Option</code> enumeracija</h3>
+<h3 id="8-2"><span class="section-number-3">8.2.</span> <code>Option</code> енумерација</h3>
 <div class="outline-text-3" id="text-8-2">
 </div>
 </section>
 <section id="slide-8-2-1">
-<h4 id="8-2-1"><span class="section-number-4">8.2.1.</span> <code>Option</code> enumeracija</h4>
+<h4 id="8-2-1"><span class="section-number-4">8.2.1.</span> <code>Option</code> енумерација</h4>
 <ul>
-<li>Čest slučaj da vrednost može biti nešto ili ništa.</li>
-<li>Npr. ako funkcija vraća prvi element iz liste koja nije prazna dobićemo prvi
-element, međutim ako je lista prazna povratna vrednost je ništa.</li>
-<li>Ovaj koncept se u različitim jezicima različito implementira. Često se koristi
-specijalna vrednost <code>null</code> (ili <code>nil</code>, <code>none</code> i sl.) i sve varijable mogu biti <code>null</code>
-ili <code>non-null</code>. Problem je što programer ne definiše mogućnost ove vrednosti
-kroz tip pa samim tim kompajler nema mogućnost da proveri da li kod ispravno
-obrađuje ovu mogućnost.</li>
+<li>Чест случај да вредност може бити нешто или ништа.</li>
+<li>Нпр. ако функција враћа први елемент из листе која није празна добићемо први
+елемент, међутим ако је листа празна повратна вредност је ништа.</li>
+<li>Овај концепт се у различитим језицима различито имплементира. Често се користи
+специјална вредност <code>null</code> (или <code>nil</code>, <code>none</code> и сл.) и све варијабле могу бити <code>null</code>
+или <code>non-null</code>. Проблем је што програмер не дефинише могућност ове вредности
+кроз тип па самим тим компајлер нема могућност да провери да ли код исправно
+обрађује ову могућност.</li>
 
 </ul>
 
@@ -3169,9 +3176,9 @@ obrađuje ovu mogućnost.</li>
 <section>
 
 <p>
-U prezentaciji iz 2009 godine pod nazivom <i>Null References: The Billion Dollar
-Mistake</i> Tony Hoare, koji je prvi uveo <code>null</code> vrednost kao koncept je napisao
-sledeće:
+У презентацији из 2009 године под називом <i>Null References: The Billion Dollar
+Mistake</i> Tony Hoare, који је први увео <code>null</code> вредност као концепт је написао
+следеће:
 </p>
 
 <blockquote>
@@ -3191,7 +3198,7 @@ last forty years.
 <section>
 
 <p>
-<code>Option</code> je generički <code>enum</code> tip u Rust-u.
+<code>Option</code> је генерички <code>enum</code> тип у Расту.
 </p>
 <div class="org-src-container">
 
@@ -3203,20 +3210,20 @@ last forty years.
 </div>
 
 <p>
-Primeri upotrebe:
+Примери употребе:
 </p>
 <div class="org-src-container">
 
-<pre><code class="rust" >let some_number = Some(5);           // tip je Option&lt;i32&gt;
-let some_string = Some("a string");  // tip je Option&lt;&amp;str&gt;
+<pre><code class="rust" >let some_number = Some(5);           // тип је Option&lt;i32&gt;
+let some_string = Some("a string");  // тип је Option&lt;&amp;str&gt;
 
-let absent_number: Option&lt;i32&gt; = None;    // nemoguć inference
+let absent_number: Option&lt;i32&gt; = None;    // немогућа инференца
 </code></pre>
 </div>
 
 </section>
 <section id="slide-8-2-2">
-<h4 id="8-2-2"><span class="section-number-4">8.2.2.</span> Zašto je <code>Option&lt;T&gt;</code> bolji od <code>null</code>?</h4>
+<h4 id="8-2-2"><span class="section-number-4">8.2.2.</span> Зашто је <code>Option&lt;T&gt;</code> бољи од <code>null</code>?</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let x: i8 = 5;
@@ -3226,7 +3233,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="orga863f3c">
+<pre class="example" id="org21adc08">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3243,12 +3250,12 @@ error: could not compile `enums` due to previous error
 
 </section>
 <section id="slide-8-2-3">
-<h4 id="8-2-3"><span class="section-number-4">8.2.3.</span> Kako obrađivati <code>Option&lt;T&gt;</code> podatke?</h4>
+<h4 id="8-2-3"><span class="section-number-4">8.2.3.</span> Како обрађивати <code>Option&lt;T&gt;</code> податке?</h4>
 <ul>
-<li>Moramo eksplicitno obraditi vrednost <code>Option&lt;T&gt;</code> i mogućnost da vrednost bude
+<li>Морамо експлицитно обрадити вредност <code>Option&lt;T&gt;</code> и могућност да вредност буде
 <code>None</code>.</li>
-<li><code>Option&lt;T&gt;</code> tip ima <a href="https://doc.rust-lang.org/stable/std/option/enum.Option.html">bogat API</a> koji je potrebno znati jer je ovaj tip vrlo često
-u upotrebi.</li>
+<li><code>Option&lt;T&gt;</code> тип има <a href="https://doc.rust-lang.org/stable/std/option/enum.Option.html">богат API</a> који је потребно знати јер је овај тип врло често
+у употреби.</li>
 
 </ul>
 
@@ -3265,31 +3272,31 @@ assert_eq!(x.or(y), Some(100));
 </div>
 
 <ul>
-<li>Često koristimo jezičke konstrukcije koje omogućavaju obradu obe varijante.</li>
+<li>Често користимо језичке конструкције које омогућавају обраду обе варијанте.</li>
 
 </ul>
 
 </section>
 <section id="slide-8-3">
-<h3 id="8-3"><span class="section-number-3">8.3.</span> <code>match</code> konstrukcija za kontrolu toka</h3>
+<h3 id="8-3"><span class="section-number-3">8.3.</span> <code>match</code> конструкција за контролу тока</h3>
 <div class="outline-text-3" id="text-8-3">
 </div>
 </section>
 <section id="slide-8-3-1">
-<h4 id="8-3-1"><span class="section-number-4">8.3.1.</span> <code>match</code> izraz</h4>
+<h4 id="8-3-1"><span class="section-number-4">8.3.1.</span> <code>match</code> израз</h4>
 <ul>
-<li>Moćan izraz kontrole toka baziran na podudaranju obrazaca (<i>Pattern Matching</i>).</li>
-<li>Obrazac može biti literal, naziv varijable, džoker (<i>wildcards</i>) itd.</li>
-<li><code>match</code> izraz će izvršiti podudaranje uz iscrpljivanje svih mogućnost. Ukoliko
-neka mogućnost nije obrađena kompajler će prijaviti grešku.</li>
+<li>Моћан израз контроле тока базиран на подударању образаца (<i>Pattern Matching</i>).</li>
+<li>Образац може бити литерал, назив варијабле, џокер (<i>wildcards</i>) итд.</li>
+<li><code>match</code> израз ће извршити подударање уз исцрпљивање свих могућност. Уколико
+нека могућност није обрађена компајлер ће пријавити грешку.</li>
 
 </ul>
 
 </section>
 <section id="slide-8-3-2">
-<h4 id="8-3-2"><span class="section-number-4">8.3.2.</span> <code>match</code> kao mašina za sortiranje novčića</h4>
+<h4 id="8-3-2"><span class="section-number-4">8.3.2.</span> <code>match</code> као машина за сортирање новчића</h4>
 <p>
-Za početak možemo <code>match</code> izraz posmatrati kao automat za sortiranje novčića.
+За почетак можемо <code>match</code> израз посматрати као аутомат за сортирање новчића.
 </p>
 
 <div class="org-src-container">
@@ -3313,13 +3320,13 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </div>
 
 <ul>
-<li><code>match</code> počinje sa izrazom proizvoljnog tipa.</li>
-<li>U telu se nalaze &ldquo;ruke&rdquo; (<i>arms</i>) gde svaka ruka ima levu stranu koja predstavlja
-obrazac za podudaranje i desnu stranu (posle <code>=&gt;</code>) koja predstavlja kod koji se
-evaluira u slučaju podudaranja. Ruke su razdvojene zarezima.</li>
-<li>Ruke se podudaraju u redosledu navođenja.</li>
-<li>Povratna vrednost celog <code>match</code> izraza biće vrednost evaluiranog koda ruke čije
-je podudaranje uspelo</li>
+<li><code>match</code> почиње са изразом произвољног типа.</li>
+<li>У телу се налазе "руке" (<i>arms</i>) где свака рука има леву страну која представља
+образац за подударање и десну страну (после <code>=&gt;</code>) која представља код који се
+евалуира у случају подударања. Руке су раздвојене зарезима.</li>
+<li>Руке се подударају у редоследу навођења.</li>
+<li>Повратна вредност целог <code>match</code> израза биће вредност евалуираног кода руке чије
+је подударање успело</li>
 
 </ul>
 
@@ -3327,7 +3334,7 @@ je podudaranje uspelo</li>
 <section>
 
 <p>
-Možemo na desnoj strani koristiti proizvoljan izraz pa i blok koda.
+Можемо на десној страни користити произвољан израз па и блок кода.
 </p>
 <div class="org-src-container">
 
@@ -3347,7 +3354,7 @@ Možemo na desnoj strani koristiti proizvoljan izraz pa i blok koda.
 
 </section>
 <section id="slide-8-3-3">
-<h4 id="8-3-3"><span class="section-number-4">8.3.3.</span> Povezivanje imena pri podudaranju (<i>binding</i>)</h4>
+<h4 id="8-3-3"><span class="section-number-4">8.3.3.</span> Повезивање имена при подударању (<i>binding</i>)</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >#[derive(Debug)]
@@ -3381,7 +3388,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 
 </section>
 <section id="slide-8-3-4">
-<h4 id="8-3-4"><span class="section-number-4">8.3.4.</span> <code>match</code> je iscrpan</h4>
+<h4 id="8-3-4"><span class="section-number-4">8.3.4.</span> <code>match</code> је исцрпан</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn value_in_cents(coin: Coin) -&gt; u8 {
@@ -3395,7 +3402,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="org3155e80">
+<pre class="example" id="orgf0a6003">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3419,7 +3426,7 @@ error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
 
 </section>
 <section id="slide-8-3-5">
-<h4 id="8-3-5"><span class="section-number-4">8.3.5.</span> Podudaranje sa <code>Option&lt;T&gt;</code> tipom</h4>
+<h4 id="8-3-5"><span class="section-number-4">8.3.5.</span> Подударање са <code>Option&lt;T&gt;</code> типом</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; {
@@ -3439,7 +3446,7 @@ let none = plus_one(None);
 <section>
 
 <p>
-Pošto je <code>match</code> iscrpan ne možemo zaboraviti da obradimo <code>None</code> slučaj.
+Пошто је <code>match</code> исцрпан не можемо заборавити да обрадимо <code>None</code> случај.
 </p>
 
 <div class="org-src-container">
@@ -3452,7 +3459,7 @@ Pošto je <code>match</code> iscrpan ne možemo zaboraviti da obradimo <code>Non
 </code></pre>
 </div>
 
-<pre class="example" id="org5daa7d9">
+<pre class="example" id="org6a7deca">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -3470,10 +3477,10 @@ error: could not compile `enums` due to previous error
 
 </section>
 <section id="slide-8-3-6">
-<h4 id="8-3-6"><span class="section-number-4">8.3.6.</span> Podrazumevana obrada preostalih slučajeva</h4>
+<h4 id="8-3-6"><span class="section-number-4">8.3.6.</span> Подразумевана обрада преосталих случајева</h4>
 <ul>
-<li>Želimo na specifičan način obradimo samo nekoliko slučajeva dok za sve ostale
-radimo podrazumevanu obradu.</li>
+<li>Желимо на специфичан начин обрадимо само неколико случајева док за све остале
+радимо подразумевану обраду.</li>
 
 </ul>
 
@@ -3493,8 +3500,8 @@ fn move_player(num_spaces: u8) {}
 </div>
 
 <ul>
-<li>Rust će nas upozoriti ako dodamo ruku posle one koja obrađuje sve slučajeve
-jer ta se ruka nikada neće upotrebiti.</li>
+<li>Раст ће нас упозорити ако додамо руку после оне која обрађује све случајеве
+јер та се рука никада неће употребити.</li>
 
 </ul>
 
@@ -3502,8 +3509,8 @@ jer ta se ruka nikada neće upotrebiti.</li>
 <section>
 
 <p>
-Ako želimo da obradimo sve slučajeve ali nas vrednost ne interesuje možemo
-koristiti <code>_</code>.
+Ако желимо да обрадимо све случајеве али нас вредност не интересује можемо
+користити <code>_</code>.
 </p>
 
 <div class="org-src-container">
@@ -3524,8 +3531,8 @@ fn reroll() {}
 <section id="slide-8-4">
 <h3 id="8-4"><span class="section-number-3">8.4.</span> <code>if let</code> kontrola toka</h3>
 <p>
-<code>if let</code> nam omogućava kombinaciju <code>if</code> i <code>let</code> iskaze u manje opširan iskaz za obradu
-samo jednog slučaja poklapanja i ignorisanje ostalih.
+<code>if let</code> нам омогућава комбинацију <code>if</code> и <code>let</code> исказе у мање опширан исказ за обраду
+само једног случаја поклапања и игнорисање осталих.
 </p>
 
 <div class="org-src-container">
@@ -3539,7 +3546,7 @@ match config_max {
 </div>
 
 <p>
-Ovo možemo konciznije iskazati sa:
+Ово можемо концизније исказати са:
 </p>
 
 <div class="org-src-container">
@@ -3552,30 +3559,30 @@ if let Some(max) = config_max {
 </div>
 
 <ul>
-<li>Gubimo iscrpnost <code>match</code> izraza.</li>
-<li>Sintaksni šećer u situacijama kada želimo da ignorišemo ostale mogućnosti.</li>
+<li>Губимо исцрпност <code>match</code> израза.</li>
+<li>Синтаксни шећер у ситуацијама када желимо да игноришемо остале могућности.</li>
 
 </ul>
 
 </section>
 <section>
 
-<div class="note" id="org69ea087">
+<div class="note" id="org30b5759">
 <p>
-Obrasci za podudaranje <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">mogu imati dve forme</a>: poništiv (<i>refutable</i>) i neponištiv
-(<i>irrefutable</i>). Obrazac koji uvek mora uspeti (npr. <code>let x = 5;</code>) je neponištiv.
-Obrazac koji ne mora da uspe uvek je poništiv (npr. <code>if let Some(x) = a_value</code>
-neće uspeti za <code>a_value==None</code>).
+Обрасци за подударање <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">могу имати две форме</a>: поништив (<i>refutable</i>) и непоништив
+(<i>irrefutable</i>). Образац који увек мора успети (нпр. <code>let x = 5;</code>) је непоништив.
+Образац који не мора да успе увек је поништив (нпр. <code>if let Some(x) = a_value</code>
+неће успети за <code>a_value==None</code>).
 </p>
 
 <p>
-Parametri funkcija, <code>let</code> iskazi i <code>for</code> petlje prihvataju samo neponištive obrasce
-jer program ne može uraditi ništa smisleno ukoliko podudaranje ne uspe.
+Параметри функција, <code>let</code> искази и <code>for</code> петље прихватају само непоништиве обрасце
+јер програм не може урадити ништа смислено уколико подударање не успе.
 </p>
 
 <p>
-<code>if let</code> i <code>while let</code> prihvataju i poništive i neponištive obrasce ali će nas
-kompajler upozoriti ukoliko koristimo neponištive.
+<code>if let</code> и <code>while let</code> прихватају и поништиве и непоништиве обрасце али ће нас
+компајлер упозорити уколико користимо непоништиве.
 </p>
 
 </div>
@@ -3583,7 +3590,7 @@ kompajler upozoriti ukoliko koristimo neponištive.
 </section>
 <section>
 <p>
-Možemo koristiti i <code>else</code> granu. Sledeće je ekvivalentno.
+Можемо користити и <code>else</code> грану. Следеће је еквивалентно.
 </p>
 
 <div class="org-src-container">
@@ -3611,47 +3618,47 @@ if let Coin::Quarter(state) = coin {
 </section>
 <section>
 <section id="slide-9">
-<h2 id="9"><span class="section-number-2">9.</span> Moduli</h2>
+<h2 id="9"><span class="section-number-2">9.</span> Модули</h2>
 </section>
 </section>
 <section>
 <section id="slide-10">
-<h2 id="10"><span class="section-number-2">10.</span> Kolekcije</h2>
+<h2 id="10"><span class="section-number-2">10.</span> Колекције</h2>
 </section>
 </section>
 <section>
 <section id="slide-11">
-<h2 id="11"><span class="section-number-2">11.</span> Obrada grešaka</h2>
+<h2 id="11"><span class="section-number-2">11.</span> Обрада грешака</h2>
 </section>
 </section>
 <section>
 <section id="slide-12">
-<h2 id="12"><span class="section-number-2">12.</span> Generički tipovi, osobine (<i>Traits</i>) i životni vek (<i>Lifetimes</i>)</h2>
+<h2 id="12"><span class="section-number-2">12.</span> Генерички типови, особине (<i>Traits</i>) и животни век (<i>Lifetimes</i>)</h2>
 <div class="outline-text-2" id="text-12">
 </div>
 </section>
 <section id="slide-12-1">
-<h3 id="12-1"><span class="section-number-3">12.1.</span> Generički tipovi (<i>generics</i>)</h3>
+<h3 id="12-1"><span class="section-number-3">12.1.</span> Генерички типови (<i>generics</i>)</h3>
 <div class="outline-text-3" id="text-12-1">
 </div>
 </section>
 <section id="slide-12-1-1">
-<h4 id="12-1-1"><span class="section-number-4">12.1.1.</span> Generički tipovi (<i>generics</i>)</h4>
+<h4 id="12-1-1"><span class="section-number-4">12.1.1.</span> Генерички типови (<i>generics</i>)</h4>
 <ul>
-<li>Mehanizam za eliminaciju dupliranja koda.</li>
-<li>Generički tipovi su apstraktne zamene za konkretne tipove u druge osobine u
-vreme izvršavanja.</li>
-<li>Omogućavaju nam da na apstraktan način iskažemo osobine tipova i njihove veze
-sa drugim tipovima bez znanja o tome koji će se konkretni tipovi naći na
-njihovom mestu u vreme kompajliranja i izvršavanja koda.</li>
-<li>Na primer funkcije mogu primiti generičke parametre. Takođe, složeni tipovi
-mogu biti parametrizovani generičkim tipovima (primer je <code>Option&lt;T&gt;</code>).</li>
+<li>Механизам за елиминацију дуплирања кода.</li>
+<li>Генерички типови су апстрактне замене за конкретне типове у друге особине у
+време извршавања.</li>
+<li>Омогућавају нам да на апстрактан начин искажемо особине типова и њихове везе
+са другим типовима без знања о томе који ће се конкретни типови наћи на
+њиховом месту у време компајлирања и извршавања кода.</li>
+<li>На пример функције могу примити генеричке параметре. Такође, сложени типови
+могу бити параметризовани генеричким типовима (пример је <code>Option&lt;T&gt;</code>).</li>
 
 </ul>
 
 </section>
 <section id="slide-12-1-2">
-<h4 id="12-1-2"><span class="section-number-4">12.1.2.</span> Uklanjanje duplog koda upotrebom funkcija</h4>
+<h4 id="12-1-2"><span class="section-number-4">12.1.2.</span> Уклањање дуплог кода употребом функција</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -3739,21 +3746,21 @@ fn main() {
 <section>
 
 <p>
-Postupak eliminacije duplog koda je podrazumevao sledeće:
+Поступак елиминације дуплог кода је подразумевао следеће:
 </p>
 
 <ol>
-<li>Identifikacija duplog koda.</li>
-<li>Ekstrakcija koda u funkciju, definisanje parametara i povratne vrednosti.</li>
-<li>Zamena instanci duplog koda sa pozivom funkcije.</li>
+<li>Идентификација дуплог кода.</li>
+<li>Екстракција кода у функцију, дефинисање параметара и повратне вредности.</li>
+<li>Замена инстанци дуплог кода са позивом функције.</li>
 
 </ol>
 
 </section>
 <section id="slide-12-1-3">
-<h4 id="12-1-3"><span class="section-number-4">12.1.3.</span> Uklanjanje duplog koda upotrebom generičkih funkcija</h4>
+<h4 id="12-1-3"><span class="section-number-4">12.1.3.</span> Уклањање дуплог кода употребом генеричких функција</h4>
 <p>
-Imamo funkciju za pronalaženje najvećeg elementa u listi sa različitim tipovima.
+Имамо функцију за проналажење највећег елемента у листи са различитим типовима.
 </p>
 <div class="org-src-container">
 
@@ -3766,7 +3773,6 @@ Imamo funkciju za pronalaženje najvećeg elementa u listi sa različitim tipovi
     }
     largest
 }
-
 fn largest_char(list: &amp;[char]) -&gt; char {
     let mut largest = list[0];
     for &amp;item in list {
@@ -3776,7 +3782,6 @@ fn largest_char(list: &amp;[char]) -&gt; char {
     }
     largest
 }
-
 fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
     let result = largest_i32(&amp;number_list);
@@ -3792,8 +3797,8 @@ fn main() {
 <section>
 
 <p>
-Funkcije su gotovo identične. Razlika je samo u tipu. Pišemo generičku funkciju
-tako što definišemo generički tip unutar <code>&lt;&gt;</code> posle naziva funkcije:
+Функције су готово идентичне. Разлика је само у типу. Пишемо генеричку функцију
+тако што дефинишемо генерички тип унутар <code>&lt;&gt;</code> после назива функције:
 </p>
 
 <div class="org-src-container">
@@ -3803,14 +3808,14 @@ tako što definišemo generički tip unutar <code>&lt;&gt;</code> posle naziva f
 </div>
 
 <p>
-<code>T</code> je generički tip i u vreme kompajliranja biće zamenjen sa konkretnim tipom.
+<code>T</code> је генерички тип и у време компајлирања биће замењен са конкретним типом.
 </p>
 
 </section>
 <section>
 
 <p>
-Sada je naš kod sledeći:
+Сада је наш код следећи:
 </p>
 
 <div class="org-src-container">
@@ -3845,7 +3850,7 @@ fn main() {
 <section>
 
 <p>
-Ali se ne kompajlira.
+Али се не компајлира.
 </p>
 
 <div class="org-src-container">
@@ -3871,17 +3876,17 @@ error: could not compile `chapter10` due to previous error
 </div>
 
 <p>
-Tip <code>T</code> može biti bilo koji tip pa i tip koji ne definiše operaciju <code>&gt;</code> koja se
-koristi u kodu. Dakle, moramo ograničiti koji tipovi su mogući.
+Тип <code>T</code> може бити било који тип па и тип који не дефинише операцију <code>&gt;</code> која се
+користи у коду. Дакле, морамо ограничити који типови су могући.
 </p>
 
 <p>
-Videćemo kako se ovo radi u nastavku u priči o osobinama (<i>Traits</i>).
+Видећемо како се ово ради у наставку у причи о особинама (<i>Traits</i>).
 </p>
 
 </section>
 <section id="slide-12-1-4">
-<h4 id="12-1-4"><span class="section-number-4">12.1.4.</span> Generički tipovi u strukturama</h4>
+<h4 id="12-1-4"><span class="section-number-4">12.1.4.</span> Генерички типови у структурама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >struct Point&lt;T&gt; {
@@ -3900,7 +3905,7 @@ fn main() {
 <section>
 
 <p>
-Tipovi oba polja moraju biti isti.
+Типови оба поља морају бити исти.
 </p>
 
 <div class="org-src-container">
@@ -3916,7 +3921,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="org408e27c">
+<pre class="example" id="org3d832ed">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -3933,7 +3938,7 @@ error: could not compile `chapter10` due to previous error
 <section>
 
 <p>
-Ako želimo da polja imaju različite tipove onda moramo imati različite generičke tipove.
+Ако желимо да поља имају различите типове онда морамо имати различите генеричке типове.
 </p>
 
 <div class="org-src-container">
@@ -3953,7 +3958,7 @@ fn main() {
 
 </section>
 <section id="slide-12-1-5">
-<h4 id="12-1-5"><span class="section-number-4">12.1.5.</span> Generički tipovi u enumeracijama</h4>
+<h4 id="12-1-5"><span class="section-number-4">12.1.5.</span> Генерички типови у енумерацијама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >enum Option&lt;T&gt; {
@@ -3977,7 +3982,7 @@ fn main() {
 
 </section>
 <section id="slide-12-1-6">
-<h4 id="12-1-6"><span class="section-number-4">12.1.6.</span> Definicije metoda</h4>
+<h4 id="12-1-6"><span class="section-number-4">12.1.6.</span> Дефиниције метода</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >struct Point&lt;T&gt; {
@@ -4000,8 +4005,8 @@ fn main() {
 </div>
 
 <p>
-Pošto smo naveli <code>&lt;T&gt;</code> iza ključne reči <code>impl</code> Rust dalje zna da je tip <code>T</code> generički
-a ne konkretni tip tako da je metoda <code>x</code> za <code>Point&lt;T&gt;</code> definisana nad svim tipovima
+Пошто смо навели <code>&lt;T&gt;</code> иза кључне речи <code>impl</code> Раст даље зна да је тип <code>T</code> генерички
+а не конкретни тип тако да је метода <code>x</code> за <code>Point&lt;T&gt;</code> дефинисана над свим типовима
 <code>T</code>.
 </p>
 
@@ -4009,7 +4014,7 @@ a ne konkretni tip tako da je metoda <code>x</code> za <code>Point&lt;T&gt;</cod
 <section>
 
 <p>
-Mogli smo npr. metodu definisati samo za određeni <code>Point</code> tip.
+Могли смо нпр. методу дефинисати само за одређени <code>Point</code> тип.
 </p>
 
 <div class="org-src-container">
@@ -4023,17 +4028,17 @@ Mogli smo npr. metodu definisati samo za određeni <code>Point</code> tip.
 </div>
 
 <p>
-Ovaj <code>impl</code> blok definiše metodu <code>distance_from_origin</code> ali samo za <code>Point&lt;f32&gt;</code> dok
-ostali <code>Point</code> tipovi neće imati ovu metodu.
+Овај <code>impl</code> блок дефинише методу <code>distance_from_origin</code> али само за <code>Point&lt;f32&gt;</code> док
+остали <code>Point</code> типови неће имати ову методу.
 </p>
 
 </section>
 <section id="slide-12-1-7">
-<h4 id="12-1-7"><span class="section-number-4">12.1.7.</span> Generički tipovi u metodama i <code>impl</code> blokovima</h4>
+<h4 id="12-1-7"><span class="section-number-4">12.1.7.</span> Генерички типови у методама и <code>impl</code> блоковима</h4>
 <p>
-Generički tipovi u strukturama i metodama ne moraju biti isti. Na primer, možemo
-kreirati metodu <code>mixup</code> koja uzima dve instance <code>Point</code> i vraća novi <code>Point</code> tip gde
-će prvo polje imati isti tip kao prva tačka a drugo polje kao druga tačka.
+Генерички типови у структурама и методама не морају бити исти. На пример, можемо
+креирати методу <code>mixup</code> која узима две инстанце <code>Point</code> и враћа нови <code>Point</code> тип где
+ће прво поље имати исти тип као прва тачка а друго поље као друга тачка.
 </p>
 
 <div class="org-src-container">
@@ -4062,22 +4067,22 @@ fn main() {
 </div>
 
 <ul>
-<li>Generički tipovi <code>X2</code> i <code>Y2</code> su navedeni samo u metodi jer su relevantni samo u
-njenom kontekstu.</li>
+<li>Генерички типови <code>X2</code> и <code>Y2</code> су наведени само у методи јер су релевантни само у
+њеном контексту.</li>
 
 </ul>
 
 </section>
 <section id="slide-12-1-8">
-<h4 id="12-1-8"><span class="section-number-4">12.1.8.</span> Performanse</h4>
+<h4 id="12-1-8"><span class="section-number-4">12.1.8.</span> Перформансе</h4>
 <p>
-Upotreba generičkog koda ne dovodi do degradacije performansi. Rust koristi
-tehniku monomorfizacije (<i>Monomorphization</i>) kod koje će kompajler instancirati
-konkretan kod za svaki tip posebno.
+Употреба генеричког кода не доводи до деградације перформанси. Раст користи
+технику мономорфизације (<i>Monomorphization</i>) код које ће компајлер инстанцирати
+конкретан код за сваки тип посебно.
 </p>
 
 <p>
-To bi značilo sledeće. Ako imamo kod:
+То би значило следеће. Ако имамо код:
 </p>
 
 <div class="org-src-container">
@@ -4088,7 +4093,7 @@ let float = Some(5.0)
 </div>
 
 <p>
-Kompajler će proizvesti kod ekvivalentan sledećem:
+Компајлер ће произвести код еквивалентан следећем:
 </p>
 <div class="org-src-container">
 
@@ -4110,27 +4115,27 @@ fn main() {
 </div>
 </section>
 <section id="slide-12-2">
-<h3 id="12-2"><span class="section-number-3">12.2.</span> Osobine (<i>Traits</i>) - definisanje zajedničkog ponašanja</h3>
+<h3 id="12-2"><span class="section-number-3">12.2.</span> Особине (<i>Traits</i>) - дефинисање заједничког понашања</h3>
 <div class="outline-text-3" id="text-12-2">
 </div>
 </section>
 <section id="slide-12-2-1">
 <h4 id="12-2-1"><span class="section-number-4">12.2.1.</span> <i>Traits</i></h4>
 <ul>
-<li><i>Trait</i> definiše funkcionalnost koju tip može deliti sa drugim tipovima.</li>
-<li>U drugim jezicima sličan koncept naziva se interfejs.</li>
-<li>Možemo koristiti <i>ograničenja kroz osobine</i> (<i>Trait bounds</i>) da definišemo da
-generički tip mora zadovoljiti određena ograničenja.</li>
+<li><i>Trait</i> дефинише функционалност коју тип може делити са другим типовима.</li>
+<li>У другим језицима сличан концепт назива се интерфејс.</li>
+<li>Можемо користити <i>ограничења кроз особине</i> (<i>Trait bounds</i>) да дефинишемо да
+генерички тип мора задовољити одређена ограничења.</li>
 
 </ul>
 
 </section>
 <section id="slide-12-2-2">
-<h4 id="12-2-2"><span class="section-number-4">12.2.2.</span> Definisanje osobina</h4>
+<h4 id="12-2-2"><span class="section-number-4">12.2.2.</span> Дефинисање особина</h4>
 <ul>
-<li>Primer definisanja media agregator biblioteke koja može da prikaze sažetak
-podataka koji se može čuvati u <code>NewsArticle</code> ili <code>Tweet</code> instanci.</li>
-<li>Definišemo <code>Summary</code> osobinu da opišemo ovu funkcionalnost.</li>
+<li>Пример дефинисања медиа агрегатор библиотеке која може да приказе сажетак
+података који се може чувати у <code>NewsArticle</code> или <code>Tweet</code> инстанци.</li>
+<li>Дефинишемо <code>Summary</code> особину да опишемо ову функционалност.</li>
 
 </ul>
 
@@ -4144,7 +4149,7 @@ podataka koji se može čuvati u <code>NewsArticle</code> ili <code>Tweet</code>
 
 </section>
 <section id="slide-12-2-3">
-<h4 id="12-2-3"><span class="section-number-4">12.2.3.</span> Implementacija osobina</h4>
+<h4 id="12-2-3"><span class="section-number-4">12.2.3.</span> Имплементација особина</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >pub struct NewsArticle {
@@ -4179,8 +4184,8 @@ impl Summary for Tweet {
 <section>
 
 <p>
-Metode osobina se pozivaju kao i obične metode. Jedina razlika je u tome što
-metode osobina moraju biti dostupne u opsegu (uključiti ih sa <code>use</code>).
+Методе особина се позивају као и обичне методе. Једина разлика је у томе што
+методе особина морају бити доступне у опсегу (укључити их са <code>use</code>).
 </p>
 
 <div class="org-src-container">
@@ -4205,27 +4210,27 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="org92a5776">
+<div class="note" id="orgf5f2985">
 <p>
-Ograničenje u upotrebi osobina je da možemo implementirati osobinu nad tipom
-jedino ako je bar jedno od njih lokalno za naš sanduk. Ovo pravilo je deo skupa
-pravila koji se nazivaju <i>coherence</i>. Konkretno ovo pravilo zove se <i>orphan rule</i> i
-sprečava nekompatibilne implementacije osobina nad tipovima od strane više
-sanduka.
+Ограничење у употреби особина је да можемо имплементирати особину над типом
+једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
+правила који се називају <i>coherence</i>. Конкретно ово правило зове се <i>orphan rule</i> и
+спречава некомпатибилне имплементације особина над типовима од стране више
+сандука.
 </p>
 
 <p>
-Bez ovog pravila moglo bi se desiti da dva različita sanduka implementiraju istu
-osobinu nad istim tipom na različite načine i kompajler ne bi znao koju verziju
-da koristi.
+Без овог правила могло би се десити да два различита сандука имплементирају исту
+особину над истим типом на различите начине и компајлер не би знао коју верзију
+да користи.
 </p>
 
 </div>
 </section>
 <section id="slide-12-2-4">
-<h4 id="12-2-4"><span class="section-number-4">12.2.4.</span> Podrazumevana implementacija</h4>
+<h4 id="12-2-4"><span class="section-number-4">12.2.4.</span> Подразумевана имплементација</h4>
 <p>
-Osobina može imati podrazumevanu implementaciju metoda.
+Особина може имати подразумевану имплементацију метода.
 </p>
 
 <div class="org-src-container">
@@ -4239,8 +4244,8 @@ Osobina može imati podrazumevanu implementaciju metoda.
 </div>
 
 <p>
-Da bi koristili podrazumevanu implementaciju možemo navesti prazno telo u <code>impl</code>
-bloku:
+Да би користили подразумевану имплементацију можемо навести празно тело у <code>impl</code>
+блоку:
 </p>
 
 <div class="org-src-container">
@@ -4253,7 +4258,7 @@ bloku:
 <section>
 
 <p>
-I zatim možemo pozvati <code>summarize</code> metodu:
+И затим можемо позвати <code>summarize</code> методу:
 </p>
 
 <div class="org-src-container">
@@ -4276,8 +4281,8 @@ I zatim možemo pozvati <code>summarize</code> metodu:
 <section>
 
 <ul>
-<li>Podrazumevana implementacija može biti redefinisana prilikom implementacije.</li>
-<li>Takođe, podrazumevane metode mogu pozivati druge metode.</li>
+<li>Подразумевана имплементација може бити редефинисана приликом имплементације.</li>
+<li>Такође, подразумеване методе могу позивати друге методе.</li>
 
 </ul>
 
@@ -4294,8 +4299,8 @@ I zatim možemo pozvati <code>summarize</code> metodu:
 </div>
 
 <p>
-Sada je potrebno i dovoljno da prilikom implementacije definišemo
-<code>summarize_author</code> metodu:
+Сада је потребно и довољно да приликом имплементације дефинишемо
+<code>summarize_author</code> методу:
 </p>
 
 <div class="org-src-container">
@@ -4311,8 +4316,8 @@ Sada je potrebno i dovoljno da prilikom implementacije definišemo
 <section id="slide-12-2-5">
 <h4 id="12-2-5"><span class="section-number-4">12.2.5.</span> Osobine kao parametri</h4>
 <ul>
-<li>Sada možemo koristiti osobine da definišemo funkcije koje rade nad parametrima
-različitog tipa.</li>
+<li>Сада можемо користити особине да дефинишемо функције које раде над параметрима
+различитог типа.</li>
 
 </ul>
 
@@ -4325,15 +4330,15 @@ različitog tipa.</li>
 </div>
 
 <p>
-Sada funkcija <code>notify</code> radi nad svim tipovima koji implementiraju <code>Summary</code>
+Сада функција <code>notify</code> ради над свим типовима који имплементирају <code>Summary</code>
 </p>
 
 </section>
 <section>
 
 <p>
-Prethodna upotreba <code>impl</code> kod parametra je sintaksni šećer za opšti oblik
-navođenja ograničenja kroz osobine.
+Претходна употреба <code>impl</code> код параметра је синтаксни шећер за општи облик
+навођења ограничења кроз особине.
 </p>
 
 <div class="org-src-container">
@@ -4345,21 +4350,21 @@ navođenja ograničenja kroz osobine.
 </div>
 
 <p>
-Ograničenja kroz osobine (<i>Trait bounds</i>) stavljamo posle dvotačke kod navođenja
-generičkog tipa. Kompajler će verifikovati da sve što koristimo nad vrednostima
-ovog tipa unutar funkcije je zaista definisano osobinama navedenim u zaglavlju.
+Ограничења кроз особине (<i>Trait bounds</i>) стављамо после двотачке код навођења
+генеричког типа. Компајлер ће верификовати да све што користимо над вредностима
+овог типа унутар функције је заиста дефинисано особинама наведеним у заглављу.
 </p>
 
 </section>
 <section>
 
 <p>
-<code>impl Trait</code> sintakse je konciznija kod jednostavnih primera ali je puna sintaksa
-bolja kod složenijih primera.
+<code>impl Trait</code> синтаксе је концизнија код једноставних примера али је пуна синтакса
+боља код сложенијих примера.
 </p>
 
 <p>
-Na primer:
+На пример:
 </p>
 
 <div class="org-src-container">
@@ -4369,7 +4374,7 @@ Na primer:
 </div>
 
 <p>
-bi u punoj sintaksi bilo:
+би у пуној синтакси било:
 </p>
 
 <div class="org-src-container">
@@ -4380,10 +4385,10 @@ bi u punoj sintaksi bilo:
 
 </section>
 <section id="slide-12-2-6">
-<h4 id="12-2-6"><span class="section-number-4">12.2.6.</span> Višestruke osobine kod ograničenja</h4>
+<h4 id="12-2-6"><span class="section-number-4">12.2.6.</span> Вишеструке особине код ограничења</h4>
 <p>
-Možemo definisati i više ograničenja upotrebom <code>+</code> sintakse. Na primer, ako
-parametar mora da implementira <code>Summary</code> i <code>Display</code>:
+Можемо дефинисати и више ограничења употребом <code>+</code> синтаксе. На пример, ако
+параметар мора да имплементира <code>Summary</code> и <code>Display</code>:
 </p>
 <div class="org-src-container">
 
@@ -4392,7 +4397,7 @@ parametar mora da implementira <code>Summary</code> i <code>Display</code>:
 </div>
 
 <p>
-ili u punoj sintaksi:
+или у пуној синтакси:
 </p>
 
 <div class="org-src-container">
@@ -4403,9 +4408,9 @@ ili u punoj sintaksi:
 
 </section>
 <section id="slide-12-2-7">
-<h4 id="12-2-7"><span class="section-number-4">12.2.7.</span> <code>where</code> klauzula u ograničenjima</h4>
+<h4 id="12-2-7"><span class="section-number-4">12.2.7.</span> <code>where</code> клаузула у ограничењима</h4>
 <ul>
-<li>Ukoliko imamo više ograničenja osnovna sintaksa može da smanji čitkost.</li>
+<li>Уколико имамо више ограничења основна синтакса може да смањи читкост.</li>
 
 </ul>
 
@@ -4416,8 +4421,8 @@ ili u punoj sintaksi:
 </div>
 
 <ul>
-<li><code>where</code> klauzula izmešta definisanje ograničenja posle zaglavlja funkcije čime
-se postiže bolja čitkost:</li>
+<li><code>where</code> клаузула измешта дефинисање ограничења после заглавља функције чиме
+се постиже боља читкост:</li>
 
 </ul>
 
@@ -4432,7 +4437,7 @@ se postiže bolja čitkost:</li>
 
 </section>
 <section id="slide-12-2-8">
-<h4 id="12-2-8"><span class="section-number-4">12.2.8.</span> <code>impl Trait</code> kao povratna vrednost funkcije</h4>
+<h4 id="12-2-8"><span class="section-number-4">12.2.8.</span> <code>impl Trait</code> као повратна вредност функције</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn returns_summarizable() -&gt; impl Summary {
@@ -4449,31 +4454,31 @@ se postiže bolja čitkost:</li>
 </div>
 
 <p>
-Posebno značajno u kontekstu zatvorenja (<i>closures</i>) i iteratora gde je konkretan
-tip previše složen za pisanje ili je poznat samo kompajleru.
+Посебно значајно у контексту затворења (<i>closures</i>) и итератора где је конкретан
+тип превише сложен за писање или је познат само компајлеру.
 </p>
 
-<div class="note" id="org931f901">
+<div class="note" id="orgaaf34f5">
 <p>
-<code>impl Trait</code> sintaksa za povratne vrednosti je moguća samo ako funkcija vraća
-jedan tip koji implementira datu osobinu. Na primer, ova funkcija neće raditi
-ako funkcija može vratiti <code>NewsArticle</code> ili <code>Tweet</code>.
+<code>impl Trait</code> синтакса за повратне вредности је могућа само ако функција враћа
+један тип који имплементира дату особину. На пример, ова функција неће радити
+ако функција може вратити <code>NewsArticle</code> или <code>Tweet</code>.
 </p>
 
 </div>
 
 </section>
 <section id="slide-12-2-9">
-<h4 id="12-2-9"><span class="section-number-4">12.2.9.</span> Popravka <code>largest</code> generičke funkcije</h4>
+<h4 id="12-2-9"><span class="section-number-4">12.2.9.</span> Поправка <code>largest</code> генеричке функције</h4>
 <p>
-Na prethodnim sladovima imali smo funkciju <code>largest</code>. Sada možemo da završimo
-njenu definiciju.
+На претходним сладовима имали смо функцију <code>largest</code>. Сада можемо да завршимо
+њену дефиницију.
 </p>
 
 <p>
-Greška je bila sledeća:
+Грешка је била следећа:
 </p>
-<pre class="example" id="orga1ded95">
+<pre class="example" id="orgfd8c0a7">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -4497,9 +4502,9 @@ error: could not compile `chapter10` due to previous error
 <section>
 
 <p>
-Dakle, moramo ograničiti tipove na one koji podržavaju poređnje. Ova osobina se
-u standardnoj biblioteci zove <code>std::cmp::PartialOrd</code>, pa ćemo prepraviti zaglavlje
-funkcije na sledeći način:
+Дакле, морамо ограничити типове на оне који подржавају поређње. Ова особина се
+у стандардној библиотеци зове <code>std::cmp::PartialOrd</code>, па ћемо преправити заглавље
+функције на следећи начин:
 </p>
 
 <div class="org-src-container">
@@ -4512,9 +4517,9 @@ funkcije na sledeći način:
 <section>
 
 <p>
-Međutim, sada imamo još jednu grešku:
+Међутим, сада имамо још једну грешку:
 </p>
-<pre class="example" id="orgbc4efc4">
+<pre class="example" id="org1882b2c">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -4546,8 +4551,8 @@ error: could not compile `chapter10` due to 2 previous errors
 <section>
 
 <p>
-Uvodimo dodatno ograničenje da generički tip mora biti i <code>Copy</code>. Tako da je puno
-rešenje sledeće:
+Уводимо додатно ограничење да генерички тип мора бити и <code>Copy</code>. Тако да је пуно
+решење следеће:
 </p>
 
 <div class="org-src-container">
@@ -4580,10 +4585,10 @@ fn main() {
 
 </section>
 <section id="slide-12-2-10">
-<h4 id="12-2-10"><span class="section-number-4">12.2.10.</span> Upotreba osobina ograničenja za uslovnu implementaciju metoda</h4>
+<h4 id="12-2-10"><span class="section-number-4">12.2.10.</span> Употреба особина ограничења за условну имплементацију метода</h4>
 <p>
-Ako želimo da implementiramo metodu samo nad tipovima koji implementiraju
-određene osobine.
+Ако желимо да имплементирамо методу само над типовима који имплементирају
+одређене особине.
 </p>
 <div class="org-src-container">
 
@@ -4614,23 +4619,23 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 
 </section>
 <section id="slide-12-3">
-<h3 id="12-3"><span class="section-number-3">12.3.</span> Validacija referenci kroz životni vek (<i>Lifetimes</i>)</h3>
+<h3 id="12-3"><span class="section-number-3">12.3.</span> Валидација референци кроз животни век (<i>Lifetimes</i>)</h3>
 <div class="outline-text-3" id="text-12-3">
 </div>
 </section>
 <section id="slide-12-3-1">
-<h4 id="12-3-1"><span class="section-number-4">12.3.1.</span> Životni vek (<i>Lifetime</i>)</h4>
+<h4 id="12-3-1"><span class="section-number-4">12.3.1.</span> Животни век (<i>Lifetime</i>)</h4>
 <ul>
-<li>Svaka referenca ima životni vek, opseg u kome je referenca validna.</li>
-<li>U dosta situacija kompajler automatski može da zaključi koji je životni vek
-reference. Kada to nije u stanju moramo da uradimo ručnu anotaciju.</li>
-<li>Anotacijama životnog veka dovodimo u vezu životni vek različitih referenci.</li>
+<li>Свака референца има животни век, опсег у коме је референца валидна.</li>
+<li>У доста ситуација компајлер аутоматски може да закључи који је животни век
+референце. Када то није у стању морамо да урадимо ручну анотацију.</li>
+<li>Анотацијама животног века доводимо у везу животни век различитих референци.</li>
 
 </ul>
 
 </section>
 <section id="slide-12-3-2">
-<h4 id="12-3-2"><span class="section-number-4">12.3.2.</span> Sprečavanje &ldquo;visećih&rdquo; referenci</h4>
+<h4 id="12-3-2"><span class="section-number-4">12.3.2.</span> Спречавање "висећих" референци</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >{
@@ -4647,7 +4652,7 @@ reference. Kada to nije u stanju moramo da uradimo ručnu anotaciju.</li>
 </code></pre>
 </div>
 
-<pre class="example" id="orgee7b906">
+<pre class="example" id="org25b12ff">
  cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0597]: `x` does not live long enough
@@ -4669,8 +4674,8 @@ error: could not compile `chapter10` due to previous error
 <section id="slide-12-3-3">
 <h4 id="12-3-3"><span class="section-number-4">12.3.3.</span> <i>Borrow Checker</i></h4>
 <ul>
-<li>Rust kompajler ima komponentu <i>borrow checker</i> koja proverava da li su sve
-pozajmice validne.</li>
+<li>Раст компајлер има компоненту <i>borrow checker</i> која проверава да ли су све
+позајмице валидне.</li>
 
 </ul>
 
@@ -4690,9 +4695,9 @@ pozajmice validne.</li>
 </div>
 
 <ul>
-<li>Program je odbačen jer <code>r</code> referencira vrednost čiji životni vek (<code>'b</code>) je kraći
-od životnog veka varijable <code>r</code> (<code>'a</code>). Ukoliko bi se ovo dozvolilo, <code>r</code> bi u jednom
-delu referencirala nevalidnu vrednost.</li>
+<li>Програм је одбачен јер <code>r</code> референцира вредност чији животни век (<code>'b</code>) је краћи
+од животног века варијабле <code>r</code> (<code>'a</code>). Уколико би се ово дозволило, <code>r</code> би у једном
+делу референцирала невалидну вредност.</li>
 
 </ul>
 
@@ -4700,16 +4705,16 @@ delu referencirala nevalidnu vrednost.</li>
 <section>
 
 <p>
-Varijable imaju životni vek koji je jednak sinstaksnom opsegu u kome je
-varijabla definisana. Životni vek imaju i reference koje pozajmljuju vrednost i
-smeštaju se u varijable (npr. <code>r=&amp;x</code> iz prethodnog primera).
+Варијабле имају животни век који је једнак синстаксном опсегу у коме је
+варијабла дефинисана. Животни век имају и референце које позајмљују вредност и
+смештају се у варијабле (нпр. <code>r=&amp;x</code> из претходног примера).
 </p>
 
-<div class="note" id="org6ac9de1">
+<div class="note" id="org1f66fcb">
 <p>
-Jedno od pravila je da referenca na varijablu (tj. vrednost) ne može da živi
-duže od same varijable. Odnosno <i>životni vek varijable mora da sadrži životni
-vek reference pozajmljene od te varijable</i>.
+Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
+дуже од саме варијабле. Односно <i>животни век варијабле мора да садржи животни
+век референце позајмљене од те варијабле</i>.
 </p>
 
 </div>
@@ -4720,8 +4725,8 @@ vek reference pozajmljene od te varijable</i>.
     let r;
     {
         let x = 5;
-        r = &amp;x;           // -+- &amp;x ne može da živi duže od
-    }                     // -+  ovog životnog veka
+        r = &amp;x;           // -+- &amp;x не може да живи дуже од
+    }                     // -+  овог животног века
     println!("r: {}", r);
 }
 </code></pre>
@@ -4731,14 +4736,14 @@ vek reference pozajmljene od te varijable</i>.
 <section>
 
 <p>
-Ako smestimo referencu u varijablu, referenca mora biti ispravna za ceo životni
-vek varijable u koju je smeštena.
+Ако сместимо референцу у варијаблу, референца мора бити исправна за цео животни
+век варијабле у коју је смештена.
 </p>
 
-<div class="note" id="org51e8cac">
+<div class="note" id="orgbd5d587">
 <p>
-Kažemo da <i>životni vek reference mora da sadrži životni vek varijable u koju je
-smeštena</i>.
+Кажемо да <i>животни век референце мора да садржи животни век варијабле у коју је
+смештена</i>.
 </p>
 
 </div>
@@ -4749,43 +4754,43 @@ smeštena</i>.
     let r;
     {
         let x = 5;
-        r = &amp;x;           // -+- životni vek bilo čega što
-    }                     //  |  se smesti u r mora da živi
-    println!("r: {}", r); // -+  bar ovoliko
+        r = &amp;x;           // -+- животни век било чега што
+    }                     //  |  се смести у r мора да живи
+    println!("r: {}", r); // -+  бар оволико
 }
 </code></pre>
 </div>
 
 <p>
-Vidimo da ovo pravilo nije zadovoljeno. <code>&amp;x</code> ne živi dovoljno dugo jer <code>x</code> ne živi
-dovoljno dugo.
+Видимо да ово правило није задовољено. <code>&amp;x</code> не живи довољно дуго јер <code>x</code> не живи
+довољно дуго.
 </p>
 
 </section>
 <section>
 
 <p>
-Ako prethodna dva pravila objedinimo možemo reći da:
+Ако претходна два правила објединимо можемо рећи да:
 </p>
 
-<div class="note" id="org884064a">
+<div class="note" id="orgf67cb51">
 <p>
-<i>Životni vek varijable mora da sadrži životni vek svih varijabli koje pozajmljuju
-vrednost od posmatrane varijable</i>.
+<i>Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
+вредност од посматране варијабле</i>.
 </p>
 
 </div>
 
 <p>
-Odnosno, varijabla može otići iz opsega tek kada ne postoji više ni jedna
-varijabla koja čuva pozajmljenu vrednost.
+Односно, варијабла може отићи из опсега тек када не постоји више ни једна
+варијабла која чува позајмљену вредност.
 </p>
 
 </section>
 <section>
 
 <p>
-Sledeći kod je prihvaćen. Referenca <code>r</code> ne živi duže od podatka koji referencira
+Следећи код је прихваћен. Референца <code>r</code> не живи дуже од податка који референцира
 (<code>x</code>).
 </p>
 
@@ -4804,10 +4809,10 @@ Sledeći kod je prihvaćen. Referenca <code>r</code> ne živi duže od podatka k
 
 </section>
 <section id="slide-12-3-4">
-<h4 id="12-3-4"><span class="section-number-4">12.3.4.</span> Generički životni vekovi u funkcijama</h4>
+<h4 id="12-3-4"><span class="section-number-4">12.3.4.</span> Генерички животни векови у функцијама</h4>
 <ul>
-<li>Kreiramo funkciju <code>longest</code> koja vraća duži od dva prosleđena stringa.
-Prosleđujemo referencu na string isečak <code>&amp;str</code>.</li>
+<li>Креирамо функцију <code>longest</code> која враћа дужи од два прослеђена стринга.
+Прослеђујемо референцу на стринг исечак <code>&amp;str</code>.</li>
 
 </ul>
 
@@ -4827,7 +4832,7 @@ Prosleđujemo referencu na string isečak <code>&amp;str</code>.</li>
 <section>
 
 <p>
-Ovaj program nije prihvaćen.
+Овај програм није прихваћен.
 </p>
 <div class="org-src-container">
 
@@ -4841,7 +4846,7 @@ Ovaj program nije prihvaćen.
 </code></pre>
 </div>
 
-<pre class="example" id="orgfd2eb05">
+<pre class="example" id="org0541ba3">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0106]: missing lifetime specifier
@@ -4865,54 +4870,54 @@ error: could not compile `chapter10` due to previous error
 <section>
 
 <ul>
-<li>Zašto program nije prihvaćen?</li>
-<li><i>Borrow checker</i> nije u stanju da odredi u kojoj relaciji su reference <code>x</code> i <code>y</code> sa
-povratnom vrednošću koja je takođe referenca.</li>
-<li>Tj. povratna vrednost mora biti pozajmljena od nekud, ali kompajler ne može da
-odredi da li je pozamljena od <code>x</code> ili <code>y</code> ili od neke globalne vrednosti.</li>
-<li>Ova informacija je potrebna da bi se obavila kalkulacija i provera životnog veka.</li>
+<li>Зашто програм није прихваћен?</li>
+<li><i>Borrow checker</i> није у стању да одреди у којој релацији су референце <code>x</code> и <code>y</code> са
+повратном вредношћу која је такође референца.</li>
+<li>Тј. повратна вредност мора бити позајмљена од некуд, али компајлер не може да
+одреди да ли је позамљена од <code>x</code> или <code>y</code> или од неке глобалне вредности.</li>
+<li>Ова информација је потребна да би се обавила калкулација и провера животног века.</li>
 
 </ul>
 
 </section>
 <section id="slide-12-3-5">
-<h4 id="12-3-5"><span class="section-number-4">12.3.5.</span> Sintaksa za anotaciju životnog veka</h4>
+<h4 id="12-3-5"><span class="section-number-4">12.3.5.</span> Синтакса за анотацију животног века</h4>
 <ul>
-<li>Da bi pomogli kompajleru reference označavamo sa životnim vekom i time
-dovodimo u vezu različite reference (npr. parametre i povratne vrednosti
-funkcije).</li>
-<li>Anotacija je oblika <code>'a</code>. Iza apostrofa se piše ime anotacije koje je najčešće
-jedno malo slovo sa početka alfabeta (<code>'a, 'b,...</code>).</li>
-<li><b>Važno:</b> anotacije životnog veka ne menjaju životni vek reference već samo
-pomažu kompajleru u proveri.</li>
+<li>Да би помогли компајлеру референце означавамо са животним веком и тиме
+доводимо у везу различите референце (нпр. параметре и повратне вредности
+функције).</li>
+<li>Анотација је облика <code>'a</code>. Иза апострофа се пише име анотације које је најчешће
+једно мало слово са почетка алфабета (<code>'a, 'b,...</code>).</li>
+<li><b>Важно:</b> анотације животног века не мењају животни век референце већ само
+помажу компајлеру у провери.</li>
 
 </ul>
 
 <div class="org-src-container">
 
-<pre><code class="rust" >&amp;i32        // referenca
-&amp;'a i32     // referenca sa eksplicitnim životnim vekom
-&amp;'a mut i32 // promenjiva referenca sa eksplicitnim životnim vekom
+<pre><code class="rust" >&amp;i32        // референца
+&amp;'a i32     // референца са експлицитним животним веком
+&amp;'a mut i32 // промењива референца са експлицитним животним веком
 </code></pre>
 </div>
 
 <ul>
-<li>Jedna anotacija nema puno smisla. Funkciju imaju tek kada anotiramo više
-referenci jer se dovode u vezu ako imaju isto ime.</li>
-<li>Uvedimo funkciju <code>lt</code> koja vraća životni vek varijable/vrednosti i relaciju
-između životnih vekova <code>'a≥'b</code> odnosno <code>'b≤'a</code> koja znači da <code>'a</code> obuhvata <code>'b</code>
-odnosno <code>'b</code> je sadržano u <code>'a</code>.</li>
+<li>Једна анотација нема пуно смисла. Функцију имају тек када анотирамо више
+референци јер се доводе у везу ако имају исто име.</li>
+<li>Уведимо функцију <code>lt</code> која враћа животни век варијабле/вредности и релацију
+између животних векова <code>'a≥'b</code> односно <code>'b≤'a</code> која значи да <code>'a</code> обухвата <code>'b</code>
+односно <code>'b</code> је садржано у <code>'a</code>.</li>
 
 </ul>
 
 </section>
 <section id="slide-12-3-6">
-<h4 id="12-3-6"><span class="section-number-4">12.3.6.</span> Anotacija životnog veka u signaturama funkcija</h4>
+<h4 id="12-3-6"><span class="section-number-4">12.3.6.</span> Анотација животног века у сигнатурама функција</h4>
 <ul>
-<li>Sledeća anotacija za funkciju <code>longest</code> je ispravna jer referenca koja se vraća
-može biti <code>x</code> ili <code>y</code> u zavisnosti od dužine stringa. Stoga je potrebno da imamo
-strožiji uslov da je životni vek povratne vrednosti u vezi sa životnim vekom
-oba parametra.</li>
+<li>Следећа анотација за функцију <code>longest</code> је исправна јер референца која се враћа
+може бити <code>x</code> или <code>y</code> у зависности од дужине стринга. Стога је потребно да имамо
+строжији услов да је животни век повратне вредности у вези са животним веком
+оба параметра.</li>
 
 </ul>
 
@@ -4929,11 +4934,11 @@ oba parametra.</li>
 </div>
 
 <ul>
-<li>Ovim kažemo kompajleru da za neki generički životni vek <code>'a</code>, funkcija prima dve
-reference čiji životni vek vrednosti obuhvata <code>'a</code> i vraća referencu koja mora
-biti validna bar koliko i životni vek <code>'a</code> tj. životni vek povratne reference
-mora da obuvati <code>'a</code>. Ukoliko takav životni vek postoji kod se prihvata.</li>
-<li>Signatura dovodi u vezu obe ulazne reference sa izlaznom.</li>
+<li>Овим кажемо компајлеру да за неки генерички животни век <code>'a</code>, функција прима две
+референце чији животни век вредности обухвата <code>'a</code> и враћа референцу која мора
+бити валидна бар колико и животни век <code>'a</code> тј. животни век повратне референце
+мора да обувати <code>'a</code>. Уколико такав животни век постоји код се прихвата.</li>
+<li>Сигнатура доводи у везу обе улазне референце са излазном.</li>
 
 </ul>
 
@@ -4941,7 +4946,7 @@ mora da obuvati <code>'a</code>. Ukoliko takav životni vek postoji kod se prihv
 <section>
 
 <p>
-Posmatrajmo kod koji poziva funkciju <code>longest</code>:
+Посматрајмо код који позива функцију <code>longest</code>:
 </p>
 
 <div class="org-src-container">
@@ -4958,26 +4963,26 @@ Posmatrajmo kod koji poziva funkciju <code>longest</code>:
 </div>
 
 <p>
-Za kod mora da postoji <code>'a</code> tako da važi:
+За код мора да постоји <code>'a</code> тако да важи:
 </p>
 
-<pre class="example" id="org0f402fa">
-lt(string1) ≥ 'a     # životni vek vrednosti prvog parametara sadrži 'a
-lt(string2) ≥ 'a     # životni vek vrednosti drugog parametara sadrži 'a
-'a ≥ lt(result)       # 'a mora da sadrži životni veku result varijable
+<pre class="example" id="org3e72efb">
+lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
+lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
+'a ≥ lt(result)       # 'a мора да садржи животни веку ресулт варијабле
 </pre>
 
 <p>
-Što ne može biti ispunjeno istovremeno, tj. ne postoji <code>'a</code> koje ispunjava ova
-ograničenja.
+Што не може бити испуњено истовремено, тј. не постоји <code>'a</code> које испуњава ова
+ограничења.
 </p>
 
 </section>
 <section>
 
 <p>
-Drugi način razmišljanja je da povratna vrednost funkcije pozajmljuje od
-vrednosti ulaznih parametara označenih istim imenom životnog veka.
+Други начин размишљања је да повратна вредност функције позајмљује од
+вредности улазних параметара означених истим именом животног века.
 </p>
 
 <div class="org-src-container">
@@ -4994,24 +4999,25 @@ vrednosti ulaznih parametara označenih istim imenom životnog veka.
 </div>
 
 <p>
-Što znači da <code>result</code> pozajmljuje od <code>string1</code> i <code>string2</code> i ta pozajmica traje sve
-vreme života varijable <code>result</code> što ne može biti validno jer varijabla živi duže
-od vrednosti <code>string2</code>.
+Што значи да <code>result</code> позајмљује од <code>string1</code> и <code>string2</code> и та позајмица траје све
+време живота варијабле <code>result</code> што не може бити валидно јер варијабла живи дуже
+од вредности <code>string2</code>.
 </p>
 
 <p>
-Iako, možemo videti da će, zbog dužine stringa, vraćena vrednost biti <code>string1</code> i
-program je validan, kompajler ovo ne može da zaključi.
+Иако, можемо видети да ће, због дужине стринга, враћена вредност бити <code>string1</code> и
+програм је валидан, компајлер ово не може да закључи.
 </p>
 
 </section>
 </section>
 <section>
 <section id="slide-13">
-<h2 id="13"><span class="section-number-2">13.</span> Literatura</h2>
+<h2 id="13"><span class="section-number-2">13.</span> Литература</h2>
 <ul>
 <li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
 <li>Slice is NOT reference, <a href="https://github.com/rust-lang/book/issues/3070">https://github.com/rust-lang/book/issues/3070</a></li>
+<li>Google: Comprehensive Rust, <a href="https://google.github.io/comprehensive-rust/">https://google.github.io/comprehensive-rust/</a></li>
 <li><a href="https://rust-lang.github.io/rfcs/0505-api-comment-conventions.html">RFC 505: API documentation conventions</a></li>
 
 </ul>
@@ -5019,7 +5025,7 @@ program je validan, kompajler ovo ne može da zaključi.
 </section>
 </div>
 </div>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -5048,10 +5054,10 @@ transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 ,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>

@@ -1,37 +1,39 @@
-#+TITLE: Programski jezik Rust
-#+SUBTITLE: Bazirano na verziji 1.58.1. U izradi.
+# -*- ispell-dictionary: "sr"; -*-
+#+TITLE: Програмски језик Раст
+#+SUBTITLE: Базирано на верзији 1.65.0. У изради.
 #+EXPORT_FILE_NAME: index.html
 #+EXPORT_REVEAL_HLEVEL: 10
-#+SETUPFILE: ../../courses-startup.org
+#+SETUPFILE: ../../courses-startup-cyr.org
 
-* Uvod
-- Jezik opšte namene, kompajliran i statički tipiziran sa inferencom tipova
-- Sistemsko programiranje ali sa osobinama višeg nivoa apstrakcije kao što su
-  funkcionalno programiranje
+* Увод
+- Језик опште намене, компајлиран и статички типизиран са инференцом типова
+- Системско програмирање али са особинама вишег нивоа апстракције као што су
+  функционално програмирање
 - 2010, Graydon Hoare, Mozilla Research
-- Performanse i sigurnost
-- Ne koristi /garbage collector/ ali obezbeđuje memorijsku sigurnost kroz /borrow
+- Перформансе и сигурност
+- Не користи /garbage collector/ али обезбеђује меморијску сигурност кроз /borrow
   checker/
-- Sintaksno sličan C++. Uticaj i OCaml-a, Haskell-a i Erlang-a.
-- Koristi se u velikim firmama: Amazon, Facebook, Google, Microsoft...
-- Od 2016 godine na SO upitniku konstantno prvi u kategoriji /"most loved
-  programming languages"/
-* Instalacija i podešavanje
-** Instalacija
-- Rust stiže sa alatom za upravljanje lanca alata =rustup=
+- Синтаксно сличан C++. Утицај и OCaml-а, Haskell-а и Erlang-а.
+- Користи се у великим фирмама: Amazon, Facebook, Google, Microsoft...
+- Више година за редом на SO упитнику први у категорији /"most loved programming
+  languages"/
+
+* Инсталација и подешавање
+** Инсталација
+- Раст стиже са алатом за управљање ланцем алата (енг. /toolchain/) -- =rustup=
 
 #+begin_src sh
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 #+end_src
 
-- Provera instalacije
+- Провера инсталације:
 
 #+begin_src sh
 ~> rustc --version
-rustc 1.58.1 (db9d1b20b 2022-01-20)
+rustc 1.65.0 (897e37553 2022-11-02)
 #+end_src
 
-** Pregled instalacije
+** Преглед инсталације
 #+begin_src sh
 ~> rustup show
 Default host: x86_64-unknown-linux-gnu
@@ -50,25 +52,23 @@ stable-x86_64-unknown-linux-gnu (default)
 rustc 1.58.1 (db9d1b20b 2022-01-20)
 #+end_src
 
-** Ažuriranje
-Za ažuriranje instalacije na najnoviju verziju
+** Ажурирање
+За ажурирање инсталације на најновију верзију:
 
 #+begin_src sh
 rustup update
 #+end_src
 
-** Dokumentacija
-
-Rust stiže sa veoma dobrom dokumentacijom i knjigama koje su dostupne direktno
-iz instalacije.
+** Документација
+Раст стиже са веома добром документацијом и књигама које су доступне директно из
+инсталације:
 
 #+begin_src sh
 rustup doc
 #+end_src
 
-* Početak
+* Почетак
 ** Hello, World!
-
 #+begin_src sh
 $ mkdir hello_world
 $ cd hello_world
@@ -81,30 +81,30 @@ fn main() {
 }
 #+end_src
 
-** Kompajliranje i pokretanje
-
+** Компајлирање и покретање
 #+begin_src sh
 $ rustc main.rs
 $ ./main
 Hello, world!
 #+end_src
+
 ** Hello, Cargo!
-- Alat za razrešavanje zavisnosti i upravljanje projektom.
+- Алат за разрешавање зависности и управљање пројектом.
 
 #+begin_src sh
 ~> cargo --version
-cargo 1.58.0 (f01b232bc 2022-01-19)
+cargo 1.65.0 (4bc8f24d3 2022-10-20)
 #+end_src
 
-- Kreiranje projekta sa =cargo= alatom:
+- Креирање пројекта са =cargo= алатом:
 
 #+begin_src sh
 $ cargo new hello_cargo
 $ cd hello_cargo
 #+end_src
 
-** Sadržaj kreiranog projekta
-Fajl =cargo.toml= čuva konfiguraciju projekta. Format je [[https://toml.io/en/][TOML]] (/Tom’s Obvious,
+** Садржај креираног пројекта
+Фајл =cargo.toml= чува конфигурацију пројекта. Формат је [[https://toml.io/en/][TOML]] (/Tom’s Obvious,
 Minimal Language/):
 
 #+begin_src toml
@@ -122,22 +122,22 @@ fn main() {
     println!("Hello, world!");
 }
 #+end_src
-** Pokretanje
 
+** Покретање
 #+begin_src rust
 $ cargo build
    Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
     Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
 #+end_src
 
-Izvršni fajl se može naći na lokaciji =target/debug/hello_cargo=:
+Извршни фајл се може наћи на локацији =target/debug/hello_cargo=:
 
 #+begin_src sh
 $ ./target/debug/hello_cargo
 Hello, world!
 #+end_src
 
-Ali =cargo= omgućava i jednostavniji način pokretanja:
+Али =cargo= омогућава и једноставнији начин покретања:
 #+begin_src sh
 $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
@@ -145,8 +145,8 @@ $ cargo run
 Hello, world!
 #+end_src
 
-** Provera
-Takođe je moguće brzo proveriti da li se kod kompajlira:
+** Провера
+Такође је могуће брзо проверити да ли се код компајлира:
 
 #+begin_src sh
 $ cargo check
@@ -154,37 +154,36 @@ $ cargo check
     Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
 #+end_src
 
-** Izgradnja finalne verzije
-- U toku razvoja koristimo izgradnju za debagovanje koja se brže završi ali
-  generisani izvršni kod nije optimalan.
+** Изградња финалне верзије
+- У току развоја користимо изградњу за дебаговање која се брже заврши али
+  генерисани извршни код није оптималан.
 
-- Za finalnu verziju je potrebno izgradnju obaviti na sledeći način:
+- За финалну верзију је потребно изградњу обавити на следећи начин:
 
     #+begin_src rust
     cargo build --release
     #+end_src
 
-- Ovo će obaviti dodatne optimizacije koje će duže trajati ali će krajnji kod
-  biti optimizovan.
+- Ово ће обавити додатне оптимизације које ће дуже трајати али ће крајњи код
+  бити оптимизован.
 
-** Cargo kao konvencija
-Praktično svi Rust projekti koriste Cargo tako da je unifikovan način izgradnje
-projekata. Uglavnom se svodi na:
+** =cargo= као конвенција
+Практично сви Раст пројекти користе =cargo= тако да је унификован начин изградње
+пројеката. Углавном се своди на:
 
 #+begin_src sh
 $ git clone example.org/someproject
 $ cd someproject
 $ cargo build
 #+end_src
-
-* Igra pogađanja brojeva
-** Podešavanje projekta
+* Игра погађања бројева
+** Подешавање пројекта
 #+begin_src rust
 $ cargo new guessing_game
 $ cd guessing_game
 #+end_src
 
-Fajl =Cargo.toml=:
+Фајл =Cargo.toml=:
 #+begin_src toml
 [package]
 name = "guessing_game"
@@ -194,7 +193,7 @@ edition = "2021"
 [dependencies]
 #+end_src
 
-Fajl =src/main.rs=:
+Фајл =src/main.rs=:
 #+begin_src rust
 fn main() {
     println!("Hello, world!");
@@ -211,8 +210,7 @@ $ cargo run
 Hello, world!
 #+end_src
 
-** Preuzimanje broja sa standardnog ulaza
-
+** Преузимање броја са стандардног улаза
 #+begin_src rust
 use std::io;
 
@@ -231,9 +229,9 @@ fn main() {
 }
 #+end_src
 
-** Promenjivost (/mutability/)
-- Varijable su podrazumevano nepromenjive (/immutable/).
-- Ukoliko želimo varijablu čija vrednost može da se menja koristimo ključnu reč
+** Променљивост (/mutability/)
+- Варијабле су подразумевано непромењиве (/immutable/).
+- Уколико желимо варијаблу чија вредност може да се мења користимо кључну реч
   =mut=.
 
   #+begin_src rust
@@ -241,16 +239,16 @@ fn main() {
   let mut bananas = 5; // mutable
   #+end_src
 
-- Isto važi i za parametre funkcija:
+- Исто важи и за параметре функција:
 
   #+begin_src rust
   io::stdin()
       .read_line(&mut guess)
   #+end_src
 
-** Obrada mogućih grešaka upotrebom =Result= tipa
-=read_line= može da završi neuspešno. Zato vraća =io::Result= tip koji predstavlja
-enumeraciju (/enum/) tip i ima dve vrednosti: =Ok= i =Err=.
+** Обрада могућих грешака употребом =Result= типа
+=read_line= може да заврши неуспешно. Зато враћа =io::Result= тип који представља
+тип енумерације (/enum/) и има две могуће вредности: =Ok= и =Err=.
 
 #+begin_src rust
 io::stdin()
@@ -258,10 +256,10 @@ io::stdin()
     .expect("Failed to read line");
 #+end_src
 
-=expect= implementiran na =Ok= varijanti će vratiti vrednost koja je sadržana unutar
-varijante dok implementacija nad =Err= varijanti prekida izvršavanje programa.
+=expect= имплементиран на =Ok= варијанти ће вратити вредност која је садржана унутар
+варијанте док имплементација над =Err= варијанти прекида извршавање програма.
 
-** Pokretanje
+** Покретање
 #+begin_src rust
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
@@ -273,10 +271,10 @@ Please input your guess.
 You guessed: 6
 #+end_src
 
-** Generisanje slučajnog broja
-Koristimo =rand= paket (sanduk - /crate/ u terminologiji Cargo-a).
+** Генерисање случајног броја
+Користимо =rand= пакет (сандук - /crate/ у терминологији /Cargo/-a).
 
-Sekcija =[dependencies]= u fajlu =Cargo.toml=:
+Секција =[dependencies]= у фајлу =Cargo.toml=:
 #+begin_src toml
 [dependencies]
 rand = "0.8.3"
@@ -294,31 +292,31 @@ $ cargo build
     Finished dev [unoptimized + debuginfo] target(s) in 2.53s
 #+end_src
 
-Cargo koristi [[https://semver.org/][Semantic Versioning]]. Rust paketi se preuzimaju sa sajta [[https://crates.io/][crates.io]]
-i keširaju lokalno.
+/Cargo/ користи [[https://semver.org/][Semantic Versioning]]. Раст пакети се преузимају са сајта [[https://crates.io/][crates.io]]
+и кеширају локално.
 
-** Ponovljivost izgradnje - /Cargo.lock/
-- Prvi put kada se pokrene =cargo build= kreira se fajl =Cargo.lock= sa
-  informacijama o verzijama svih sanduka koji su instalirani.
-- Svako sledeće pokretanje izgradnje koristi iste verzije.
-- =Cargo.lock= je potrebno čuvati u sistemu kontrole verzija (npr. =git=) da bi se
-  osigurala ponovljivost.
+** Поновљивост изградње - /Cargo.lock/
+- Свако следеће покретање изградње користи исте верзије.
+- Први пут када се покрене =cargo build= креира се фајл =Cargo.lock= са
+  информацијама о верзијама свих сандука који су инсталирани.
+- =Cargo.lock= је потребно чувати у систему контроле верзија (нпр. =git=) да би се
+  осигурала поновљивост.
 
-** Ažuriranje sanduka
-- Ažuriranje na nove verzije sanduka se obavlja sa:
+** Ажурирање сандука
+- Ажурирање на нове верзије сандука се обавља са:
 
   #+begin_src sh
   $ cargo update
     Updating crates.io index
     Updating rand v0.8.3 -> v0.8.4
   #+end_src
-- Poštuje se semantičko verzioniranje tj. automatski se ažurira na sledeću
-  verziju koja je manja od naredne glavne (/major/) verzije.
-- Ako prelazimo na novu glavnu verziju to moramo uraditi izmenom verzije u
-  =Cargo.toml= fajlu.
+- Поштује се семантичко верзионирање тј. аутоматски се ажурира на следећу
+  верзију која је мања од наредне главне (/major/) верзије.
+- Ако прелазимо на нову главну верзију то морамо урадити изменом верзије у
+  =Cargo.toml= фајлу.
 
-** Generisanje slučajnog broja
-Fajl =src/main.rs=:
+** Генерисање случајног броја
+Фајл =src/main.rs=:
 #+begin_src rust
 use std::io;
 use rand::Rng;
@@ -342,19 +340,19 @@ fn main() {
 }
 #+end_src
 
-U =gen_range= koristimo izraz opsega (/range expression/). Interval je zatvoren na
-donjoj granici i otvoren na gornjoj. Za interval zatvoren i od gore možemo
-pisati ~1..=100~.
+У =gen_range= користимо израз опсега (/range expression/). Интервал је затворен на
+доњој граници и отворен на горњој. За интервал затворен и од горе можемо
+писати ~1..=100~.
 
-** Dokumentacija za lokalne sanduke
-Da bi znali koje metode i funkcije su nam dostupne možemo koristiti ugrađenu
-dokumentaciju za sanduke projekta. Dokumentaciju dobijamo sa:
+** Документација за локалне сандуке
+Да би знали које методе и функције су нам доступне можемо користити уграђену
+документацију за сандуке пројекта. Документацију добијамо са:
 
 #+begin_src sh
 cargo doc --open
 #+end_src
 
-** Pokretanje programa
+** Покретање програма
 #+begin_src sh
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
@@ -367,8 +365,8 @@ Please input your guess.
 You guessed: 4
 #+end_src
 
-** Poređenje tajnog broja sa zadatim
-Fajl =src/main.rs=
+** Поређење тајног броја са задатим
+Фајл =src/main.rs=
 #+begin_src rust
 use rand::Rng;
 use std::cmp::Ordering;
@@ -386,12 +384,14 @@ fn main() {
     }
 }
 #+end_src
-- Koristimo =std::cmp::Ordering= enum koji ima varijante =Less=, =Greater= i =Equal=
-- =match= izraz poredi zadatu vrednost sa vrednostima zadatim u telu i izvršava
-  granu koja se podudara. Grane =match= izraza se u Rust terminologiji zovu "ruke" (/arms/).
+- Користимо =std::cmp::Ordering= енумерисани тип који има варијанте =Less=, =Greater=
+  и =Equal=
+- =match= израз пореди задату вредност са вредностима задатим у телу и извршава
+  грану која се подудара. Гране =match= израза се у Раст терминологији зову "руке"
+  (/arms/).
 
-** Popravka tipova
-Kod sa prethodnog slajda nije ispravan:
+** Поправка типова
+Код са претходног слајда није исправан:
 #+begin_src sh
 $ cargo build
    Compiling libc v0.2.86
@@ -425,11 +425,11 @@ error[E0283]: type annotations needed for `{integer}`
 
 #+REVEAL: split
 
-Osnova greške je neslaganje tipova. Sa ulaza prihvatamo =String= dok nam je tajni
-broj =integer=.
+Основа грешке је неслагање типова. Са улаза прихватамо =String= док нам је тајни
+број =integer=.
 
-** Konverzija stringa u broj
-Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
+** Конверзија стринга у број
+Проблем решавамо конверзијом стринга са улаза у бројни тип.
 
 #+begin_src rust
 // --snip--
@@ -453,7 +453,7 @@ Problem rešavamo konverzijom stringa sa ulaza u brojni tip.
 
 #+REVEAL: split
 
-Sada se program komapajlira.
+Сада се програм компајлира.
 
 #+begin_src sh
 $ cargo run
@@ -468,8 +468,8 @@ You guessed: 76
 Too big!
 #+end_src
 
-** Omogućavanje višestrukog pogađanja - upotreba petlje
-Fajl =src/main.rs=:
+** Омогућавање вишеструког погађања - употреба петље
+Фајл =src/main.rs=:
 #+begin_src rust
 // --snip--
 
@@ -489,8 +489,8 @@ Fajl =src/main.rs=:
 }
 #+end_src
 
-** Prekid rada
-Problem je kako prekinuti program kada korisnik pogodi broj?
+** Прекид рада
+Проблем је како прекинути програм када корисник погоди број?
 
 #+begin_src rust
 // --snip--
@@ -507,7 +507,7 @@ Problem je kako prekinuti program kada korisnik pogodi broj?
 }
 #+end_src
 
-** Rukovanje neispravnim ulazom
+** Руковање неисправним улазом
 #+begin_src rust
 // --snip--
 
@@ -525,9 +525,9 @@ Problem je kako prekinuti program kada korisnik pogodi broj?
         // --snip--
 #+end_src
 
-Potrebno je još obrisati liniju koja prikazuje generisani broj.
+Потребно је још обрисати линију која приказује генерисани број.
 
-** Finalni kod
+** Финални код
 #+begin_src rust
 use rand::Rng;
 use std::cmp::Ordering;
@@ -560,11 +560,11 @@ fn main() {
 }
 #+end_src
 
-* Osnovni programski koncepti
-** Varijable i promenjivost (/mutability/)
-*** Varijable i promenjivost (/mutability/)
-- Varijable su podrazumevano nepromenjive.
-- Jednom kada dobiju vrednost (/binding/) ta vrednost se ne može promeniti
+* Основни програмски концепти
+** Варијабле и променљивост (/mutability/)
+*** Варијабле и променљивост (/mutability/)
+- Варијабле су подразумевано непромењиве.
+- Једном када добију вредност (/binding/) та вредност се не може променити
 
   #+begin_src rust
     fn main() {
@@ -595,7 +595,7 @@ fn main() {
     For more information about this error, try `rustc --explain E0384`.
     error: could not compile `variables` due to previous error
   #+end_src
-*** =mut= ključna reč
+*** =mut= кључна реч
 
 #+begin_src rust
 fn main() {
@@ -605,44 +605,45 @@ fn main() {
     println!("The value of x is: {}", x);
 }
 #+end_src
-** Konstante - =const=
-- Slično kao nepromenjive varijable sa sledećim razlikama:
-  - Uvek su nepromenjive
-  - Mogu se inicijalizovati samo konstantnim izrazom (poznatim u vreme kompajliranja)
-  - Validne za celokupno vreme izvršavanja programa u opsegu važenja gde su
-    definisane (/scope/)
-  - Mora se eksplicitno definisati tip
-- Kompajler će konstante "ubaciti" na mestu upotrebe
-- Po konvenciji imena konstanti se pišu velikim slovima
+** Константе - =const=
+- Слично као непромењиве варијабле са следећим разликама:
+  - Увек су непромењиве
+  - Могу се иницијализовати само константним изразом (познатим у време
+    компајлирања)
+  - Валидне за целокупно време извршавања програма у опсегу важења где су
+    дефинисане (/scope/)
+  - Мора се експлицитно дефинисати тип
+- Компајлер ће константе "убацити" на месту употребе
+- По конвенцији имена константи се пишу великим словима
 
   #+begin_src rust
     const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
   #+end_src
 
-** Tipovi podataka
-*** Tipovi podataka
-- Svaka vrednost u Rust-u ima tip. Tipovi moraju biti poznati u vreme
-  kompajliranja (statički tipiziran jezik).
-- Kompajler će probati da odredi tipove (/type inference/). Ako nije moguće
-  zahteva se da definišemo tip eksplicitno.
+** Типови података
+*** Типови података
+- Свака вредност у Расту има тип. Типови морају бити познати у време
+  компајлирања (/статички типизиран језик/).
+- Компајлер ће пробати да одреди типове (/type inference/). Ако није могуће
+  захтева се да дефинишемо тип експлицитно.
 
-  Npr:
+  Нпр:
   #+begin_src rust
     let guess: u32 = "42".parse().expect("Not a number!");
   #+end_src
-  Ovde nije moguće odrediti tip jer =str::parse= funkcija može vratiti različite
-  brojne tipove (funkcija je generička) a ne postoji način da se tip automatski
-  odredi.
+  Овде није могуће одредити тип јер =str::parse= функција може вратити различите
+  бројне типове (функција је генеричка) а не постоји начин да се тип аутоматски
+  одреди.
 
-  Signatura je:
+  Сигнатура је:
   #+begin_src rust
     pub fn parse<F>(&self) -> Result<F, <F as FromStr>::Err>
     where
         F: FromStr
   #+end_src
-*** /Integer/ tipovi
+*** /Integer/ типови
 
-| Dužina  | Signed | Unsigned |
+| Дужина  | Signed | Unsigned |
 |---------+--------+----------|
 | 8-bit   | i8     | u8       |
 | 16-bit  | i16    | u16      |
@@ -651,9 +652,9 @@ fn main() {
 | 128-bit | i128   | u128     |
 | arch    | isize  | usize    |
 
-*** Literali brojeva
+*** Литерали бројева
 
-| Literali       | Primeri     |
+| Литерали       | Примери     |
 |----------------+-------------|
 | Decimal        | 98_222      |
 | Hex            | 0xff        |
@@ -661,7 +662,7 @@ fn main() {
 | Binary         | 0b1111_0000 |
 | Byte (u8 only) | b'A'        |
 
-*** /Floating-Point/ tipovi
+*** /Floating-Point/ типови
 
 #+begin_src rust
 fn main() {
@@ -671,9 +672,9 @@ fn main() {
 }
 #+end_src
 
-IEEE-754 standard
+IEEE-754 стандард
 
-*** Operacije nad brojevima
+*** Операције над бројевима
 
 #+begin_src rust
 fn main() {
@@ -695,7 +696,7 @@ fn main() {
 }
 #+end_src
 
-*** /Boolean/ tip
+*** /Boolean/ тип
 #+begin_src rust
 fn main() {
     let t = true;
@@ -704,7 +705,7 @@ fn main() {
 }
 #+end_src
 
-*** Tip karaktera
+*** Тип карактера
 
 #+begin_src rust
 fn main() {
@@ -714,14 +715,14 @@ fn main() {
 }
 #+end_src
 
-*** Torke (/tuples/)
+*** Торке (/tuples/)
 #+begin_src rust
 fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
 }
 #+end_src
 
-- Raspakivanje torki (/destructuring/):
+- Распакивање торки (/destructuring/):
 #+begin_src rust
 fn main() {
     let tup = (500, 6.4, 1);
@@ -734,7 +735,7 @@ fn main() {
 
 #+REVEAL: split
 
-Pristup elementima torke:
+Приступ елементима торке:
 #+begin_src rust
 fn main() {
     let x: (i32, f64, u8) = (500, 6.4, 1);
@@ -747,29 +748,29 @@ fn main() {
 }
 #+end_src
 
-*** Nizovni tip
-- Svaki element nizovnog tipa mora imati isti tip
-- Dimenzija niza je nepromenjiva (alociran je na steku)
+*** Низовни тип
+- Сваки елемент низовног типа мора имати исти тип
+- Димензија низа је непромењива (алоциран је на стеку)
     #+begin_src rust
     fn main() {
         let a = [1, 2, 3, 4, 5];
     }
     #+end_src
 
-- Tip se može eksplitino definisati na sledeći način (niz dužine =5= tipa =i32=):
+- Тип се може експлицитно дефинисати на следећи начин (низ дужине =5= типа =i32=):
     #+begin_src rust
     let a: [i32; 5] = [1, 2, 3, 4, 5];
     #+end_src
 
-- Inicijalizacija svih elemenata na istu vrednost se obavlja na sledeći način:
+- Иницијализација свих елемената на исту вредност се обавља на следећи начин:
   #+begin_src rust
   let a = [3; 5];
   #+end_src
-  Gde je vrednost svakog elementa =3= a dužina niza =5=.
+  Где је вредност сваког елемента =3= а дужина низа =5=.
 
 #+REVEAL: split
 
-Indeksni pristup:
+Индексни приступ:
 
 #+begin_src rust
 fn main() {
@@ -780,8 +781,8 @@ fn main() {
 }
 #+end_src
 
-** Funkcije
-*** Funkcije
+** Функције
+*** Функције
 #+begin_src rust
 fn main() {
     println!("Hello, world!");
@@ -793,7 +794,7 @@ fn another_function() {
     println!("Another function.");
 }
 #+end_src
-- Za imenovanje funkcija kao i varijabli koristi se /snake_case/.
+- За именовање функција као и варијабли користи се /snake_case/.
 *** Funkcije - parametri
 #+begin_src rust
 fn main() {
@@ -805,11 +806,11 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
 }
 #+end_src
 
-*** Iskazi i izrazi
-- Rust je jezik baziran na izrazima (/expression-based/)
-- Iskazi (/statements/) su jezičke konstrukcije koje nemaju povratnu vrednost.
-  Izrazi (/expressions/) se evaluiraju u određeni rezultat, tj. imaju vrednost.
-- Primer: =let= je iskaz tj. nema povratnu vrednost. Ovo možete pisati:
+*** Искази и изрази
+- Рaст је језик базиран на изразима (/expression-based/)
+- Искази (/statements/) су језичке конструкције које немају повратну вредност.
+  Изрази (/expressions/) се евалуирају у одређени резултат, тј. имају вредност.
+- Пример: =let= је исказ тј. нема повратну вредност. Ово можете писати:
   #+begin_src rust
   let y = 6;
   #+end_src
@@ -820,7 +821,7 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
 
 #+REVEAL: split
 
-Blok koda je takođe izraz. Šta je vrednost u koju se evaluira?
+Блок кода је такође израз. Шта је вредност у коју се евалуира?
 
 #+begin_src rust
 {
@@ -829,12 +830,12 @@ Blok koda je takođe izraz. Šta je vrednost u koju se evaluira?
 }
 #+end_src
 
-Vrednost bloka je vrednost poslednjeg izraza, tj. =x+1=. Primetite da tu ne
-koristimo =;= jer terminacija ovim karakterom pretvara izraz u iskaz.
+Вредност блока је вредност последњег израза, тј. =x+1=. Приметите да ту не
+користимо =;= јер терминација овим карактером претвара израз у исказ.
 
 #+REVEAL: split
 
-Zbog ovoga je sasvim legalno da pišemo:
+Због овога је сасвим легално да пишемо:
 
 #+begin_src rust
 fn main() {
@@ -849,9 +850,9 @@ fn main() {
 
 #+RESULTS:
 : The value of y is: 4
-*** Povratne vrednosti funkcija
-Vrednost funkcije je vrednost bloka koji predstavlja telo funkcije, dakle
-poslednjeg izraza unutar tela funkcije.
+*** Повратне вредности функција
+Вредност функције је вредност блока који представља тело функције, дакле
+последњег израза унутар тела функције.
 
 #+begin_src rust
 fn five() -> i32 {
@@ -870,7 +871,7 @@ fn main() {
 
 #+REVEAL: split
 
-Ili na primer:
+Или на пример:
 #+begin_src rust
 fn main() {
     let x = plus_one(5);
@@ -888,9 +889,9 @@ fn plus_one(x: i32) -> i32 {
 
 #+REVEAL: split
 
-Ukoliko izraz =x+1= terminiramo sa =;= kod se neće kompajlirati jer funkcija
-deklariše da vraća tip =i32= dok sada vraća =()= (tzv. /unit type/) odnosno nema
-povratnu vrednost jer je poslednja instrukcija iskaz.
+Уколико израз =x+1= терминирамо са =;= код се неће компајлирати јер функција
+декларише да враћа тип =i32= док сада враћа =()= (тзв. /unit type/) односно нема
+повратну вредност јер је последња инструкција исказ.
 
 #+begin_src rust
 fn main() {
@@ -919,9 +920,9 @@ For more information about this error, try `rustc --explain E0308`.
 error: could not compile `cargo4UyKF0` due to previous error
 #+end_example
 
-** Komentari
-Komentari se pišu posle =//= ili u formi blok komentara =/*.... */= kao i u C++-u.
-Ovo bi bili validni komentari:
+** Коментари
+Коментари се пишу после =//= или у форми блок коментара =/*.... */= као и у C++-у.
+Ово би били валидни коментари:
 #+begin_src rust
 // So we’re doing something complicated here, long enough that we need
 // multiple lines of comments to do it! Whew! Hopefully, this comment will
@@ -943,8 +944,8 @@ fn main() {
 
 #+REVEAL: split
 
-Postoje i komentari za dokumentaciju koji predstavljaju posebnu sintaksu za
-komentare koji su deo API dokumentacije. Oni se pišu posle =///=. Na primer:
+Постоје и коментари за документацију који представљају посебну синтаксу за
+коментаре који су део API документације. Они се пишу после =///=. На пример:
 #+begin_src rust
 /// Adds one to the number given.
 ///
@@ -960,8 +961,8 @@ pub fn add_one(x: i32) -> i32 {
     x + 1
 }
 #+end_src
-** Kontrola toka
-*** =if= izrazi
+** Контрола тока
+*** =if= изрази
 #+begin_src rust
 fn main() {
     let number = 3;
@@ -990,8 +991,8 @@ fn main() {
     }
 }
 #+end_src
-*** =if= u =let= iskazima
-=if= je izraz pa se može koristiti gde god možemo pisati i bilo koji drugi izraz.
+*** =if= у =let= исказима
+=if= је израз па се може користити где год можемо писати и било који други израз.
 
 #+begin_src rust
 fn main() {
@@ -1007,8 +1008,8 @@ fn main() {
 
 #+REVEAL: split
 
-Ali se grane moraju slagati po tipu. Ovo je pogrešno jer je prva grana tipa
-=i32= dok je =else= grana tipa =str=.
+Али се гране морају слагати по типу. Ово је погрешно јер је прва грана типа
+=i32= док је =else= грана типа =str=.
 
 #+begin_src rust
 fn main() {
@@ -1019,11 +1020,11 @@ fn main() {
     println!("The value of number is: {}", number);
 }
 #+end_src
-*** Petlje
-Rust ima tri tipa petlje:
-- =loop= - za beskontačne petlje
-- =while= - uslovna petlja
-- =for= - petlja za iteraciju kroz iteratore
+*** Петље
+Рaст има три типа петље:
+- =loop= - за бесконачне петље
+- =while= - условна петља
+- =for= - петља за итерацију кроз елементе итерабилних типова
 
 *** =loop=
 #+begin_src rust
@@ -1034,9 +1035,9 @@ fn main() {
 }
 #+end_src
 
-*** =loop= labele
-Ukoliko imamo ugnježdene =loop= iskaze možemo koristiti labele prilikom izlaska sa
-=break= instrukcijom.
+*** =loop= лабеле
+Уколико имамо угњеждене =loop= исказе можемо користити лабеле приликом изласка са
+=break= инструкцијом.
 
 #+begin_src rust
 fn main() {
@@ -1062,9 +1063,9 @@ fn main() {
 }
 #+end_src
 
-*** =loop= kao izraz
-=loop= može imati povratnu vrednost. Povratna vrednost se definiše kao parametar
-=break= instrukcije.
+*** =loop= као израз
+=loop= може имати повратну вредност. Повратна вредност се дефинише као параметар
+=break= инструкције.
 
 #+begin_src rust
 fn main() {
@@ -1096,7 +1097,7 @@ fn main() {
 }
 #+end_src
 *** =for=
-Iteraciju kroz uređenu kolekciju, kao što je niz, možemo obaviti sa =while= petljom.
+Итерацију кроз уређену колекцију, као што је низ, можемо обавити са =while= петљом.
 #+begin_src rust
 fn main() {
     let a = [10, 20, 30, 40, 50];
@@ -1111,8 +1112,8 @@ fn main() {
 #+end_src
 
 #+REVEAL: split
-Ali je za tu namenu prirodnije i sigurnije koristiti =for= petlju. Takođe će se
-program brže izvršavati.
+Али је за ту намену природније и сигурније користити =for= петљу. Такође ће се
+програм брже извршавати.
 
 #+begin_src rust
 fn main() {
@@ -1125,8 +1126,8 @@ fn main() {
 #+end_src
 
 #+REVEAL: split
-=for= petlje su najčešći oblik petlji u upotrebi u Rust-u. Koriste se npr. i u
-situaciji kada je potrebno izvršiti petlju određeni broj puta.
+=for= петље су најчешћи облик петљи у употреби у Расту. Користе се нпр. и у
+ситуацији када је потребно извршити петљу одређени број пута.
 
 #+begin_src rust
 fn main() {
@@ -1143,88 +1144,87 @@ fn main() {
 : 1!
 : LIFTOFF!!!
 
-* Vlasništvo i pozajmljivanje (/Ownership and borrowing/)
-** Vlasništvo
-*** Vlasništvo
-- Jedan od najvažnijih koncepata jezika.
-- Skup pravila koji omogućavaju upravljanje memorijom.
-- Garancije za memorijsku sigurnost bez upotrebe /garbage collector/-a
-- Sve provere se obavljaju u vreme kompajliranja - rezultuje odličnim
-  performansama u vreme izvršavanja.
+* Власништво и позајмљивање (/Ownership and borrowing/)
+** Власништво
+*** Власништво
+- Један од најважнијих концепата језика.
+- Скуп правила који омогућавају управљање меморијом.
+- Гаранције за меморијску сигурност без употребе /garbage collector/-а
+- Све провере се обављају у време компајлирања - резултује одличним
+  перформансама у време извршавања.
 
-*** Stek i hip (/Stack and Heap/)
-- Stek - alokacija prostora za podatke čija je veličina poznata u vreme
-  kompajliranja.
-  - Brža alokacija i dealokacija - jednostavan mehanizam, LIFO struktura.
-  - Brži pristup - lokalne varijable, keširanje pristupa.
-- Hip - slobodna alokacija u vreme izvršavanja.
-  - Sporija alokacija i dealokacija.
-  - Sporiji pristup - proizvoljna lokacija.
+*** Стек и хип (/Stack and Heap/)
+- Стек - алокација простора за податке чија је величина позната у време
+  компајлирања.
+  - Бржа алокација и деалокација - једноставан механизам, LIFO структура.
+  - Бржи приступ - локалне варијабле, кеширање приступа.
+- Хип - слободна алокација у време извршавања.
+  - Спорија алокација и деалокација.
+  - Спорији приступ - произвољна локација.
 
-*** Pravila vlasništva
-1. Svaka vrednost u Rust-u ima varijablu koja se naziva /vlasnikom/ (/owner/).
-2. U svakom trenutku postoji samo jedan vlasnik.
-3. Kada vlasnik izađe iz opsega važenja (/scope/) vrednost se dealocira (/drop/).
+*** Правила власништва
+1. Свака вредност у Расту има варијаблу која се назива /власником/ (/owner/).
+2. У сваком тренутку постоји само један власник.
+3. Када власник изађе из опсега важења (/scope/) вредност се деалоцира (/drop/).
 
-*** Opseg važenja varijable (/Variable Scope/)
+*** Опсег важења варијабле (/Variable Scope/)
 
 #+begin_src rust
-{                      // s nije validno ovde jer još nije deklarisano
-    let s = "hello";   // s je validno od ove pozicije
+{                      // s није валидно овде јер још није декларисано
+    let s = "hello";   // s је валидно од ове позиције
 
-    // koristimo s
-}   // ovde opseg prestaje da važi i s više nije validno
+    // користимо s
+}   // овде опсег престаје да важи и s више није валидно
 #+end_src
 
-*** =String= tip
+*** =String= тип
 
-- Demonstracija vlasništva nad tipom koji se alocira na hipu.
+- Демонстрација власништва над типом који се алоцира на хипу.
 
   #+begin_src rust
   let mut s = String::from("hello");
-  s.push_str(", world!"); // push_str() dodaje literal na string
+  s.push_str(", world!"); // push_str() додаје литерал на стринг
   println!("{}", s); // hello, world!`
   #+end_src
 
-- Memorija se alocira sa hipa u vreme izvršavanja.
-- Moramo vratiti memoriju alokatoru kada nam više nije potrebna.
+- Меморија се алоцира са хипа у време извршавања.
+- Морамо вратити меморију алокатору када нам више није потребна.
 
 #+REVEAL: split
 
-- Alokacija stringa se obavlja na liniji:
+- Алокација стринга се обавља на линији:
 
   #+begin_src rust
   let mut s = String::from("hello");
   #+end_src
 
-- Ali dealokacija je teža:
+- Али деалокација је тежа:
   - /Garbage collector/
   - /Memory waste/
   - /Double-free/
 
 #+REVEAL: split
 
-- Rust kompajler će dodati kod koji radi dealokaciju kada vlasnik napusti opseg važenja.
-- Poziva se funkcija =drop= nad tipom i ova funkcija je zadužena da obavi dealokaciju.
+- Раст компајлер ће додати код који ради деалокацију када власник напусти опсег важења.
+- Позива се функција =drop= над типом и ова функција је задужена да обави деалокацију.
 
   #+begin_src rust
   {
-        let s = String::from("hello"); // s postaje validno
+        let s = String::from("hello"); // s постаје валидно
 
-        // koristimo s
-  }  // <- s izlazi iz opsega i poziva se "drop"
+        // користимо s
+  }  // <- s излази из опсега и позива се "drop"
   #+end_src
 
-*** Dodela vrednosti
-
-- Kopiranje vrednosti =x= u =y=. Obe varijable sada imaju vrednost =5=.
+*** Додела вредности
+- Копирање вредности =x= у =y=. Обе варијабле сада имају вредност =5=.
 
   #+begin_src rust
   let x = 5;
   let y = x;
   #+end_src
 
-- Ali sa =String= tipom dešava se nešto drugo.
+- Али са =String= типом дешава се нешто друго.
 
   #+begin_src rust
   let s1 = String::from("hello");
@@ -1236,8 +1236,8 @@ fn main() {
 
 #+REVEAL: split
 
-- Ako bi se kopirao samo sadržaj sa steka bez imali bismo sledeću situaciju
-  (tzv. /shallow copy/).
+- Ако би се копирао само садржај са стека без имали бисмо следећу ситуацију
+  (тзв. /shallow copy/).
 
   #+begin_src rust
   let s1 = String::from("hello");
@@ -1248,21 +1248,20 @@ fn main() {
 #+ATTR_ORG: :width 300px
 [[./images/string-type-2.png]]
 
-Što je problematično jer kada i =s1= i =s2= napuste opseg pokušaće se dvostruka
-dealokacija iste memorije na hipu (/double free/).
+Што је проблематично јер када и =s1= и =s2= напусте опсег покушаће се двострука
+деалокација исте меморије на хипу (/double free/).
 
 #+REVEAL: split
 
-Ako bi se i hip memorija kopirala (tzv. /deep copy/) imali bismo validnu situaciju
-ali bi takva operacija bila veoma "skupa".
+Ако би се и хип меморија копирала (tzv. /deep copy/) имали бисмо валидну ситуацију
+али би таква операција била веома "скупа".
 
 #+attr_html: :style height: 500px;
 #+ATTR_ORG: :width 300px
 [[./images/string-type-3.png]]
 
-*** Premeštanje (/Move/)
-
-Ako probamo da kompajliramo sledeći kod:
+*** Премештање (/Move/)
+Ако пробамо да компајлирамо следећи код:
 
 #+begin_src rust
 let s1 = String::from("hello");
@@ -1271,7 +1270,7 @@ let s2 = s1;
 println!("{}, world!", s1);
 #+end_src
 
-Dobićemo grešku:
+Добићемо грешку:
 
 #+begin_example
 $ cargo run
@@ -1293,29 +1292,28 @@ error: could not compile `ownership` due to previous error
 
 #+REVEAL: split
 
-Ono što nam kompajler kaže je da se u iskazu:
+Оно што нам компајлер каже је да се у исказу:
 
 #+begin_src rust
 let s2 = s1;
 #+end_src
 
-promenio vlasnik ovog stringa. Novi vlasnik je sada =s2= dok je varijabla =s1=
-postala nevalidna i nije je više moguće koristiti.
+променио власник овог стринга. Нови власник је сада =s2= док је варијабла =s1=
+постала невалидна и није је више могуће користити.
 
-Kažemo da se obavilo "premeštanje" (/move/) vrednosti iz =s1= u =s2=.
+Кажемо да се обавило "премештање" (/move/) вредности из =s1= у =s2=.
 
 #+attr_html: :style height: 400px;
 #+ATTR_ORG: :width 300px
 [[./images/string-type-4.png]]
 
-Čime se ispunjava prvo pravilo vlasništva i sprečava /double free/ greška.
+Чиме се испуњава прво правило власништва и спречава /double free/ грешка.
 
-*** Kloniranje
+*** Клонирање
+Последица претходног је да Раст никада неће аутоматски обавити дубоко копирање
+варијабле јер би то могло да изазове лоше перформансе.
 
-Posledica prethodnog je da Rust nikada neće automatski obaviti duboko kopiranje
-varijable jer bi to moglo da izazove loše performanse.
-
-Duboko kopiranje (stek+hip) radimo sa =clone= metodom:
+Дубоко копирање (стек+хип) радимо са =clone= методом:
 
 #+begin_src rust
 let s1 = String::from("hello");
@@ -1324,13 +1322,12 @@ let s2 = s1.clone();
 println!("s1 = {}, s2 = {}", s1, s2);
 #+end_src
 
-Sada je lako pronaći u kodu sva mesta gde se obavlja potencijalno "skupa"
-operacija dubokog kopiranja.
+Сада је лако пронаћи у коду сва места где се обавља потенцијално "скупа"
+операција дубоког копирања.
 
-*** /Copy/ tipovi
-
-Kako onda radi primer koji smo videli prethodno? Zašto ne dolazi do premeštanja
-i invalidacije =y= varijable?
+*** /Copy/ типови
+Како онда ради пример који смо видели претходно? Зашто не долази до премештања
+и инвалидације =y= варијабле?
 
 #+begin_src rust
 let x = 5;
@@ -1339,85 +1336,83 @@ let y = x;
 println!("x = {}, y = {}", x, y);
 #+end_src
 
-- Kod prostih tipova čija je veličina poznata u vreme kompajliranja i koji mogu
-  u celosti stati na stek nema razlike između dubokog i plitkog kopiranja.
-- Ovakvi tipovi su anotirani sa /Copy/ trejtom (/Trait/). Tipovi koji su na ovaj
-  način anotirani ne obavljaju premeštanje već uvek kopiranje.
-- Implikacija je da se varijabla sa desne strane dodele može koristiti i nakon
-  dodele.
-- Rust će sprečiti /Copy/ anotaciju ako tip implementira i /Drop/ jer to znači da
-  radi neku specijalnu alokaciju pa mu je potrebna i posebna dealokacija što
-  znači da mora da se radi premeštanje.
+- Код простих типова чија је величина позната у време компајлирања и који могу
+  у целости стати на стек нема разлике између дубоког и плитког копирања.
+- Овакви типови су анотирани са /Copy/ трејтом (/Trait/). Типови који су на овај
+  начин анотирани не обављају премештање већ увек копирање.
+- Импликација је да се варијабла са десне стране доделе може користити и након
+  доделе.
+- Раст ће спречити /Copy/ анотацију ако тип имплементира и /Drop/ јер то значи да
+  ради неку специјалну алокацију па му је потребна и посебна деалокација што
+  значи да мора да се ради премештање.
 
-*** Vlasništvo i funkcije
-
-- Semantika prenosa parametara kod poziva funkcija je slična semantici dodele.
+*** Власништво и функције
+- Семантика преноса параметара код позива функција је слична семантици доделе.
 
 #+begin_src rust
 fn main() {
-    let s = String::from("hello");  // s postaje validno
+    let s = String::from("hello");  // s постаје валидно
 
-    takes_ownership(s);             // s vrednost se premešta u funkciju...
-                                    // ... tako da s nije validno od ove pozicije
+    takes_ownership(s);             // s вредност се премешта у функцију...
+                                    // ... тако да s није валидно од ове позиције
 
-    let x = 5;                      // x postaje validno
+    let x = 5;                      // x постаје валидно
 
-    makes_copy(x);                  // x bi se premestilo u funkciju,
-                                    // ali i32 je Copy, tako da je ok
-                                    // da se x koristi i posle
+    makes_copy(x);                  // x би се преместило у функцију,
+                                    // али i32 је Copy, тако да је ok
+                                    // да се x користи и после
 
-} // x izlazi iz opsega, zatim s. Ali pošto je s premešteno ništa posebno se
-  // ne dešava.
+} // x излази из опсега, затим s. Али пошто је s премештено ништа посебно се
+  // не дешава.
 
-fn takes_ownership(some_string: String) { // some_string ulazi u opseg
+fn takes_ownership(some_string: String) { // some_string улази у опсег
     println!("{}", some_string);
-} // some_string izlazi iz opsega i poziva se `drop`. Memorija sa hipa se
-  // oslobađa.
+} // some_string излази из опсега и позива се `drop`. Меморија са хипа се
+  // ослобађа.
 
-fn makes_copy(some_integer: i32) { // some_integer ulazi u opseg
+fn makes_copy(some_integer: i32) { // some_integer улази у опсег
     println!("{}", some_integer);
-} // some_integer izlazi iz opsega. Pošto nije 'Drop', ništa posebno se ne
-  // događa (osim "skidanja" sa steka naravno)
+} // some_integer излази из опсега. Пошто није 'Drop', ништа посебно се не
+  // догађа (осим "скидања" са стека наравно)
 #+end_src
 
-*** Povratne vrednosti i opsezi
-
-Prilikom vraćanja vrednosti iz funkcije takođe može doći do premeštanja vlasništva.
+*** Повратне вредности и опсези
+Приликом враћања вредности из функције такође може доћи до премештања власништва.
 
 #+begin_src rust
 fn main() {
-    let s1 = gives_ownership();         // gives_ownership premešta povratnu
-                                        // vrednost u s1
+    let s1 = gives_ownership();         // gives_ownership премешта повратну
+                                        // вредност у s1
 
-    let s2 = String::from("hello");     // s2 postaje validno
+    let s2 = String::from("hello");     // s2 постаје валидно
 
-    let s3 = takes_and_gives_back(s2);  // s2 se premešta u funkciju
-                                        // takes_and_gives_back, koja premešta
-                                        // povratnu vrednost u s3
-} // s3 izlazi iz opsega i poziva se `drop`. s2 je premeštena pa se ništa
-  // ne dešava. s1 takođe izlazi iz opsega i dealocira se.
+    let s3 = takes_and_gives_back(s2);  // s2 се премешта у функцију
+                                        // takes_and_gives_back, која премешта
+                                        // повратну вредност у s3
+} // s3 излази из опсега и позива се `drop`. s2 је премештена па се ништа
+  // не дешава. s1 такође излази из опсега и деалоцира се.
 
-fn gives_ownership() -> String {             // gives_ownership će premestiti
-                                             // svoju povratnu vrednost u funkciju
-                                             // koja je poziva
+fn gives_ownership() -> String {             // gives_ownership ће преместити
+                                             // своју повратну вредност у функцију
+                                             // која је позива
 
-    let some_string = String::from("yours"); // some_string postaje validno
+    let some_string = String::from("yours"); // some_string постаје валидно
 
-    some_string                              // some_string se premešta
-                                             // u funkciju pozivaoca
+    some_string                              // some_string се премешта
+                                             // у функцију позиваоца
 }
 
-// Ova funkcija uzima vlasništvo nad stringom i vraća ga nazad
-fn takes_and_gives_back(a_string: String) -> String { // a_string postaje validno
+// Ова функција узима власништво над стрингом и враћа га назад
+fn takes_and_gives_back(a_string: String) -> String { // a_string постаје валидно
 
-    a_string  // a_string se premešta u funkciju pozivaoca
+    a_string  // a_string се премешта у функцију позиваоца
 }
 #+end_src
 
 #+REVEAL: split
 
-- Često nam je potrebno da varijablu koristimo i posle slanja u funkciju.
-- Mogli bi je stalo vraćati zajedno sa rezultatom funkcije na primer upotrebom torki.
+- Често нам је потребно да варијаблу користимо и после слања у функцију.
+- Могли би је стало враћати заједно са резултатом функције на пример употребом торки.
 
 #+begin_src rust
 fn main() {
@@ -1435,13 +1430,13 @@ fn calculate_length(s: String) -> (String, usize) {
 }
 #+end_src
 
-Ali je to naporno. Postoji koncept u Rust-u koji je namenjen u ovakvim
-situacijama i baziran je na referencama i pozajmljivanju vrednosti.
-** Reference i pozajmljivanje (/References and Borrowing/)
-*** Reference i pozajmljivanje (/References and Borrowing/)
-- Referenca je poput pointera, sadrži adresu vrednosti koju poseduje neka druga
-  varijabla.
-- Za razliku od pointera, reference u Rust-u su garantovano validne.
+Али је то напорно. Постоји концепт у Раст који је намењен оваквим
+ситуацијама и базиран је на референцама и позајмљивању вредности.
+** Референце и позајмљивање (/References and Borrowing/)
+*** Референце и позајмљивање (/References and Borrowing/)
+- Референца је попут поинтера, садржи адресу вредности коју поседује нека друга
+  варијабла.
+- За разлику од поинтера, референце у Расту су гарантовано валидне.
 
 #+begin_src rust
 fn main() {
@@ -1461,36 +1456,34 @@ fn calculate_length(s: &String) -> usize {
 #+ATTR_ORG: :width 300px
 [[./images/reference.png]]
 
-*** Referenciranje
-
-- Primena operatora =&= nad varijablom nazivamo /referenciranje/.
+*** Референцирање
+- Примена оператора =&= над варијаблом називамо /референцирање/.
 
   #+begin_src rust
   let s1 = String::from("hello");
   let len = calculate_length(&s1);
   #+end_src
 
-- Sintaksa =&s1= nam omogućava da kreiramo referencu na vrednost čiji vlasnik je
-  =s1= bez uzimanja vlasništva.
-- Pošto referenca nije vlasnik ne dolazi do dealokacije prilikom izlaska iz
-  opsega.
-- Operacija obrnuta referenciranju naziva se /dereferenciranje/ i vrši se =*=
-  operatorom nad referencom (npr. =*s2= je vrednost na koju referencira =s2=).
-- Operaciju referenciranja nazivamo pozajmljivanjem (/borrowing/).
+- Синтакса =&s1= нам омогућава да креирамо референцу на вредност чији власник је
+  =s1= без узимања власништва.
+- Пошто референца није власник не долази до деалокације приликом изласка из
+  опсега.
+- Операција обрнута референцирању назива се /дереференцирање/ и врши се =*=
+  оператором над референцом (нпр. =*s2= је вредност на коју референцира =s2=).
+- Операцију референцирања називамо позајмљивањем (/borrowing/).
 
 #+REVEAL: split
 
-- Takođe, parametar funkcije može biti referenca.
+- Такође, параметар функције може бити референца.
 #+begin_src rust
-fn calculate_length(s: &String) -> usize { // s je referenca na String
+fn calculate_length(s: &String) -> usize { // s је референца на String
     s.len()
-} // s izlazi iz opsega ali pošto nema vlasništvo nad vrednošću
-  // ništa se ne dešava.
+} // s излази из опсега али пошто нема власништво над вредношћу
+  // ништа се не дешава.
 #+end_src
 
-*** Promena pozajmljene vrednosti
-
-Šta se dešava ukoliko pokušamo da modifikujemo pozajmljenu vrednost?
+*** Промена позајмљене вредности
+Шта се дешава уколико покушамо да модификујемо позајмљену вредност?
 
 #+begin_src rust
 fn main() {
@@ -1519,10 +1512,9 @@ For more information about this error, try `rustc --explain E0596`.
 error: could not compile `ownership` due to previous error
 #+end_example
 
-*** Promenjive reference
-
-Kao i varijable, i reference su podrazumevano nepromenjiva (/immutable/). Moramo
-biti eksplicitni ukoliko nam treba promenjiva referenca.
+*** Промењиве референце
+Као и варијабле, и референце су подразумевано непромењива (/immutable/). Морамо
+бити експлицитни уколико нам треба промењива референца.
 
 #+begin_src rust
 fn main() {
@@ -1535,10 +1527,9 @@ fn change(some_string: &mut String) {
 }
 #+end_src
 
-*** Više promenjivih referenci nad istom vrednošću
-
-Rust ne dozvoljava da isti podatak u jednom trenutku ima više promenjivih
-referenci.
+*** Више промењивих референци над истом вредношћу
+Раст не дозвољава да исти податак у једном тренутку има више промењивих
+референци.
 
 #+begin_src rust
 let mut s = String::from("hello");
@@ -1569,33 +1560,32 @@ error: could not compile `ownership` due to previous error
 
 #+REVEAL: split
 
-Ovim ograničenjem Rust, u vreme kompajliranja, sprečava klasu grešaka koje
-dovode do nedefinisanog ponašanja i koje zovemo /data races/. Ove greške se veoma
-teško otkrivaju i otklanjaju i mogu nastati ukoliko su zadovoljeni sledeći
-uslovi:
+Овим ограничењем Раст, у време компајлирања, спречава класу грешака које
+доводе до недефинисаног понашања и које зовемо /data races/. Ове грешке се веома
+тешко откривају и отклањају и могу настати уколико су задовољени следећи
+услови:
 
-- Dva ili više pointera pristupaju istim podacima u isto vreme,
-- Bar jedan pointer se koristi za izmenu podatka,
-- Ne postoji mehanizam za sinhronizaciju pristupa.
+- Два или више поинтера приступају истим подацима у исто време,
+- Бар један поинтер се користи за измену податка,
+- Не постоји механизам за синхронизацију приступа.
 
 #+REVEAL: split
 
-Više promenjivih referenci možemo imati ali ne u istom opsegu:
+Више промењивих референци можемо имати али не у истом опсегу:
 
 #+begin_src rust
 let mut s = String::from("hello");
 
 {
     let r1 = &mut s;
-} // r1 ovde izlazi iz opsega tako da možemo krairati nove reference
+} // r1 овде излази из опсега тако да можемо краирати нове референце
 
 let r2 = &mut s;
 #+end_src
 
-*** Kombinacija promenjivih i nepromenjivih referenci
-
-Slično pravilo postoji i ukoliko imamo kombinaciju promenjivih i nepromenjivih
-referenci:
+*** Комбинација промењивих и непромењивих референци
+Слично правило постоји и уколико имамо комбинацију промењивих и непромењивих
+референци:
 
 #+begin_src rust
 let mut s = String::from("hello");
@@ -1628,15 +1618,14 @@ error: could not compile `ownership` due to previous error
 
 #+REVEAL: split
 
-- Ne možemo istovremeno imati nepromenjive i promenjive reference jer korisnici
-  nepromenjivih referenci ne očekuju da se podaci menjaju.
-- Možemo imati više nepromenjivih referenci jer niko ne može da menja podatke i
-  time utiče na druge.
+- Не можемо истовремено имати непромењиве и промењиве референце јер корисници
+  непромењивих референци не очекују да се подаци мењају.
+- Можемо имати више непромењивих референци јер нико не може да мења податке и
+  тиме утиче на друге.
 
-*** Opseg važenja reference
-
-Opseg važenja reference počinje od mesta gde je uvedena pa do njene poslednje
-upotrebe. Na primer, ovo je validno:
+*** Опсег важења референце
+Опсег важења референце почиње од места где је уведена па до њене последње
+употребе. На пример, ово је валидно:
 
 #+begin_src rust
 let mut s = String::from("hello");
@@ -1644,18 +1633,18 @@ let mut s = String::from("hello");
 let r1 = &s; // OK
 let r2 = &s; // OK
 println!("{} and {}", r1, r2);
-// varijable r1 i r2 se ne koriste u nastavku pa njihov opseg
-// prestaje da važi.
+// варијабле r1 и r2 се не користе у наставку па њихов опсег
+// престаје да важи.
 
-let r3 = &mut s; // zato je ovo OK
+let r3 = &mut s; // зато је ово OK
 println!("{}", r3);
 #+end_src
 
-Ova osobina referenci se naziva /Non-Lexical Lifetimes (NLL)/.
+Ова особина референци се назива /Non-Lexical Lifetimes (NLL)/.
 
-*** "Viseće" reference
-- U jezicima sa pointerima lako je kreirati pointer na deo memorije koji je dealociran.
-- Rust garantovano sprečava ovakve greške. Reference su uvek validne u Rust-u.
+*** "Висеће" референце
+- У језицима са поинтерима лако је креирати поинтер на део меморије који је деалоциран.
+- Раст гарантовано спречава овакве грешке. Референце су увек валидне у Расту.
 
 #+begin_src rust
 fn main() {
@@ -1691,29 +1680,28 @@ For more information about this error, try `rustc --explain E0106`.
 error: could not compile `ownership` due to previous error
 #+end_example
 
-- Mehanizam koji ovo sprečava naziva se "vreme života" (/lifetime/) i biće
-  detaljnije obrađeno u nastavku.
-- U prevodu Rust nam poručuje:
+- Механизам који ово спречава назива се "време живота" (/lifetime/) и биће
+  детаљније обрађено у наставку.
+- У преводу Раст нам поручује:
 
   #+begin_quote
-  Tip povratne vrednosti ove funkcije je pozajmljena vrednost, ali vrednost koja
-  je pozajmljena posle povratka više ne postoji.
+  Тип повратне вредности ове функције је позајмљена вредност, али вредност која
+  је позајмљена после повратка више не постоји.
   #+end_quote
 
-*** Šta se tačno desilo
-
+*** Шта се тачно десило?
 #+begin_src rust
-fn dangle() -> &String { // dangle vraća referencu na String
+fn dangle() -> &String { // dangle враћа референцу на String
 
-    let s = String::from("hello"); // s je novi String
+    let s = String::from("hello"); // s је нови String
 
-    &s // Vraćamo referencu na String s
-} // s izlazi iz opsega i poziva se `drop`. Memorija se oslobađa.
-  // OPASNOST! Vraćena referenca će biti "viseća".
+    &s // Враћамо референцу на String s
+} // s излази из опсега и позива се `drop`. Меморија се ослобађа.
+  // ОПАСНОСТ! Враћена референца ће бити "висећа".
 #+end_src
 
-Kako se može rešiti. Vratićemo posedovanu (/owned/) vrednost, tj uradićemo
-premeštanje vrednosti u funkciju pozivaoca.
+Како се може решити. Вратићемо поседовану (/owned/) вредност, тј урадићемо
+премештање вредности у функцију позиваоца.
 
 #+begin_src rust
 fn no_dangle() -> String {
@@ -1723,18 +1711,18 @@ fn no_dangle() -> String {
 }
 #+end_src
 
-*** Pravila referenciranja
+*** Правила референцирања
+1. У сваком тренутку можемо имати или једну промењиву или произвољан број
+   непромењивих референци.
+2. Референце увек морају бити валидне.
 
-1. U svakom trenutku možemo imati ili jednu promenjivu ili proizvoljan broj
-   nepromenjivih referenci.
-1. Reference uvek moraju biti validne.
-** Isečci (/Slice/ tip)
+** Исечци (/Slice/ тип)
 *** /Slice/
-- Isečci (/slices/) omogućavaju referenciranje kontinualne sekvence unutar
-  kolekcije umesto cele kolekcije
+- Исечци (/slices/) омогућавају референцирање континуалне секвенце унутар
+  колекције уместо целе колекције
 
-*** Primer
-Funkcija koja za zadati string vraća prvu reč.
+*** Пример
+Функција која за задати стринг враћа прву реч.
 
 #+begin_src rust
 fn first_word(s: &String) -> usize {
@@ -1750,10 +1738,10 @@ fn first_word(s: &String) -> usize {
 }
 #+end_src
 
-- Dakle, vraćamo indeks kraja reči. Pozivaoc sada ima potrebne informacije da dođe do tražene reči.
-- Problem: dva podatka koja su u vezi ali moramo tu vezu ručno da održavamo jer
-  nemamo garanciju da će broj koji je vraćen biti validan i u budućnosti (npr.
-  string može da se promeni ili da izađe iz opsega).
+- Дакле, враћамо индекс краја речи. Позиваоц сада има потребне информације да дође до тражене речи.
+- Проблем: два податка која су у вези али морамо ту везу ручно да одржавамо јер
+  немамо гаранцију да ће број који је враћен бити валидан и у будућности (нпр.
+  стринг може да се промени или да изађе из опсега).
 
 #+REVEAL: split
 
@@ -1761,29 +1749,28 @@ fn first_word(s: &String) -> usize {
 fn main() {
     let mut s = String::from("hello world");
 
-    let word = first_word(&s); // word će dobiti vrednost 5
+    let word = first_word(&s); // word ће добити вредност 5
 
-    s.clear(); // string s postaje ""
+    s.clear(); // стринг s постаје ""
 
-    // word je i dalje 5 iako to više nije ispravno
+    // word је и даље 5 иако то више није исправно
 }
 #+end_src
 
 #+REVEAL: split
 
-Problem postaje još ozbiljniji ako npr. napišemo funkciju =second_word= koja vraća
-drugu reč zadatog stringa. Po analogiji sa prethodnim, trebali bi da vratimo
-početak i kraj druge reči.
+Проблем постаје још озбиљнији ако нпр. напишемо функцију =second_word= која враћа
+другу реч задатог стринга. По аналогији са претходним, требали би да вратимо
+почетак и крај друге речи.
 
 #+begin_src rust
 fn second_word(s: &String) -> (usize, usize) {
 #+end_src
 
-Sada imamo tri podatka o kojima moramo da vodimo računa.
+Сада имамо три податка о којима морамо да водимо рачуна.
 
-*** String isečak
-
-Problem rešavamo upotrebom isečaka.
+*** Стринг исечак
+Проблем решавамо употребом исечака.
 
 #+begin_src rust
 let s = String::from("hello world");
@@ -1793,13 +1780,13 @@ let world = &s[6..11];
 #+end_src
 
 #+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
-Sintaksa =s[x..y]= kreira isečak nad sekvencom =s=. S obzirom da ovaj tip (=[T]=) nema
-poznatu veličinu u vreme kompajliranja, ne možemo ga alocirati na steku, odnosno
-ne možemo ga dodeliti lokalnim varijablama ili prosleđivati kao parametar
-funkcije. Zato se u praksi koristi referenca na isečak (=&[T]=) (često se zove i
+Синтакса =s[x..y]= креира исечак над секвенцом =s=. С обзиром да овај тип (=[T]=) нема
+познату величину у време компајлирања, не можемо га алоцирати на стеку, односно
+не можемо га доделити локалним варијаблама или прослеђивати као параметар
+функције. Зато се у пракси користи референца на исечак (=&[T]=) (често се зове и
 /fat pointer/).
 
-Dakle, u praksi mnogo češće srećemo sintaksu =&s[x..y]=.
+Дакле, у пракси много чешће срећемо синтаксу =&s[x..y]=.
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
@@ -1809,8 +1796,8 @@ Dakle, u praksi mnogo češće srećemo sintaksu =&s[x..y]=.
 #+REVEAL_HTML: </div>
 
 #+REVEAL_HTML: <div style="clear: both;">
-*** Isečci i sintaksa opsega (/range/)
 
+*** Исечци и синтакса опсега (/range/)
 #+begin_src rust
 let s = String::from("hello");
 
@@ -1836,8 +1823,7 @@ let slice = &s[0..len];
 let slice = &s[..];
 #+end_src
 
-*** Modifikacija primera da koristi string isečke
-
+*** Модификација примера да користи стринг исечке
 #+begin_src rust
 fn first_word(s: &String) -> &str {
     let bytes = s.as_bytes();
@@ -1852,7 +1838,7 @@ fn first_word(s: &String) -> &str {
 }
 #+end_src
 
-Isti API i za =second_word=.
+Исти API и за =second_word=.
 
 #+begin_src rust
 fn second_word(s: &String) -> &str {
@@ -1860,14 +1846,14 @@ fn second_word(s: &String) -> &str {
 
 #+REVEAL: split
 
-Sada nam kompajler osigurava da uvek imamo validnu referencu na reč.
+Сада нам компајлер осигурава да увек имамо валидну референцу на реч.
 #+begin_src rust
 fn main() {
     let mut s = String::from("hello world");
 
     let word = first_word(&s);
 
-    s.clear(); // GREŠKA!
+    s.clear(); // ГРЕШКА!
 
     println!("the first word is: {}", word);
 }
@@ -1892,33 +1878,31 @@ For more information about this error, try `rustc --explain E0502`.
 error: could not compile `ownership` due to previous error
 #+end_example
 
-Ne samo da je API lakši za upotrebu već je čitava klasa grešaka koje se teško
-otkrivaju eliminisana u vreme kompajliranja.
+Не само да је API лакши за употребу већ је читава класа грешака које се тешко
+откривају елиминисана у време компајлирања.
 
-*** String literali su reference na isečke
-
+*** Стринг литерали су референце на исечке
 #+begin_src rust
 let s = "Hello, world!";
 #+end_src
 
-Tip od =s= je =&str=. =str= je string isečak.
+Тип од =s= је =&str=. =str= је стринг исечак.
 
-*** String isečci kao parametri funkcija
-
+*** Стринг исечци као параметри функција
 #+begin_src rust
 fn first_word(s: &String) -> &str {
 #+end_src
 
-Ali će iskusni Rust programeri pisati:
+Али ће искусни Раст програмери писати:
 
 #+begin_src rust
 fn first_word(s: &str) -> &str {
 #+end_src
 
-Jer će ova funkcija moći da se koristi i za =&str= i za =&String=. Ovde se
-upotrebljava tzv. /Deref Coercion/ odnosno mogućnosti tipova da se dereferenciraju
-u drugi tip. Npr. =&String= će se automatski dereferencirati u =&str= ukoliko je to
-potrebno. Operacija je efikasna.
+Јер ће ова функција моћи да се користи и за =&str= и за =&String=. Овде се
+употребљава тзв. /Deref Coercion/ односно могућности типова да се дереференцирају
+у други тип. Нпр. =&String= ће се аутоматски дереференцирати у =&str= уколико је то
+потребно. Операција је ефикасна.
 
 #+REVEAL: split
 
@@ -1945,39 +1929,38 @@ fn main() {
 }
 #+end_src
 
-*** Upotreba isečaka nad drugim strukturama
-
+*** Употреба исечака над другим структурама
 #+begin_src rust
 let a = [1, 2, 3, 4, 5];
 
-let slice = &a[1..3]; // referenca na isečak tipa &[i32]
+let slice = &a[1..3]; // референца на исечак типа &[i32]
 
 assert_eq!(slice, &[2, 3]);
 #+end_src
 
-* Strukture
-* Enumeracije i podudaranje obrazaca (/Pattern Matching/)
-** /Enum/ tip
-*** /Enum/ tip
-- Definisanje tipa navođenjem svih mogućih varijanti
-- Varijanta može da sadrži dodatne podatke
-- Slično sa algebarskim tipovima podataka (/algebraic data types/) u funkcionalnim
-  jezicima, npr. F#, OCaml i Haskell-u. Ova vrsta algebarskog tipa je poznata i
-  pod nazivom /sum type/.
+* Структуре
+* Енумерације и подударање образаца (/Pattern Matching/)
+** /Enum/ тип
+*** /Enum/ тип
+- Дефинисање типа навођењем свих могућих варијанти
+- Варијанта може да садржи додатне податке
+- Слично са алгебарским типовима података (/algebraic data types/) у функционалним
+  језицима, нпр. F#, OCaml и Haskell-у. Ова врста алгебарског типа је позната и
+  под називом /sum type/.
 
-*** Primer - IP adresa
-- IP adresa predstavlja identifikaciju mrežnih interfejsa u uređajima koji
-  komuniciraju posredstvom Internet protokola (/Internet Protocol - IP/).
-- Trenutno imamo u upotrebi staru verziju 4 i novu verziju 6 koja će vremenom
-  zameniti verziju 4.
-- Verzija 4 je dužine 32 bita i navodi se kao četiri okteta u obliku npr.
+*** Пример - IP адреса
+- IP адреса представља идентификацију мрежних интерфејса у уређајима који
+  комуницирају посредством Интернет протокола (/Internet Protocol - IP/).
+- Тренутно имамо у употреби стару верзију 4 и нову верзију 6 која ће временом
+  заменити верзију 4.
+- Верзија 4 је дужине 32 бита и наводи се као четири октета у облику нпр.
   =192.0.2.1=
-- Verzija 6 je dužine 128 bita i navodi se kao 8 grupa od po 4 heksa cifre
-  razdvojene sa =:=, npr. =2001:db8:0:1234:0:567:8:1=
+- Верзија 6 је дужине 128 бита и наводи се као 8 група од по 4 хекса цифре
+  раздвојене са =:=, нпр. =2001:db8:0:1234:0:567:8:1=
 
 #+REVEAL: split
 
-U Rust-u možemo pisati sledeće:
+У Расту можемо писати следеће:
 
 #+begin_src rust
 enum IpAddrKind {
@@ -1986,16 +1969,16 @@ enum IpAddrKind {
 }
 #+end_src
 
-Dok vrednosti možemo kreirati sa:
+Док вредности можемо креирати са:
 #+begin_src rust
 let four = IpAddrKind::V4;
 let six = IpAddrKind::V6;
 #+end_src
 
-*** Primer - IP adresa - funkcija
+*** Пример - IP адреса - функција
 
-Sada možemo pisati funkciju koja prima ovaj tip čime je moguće proslediti bilo
-koju varijantu kao argument.
+Сада можемо писати функцију која прима овај тип чиме је могуће проследити било
+коју варијанту као аргумент.
 
 #+begin_src rust
 fn route(ip_kind: IpAddrKind) {}
@@ -2006,10 +1989,10 @@ route(IpAddrKind::V4);
 route(IpAddrKind::V6);
 #+end_src
 
-*** Primer - IP adresa - vrednost
+*** Пример - IP адреса - вредност
 
-- Ali kako da definišemo konkretnu vrednost IP adrese?
-- Prva ideja bi mogla biti da koristimo strukturu.
+- Али како да дефинишемо конкретну вредност IP адресе?
+- Прва идеја би могла бити да користимо структуру.
 
 #+begin_src rust
 enum IpAddrKind {
@@ -2035,8 +2018,8 @@ let loopback = IpAddr {
 
 #+REVEAL: split
 
-Ali, sa =enum= tipom možemo to uraditi i bolje. =Enum= varijante mogu sadržati
-dodatne podatke.
+Али, са =enum= типом можемо то урадити и боље. =Enum= варијанте могу садржати
+додатне податке.
 
 #+begin_src rust
 enum IpAddr {
@@ -2050,9 +2033,9 @@ let loopback = IpAddr::V6(String::from("::1"));
 #+end_src
 
 #+REVEAL: split
-Vrednost sadržana u varijanti ne mora biti ista za sve varijante. Na primer,
-IPv4 se sastoji od 4 okteta i možda želimo da vrednost navodimo i čuvamo u tom
-obliku.
+Вредност садржана у варијанти не мора бити иста за све варијанте. На пример,
+IPv4 се састоји од 4 октета и можда желимо да вредност наводимо и чувамо у том
+облику.
 
 #+begin_src rust
 enum IpAddr {
@@ -2065,10 +2048,10 @@ let home = IpAddr::V4(127, 0, 0, 1);
 let loopback = IpAddr::V6(String::from("::1"));
 #+end_src
 
-*** Primer - IP adresa - std biblioteka
+*** Пример - IP адреса - std библиотека
 
-U standardnoj biblioteci možemo pronaći tip =IpAddr=. Definisan je na sledeći
-način.
+У стандардној библиотеци можемо пронаћи тип =IpAddr=. Дефинисан је на следећи
+начин.
 
 #+begin_src rust
 struct Ipv4Addr {
@@ -2085,7 +2068,7 @@ enum IpAddr {
 }
 #+end_src
 
-*** Primer  - /Message/
+*** Пример  - /Message/
 
 #+begin_src rust
 enum Message {
@@ -2097,7 +2080,7 @@ enum Message {
 #+end_src
 
 #+REVEAL: split
-Sledeće strukture sadrže iste podatke kao prethodni =enum= tip.
+Следеће структуре садрже исте податке као претходни =enum= тип.
 
 #+begin_src rust
 struct QuitMessage; // unit struct
@@ -2109,17 +2092,17 @@ struct WriteMessage(String); // tuple struct
 struct ChangeColorMessage(i32, i32, i32); // tuple struct
 #+end_src
 
-Ali, prednost =enum= tipa je što je to jedinstven tip pa možemo npr. napraviti
-funkciju koja prima bilo koju vrednost/varijantu ovog tipa.
+Али, предност =enum= типа је што је то јединствен тип па можемо нпр. направити
+функцију која прима било коју вредност/варијанту овог типа.
 
 #+REVEAL: split
-Nad =enum= tipom, kao i drugim tipovima, možemo implementirati metode upotrebom
-=imlp= ključne reči.
+Над =enum= типом, као и другим типовима, можемо имплементирати методе употребом
+=imlp= кључне речи.
 
 #+begin_src rust
 impl Message {
     fn call(&self) {
-        // telo metode se ovde definiše
+        // тело методе се овде дефинише
     }
 }
 
@@ -2127,23 +2110,22 @@ let m = Message::Write(String::from("hello"));
 m.call();
 #+end_src
 
-** =Option= enumeracija
-*** =Option= enumeracija
-
-- Čest slučaj da vrednost može biti nešto ili ništa.
-- Npr. ako funkcija vraća prvi element iz liste koja nije prazna dobićemo prvi
-  element, međutim ako je lista prazna povratna vrednost je ništa.
-- Ovaj koncept se u različitim jezicima različito implementira. Često se koristi
-  specijalna vrednost =null= (ili =nil=, =none= i sl.) i sve varijable mogu biti =null=
-  ili =non-null=. Problem je što programer ne definiše mogućnost ove vrednosti
-  kroz tip pa samim tim kompajler nema mogućnost da proveri da li kod ispravno
-  obrađuje ovu mogućnost.
+** =Option= енумерација
+*** =Option= енумерација
+- Чест случај да вредност може бити нешто или ништа.
+- Нпр. ако функција враћа први елемент из листе која није празна добићемо први
+  елемент, међутим ако је листа празна повратна вредност је ништа.
+- Овај концепт се у различитим језицима различито имплементира. Често се користи
+  специјална вредност =null= (или =nil=, =none= и сл.) и све варијабле могу бити =null=
+  или =non-null=. Проблем је што програмер не дефинише могућност ове вредности
+  кроз тип па самим тим компајлер нема могућност да провери да ли код исправно
+  обрађује ову могућност.
 
 #+REVEAL: split
 
-U prezentaciji iz 2009 godine pod nazivom /Null References: The Billion Dollar
-Mistake/ Tony Hoare, koji je prvi uveo =null= vrednost kao koncept je napisao
-sledeće:
+У презентацији из 2009 године под називом /Null References: The Billion Dollar
+Mistake/ Tony Hoare, који је први увео =null= вредност као концепт је написао
+следеће:
 
 #+begin_quote
 I call it my billion-dollar mistake. At that time, I was designing the first
@@ -2158,7 +2140,7 @@ last forty years.
 
 #+REVEAL: split
 
-=Option= je generički =enum= tip u Rust-u.
+=Option= је генерички =enum= тип у Расту.
 #+begin_src rust
 enum Option<T> {
     None,
@@ -2166,16 +2148,15 @@ enum Option<T> {
 }
 #+end_src
 
-Primeri upotrebe:
+Примери употребе:
 #+begin_src rust
-let some_number = Some(5);           // tip je Option<i32>
-let some_string = Some("a string");  // tip je Option<&str>
+let some_number = Some(5);           // тип је Option<i32>
+let some_string = Some("a string");  // тип је Option<&str>
 
-let absent_number: Option<i32> = None;    // nemoguć inference
+let absent_number: Option<i32> = None;    // немогућа инференца
 #+end_src
 
-*** Zašto je =Option<T>= bolji od =null=?
-
+*** Зашто је =Option<T>= бољи од =null=?
 #+begin_src rust
 let x: i8 = 5;
 let y: Option<i8> = Some(5);
@@ -2198,12 +2179,11 @@ For more information about this error, try `rustc --explain E0277`.
 error: could not compile `enums` due to previous error
 #+end_example
 
-*** Kako obrađivati =Option<T>= podatke?
-
-- Moramo eksplicitno obraditi vrednost =Option<T>= i mogućnost da vrednost bude
+*** Како обрађивати =Option<T>= податке?
+- Морамо експлицитно обрадити вредност =Option<T>= и могућност да вредност буде
   =None=.
-- =Option<T>= tip ima [[https://doc.rust-lang.org/stable/std/option/enum.Option.html][bogat API]] koji je potrebno znati jer je ovaj tip vrlo često
-  u upotrebi.
+- =Option<T>= тип има [[https://doc.rust-lang.org/stable/std/option/enum.Option.html][богат API]] који је потребно знати јер је овај тип врло често
+  у употреби.
 
 #+begin_src rust
 let x = Some(2);
@@ -2215,17 +2195,17 @@ let y = Some(100);
 assert_eq!(x.or(y), Some(100));
 #+end_src
 
-- Često koristimo jezičke konstrukcije koje omogućavaju obradu obe varijante.
+- Често користимо језичке конструкције које омогућавају обраду обе варијанте.
 
-** =match= konstrukcija za kontrolu toka
-*** =match= izraz
-- Moćan izraz kontrole toka baziran na podudaranju obrazaca (/Pattern Matching/).
-- Obrazac može biti literal, naziv varijable, džoker (/wildcards/) itd.
-- =match= izraz će izvršiti podudaranje uz iscrpljivanje svih mogućnost. Ukoliko
-  neka mogućnost nije obrađena kompajler će prijaviti grešku.
+** =match= конструкција за контролу тока
+*** =match= израз
+- Моћан израз контроле тока базиран на подударању образаца (/Pattern Matching/).
+- Образац може бити литерал, назив варијабле, џокер (/wildcards/) итд.
+- =match= израз ће извршити подударање уз исцрпљивање свих могућност. Уколико
+  нека могућност није обрађена компајлер ће пријавити грешку.
 
-*** =match= kao mašina za sortiranje novčića
-Za početak možemo =match= izraz posmatrati kao automat za sortiranje novčića.
+*** =match= као машина за сортирање новчића
+За почетак можемо =match= израз посматрати као аутомат за сортирање новчића.
 
 #+begin_src rust
 enum Coin {
@@ -2245,17 +2225,17 @@ fn value_in_cents(coin: Coin) -> u8 {
 }
 #+end_src
 
-- =match= počinje sa izrazom proizvoljnog tipa.
-- U telu se nalaze "ruke" (/arms/) gde svaka ruka ima levu stranu koja predstavlja
-  obrazac za podudaranje i desnu stranu (posle ~=>~) koja predstavlja kod koji se
-  evaluira u slučaju podudaranja. Ruke su razdvojene zarezima.
-- Ruke se podudaraju u redosledu navođenja.
-- Povratna vrednost celog =match= izraza biće vrednost evaluiranog koda ruke čije
-  je podudaranje uspelo
+- =match= почиње са изразом произвољног типа.
+- У телу се налазе "руке" (/arms/) где свака рука има леву страну која представља
+  образац за подударање и десну страну (после ~=>~) која представља код који се
+  евалуира у случају подударања. Руке су раздвојене зарезима.
+- Руке се подударају у редоследу навођења.
+- Повратна вредност целог =match= израза биће вредност евалуираног кода руке чије
+  је подударање успело
 
 #+REVEAL: split
 
-Možemo na desnoj strani koristiti proizvoljan izraz pa i blok koda.
+Можемо на десној страни користити произвољан израз па и блок кода.
 #+begin_src rust
 fn value_in_cents(coin: Coin) -> u8 {
     match coin {
@@ -2270,8 +2250,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 }
 #+end_src
 
-*** Povezivanje imena pri podudaranju (/binding/)
-
+*** Повезивање имена при подударању (/binding/)
 #+begin_src rust
 #[derive(Debug)]
 enum UsState {
@@ -2301,8 +2280,7 @@ fn value_in_cents(coin: Coin) -> u8 {
 }
 #+end_src
 
-*** =match= je iscrpan
-
+*** =match= је исцрпан
 #+begin_src rust
 fn value_in_cents(coin: Coin) -> u8 {
     match coin {
@@ -2336,8 +2314,7 @@ error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
    = note: the matched value is of type `Coin`
 #+end_example
 
-*** Podudaranje sa =Option<T>= tipom
-
+*** Подударање са =Option<T>= типом
 #+begin_src rust
 fn plus_one(x: Option<i32>) -> Option<i32> {
     match x {
@@ -2353,7 +2330,7 @@ let none = plus_one(None);
 
 #+REVEAL: split
 
-Pošto je =match= iscrpan ne možemo zaboraviti da obradimo =None= slučaj.
+Пошто је =match= исцрпан не можемо заборавити да обрадимо =None= случај.
 
 #+begin_src rust
 fn plus_one(x: Option<i32>) -> Option<i32> {
@@ -2379,10 +2356,9 @@ For more information about this error, try `rustc --explain E0004`.
 error: could not compile `enums` due to previous error
 #+end_example
 
-*** Podrazumevana obrada preostalih slučajeva
-
-- Želimo na specifičan način obradimo samo nekoliko slučajeva dok za sve ostale
-  radimo podrazumevanu obradu.
+*** Подразумевана обрада преосталих случајева
+- Желимо на специфичан начин обрадимо само неколико случајева док за све остале
+  радимо подразумевану обраду.
 
 #+begin_src rust
 let dice_roll = 9;
@@ -2397,13 +2373,13 @@ fn remove_fancy_hat() {}
 fn move_player(num_spaces: u8) {}
 #+end_src
 
-- Rust će nas upozoriti ako dodamo ruku posle one koja obrađuje sve slučajeve
-  jer ta se ruka nikada neće upotrebiti.
+- Раст ће нас упозорити ако додамо руку после оне која обрађује све случајеве
+  јер та се рука никада неће употребити.
 
 #+REVEAL: split
 
-Ako želimo da obradimo sve slučajeve ali nas vrednost ne interesuje možemo
-koristiti =_=.
+Ако желимо да обрадимо све случајеве али нас вредност не интересује можемо
+користити =_=.
 
 #+begin_src rust
 let dice_roll = 9;
@@ -2418,9 +2394,8 @@ fn remove_fancy_hat() {}
 fn reroll() {}
 #+end_src
 ** =if let= kontrola toka
-
-=if let= nam omogućava kombinaciju =if= i =let= iskaze u manje opširan iskaz za obradu
-samo jednog slučaja poklapanja i ignorisanje ostalih.
+=if let= нам омогућава комбинацију =if= и =let= исказе у мање опширан исказ за обраду
+само једног случаја поклапања и игнорисање осталих.
 
 #+begin_src rust
 let config_max = Some(3u8);
@@ -2430,7 +2405,7 @@ match config_max {
 }
 #+end_src
 
-Ovo možemo konciznije iskazati sa:
+Ово можемо концизније исказати са:
 
 #+begin_src rust
 let config_max = Some(3u8);
@@ -2439,26 +2414,26 @@ if let Some(max) = config_max {
 }
 #+end_src
 
-- Gubimo iscrpnost =match= izraza.
-- Sintaksni šećer u situacijama kada želimo da ignorišemo ostale mogućnosti.
+- Губимо исцрпност =match= израза.
+- Синтаксни шећер у ситуацијама када желимо да игноришемо остале могућности.
 
 #+REVEAL: split
 
 #+begin_note
-Obrasci za podudaranje [[https://doc.rust-lang.org/book/ch18-02-refutability.html][mogu imati dve forme]]: poništiv (/refutable/) i neponištiv
-(/irrefutable/). Obrazac koji uvek mora uspeti (npr. =let x = 5;=) je neponištiv.
-Obrazac koji ne mora da uspe uvek je poništiv (npr. =if let Some(x) = a_value=
-neće uspeti za ~a_value==None~).
+Обрасци за подударање [[https://doc.rust-lang.org/book/ch18-02-refutability.html][могу имати две форме]]: поништив (/refutable/) и непоништив
+(/irrefutable/). Образац који увек мора успети (нпр. =let x = 5;=) је непоништив.
+Образац који не мора да успе увек је поништив (нпр. =if let Some(x) = a_value=
+неће успети за ~a_value==None~).
 
-Parametri funkcija, =let= iskazi i =for= petlje prihvataju samo neponištive obrasce
-jer program ne može uraditi ništa smisleno ukoliko podudaranje ne uspe.
+Параметри функција, =let= искази и =for= петље прихватају само непоништиве обрасце
+јер програм не може урадити ништа смислено уколико подударање не успе.
 
-=if let= i =while let= prihvataju i poništive i neponištive obrasce ali će nas
-kompajler upozoriti ukoliko koristimo neponištive.
+=if let= и =while let= прихватају и поништиве и непоништиве обрасце али ће нас
+компајлер упозорити уколико користимо непоништиве.
 #+end_note
 
 #+REVEAL: split
-Možemo koristiti i =else= granu. Sledeće je ekvivalentno.
+Можемо користити и =else= грану. Следеће је еквивалентно.
 
 #+begin_src rust
 let mut count = 0;
@@ -2477,22 +2452,22 @@ if let Coin::Quarter(state) = coin {
 }
 #+end_src
 
-* Moduli
-* Kolekcije
-* Obrada grešaka
-* Generički tipovi, osobine (/Traits/) i životni vek (/Lifetimes/)
-** Generički tipovi (/generics/)
-*** Generički tipovi (/generics/)
-- Mehanizam za eliminaciju dupliranja koda.
-- Generički tipovi su apstraktne zamene za konkretne tipove u druge osobine u
-  vreme izvršavanja.
-- Omogućavaju nam da na apstraktan način iskažemo osobine tipova i njihove veze
-  sa drugim tipovima bez znanja o tome koji će se konkretni tipovi naći na
-  njihovom mestu u vreme kompajliranja i izvršavanja koda.
-- Na primer funkcije mogu primiti generičke parametre. Takođe, složeni tipovi
-  mogu biti parametrizovani generičkim tipovima (primer je =Option<T>=).
+* Модули
+* Колекције
+* Обрада грешака
+* Генерички типови, особине (/Traits/) и животни век (/Lifetimes/)
+** Генерички типови (/generics/)
+*** Генерички типови (/generics/)
+- Механизам за елиминацију дуплирања кода.
+- Генерички типови су апстрактне замене за конкретне типове у друге особине у
+  време извршавања.
+- Омогућавају нам да на апстрактан начин искажемо особине типова и њихове везе
+  са другим типовима без знања о томе који ће се конкретни типови наћи на
+  њиховом месту у време компајлирања и извршавања кода.
+- На пример функције могу примити генеричке параметре. Такође, сложени типови
+  могу бити параметризовани генеричким типовима (пример је =Option<T>=).
 
-*** Uklanjanje duplog koda upotrebom funkcija
+*** Уклањање дуплог кода употребом функција
 
 #+begin_src rust
 fn main() {
@@ -2571,15 +2546,15 @@ fn main() {
 
 #+REVEAL: split
 
-Postupak eliminacije duplog koda je podrazumevao sledeće:
+Поступак елиминације дуплог кода је подразумевао следеће:
 
-1. Identifikacija duplog koda.
-2. Ekstrakcija koda u funkciju, definisanje parametara i povratne vrednosti.
-3. Zamena instanci duplog koda sa pozivom funkcije.
+1. Идентификација дуплог кода.
+2. Екстракција кода у функцију, дефинисање параметара и повратне вредности.
+3. Замена инстанци дуплог кода са позивом функције.
 
-*** Uklanjanje duplog koda upotrebom generičkih funkcija
+*** Уклањање дуплог кода употребом генеричких функција
 
-Imamo funkciju za pronalaženje najvećeg elementa u listi sa različitim tipovima.
+Имамо функцију за проналажење највећег елемента у листи са различитим типовима.
 #+begin_src rust
 fn largest_i32(list: &[i32]) -> i32 {
     let mut largest = list[0];
@@ -2590,7 +2565,6 @@ fn largest_i32(list: &[i32]) -> i32 {
     }
     largest
 }
-
 fn largest_char(list: &[char]) -> char {
     let mut largest = list[0];
     for &item in list {
@@ -2600,7 +2574,6 @@ fn largest_char(list: &[char]) -> char {
     }
     largest
 }
-
 fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
     let result = largest_i32(&number_list);
@@ -2613,18 +2586,18 @@ fn main() {
 
 #+REVEAL: split
 
-Funkcije su gotovo identične. Razlika je samo u tipu. Pišemo generičku funkciju
-tako što definišemo generički tip unutar =<>= posle naziva funkcije:
+Функције су готово идентичне. Разлика је само у типу. Пишемо генеричку функцију
+тако што дефинишемо генерички тип унутар =<>= после назива функције:
 
 #+begin_src rust
 fn largest<T>(list: &[T]) -> T {
 #+end_src
 
-=T= je generički tip i u vreme kompajliranja biće zamenjen sa konkretnim tipom.
+=T= је генерички тип и у време компајлирања биће замењен са конкретним типом.
 
 #+REVEAL: split
 
-Sada je naš kod sledeći:
+Сада је наш код следећи:
 
 #+begin_src rust
 fn largest<T>(list: &[T]) -> T {
@@ -2654,7 +2627,7 @@ fn main() {
 
 #+REVEAL: split
 
-Ali se ne kompajlira.
+Али се не компајлира.
 
 #+begin_src rust
 $ cargo run
@@ -2676,12 +2649,12 @@ For more information about this error, try `rustc --explain E0369`.
 error: could not compile `chapter10` due to previous error
 #+end_src
 
-Tip =T= može biti bilo koji tip pa i tip koji ne definiše operaciju =>= koja se
-koristi u kodu. Dakle, moramo ograničiti koji tipovi su mogući.
+Тип =T= може бити било који тип па и тип који не дефинише операцију =>= која се
+користи у коду. Дакле, морамо ограничити који типови су могући.
 
-Videćemo kako se ovo radi u nastavku u priči o osobinama (/Traits/).
+Видећемо како се ово ради у наставку у причи о особинама (/Traits/).
 
-*** Generički tipovi u strukturama
+*** Генерички типови у структурама
 
 #+begin_src rust
 struct Point<T> {
@@ -2697,7 +2670,7 @@ fn main() {
 
 #+REVEAL: split
 
-Tipovi oba polja moraju biti isti.
+Типови оба поља морају бити исти.
 
 #+begin_src rust
 struct Point<T> {
@@ -2725,7 +2698,7 @@ error: could not compile `chapter10` due to previous error
 
 #+REVEAL: split
 
-Ako želimo da polja imaju različite tipove onda moramo imati različite generičke tipove.
+Ако желимо да поља имају различите типове онда морамо имати различите генеричке типове.
 
 #+begin_src rust
 struct Point<T, U> {
@@ -2740,7 +2713,7 @@ fn main() {
 }
 #+end_src
 
-*** Generički tipovi u enumeracijama
+*** Генерички типови у енумерацијама
 
 #+begin_src rust
 enum Option<T> {
@@ -2758,7 +2731,7 @@ enum Result<T, E> {
 }
 #+end_src
 
-*** Definicije metoda
+*** Дефиниције метода
 
 #+begin_src rust
 struct Point<T> {
@@ -2779,13 +2752,13 @@ fn main() {
 }
 #+end_src
 
-Pošto smo naveli =<T>= iza ključne reči =impl= Rust dalje zna da je tip =T= generički
-a ne konkretni tip tako da je metoda =x= za =Point<T>= definisana nad svim tipovima
+Пошто смо навели =<T>= иза кључне речи =impl= Раст даље зна да је тип =T= генерички
+а не конкретни тип тако да је метода =x= за =Point<T>= дефинисана над свим типовима
 =T=.
 
 #+REVEAL: split
 
-Mogli smo npr. metodu definisati samo za određeni =Point= tip.
+Могли смо нпр. методу дефинисати само за одређени =Point= тип.
 
 #+begin_src rust
 impl Point<f32> {
@@ -2795,14 +2768,14 @@ impl Point<f32> {
 }
 #+end_src
 
-Ovaj =impl= blok definiše metodu =distance_from_origin= ali samo za =Point<f32>= dok
-ostali =Point= tipovi neće imati ovu metodu.
+Овај =impl= блок дефинише методу =distance_from_origin= али само за =Point<f32>= док
+остали =Point= типови неће имати ову методу.
 
-*** Generički tipovi u metodama i =impl= blokovima
+*** Генерички типови у методама и =impl= блоковима
 
-Generički tipovi u strukturama i metodama ne moraju biti isti. Na primer, možemo
-kreirati metodu =mixup= koja uzima dve instance =Point= i vraća novi =Point= tip gde
-će prvo polje imati isti tip kao prva tačka a drugo polje kao druga tačka.
+Генерички типови у структурама и методама не морају бити исти. На пример, можемо
+креирати методу =mixup= која узима две инстанце =Point= и враћа нови =Point= тип где
+ће прво поље имати исти тип као прва тачка а друго поље као друга тачка.
 
 #+begin_src rust
 struct Point<X1, Y1> {
@@ -2827,23 +2800,23 @@ fn main() {
 }
 #+end_src
 
-- Generički tipovi =X2= i =Y2= su navedeni samo u metodi jer su relevantni samo u
-  njenom kontekstu.
+- Генерички типови =X2= и =Y2= су наведени само у методи јер су релевантни само у
+  њеном контексту.
 
-*** Performanse
+*** Перформансе
 
-Upotreba generičkog koda ne dovodi do degradacije performansi. Rust koristi
-tehniku monomorfizacije (/Monomorphization/) kod koje će kompajler instancirati
-konkretan kod za svaki tip posebno.
+Употреба генеричког кода не доводи до деградације перформанси. Раст користи
+технику мономорфизације (/Monomorphization/) код које ће компајлер инстанцирати
+конкретан код за сваки тип посебно.
 
-To bi značilo sledeće. Ako imamo kod:
+То би значило следеће. Ако имамо код:
 
 #+begin_src rust
 let integer = Some(5);
 let float = Some(5.0)
 #+end_src
 
-Kompajler će proizvesti kod ekvivalentan sledećem:
+Компајлер ће произвести код еквивалентан следећем:
 #+begin_src rust
 enum Option_i32 {
     Some(i32),
@@ -2860,18 +2833,18 @@ fn main() {
     let float = Option_f64::Some(5.0);
 }
 #+end_src
-** Osobine (/Traits/) - definisanje zajedničkog ponašanja
+** Особине (/Traits/) - дефинисање заједничког понашања
 *** /Traits/
-- /Trait/ definiše funkcionalnost koju tip može deliti sa drugim tipovima.
-- U drugim jezicima sličan koncept naziva se interfejs.
-- Možemo koristiti /ograničenja kroz osobine/ (/Trait bounds/) da definišemo da
-  generički tip mora zadovoljiti određena ograničenja.
+- /Trait/ дефинише функционалност коју тип може делити са другим типовима.
+- У другим језицима сличан концепт назива се интерфејс.
+- Можемо користити /ограничења кроз особине/ (/Trait bounds/) да дефинишемо да
+  генерички тип мора задовољити одређена ограничења.
 
-*** Definisanje osobina
+*** Дефинисање особина
 
-- Primer definisanja media agregator biblioteke koja može da prikaze sažetak
-  podataka koji se može čuvati u =NewsArticle= ili =Tweet= instanci.
-- Definišemo =Summary= osobinu da opišemo ovu funkcionalnost.
+- Пример дефинисања медиа агрегатор библиотеке која може да приказе сажетак
+  података који се може чувати у =NewsArticle= или =Tweet= инстанци.
+- Дефинишемо =Summary= особину да опишемо ову функционалност.
 
 #+begin_src rust
 pub trait Summary {
@@ -2879,7 +2852,7 @@ pub trait Summary {
 }
 #+end_src
 
-*** Implementacija osobina
+*** Имплементација особина
 
 #+begin_src rust
 pub struct NewsArticle {
@@ -2911,8 +2884,8 @@ impl Summary for Tweet {
 
 #+REVEAL: split
 
-Metode osobina se pozivaju kao i obične metode. Jedina razlika je u tome što
-metode osobina moraju biti dostupne u opsegu (uključiti ih sa =use=).
+Методе особина се позивају као и обичне методе. Једина разлика је у томе што
+методе особина морају бити доступне у опсегу (укључити их са =use=).
 
 #+begin_src rust
 use aggregator::{Summary, Tweet};
@@ -2934,19 +2907,19 @@ fn main() {
 #+REVEAL: split
 
 #+begin_note
-Ograničenje u upotrebi osobina je da možemo implementirati osobinu nad tipom
-jedino ako je bar jedno od njih lokalno za naš sanduk. Ovo pravilo je deo skupa
-pravila koji se nazivaju /coherence/. Konkretno ovo pravilo zove se /orphan rule/ i
-sprečava nekompatibilne implementacije osobina nad tipovima od strane više
-sanduka.
+Ограничење у употреби особина је да можемо имплементирати особину над типом
+једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
+правила који се називају /coherence/. Конкретно ово правило зове се /orphan rule/ и
+спречава некомпатибилне имплементације особина над типовима од стране више
+сандука.
 
-Bez ovog pravila moglo bi se desiti da dva različita sanduka implementiraju istu
-osobinu nad istim tipom na različite načine i kompajler ne bi znao koju verziju
-da koristi.
+Без овог правила могло би се десити да два различита сандука имплементирају исту
+особину над истим типом на различите начине и компајлер не би знао коју верзију
+да користи.
 #+end_note
-*** Podrazumevana implementacija
+*** Подразумевана имплементација
 
-Osobina može imati podrazumevanu implementaciju metoda.
+Особина може имати подразумевану имплементацију метода.
 
 #+begin_src rust
 pub trait Summary {
@@ -2956,8 +2929,8 @@ pub trait Summary {
 }
 #+end_src
 
-Da bi koristili podrazumevanu implementaciju možemo navesti prazno telo u =impl=
-bloku:
+Да би користили подразумевану имплементацију можемо навести празно тело у =impl=
+блоку:
 
 #+begin_src rust
 impl Summary for NewsArticle {}
@@ -2965,7 +2938,7 @@ impl Summary for NewsArticle {}
 
 #+REVEAL: split
 
-I zatim možemo pozvati =summarize= metodu:
+И затим можемо позвати =summarize= методу:
 
 #+begin_src rust
 let article = NewsArticle {
@@ -2983,8 +2956,8 @@ let article = NewsArticle {
 
 #+REVEAL: split
 
-- Podrazumevana implementacija može biti redefinisana prilikom implementacije.
-- Takođe, podrazumevane metode mogu pozivati druge metode.
+- Подразумевана имплементација може бити редефинисана приликом имплементације.
+- Такође, подразумеване методе могу позивати друге методе.
 
 #+begin_src rust
 pub trait Summary {
@@ -2996,8 +2969,8 @@ pub trait Summary {
 }
 #+end_src
 
-Sada je potrebno i dovoljno da prilikom implementacije definišemo
-=summarize_author= metodu:
+Сада је потребно и довољно да приликом имплементације дефинишемо
+=summarize_author= методу:
 
 #+begin_src rust
 impl Summary for Tweet {
@@ -3008,8 +2981,8 @@ impl Summary for Tweet {
 #+end_src
 *** Osobine kao parametri
 
-- Sada možemo koristiti osobine da definišemo funkcije koje rade nad parametrima
-  različitog tipa.
+- Сада можемо користити особине да дефинишемо функције које раде над параметрима
+  различитог типа.
 
 #+begin_src rust
 pub fn notify(item: &impl Summary) {
@@ -3017,12 +2990,12 @@ pub fn notify(item: &impl Summary) {
 }
 #+end_src
 
-Sada funkcija =notify= radi nad svim tipovima koji implementiraju =Summary=
+Сада функција =notify= ради над свим типовима који имплементирају =Summary=
 
 #+REVEAL: split
 
-Prethodna upotreba =impl= kod parametra je sintaksni šećer za opšti oblik
-navođenja ograničenja kroz osobine.
+Претходна употреба =impl= код параметра је синтаксни шећер за општи облик
+навођења ограничења кроз особине.
 
 #+begin_src rust
 pub fn notify<T: Summary>(item: &T) {
@@ -3030,51 +3003,51 @@ pub fn notify<T: Summary>(item: &T) {
 }
 #+end_src
 
-Ograničenja kroz osobine (/Trait bounds/) stavljamo posle dvotačke kod navođenja
-generičkog tipa. Kompajler će verifikovati da sve što koristimo nad vrednostima
-ovog tipa unutar funkcije je zaista definisano osobinama navedenim u zaglavlju.
+Ограничења кроз особине (/Trait bounds/) стављамо после двотачке код навођења
+генеричког типа. Компајлер ће верификовати да све што користимо над вредностима
+овог типа унутар функције је заиста дефинисано особинама наведеним у заглављу.
 
 #+REVEAL: split
 
-=impl Trait= sintakse je konciznija kod jednostavnih primera ali je puna sintaksa
-bolja kod složenijih primera.
+=impl Trait= синтаксе је концизнија код једноставних примера али је пуна синтакса
+боља код сложенијих примера.
 
-Na primer:
+На пример:
 
 #+begin_src rust
 pub fn notify(item1: &impl Summary, item2: &impl Summary) {
 #+end_src
 
-bi u punoj sintaksi bilo:
+би у пуној синтакси било:
 
 #+begin_src rust
 pub fn notify<T: Summary>(item1: &T, item2: &T) {
 #+end_src
 
-*** Višestruke osobine kod ograničenja
+*** Вишеструке особине код ограничења
 
-Možemo definisati i više ograničenja upotrebom =+= sintakse. Na primer, ako
-parametar mora da implementira =Summary= i =Display=:
+Можемо дефинисати и више ограничења употребом =+= синтаксе. На пример, ако
+параметар мора да имплементира =Summary= и =Display=:
 #+begin_src rust
 pub fn notify(item: &(impl Summary + Display)) {
 #+end_src
 
-ili u punoj sintaksi:
+или у пуној синтакси:
 
 #+begin_src rust
 pub fn notify<T: Summary + Display>(item: &T) {
 #+end_src
 
-*** =where= klauzula u ograničenjima
+*** =where= клаузула у ограничењима
 
-- Ukoliko imamo više ograničenja osnovna sintaksa može da smanji čitkost.
+- Уколико имамо више ограничења основна синтакса може да смањи читкост.
 
 #+begin_src rust
 fn some_function<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {
 #+end_src
 
-- =where= klauzula izmešta definisanje ograničenja posle zaglavlja funkcije čime
-  se postiže bolja čitkost:
+- =where= клаузула измешта дефинисање ограничења после заглавља функције чиме
+  се постиже боља читкост:
 
 #+begin_src rust
 fn some_function<T, U>(t: &T, u: &U) -> i32
@@ -3083,7 +3056,7 @@ fn some_function<T, U>(t: &T, u: &U) -> i32
 {
 #+end_src
 
-*** =impl Trait= kao povratna vrednost funkcije
+*** =impl Trait= као повратна вредност функције
 #+begin_src rust
 fn returns_summarizable() -> impl Summary {
     Tweet {
@@ -3097,21 +3070,21 @@ fn returns_summarizable() -> impl Summary {
 }
 #+end_src
 
-Posebno značajno u kontekstu zatvorenja (/closures/) i iteratora gde je konkretan
-tip previše složen za pisanje ili je poznat samo kompajleru.
+Посебно значајно у контексту затворења (/closures/) и итератора где је конкретан
+тип превише сложен за писање или је познат само компајлеру.
 
 #+begin_note
-=impl Trait= sintaksa za povratne vrednosti je moguća samo ako funkcija vraća
-jedan tip koji implementira datu osobinu. Na primer, ova funkcija neće raditi
-ako funkcija može vratiti =NewsArticle= ili =Tweet=.
+=impl Trait= синтакса за повратне вредности је могућа само ако функција враћа
+један тип који имплементира дату особину. На пример, ова функција неће радити
+ако функција може вратити =NewsArticle= или =Tweet=.
 #+end_note
 
-*** Popravka =largest= generičke funkcije
+*** Поправка =largest= генеричке функције
 
-Na prethodnim sladovima imali smo funkciju =largest=. Sada možemo da završimo
-njenu definiciju.
+На претходним сладовима имали смо функцију =largest=. Сада можемо да завршимо
+њену дефиницију.
 
-Greška je bila sledeća:
+Грешка је била следећа:
 #+begin_example
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
@@ -3134,9 +3107,9 @@ error: could not compile `chapter10` due to previous error
 
 #+REVEAL: split
 
-Dakle, moramo ograničiti tipove na one koji podržavaju poređnje. Ova osobina se
-u standardnoj biblioteci zove =std::cmp::PartialOrd=, pa ćemo prepraviti zaglavlje
-funkcije na sledeći način:
+Дакле, морамо ограничити типове на оне који подржавају поређње. Ова особина се
+у стандардној библиотеци зове =std::cmp::PartialOrd=, па ћемо преправити заглавље
+функције на следећи начин:
 
 #+begin_src rust
 fn largest<T: PartialOrd>(list: &[T]) -> T {
@@ -3144,7 +3117,7 @@ fn largest<T: PartialOrd>(list: &[T]) -> T {
 
 #+REVEAL: split
 
-Međutim, sada imamo još jednu grešku:
+Међутим, сада имамо још једну грешку:
 #+begin_example
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
@@ -3175,8 +3148,8 @@ error: could not compile `chapter10` due to 2 previous errors
 
 #+REVEAL: split
 
-Uvodimo dodatno ograničenje da generički tip mora biti i =Copy=. Tako da je puno
-rešenje sledeće:
+Уводимо додатно ограничење да генерички тип мора бити и =Copy=. Тако да је пуно
+решење следеће:
 
 #+begin_src rust
 fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
@@ -3204,10 +3177,10 @@ fn main() {
 }
 #+end_src
 
-*** Upotreba osobina ograničenja za uslovnu implementaciju metoda
+*** Употреба особина ограничења за условну имплементацију метода
 
-Ako želimo da implementiramo metodu samo nad tipovima koji implementiraju
-određene osobine.
+Ако желимо да имплементирамо методу само над типовима који имплементирају
+одређене особине.
 #+begin_src rust
 use std::fmt::Display;
 
@@ -3233,14 +3206,14 @@ impl<T: Display + PartialOrd> Pair<T> {
 }
 #+end_src
 
-** Validacija referenci kroz životni vek (/Lifetimes/)
-*** Životni vek (/Lifetime/)
-- Svaka referenca ima životni vek, opseg u kome je referenca validna.
-- U dosta situacija kompajler automatski može da zaključi koji je životni vek
-  reference. Kada to nije u stanju moramo da uradimo ručnu anotaciju.
-- Anotacijama životnog veka dovodimo u vezu životni vek različitih referenci.
+** Валидација референци кроз животни век (/Lifetimes/)
+*** Животни век (/Lifetime/)
+- Свака референца има животни век, опсег у коме је референца валидна.
+- У доста ситуација компајлер аутоматски може да закључи који је животни век
+  референце. Када то није у стању морамо да урадимо ручну анотацију.
+- Анотацијама животног века доводимо у везу животни век различитих референци.
 
-*** Sprečavanje "visećih" referenci
+*** Спречавање "висећих" референци
 
 #+begin_src rust
 {
@@ -3275,8 +3248,8 @@ error: could not compile `chapter10` due to previous error
 #+end_example
 
 *** /Borrow Checker/
-- Rust kompajler ima komponentu /borrow checker/ koja proverava da li su sve
-  pozajmice validne.
+- Раст компајлер има компоненту /borrow checker/ која проверава да ли су све
+  позајмице валидне.
 
 #+begin_src rust
 {
@@ -3291,20 +3264,20 @@ error: could not compile `chapter10` due to previous error
 }                         // ---------+
 #+end_src
 
-- Program je odbačen jer =r= referencira vrednost čiji životni vek (='b=) je kraći
-  od životnog veka varijable =r= (='a=). Ukoliko bi se ovo dozvolilo, =r= bi u jednom
-  delu referencirala nevalidnu vrednost.
+- Програм је одбачен јер =r= референцира вредност чији животни век (='b=) је краћи
+  од животног века варијабле =r= (='a=). Уколико би се ово дозволило, =r= би у једном
+  делу референцирала невалидну вредност.
 
 #+REVEAL: split
 
-Varijable imaju životni vek koji je jednak sinstaksnom opsegu u kome je
-varijabla definisana. Životni vek imaju i reference koje pozajmljuju vrednost i
-smeštaju se u varijable (npr. =r=&x= iz prethodnog primera).
+Варијабле имају животни век који је једнак синстаксном опсегу у коме је
+варијабла дефинисана. Животни век имају и референце које позајмљују вредност и
+смештају се у варијабле (нпр. =r=&x= из претходног примера).
 
 #+begin_note
-Jedno od pravila je da referenca na varijablu (tj. vrednost) ne može da živi
-duže od same varijable. Odnosno /životni vek varijable mora da sadrži životni
-vek reference pozajmljene od te varijable/.
+Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
+дуже од саме варијабле. Односно /животни век варијабле мора да садржи животни
+век референце позајмљене од те варијабле/.
 #+end_note
 
 #+begin_src rust
@@ -3312,20 +3285,20 @@ vek reference pozajmljene od te varijable/.
     let r;
     {
         let x = 5;
-        r = &x;           // -+- &x ne može da živi duže od
-    }                     // -+  ovog životnog veka
+        r = &x;           // -+- &x не може да живи дуже од
+    }                     // -+  овог животног века
     println!("r: {}", r);
 }
 #+end_src
 
 #+REVEAL: split
 
-Ako smestimo referencu u varijablu, referenca mora biti ispravna za ceo životni
-vek varijable u koju je smeštena.
+Ако сместимо референцу у варијаблу, референца мора бити исправна за цео животни
+век варијабле у коју је смештена.
 
 #+begin_note
-Kažemo da /životni vek reference mora da sadrži životni vek varijable u koju je
-smeštena/.
+Кажемо да /животни век референце мора да садржи животни век варијабле у коју је
+смештена/.
 #+end_note
 
 #+begin_src rust
@@ -3333,30 +3306,30 @@ smeštena/.
     let r;
     {
         let x = 5;
-        r = &x;           // -+- životni vek bilo čega što
-    }                     //  |  se smesti u r mora da živi
-    println!("r: {}", r); // -+  bar ovoliko
+        r = &x;           // -+- животни век било чега што
+    }                     //  |  се смести у r мора да живи
+    println!("r: {}", r); // -+  бар оволико
 }
 #+end_src
 
-Vidimo da ovo pravilo nije zadovoljeno. =&x= ne živi dovoljno dugo jer =x= ne živi
-dovoljno dugo.
+Видимо да ово правило није задовољено. =&x= не живи довољно дуго јер =x= не живи
+довољно дуго.
 
 #+REVEAL: split
 
-Ako prethodna dva pravila objedinimo možemo reći da:
+Ако претходна два правила објединимо можемо рећи да:
 
 #+begin_note
-/Životni vek varijable mora da sadrži životni vek svih varijabli koje pozajmljuju
-vrednost od posmatrane varijable/.
+/Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
+вредност од посматране варијабле/.
 #+end_note
 
-Odnosno, varijabla može otići iz opsega tek kada ne postoji više ni jedna
-varijabla koja čuva pozajmljenu vrednost.
+Односно, варијабла може отићи из опсега тек када не постоји више ни једна
+варијабла која чува позајмљену вредност.
 
 #+REVEAL: split
 
-Sledeći kod je prihvaćen. Referenca =r= ne živi duže od podatka koji referencira
+Следећи код је прихваћен. Референца =r= не живи дуже од податка који референцира
 (=x=).
 
 #+begin_src rust
@@ -3370,10 +3343,10 @@ Sledeći kod je prihvaćen. Referenca =r= ne živi duže od podatka koji referen
 }                         // ----------+
 #+end_src
 
-*** Generički životni vekovi u funkcijama
+*** Генерички животни векови у функцијама
 
-- Kreiramo funkciju =longest= koja vraća duži od dva prosleđena stringa.
-  Prosleđujemo referencu na string isečak =&str=.
+- Креирамо функцију =longest= која враћа дужи од два прослеђена стринга.
+  Прослеђујемо референцу на стринг исечак =&str=.
 
 #+begin_src rust
 fn main() {
@@ -3387,7 +3360,7 @@ fn main() {
 
 #+REVEAL: split
 
-Ovaj program nije prihvaćen.
+Овај програм није прихваћен.
 #+begin_src rust
 fn longest(x: &str, y: &str) -> &str {
     if x.len() > y.len() {
@@ -3420,41 +3393,41 @@ error: could not compile `chapter10` due to previous error
 
 #+REVEAL: split
 
-- Zašto program nije prihvaćen?
-- /Borrow checker/ nije u stanju da odredi u kojoj relaciji su reference =x= i =y= sa
-  povratnom vrednošću koja je takođe referenca.
-- Tj. povratna vrednost mora biti pozajmljena od nekud, ali kompajler ne može da
-  odredi da li je pozamljena od =x= ili =y= ili od neke globalne vrednosti.
-- Ova informacija je potrebna da bi se obavila kalkulacija i provera životnog veka.
+- Зашто програм није прихваћен?
+- /Borrow checker/ није у стању да одреди у којој релацији су референце =x= и =y= са
+  повратном вредношћу која је такође референца.
+- Тј. повратна вредност мора бити позајмљена од некуд, али компајлер не може да
+  одреди да ли је позамљена од =x= или =y= или од неке глобалне вредности.
+- Ова информација је потребна да би се обавила калкулација и провера животног века.
 
-*** Sintaksa za anotaciju životnog veka
+*** Синтакса за анотацију животног века
 
-- Da bi pomogli kompajleru reference označavamo sa životnim vekom i time
-  dovodimo u vezu različite reference (npr. parametre i povratne vrednosti
-  funkcije).
-- Anotacija je oblika ='a=. Iza apostrofa se piše ime anotacije koje je najčešće
-  jedno malo slovo sa početka alfabeta (='a, 'b,...=).
-- *Važno:* anotacije životnog veka ne menjaju životni vek reference već samo
-  pomažu kompajleru u proveri.
+- Да би помогли компајлеру референце означавамо са животним веком и тиме
+  доводимо у везу различите референце (нпр. параметре и повратне вредности
+  функције).
+- Анотација је облика ='a=. Иза апострофа се пише име анотације које је најчешће
+  једно мало слово са почетка алфабета (='a, 'b,...=).
+- *Важно:* анотације животног века не мењају животни век референце већ само
+  помажу компајлеру у провери.
 
 #+begin_src rust
-&i32        // referenca
-&'a i32     // referenca sa eksplicitnim životnim vekom
-&'a mut i32 // promenjiva referenca sa eksplicitnim životnim vekom
+&i32        // референца
+&'a i32     // референца са експлицитним животним веком
+&'a mut i32 // промењива референца са експлицитним животним веком
 #+end_src
 
-- Jedna anotacija nema puno smisla. Funkciju imaju tek kada anotiramo više
-  referenci jer se dovode u vezu ako imaju isto ime.
-- Uvedimo funkciju =lt= koja vraća životni vek varijable/vrednosti i relaciju
-  između životnih vekova ='a≥'b= odnosno ='b≤'a= koja znači da ='a= obuhvata ='b=
-  odnosno ='b= je sadržano u ='a=.
+- Једна анотација нема пуно смисла. Функцију имају тек када анотирамо више
+  референци јер се доводе у везу ако имају исто име.
+- Уведимо функцију =lt= која враћа животни век варијабле/вредности и релацију
+  између животних векова ='a≥'b= односно ='b≤'a= која значи да ='a= обухвата ='b=
+  односно ='b= је садржано у ='a=.
 
-*** Anotacija životnog veka u signaturama funkcija
+*** Анотација животног века у сигнатурама функција
 
-- Sledeća anotacija za funkciju =longest= je ispravna jer referenca koja se vraća
-  može biti =x= ili =y= u zavisnosti od dužine stringa. Stoga je potrebno da imamo
-  strožiji uslov da je životni vek povratne vrednosti u vezi sa životnim vekom
-  oba parametra.
+- Следећа анотација за функцију =longest= је исправна јер референца која се враћа
+  може бити =x= или =y= у зависности од дужине стринга. Стога је потребно да имамо
+  строжији услов да је животни век повратне вредности у вези са животним веком
+  оба параметра.
 
 #+begin_src rust
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
@@ -3466,15 +3439,15 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 }
 #+end_src
 
-- Ovim kažemo kompajleru da za neki generički životni vek ='a=, funkcija prima dve
-  reference čiji životni vek vrednosti obuhvata ='a= i vraća referencu koja mora
-  biti validna bar koliko i životni vek ='a= tj. životni vek povratne reference
-  mora da obuvati ='a=. Ukoliko takav životni vek postoji kod se prihvata.
-- Signatura dovodi u vezu obe ulazne reference sa izlaznom.
+- Овим кажемо компајлеру да за неки генерички животни век ='a=, функција прима две
+  референце чији животни век вредности обухвата ='a= и враћа референцу која мора
+  бити валидна бар колико и животни век ='a= тј. животни век повратне референце
+  мора да обувати ='a=. Уколико такав животни век постоји код се прихвата.
+- Сигнатура доводи у везу обе улазне референце са излазном.
 
 #+REVEAL: split
 
-Posmatrajmo kod koji poziva funkciju =longest=:
+Посматрајмо код који позива функцију =longest=:
 
 #+begin_src rust
 fn main() {
@@ -3487,21 +3460,21 @@ fn main() {
 }
 #+end_src
 
-Za kod mora da postoji ='a= tako da važi:
+За код мора да постоји ='a= тако да важи:
 
 #+begin_example
-lt(string1) ≥ 'a     # životni vek vrednosti prvog parametara sadrži 'a
-lt(string2) ≥ 'a     # životni vek vrednosti drugog parametara sadrži 'a
-'a ≥ lt(result)       # 'a mora da sadrži životni veku result varijable
+lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
+lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
+'a ≥ lt(result)       # 'a мора да садржи животни веку ресулт варијабле
 #+end_example
 
-Što ne može biti ispunjeno istovremeno, tj. ne postoji ='a= koje ispunjava ova
-ograničenja.
+Што не може бити испуњено истовремено, тј. не постоји ='a= које испуњава ова
+ограничења.
 
 #+REVEAL: split
 
-Drugi način razmišljanja je da povratna vrednost funkcije pozajmljuje od
-vrednosti ulaznih parametara označenih istim imenom životnog veka.
+Други начин размишљања је да повратна вредност функције позајмљује од
+вредности улазних параметара означених истим именом животног века.
 
 #+begin_src rust
 fn main() {
@@ -3514,14 +3487,15 @@ fn main() {
 }
 #+end_src
 
-Što znači da =result= pozajmljuje od =string1= i =string2= i ta pozajmica traje sve
-vreme života varijable =result= što ne može biti validno jer varijabla živi duže
-od vrednosti =string2=.
+Што значи да =result= позајмљује од =string1= и =string2= и та позајмица траје све
+време живота варијабле =result= што не може бити валидно јер варијабла живи дуже
+од вредности =string2=.
 
-Iako, možemo videti da će, zbog dužine stringa, vraćena vrednost biti =string1= i
-program je validan, kompajler ovo ne može da zaključi.
+Иако, можемо видети да ће, због дужине стринга, враћена вредност бити =string1= и
+програм је валидан, компајлер ово не може да закључи.
 
-* Literatura
+* Литература
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - Slice is NOT reference, https://github.com/rust-lang/book/issues/3070
+- Google: Comprehensive Rust, https://google.github.io/comprehensive-rust/
 - [[https://rust-lang.github.io/rfcs/0505-api-comment-conventions.html][RFC 505: API documentation conventions]]
