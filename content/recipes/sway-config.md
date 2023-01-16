@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-16T14:48:29+01:00
+lastmod = 2023-01-16T17:44:06+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -563,14 +563,18 @@ Waybar configuration:
     ],
     "modules-center": [
         "custom/left-arrow-dark",
-        "clock#1",
+        "custom/weather",
+        //"custom/left-arrow-light",
+        //"custom/left-arrow-dark",
+        //"clock#1",
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
         "clock#2",
-        "custom/right-arrow-dark",
-        "custom/right-arrow-light",
-        "clock#3",
         "custom/right-arrow-dark"
+        // "custom/right-arrow-light",
+        //"clock#3",
+        //"custom/right-arrow-dark",
+
     ],
     "modules-right": [
         "custom/left-arrow-dark",
@@ -591,6 +595,9 @@ Waybar configuration:
         "custom/left-arrow-dark",
 //      "idle_inhibitor",
         "custom/notification",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "sway/language",
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
         "tray"
@@ -630,7 +637,15 @@ Waybar configuration:
         "format": "{:%d-%m}",
         "tooltip": false
     },
-
+    "custom/weather": {
+        "exec": "curl 'https://wttr.in/?format=1'",
+        "interval": 3600
+    },
+    "sway/language": {
+        "format": "{}",
+        "max-length": 5,
+        "min-length": 5,
+    },
     "pulseaudio": {
         "format": "{icon} {volume:2}%",
         "format-bluetooth": "{icon}  {volume}%",
@@ -701,9 +716,10 @@ Waybar configuration:
           "on-click-right": "swaync-client -d -sw",
           "escape": true
         },
-    "tray": {
+
+   "tray": {
         "icon-size": 20
-    }
+   }
 }
 ```
 
@@ -735,6 +751,9 @@ window#waybar {
 #clock.1,
 #clock.2,
 #clock.3,
+#custom-weather,
+#custom-notification,
+#language,
 #pulseaudio,
 #backlight,
 #memory,
@@ -804,6 +823,8 @@ window#waybar {
 #backlight,
 #memory,
 #cpu,
+#custom-notification,
+#custom-weather,
 #temperature,
 #battery {
     padding: 0 10px;
@@ -896,16 +917,6 @@ input * {
   xkb_variant ",latin,"
   xkb_options "grp:shifts_toggle"
 }
-```
-
-
-### <span class="org-todo todo TODO">TODO</span> Keyboard indicator in waybar {#keyboard-indicator-in-waybar}
-
-```cfg
-
-# TODO: keyboard indicator in waybar
-# From https://wiki.archlinux.org/title/Sway
-# $ swaymsg -t get_inputs | jq -r '.[] | select(.identifier == "kbd_identifier") | .xkb_active_layout_name'
 ```
 
 
