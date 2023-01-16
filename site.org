@@ -395,14 +395,889 @@ For years I've kept these note private but I realize that they could be useful
 to others so I'll gradually move them here. I'll keep them updated and the
 GitHub link provided will show the updates.
 
-
 * All recipes
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: recipes
 :EXPORT_HUGO_AUTO_SET_LASTMOD: t
 :EXPORT_HUGO_FRONT_MATTER_KEY_REPLACE: tags>rtags
 :END:
-** Terminal/shell tricks :linux:shell:terminal:
+** Sway config :linux:config:wayland:
+:PROPERTIES:
+:header-args: :mkdirp yes
+:header-args:conf: :tangle "~/.config/sway/config"
+:EXPORT_FILE_NAME: sway-config
+:END:
+Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be
+[[https://orgmode.org/manual/Extracting-Source-Code.html][tangled]] with [[https://orgmode.org/][Org Mode]] to appropriate locations. See [[https://github.com/igordejanovic/igordejanovic.github.io/blob/main/site.org][the source of this site]].
+
+See https://wiki.archlinux.org/title/Sway
+
+Put a warning at the beginning of the tangled file just to be sure not to forget.
+#+begin_src conf
+#Warning: this config is maintained through Org Mode file. Do not edit directly!
+#+end_src
+
+*** Install
+#+begin_src sh
+sudo pacman -S sway swaylock swayidle
+#+end_src
+
+See other sections for the installation of other tools used in this config.
+
+The standard location of sway config is =~/.config/sway/config=.
+
+*** Some variables used in the config
+#+begin_src conf
+set {
+#+end_src
+
+~Mod4~ is the ~Win~ key on most keyboards. Since it is unused for other purposes it
+is ideal to be a sway modifier key.
+#+begin_src conf
+    $mod Mod4
+#+end_src
+
+Sway config root.
+#+begin_src conf
+    $sway ~/.config/sway
+#+end_src
+
+A script to handle lock/suspend.
+#+begin_src conf
+    $exit $sway/exit.sh
+
+#+end_src
+
+A script for managing multiple displays. See [[#display-profile][bellow]].
+#+begin_src conf
+    $display_profile $sway/display-profile.sh
+#+end_src
+
+Socket used for [[https://github.com/francma/wob][wob]], a tool for creating overlay bar during setting of volume,
+screen brightness etc. Create it with ~mkfifo~. See the README of the project. See
+[[#media-buttons][bellow for the usage]].
+#+begin_src conf
+    $SWAYSOCK.wob ~/.local/share/sway-wob.sock
+#+end_src
+
+#+begin_src conf
+}
+#+end_src
+*** Windows setup
+Use minimal borders.
+#+begin_src conf
+default_border pixel 2
+#+end_src
+
+Use Mouse+$mod to drag floating windows to their wanted position.
+#+begin_src conf
+floating_modifier $mod
+#+end_src
+
+Background color.
+#+begin_src conf
+output "*" bg "#002244" solid_color
+#+end_src
+
+Font for window titles and swaybar.
+#+begin_src conf
+font pango:Hack 10
+#+end_src
+
+*** Basic keybindings
+
+Start alacritty terminal:
+#+begin_src conf
+bindsym $mod+Return exec alacritty
+#+end_src
+
+Screenshot can be taken with [[https://github.com/emersion/grim][grim]] which uses [[https://github.com/emersion/slurp][slurp]] to select a region and then
+open the captured image in [[https://wiki.gnome.org/Apps/gthumb][gthumb]]:
+#+begin_src conf
+bindsym Print exec grim -g "$(slurp)" ~/screenshot.png && gthumb ~/screenshot.png
+#+end_src
+
+Kill focused window:
+#+begin_src conf
+bindsym $mod+Shift+q kill
+#+end_src
+
+Switch back and forth between workspaces:
+#+begin_src conf
+workspace back_and_forth yes
+bindsym $mod+tab workspace back_and_forth
+#+end_src
+
+Change focus (use vim bindings).
+#+begin_src conf
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+#+end_src
+
+Move focused window (vim bindings):
+#+begin_src conf
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+#+end_src
+
+Split in horizontal and vertical orientations. When pressing a hint is displayed
+on the window where the next application will be positioned.
+#+begin_src conf
+bindsym $mod+b split h
+bindsym $mod+v split v
+#+end_src
+
+Toggle fullscreen mode for focused window:
+#+begin_src conf
+bindsym $mod+f fullscreen toggle
+#+end_src
+
+Change container layout (stacked, tabbed, toggle split):
+#+begin_src conf
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+#+end_src
+
+Toggle tiling/floating:
+#+begin_src conf
+bindsym $mod+Shift+space floating toggle
+#+end_src
+
+Change fofuc between tiling/floating windows
+#+begin_src conf
+bindsym $mod+space focus mode_toggle
+#+end_src
+
+Focus the parent/child container:
+#+begin_src conf
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+#+end_src
+
+Reload configuration file:
+#+begin_src conf
+bindsym $mod+Shift+r reload
+#+end_src
+
+Exit sway. Log out of wayland session:
+#+begin_src conf
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your wayland session.' -B 'Yes, exit sway' 'swaymsg exit'"
+#+end_src
+
+*** Workspaces and window associations
+Define names for default workspaces for which we configure key bindings later on. We use variables to avoid repeating the names in multiple places.
+#+begin_src conf
+set $ws1 "1:editor"
+set $ws2 "2:browser"
+set $ws3 "3:message"
+set $ws4 "4:files"
+Set $ws5 "5:"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10:music"
+#+end_src
+
+Switch to workspace:
+#+begin_src conf
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+#+end_src
+
+Move workspace to left/right output:
+#+begin_src conf
+bindsym $mod+Shift+Alt+h move workspace to output left
+bindsym $mod+Shift+Alt+l move workspace to output right
+#+end_src
+
+You can map workspace to output using this. Can be handy in multi-display
+setups.
+#+begin_src conf :tangle no
+workspace "1:editor" output DP1 eDP1
+workspace "2:browser" output DP1 eDP1
+#+end_src
+
+Assign application window classes to workspaces:
+#+begin_src conf
+assign [class="Viber"] "3:message"
+assign [class="Skype"] "3:message"
+assign [class="Audacious"] "10:music"
+#+end_src
+
+/TODO: Write how to get the name of the application class./
+
+Send curent workspace to other output:
+#+begin_src conf
+bindsym $mod+o exec swaymsg -t get_outputs | \
+        jq '.[] | select(.focused!=true) | .name' | head -n1 | xargs swaymsg move workspace to
+#+end_src
+
+[[https://github.com/swaywm/sway/issues/4346][Source]]
+
+Move focused container to workspace:
+#+begin_src
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+#+end_src
+*** Media buttons with bar overlay
+:PROPERTIES:
+:CUSTOM_ID: media-buttons
+:END:
+Install [[https://github.com/francma/wob][wob]]:
+#+begin_src sh
+sudo pacman -S wob
+#+end_src
+
+Setup named pipe/socket (do this once):
+#+begin_src sh
+mkfifo ~/.local/share/sway-wob.sock
+#+end_src
+
+Connect socket to wob in the config:
+#+begin_src conf
+exec tail -f $SWAYSOCK.wob | wob
+#+end_src
+**** Screen brightness
+Install [[https://github.com/haikarainen/light][light]]:
+#+begin_src sh
+sudo pacman -S light
+#+end_src
+
+Call light on brightness keys and pipe to wob:
+#+begin_src conf
+bindsym XF86MonBrightnessUp exec light -A 10 && light -G | cut -d'.' -f1 > $SWAYSOCK.wob
+bindsym XF86MonBrightnessDown exec light -U 10 && light -G | cut -d'.' -f1 > $SWAYSOCK.wob
+#+end_src
+
+**** Media player controls
+Install [[https://github.com/altdesktop/playerctl][playerctl]]:
+#+begin_src sh
+sudo pacman -S playerctl
+#+end_src
+
+Call playerctl on media keys:
+#+begin_src conf
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+#+end_src
+
+**** Sound volume
+Install [[https://github.com/cdemoulins/pamixer][pamixer]]:
+#+begin_src sh
+sudo pacman -S pamixer
+#+end_src
+
+Call pamixer on volume keys and pipe to wob:
+#+begin_src conf
+bindsym XF86AudioRaiseVolume exec pamixer -ui 5 && pamixer --get-volume > $SWAYSOCK.wob
+bindsym XF86AudioLowerVolume exec pamixer -ud 5 && pamixer --get-volume > $SWAYSOCK.wob
+bindsym XF86AudioMute exec pamixer --toggle-mute
+#+end_src
+*** Window resizing
+#+begin_src conf
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+        bindsym {
+          h resize shrink width 10 px or 10 ppt
+          j resize grow height 10 px or 10 ppt
+          k resize shrink height 10 px or 10 ppt
+          l resize grow width 10 px or 10 ppt
+
+          # back to normal: Enter or Escape or $mod+r
+          Return mode "default"
+          Escape mode "default"
+          $mod+r mode "default"
+        }
+}
+bindsym $mod+r mode "resize"
+#+end_src
+*** System mode
+#+begin_src conf
+set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec $exit lock; mode "default"
+    bindsym e exec $exit logout
+    bindsym s exec $exit suspend; mode "default"
+    bindsym r exec systemctl reboot
+    bindsym Shift+s exec systemctl shutdown
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+End mode "$mode_system"
+#+end_src
+
+Exit script which locks and unmounts encFS mounts on suspend.
+#+begin_src sh :shebang "#!/bin/sh" :tangle "~/.config/sway/exit.sh"
+lock() {
+    swaylock -c 003300
+}
+
+case "$1" in
+    lock)
+        lock
+        ;;
+    logout)
+        swaymsg 'exit'
+        ;;
+    suspend)
+        lock && encfs -u ~/Consulting && encfs -u ~/.ssh && ssh-add -D && systemctl suspend
+        ;;
+    ,*)
+        echo "Usage: $0 {lock|logout|suspend}"
+        exit 2
+esac
+
+exit 0
+#+end_src
+*** Display mode
+:PROPERTIES:
+:CUSTOM_ID: display-profile
+:END:
+Screen modes by location.
+
+*Note:* mirroring is not [[https://github.com/swaywm/sway/issues/1666][yet properly supported by sway]] but there is [[https://github.com/Ferdi265/wl-mirror][wl-mirror]] as
+a workaround. See also [[https://bbs.archlinux.org/viewtopic.php?id=245038][this]].
+#+begin_src conf
+set $mode_display LOCATION: (l)aptop (h)ome (m)eeting (d)ual dual-(r)ight (p)res-low
+mode "$mode_display" {
+     bindsym {
+             l exec $display_profile laptop, mode "default"
+             h exec $display_profile home, mode "default"
+             d exec $display_profile dual, mode "default"
+             r exec $display_profile dual-right, mode "default"
+             m exec $display_profile meeting, mode "default"
+             p exec $display_profile pres-lowres, mode "default"
+
+             # back to normal: Enter or Escape
+             Return mode "default"
+             Escape mode "default"
+     }
+}
+bindsym $mod+x mode "$mode_display"
+#+end_src
+
+Mirroring of output can be done with:
+#+begin_src sh
+wl-mirror eDP-1
+#+end_src
+
+To mirror only a part of the output combine with slurp:
+#+begin_src sh
+wl-mirror -r "$(slurp)"
+#+end_src
+
+**** =display-profile= script
+#+begin_src sh :shebang "#!/bin/sh" :tangle "~/.config/sway/display-profile.sh"
+# Set display profiles for various locations.
+# WARNING! This script is maintained through Org Mode file. Do not edit directly.
+
+LOCATION=$1
+LAPTOP_OUTPUT=eDP-1
+LAPTOP_MODE=`swaymsg -t get_outputs | jq ".[] | select(.name==\"$LAPTOP_OUTPUT\") | .modes[-1]"`
+LAPTOP_RES=`echo $LAPTOP_MODE | jq ".width"`x`echo $LAPTOP_MODE | jq ".height"`
+LAPTOP_WIDTH=`echo $LAPTOP_MODE | jq ".width"`
+
+# Get auxiliary output
+AUX_OUTPUT_JSON=`swaymsg -t get_outputs | jq ".[] | select(.name!=\"$LAPTOP_OUTPUT\")"`
+AUX_MODE=`echo $AUX_OUTPUT_JSON | jq ".modes[0]"`
+AUX_OUTPUT=`echo $AUX_OUTPUT_JSON | jq ".name"`
+AUX_RES=`echo $AUX_MODE | jq ".width"`x`echo $AUX_MODE | jq ".height"`
+AUX_WIDTH=`echo $AUX_MODE | jq ".width"`
+
+echo $LAPTOP_OUTPUT
+echo $LAPTOP_RES
+echo $LAPTOP_WIDTH
+echo $AUX_RES
+echo $AUX_OUTPUT
+echo $AUX_RES
+
+move_workspaces_to_output(){
+    OUTPUT=$1
+    for i in {1..10}
+    do
+        swaymsg "[workspace=$i]" move workspace to output $OUTPUT
+    done
+}
+
+case "$LOCATION" in
+    "laptop")
+        swaymsg output $LAPTOP_OUTPUT enable pos 0 0 res $LAPTOP_RES
+        swaymsg output $AUX_OUTPUT disable
+    ;;
+
+    "home")
+        swaymsg output $AUX_OUTPUT enable pos 0 0 res $AUX_RES, \
+                output $LAPTOP_OUTPUT disable
+    ;;
+
+    "dual")
+        swaymsg output $AUX_OUTPUT enable pos 0 0 res $AUX_RES scale 1, \
+                output $LAPTOP_OUTPUT enable pos $AUX_WIDTH 0
+        move_workspaces_to_output $LAPTOP_OUTPUT
+    ;;
+
+    "dual-right")
+        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH 0 res $AUX_RES scale 1, \
+                output $LAPTOP_OUTPUT enable pos 0 0
+        move_workspaces_to_output $LAPTOP_OUTPUT
+
+    ;;
+
+    "meeting")
+        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH 0 res $AUX_RES scale 1.8, \
+                output $LAPTOP_OUTPUT enable pos 0 0
+        move_workspaces_to_output $LAPTOP_OUTPUT
+    ;;
+
+    "pres-lowres")
+        swaymsg output $AUX_OUTPUT enable pos $LAPTOP_WIDTH 0 res 1280x1024, \
+                output $LAPTOP_OUTPUT enable
+        move_workspaces_to_output $LAPTOP_OUTPUT
+    ;;
+
+esac
+
+#+end_src
+*** waybar
+Config sway to use waybar.
+#+begin_src conf
+bar {
+       swaybar_command waybar
+}
+#+end_src
+
+Install font =Hack Nerd= used for swaync notification icons.
+#+begin_src sh
+sudo pacman -S ttf-hack-nerd
+#+end_src
+
+Waybar configuration:
+#+begin_src conf :tangle "~/.config/waybar/config"
+{
+    "layer": "top",
+    "position": "bottom",
+
+    "modules-left": [
+        "sway/workspaces",
+        "custom/right-arrow-dark",
+    "sway/mode"
+    ],
+    "modules-center": [
+        "custom/left-arrow-dark",
+        "clock#1",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "clock#2",
+        "custom/right-arrow-dark",
+        "custom/right-arrow-light",
+        "clock#3",
+        "custom/right-arrow-dark"
+    ],
+    "modules-right": [
+        "custom/left-arrow-dark",
+        "network",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "memory",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "cpu",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "battery",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "pulseaudio",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+//      "idle_inhibitor",
+        "custom/notification",
+        "custom/left-arrow-light",
+        "custom/left-arrow-dark",
+        "tray"
+    ],
+
+    "custom/left-arrow-dark": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/left-arrow-light": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/right-arrow-dark": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/right-arrow-light": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "format": "{name}"
+    },
+
+    "clock#1": {
+        "format": "{:%a}",
+        "tooltip": false
+    },
+    "clock#2": {
+        "format": "{:%H:%M}",
+        "tooltip": false
+    },
+    "clock#3": {
+        "format": "{:%d-%m}",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume:2}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-muted": "MUTE",
+        "format-icons": {
+            "headphones": "",
+            "default": [
+                "",
+                ""
+            ]
+        },
+        "scroll-step": 5,
+        "on-click": "pamixer -t",
+        "on-click-right": "pavucontrol"
+    },
+    "memory": {
+        "interval": 5,
+        "format": "Mem {}%"
+    },
+    "cpu": {
+        "interval": 5,
+        "format": "CPU {usage:2}%"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+  "network": {
+      // "interface": "wlp2*", // (Optional) To force the use of this interface
+      "interval": 3,
+      "format-wifi": "{essid} ({signalStrength}%, {bandwidthDownBits}|{bandwidthUpBits}) ",
+      "format-ethernet": "{ifname}: {ipaddr}/{cidr} ({bandwidthDownBits}|{bandwidthUpBits}) ",
+      "format-linked": "{ifname} (No IP) ",
+      "format-disconnected": "Disconnected ⚠",
+      "format-alt": "{ifname}: {ipaddr}/{cidr}"
+  },
+  "idle_inhibitor": {
+          "format": "{icon}",
+          "format-icons": {
+              "activated": "",
+              "deactivated": ""
+          }
+  },
+  "custom/notification": {
+          "tooltip": false,
+          "format": "{icon}",
+          "format-icons": {
+                  "notification": "<span foreground='red'><sup></sup></span>",
+                  "none": "",
+                  "dnd-notification": "<span foreground='red'><sup></sup></span>",
+                  "dnd-none": ""
+          },
+          "return-type": "json",
+          "exec-if": "which swaync-client",
+          "exec": "swaync-client -swb",
+          "on-click": "swaync-client -t -sw",
+          "on-click-right": "swaync-client -d -sw",
+          "escape": true
+        },
+    "tray": {
+        "icon-size": 20
+    }
+}
+#+end_src
+
+**** css
+#+begin_src css :tangle "~/.config/waybar/style.css"
+,** {
+    font-size: 15px;
+    font-family: monospace;
+}
+
+window#waybar {
+    background: #292b2e;
+    color: #fdf6e3;
+}
+
+#custom-right-arrow-dark,
+#custom-left-arrow-dark {
+    color: #1a1a1a;
+}
+#custom-right-arrow-light,
+#custom-left-arrow-light {
+    color: #292b2e;
+    background: #1a1a1a;
+}
+
+#workspaces,
+#clock.1,
+#clock.2,
+#clock.3,
+#pulseaudio,
+#backlight,
+#memory,
+#cpu,
+#temperature,
+#network,
+#battery,
+#tray {
+    background: #1a1a1a;
+}
+
+#workspaces button {
+    padding: 0 2px;
+    color: #fdf6e3;
+}
+#workspaces button.focused {
+    color: #268bd2;
+}
+#workspaces button.urgent {
+      background: #aa0000;
+}
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+#workspaces button:hover {
+    background: #1a1a1a;
+    border: #1a1a1a;
+    padding: 0 3px;
+}
+
+#mode {
+      background: #aa0000;
+}
+
+#pulseaudio {
+    color: #268bd2;
+}
+#backlight {
+    color: #b58900;
+}
+#memory {
+    color: #2aa198;
+}
+#temperature {
+    color: #b58900;
+}
+#cpu {
+    color: #6c71c4;
+}
+#battery {
+    color: #859900;
+}
+#battery.discharging {
+      color: #dd9900;
+}
+#network {
+  color: #8599aa;
+}
+#custom-notification {
+  font-family: "NotoSansMono Nerd Font";
+}
+
+#mode,
+#clock,
+#pulseaudio,
+#backlight,
+#memory,
+#cpu,
+#temperature,
+#battery {
+    padding: 0 10px;
+}
+#+end_src
+
+*** Application launcher, window switcher
+[[https://github.com/davatorium/rofi][Rofi]] is a popular application launcher and window switcher. See also [[https://wiki.archlinux.org/title/Rofi][ArchLinux
+wiki page]].
+
+Currently original rofi has no support for wayland. There is a fork with wayland
+support. Install with:
+#+begin_src sh
+yay -S --mflags "--nocheck" rofi-lbonn-wayland
+#+end_src
+
+~--nocheck~ is needed at the moment as there is [[https://github.com/lbonn/rofi/issues/63][a problem with libnkutils]]. If you
+are reading this in a fairly distant future probably you won't need this.
+
+Keyboard shortcut.
+#+begin_src conf
+bindsym $mod+d exec rofi -modes combi -show combi -combi-modes run,drun
+#+end_src
+
+
+**** Rofi configuration
+#+begin_src conf :tangle "~/.config/rofi/config.rasi"
+@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+configuration {
+    modi: "window,run,ssh";
+    timeout {
+        action: "kb-cancel";
+        delay:  0;
+    }
+    filebrowser {
+        directories-first: true;
+        sorting-method:    "name";
+    }
+}
+
+#+end_src
+
+*** Clipboard
+[[https://github.com/bugaevc/wl-clipboard][wl-clipboard]] is a command line tool for copy/pasting text.
+#+begin_src sh
+sudo pacman -S wl-clipboard
+#+end_src
+
+Now, text can be copied from CLI with ~<some command> | wl-copy~ or pasted from
+clipboard with ~wl-paste | <some command>~.
+
+A clipboard is emptied when window is closed by default. To persist clipboard
+after window closing use clipboard manager like [[https://github.com/yory8/clipman][clipman]].
+
+#+begin_src sh
+sudo pacman -S clipman
+#+end_src
+
+Start with sway:
+#+begin_src conf
+exec wl-paste -t text --watch clipman store --no-persist
+#+end_src
+
+*** Touch pad
+Enable tap and natural scroll.
+
+#+begin_src conf
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+#+end_src
+*** Keyboards layouts
+#+begin_src conf
+input * {
+  xkb_layout "us,rs,rs"
+  xkb_variant ",latin,"
+  xkb_options "grp:shifts_toggle"
+}
+
+#+end_src
+**** TODO Keyboard indicator in waybar
+#+begin_src conf :tangle no
+
+# TODO: keyboard indicator in waybar
+# From https://wiki.archlinux.org/title/Sway
+# $ swaymsg -t get_inputs | jq -r '.[] | select(.identifier == "kbd_identifier") | .xkb_active_layout_name'
+#+end_src
+
+*** Red shift
+Install [[https://gitlab.com/chinstrap/gammastep][gammastep]]
+#+begin_src sh
+sudo pacman -S gammastep
+#+end_src
+
+Execute it from sway config with your long/lat:
+#+begin_src conf
+exec_always gammastep -l 45.26:19.83
+#+end_src
+
+There is also a tray indicator ~gammastep-indicator~. I'm not using it.
+
+*** NetworkManager
+Run applet with ~--indictator~ switch:
+#+begin_src conf
+exec_always nm-applet --indicator
+#+end_src
+*** TODO Bluetooth
+Not working with sway. Will investigate.
+#+begin_src conf :tangle no
+exec blueman-applet
+#+end_src
+*** Notification daemon
+Using swaync.
+#+begin_src sh
+sudo yay -S swaync
+#+end_src
+
+Show pannel
+#+begin_src conf
+exec_always swaync
+#+end_src
+
+Show pannel.
+#+begin_src conf
+bindsym $mod+grave exec swaync-client -t
+#+end_src
+
+Toggle Do-Not-Disturb mode.
+#+begin_src conf
+bindsym $mod+p exec swaync-client -d
+#+end_src
+
+Close all notifications:
+#+begin_src conf
+bindsym $mod+c exec swaync-client -C
+#+end_src
+
+See also the waybar configuration above.
+*** Autostart apps
+#+begin_src conf
+exec {
+  swaymsg 'workspace 1:editor; exec emacs'
+  swaymsg 'workspace 2:browser; exec firefox'
+}
+#+end_src
+
+** Terminal/shell tricks :linux:shell:terminal:config:
 :PROPERTIES:
 :EXPORT_FILE_NAME: terminal-tricks
 :END:
@@ -512,7 +1387,6 @@ plugins+=(git)
 This adds alias ~grc~ that cd to the root of the repo. For other aliases see [[https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git][here]].
 
 [[https://stackoverflow.com/a/74648494/2024430][Source]].
-
 ** Guix tips and tricks :guix:linux:
 :PROPERTIES:
 :EXPORT_FILE_NAME: guix-tips-and-tricks
