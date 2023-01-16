@@ -1269,6 +1269,30 @@ bindsym $mod+c exec swaync-client -C
 #+end_src
 
 See also the waybar configuration above.
+*** Warning on battery critical level
+Check battery, notify when low and suspend when critical.
+Taken and adapted from [[https://wiki.archlinux.org/index.php/Laptop#Hibernate_on_low_battery_level][ArchLinux wiki]].
+
+#+begin_src sh :tangle "~/.config/sway/check_battery.sh" :shebang "#!/bin/sh"
+acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
+    read -r status capacity
+
+    if [ "$status" = Discharging ]; then
+           if [ "$capacity" -lt 5 ]; then
+               systemctl suspend
+           elif [ "$capacity" -lt 15 ]; then
+               notify-send -u critical "Battery low" "Current capacity is (${capacity}%)."
+           fi
+    fi
+}
+#+end_src
+
+Create crontab entry with command =crontab -e= which call check script at 5 minute
+interval.
+#+begin_src cron
+*/5  * * * *  XDG_RUNTIME_DIR=/run/user/$(id -u) $HOME/.config/sway/check_battery.sh
+#+end_src
+
 *** Autostart apps
 #+begin_src conf
 exec {

@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-16T14:39:20+01:00
+lastmod = 2023-01-16T14:48:29+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -977,6 +977,33 @@ bindsym $mod+c exec swaync-client -C
 ```
 
 See also the waybar configuration above.
+
+
+## Warning on battery critical level {#warning-on-battery-critical-level}
+
+Check battery, notify when low and suspend when critical.
+Taken and adapted from [ArchLinux wiki](https://wiki.archlinux.org/index.php/Laptop#Hibernate_on_low_battery_level).
+
+```sh
+acpi -b | awk -F'[,:%]' '{print $2, $3}' | {
+    read -r status capacity
+
+    if [ "$status" = Discharging ]; then
+           if [ "$capacity" -lt 5 ]; then
+               systemctl suspend
+           elif [ "$capacity" -lt 15 ]; then
+               notify-send -u critical "Battery low" "Current capacity is (${capacity}%)."
+           fi
+    fi
+}
+```
+
+Create crontab entry with command `crontab -e` which call check script at 5 minute
+interval.
+
+```cron
+*/5  * * * *  XDG_RUNTIME_DIR=/run/user/$(id -u) $HOME/.config/sway/check_battery.sh
+```
 
 
 ## Autostart apps {#autostart-apps}
