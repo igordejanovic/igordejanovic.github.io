@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-16T18:10:24+01:00
+lastmod = 2023-01-16T19:39:27+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -21,7 +21,7 @@ Put a warning at the beginning of the tangled file just to be sure not to forget
 ## Install {#install}
 
 ```sh
-sudo pacman -S sway swaylock swayidle
+sudo pacman -S wayland xorg-xwayland sway swaylock swaybg
 ```
 
 See other sections for the installation of other tools used in this config.
@@ -952,6 +952,83 @@ Not working with sway. Will investigate.
 
 ```cfg
 exec blueman-applet
+```
+
+
+## Wacom tablet {#wacom-tablet}
+
+I use Wacom CTL-471 for screen annotation during lectures. [OpenTabletDriver](https://github.com/OpenTabletDriver/OpenTabletDriver) is a
+user-mode cross-platform tablet driver with settings GUI.
+
+Blacklist wacom kernel module:
+
+```sh
+sudo sh -c "echo 'blacklist wacom' > /etc/modprobe.d/nowacom.conf"
+```
+
+```sh
+yay -S opentabletdriver
+```
+
+Start OTD from sway:
+
+```cfg
+exec otd
+```
+
+Run `otd-gui` for configuration.
+
+Using [gromit-mpx](https://github.com/bk138/gromit-mpx/) for screen annotation.
+
+There is a problem with capturing hotkeys. A workaround is to [handle hotkeys
+through sway](https://github.com/bk138/gromit-mpx/issues/127#issuecomment-1211957811).
+
+```cfg
+mode "gromit-mpx" {
+    # toggle painting
+    bindsym f9 exec gromit-mpx --toggle
+    # clear
+    bindsym Shift+f9 exec gromit-mpx --clear
+    # toggle visibility
+    bindsym Ctrl+f9 exec gromit-mpx --visibility
+    # quit
+    bindsym Alt+f9 exec gromit-mpx --quit
+    # undo
+    bindsym f8 exec gromit-mpx --undo
+    # redo
+    bindsym Shift+f8 exec gromit-mpx --redo
+
+    # Return to default mode
+    bindsym $mod+g mode "default"
+}
+bindsym $mod+g mode "gromit-mpx"
+```
+
+Gromit-MPX use Xwayland. So to find the name of the device use:
+
+```sh
+xinput --list
+```
+
+Gromit-MPX config with red and green pen and eraser:
+
+```cfg
+"red Pen" = PEN (size=7 color="red");
+"green Pen" = "red Pen" (color="green");
+
+"Eraser" = ERASER (size = 75);
+
+"Virtual core pointer" = "red Pen";
+"Virtual core pointer"[Button2] = "green Pen";
+"Virtual core pointer"[Button3] = "Eraser";
+```
+
+```ini
+[General]
+ShowIntroOnStartup=false
+
+[Drawing]
+Opacity=0.75
 ```
 
 

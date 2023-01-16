@@ -419,7 +419,7 @@ Put a warning at the beginning of the tangled file just to be sure not to forget
 
 *** Install
 #+begin_src sh
-sudo pacman -S sway swaylock swayidle
+sudo pacman -S wayland xorg-xwayland sway swaylock swaybg
 #+end_src
 
 See other sections for the installation of other tools used in this config.
@@ -1255,6 +1255,79 @@ Not working with sway. Will investigate.
 #+begin_src conf :tangle no
 exec blueman-applet
 #+end_src
+
+*** Wacom tablet
+I use Wacom CTL-471 for screen annotation during lectures. [[https://github.com/OpenTabletDriver/OpenTabletDriver][OpenTabletDriver]] is a
+user-mode cross-platform tablet driver with settings GUI.
+
+Blacklist wacom kernel module:
+#+begin_src sh
+sudo sh -c "echo 'blacklist wacom' > /etc/modprobe.d/nowacom.conf"
+#+end_src
+
+#+begin_src sh
+yay -S opentabletdriver
+#+end_src
+
+Start OTD from sway:
+#+begin_src conf
+exec otd
+#+end_src
+
+Run =otd-gui= for configuration.
+
+Using [[https://github.com/bk138/gromit-mpx/][gromit-mpx]] for screen annotation.
+
+There is a problem with capturing hotkeys. A workaround is to [[https://github.com/bk138/gromit-mpx/issues/127#issuecomment-1211957811][handle hotkeys
+through sway]].
+
+#+begin_src conf
+mode "gromit-mpx" {
+    # toggle painting
+    bindsym f9 exec gromit-mpx --toggle
+    # clear
+    bindsym Shift+f9 exec gromit-mpx --clear
+    # toggle visibility
+    bindsym Ctrl+f9 exec gromit-mpx --visibility
+    # quit
+    bindsym Alt+f9 exec gromit-mpx --quit
+    # undo
+    bindsym f8 exec gromit-mpx --undo
+    # redo
+    bindsym Shift+f8 exec gromit-mpx --redo
+
+    # Return to default mode
+    bindsym $mod+g mode "default"
+}
+bindsym $mod+g mode "gromit-mpx"
+#+end_src
+
+
+Gromit-MPX use Xwayland. So to find the name of the device use:
+#+begin_src sh
+xinput --list
+#+end_src
+
+Gromit-MPX config with red and green pen and eraser:
+#+begin_src conf :tangle "~/.config/gromit-mpx.cfg"
+"red Pen" = PEN (size=7 color="red");
+"green Pen" = "red Pen" (color="green");
+
+"Eraser" = ERASER (size = 75);
+
+"Virtual core pointer" = "red Pen";
+"Virtual core pointer"[Button2] = "green Pen";
+"Virtual core pointer"[Button3] = "Eraser";
+#+end_src
+
+#+begin_src ini :tangle "~/.config/gromit-mpx.ini"
+[General]
+ShowIntroOnStartup=false
+
+[Drawing]
+Opacity=0.75
+#+end_src
+
 *** Notification daemon
 Using swaync.
 #+begin_src sh
