@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-16T18:04:50+01:00
+lastmod = 2023-01-16T18:10:24+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -518,7 +518,7 @@ case "$LOCATION" in
     ;;
 
     "meeting")
-        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH 0 res $AUX_RES scale 1.8, \
+        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH 0 res $AUX_RES scale 1.5, \
                 output $LAPTOP_OUTPUT enable pos 0 0
         move_workspaces_to_output $LAPTOP_OUTPUT
     ;;
