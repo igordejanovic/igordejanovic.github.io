@@ -7,13 +7,13 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -22,7 +22,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -35,13 +35,13 @@
 <h1 class="title">Django</h1>
 <h2 class="subtitle">bazirano na tutorijalu i verziji 3.0</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-12-10 Tue 12:38, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-01-16 Mon 18:19, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org66f8e93">
-<h2 id="org66f8e93">Sadržaj</h2>
-<div id="text-table-of-contents">
+<section id="slide-orgebc5bc2">
+<h2 id="orgebc5bc2">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Kreiranje i podešavanje projekta</a></li>
 <li><a href="#/slide-2">2. Django modeli</a></li>
@@ -59,12 +59,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Kreiranje i podešavanje projekta</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Kreiranje i podešavanje projekta</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Django</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Django</h3>
 <ul>
 <li>Python okvir za razvoj veb aplikacija</li>
 <li>BSD licenca</li>
@@ -80,8 +80,8 @@
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Instalacija</h3>
-<pre  class="example">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Instalacija</h3>
+<pre>
 $ pip install Django
 </pre>
 
@@ -89,7 +89,7 @@ $ pip install Django
 Provera da li je instaliran:
 </p>
 
-<pre  class="example">
+<pre>
 $ python -m django --version
 </pre>
 
@@ -99,8 +99,8 @@ $ python -m django --version
 
 </section>
 <section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> Kreiranje projekta</h3>
-<pre  class="example">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Kreiranje projekta</h3>
+<pre>
 $ django-admin startproject mysite
 </pre>
 
@@ -108,7 +108,7 @@ $ django-admin startproject mysite
 Ovo će kreirati sledeće fajlove i foldere:
 </p>
 
-<pre  class="example">
+<pre>
 mysite/
     manage.py
     mysite/
@@ -120,7 +120,7 @@ mysite/
 
 </section>
 <section id="slide-1-4">
-<h3 id="1-4"><span class="section-number-3">1.4</span> Podešavanje sajta</h3>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Podešavanje sajta</h3>
 <ul>
 <li>Modul <code>mysite/settings.py</code>.</li>
 <li>Običan Python modul sa strukturama podataka za podešavanje svih aspekata sajta
@@ -131,7 +131,7 @@ mysite/
 
 <div class="org-src-container">
 
-<pre><code class=" python" >...
+<pre><code class="python" >...
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -147,8 +147,8 @@ DATABASES = {
 
 </section>
 <section id="slide-1-5">
-<h3 id="1-5"><span class="section-number-3">1.5</span> Pokretanje projekta</h3>
-<pre  class="example">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Pokretanje projekta</h3>
+<pre>
 $ python manage.py runserver
 Watching for file changes with StatReloader
 Performing system checks...
@@ -166,17 +166,17 @@ Quit the server with CONTROL-C.
 
 </section>
 <section id="slide-1-6">
-<h3 id="1-6"><span class="section-number-3">1.6</span> Početna strana</h3>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Početna strana</h3>
 
-<div class="figure">
+<div id="orga333f57" class="figure">
 <p><img src="./images/DjangoStarted.png" alt="DjangoStarted.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-7">
-<h3 id="1-7"><span class="section-number-3">1.7</span> Kreiranje inicijalne šeme baze podataka</h3>
-<pre  class="example">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Kreiranje inicijalne šeme baze podataka</h3>
+<pre>
 $ python manage.py migrate  
 Operations to perform:
   Apply all migrations: admin, auth, contenttypes, sessions
@@ -206,7 +206,7 @@ Inicijalna šema potiče od podrazumevano uključenih aplikacija.
 
 </section>
 <section id="slide-1-8">
-<h3 id="1-8"><span class="section-number-3">1.8</span> Admin interfejs</h3>
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Admin interfejs</h3>
 <ul>
 <li>Implementiran kao standardna Django aplikacija.</li>
 <li>Podrazumevano aktiviran.</li>
@@ -214,7 +214,7 @@ Inicijalna šema potiče od podrazumevano uključenih aplikacija.
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ python manage.py createsuperuser
 Username (leave blank to use 'igor'):
 Email address: igord@uns.ac.rs
@@ -225,7 +225,7 @@ Superuser created successfully.
 
 </section>
 <section id="slide-1-9">
-<h3 id="1-9"><span class="section-number-3">1.9</span> Pristup admin interfejsu</h3>
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Pristup admin interfejsu</h3>
 <ul>
 <li>Posle pokretanja aplikacije moguće je pristupiti admin interfejsu.</li>
 <li>Podrazumevano se pristupa na <a href="http://localhost:8000/admin/">http://localhost:8000/admin/</a></li>
@@ -233,14 +233,14 @@ Superuser created successfully.
 </ul>
 
 
-<div class="figure">
+<div id="orgfd6d89c" class="figure">
 <p><img src="./images/DjangoAdmin1.png" alt="DjangoAdmin1.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-1-10">
-<h3 id="1-10"><span class="section-number-3">1.10</span> Projekti i aplikacije</h3>
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Projekti i aplikacije</h3>
 <ul>
 <li>Aplikacija je modul koji radi nešto korisno. Na primer, blog sistem,
 aplikacija za glasanje, forum i sl.</li>
@@ -250,8 +250,8 @@ aplikacija za glasanje, forum i sl.</li>
 
 </section>
 <section id="slide-1-11">
-<h3 id="1-11"><span class="section-number-3">1.11</span> Kreiranje aplikacije unutar projekta</h3>
-<pre  class="example">
+<h3 id="1-11"><span class="section-number-3">1.11.</span> Kreiranje aplikacije unutar projekta</h3>
+<pre>
 $ python manage.py startapp polls
 </pre>
 
@@ -259,7 +259,7 @@ $ python manage.py startapp polls
 Kreira fajlove i foldere sledećeg oblika:
 </p>
 
-<pre  class="example">
+<pre>
 polls/
     __init__.py
     admin.py
@@ -275,12 +275,12 @@ polls/
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Django modeli</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Django modeli</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Django modeli</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Django modeli</h3>
 <ul>
 <li>Smešteni su u <code>[app_name]/models.py</code> fajlu</li>
 <li>Predstavljaju definitivan izvor definicije podataka u aplikaciji.</li>
@@ -290,7 +290,7 @@ polls/
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.db import models
+<pre><code class="python" >from django.db import models
 
 
 class Question(models.Model):
@@ -307,7 +307,7 @@ class Choice(models.Model):
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Aktivacija modela</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Aktivacija modela</h3>
 <ul>
 <li>Potrebno je prvo aktivirati aplikaciju. Obavlja se dodavanjem klase
 <code>PollsConfig</code> iz fajla <code>polls/apps.py</code> u <code>settings.py</code> fajl za sajt, n-torka
@@ -317,7 +317,7 @@ class Choice(models.Model):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >INSTALLED_APPS = (
+<pre><code class="python" >INSTALLED_APPS = (
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -331,10 +331,10 @@ class Choice(models.Model):
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Kreiranje migracije</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Kreiranje migracije</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >$ python manage.py makemigrations polls
+<pre><code class="python" >$ python manage.py makemigrations polls
 Migrations for 'polls':
   polls/migrations/0001_initial.py:
     - Create model Choice
@@ -348,10 +348,10 @@ Kreiran je fajl <code>polls/migrations/0001_initial.py</code>.
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> Pregled SQL-a za određenu migraciju</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Pregled SQL-a za određenu migraciju</h3>
 <div class="org-src-container">
 
-<pre><code class=" sql" >$ python manage.py sqlmigrate polls 0001
+<pre><code class="sql" >$ python manage.py sqlmigrate polls 0001
 BEGIN;
 --
 -- Create model Choice
@@ -378,8 +378,8 @@ COMMIT;
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Primena migracije nad bazom</h3>
-<pre  class="example">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Primena migracije nad bazom</h3>
+<pre>
 $ python manage.py migrate
 Operations to perform:
   Apply all migrations: admin, auth, contenttypes, polls, sessions
@@ -389,7 +389,7 @@ Running migrations:
 
 </section>
 <section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> Migracije - sumarno</h3>
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Migracije - sumarno</h3>
 <p>
 Kod migracije šeme baze podataka uz očuvanje podataka raditi sledeće:
 </p>
@@ -400,7 +400,7 @@ Kod migracije šeme baze podataka uz očuvanje podataka raditi sledeće:
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ python manage.py makemigrations
 </pre>
 
@@ -409,13 +409,13 @@ $ python manage.py makemigrations
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ python manage.py migrate
 </pre>
 
 </section>
 <section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7</span> Registracija modela u admin interfejsu</h3>
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Registracija modela u admin interfejsu</h3>
 <ul>
 <li>U fajlu <code>polls/admin.py</code>:</li>
 
@@ -423,7 +423,7 @@ $ python manage.py migrate
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.contrib import admin
+<pre><code class="python" >from django.contrib import admin
 
 from .models import Question, Choice
 
@@ -433,21 +433,21 @@ admin.site.register(Choice)
 </div>
 
 
-<div class="figure">
+<div id="org40a7fe4" class="figure">
 <p><img src="./images/DjangoAdmin3.png" alt="DjangoAdmin3.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-8">
-<h3 id="2-8"><span class="section-number-3">2.8</span> Model API</h3>
-<pre  class="example">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Model API</h3>
+<pre>
 $ python manage.py shell
 </pre>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from polls.models import Question, Choice
+<pre><code class="python" >&gt;&gt;&gt; from polls.models import Question, Choice
 &gt;&gt;&gt; Question.objects.all()
 []
 &gt;&gt;&gt; from django.utils import timezone
@@ -468,10 +468,10 @@ datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=&lt;UTC&gt;)
 
 </section>
 <section id="slide-2-9">
-<h3 id="2-9"><span class="section-number-3">2.9</span> String reprezentacija instanci modela</h3>
+<h3 id="2-9"><span class="section-number-3">2.9.</span> String reprezentacija instanci modela</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.db import models
+<pre><code class="python" >from django.db import models
 
 class Question(models.Model):
     # ...
@@ -487,10 +487,10 @@ class Choice(models.Model):
 
 </section>
 <section id="slide-2-10">
-<h3 id="2-10"><span class="section-number-3">2.10</span> Korisničke metode nad modelom</h3>
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Korisničke metode nad modelom</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >import datetime
+<pre><code class="python" >import datetime
 
 from django.db import models
 from django.utils import timezone
@@ -505,10 +505,10 @@ class Question(models.Model):
 
 </section>
 <section id="slide-2-11">
-<h3 id="2-11"><span class="section-number-3">2.11</span> Model API (2)</h3>
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Model API (2)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; from polls.models import Question, Choice
+<pre><code class="python" >&gt;&gt;&gt; from polls.models import Question, Choice
 &gt;&gt;&gt; Question.objects.all()
 [&lt;Question: What's up?&gt;]
 
@@ -526,10 +526,10 @@ class Question(models.Model):
 
 </section>
 <section id="slide-2-12">
-<h3 id="2-12"><span class="section-number-3">2.12</span> Model API (3)</h3>
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Model API (3)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; Question.objects.get(id=2)
+<pre><code class="python" >&gt;&gt;&gt; Question.objects.get(id=2)
 Traceback (most recent call last):
     ...
 DoesNotExist: Question matching query does not exist.
@@ -550,10 +550,10 @@ True
 
 </section>
 <section id="slide-2-13">
-<h3 id="2-13"><span class="section-number-3">2.13</span> Model API (4)</h3>
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Model API (4)</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >&gt;&gt;&gt; q.choice_set.create(choice_text='Not much', votes=0)
+<pre><code class="python" >&gt;&gt;&gt; q.choice_set.create(choice_text='Not much', votes=0)
 &lt;Choice: Not much&gt;
 &gt;&gt;&gt; q.choice_set.create(choice_text='The sky', votes=0)
 &lt;Choice: The sky&gt;
@@ -579,12 +579,12 @@ True
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Podešavanje admin aplikacije</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Podešavanje admin aplikacije</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Podešavanje admin aplikacije</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Podešavanje admin aplikacije</h3>
 <ul>
 <li>Videti uputstvo <a href="https://docs.djangoproject.com/en/3.0/intro/tutorial02/#introducing-the-django-admin">ovde</a>.</li>
 
@@ -594,14 +594,14 @@ True
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Pogledi - <i>Views</i></h2>
+<h2 id="4"><span class="section-number-2">4.</span> Pogledi - <i>Views</i></h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> Pogledi - <i>Views</i></h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Pogledi - <i>Views</i></h3>
 <ul>
-<li>Predstavljaju "vrstu" web stranice: blog home, arhiva po godini&#x2026;</li>
+<li>Predstavljaju &ldquo;vrstu&rdquo; web stranice: blog home, arhiva po godini&#x2026;</li>
 <li>U <code>polls</code> aplikaciji imaćemo 4 pogleda:
 
 <ul>
@@ -620,13 +620,13 @@ True
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> Prvi pogled</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Prvi pogled</h3>
 <p>
 Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 
 
 def index(request):
@@ -641,7 +641,7 @@ Iz pogleda se vraća <code>HttpResponse</code> instanca ili izuzetak.
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3</span> Rutiranje zahteva</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Rutiranje zahteva</h3>
 <ul>
 <li>Svaki URL zahtev se mapira na odgovarajuću <code>view</code> funkciju posredstvom tzv.
 <code>URLconf</code>-a.</li>
@@ -651,7 +651,7 @@ Iz pogleda se vraća <code>HttpResponse</code> instanca ili izuzetak.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.urls import path
+<pre><code class="python" >from django.urls import path
 
 from . import views
 
@@ -669,7 +669,7 @@ aplikacije <code>polls</code>.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.contrib import admin
+<pre><code class="python" >from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
@@ -681,7 +681,7 @@ urlpatterns = [
 
 </section>
 <section id="slide-4-4">
-<h3 id="4-4"><span class="section-number-3">4.4</span> Rutiranje zahteva (2)</h3>
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Rutiranje zahteva (2)</h3>
 <p>
 Ako sada odete na adresu <a href="http://localhost:8000/polls/">http://localhost:8000/polls/</a> dobićete string:
 </p>
@@ -692,13 +692,13 @@ Ako sada odete na adresu <a href="http://localhost:8000/polls/">http://localhost
 
 </section>
 <section id="slide-4-5">
-<h3 id="4-5"><span class="section-number-3">4.5</span> Dodatni <code>polls</code> pogledi</h3>
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Dodatni <code>polls</code> pogledi</h3>
 <p>
 Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >def detail(request, question_id):
+<pre><code class="python" >def detail(request, question_id):
     return HttpResponse("You're looking at question %s." % question_id)
 
 def results(request, question_id):
@@ -712,13 +712,13 @@ def vote(request, question_id):
 
 </section>
 <section id="slide-4-6">
-<h3 id="4-6"><span class="section-number-3">4.6</span> Dodatne rute</h3>
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Dodatne rute</h3>
 <p>
 Fajl <code>polls/urls.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.urls import path
+<pre><code class="python" >from django.urls import path
 
 from . import views
 
@@ -741,20 +741,20 @@ Primer mapiranja:
 
 <div class="org-src-container">
 
-<pre><code class=" example" >/polls/34   =&gt;   detail(request=&lt;HttpRequest object&gt;, question_id=34)
+<pre><code class="example" >/polls/34   =&gt;   detail(request=&lt;HttpRequest object&gt;, question_id=34)
 </code></pre>
 </div>
 
 
 </section>
 <section id="slide-4-7">
-<h3 id="4-7"><span class="section-number-3">4.7</span> Pogled koji nešto zaista i radi</h3>
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Pogled koji nešto zaista i radi</h3>
 <p>
 Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 
 from polls.models import Question
 
@@ -776,7 +776,7 @@ def index(request):
 
 </section>
 <section id="slide-4-8">
-<h3 id="4-8"><span class="section-number-3">4.8</span> Šabloni</h3>
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Šabloni</h3>
 <ul>
 <li>Kreiramo folder <code>templates</code> unutar <code>polls</code> aplikacije.</li>
 <li><p>
@@ -786,12 +786,12 @@ modulu:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-    },
-]
+<pre><code class="python" >  TEMPLATES = [
+      {
+          'BACKEND': 'django.template.backends.django.DjangoTemplates',
+          'APP_DIRS': True,
+      },
+  ]
 </code></pre>
 </div></li>
 
@@ -811,13 +811,13 @@ modulu:
 
 </section>
 <section id="slide-4-9">
-<h3 id="4-9"><span class="section-number-3">4.9</span> Prvi šablon</h3>
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Prvi šablon</h3>
 <p>
 Fajl <code>polls/templates/polls/index.html</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% if latest_question_list %}
+<pre><code class="jinja2" >{% if latest_question_list %}
     &lt;ul&gt;
     {% for question in latest_question_list %}
         &lt;li&gt;&lt;a href="/polls/{{ question.id }}/"&gt;
@@ -832,13 +832,13 @@ Fajl <code>polls/templates/polls/index.html</code>:
 
 </section>
 <section id="slide-4-10">
-<h3 id="4-10"><span class="section-number-3">4.10</span> Ažuriranje pogleda da koristi šablon</h3>
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Ažuriranje pogleda da koristi šablon</h3>
 <p>
 Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 from django.template import loader
 
 from .models import Question
@@ -856,7 +856,7 @@ def index(request):
 
 </section>
 <section id="slide-4-11">
-<h3 id="4-11"><span class="section-number-3">4.11</span> Prečica <code>render</code></h3>
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Prečica <code>render</code></h3>
 <ul>
 <li>Učitavanje i rederovanje šablona i vraćanje <code>HttpResponse</code> instance
 je čest slučaj.</li>
@@ -869,7 +869,7 @@ Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.shortcuts import render
+<pre><code class="python" >from django.shortcuts import render
 
 from .models import Question
 
@@ -883,7 +883,7 @@ def index(request):
 
 </section>
 <section id="slide-4-12">
-<h3 id="4-12"><span class="section-number-3">4.12</span> Greška 404</h3>
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Greška 404</h3>
 <p>
 Recimo da želimo da renderujemo detalje <code>Question</code> objekta.
 </p>
@@ -893,7 +893,7 @@ Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import Http404
+<pre><code class="python" >from django.http import Http404
 from django.shortcuts import render
 
 from .models import Question
@@ -913,13 +913,13 @@ Za sada šablon <code>polls/templates/polls/detail.html</code> može biti prosto
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ question }}
+<pre><code class="jinja2" >{{ question }}
 </code></pre>
 </div>
 
 </section>
 <section id="slide-4-13">
-<h3 id="4-13"><span class="section-number-3">4.13</span> Prečica <code>get_object_or_404</code></h3>
+<h3 id="4-13"><span class="section-number-3">4.13.</span> Prečica <code>get_object_or_404</code></h3>
 <ul>
 <li>Čest obrazac je pronalaženje objekta po id-u i podizanje greške 404 ukoliko ne
 postoji.</li>
@@ -932,7 +932,7 @@ Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.shortcuts import get_object_or_404, render
+<pre><code class="python" >from django.shortcuts import get_object_or_404, render
 
 from polls.models import Question
 # ...
@@ -950,14 +950,14 @@ ukoliko je lista prazna.</li>
 
 </section>
 <section id="slide-4-14">
-<h3 id="4-14"><span class="section-number-3">4.14</span> Prepravka <code>details</code> šablona</h3>
+<h3 id="4-14"><span class="section-number-3">4.14.</span> Prepravka <code>details</code> šablona</h3>
 <p>
 Fajl <code>polls/templates/polls/detail.html</code>:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+<pre><code class="jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
 &lt;ul&gt;
 {% for choice in question.choice_set.all %}
     &lt;li&gt;{{ choice.choice_text }}&lt;/li&gt;
@@ -968,7 +968,7 @@ Fajl <code>polls/templates/polls/detail.html</code>:
 
 </section>
 <section id="slide-4-15">
-<h3 id="4-15"><span class="section-number-3">4.15</span> URL-ovi u šablonima</h3>
+<h3 id="4-15"><span class="section-number-3">4.15.</span> URL-ovi u šablonima</h3>
 <ul>
 <li>Link u <code>index.html</code> šablonu je bio delimično hardkodiran:</li>
 
@@ -976,7 +976,7 @@ Fajl <code>polls/templates/polls/detail.html</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;li&gt;
+<pre><code class="jinja2" >&lt;li&gt;
   &lt;a href="/polls/{{ question.id }}/"&gt;{{ question.question_text}}&lt;/a&gt;
 &lt;/li&gt;
 </code></pre>
@@ -990,7 +990,7 @@ Fajl <code>polls/templates/polls/detail.html</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;li&gt;&lt;a href="{% url 'detail' question.id %}"&gt;
+<pre><code class="jinja2" >&lt;li&gt;&lt;a href="{% url 'detail' question.id %}"&gt;
   {{ question.question_text }}&lt;/a&gt;&lt;/li&gt;
 </code></pre>
 </div>
@@ -1000,7 +1000,7 @@ U <code>polls.url</code> modulu:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >...
+<pre><code class="python" >...
 # the 'name' value as called by the {% url %} template tag
 path('&lt;int:question_id&gt;/', views.detail, name='detail'),
 ...
@@ -1009,7 +1009,7 @@ path('&lt;int:question_id&gt;/', views.detail, name='detail'),
 
 </section>
 <section id="slide-4-16">
-<h3 id="4-16"><span class="section-number-3">4.16</span> <i>Namespaces</i> u URL rutama</h3>
+<h3 id="4-16"><span class="section-number-3">4.16.</span> <i>Namespaces</i> u URL rutama</h3>
 <ul>
 <li>U prethodnom primeru <code>url</code> tag referencira rutu iz <code>urls.py</code> fajla po imenu.</li>
 <li>Problem je ako imamo rute koje se isto zovu u više aplikacija.</li>
@@ -1024,7 +1024,7 @@ Fajl <code>polls/urls.py</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.urls import path
+<pre><code class="python" >from django.urls import path
 
 from . import views
 
@@ -1044,7 +1044,7 @@ Fajl <code>polls/templates/polls/index.html</code>:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;li&gt;
+<pre><code class="jinja2" >&lt;li&gt;
    &lt;a href="{% url 'polls:detail' question.id %}"&gt; {{ question.question_text }}&lt;/a&gt;
 &lt;/li&gt;
 </code></pre>
@@ -1054,19 +1054,19 @@ Fajl <code>polls/templates/polls/index.html</code>:
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5</span> Forme</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Forme</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1</span> Pisanje jednostavne forme</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Pisanje jednostavne forme</h3>
 <p>
 Šablon <code>polls/templates/polls/detail.html</code>:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+<pre><code class="jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
 
 {% if error_message %}&lt;p&gt;&lt;strong&gt;{{ error_message }}&lt;/strong&gt;&lt;/p&gt;{% endif %}
 
@@ -1083,14 +1083,14 @@ Fajl <code>polls/templates/polls/index.html</code>:
 
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2</span> Pogled</h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Pogled</h3>
 <p>
 Fajl <code>polls/urls.py</code>:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >path('&lt;int:question_id&gt;/vote/', views.vote, name='vote'),
+<pre><code class="python" >path('&lt;int:question_id&gt;/vote/', views.vote, name='vote'),
 </code></pre>
 </div>
 
@@ -1099,7 +1099,7 @@ Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse, HttpResponseRedirect
+<pre><code class="python" >from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -1127,7 +1127,7 @@ def vote(request, question_id):
 
 </section>
 <section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3</span> Rezultati glasanja</h3>
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Rezultati glasanja</h3>
 <p>
 Po uspešnom glasanju (POST forme) vrši se redirekcija na <code>polls:results</code> pogled.
 </p>
@@ -1137,7 +1137,7 @@ Fajl <code>polls/views.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.shortcuts import get_object_or_404, render
+<pre><code class="python" >from django.shortcuts import get_object_or_404, render
 
 
 def results(request, question_id):
@@ -1151,7 +1151,7 @@ def results(request, question_id):
 </p>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
+<pre><code class="jinja2" >&lt;h1&gt;{{ question.question_text }}&lt;/h1&gt;
 
 &lt;ul&gt;
 {% for choice in question.choice_set.all %}
@@ -1168,15 +1168,15 @@ def results(request, question_id):
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6</span> Pogledi bazirani na klasama <i>Class-Based Views</i></h2>
+<h2 id="6"><span class="section-number-2">6.</span> Pogledi bazirani na klasama <i>Class-Based Views</i></h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
 <section id="slide-6-1">
-<h3 id="6-1"><span class="section-number-3">6.1</span> Upotreba klase za definisanje pogleda</h3>
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Upotreba klase za definisanje pogleda</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 
 def my_view(request):
     if request.method == 'GET':
@@ -1191,7 +1191,7 @@ Postaje:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 from django.views import View
 
 class MyView(View):
@@ -1206,7 +1206,7 @@ Fajl <code>urls.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.urls import path
+<pre><code class="python" >from django.urls import path
 from myapp.views import MyView
 
 urlpatterns = [
@@ -1216,10 +1216,10 @@ urlpatterns = [
 
 </section>
 <section id="slide-6-2">
-<h3 id="6-2"><span class="section-number-3">6.2</span> Nasleđivanje</h3>
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Nasleđivanje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 from django.views import View
 
 class GreetingView(View):
@@ -1232,7 +1232,7 @@ class GreetingView(View):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class MorningGreetingView(GreetingView):
+<pre><code class="python" >class MorningGreetingView(GreetingView):
     greeting = "Morning to ya"
 </code></pre>
 </div>
@@ -1242,7 +1242,7 @@ Fajl <code>urls.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >urlpatterns = [
+<pre><code class="python" >urlpatterns = [
     path('about/', GreetingView.as_view(greeting="G'day")),
 ]
 </code></pre>
@@ -1250,10 +1250,10 @@ Fajl <code>urls.py</code>:
 
 </section>
 <section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3</span> Podrška za forme</h3>
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Podrška za forme</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponseRedirect
+<pre><code class="python" >from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from .forms import MyForm
@@ -1279,7 +1279,7 @@ Postaje:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponseRedirect
+<pre><code class="python" >from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views import View
 
@@ -1306,13 +1306,13 @@ class MyFormView(View):
 
 </section>
 <section id="slide-6-4">
-<h3 id="6-4"><span class="section-number-3">6.4</span> Dekoracija pogleda</h3>
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Dekoracija pogleda</h3>
 <p>
 Fajl <code>urls.py</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.contrib.auth.decorators import login_required, permission_required
+<pre><code class="python" >from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import TemplateView
 
 from .views import VoteView
@@ -1330,7 +1330,7 @@ Ili na nivou metoda klase:
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.contrib.auth.decorators import login_required
+<pre><code class="python" >from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 
@@ -1350,10 +1350,10 @@ class ProtectedView(TemplateView):
 
 </section>
 <section id="slide-6-5">
-<h3 id="6-5"><span class="section-number-3">6.5</span> Podrška za HTTP metode</h3>
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Podrška za HTTP metode</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.urls import path
+<pre><code class="python" >from django.urls import path
 from books.views import BookListView
 
 urlpatterns = [
@@ -1364,7 +1364,7 @@ urlpatterns = [
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.http import HttpResponse
+<pre><code class="python" >from django.http import HttpResponse
 from django.views.generic import ListView
 from books.models import Book
 
@@ -1385,12 +1385,12 @@ class BookListView(ListView):
 </section>
 <section>
 <section id="slide-7">
-<h2 id="7"><span class="section-number-2">7</span> Generički pogledi</h2>
+<h2 id="7"><span class="section-number-2">7.</span> Generički pogledi</h2>
 <div class="outline-text-2" id="text-7">
 </div>
 </section>
 <section id="slide-7-1">
-<h3 id="7-1"><span class="section-number-3">7.1</span> Generički pogledi</h3>
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Generički pogledi</h3>
 <ul>
 <li>Prethodno prikazani pogledi su često korišćeni u web aplikacijama
 
@@ -1407,10 +1407,10 @@ class BookListView(ListView):
 
 </section>
 <section id="slide-7-2">
-<h3 id="7-2"><span class="section-number-3">7.2</span> Korišćeni primer</h3>
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Korišćeni primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >class Publisher(models.Model):
+<pre><code class="python" >class Publisher(models.Model):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=50)
     city = models.CharField(max_length=60)
@@ -1443,10 +1443,10 @@ class Book(models.Model):
 
 </section>
 <section id="slide-7-3">
-<h3 id="7-3"><span class="section-number-3">7.3</span> Pogled</h3>
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Pogled</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" ># views.py
+<pre><code class="python" ># views.py
 from django.views.generic import ListView
 from books.models import Publisher
 
@@ -1457,7 +1457,7 @@ class PublisherList(ListView):
 
 <div class="org-src-container">
 
-<pre><code class=" python" ># urls.py
+<pre><code class="python" ># urls.py
 from django.urls import path
 from books.views import PublisherList
 
@@ -1481,7 +1481,7 @@ Fajl <code>books/.html</code>:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% extends "base.html" %}
+<pre><code class="jinja2" >{% extends "base.html" %}
 
 {% block content %}
     &lt;h2&gt;Publishers&lt;/h2&gt;
@@ -1502,10 +1502,10 @@ specifičnim za konkretan model.</li>
 
 </section>
 <section id="slide-7-4">
-<h3 id="7-4"><span class="section-number-3">7.4</span> Definisanje boljeg imena za kontekst šablona</h3>
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Definisanje boljeg imena za kontekst šablona</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" ># views.py
+<pre><code class="python" ># views.py
 from django.views.generic import ListView
 from books.models import Publisher
 
@@ -1517,13 +1517,13 @@ class PublisherList(ListView):
 
 </section>
 <section id="slide-7-5">
-<h3 id="7-5"><span class="section-number-3">7.5</span> Dodavanje novih informacija u kontekst</h3>
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Dodavanje novih informacija u kontekst</h3>
 <p>
 Na primer, ako želimo da detaljni pregled izdavača sadrži i spisak knjiga:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.views.generic import DetailView
+<pre><code class="python" >from django.views.generic import DetailView
 from books.models import Book, Publisher
 
 class PublisherDetail(DetailView):
@@ -1541,14 +1541,14 @@ class PublisherDetail(DetailView):
 
 </section>
 <section id="slide-7-6">
-<h3 id="7-6"><span class="section-number-3">7.6</span> Pregled samo podskupa objekata</h3>
+<h3 id="7-6"><span class="section-number-3">7.6.</span> Pregled samo podskupa objekata</h3>
 <p>
 Možemo da koristimo <code>queryset</code> atribut klase pogleda da definišemo proizvoljan upit.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.views.generic import DetailView
+<pre><code class="python" >from django.views.generic import DetailView
 from books.models import Publisher
 
 class PublisherDetail(DetailView):
@@ -1560,7 +1560,7 @@ class PublisherDetail(DetailView):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.views.generic import ListView
+<pre><code class="python" >from django.views.generic import ListView
 from books.models import Book
 
 class BookList(ListView):
@@ -1571,7 +1571,7 @@ class BookList(ListView):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.views.generic import ListView
+<pre><code class="python" >from django.views.generic import ListView
 from books.models import Book
 
 class AcmeBookList(ListView):
@@ -1584,10 +1584,10 @@ class AcmeBookList(ListView):
 
 </section>
 <section id="slide-7-7">
-<h3 id="7-7"><span class="section-number-3">7.7</span> Dinamičko filtriranje</h3>
+<h3 id="7-7"><span class="section-number-3">7.7.</span> Dinamičko filtriranje</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" ># views.py
+<pre><code class="python" ># views.py
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from books.models import Book, Publisher
@@ -1604,10 +1604,10 @@ class PublisherBookList(ListView):
 
 </section>
 <section id="slide-7-8">
-<h3 id="7-8"><span class="section-number-3">7.8</span> Izmena objekata</h3>
+<h3 id="7-8"><span class="section-number-3">7.8.</span> Izmena objekata</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from django.utils import timezone
+<pre><code class="python" >from django.utils import timezone
 from django.views.generic import DetailView
 from books.models import Author
 
@@ -1628,12 +1628,12 @@ class AuthorDetailView(DetailView):
 </section>
 <section>
 <section id="slide-8">
-<h2 id="8"><span class="section-number-2">8</span> Šabloni detaljnije</h2>
+<h2 id="8"><span class="section-number-2">8.</span> Šabloni detaljnije</h2>
 <div class="outline-text-2" id="text-8">
 </div>
 </section>
 <section id="slide-8-1">
-<h3 id="8-1"><span class="section-number-3">8.1</span> Šabloni</h3>
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Šabloni</h3>
 <ul>
 <li>Tekstualni fajlovi koji imaju fiksne i varijablne delove.</li>
 <li>Koriste se za generisanje proizvoljnog tekstualnog sadržaja: HTML, JSON, XML,
@@ -1643,10 +1643,10 @@ CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 
 </section>
 <section id="slide-8-2">
-<h3 id="8-2"><span class="section-number-3">8.2</span> Primer</h3>
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Primer</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% extends "base_generic.html" %}
+<pre><code class="jinja2" >{% extends "base_generic.html" %}
 
 {% block title %}{{ section.title }}{% endblock %}
 
@@ -1667,7 +1667,7 @@ CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 
 </section>
 <section id="slide-8-3">
-<h3 id="8-3"><span class="section-number-3">8.3</span> Varijable konteksta</h3>
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Varijable konteksta</h3>
 <ul>
 <li>Navode se u obliku <code>{{ varijabla  }}</code>.</li>
 <li>Može se koristiti <code>dot</code> notacija za pristup atributima varijable pri čemu
@@ -1686,9 +1686,9 @@ Primer:
 </p>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ my_dict.key }}
-{{ my_object.attribute }}
-{{ my_list.0 }}
+<pre><code class="jinja2" >    {{ my_dict.key }}
+    {{ my_object.attribute }}
+    {{ my_list.0 }}
 </code></pre>
 </div></li>
 
@@ -1698,14 +1698,14 @@ Primer:
 
 </section>
 <section id="slide-8-4">
-<h3 id="8-4"><span class="section-number-3">8.4</span> Filteri</h3>
+<h3 id="8-4"><span class="section-number-3">8.4.</span> Filteri</h3>
 <p>
 Na prikaz varijable se može uticati filterima.
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ value|default:"nothing" }}
+<pre><code class="jinja2" >{{ value|default:"nothing" }}
   Za value == None -- nothing
 {{ value|length }}
   Za value == [1, 2, 3] -- 3
@@ -1720,7 +1720,7 @@ Filteri se mogu povezivati:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ text|escape|linebreaks }}
+<pre><code class="jinja2" >{{ text|escape|linebreaks }}
 </code></pre>
 </div>
 
@@ -1730,21 +1730,21 @@ Mogu imati parametre:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ bio|truncatewords:30 }}
+<pre><code class="jinja2" >{{ bio|truncatewords:30 }}
 {{ list|join:", " }}
 </code></pre>
 </div>
 
 </section>
 <section id="slide-8-5">
-<h3 id="8-5"><span class="section-number-3">8.5</span> Tagovi</h3>
+<h3 id="8-5"><span class="section-number-3">8.5.</span> Tagovi</h3>
 <p>
 Složenije konstrukcije oblika:
 </p>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% tag %} ... sadržaj... {% endtag %}
+<pre><code class="jinja2" >{% tag %} ... sadržaj... {% endtag %}
 </code></pre>
 </div>
 
@@ -1755,10 +1755,10 @@ informacija i sl.
 
 </section>
 <section id="slide-8-6">
-<h3 id="8-6"><span class="section-number-3">8.6</span> <code>For</code></h3>
+<h3 id="8-6"><span class="section-number-3">8.6.</span> <code>For</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;ul&gt;
+<pre><code class="jinja2" >&lt;ul&gt;
 {% for athlete in athlete_list %}
     &lt;li&gt;{{ athlete.name }}&lt;/li&gt;
 {% endfor %}
@@ -1768,10 +1768,10 @@ informacija i sl.
 
 </section>
 <section id="slide-8-7">
-<h3 id="8-7"><span class="section-number-3">8.7</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
+<h3 id="8-7"><span class="section-number-3">8.7.</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% if athlete_list %}
+<pre><code class="jinja2" >{% if athlete_list %}
     Number of athletes: {{ athlete_list|length }}
 {% elif athlete_in_locker_room_list %}
     Athletes should be out of the locker room soon!
@@ -1783,7 +1783,7 @@ informacija i sl.
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% if athlete_list|length &amp;gt; 1 %}
+<pre><code class="jinja2" >{% if athlete_list|length &amp;gt; 1 %}
    Team: {% for athlete in athlete_list %} ... {% endfor %}
 {% else %}
    Athlete: {{ athlete_list.0.name }}
@@ -1793,7 +1793,7 @@ informacija i sl.
 
 </section>
 <section id="slide-8-8">
-<h3 id="8-8"><span class="section-number-3">8.8</span> Nasleđivanje šablona</h3>
+<h3 id="8-8"><span class="section-number-3">8.8.</span> Nasleđivanje šablona</h3>
 <ul>
 <li>Najkompleksniji i najmoćniji mehanizam Django obrađivača šablona.</li>
 <li>Omogućava definisanje šablona najvišeg nivoa i zatim redefiniciju i
@@ -1804,10 +1804,10 @@ specijalizaciju za konkretne slučajeve.</li>
 
 </section>
 <section id="slide-8-9">
-<h3 id="8-9"><span class="section-number-3">8.9</span> Nasleđivanje šablona (2)</h3>
+<h3 id="8-9"><span class="section-number-3">8.9.</span> Nasleđivanje šablona (2)</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >&lt;!DOCTYPE html&gt;
+<pre><code class="jinja2" >&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;head&gt;
     &lt;link rel="stylesheet" href="style.css" /&gt;
@@ -1834,10 +1834,10 @@ specijalizaciju za konkretne slučajeve.</li>
 
 </section>
 <section id="slide-8-10">
-<h3 id="8-10"><span class="section-number-3">8.10</span> Nasleđivanje šablona (3)</h3>
+<h3 id="8-10"><span class="section-number-3">8.10.</span> Nasleđivanje šablona (3)</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% extends "base.html" %}
+<pre><code class="jinja2" >{% extends "base.html" %}
 
 {% block title %}My amazing blog{% endblock %}
 
@@ -1852,7 +1852,7 @@ specijalizaciju za konkretne slučajeve.</li>
 
 </section>
 <section id="slide-8-11">
-<h3 id="8-11"><span class="section-number-3">8.11</span> Nasleđivanje šablona (4)</h3>
+<h3 id="8-11"><span class="section-number-3">8.11.</span> Nasleđivanje šablona (4)</h3>
 <ul>
 <li>Roditeljski <code>block</code> tagovi treba da imaju podrazumevani sadržaj.</li>
 <li>Ukoliko primetite da duplirate kod u šablonima to je znak da treba da kreirate
@@ -1866,7 +1866,7 @@ potrebno.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% block content %}
+<pre><code class="jinja2" >{% block content %}
 ...
 {% endblock content %}
 </code></pre>
@@ -1874,7 +1874,7 @@ potrebno.</li>
 
 </section>
 <section id="slide-8-12">
-<h3 id="8-12"><span class="section-number-3">8.12</span> Automatski HTML <i>escaping</i></h3>
+<h3 id="8-12"><span class="section-number-3">8.12.</span> Automatski HTML <i>escaping</i></h3>
 <ul>
 <li>Sprečavanje <i>Cross Site Scripting (XSS)</i>.</li>
 <li>Django automatski uključuje <i>HTML escaping</i> za sve stringove koje renderuje.</li>
@@ -1895,10 +1895,10 @@ obrađivača.</li>
 
 </section>
 <section id="slide-8-13">
-<h3 id="8-13"><span class="section-number-3">8.13</span> Automatski HTML <i>escaping</i> - varijable</h3>
+<h3 id="8-13"><span class="section-number-3">8.13.</span> Automatski HTML <i>escaping</i> - varijable</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >This will be escaped: {{ data }}
+<pre><code class="jinja2" >This will be escaped: {{ data }}
 This will not be escaped: {{ data|safe }}
 </code></pre>
 </div>
@@ -1909,17 +1909,17 @@ Za <code>data</code> vrednost <code>&lt;b&gt;</code> rezultuje sledećim kodom:
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >This will be escaped: &amp;lt;b&amp;gt;
+<pre><code class="jinja2" >This will be escaped: &amp;lt;b&amp;gt;
 This will not be escaped: &lt;b&gt;
 </code></pre>
 </div>
 
 </section>
 <section id="slide-8-14">
-<h3 id="8-14"><span class="section-number-3">8.14</span> Automatski HTML <i>escaping</i> - blokovi</h3>
+<h3 id="8-14"><span class="section-number-3">8.14.</span> Automatski HTML <i>escaping</i> - blokovi</h3>
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% autoescape off %}
+<pre><code class="jinja2" >{% autoescape off %}
     Hello {{ name }}
 {% endautoescape %}
 </code></pre>
@@ -1927,7 +1927,7 @@ This will not be escaped: &lt;b&gt;
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >Auto-escaping is on by default. Hello {{ name }}
+<pre><code class="jinja2" >Auto-escaping is on by default. Hello {{ name }}
 
 {% autoescape off %}
     This will not be auto-escaped: {{ data }}.
@@ -1942,7 +1942,7 @@ This will not be escaped: &lt;b&gt;
 
 </section>
 <section id="slide-8-15">
-<h3 id="8-15"><span class="section-number-3">8.15</span> Pozivi metoda u šablonima</h3>
+<h3 id="8-15"><span class="section-number-3">8.15.</span> Pozivi metoda u šablonima</h3>
 <ul>
 <li>Moguće je pozivati metode koje nemaju parametre.</li>
 <li>Sintaksa je ista kao za pristup atributima.</li>
@@ -1951,7 +1951,7 @@ This will not be escaped: &lt;b&gt;
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% for comment in task.comment_set.all %}
+<pre><code class="jinja2" >{% for comment in task.comment_set.all %}
     {{ comment }}
 {% endfor %}
 </code></pre>
@@ -1959,7 +1959,7 @@ This will not be escaped: &lt;b&gt;
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ task.comment_set.all.count }}
+<pre><code class="jinja2" >{{ task.comment_set.all.count }}
 </code></pre>
 </div>
 
@@ -1969,7 +1969,7 @@ Moguće je pozivati i korisničke metode.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >class Task(models.Model):
+<pre><code class="python" >class Task(models.Model):
     def foo(self):
         return "bar"
 </code></pre>
@@ -1977,13 +1977,13 @@ Moguće je pozivati i korisničke metode.
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{{ task.foo }}
+<pre><code class="jinja2" >{{ task.foo }}
 </code></pre>
 </div>
 
 </section>
 <section id="slide-8-16">
-<h3 id="8-16"><span class="section-number-3">8.16</span> Biblioteke tagova i filtera</h3>
+<h3 id="8-16"><span class="section-number-3">8.16.</span> Biblioteke tagova i filtera</h3>
 <ul>
 <li>Tagovi i filteri se mogu definisati od strane korisnika ili autora aplikacija.</li>
 <li>Učitavaju se sa tagom <code>load</code>.</li>
@@ -1992,7 +1992,7 @@ Moguće je pozivati i korisničke metode.
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% load humanize %}
+<pre><code class="jinja2" >{% load humanize %}
 
 {{ 45000|intcomma }}
 </code></pre>
@@ -2007,7 +2007,7 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 
 <div class="org-src-container">
 
-<pre><code class=" jinja2" >{% load humanize i18n %}
+<pre><code class="jinja2" >{% load humanize i18n %}
 </code></pre>
 </div>
 
@@ -2015,7 +2015,7 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 </section>
 <section>
 <section id="slide-9">
-<h2 id="9"><span class="section-number-2">9</span> Reference</h2>
+<h2 id="9"><span class="section-number-2">9.</span> Reference</h2>
 <ul>
 <li><a href="https://docs.djangoproject.com/en/3.0/">Django dokumentacija</a></li>
 
@@ -2024,8 +2024,7 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -2042,7 +2041,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
@@ -2055,10 +2053,10 @@ transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 ,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>

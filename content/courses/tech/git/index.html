@@ -7,13 +7,13 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -22,7 +22,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -35,13 +35,13 @@
 <h1 class="title">Git DVCS</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-07-13 Tue 11:40, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-01-16 Mon 18:32, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orga811f95">
-<h2 id="orga811f95">Sadržaj</h2>
-<div id="text-table-of-contents">
+<section id="slide-org22dec1a">
+<h2 id="org22dec1a">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Uvod u Git</a></li>
 <li><a href="#/slide-2">2. Git repozitorijum</a></li>
@@ -64,12 +64,12 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Uvod u Git</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Uvod u Git</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
 <section id="slide-1-1">
-<h3 id="1-1"><span class="section-number-3">1.1</span> Šta je Git?</h3>
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Šta je Git?</h3>
 <ul>
 <li>Distribuirani sistem za kontrolu verzija (<i>Distributed Version Control System -
 DVCS</i>).</li>
@@ -81,7 +81,7 @@ Dostupan na adresi <a href="http://git-scm.com/">http://git-scm.com/</a></li>
 
 </section>
 <section id="slide-1-2">
-<h3 id="1-2"><span class="section-number-3">1.2</span> Git - osobine</h3>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Git - osobine</h3>
 <ul>
 <li>Izuzetno brz i skalabilan.</li>
 <li>Jednostavan dizajn.</li>
@@ -97,7 +97,7 @@ projekte (npr. Linux kernel).</li>
 
 </section>
 <section id="slide-1-3">
-<h3 id="1-3"><span class="section-number-3">1.3</span> Osnovni workflow</h3>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Osnovni workflow</h3>
 <ul>
 <li>Ako ne postoji klon repozitorijuma na lokalnom računaru vrši se kloniranje
 udaljenog repozitorijuma (ovo se generalno radi jednom).</li>
@@ -111,12 +111,12 @@ udaljenog repozitorijuma (ovo se generalno radi jednom).</li>
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Git repozitorijum</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Git repozitorijum</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Praćenje sadržaja</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Praćenje sadržaja</h3>
 <p>
 Osnova git repozitorijuma je praćenje sadržaja a ne fajlova i promena nad njima.
 Informacije o promenama se izračunavaju po potrebi.
@@ -137,27 +137,25 @@ really really Right(tm).ref[1].
 
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Veza radnog stabla, indeksa i repozitorijuma</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Veza radnog stabla, indeksa i repozitorijuma</h3>
 
-<div id="org032d6f7" class="figure">
-<p><object type="image/svg+xml" data="./images/Workflow.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgedd6dc9" class="figure">
+<p><img src="./images/Workflow.svg" alt="Workflow.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-3">
-<h3 id="2-3"><span class="section-number-3">2.3</span> Životni ciklus fajla u git repozitorijumu</h3>
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Životni ciklus fajla u git repozitorijumu</h3>
 
-<div id="org5525a61" class="figure">
-<p><object type="image/svg+xml" data="./images/FileLifecycle.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org60ecd68" class="figure">
+<p><img src="./images/FileLifecycle.svg" alt="FileLifecycle.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-4">
-<h3 id="2-4"><span class="section-number-3">2.4</span> Git repozitorijum</h3>
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Git repozitorijum</h3>
 <ul>
 <li><i>Objektna baza</i>: Jednostavan model repozitorijuma baziran na mapama (parovi
 ključ-vrednost).</li>
@@ -171,17 +169,16 @@ izvršena inicijalizacija sa <code>git init</code> komandom (videti u nastavku).
 
 </section>
 <section id="slide-2-5">
-<h3 id="2-5"><span class="section-number-3">2.5</span> Git repozitorijum sa objektima i referencama</h3>
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div id="org7fee28d" class="figure">
-<p><object type="image/svg+xml" data="./images/git-repo.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgbf1879d" class="figure">
+<p><img src="./images/git-repo.svg" alt="git-repo.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-2-6">
-<h3 id="2-6"><span class="section-number-3">2.6</span> Prikaz popularnih hosting rešenja</h3>
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Prikaz popularnih hosting rešenja</h3>
 <ul>
 <li><a href="https://github.com/">https://github.com/</a></li>
 <li><a href="https://gitlab.com/">https://gitlab.com/</a></li>
@@ -192,12 +189,12 @@ Sorry, your browser does not support SVG.</object>
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Instalacija i konfiguracija</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Instalacija i konfiguracija</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Vrste klijenata</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Vrste klijenata</h3>
 <ul>
 <li>GUI
 <ul>
@@ -212,7 +209,7 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Pomoć - help</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Pomoć - help</h3>
 <p>
 Spisak osnovnih komandi git-a se može dobiti sa:
 </p>
@@ -239,7 +236,7 @@ $ git help &lt;ime komande&gt;
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Konfiguracija</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Konfiguracija</h3>
 <ul>
 <li>Konfiguracija se čuva u tekstualnim fajlovima koji imaju strukturu <i>.ini
 fajlova</i>.</li>
@@ -258,7 +255,7 @@ unutar repozitorijuma</li>
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Osnovna konfiguracija</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Osnovna konfiguracija</h3>
 <p>
 Konfigurisanje imena i email-a:
 </p>
@@ -294,7 +291,7 @@ $ git config --global core.editor "'C:/Program Files/Windows NT/Accessories/word
 
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Konfiguracija za SSL i proxy</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Konfiguracija za SSL i proxy</h3>
 <p>
 Za pristup serverima sa nevalidnim sertifikatom (npr. samopotpisan sertifikat)
 potrebno je podesiti sledeće za sertifikat koji smo preuzeli sa servera:
@@ -322,7 +319,7 @@ $ git config --global http.proxy 192.168.77.100:8080
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> Povezivanje sa serverom upotrebom SSH ključeva</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Povezivanje sa serverom upotrebom SSH ključeva</h3>
 <ul>
 <li>Ključevi se nalaze u <code>~/.ssh/</code> direktorijumu.</li>
 <li>Generišu se sa komandom:</li>
@@ -347,7 +344,7 @@ The key fingerprint is:
 
 </section>
 <section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7</span> Konfigurisanje diff/merge alata</h3>
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Konfigurisanje diff/merge alata</h3>
 <pre>
 $ git config --global merge.tool meld
 </pre>
@@ -369,7 +366,7 @@ $ git config --global --add difftool.prompt false
 
 </section>
 <section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8</span> Konfiguracija veličine slova u nazivima fajlova</h3>
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Konfiguracija veličine slova u nazivima fajlova</h3>
 <p>
 Unix fajl sistemi su uglavnom <i>case-sensitive</i> dok kod <b>windows</b>-a to nije
 slučaj. Stoga je na unix file sistemima sasvim legalno da postoje dva fajla
@@ -390,7 +387,7 @@ različitog <i>case</i>-a on će biti ignorisan.
 
 </section>
 <section id="slide-3-9">
-<h3 id="3-9"><span class="section-number-3">3.9</span> Konfiguracija završetaka linija (<i>line endings</i>)</h3>
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Konfiguracija završetaka linija (<i>line endings</i>)</h3>
 <p>
 Unix na kraju reda kod tekstualnih fajlova koristi LF bajt. Windows koristi dva
 bajta - CR i LF. Današnji editori su u stanju da rade sa oba standarda. Git
@@ -415,7 +412,7 @@ u repozitorijum tako da svi članovi tima imaju isto podešavanje. Sadržaj
 
 </section>
 <section id="slide-3-10">
-<h3 id="3-10"><span class="section-number-3">3.10</span> Normalizacija krajeva linija u repozitorijumu</h3>
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Normalizacija krajeva linija u repozitorijumu</h3>
 <p>
 Ako se u git repozitorijumu već nalaze fajlovi sa CRLF tada je potrebno izvršiti
 normalizaciju svih tekstualnih fajlova na LF pratite <a href="https://help.github.com/articles/dealing-with-line-endings/">uputstvo sa GitHub-a</a>.
@@ -425,12 +422,12 @@ normalizaciju svih tekstualnih fajlova na LF pratite <a href="https://help.githu
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Osnovne operacije</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Osnovne operacije</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> Inicijalizacija repozitorijuma</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Inicijalizacija repozitorijuma</h3>
 <p>
 Repozitorijum je skup metapodataka koji se nalaze u skrivenom folderu <code>.git</code>
 unutar korenskog foldera projekta.
@@ -459,7 +456,7 @@ Ovim je kreiran prazan repozitorijum. Sledeći korak je dodavanje sadržaja.
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> Kloniranje repozitorijuma</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Kloniranje repozitorijuma</h3>
 <p>
 Repozitorijum možemo kreirati kloniranjem udaljenog repozitorijuma.
 </p>
@@ -470,7 +467,7 @@ $ git clone https://puppet.ftn.uns.ac.rs/rks/tim1/git RKSProjekat
 
 <p class="forwardlink">
 Ili na primer ako se podigne lokalni server sa <code>git daemon</code> (videti sekciju
-<a href="#/slide-7" class="forwardlink">Razmena promena</a>).
+<a href="#/slide-7-1" class="forwardlink">Razmena promena</a>).
 </p>
 
 <pre>
@@ -483,7 +480,7 @@ gde je <code>192.168...</code> IP adresa računara na kojem je daemon pokrenut
 
 </section>
 <section id="slide-4-3">
-<h3 id="4-3"><span class="section-number-3">4.3</span> Ignorisanje fajlova</h3>
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Ignorisanje fajlova</h3>
 <p>
 Obavlja se putem fajla <code>.gitignore</code> koji se nalazi u korenskom folderu projekta.
 Sadržaj je sledećeg oblika:
@@ -509,7 +506,7 @@ samo za dati poddirektorijum.
 
 </section>
 <section id="slide-4-4">
-<h3 id="4-4"><span class="section-number-3">4.4</span> Status repozitorijuma</h3>
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Status repozitorijuma</h3>
 <p>
 Status predstavlja informacije kao što su:
 </p>
@@ -522,7 +519,7 @@ Status predstavlja informacije kao što su:
 
 </section>
 <section id="slide-4-5">
-<h3 id="4-5"><span class="section-number-3">4.5</span> Status repozitorijuma</h3>
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Status repozitorijuma</h3>
 <p>
 Na primer, za repozitorijum koji ima lokalnih promena
 </p>
@@ -555,7 +552,7 @@ novi fajl koji se trenutno ne prati.</li>
 
 </section>
 <section id="slide-4-6">
-<h3 id="4-6"><span class="section-number-3">4.6</span> Priprema index-a</h3>
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Priprema index-a</h3>
 <p>
 Priprema sadržaja za <i>commit</i> se obavlja operacijama <code>add</code>, <code>rm</code> i sl.
 </p>
@@ -593,7 +590,7 @@ Promene se beleže u index-u.
 
 </section>
 <section id="slide-4-7">
-<h3 id="4-7"><span class="section-number-3">4.7</span> Napomena za inicijalni <i>commit</i></h3>
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Napomena za inicijalni <i>commit</i></h3>
 <p>
 Pri inicijalnom <i>commit</i>-u repozitorijum je prazan pa <code>HEAD</code> pokazivač ne
 postoji. Zbog toga nije moguće poništiti indeks komandom <code>git reset HEAD</code> pa se
@@ -612,7 +609,7 @@ kasnije! Ova komanda registruje promenu koja će obrisati sve fajlove (rekurzivn
 
 </section>
 <section id="slide-4-8">
-<h3 id="4-8"><span class="section-number-3">4.8</span> Odustajanje od praćenja fajla</h3>
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Odustajanje od praćenja fajla</h3>
 <ul>
 <li>U komandama tipa <code>git add -A</code> i <code>git commit -a</code> git automatski dodaje promene
 za fajlove koji se prate.</li>
@@ -651,7 +648,7 @@ Kada želimo opet da pratimo fajl radimo:
 
 </section>
 <section id="slide-4-9">
-<h3 id="4-9"><span class="section-number-3">4.9</span> Trajno beleženje - <i>commit</i></h3>
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Trajno beleženje - <i>commit</i></h3>
 <ul>
 <li><p>
 Promena se trajno beleži sa:
@@ -683,7 +680,7 @@ fajlovi ne ulaze u indeks.
 
 </section>
 <section id="slide-4-10">
-<h3 id="4-10"><span class="section-number-3">4.10</span> Pregled istorije</h3>
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Pregled istorije</h3>
 <ul>
 <li><p>
 Istorija se može pregledati sa komandom:
@@ -717,7 +714,7 @@ za sve grane.
 
 </section>
 <section id="slide-4-11">
-<h3 id="4-11"><span class="section-number-3">4.11</span> Premeštanje fajlova, promena imena</h3>
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Premeštanje fajlova, promena imena</h3>
 <p>
 Premeštanje fajlova i promena imena može da se obavi na sledeći način:
 </p>
@@ -744,7 +741,7 @@ meri promenjenog sadržaja.
 
 </section>
 <section id="slide-4-12">
-<h3 id="4-12"><span class="section-number-3">4.12</span> Privremeno &ldquo;sklanjanje&rdquo; lokalnih izmena</h3>
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Privremeno &ldquo;sklanjanje&rdquo; lokalnih izmena</h3>
 <ul>
 <li>U sred ste rada i stiže zahtev da se nešto mora hitno uraditi.</li>
 <li><p>
@@ -774,7 +771,7 @@ obavljanje izmena, vraćanje lokalnih promena sa stash steka.</li>
 
 </section>
 <section id="slide-4-13">
-<h3 id="4-13"><span class="section-number-3">4.13</span> Revizije</h3>
+<h3 id="4-13"><span class="section-number-3">4.13.</span> Revizije</h3>
 <ul>
 <li>Revizije imenuju <i>commit</i> objekat.</li>
 <li><i>Commit</i> može biti identifikovan sa kriptografskim SHA1 ključem dužine
@@ -808,12 +805,12 @@ n-ti predak do koga se stiže preko prvog roditelja. Na primer <code>master~</co
 </section>
 <section>
 <section id="slide-5">
-<h2 id="5"><span class="section-number-2">5</span> Grane (<i>Branches</i>)</h2>
+<h2 id="5"><span class="section-number-2">5.</span> Grane (<i>Branches</i>)</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1</span> Grane – Branches</h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Grane – Branches</h3>
 <ul>
 <li>Grane su alternativni tokovi razvoja.</li>
 <li>Kreiranje grana kod Git-a je jednostavno i brzo tako da se ohrabruje njihovo
@@ -825,7 +822,7 @@ repozitorijuma).</li>
 
 </section>
 <section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2</span> Vrste grana</h3>
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Vrste grana</h3>
 <ul>
 <li>Grane u git repozitorijumu mogu biti:
 <ul>
@@ -841,11 +838,10 @@ kloniraju u lokalni.</li>
 
 </section>
 <section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3</span> Kako to sve izgleda u repozitorijumu</h3>
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Kako to sve izgleda u repozitorijumu</h3>
 
-<div id="org3bc989a" class="figure">
-<p><object type="image/svg+xml" data="./images/DAG.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgdd0249e" class="figure">
+<p><img src="./images/DAG.svg" alt="DAG.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
 
@@ -862,9 +858,9 @@ grana.</li>
 
 </section>
 <section id="slide-5-4">
-<h3 id="5-4"><span class="section-number-3">5.4</span> Grane i operacije</h3>
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Grane i operacije</h3>
 
-<div id="org0008c2e" class="figure">
+<div id="orgf15504c" class="figure">
 <p><img src="./images/branches-SO.png" alt="branches-SO.png" />
 </p>
 </div>
@@ -875,7 +871,7 @@ grana.</li>
 
 </section>
 <section id="slide-5-5">
-<h3 id="5-5"><span class="section-number-3">5.5</span> Kreiranje grane</h3>
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Kreiranje grane</h3>
 <p>
 Kreiranje nezavisne lokalne grane:
 </p>
@@ -906,7 +902,7 @@ $ git branch mojagrana -t origin/udaljenagrana
 
 </section>
 <section id="slide-5-6">
-<h3 id="5-6"><span class="section-number-3">5.6</span> Informacije o granama</h3>
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Informacije o granama</h3>
 <p>
 Spisak lokalnih grana, sa <code>*</code> označena tekuća:
 </p>
@@ -943,7 +939,7 @@ $ git branch -vv
 
 </section>
 <section id="slide-5-7">
-<h3 id="5-7"><span class="section-number-3">5.7</span> Prelazak između grana</h3>
+<h3 id="5-7"><span class="section-number-3">5.7.</span> Prelazak između grana</h3>
 <ul>
 <li>Promena grane podrazumeva izmenu radnog stabla tako da odgovara verziji sa
 grane.</li>
@@ -984,7 +980,7 @@ A ako je novokreirana grana <i>tracking</i>:
 
 </section>
 <section id="slide-5-8">
-<h3 id="5-8"><span class="section-number-3">5.8</span> Brisanje lokalnih grana</h3>
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Brisanje lokalnih grana</h3>
 <p>
 Brisanje lokalne grane:
 </p>
@@ -1010,7 +1006,7 @@ $ git branch -D grana_za_brisanje
 
 </section>
 <section id="slide-5-9">
-<h3 id="5-9"><span class="section-number-3">5.9</span> Slanje promena u drugi repozitorijum</h3>
+<h3 id="5-9"><span class="section-number-3">5.9.</span> Slanje promena u drugi repozitorijum</h3>
 <p>
 Slanje promena na <i>upstream</i> granu se radi sa:
 </p>
@@ -1050,7 +1046,7 @@ $ git push origin '*:*'
 
 </section>
 <section id="slide-5-10">
-<h3 id="5-10"><span class="section-number-3">5.10</span> Slanje promena u drugi repozitorijum</h3>
+<h3 id="5-10"><span class="section-number-3">5.10.</span> Slanje promena u drugi repozitorijum</h3>
 <p>
 A ako želimo da lokalne grane ujedno postanu tracking za upravo objavljene grane:
 </p>
@@ -1065,10 +1061,10 @@ Naravno preduslov je da je <code>origin</code> udaljeni repozitorijum podešen.
 
 </section>
 <section id="slide-5-11">
-<h3 id="5-11"><span class="section-number-3">5.11</span> push.default - TODO</h3>
+<h3 id="5-11"><span class="section-number-3">5.11.</span> push.default - TODO</h3>
 </section>
 <section id="slide-5-12">
-<h3 id="5-12"><span class="section-number-3">5.12</span> Podešavanje veze sa udaljenim repozitorijumom</h3>
+<h3 id="5-12"><span class="section-number-3">5.12.</span> Podešavanje veze sa udaljenim repozitorijumom</h3>
 <p>
 Prethodne komande su podrazumevale da je udaljeni repozitorijum sa imenom
 <code>origin</code> već podešen. Ukoliko je lokalni repozitorijum nastao kloniranjem
@@ -1099,7 +1095,7 @@ $ git remote show origin
 
 </section>
 <section id="slide-5-13">
-<h3 id="5-13"><span class="section-number-3">5.13</span> Brisanje udaljenih grana</h3>
+<h3 id="5-13"><span class="section-number-3">5.13.</span> Brisanje udaljenih grana</h3>
 <p>
 Brisanje grane u udaljenom repozitorijumu se može uraditi na sledeći način:
 </p>
@@ -1118,7 +1114,7 @@ $ git push origin --delete udaljena_grana
 
 </section>
 <section id="slide-5-14">
-<h3 id="5-14"><span class="section-number-3">5.14</span> Poređenje grana (<i>commit</i>-a)</h3>
+<h3 id="5-14"><span class="section-number-3">5.14.</span> Poređenje grana (<i>commit</i>-a)</h3>
 <p>
 Da bi videli koji fajlovi su promenjeni između dve grane uz ignorisanje
 <i>whitespace</i> karaktera (<code>-w</code>):
@@ -1160,12 +1156,12 @@ Poređenje možemo obaviti između bilo koja dva <i>commit</i>-a (po <i>hash</i>
 </section>
 <section>
 <section id="slide-6">
-<h2 id="6"><span class="section-number-2">6</span> Spajanje grana (<i>merging</i>)</h2>
+<h2 id="6"><span class="section-number-2">6.</span> Spajanje grana (<i>merging</i>)</h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
 <section id="slide-6-1">
-<h3 id="6-1"><span class="section-number-3">6.1</span> Spajanje grana – <i>merge</i></h3>
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Spajanje grana – <i>merge</i></h3>
 <ul>
 <li><p>
 Komanda <code>pull</code> automatski radi spajanje grane sa udaljenog repozitorijuma.
@@ -1195,7 +1191,7 @@ uraditi <code>commit</code>.</li>
 
 </section>
 <section id="slide-6-2">
-<h3 id="6-2"><span class="section-number-3">6.2</span> Spajanje grana – strategije</h3>
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Spajanje grana – strategije</h3>
 <ul>
 <li>Prilikom operacije spajanja moguće je zadati odgovarajuću <code>merge</code> strategiju
 navođenjem parametra iza <code>-X</code>.</li>
@@ -1207,22 +1203,21 @@ podrazumevane u novoj verziji.</li>
 
 </section>
 <section id="slide-6-3">
-<h3 id="6-3"><span class="section-number-3">6.3</span> Spajanje grana – <i>fast-forward merge</i></h3>
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Spajanje grana – <i>fast-forward merge</i></h3>
 <p>
 Ukoliko je polazni commit grane koju spajamo jednak vrhu tekuće grane git će
 podrazumevano da uradi tzv. <i>fast-forward</i> merge.
 </p>
 
 
-<div id="orgff20d44" class="figure">
-<p><object type="image/svg+xml" data="./images/Merge-ff.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgea96037" class="figure">
+<p><img src="./images/Merge-ff.svg" alt="Merge-ff.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-6-4">
-<h3 id="6-4"><span class="section-number-3">6.4</span> Spajanje grana – <i>no fast-forward merge</i></h3>
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Spajanje grana – <i>no fast-forward merge</i></h3>
 <p>
 Ukoliko se želi zadržati informacija o tome da je postojao alternativni tok
 (grana) može se proslediti parametar <code>--no-ff</code> čime se merge obavlja na klasičan
@@ -1230,23 +1225,21 @@ način.
 </p>
 
 
-<div id="orgb337bfe" class="figure">
-<p><object type="image/svg+xml" data="./images/Merge-no-ff.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgaedab08" class="figure">
+<p><img src="./images/Merge-no-ff.svg" alt="Merge-no-ff.svg" class="org-svg" />
 </p>
 </div>
 
 </section>
 <section id="slide-6-5">
-<h3 id="6-5"><span class="section-number-3">6.5</span> Spajanje grana – <i>rebase</i></h3>
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Spajanje grana – <i>rebase</i></h3>
 <p>
 Drugi mehanizam spajanja promena sa druge grane je <i>rebase</i>.
 </p>
 
 
-<div id="orga996534" class="figure">
-<p><object type="image/svg+xml" data="./images/Merge-rebase.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org629bcd0" class="figure">
+<p><img src="./images/Merge-rebase.svg" alt="Merge-rebase.svg" class="org-svg" />
 </p>
 </div>
 
@@ -1256,7 +1249,7 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-6-6">
-<h3 id="6-6"><span class="section-number-3">6.6</span> Preuzimanje pojedinačnih <i>commit</i>-a – <i>cherry-pick</i></h3>
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Preuzimanje pojedinačnih <i>commit</i>-a – <i>cherry-pick</i></h3>
 <p>
 Ukoliko je potrebno preuzeti pojedinačnu promenu (<i>commit</i>) i primeniti je na
 tekuću granu koristi se komanda <code>cherry-pick</code>.
@@ -1303,7 +1296,7 @@ Preuzmi 5-ti i treći <i>commit</i> od kraja <i>master</i> grane
 
 </section>
 <section id="slide-6-7">
-<h3 id="6-7"><span class="section-number-3">6.7</span> Razrešavanje konflikta</h3>
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Razrešavanje konflikta</h3>
 <ul>
 <li><p>
 Konflikti će biti označeni odgovarajućim markerima unutar tekstualnih fajlova.
@@ -1330,7 +1323,7 @@ Konflikt razrešavamo ručnom ispravkom fajla u kome je nastao i dodavanjem u in
 
 </section>
 <section id="slide-6-8">
-<h3 id="6-8"><span class="section-number-3">6.8</span> Razrešavanje konflikta</h3>
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Razrešavanje konflikta</h3>
 <ul>
 <li><p>
 Kod konflikta komanda git diff će prikazivati <i>three-way-diff</i> između zajedničkog
@@ -1361,12 +1354,12 @@ Od spoja možemo odustati sa:
 </section>
 <section>
 <section id="slide-7">
-<h2 id="7"><span class="section-number-2">7</span> Razmena promena</h2>
+<h2 id="7"><span class="section-number-2">7.</span> Razmena promena</h2>
 <div class="outline-text-2" id="text-7">
 </div>
 </section>
 <section id="slide-7-1">
-<h3 id="7-1"><span class="section-number-3">7.1</span> Razmena promena</h3>
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Razmena promena</h3>
 <ul>
 <li><p>
 Može se obavljati putem deljenog repozitorijuma:
@@ -1459,12 +1452,12 @@ Od poslednjeg <code>pull</code>-a i zatim primena na odredišni repozitorijum:
 </section>
 <section>
 <section id="slide-8">
-<h2 id="8"><span class="section-number-2">8</span> Ispravke grešaka</h2>
+<h2 id="8"><span class="section-number-2">8.</span> Ispravke grešaka</h2>
 <div class="outline-text-2" id="text-8">
 </div>
 </section>
 <section id="slide-8-1">
-<h3 id="8-1"><span class="section-number-3">8.1</span> Ispravke grešaka</h3>
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Ispravke grešaka</h3>
 <p>
 Imamo sledeće situacije:
 </p>
@@ -1489,7 +1482,7 @@ promena koja poništava staru.
 
 </section>
 <section id="slide-8-2">
-<h3 id="8-2"><span class="section-number-3">8.2</span> Odustajanje od lokalnih promena</h3>
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Odustajanje od lokalnih promena</h3>
 <p>
 Izmenili smo indeks ili smo izmenili fajlove u lokalnom stablu. Ukoliko želimo
 da poništimo sadržaj index-a i/ili lokalnog stabla koristimo komandu <code>reset</code>.
@@ -1536,7 +1529,7 @@ reference čuvaju se u <code>reflog</code> strukturi. Videti <a href="#/slide-8-
 
 </section>
 <section id="slide-8-3">
-<h3 id="8-3"><span class="section-number-3">8.3</span> Poništavanje lokalne promene nad proizvoljnim fajlom</h3>
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Poništavanje lokalne promene nad proizvoljnim fajlom</h3>
 <p>
 Ukoliko želimo da odustanemo od promene proizvoljnog fajla radimo sledeće:
 </p>
@@ -1562,7 +1555,7 @@ Vraćanje na verziju sa <code>HEAD</code>-a:
 
 </section>
 <section id="slide-8-4">
-<h3 id="8-4"><span class="section-number-3">8.4</span> Izmena poslednjeg <i>commit</i>-a</h3>
+<h3 id="8-4"><span class="section-number-3">8.4.</span> Izmena poslednjeg <i>commit</i>-a</h3>
 <p>
 Ukoliko smo uradili commit a zatim primetili da smo nešto zaboravili, ili smo
 upisali pogrešnu log poruku možemo uraditi sledeće:
@@ -1592,7 +1585,7 @@ $ git commit -c ORIG_HEAD
 
 </section>
 <section id="slide-8-5">
-<h3 id="8-5"><span class="section-number-3">8.5</span> Poništavanje proizvoljne promene</h3>
+<h3 id="8-5"><span class="section-number-3">8.5.</span> Poništavanje proizvoljne promene</h3>
 <p>
 Ukoliko želimo da poništimo efekat neke od promena iz istorije koristimo komandu
 revert:
@@ -1609,7 +1602,7 @@ $ git commit
 
 </section>
 <section id="slide-8-6">
-<h3 id="8-6"><span class="section-number-3">8.6</span> Izmena istorije</h3>
+<h3 id="8-6"><span class="section-number-3">8.6.</span> Izmena istorije</h3>
 <p class="attention">
 <b>Napomena</b>: Ovo se radi samo sa lokalnim granama, izmenama na tracking granama
 koje još nisu poslate na udaljeni repozitorijum, ili u dogovoru sa ostatkom
@@ -1668,7 +1661,7 @@ $ git rebase ––continue
 
 </section>
 <section id="slide-8-7">
-<h3 id="8-7"><span class="section-number-3">8.7</span> Izmena istorije sa <code>git rebase --onto</code></h3>
+<h3 id="8-7"><span class="section-number-3">8.7.</span> Izmena istorije sa <code>git rebase --onto</code></h3>
 <p>
 Ukoliko želimo da deo grane preselimo na drugu granu koristimo <code>git rebase
 --onto</code>.
@@ -1688,7 +1681,7 @@ git rebase --onto new_base old_base target_ref
 
 </section>
 <section id="slide-8-8">
-<h3 id="8-8"><span class="section-number-3">8.8</span> Potraga za izgubljenim <i>commit</i>-ima - <code>reflog</code></h3>
+<h3 id="8-8"><span class="section-number-3">8.8.</span> Potraga za izgubljenim <i>commit</i>-ima - <code>reflog</code></h3>
 <ul>
 <li><code>reflog</code> predstavlja strukturu koja sadrži istoriju izmena <code>HEAD</code> reference.</li>
 <li>Podrazumevano ova struktura &ldquo;pamti&rdquo; 30 dana unazad.</li>
@@ -1700,7 +1693,7 @@ git reflog
 </pre>
 
 
-<div id="orgfa5c993" class="figure">
+<div id="org57ed8a0" class="figure">
 <p><img src="./images/reflog.png" alt="reflog.png" style="height: 500px;" />
 </p>
 </div>
@@ -1709,12 +1702,12 @@ git reflog
 </section>
 <section>
 <section id="slide-9">
-<h2 id="9"><span class="section-number-2">9</span> Održavanje repozitorijuma</h2>
+<h2 id="9"><span class="section-number-2">9.</span> Održavanje repozitorijuma</h2>
 <div class="outline-text-2" id="text-9">
 </div>
 </section>
 <section id="slide-9-1">
-<h3 id="9-1"><span class="section-number-3">9.1</span> Održavanje repozitorijuma</h3>
+<h3 id="9-1"><span class="section-number-3">9.1.</span> Održavanje repozitorijuma</h3>
 <ul>
 <li>Git ima jednostavne mehanizme skladištenja istorije bazirane na <i>snap-shot</i>
 modelu. Čuvaju se celi fajlovi u obliku <i>BLOB</i> objekata.</li>
@@ -1742,12 +1735,12 @@ Da bi se obavilo pakovanje objekata, i uklanjanje &ldquo;visećih&rdquo; objekat
 </section>
 <section>
 <section id="slide-10">
-<h2 id="10"><span class="section-number-2">10</span> Modeli grananja</h2>
+<h2 id="10"><span class="section-number-2">10.</span> Modeli grananja</h2>
 <div class="outline-text-2" id="text-10">
 </div>
 </section>
 <section id="slide-10-1">
-<h3 id="10-1"><span class="section-number-3">10.1</span> Modeli grananja (<i>branching models</i>)</h3>
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Modeli grananja (<i>branching models</i>)</h3>
 <ul>
 <li>Konvenciju imenovanja grana i proces koji opisuje način njihovog korišćenja.</li>
 <li>Trivijalan model grananja koristi samo <code>master</code> granu.</li>
@@ -1766,7 +1759,7 @@ potreban je i nešto složeniji model.</li>
 
 </section>
 <section id="slide-10-2">
-<h3 id="10-2"><span class="section-number-3">10.2</span> <i>Feature branches</i></h3>
+<h3 id="10-2"><span class="section-number-3">10.2.</span> <i>Feature branches</i></h3>
 <ul>
 <li>Način razvoja softvera gde se za svaku funkcionalnost softvera (<i>feature</i>)
 kreira nova grana.</li>
@@ -1788,11 +1781,10 @@ dovesti do kasnijih problema.</li>
 
 </section>
 <section id="slide-10-3">
-<h3 id="10-3"><span class="section-number-3">10.3</span> <i>GitFlow</i> model</h3>
+<h3 id="10-3"><span class="section-number-3">10.3.</span> <i>GitFlow</i> model</h3>
 
-<div id="org2a7cff4" class="figure">
-<p><object type="image/svg+xml" data="./images/GitFlow.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgcd3766e" class="figure">
+<p><img src="./images/GitFlow.svg" alt="GitFlow.svg" class="org-svg" />
 </p>
 </div>
 
@@ -1802,11 +1794,10 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-10-4">
-<h3 id="10-4"><span class="section-number-3">10.4</span> Modifikovani <i>GitFlow</i> model</h3>
+<h3 id="10-4"><span class="section-number-3">10.4.</span> Modifikovani <i>GitFlow</i> model</h3>
 
-<div id="org20a01ec" class="figure">
-<p><object type="image/svg+xml" data="./images/GitFlow-Reloaded.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgdbc34db" class="figure">
+<p><img src="./images/GitFlow-Reloaded.svg" alt="GitFlow-Reloaded.svg" class="org-svg" />
 </p>
 </div>
 
@@ -1814,12 +1805,12 @@ Sorry, your browser does not support SVG.</object>
 </section>
 <section>
 <section id="slide-11">
-<h2 id="11"><span class="section-number-2">11</span> Preporučena praksa</h2>
+<h2 id="11"><span class="section-number-2">11.</span> Preporučena praksa</h2>
 <div class="outline-text-2" id="text-11">
 </div>
 </section>
 <section id="slide-11-1">
-<h3 id="11-1"><span class="section-number-3">11.1</span> Preporučena praksa u radu sa granama</h3>
+<h3 id="11-1"><span class="section-number-3">11.1.</span> Preporučena praksa u radu sa granama</h3>
 <ul>
 <li>Čest <code>commit</code> vs. čista istorija.</li>
 <li>Lokalne (privatne) grane - čest <i>commit</i> za beleženje međuverzija (mogućnost
@@ -1835,7 +1826,7 @@ Sorry, your browser does not support SVG.</object>
 
 </section>
 <section id="slide-11-2">
-<h3 id="11-2"><span class="section-number-3">11.2</span> Kratkotrajne grane</h3>
+<h3 id="11-2"><span class="section-number-3">11.2.</span> Kratkotrajne grane</h3>
 <p>
 Kreiramo i prelazimo na novu granu:
 </p>
@@ -1866,7 +1857,7 @@ $ git commit -am "WIP"
 
 </section>
 <section id="slide-11-3">
-<h3 id="11-3"><span class="section-number-3">11.3</span> Kratkotrajne grane</h3>
+<h3 id="11-3"><span class="section-number-3">11.3.</span> Kratkotrajne grane</h3>
 <p>
 Kada završimo sa izmenama, prelazimo na master granu:
 </p>
@@ -1897,7 +1888,7 @@ $ git commit -v
 
 </section>
 <section id="slide-11-4">
-<h3 id="11-4"><span class="section-number-3">11.4</span> Dugotrajne grane</h3>
+<h3 id="11-4"><span class="section-number-3">11.4.</span> Dugotrajne grane</h3>
 <p>
 Kada jedan <i>squash commit</i> ne bi bio adekvatan jer se grana duže razvijala pa je
 potrebno svesti na više <i>commit</i>-a. Na <i>feature</i> grani radimo sređivanje
@@ -1940,7 +1931,7 @@ Posle ovoga možemo obaviti standardno interaktivno ažuriranje indeksa i
 
 </section>
 <section id="slide-11-5">
-<h3 id="11-5"><span class="section-number-3">11.5</span> Upotreba <i>Subversion</i> repozitorijuma</h3>
+<h3 id="11-5"><span class="section-number-3">11.5.</span> Upotreba <i>Subversion</i> repozitorijuma</h3>
 <p>
 Git je moguće koristiti i sa <i>Subversion</i> repozitorijumom.
 </p>
@@ -1963,7 +1954,7 @@ $ git svn dcommit
 </section>
 <section>
 <section id="slide-12">
-<h2 id="12"><span class="section-number-2">12</span> <i>Subversion</i> i lokalne grane</h2>
+<h2 id="12"><span class="section-number-2">12.</span> <i>Subversion</i> i lokalne grane</h2>
 <p>
 Moguće je kreirati i grane na svn repozitorijumu i povezati ih sa lokalnim.
 </p>
@@ -1990,12 +1981,12 @@ $ git svn dcommit
 </section>
 <section>
 <section id="slide-13">
-<h2 id="13"><span class="section-number-2">13</span> Implementacija</h2>
+<h2 id="13"><span class="section-number-2">13.</span> Implementacija</h2>
 <div class="outline-text-2" id="text-13">
 </div>
 </section>
 <section id="slide-13-1">
-<h3 id="13-1"><span class="section-number-3">13.1</span> Git repozitorijum</h3>
+<h3 id="13-1"><span class="section-number-3">13.1.</span> Git repozitorijum</h3>
 <ul>
 <li><i>Objektna baza</i>: Jednostavan model repozitorijuma baziran na mapama (parovi
 ključ-vrednost).</li>
@@ -2010,7 +2001,7 @@ izvršena inicijalizacija sa <code>git init</code> komandom (videti u nastavku).
 
 </section>
 <section id="slide-13-2">
-<h3 id="13-2"><span class="section-number-3">13.2</span> Vrste git objekata</h3>
+<h3 id="13-2"><span class="section-number-3">13.2.</span> Vrste git objekata</h3>
 <p>
 Repozitorijum je objektna baza gde postoje tri vrste objekata:
 </p>
@@ -2040,7 +2031,7 @@ sastoji od objekata čiji tip je jedan od navedenih.</li>
 
 </section>
 <section id="slide-13-3">
-<h3 id="13-3"><span class="section-number-3">13.3</span> <i>BLOB</i></h3>
+<h3 id="13-3"><span class="section-number-3">13.3.</span> <i>BLOB</i></h3>
 <p>
 Niz bajtova bez semantike i metapodataka. Najčešće služi za opis sadržaja
 fajla.
@@ -2058,15 +2049,14 @@ class MainClass {
 </div>
 
 
-<div id="orgb1da354" class="figure">
-<p><object type="image/svg+xml" data="./images/blob.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org9a57d1d" class="figure">
+<p><img src="./images/blob.svg" alt="blob.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-13-4">
-<h3 id="13-4"><span class="section-number-3">13.4</span> <i>Tree</i></h3>
+<h3 id="13-4"><span class="section-number-3">13.4.</span> <i>Tree</i></h3>
 <ul>
 <li>Čuva niz referenci na blobove i druga podstabla zajedno sa meta-podacima kao
 što su: naziv fajla, mod i sl.</li>
@@ -2082,15 +2072,14 @@ tree 64\0
 </pre>
 
 
-<div id="org30b2417" class="figure">
-<p><object type="image/svg+xml" data="./images/tree.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgdf2c360" class="figure">
+<p><img src="./images/tree.svg" alt="tree.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-13-5">
-<h3 id="13-5"><span class="section-number-3">13.5</span> <i>Commit</i></h3>
+<h3 id="13-5"><span class="section-number-3">13.5.</span> <i>Commit</i></h3>
 <ul>
 <li>Sadrži informacije o trajnoj zabelešci (<i>commit</i>): referenca na stablo
 (<i>tree</i>), autor, osobu koja je kreirala zabelešku (<i>commiter</i>), datum i vreme
@@ -2111,35 +2100,32 @@ Prvi commit.
 </pre>
 
 
-<div id="org98bcad7" class="figure">
-<p><object type="image/svg+xml" data="./images/commit.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org3eee2c9" class="figure">
+<p><img src="./images/commit.svg" alt="commit.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-13-6">
-<h3 id="13-6"><span class="section-number-3">13.6</span> Prvi <i>commit</i></h3>
+<h3 id="13-6"><span class="section-number-3">13.6.</span> Prvi <i>commit</i></h3>
 
-<div id="orgee1ee30" class="figure">
-<p><object type="image/svg+xml" data="./images/prvi-commit.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="org5b65570" class="figure">
+<p><img src="./images/prvi-commit.svg" alt="prvi-commit.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-13-7">
-<h3 id="13-7"><span class="section-number-3">13.7</span> Drugi <i>commit</i></h3>
+<h3 id="13-7"><span class="section-number-3">13.7.</span> Drugi <i>commit</i></h3>
 
-<div id="orgbab1d4b" class="figure">
-<p><object type="image/svg+xml" data="./images/drugi-commit.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgbd69f2c" class="figure">
+<p><img src="./images/drugi-commit.svg" alt="drugi-commit.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
 
 </section>
 <section id="slide-13-8">
-<h3 id="13-8"><span class="section-number-3">13.8</span> Reference</h3>
+<h3 id="13-8"><span class="section-number-3">13.8.</span> Reference</h3>
 <ul>
 <li>Pokazivači na objekte u git repozitorijumu (najčešće <i>commit</i>-e).</li>
 <li>Smeštene u <code>.git/refs</code> direktorijumu.</li>
@@ -2159,11 +2145,10 @@ fajlu.</li>
 
 </section>
 <section id="slide-13-9">
-<h3 id="13-9"><span class="section-number-3">13.9</span> Git repozitorijum sa objektima i referencama</h3>
+<h3 id="13-9"><span class="section-number-3">13.9.</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div id="org07ce3e2" class="figure">
-<p><object type="image/svg+xml" data="./images/git-repo.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgfb261c4" class="figure">
+<p><img src="./images/git-repo.svg" alt="git-repo.svg" class="org-svg" style="height: 600px;" />
 </p>
 </div>
 
@@ -2171,7 +2156,7 @@ Sorry, your browser does not support SVG.</object>
 </section>
 <section>
 <section id="slide-14">
-<h2 id="14"><span class="section-number-2">14</span> Literatura</h2>
+<h2 id="14"><span class="section-number-2">14.</span> Literatura</h2>
 <ul>
 <li>Scott Chacon, Ben Straub: <i>Pro Git</i>, Apress, 2014. Dostupna na:
 <a href="https://git-scm.com/book/en/v2">https://git-scm.com/book/en/v2</a></li>
@@ -2182,7 +2167,7 @@ Sorry, your browser does not support SVG.</object>
 </section>
 </div>
 </div>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -2211,10 +2196,10 @@ transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 ,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>

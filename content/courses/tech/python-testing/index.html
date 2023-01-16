@@ -7,13 +7,13 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -22,11 +22,10 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <base target="_blank">
 </head>
 <body>
@@ -36,12 +35,12 @@
 <h1 class="title">Testiranje Python koda</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-12-16 Thu 14:00, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-01-16 Mon 18:20, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-orgfbad900">
-<h2 id="orgfbad900">Sadržaj</h2>
+<section id="slide-org52a8780">
+<h2 id="org52a8780">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Osnove</a></li>
@@ -176,7 +175,7 @@ nepostojeći).</li>
 <ul>
 <li>Port JUnit biblioteke sa jave.</li>
 <li>Omogućava agregaciju testova, startup i shutdown kod koji može da se deli između testova itd.</li>
-<li>Nalazi se u \texttt{unittest} modulu standardne python biblioteke.</li>
+<li>Nalazi se u <code>unittest</code> modulu standardne python biblioteke.</li>
 
 </ul>
 
@@ -250,7 +249,7 @@ Izvršavanjem ovog test modula:
 dobijamo sledeće:
 </p>
 
-<pre class="example" id="orgd1f5ed9">
+<pre class="example" id="org5a5dcb0">
 ...
 ----------------------------------------------------------------------
 Ran 3 tests in 0.001s
@@ -283,7 +282,7 @@ grafički.
 </p>
 
 
-<div id="orgf7e62d3" class="figure">
+<div id="orgc129b13" class="figure">
 <p><img src="./images/pydev-runtests.png" alt="pydev-runtests.png" />
 </p>
 </div>
@@ -732,7 +731,7 @@ Ukoliko želimo detaljan ispis modul pokrećemo na sledeći način:
 Ispis će sada biti:
 </p>
 
-<pre class="example" id="orgfcaa106">
+<pre class="example" id="orgd7f9a27">
 Trying:
     factorial(5)
 Expecting:
@@ -764,7 +763,7 @@ ok
 <ul>
 <li>Okvir za testiranje čiji fokus je jednostavnost API-ja.</li>
 <li>Koristi standardne assert iskaze za testiranje očekivanih rezultata.</li>
-<li>Poseduje jednostavan sistem priključaka/proširenja (\emph{plugins}).</li>
+<li>Poseduje jednostavan sistem priključaka/proširenja (<i>plugins</i>).</li>
 <li>Ne propisuje strogu strukturu modula/funkcija/klasa kao što sto čini PyUnit.</li>
 <li>Brz za učenje.</li>
 
@@ -789,7 +788,7 @@ def test_answer():
 Startovanje:
 </p>
 
-<pre class="example" id="org76da1bf">
+<pre class="example" id="orgde26bb6">
 $ py.test
 =========================== test session starts ============================
 platform linux2 -- Python 2.7.3 -- pytest-2.3.5
@@ -943,8 +942,11 @@ obratiti pažnju na granične vrednosti jednog ili više parametara. Na primer:
 <h3 id="5-2"><span class="section-number-3">5.2.</span> Prekrivenost koda - <i>Code Coverage</i></h3>
 <ul>
 <li>Mera koja iskazuje procenat programskog koda koji je pokriven testovima.</li>
-<li>Osnovni kriterijumi za merenje prekrivenosti: prekrivenost funkcija (koji procenat funkcija se poziva u testovima), prekrivenost iskaza (kroz koji procenat iskaza se prolazi prilikom testiranja), prekrivenost uslova (da li se prošlo kroz sve grane u uslovima) itd.</li>
-<li>Merenje se obavlja automatizovanim alatima: npr. za python se može koristiti biblioteka \texttt{coverage.py}.</li>
+<li>Osnovni kriterijumi za merenje prekrivenosti: prekrivenost funkcija (koji
+procenat funkcija se poziva u testovima), prekrivenost iskaza (kroz koji
+procenat iskaza se prolazi prilikom testiranja), prekrivenost uslova (da li se
+prošlo kroz sve grane u uslovima) itd.</li>
+<li>Merenje se obavlja automatizovanim alatima: npr. za python se može koristiti biblioteka <code>coverage.py</code>.</li>
 
 </ul>
 
@@ -964,7 +966,7 @@ obratiti pažnju na granične vrednosti jednog ili više parametara. Na primer:
 </section>
 </div>
 </div>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -993,10 +995,10 @@ transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 ,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>

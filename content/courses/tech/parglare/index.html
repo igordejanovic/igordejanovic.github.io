@@ -7,13 +7,13 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
@@ -22,7 +22,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -35,13 +35,13 @@
 <h1 class="title">parglare parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2019-11-29 Fri 16:01, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-01-16 Mon 18:20, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 
 <section>
-<section id="slide-org4bd3c7c">
-<h2 id="org4bd3c7c">Sadržaj</h2>
-<div id="text-table-of-contents">
+<section id="slide-org8807cc9">
+<h2 id="org8807cc9">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
 <li><a href="#/slide-2">2. Instalacija</a></li>
@@ -54,7 +54,7 @@
 </section>
 <section>
 <section id="slide-1">
-<h2 id="1"><span class="section-number-2">1</span> Osnovne osobine</h2>
+<h2 id="1"><span class="section-number-2">1.</span> Osnovne osobine</h2>
 <ul>
 <li>100% Python kod</li>
 <li>MIT licenca</li>
@@ -72,17 +72,17 @@
 </section>
 <section>
 <section id="slide-2">
-<h2 id="2"><span class="section-number-2">2</span> Instalacija</h2>
+<h2 id="2"><span class="section-number-2">2.</span> Instalacija</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </section>
 <section id="slide-2-1">
-<h3 id="2-1"><span class="section-number-3">2.1</span> Instalacija</h3>
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Instalacija</h3>
 <ul>
 <li>Sa PyPI:</li>
 
 </ul>
-<pre  class="example">
+<pre>
 $ mkdir jsd       
 $ cd jsd             
 $ python -m venv venv                        
@@ -98,12 +98,12 @@ Successfully installed click-7.0 parglare-0.10.0
 </pre>
 </section>
 <section id="slide-2-2">
-<h3 id="2-2"><span class="section-number-3">2.2</span> Instalacija razvojne verzije</h3>
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Instalacija razvojne verzije</h3>
 <ul>
 <li><p>
 Sa <code>master</code> grane:
 </p>
-<pre  class="example">
+<pre>
 $ mkdir jsd       
 $ cd jsd             
 $ python -m venv venv                        
@@ -124,12 +124,12 @@ Successfully installed parglare-0.11.0.dev0
 
 </section>
 <section id="slide-installation">
-<h3 id="installation"><span class="section-number-3">2.3</span> Instalacija za razvoj</h3>
+<h3 id="installation"><span class="section-number-3">2.3.</span> Instalacija za razvoj</h3>
 <ul>
 <li><p>
 Sa <code>master</code> grane iz kloniranog git repozitorijuma:
 </p>
-<pre  class="example">
+<pre>
 $ mkdir jsd       
 $ cd jsd             
 $ python -m venv venv                        
@@ -159,15 +159,15 @@ Successfully installed parglare
 </section>
 <section>
 <section id="slide-3">
-<h2 id="3"><span class="section-number-2">3</span> Upotreba</h2>
+<h2 id="3"><span class="section-number-2">3.</span> Upotreba</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
 <section id="slide-3-1">
-<h3 id="3-1"><span class="section-number-3">3.1</span> Kreiranje gramatike</h3>
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Kreiranje gramatike</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >grammar = r"""
+<pre><code class="python" >grammar = r"""
 E: E '+' E
  | E '-' E
  | E '*' E
@@ -194,10 +194,10 @@ actions = {
 
 </section>
 <section id="slide-3-2">
-<h3 id="3-2"><span class="section-number-3">3.2</span> Parsiranje sa LR parserom</h3>
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Parsiranje sa LR parserom</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >from parglare import Parser, Grammar
+<pre><code class="python" >from parglare import Parser, Grammar
 g = Grammar.from_string(grammar)
 parser = Parser(g, actions=actions)
 
@@ -207,11 +207,6 @@ print("Result = ", result)
 
 </code></pre>
 </div>
-
-<pre class="example">
-Result =  14.0
-</pre>
-
 
 </section>
 <section>
@@ -226,7 +221,7 @@ tako što preferira <i>Shift</i> operaciju (videti <a href="http://www.igordejan
 
 </section>
 <section id="slide-3-3">
-<h3 id="3-3"><span class="section-number-3">3.3</span> Generalizovano parsiranje</h3>
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Generalizovano parsiranje</h3>
 <ul>
 <li>Zamenom <code>Parser</code> klase sa <code>GLRParser</code> dobijamo generalizovano parsiranje gde
 će u slučaju višeznačnosti biti kreirana sva stabla parsiranja.</li>
@@ -236,7 +231,7 @@ tako što preferira <i>Shift</i> operaciju (videti <a href="http://www.igordejan
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from parglare import GLRParser, Grammar
+<pre><code class="python" >from parglare import GLRParser, Grammar
 g = Grammar.from_string(grammar)
 parser = GLRParser(g, consume_input=True, actions=actions)
 
@@ -247,18 +242,12 @@ print("Broj interpretacija = ", len(result))
 </code></pre>
 </div>
 
-<pre class="example">
-Result =  [2.5, 3.5, 4.0, 5.0, 3.5, 10.0, 14.0, 10.0, 7.0, 8.0, 14.0, 14.0, 5.0, 3.5]
-Broj interpretacija =  14
-</pre>
-
-
 <ul>
 <li class="fragment roll-in"><p>
 Broj interpretacija je <a href="https://en.wikipedia.org/wiki/Catalan_number">Katalanov broj</a> od <code>n</code> gde je <code>n</code> broj binarnih
 operacija u izrazu.
 </p>
-<pre  class="example">
+<pre>
 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900, 2674440...
 </pre></li>
 
@@ -266,7 +255,7 @@ operacija u izrazu.
 
 </section>
 <section id="slide-3-4">
-<h3 id="3-4"><span class="section-number-3">3.4</span> Deklarativno razrešavanje višeznačnosti</h3>
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Deklarativno razrešavanje višeznačnosti</h3>
 <ul>
 <li>Deklarativno razrešavanje višeznačnosti obavljamo unutar <code>{}</code> koje navodimo po produkciji.</li>
 <li>Za asocijatinost koristimo ključne reči <code>left</code> (odnosno <code>reduce</code>) i <code>right</code>
@@ -276,7 +265,7 @@ operacija u izrazu.
 
 <div class="org-src-container">
 
-<pre><code class=" python" >grammar = r"""
+<pre><code class="python" >grammar = r"""
 E: E '+' E {left}
  | E '-' E {left}
  | E '*' E {left}
@@ -295,7 +284,7 @@ number: /\d+(\.\d+)?/;
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from parglare import GLRParser, Grammar
+<pre><code class="python" >from parglare import GLRParser, Grammar
 g = Grammar.from_string(grammar)
 parser = GLRParser(g, actions=actions)
 
@@ -304,11 +293,6 @@ result = parser.parse("2 * 3 + 4 / 2 / 2")
 print("Result = ", result)
 </code></pre>
 </div>
-
-<pre class="example">
-Result =  [2.5]
-</pre>
-
 
 <ul>
 <li>Sada parser dolazi do jednog rešenja ali pogrešnog tako što evaluaciju radi s
@@ -320,10 +304,10 @@ koja znači levu asocijativnost).</li>
 
 </section>
 <section id="slide-3-5">
-<h3 id="3-5"><span class="section-number-3">3.5</span> Prioriteti</h3>
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Prioriteti</h3>
 <div class="org-src-container">
 
-<pre><code class=" python" >grammar = r"""
+<pre><code class="python" >grammar = r"""
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -339,7 +323,7 @@ number: /\d+(\.\d+)?/;
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from parglare import GLRParser, Grammar
+<pre><code class="python" >from parglare import GLRParser, Grammar
 g = Grammar.from_string(grammar)
 parser = GLRParser(g, actions=actions)
 
@@ -349,11 +333,6 @@ print("Result = ", result)
 </code></pre>
 </div>
 
-<pre class="example">
-Result =  [7.0]
-</pre>
-
-
 <ul>
 <li>Sada je rezultat ispravan.</li>
 
@@ -361,7 +340,7 @@ Result =  [7.0]
 
 </section>
 <section id="slide-3-6">
-<h3 id="3-6"><span class="section-number-3">3.6</span> Kompajliranje gramatike</h3>
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Kompajliranje gramatike</h3>
 <ul>
 <li>Gramatika može biti unapred kompajlirana tj. LALR tablice mogu biti unapred
 kalkulisane.</li>
@@ -370,7 +349,7 @@ zanemarljivo.</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ pglr compile --help
 Usage: pglr compile [OPTIONS] GRAMMAR_FILE
 
@@ -395,14 +374,14 @@ upisana u <code>.pgt</code> fajl.</li>
 
 </section>
 <section id="slide-3-7">
-<h3 id="3-7"><span class="section-number-3">3.7</span> Greške u gramatici</h3>
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Greške u gramatici</h3>
 <ul>
 <li>Ako napravimo grešku pri pisanju gramatike <code>parglare</code> će nam dati tačnu
 lokaciju i šta na njoj očekuje.</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ pglr compile calc.pg
 Error in the grammar file.
 Error in file "calc.pg" at position 4,16 =&gt; "/' E  left*, 2}\n | E ".
@@ -411,8 +390,8 @@ Expected: { or | or ; or Name or RegExTerm or StrTerm
 
 </section>
 <section id="slide-3-8">
-<h3 id="3-8"><span class="section-number-3">3.8</span> Detaljna analiza gramatike i mašine stanja/prelaza</h3>
-<pre  class="example">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Detaljna analiza gramatike i mašine stanja/prelaza</h3>
+<pre>
 $ pglr --debug compile calc.pg
 
  *** GRAMMAR ***
@@ -449,13 +428,13 @@ State 0
 
 </section>
 <section id="slide-3-9">
-<h3 id="3-9"><span class="section-number-3">3.9</span> Vizualizacija mašine stanja prelaza</h3>
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Vizualizacija mašine stanja prelaza</h3>
 <ul>
 <li>Mašinu stanja prelaza možemo grafički prikazati sa:</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ pglr viz calc.pg
 Grammar OK.
 Generating 'calc.pg.dot' file for the grammar PDA.
@@ -472,20 +451,20 @@ ili konvertovati u neki grafički format (npr. <code>dot -Tpdf -O calc.pg.dot</c
 </ul>
 
 
-<div class="figure">
+<div id="org0da841b" class="figure">
 <p><img src="./images/calc.pg.dot.png" alt="calc.pg.dot.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-3-10">
-<h3 id="3-10"><span class="section-number-3">3.10</span> Vizualizacija GLR parsiranja</h3>
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Vizualizacija GLR parsiranja</h3>
 <ul>
 <li>Kod GLR parsiranja moguća je vizualizacija grafičkog traga (<i>tracing</i>).</li>
 
 </ul>
 
-<pre  class="example">
+<pre>
 $ pglr trace --help
 Usage: pglr trace [OPTIONS] GRAMMAR_FILE
 
@@ -498,12 +477,12 @@ Options:
 </section>
 <section>
 
-<pre  class="example">
+<pre>
 $ pglr trace calc.pg -i "2 + 3 * 5"
 </pre>
 
 
-<div class="figure">
+<div id="org14570b8" class="figure">
 <p><img src="./images/calc_trace.dot.png" alt="calc_trace.dot.png" style="height: 200px;" />
 </p>
 </div>
@@ -512,20 +491,20 @@ $ pglr trace calc.pg -i "2 + 3 * 5"
 </section>
 <section>
 <section id="slide-4">
-<h2 id="4"><span class="section-number-2">4</span> Primeri</h2>
+<h2 id="4"><span class="section-number-2">4.</span> Primeri</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
 <section id="slide-4-1">
-<h3 id="4-1"><span class="section-number-3">4.1</span> <code>calc</code> parser</h3>
+<h3 id="4-1"><span class="section-number-3">4.1.</span> <code>calc</code> parser</h3>
 <div class="outline-text-3" id="text-4-1">
 </div>
 </section>
 <section id="slide-4-1-1">
-<h4 id="4-1-1"><span class="section-number-4">4.1.1</span> <code>calc</code> parser</h4>
+<h4 id="4-1-1"><span class="section-number-4">4.1.1.</span> <code>calc</code> parser</h4>
 <div class="org-src-container">
 
-<pre><code class=" python" >grammar = r"""
+<pre><code class="python" >grammar = r"""
 E: E '+' E {left, 1}
  | E '-' E {left, 1}
  | E '*' E {left, 2}
@@ -554,7 +533,7 @@ actions = {
 
 <div class="org-src-container">
 
-<pre><code class=" python" >from parglare import Parser, Grammar
+<pre><code class="python" >from parglare import Parser, Grammar
 g = Grammar.from_string(grammar)
 parser = Parser(g, actions=actions)
 
@@ -564,13 +543,9 @@ print("Result = ", result)
 </code></pre>
 </div>
 
-<pre class="example">
-Result =  7.0
-</pre>
-
 </section>
 <section id="slide-4-1-2">
-<h4 id="4-1-2"><span class="section-number-4">4.1.2</span> Zadaci za vežbu</h4>
+<h4 id="4-1-2"><span class="section-number-4">4.1.2.</span> Zadaci za vežbu</h4>
 <ol>
 <li>Proširiti <code>calc</code> primer sa operacijom stepenovanja (simbol <code>^</code>) koja ima
 najviši prioritet i desno je asocijativna.</li>
@@ -579,18 +554,18 @@ najviši prioritet i desno je asocijativna.</li>
 Proširiti <code>calc</code> primer sa unarnom operacijom faktorijel (simbol <code>!</code>) koja
 ima najviši prioritet.
 </p>
-<pre  class="example">
-x! = x * (x-1) * ... * 1
+<pre>
+   x! = x * (x-1) * ... * 1
 </pre></li>
 
 <li><p>
 Dodati mogućnost definisanja varijabli i nihove upotrebe u <code>calc</code> izrazima:
 </p>
-<pre  class="example">
-a = 4
-b = 8
-
-a * 2 / b^a^2 + b * a!
+<pre>
+   a = 4
+   b = 8
+   
+   a * 2 / b^a^2 + b * a!
 </pre>
 <ul>
 <li>Probati uraditi samostalno. Rešenje je u <code>examples/calc</code> folderu.</li>
@@ -606,12 +581,12 @@ vrednosti za proizvoljne funkcije iz Python <code>math</code> modula.</li>
 
 </section>
 <section id="slide-4-2">
-<h3 id="4-2"><span class="section-number-3">4.2</span> <code>Robot</code> jezik</h3>
+<h3 id="4-2"><span class="section-number-3">4.2.</span> <code>Robot</code> jezik</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
 </section>
 <section id="slide-4-2-1">
-<h4 id="4-2-1"><span class="section-number-4">4.2.1</span> Gramatika</h4>
+<h4 id="4-2-1"><span class="section-number-4">4.2.1.</span> Gramatika</h4>
 <ul>
 <li>Videti primer u folderu <code>examples/robot</code>.</li>
 
@@ -623,7 +598,7 @@ Fajl <code>program.rbt</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class=" example" >begin
+<pre><code class="example" >begin
   initial 3, 1
   up 4          // go up 4 steps
   left 9
@@ -640,7 +615,7 @@ Fajl <code>robot.pg</code>
 </p>
 <div class="org-src-container">
 
-<pre><code class=" example" >program: "begin" commands=command* "end";
+<pre><code class="example" >program: "begin" commands=command* "end";
 command: initial | move;
 initial: INITIAL x=INT "," y=INT;
 move: direction=direction steps=INT?;
@@ -661,10 +636,10 @@ Comment: /\/\/.*/;
 
 </section>
 <section id="slide-4-2-2">
-<h4 id="4-2-2"><span class="section-number-4">4.2.2</span> Akcije</h4>
+<h4 id="4-2-2"><span class="section-number-4">4.2.2.</span> Akcije</h4>
 <div class="org-src-container">
 
-<pre><code class=" python" >import os
+<pre><code class="python" >import os
 from parglare import Grammar, Parser
 from parglare import get_collector
 
@@ -694,7 +669,7 @@ def program(context, nodes, commands):
 
 <div class="org-src-container">
 
-<pre><code class=" python" >@action
+<pre><code class="python" >@action
 def move(context, nodes, direction, steps):
     steps = 1 if steps is None else steps
     print("Moving robot {} for {} steps.".format(direction, steps))
@@ -714,10 +689,10 @@ def move(context, nodes, direction, steps):
 
 </section>
 <section id="slide-4-2-3">
-<h4 id="4-2-3"><span class="section-number-4">4.2.3</span> Pokretanje</h4>
+<h4 id="4-2-3"><span class="section-number-4">4.2.3.</span> Pokretanje</h4>
 <div class="org-src-container">
 
-<pre><code class=" python" >
+<pre><code class="python" >
 def main(debug=False):
     this_folder = os.path.dirname(__file__)
     g = Grammar.from_file(os.path.join(this_folder, 'robot.pg'),
@@ -735,44 +710,35 @@ if __name__ == "__main__":
 </code></pre>
 </div>
 
-<pre class="example">
-Robot initial position set to: 3, 1
-Moving robot up for 4 steps.
-Moving robot left for 9 steps.
-Moving robot down for 1 steps.
-Moving robot right for 1 steps.
-Robot stops at position: (3, 1)
-</pre>
-
 </section>
 <section id="slide-4-2-4">
-<h4 id="4-2-4"><span class="section-number-4">4.2.4</span> Zadaci za vežbu</h4>
+<h4 id="4-2-4"><span class="section-number-4">4.2.4.</span> Zadaci za vežbu</h4>
 <ol>
 <li><p>
 Dodati mogućnost kretanja po dijagonali. Na primer:
 </p>
-<pre  class="example">
-begin
-  initial 5, 8
-  up left 2
-  down left 5
-  down 5
-end
+<pre>
+    begin
+      initial 5, 8
+      up left 2
+      down left 5
+      down 5
+    end
 </pre></li>
 
 <li><p>
 Dodati <code>for</code> petlju:
 </p>
 
-<pre  class="example">
-begin
-    initial 4, 7
-    for i in 1..10
-    begin
-      down 3
-      down right i
+<pre>
+   begin
+       initial 4, 7
+       for i in 1..10
+       begin
+         down 3
+         down right i
+       end
     end
- end
 </pre></li>
 
 </ol>
@@ -786,21 +752,21 @@ Dodati koncept tekuće lokacije (ugrađene promenjive <code>robotx</code> i <cod
 operacije poređenja <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, i iskaz <code>if</code>:
 </p>
 
-<pre  class="example">
-begin
-    initial 4, 7
-    for i in 1..10
-    begin
-      down 3
-      if robotx &gt; 4 up 5
-      down right i
-      if roboty &lt; 3
-      begin
-         left 10
-         down
-      end
+<pre>
+   begin
+       initial 4, 7
+       for i in 1..10
+       begin
+         down 3
+         if robotx &gt; 4 up 5
+         down right i
+         if roboty &lt; 3
+         begin
+            left 10
+            down
+         end
+       end
     end
- end
 </pre></li>
 
 </ol>
@@ -808,8 +774,7 @@ begin
 </section>
 </div>
 </div>
-<script src="../../reveal.js/lib/js/head.min.js"></script>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -826,7 +791,6 @@ mouseWheel: false,
 fragmentInURL: true,
 hashOneBasedIndex: false,
 pdfSeparateFragments: true,
-
 overview: true,
 width: 1400,
 height: 1000,
@@ -839,10 +803,10 @@ transitionSpeed: 'default',
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 ,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
 </script>
