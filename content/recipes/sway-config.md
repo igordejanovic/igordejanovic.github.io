@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T19:50:00+01:00
+lastmod = 2023-01-17T20:28:56+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -394,11 +394,14 @@ mode "$mode_system" {
 bindsym $mod+End mode "$mode_system"
 ```
 
+
+### `exit.sh` script called on lock/suspend/logout {#exit-dot-sh-script-called-on-lock-suspend-logout}
+
 Exit script which locks and unmounts encFS mounts on suspend.
 
 ```sh
 lock() {
-    swaylock -c 003300
+    swaylock -c 003300 &
 }
 
 case "$1" in
@@ -409,7 +412,7 @@ case "$1" in
         swaymsg 'exit'
         ;;
     suspend)
-        lock && encfs -u ~/Consulting && encfs -u ~/.ssh && ssh-add -D && systemctl suspend
+        encfs -u ~/Consulting && encfs -u ~/.ssh && ssh-add -D && lock && systemctl suspend
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend}"
@@ -418,6 +421,40 @@ esac
 
 exit 0
 ```
+
+
+### Call `exit.sh` script on lid close {#call-exit-dot-sh-script-on-lid-close}
+
+System should lock and unmount all encrypted shares on lid close. See [here](https://wiki.archlinux.org/index.php/Power_management#Sleep_hooks) for
+power management hooks.
+
+File </etc/systemd/logind.conf> has handling of lid switch
+
+```nil
+$ loginctl show-session
+HandleLidSwitch=suspend
+HandleLidSwitchDocked=ignore
+```
+
+Create systemd service file in </etc/systemd/system/suspend@.service>
+
+```ini
+[Unit]
+Description=Lock screen on suspend
+Before=sleep.target
+
+[Service]
+User=%I
+Type=forking
+ExecStart=/home/igor/.config/sway/exit.sh suspend
+
+[Install]
+WantedBy=sleep.target
+```
+
+This must be a system-level service as user services can't have `sleep` dependencies.
+
+Enable with `sudo systemctl enable suspend@igor`
 
 
 ## Display mode {#display-profile}
