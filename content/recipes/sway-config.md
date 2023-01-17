@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T12:56:18+01:00
+lastmod = 2023-01-17T16:37:03+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -586,7 +586,6 @@ Waybar configuration:
         "sway/language",
         "custom/notification",
         "clock#2",
-        "custom/right-arrow-dark"
     ],
 
     "custom/left-arrow-dark": {
@@ -1078,6 +1077,46 @@ interval.
 ```cron
 */5  * * * *  XDG_RUNTIME_DIR=/run/user/$(id -u) $HOME/.config/sway/check_battery.sh
 ```
+
+
+## Screen sharing {#screen-sharing}
+
+See [this](https://wiki.archlinux.org/title/Screen_capture#Wayland) and [this](https://wiki.archlinux.org/title/PipeWire#WebRTC_screen_sharing).
+
+```sh
+sudo pacman -S xdg-desktop-portal xdg-desktop-portal-wlr
+```
+
+Configuration for output selection and disabling of notification during
+screen-cast.
+
+```ini
+[screencast]
+output_name=eDP-1
+max_fps=30
+exec_before=swaync-client -dn
+exec_after=swaync-client -df
+chooser_type=simple
+chooser_cmd=slurp -f %o -or
+```
+
+Added this to `~/.profile` (add manually)
+
+```sh
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway
+```
+
+And this to sway config to launch `xdg-desktop-portal` when sway starts.
+
+```cfg
+exec_always /usr/lib/xdg-desktop-portal -r & /usr/lib/xdg-desktop-portal-wlr -r
+```
+
+Firefox works out-of-the-box. For chromium enable experiment setting
+`chrome://flags/#enable-webrtc-pipewire-capturer`.
+
+Test with [Mozilla's getUserMedia / getDisplayMedia Test Page](https://mozilla.github.io/webrtc-landing/gum_test.html)
 
 
 ## Autostart apps {#autostart-apps}
