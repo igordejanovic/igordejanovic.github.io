@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T21:01:22+01:00
+lastmod = 2023-01-17T21:02:37+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -113,6 +113,7 @@ open the captured image in [gthumb](https://wiki.gnome.org/Apps/gthumb):
 
 ```cfg
 bindsym Print exec grim -g "$(slurp)" ~/screenshot.png && gthumb ~/screenshot.png
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
 ```
 
 Kill focused window:
