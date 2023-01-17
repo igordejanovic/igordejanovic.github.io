@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-16T19:39:27+01:00
+lastmod = 2023-01-17T11:20:48+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -1040,7 +1040,7 @@ Using swaync.
 sudo yay -S swaync
 ```
 
-Show pannel
+Start with sway.
 
 ```cfg
 exec_always swaync
