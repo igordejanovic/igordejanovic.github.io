@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T16:37:03+01:00
+lastmod = 2023-01-17T19:50:00+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -232,6 +232,21 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 ```
 
+Move focused container to workspace:
+
+```cfg
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+```
+
 Move workspace to left/right output:
 
 ```cfg
@@ -257,7 +272,7 @@ assign [class="Audacious"] "10:music"
 
 _TODO: Write how to get the name of the application class._
 
-Send curent workspace to other output:
+Send current workspace to other output:
 
 ```cfg
 bindsym $mod+o exec swaymsg -t get_outputs | \
@@ -265,21 +280,6 @@ bindsym $mod+o exec swaymsg -t get_outputs | \
 ```
 
 [Source](https://github.com/swaywm/sway/issues/4346)
-
-Move focused container to workspace:
-
-```nil
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
-```
 
 
 ## Media buttons with bar overlay {#media-buttons}

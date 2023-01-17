@@ -598,6 +598,20 @@ bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 #+end_src
 
+Move focused container to workspace:
+#+begin_src conf
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+#+end_src
+
 Move workspace to left/right output:
 #+begin_src conf
 bindsym $mod+Shift+Alt+h move workspace to output left
@@ -620,7 +634,7 @@ assign [class="Audacious"] "10:music"
 
 /TODO: Write how to get the name of the application class./
 
-Send curent workspace to other output:
+Send current workspace to other output:
 #+begin_src conf
 bindsym $mod+o exec swaymsg -t get_outputs | \
         jq '.[] | select(.focused!=true) | .name' | head -n1 | xargs swaymsg move workspace to
@@ -628,19 +642,6 @@ bindsym $mod+o exec swaymsg -t get_outputs | \
 
 [[https://github.com/swaywm/sway/issues/4346][Source]]
 
-Move focused container to workspace:
-#+begin_src
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
-#+end_src
 *** Media buttons with bar overlay
 :PROPERTIES:
 :CUSTOM_ID: media-buttons
