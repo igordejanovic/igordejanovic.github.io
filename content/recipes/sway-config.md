@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T20:28:56+01:00
+lastmod = 2023-01-17T21:01:22+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -383,7 +383,7 @@ set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s)
 mode "$mode_system" {
     bindsym l exec $exit lock; mode "default"
     bindsym e exec $exit logout
-    bindsym s exec $exit suspend; mode "default"
+    bindsym s exec $exit suspend & systemctl suspend; mode "default"
     bindsym r exec systemctl reboot
     bindsym Shift+s exec systemctl shutdown
 
@@ -400,6 +400,10 @@ bindsym $mod+End mode "$mode_system"
 Exit script which locks and unmounts encFS mounts on suspend.
 
 ```sh
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export WAYLAND_DISPLAY=wayland-1
+export SWAYSOCK=$XDG_RUNTIME_DIR/sway-ipc.$(id -u).$(pgrep -x sway).sock
+
 lock() {
     swaylock -c 003300 &
 }
@@ -412,7 +416,10 @@ case "$1" in
         swaymsg 'exit'
         ;;
     suspend)
-        encfs -u ~/Consulting && encfs -u ~/.ssh && ssh-add -D && lock && systemctl suspend
+        encfs -u ~/Consulting
+        encfs -u ~/.ssh
+        ssh-add -D
+        lock
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend}"
@@ -421,6 +428,8 @@ esac
 
 exit 0
 ```
+
+[Source](https://www.reddit.com/r/swaywm/comments/qngc2q/systemd_service_for_swaylock/) for exports setup. Needed cause this is called from system-level systemd service.
 
 
 ### Call `exit.sh` script on lid close {#call-exit-dot-sh-script-on-lid-close}
@@ -447,6 +456,7 @@ Before=sleep.target
 User=%I
 Type=forking
 ExecStart=/home/igor/.config/sway/exit.sh suspend
+TimeoutSec=infinity
 
 [Install]
 WantedBy=sleep.target

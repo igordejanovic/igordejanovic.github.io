@@ -723,7 +723,7 @@ set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s)
 mode "$mode_system" {
     bindsym l exec $exit lock; mode "default"
     bindsym e exec $exit logout
-    bindsym s exec $exit suspend; mode "default"
+    bindsym s exec $exit suspend & systemctl suspend; mode "default"
     bindsym r exec systemctl reboot
     bindsym Shift+s exec systemctl shutdown
 
@@ -737,6 +737,10 @@ bindsym $mod+End mode "$mode_system"
 **** =exit.sh= script called on lock/suspend/logout
 Exit script which locks and unmounts encFS mounts on suspend.
 #+begin_src sh :shebang "#!/bin/sh" :tangle "~/.config/sway/exit.sh"
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export WAYLAND_DISPLAY=wayland-1
+export SWAYSOCK=$XDG_RUNTIME_DIR/sway-ipc.$(id -u).$(pgrep -x sway).sock
+
 lock() {
     swaylock -c 003300 &
 }
@@ -749,7 +753,10 @@ case "$1" in
         swaymsg 'exit'
         ;;
     suspend)
-        encfs -u ~/Consulting && encfs -u ~/.ssh && ssh-add -D && lock && systemctl suspend
+        encfs -u ~/Consulting
+        encfs -u ~/.ssh
+        ssh-add -D
+        lock
         ;;
     ,*)
         echo "Usage: $0 {lock|logout|suspend}"
@@ -758,6 +765,8 @@ esac
 
 exit 0
 #+end_src
+
+[[https://www.reddit.com/r/swaywm/comments/qngc2q/systemd_service_for_swaylock/][Source]] for exports setup. Needed cause this is called from system-level systemd service.
 
 **** Call =exit.sh= script on lid close
 System should lock and unmount all encrypted shares on lid close. See [[https://wiki.archlinux.org/index.php/Power_management#Sleep_hooks][here]] for
@@ -781,6 +790,7 @@ Before=sleep.target
 User=%I
 Type=forking
 ExecStart=/home/igor/.config/sway/exit.sh suspend
+TimeoutSec=infinity
 
 [Install]
 WantedBy=sleep.target
