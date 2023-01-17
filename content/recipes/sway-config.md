@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T11:47:11+01:00
+lastmod = 2023-01-17T12:56:18+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -561,21 +561,6 @@ Waybar configuration:
         "custom/right-arrow-dark",
     "sway/mode"
     ],
-    //"modules-center": [
-        // "custom/left-arrow-dark",
-        // "custom/weather",
-        //"custom/left-arrow-light",
-        //"custom/left-arrow-dark",
-        //"clock#1",
-        //"custom/left-arrow-light",
-        //"custom/left-arrow-dark",
-        //"clock#2",
-        //"custom/right-arrow-dark"
-        // "custom/right-arrow-light",
-        //"clock#3",
-        //"custom/right-arrow-dark",
-
-    //],
     "modules-right": [
         "custom/left-arrow-dark",
         "network",
@@ -594,16 +579,12 @@ Waybar configuration:
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
 //      "idle_inhibitor",
-        "custom/notification",
-        "custom/left-arrow-light",
-        "custom/left-arrow-dark",
-        "sway/language",
-        "custom/left-arrow-light",
-        "custom/left-arrow-dark",
         "tray",
-        "custom/weather",
         "custom/left-arrow-light",
         "custom/left-arrow-dark",
+        "custom/weather",
+        "sway/language",
+        "custom/notification",
         "clock#2",
         "custom/right-arrow-dark"
     ],
