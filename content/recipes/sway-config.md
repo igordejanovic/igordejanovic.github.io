@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-17T21:02:37+01:00
+lastmod = 2023-01-18T13:00:02+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -607,7 +607,12 @@ Waybar configuration:
     "modules-left": [
         "sway/workspaces",
         "custom/right-arrow-dark",
-    "sway/mode"
+        "custom/right-arrow-light",
+        "sway/mode",
+        "custom/right-arrow-dark",
+        "custom/right-arrow-light",
+        "custom/pomodoro",
+        "custom/right-arrow-dark"
     ],
     "modules-right": [
         "custom/left-arrow-dark",
@@ -673,6 +678,12 @@ Waybar configuration:
     "custom/weather": {
         "exec": "curl 'https://wttr.in/?format=1' -s | cut -c 1-6,9-15",
         "interval": 3600
+    },
+    "custom/pomodoro": {
+         "format": "{}",
+         "exec": "emacsclient -e '(ird/org-pomodoro-time)' | sed -e 's/^\"//'  -e 's/\"$//'",
+         "interval": 30,
+         "signal": 12
     },
     "sway/language": {
         "format": "{}",
@@ -786,6 +797,7 @@ window#waybar {
 #clock.3,
 #custom-weather,
 #custom-notification,
+#custom-pomodoro,
 #language,
 #pulseaudio,
 #backlight,
@@ -858,6 +870,7 @@ window#waybar {
 #cpu,
 #custom-notification,
 #custom-weather,
+#custom-pomodoro,
 #temperature,
 #battery {
     padding: 0 10px;
@@ -867,8 +880,8 @@ window#waybar {
 
 ## Application launcher, window switcher {#application-launcher-window-switcher}
 
-[Rofi](https://github.com/davatorium/rofi) is a popular application launcher and window switcher. See also [ArchLinux
-wiki page](https://wiki.archlinux.org/title/Rofi).
+[Rofi](https://github.com/davatorium/rofi) is a popular application launcher and window switcher. See also
+[ArchLinux wiki page](https://wiki.archlinux.org/title/Rofi).
 
 Currently original rofi has no support for wayland. There is a fork with wayland
 support. Install with:
