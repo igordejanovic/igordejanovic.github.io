@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-18T13:00:02+01:00
+lastmod = 2023-01-18T17:30:04+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -206,16 +206,16 @@ bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut.
 Define names for default workspaces for which we configure key bindings later on. We use variables to avoid repeating the names in multiple places.
 
 ```cfg
-set $ws1 "1:editor"
-set $ws2 "2:browser"
-set $ws3 "3:message"
-set $ws4 "4:files"
-Set $ws5 "5:"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10:music"
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+Set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+set $ws10 10
 ```
 
 Switch to workspace:
@@ -259,16 +259,16 @@ You can map workspace to output using this. Can be handy in multi-display
 setups.
 
 ```cfg
-workspace "1:editor" output DP1 eDP1
-workspace "2:browser" output DP1 eDP1
+workspace 1 output DP1 eDP1
+workspace 2 output DP1 eDP1
 ```
 
 Assign application window classes to workspaces:
 
 ```cfg
-assign [class="Viber"] "3:message"
-assign [class="Skype"] "3:message"
-assign [class="Audacious"] "10:music"
+assign [class="Viber"] 3
+assign [class="Skype"] 3
+assign [class="Audacious"] 10
 ```
 
 _TODO: Write how to get the name of the application class._
@@ -660,7 +660,13 @@ Waybar configuration:
 
     "sway/workspaces": {
         "disable-scroll": true,
-        "format": "{name}"
+        "format": "{name}:{icon} ",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "10": ""
+        }
     },
 
     "clock#1": {
@@ -1184,7 +1190,7 @@ Test with [Mozilla's getUserMedia / getDisplayMedia Test Page](https://mozilla.g
 
 ```cfg
 exec {
-  swaymsg 'workspace 1:editor; exec emacs'
-  swaymsg 'workspace 2:browser; exec firefox'
+  swaymsg 'workspace 1; exec emacs'
+  swaymsg 'workspace 2; exec firefox'
 }
 ```
