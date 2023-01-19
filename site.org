@@ -491,6 +491,12 @@ Start alacritty terminal:
 bindsym $mod+Return exec alacritty
 #+end_src
 
+Emacs everywhere. Launch emacs to edit content in other applications.
+Not working at the moment for wayland.
+#+begin_src conf
+#bindsym $mod+m exec emacsclient --eval "(emacs-everywhere)"
+#+end_src
+
 Screenshot can be taken with [[https://github.com/emersion/grim][grim]] which uses [[https://github.com/emersion/slurp][slurp]] to select a region and then
 open the captured image in [[https://wiki.gnome.org/Apps/gthumb][gthumb]]:
 #+begin_src conf
@@ -1406,6 +1412,13 @@ bindsym $mod+c exec swaync-client -C
 #+end_src
 
 See also the waybar configuration above.
+*** Syncthing
+I'm using [[https://github.com/syncthing/syncthing][Syncthing]] for syncing various stuff. Mostly Org files and podcasts
+with my phone and reading stuff with my Boox Air Note 2.
+#+begin_src conf
+exec syncthing-gtk
+#+end_src
+
 *** Warning on battery critical level
 Check battery, notify when low and suspend when critical.
 Taken and adapted from [[https://wiki.archlinux.org/index.php/Laptop#Hibernate_on_low_battery_level][ArchLinux wiki]].
@@ -1468,7 +1481,7 @@ Test with [[https://mozilla.github.io/webrtc-landing/gum_test.html][Mozilla's ge
 *** Autostart apps
 #+begin_src conf
 exec {
-  swaymsg 'workspace 1; exec emacs'
+  swaymsg 'workspace 1; exec emacsclient-one-frame.sh'
   swaymsg 'workspace 2; exec firefox'
 }
 #+end_src

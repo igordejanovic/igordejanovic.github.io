@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-19T15:40:05+01:00
+lastmod = 2023-01-19T19:59:04+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -106,6 +106,13 @@ Start alacritty terminal:
 
 ```cfg
 bindsym $mod+Return exec alacritty
+```
+
+Emacs everywhere. Launch emacs to edit content in other applications.
+Not working at the moment for wayland.
+
+```cfg
+#bindsym $mod+m exec emacsclient --eval "(emacs-everywhere)"
 ```
 
 Screenshot can be taken with [grim](https://github.com/emersion/grim) which uses [slurp](https://github.com/emersion/slurp) to select a region and then
@@ -1121,6 +1128,16 @@ bindsym $mod+c exec swaync-client -C
 See also the waybar configuration above.
 
 
+## Syncthing {#syncthing}
+
+I'm using [Syncthing](https://github.com/syncthing/syncthing) for syncing various stuff. Mostly Org files and podcasts
+with my phone and reading stuff with my Boox Air Note 2.
+
+```cfg
+exec syncthing-gtk
+```
+
+
 ## Warning on battery critical level {#warning-on-battery-critical-level}
 
 Check battery, notify when low and suspend when critical.
@@ -1192,7 +1209,7 @@ Test with [Mozilla's getUserMedia / getDisplayMedia Test Page](https://mozilla.g
 
 ```cfg
 exec {
-  swaymsg 'workspace 1; exec emacs'
+  swaymsg 'workspace 1; exec emacsclient-one-frame.sh'
   swaymsg 'workspace 2; exec firefox'
 }
 ```
