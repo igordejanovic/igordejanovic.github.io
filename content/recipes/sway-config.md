@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-19T12:39:58+01:00
+lastmod = 2023-01-19T15:40:05+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -874,6 +874,8 @@ window#waybar {
 #backlight,
 #memory,
 #cpu,
+#tray,
+#network,
 #custom-notification,
 #custom-weather,
 #custom-pomodoro,
