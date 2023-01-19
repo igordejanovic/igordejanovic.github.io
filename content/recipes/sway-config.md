@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-18T17:30:04+01:00
+lastmod = 2023-01-19T12:39:58+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -175,7 +175,7 @@ Toggle tiling/floating:
 bindsym $mod+Shift+space floating toggle
 ```
 
-Change fofuc between tiling/floating windows
+Change focus between tiling/floating windows
 
 ```cfg
 bindsym $mod+space focus mode_toggle
