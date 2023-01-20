@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-19T19:59:04+01:00
+lastmod = 2023-01-20T14:58:15+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -154,8 +154,9 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 ```
 
-Split in horizontal and vertical orientations. When pressing a hint is displayed
-on the window where the next application will be positioned.
+Split in horizontal and vertical orientations. When the shortcut is pressed a
+hint is displayed at the side of the window where the next application will be
+positioned.
 
 ```cfg
 bindsym $mod+b split h
@@ -1060,9 +1061,9 @@ mode "gromit-mpx" {
     bindsym Shift+f8 exec gromit-mpx --redo
 
     # Return to default mode
-    bindsym $mod+g mode "default"
+    bindsym $mod+g exec gromit-mpx --quit; mode "default"
 }
-bindsym $mod+g mode "gromit-mpx"
+bindsym $mod+g exec gromit-mpx --active; mode "gromit-mpx"
 ```
 
 Gromit-MPX use Xwayland. So to find the name of the device use:
