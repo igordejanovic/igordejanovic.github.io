@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-26T18:32:34+01:00
+lastmod = 2023-01-28T14:12:19+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -97,6 +97,12 @@ Font for window titles and swaybar.
 
 ```cfg
 font pango:Hack 10
+```
+
+[Hide mouse cursor](https://github.com/swaywm/sway/issues/1471) after a period of inactivity.
+
+```cfg
+seat * hide_cursor 3000
 ```
 
 
