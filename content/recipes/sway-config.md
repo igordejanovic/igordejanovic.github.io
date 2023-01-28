@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-28T14:12:19+01:00
+lastmod = 2023-01-29T18:23:43+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -696,7 +696,7 @@ Waybar configuration:
         "tooltip": false
     },
     "custom/weather": {
-        "exec": "curl 'https://wttr.in/?format=1' -s | cut -c 1-6,9-15",
+        "exec": "curl 'https://wttr.in/Novi_Sad?format=1' -s | cut -c 1-15",
         "interval": 3600
     },
     "custom/pomodoro": {
