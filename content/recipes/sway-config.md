@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-20T14:58:15+01:00
+lastmod = 2023-01-26T18:32:34+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -1127,6 +1127,27 @@ bindsym $mod+c exec swaync-client -C
 ```
 
 See also the waybar configuration above.
+
+Make some notification transient (I don't want them to persist in the
+notification list).
+
+```json
+{
+ "notification-visibility": {
+    "emacs-pomodoro": {
+      "_comment": "Make all emacs org-pomodoro notitification transient",
+      "state": "transient",
+      "category": "org-pomodoro"
+    },
+    "connection-info": {
+      "_comment": "Make all connection info notitification transient",
+      "state": "transient",
+      "app_name": "NetworkManager Applet",
+      "summary": "Connection Established"
+    }
+  }
+}
+```
 
 
 ## Syncthing {#syncthing}

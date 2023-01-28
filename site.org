@@ -1310,7 +1310,6 @@ Keyboard shortcut.
 bindsym $mod+d exec rofi -modes combi -show combi -combi-modes run,drun
 #+end_src
 
-
 **** Rofi configuration
 #+begin_src conf :tangle "~/.config/rofi/config.rasi"
 @theme "/usr/share/rofi/themes/Arc-Dark.rasi"
@@ -1464,6 +1463,9 @@ Opacity=0.75
 #+end_src
 
 *** Notification daemon
+:PROPERTIES:
+:header-args:json: :tangle "~/.config/swaync/config.json"
+:END:
 Using swaync.
 #+begin_src sh
 sudo yay -S swaync
@@ -1490,6 +1492,27 @@ bindsym $mod+c exec swaync-client -C
 #+end_src
 
 See also the waybar configuration above.
+
+Make some notification transient (I don't want them to persist in the
+notification list).
+#+begin_src json
+{
+ "notification-visibility": {
+    "emacs-pomodoro": {
+      "_comment": "Make all emacs org-pomodoro notitification transient",
+      "state": "transient",
+      "category": "org-pomodoro"
+    },
+    "connection-info": {
+      "_comment": "Make all connection info notitification transient",
+      "state": "transient",
+      "app_name": "NetworkManager Applet",
+      "summary": "Connection Established"
+    }
+  }
+}
+#+end_src
+
 *** Syncthing
 I'm using [[https://github.com/syncthing/syncthing][Syncthing]] for syncing various stuff. Mostly Org files and podcasts
 with my phone and reading stuff with my Boox Air Note 2.
