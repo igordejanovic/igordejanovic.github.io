@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-01-29T18:23:43+01:00
+lastmod = 2023-02-03T10:11:35+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -79,6 +79,12 @@ Use minimal borders.
 
 ```cfg
 default_border pixel 2
+```
+
+Disable border on screen edges and hide title for a single child tabbed/stacked containers.
+
+```cfg
+hide_edge_borders --i3 smart
 ```
 
 Use Mouse+$mod to drag floating windows to their wanted position.
