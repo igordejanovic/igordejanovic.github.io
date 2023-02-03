@@ -1,7 +1,7 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-01-12T14:33:15+01:00
-rtags = ["linux", "shell", "terminal"]
+lastmod = 2023-02-03T10:02:54+01:00
+rtags = ["linux", "shell", "terminal", "config"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 +++
@@ -93,14 +93,14 @@ alacritty-colorscheme status
 Toggle by:
 
 ```sh
-alacritty-colorscheme -V toggle one_dark.yaml papercolor_light.yaml
+alacritty-colorscheme -V toggle wombat.yaml papercolor_light.yaml
 ```
 
 Make keybinding in `~/.config/alacritty/alacritty.yml`:
 
 ```yaml
 key_bindings:
-  - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "one_dark.yaml",  "papercolor_light.yaml"] } }
+  - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "wombat.yaml",  "papercolor_light.yaml"] } }
 ```
 
 
