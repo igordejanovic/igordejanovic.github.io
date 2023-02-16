@@ -1,6 +1,6 @@
 +++
 title = "Sway config"
-lastmod = 2023-02-08T11:48:28+01:00
+lastmod = 2023-02-16T17:48:12+01:00
 rtags = ["linux", "config", "wayland"]
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
@@ -658,7 +658,7 @@ Waybar configuration:
         "custom/weather",
         "sway/language",
         "custom/notification",
-        "clock#2",
+        "clock",
     ],
 
     "custom/left-arrow-dark": {
@@ -689,17 +689,10 @@ Waybar configuration:
         }
     },
 
-    "clock#1": {
-        "format": "{:%a}",
-        "tooltip": false
-    },
-    "clock#2": {
+    "clock": {
         "format": "{:%H:%M}",
-        "tooltip": false
-    },
-    "clock#3": {
-        "format": "{:%d-%m}",
-        "tooltip": false
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip": true
     },
     "custom/weather": {
         "exec": "curl 'https://wttr.in/Novi_Sad?format=1' -s | cut -c 1-15",
@@ -818,9 +811,7 @@ window#waybar {
 }
 
 #workspaces,
-#clock.1,
-#clock.2,
-#clock.3,
+#clock,
 #custom-weather,
 #custom-notification,
 #custom-pomodoro,
