@@ -1,5 +1,6 @@
 +++
 title = "Испитна питања"
+type = "page"
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 weight = 3003

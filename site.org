@@ -43,7 +43,7 @@
 *** Језици специфични за домен (/Domain-Specific Languages/)
 :PROPERTIES:
 :CUSTOM_ID: course-jsd
-:EXPORT_FILE_NAME: index
+:EXPORT_FILE_NAME: _index
 :EXPORT_HUGO_LINKTITLE: JSD
 :EXPORT_HUGO_TYPE: course
 :EXPORT_HUGO_WEIGHT: 3001
@@ -62,7 +62,7 @@
 5. [[file:03-tekstualne-sintakse/][Текстуалне синтаксе]]
 6. [[file:../tech/arpeggio/][Arpeggio]]
    - [[file:../tech/arpeggio/zadaci.html][Задаци]]
-7. parglare
+7. [[file:../tech/parglare/][parglare]]
 8. [[file:../tech/textX/][textX]]
    - [[file:../tech/textX/zadaci.html][Задаци]]
 9. [[file:04-generisanje-programskog-koda/][Генерисање програмског кода]]
@@ -99,54 +99,57 @@
 - [[https://github.com/majak96/dsl-project][A domain-specific language for definining web-based surveys]]
 - [[https://github.com/vtanja/JSD][DSL for generating Web applications]]
 - [[https://github.com/vlaksi/JSZD-Proj][Sprint DSL for SCRUM]]
+
 *** Информације за пројекат
 :PROPERTIES:
 :EXPORT_FILE_NAME: projekat
+:EXPORT_HUGO_TYPE: page
 :END:
-**** Teme
-- Predloženi projekti moraju biti bazirani na textX ili parglare bibliotekama.
-- Mogu biti JSD implementacije ili unapređenja pomenutih biblioteka.
-- Jezici mogu da definišu i podršku za editore (code completion, syntax
-  highlighting itd. za npr. VS Code) -- poželjno posebno kod većih timova.
-  Videti projekte [[https://github.com/textX/textX-LS][textX-LS]] i [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]].
+**** Теме
+- Предложени пројекти морају бити базирани на textX или parglare библиотекама.
+- Могу бити ЈСД имплементације или унапређења поменутих библиотека.
+- Језици могу да дефинишу и подршку за едиторе (/Code completion/, /Syntax
+  highlighting/ итд. за нпр. /VS Code/) -- пожељно посебно код већих тимова.
+  Видети пројекте [[https://github.com/textX/textX-LS][textX-LS]] и [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]].
 
-**** O vođenju projekta
-- Svi projekti moraju biti otvorenog koda javno hostovani na GitHub-u. Izbor
-  licence se ostavlja članovima tima, ali mora biti [[https://opensource.org/licenses][OSI odobrena]].
-- Predlog se piše u README fajlu projekta i šalje se link predmetnom profesoru
-  na odobrenje.
-- Zadaci na projektu se definišu u sklopu [[https://github.com/features/issues/][GitHub issues]].
-- Tekuće stanje se prati upotrebom [[https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards][Kanban table]].
+**** О вођењу пројекта
+- Сви пројекти морају бити отвореног кода јавно хостовани на GitHub-у. Избор
+  лиценце се оставља члановима тима, али мора бити [[https://opensource.org/licenses][OSI одобрена]].
+- Предлог се пише у README фајлу пројекта и шаље се линк предметном професору на
+  одобрење.
+- Задаци на пројекту се дефинишу у склопу [[https://github.com/features/issues/][GitHub issues]].
+- Текуће стање се прати употребом [[https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards][Канбан табле]].
 
-**** Potrebno proveriti pre slanja profesoru na pregled
-- Projekat može da se instalira u modu za razvoj sa =pip install -e=.
-  - Da bi ovo bilo moguće projekat mora imati =setup.py= odnosno =setup.cfg= sa
-    validnim meta-podacima.
-  - Proverite da li =python setup.py bdist_wheel= pakuje sve potrebne fajlove u
-    rezultujći wheel fajl.
-  - Ukoliko se ispravno podesi projekat je moguće instalirati u virtuelno
-    okruženje upotrebom pip komande direktno iz git repozitorijuma. Na primer:
+**** Потребно проверити пре слања професору на преглед
+- Пројекат може да се инсталира у моду за развој са =pip install -e=.
+  - Да би ово било могуће пројекат мора имати =setup.py= односно =setup.cfg= са
+    валидним мета-подацима.
+  - Проверите да ли =python setup.py bdist_wheel= пакује све потребне фајлове у
+    резултујћи wheel фајл.
+  - Уколико се исправно подеси пројекат је могуће инсталирати у виртуелно
+    окружење употребом пип команде директно из гит репозиторијума. На пример:
     #+begin_src sh
     pip install git+https://github.com/textX/textX.git
     #+end_src
-  - Za dodatne informacije pogledati [[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/][Python uputstvo za pakovanje i distribuciju
-    projekata]].
+  - За додатне информације погледати [[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/][Python упутство за паковање и дистрибуцију
+    пројеката]].
 
-- Svi textX jezici i generatori su registrovani na odgovarajući način u
-  =setup.cfg= i dostupni =textx= komandi. Vidite [[http://textx.github.io/textX/stable/registration/][textX registraciju i otkrivanje]].
-  Kao primer videti [[https://github.com/textX/textX/blob/master/setup.cfg][sam textX projekat]].
+- Сви textX језици и генератори су регистровани на одговарајући начин у
+  =setup.cfg= и доступни =textx= команди. Видите [[http://textx.github.io/textX/stable/registration/][textX регистрацију и откривање]]. Као
+  пример видети [[https://github.com/textX/textX/blob/master/setup.cfg][сам textX пројекат]].
 
-  Generatori se mogu pozvati sa:
+  Генератори се могу позвати са:
   #+begin_src sh
   textx generate ...
   #+end_src
 
-- README.md mora da sardži opis projekta, uputstvo za instalaciju i primer
-  upotrebe. Jezik može biti srpski ili engleski ali mora biti konzistentno
-  korišćen.
+- =README.md= мора да садржи опис пројекта, упутство за инсталацију и пример
+  употребе. Језик може бити српски или енглески али мора бити конзистентно
+  коришћен.
 *** Испитна питања
 :PROPERTIES:
 :EXPORT_FILE_NAME: ispitna_pitanja
+:EXPORT_HUGO_TYPE: page
 :END:
 #+begin_quote
 У изради.
@@ -207,7 +210,7 @@
 :END:
 *** Управљање конфигурацијом софтвера (/Software-Configuration Management/)
 :PROPERTIES:
-:EXPORT_FILE_NAME: index
+:EXPORT_FILE_NAME: _index
 :EXPORT_HUGO_LINKTITLE: UKS
 :EXPORT_HUGO_TYPE: course
 :EXPORT_HUGO_WEIGHT: 3002
@@ -221,10 +224,15 @@
 7. [[file:../tech/django/][Django]]
 8. [[file:../tech/docker/][Docker]]
 9. [[file:../tech/python-testing/][Тестирање Пајтон кода]]
+10. [[file:ispitna_pitanja/][Испитна питања (у изради)]]
 *** Испитна питања
 :PROPERTIES:
-:EXPORT_FILE_NAME: projekat
+:EXPORT_FILE_NAME: ispitna_pitanja
+:EXPORT_HUGO_TYPE: page
 :END:
+#+begin_quote
+У изради.
+#+end_quote
 **** Основе УКС
 1. Дефиниши појам "Управљање конфигурацијом софтвера"?
 2. Мотиви за увођење УКС.
@@ -242,8 +250,8 @@
     познајеш?
 14. Опиши активност управљања конфигурацијом окружења.
 15. Опиши активност управљања променама. Који су основни принципи?
-16. Опиши актиност управљања издањима. Који су основни принципи?
-17. Опиши актиност управљања увођењем. Који су основни принципи?
+16. Опиши активност управљања издањима. Који су основни принципи?
+17. Опиши активност управљања увођењем. Који су основни принципи?
 18. Које се активности обављају приликом увођења УКС у организацији?
 19. Како се обавља процена текућих процеса УКС?
 20. Шта је /Capability Maturity Model/? Који су његови нивои?

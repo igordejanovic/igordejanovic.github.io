@@ -19,7 +19,7 @@ weight = 3001
 5.  [Текстуалне синтаксе](03-tekstualne-sintakse/)
 6.  [Arpeggio](../tech/arpeggio/)
     -   [Задаци](../tech/arpeggio/zadaci.html)
-7.  parglare
+7.  [parglare](../tech/parglare/)
 8.  [textX](../tech/textX/)
     -   [Задаци](../tech/textX/zadaci.html)
 9.  [Генерисање програмског кода](04-generisanje-programskog-koda/)

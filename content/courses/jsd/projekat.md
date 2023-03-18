@@ -1,53 +1,54 @@
 +++
 title = "Информације за пројекат"
+type = "page"
 draft = false
 creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 weight = 3002
 +++
 
-## Teme {#teme}
+## Теме {#теме}
 
--   Predloženi projekti moraju biti bazirani na textX ili parglare bibliotekama.
--   Mogu biti JSD implementacije ili unapređenja pomenutih biblioteka.
--   Jezici mogu da definišu i podršku za editore (code completion, syntax
-    highlighting itd. za npr. VS Code) -- poželjno posebno kod većih timova.
-    Videti projekte [textX-LS](https://github.com/textX/textX-LS) i [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
-
-
-## O vođenju projekta {#o-vođenju-projekta}
-
--   Svi projekti moraju biti otvorenog koda javno hostovani na GitHub-u. Izbor
-    licence se ostavlja članovima tima, ali mora biti [OSI odobrena](https://opensource.org/licenses).
--   Predlog se piše u README fajlu projekta i šalje se link predmetnom profesoru
-    na odobrenje.
--   Zadaci na projektu se definišu u sklopu [GitHub issues](https://github.com/features/issues/).
--   Tekuće stanje se prati upotrebom [Kanban table](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards).
+-   Предложени пројекти морају бити базирани на textX или parglare библиотекама.
+-   Могу бити ЈСД имплементације или унапређења поменутих библиотека.
+-   Језици могу да дефинишу и подршку за едиторе (_Code completion_, _Syntax
+    highlighting_ итд. за нпр. _VS Code_) -- пожељно посебно код већих тимова.
+    Видети пројекте [textX-LS](https://github.com/textX/textX-LS) и [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
 
 
-## Potrebno proveriti pre slanja profesoru na pregled {#potrebno-proveriti-pre-slanja-profesoru-na-pregled}
+## О вођењу пројекта {#о-вођењу-пројекта}
 
--   Projekat može da se instalira u modu za razvoj sa `pip install -e`.
-    -   Da bi ovo bilo moguće projekat mora imati `setup.py` odnosno `setup.cfg` sa
-        validnim meta-podacima.
-    -   Proverite da li `python setup.py bdist_wheel` pakuje sve potrebne fajlove u
-        rezultujći wheel fajl.
-    -   Ukoliko se ispravno podesi projekat je moguće instalirati u virtuelno
-        okruženje upotrebom pip komande direktno iz git repozitorijuma. Na primer:
+-   Сви пројекти морају бити отвореног кода јавно хостовани на GitHub-у. Избор
+    лиценце се оставља члановима тима, али мора бити [OSI одобрена](https://opensource.org/licenses).
+-   Предлог се пише у README фајлу пројекта и шаље се линк предметном професору на
+    одобрење.
+-   Задаци на пројекту се дефинишу у склопу [GitHub issues](https://github.com/features/issues/).
+-   Текуће стање се прати употребом [Канбан табле](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards).
+
+
+## Потребно проверити пре слања професору на преглед {#потребно-проверити-пре-слања-професору-на-преглед}
+
+-   Пројекат може да се инсталира у моду за развој са `pip install -e`.
+    -   Да би ово било могуће пројекат мора имати `setup.py` односно `setup.cfg` са
+        валидним мета-подацима.
+    -   Проверите да ли `python setup.py bdist_wheel` пакује све потребне фајлове у
+        резултујћи wheel фајл.
+    -   Уколико се исправно подеси пројекат је могуће инсталирати у виртуелно
+        окружење употребом пип команде директно из гит репозиторијума. На пример:
         ```sh
                 pip install git+https://github.com/textX/textX.git
         ```
-    -   Za dodatne informacije pogledati [Python uputstvo za pakovanje i distribuciju
-        projekata](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/).
+    -   За додатне информације погледати [Python упутство за паковање и дистрибуцију
+        пројеката](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/).
 
--   Svi textX jezici i generatori su registrovani na odgovarajući način u
-    `setup.cfg` i dostupni `textx` komandi. Vidite [textX registraciju i otkrivanje](http://textx.github.io/textX/stable/registration/).
-    Kao primer videti [sam textX projekat](https://github.com/textX/textX/blob/master/setup.cfg).
+-   Сви textX језици и генератори су регистровани на одговарајући начин у
+    `setup.cfg` и доступни `textx` команди. Видите [textX регистрацију и откривање](http://textx.github.io/textX/stable/registration/). Као
+    пример видети [сам textX пројекат](https://github.com/textX/textX/blob/master/setup.cfg).
 
-    Generatori se mogu pozvati sa:
+    Генератори се могу позвати са:
     ```sh
         textx generate ...
     ```
 
--   README.md mora da sardži opis projekta, uputstvo za instalaciju i primer
-    upotrebe. Jezik može biti srpski ili engleski ali mora biti konzistentno
-    korišćen.
+-   `README.md` мора да садржи опис пројекта, упутство за инсталацију и пример
+    употребе. Језик може бити српски или енглески али мора бити конзистентно
+    коришћен.

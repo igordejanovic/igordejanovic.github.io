@@ -16,3 +16,4 @@ weight = 3002
 7.  [Django](../tech/django/)
 8.  [Docker](../tech/docker/)
 9.  [Тестирање Пајтон кода](../tech/python-testing/)
+10. [Испитна питања (у изради)](ispitna_pitanja/)
