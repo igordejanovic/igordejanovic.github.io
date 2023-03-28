@@ -35,7 +35,7 @@
 <h1 class="title">Програмски језик Раст</h1>
 <h2 class="subtitle">Базирано на верзији 1.65.0. У изради.</h2>
 <h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Креирано 2023-01-16 Mon 18:17, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+<p class="date">Креирано 2023-03-28 Tue 15:49, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
 
 <section>
@@ -417,7 +417,7 @@ fn main() {
 </div></li>
 
 <li><p>
-Исто важи и за параметре функција:
+Исто важи и за параметре и аргументе функција:
 </p>
 
 <div class="org-src-container">
@@ -446,9 +446,24 @@ fn main() {
 </div>
 
 <p>
-<code>expect</code> имплементиран на <code>Ok</code> варијанти ће вратити вредност која је садржана унутар
-варијанте док имплементација над <code>Err</code> варијанти прекида извршавање програма.
+<code>expect</code> je имплементиран тако да ће у случају <code>Ok</code> варијанте вратити вредност која
+је садржана унутар варијанте док ће у случају <code>Err</code> варијанте прекинути извршавање
+програма.
 </p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub fn expect(self, msg: &amp;str) -&gt; T
+    where
+        E: fmt::Debug,
+    {
+        match self {
+            Ok(t) =&gt; t,
+            Err(e) =&gt; unwrap_failed(msg, &amp;e),
+        }
+    }
+</code></pre>
+</div>
 
 </section>
 <section id="slide-4-5">
@@ -1371,6 +1386,10 @@ Ali ovo ne:
 }
 </code></pre>
 </div>
+
+<pre class="example">
+The value of y is: 4
+</pre>
 </section>
 <section id="slide-5-4-4">
 <h4 id="5-4-4"><span class="section-number-4">5.4.4.</span> Повратне вредности функција</h4>
@@ -1393,6 +1412,11 @@ fn main() {
 </code></pre>
 </div>
 
+<pre class="example">
+The value of x is: 5
+</pre>
+
+
 </section>
 <section>
 
@@ -1412,6 +1436,11 @@ fn plus_one(x: i32) -&gt; i32 {
 }
 </code></pre>
 </div>
+
+<pre class="example">
+The value of x is: 6
+</pre>
+
 
 </section>
 <section>
@@ -1436,7 +1465,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org363ccaf">
+<pre class="example" id="org2352934">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1562,6 +1591,11 @@ pub fn add_one(x: i32) -&gt; i32 {
 }
 </code></pre>
 </div>
+
+<pre class="example">
+The value of number is: 5
+</pre>
+
 
 </section>
 <section>
@@ -1743,6 +1777,13 @@ pub fn add_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
+<pre class="example">
+3!
+2!
+1!
+LIFTOFF!!!
+</pre>
+
 </section>
 </section>
 <section>
@@ -1904,7 +1945,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 </ul>
 
 
-<div id="org1bddf9f" class="figure">
+<div id="org19a0d64" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -1928,7 +1969,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 </ul>
 
 
-<div id="org53a67c8" class="figure">
+<div id="orgfc8a1f2" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -1947,7 +1988,7 @@ pub fn add_one(x: i32) -&gt; i32 {
 </p>
 
 
-<div id="orgd1fd10f" class="figure">
+<div id="org12be9a1" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -1972,7 +2013,7 @@ println!("{}, world!", s1);
 Добићемо грешку:
 </p>
 
-<pre class="example" id="orgc5ad951">
+<pre class="example" id="org77660de">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2013,7 +2054,7 @@ error: could not compile `ownership` due to previous error
 </p>
 
 
-<div id="orgc91160d" class="figure">
+<div id="org9df4cb7" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2217,7 +2258,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org34ba244" class="figure">
+<div id="org6ad8d71" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2283,7 +2324,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org7effe49">
+<pre class="example" id="org8b8a330">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2339,7 +2380,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="org1c35966">
+<pre class="example" id="orga244d66">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2413,7 +2454,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org8988551">
+<pre class="example" id="org17ae0d7">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2496,7 +2537,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org477a916">
+<pre class="example" id="org0922e05">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2685,7 +2726,7 @@ let world = &amp;s[6..11];
 
 <div class="column" style="float:right; width: 50%">
 
-<div id="orge6726d1" class="figure">
+<div id="orgd8534ba" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 600px;" />
 </p>
 </div>
@@ -2776,7 +2817,7 @@ let slice = &amp;s[..];
 </code></pre>
 </div>
 
-<pre class="example" id="orge9721ff">
+<pre class="example" id="org8f3ff40">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3207,7 +3248,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="org3af6fa7">
+<pre class="example" id="org5fdd8e0">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3383,7 +3424,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="org52f8382">
+<pre class="example" id="org0ced39d">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3440,7 +3481,7 @@ let none = plus_one(None);
 </code></pre>
 </div>
 
-<pre class="example" id="orga73382d">
+<pre class="example" id="orge4a8fd3">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -3548,7 +3589,7 @@ if let Some(max) = config_max {
 </section>
 <section>
 
-<div class="note" id="org79a0690">
+<div class="note" id="org9d596ce">
 <p>
 Обрасци за подударање <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">могу имати две форме</a>: поништив (<i>refutable</i>) и непоништив
 (<i>irrefutable</i>). Образац који увек мора успети (нпр. <code>let x = 5;</code>) је непоништив.
@@ -3614,17 +3655,22 @@ if let Coin::Quarter(state) = coin {
 </section>
 <section>
 <section id="slide-12">
-<h2 id="12"><span class="section-number-2">12.</span> Генерички типови, особине (<i>Traits</i>) и животни век (<i>Lifetimes</i>)</h2>
-<div class="outline-text-2" id="text-12">
+<h2 id="12"><span class="section-number-2">12.</span> Тестирање</h2>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Генерички типови, особине (<i>Traits</i>) и животни век (<i>Lifetimes</i>)</h2>
+<div class="outline-text-2" id="text-13">
 </div>
 </section>
-<section id="slide-12-1">
-<h3 id="12-1"><span class="section-number-3">12.1.</span> Генерички типови (<i>generics</i>)</h3>
-<div class="outline-text-3" id="text-12-1">
+<section id="slide-13-1">
+<h3 id="13-1"><span class="section-number-3">13.1.</span> Генерички типови (<i>generics</i>)</h3>
+<div class="outline-text-3" id="text-13-1">
 </div>
 </section>
-<section id="slide-12-1-1">
-<h4 id="12-1-1"><span class="section-number-4">12.1.1.</span> Генерички типови (<i>generics</i>)</h4>
+<section id="slide-13-1-1">
+<h4 id="13-1-1"><span class="section-number-4">13.1.1.</span> Генерички типови (<i>generics</i>)</h4>
 <ul>
 <li>Механизам за елиминацију дуплирања кода.</li>
 <li>Генерички типови су апстрактне замене за конкретне типове у друге особине у
@@ -3638,8 +3684,8 @@ if let Coin::Quarter(state) = coin {
 </ul>
 
 </section>
-<section id="slide-12-1-2">
-<h4 id="12-1-2"><span class="section-number-4">12.1.2.</span> Уклањање дуплог кода употребом функција</h4>
+<section id="slide-13-1-2">
+<h4 id="13-1-2"><span class="section-number-4">13.1.2.</span> Уклањање дуплог кода употребом функција</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -3738,8 +3784,8 @@ fn main() {
 </ol>
 
 </section>
-<section id="slide-12-1-3">
-<h4 id="12-1-3"><span class="section-number-4">12.1.3.</span> Уклањање дуплог кода употребом генеричких функција</h4>
+<section id="slide-13-1-3">
+<h4 id="13-1-3"><span class="section-number-4">13.1.3.</span> Уклањање дуплог кода употребом генеричких функција</h4>
 <p>
 Имамо функцију за проналажење највећег елемента у листи са различитим типовима.
 </p>
@@ -3866,8 +3912,8 @@ error: could not compile `chapter10` due to previous error
 </p>
 
 </section>
-<section id="slide-12-1-4">
-<h4 id="12-1-4"><span class="section-number-4">12.1.4.</span> Генерички типови у структурама</h4>
+<section id="slide-13-1-4">
+<h4 id="13-1-4"><span class="section-number-4">13.1.4.</span> Генерички типови у структурама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >struct Point&lt;T&gt; {
@@ -3902,7 +3948,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="org727ccbb">
+<pre class="example" id="org7e93b6c">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -3938,8 +3984,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-1-5">
-<h4 id="12-1-5"><span class="section-number-4">12.1.5.</span> Генерички типови у енумерацијама</h4>
+<section id="slide-13-1-5">
+<h4 id="13-1-5"><span class="section-number-4">13.1.5.</span> Генерички типови у енумерацијама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >enum Option&lt;T&gt; {
@@ -3962,8 +4008,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-1-6">
-<h4 id="12-1-6"><span class="section-number-4">12.1.6.</span> Дефиниције метода</h4>
+<section id="slide-13-1-6">
+<h4 id="13-1-6"><span class="section-number-4">13.1.6.</span> Дефиниције метода</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >struct Point&lt;T&gt; {
@@ -4014,8 +4060,8 @@ fn main() {
 </p>
 
 </section>
-<section id="slide-12-1-7">
-<h4 id="12-1-7"><span class="section-number-4">12.1.7.</span> Генерички типови у методама и <code>impl</code> блоковима</h4>
+<section id="slide-13-1-7">
+<h4 id="13-1-7"><span class="section-number-4">13.1.7.</span> Генерички типови у методама и <code>impl</code> блоковима</h4>
 <p>
 Генерички типови у структурама и методама не морају бити исти. На пример, можемо
 креирати методу <code>mixup</code> која узима две инстанце <code>Point</code> и враћа нови <code>Point</code> тип где
@@ -4054,8 +4100,8 @@ fn main() {
 </ul>
 
 </section>
-<section id="slide-12-1-8">
-<h4 id="12-1-8"><span class="section-number-4">12.1.8.</span> Перформансе</h4>
+<section id="slide-13-1-8">
+<h4 id="13-1-8"><span class="section-number-4">13.1.8.</span> Перформансе</h4>
 <p>
 Употреба генеричког кода не доводи до деградације перформанси. Раст користи
 технику мономорфизације (<i>Monomorphization</i>) код које ће компајлер инстанцирати
@@ -4095,13 +4141,13 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-12-2">
-<h3 id="12-2"><span class="section-number-3">12.2.</span> Особине (<i>Traits</i>) - дефинисање заједничког понашања</h3>
-<div class="outline-text-3" id="text-12-2">
+<section id="slide-13-2">
+<h3 id="13-2"><span class="section-number-3">13.2.</span> Особине (<i>Traits</i>) - дефинисање заједничког понашања</h3>
+<div class="outline-text-3" id="text-13-2">
 </div>
 </section>
-<section id="slide-12-2-1">
-<h4 id="12-2-1"><span class="section-number-4">12.2.1.</span> <i>Traits</i></h4>
+<section id="slide-13-2-1">
+<h4 id="13-2-1"><span class="section-number-4">13.2.1.</span> <i>Traits</i></h4>
 <ul>
 <li><i>Trait</i> дефинише функционалност коју тип може делити са другим типовима.</li>
 <li>У другим језицима сличан концепт назива се интерфејс.</li>
@@ -4111,8 +4157,8 @@ fn main() {
 </ul>
 
 </section>
-<section id="slide-12-2-2">
-<h4 id="12-2-2"><span class="section-number-4">12.2.2.</span> Дефинисање особина</h4>
+<section id="slide-13-2-2">
+<h4 id="13-2-2"><span class="section-number-4">13.2.2.</span> Дефинисање особина</h4>
 <ul>
 <li>Пример дефинисања медиа агрегатор библиотеке која може да приказе сажетак
 података који се може чувати у <code>NewsArticle</code> или <code>Tweet</code> инстанци.</li>
@@ -4129,8 +4175,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-3">
-<h4 id="12-2-3"><span class="section-number-4">12.2.3.</span> Имплементација особина</h4>
+<section id="slide-13-2-3">
+<h4 id="13-2-3"><span class="section-number-4">13.2.3.</span> Имплементација особина</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >pub struct NewsArticle {
@@ -4191,7 +4237,7 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="org02337b0">
+<div class="note" id="orgf4a12b9">
 <p>
 Ограничење у употреби особина је да можемо имплементирати особину над типом
 једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
@@ -4208,8 +4254,8 @@ fn main() {
 
 </div>
 </section>
-<section id="slide-12-2-4">
-<h4 id="12-2-4"><span class="section-number-4">12.2.4.</span> Подразумевана имплементација</h4>
+<section id="slide-13-2-4">
+<h4 id="13-2-4"><span class="section-number-4">13.2.4.</span> Подразумевана имплементација</h4>
 <p>
 Особина може имати подразумевану имплементацију метода.
 </p>
@@ -4294,8 +4340,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-12-2-5">
-<h4 id="12-2-5"><span class="section-number-4">12.2.5.</span> Osobine kao parametri</h4>
+<section id="slide-13-2-5">
+<h4 id="13-2-5"><span class="section-number-4">13.2.5.</span> Osobine kao parametri</h4>
 <ul>
 <li>Сада можемо користити особине да дефинишемо функције које раде над параметрима
 различитог типа.</li>
@@ -4365,8 +4411,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-6">
-<h4 id="12-2-6"><span class="section-number-4">12.2.6.</span> Вишеструке особине код ограничења</h4>
+<section id="slide-13-2-6">
+<h4 id="13-2-6"><span class="section-number-4">13.2.6.</span> Вишеструке особине код ограничења</h4>
 <p>
 Можемо дефинисати и више ограничења употребом <code>+</code> синтаксе. На пример, ако
 параметар мора да имплементира <code>Summary</code> и <code>Display</code>:
@@ -4388,8 +4434,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-7">
-<h4 id="12-2-7"><span class="section-number-4">12.2.7.</span> <code>where</code> клаузула у ограничењима</h4>
+<section id="slide-13-2-7">
+<h4 id="13-2-7"><span class="section-number-4">13.2.7.</span> <code>where</code> клаузула у ограничењима</h4>
 <ul>
 <li>Уколико имамо више ограничења основна синтакса може да смањи читкост.</li>
 
@@ -4417,8 +4463,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-8">
-<h4 id="12-2-8"><span class="section-number-4">12.2.8.</span> <code>impl Trait</code> као повратна вредност функције</h4>
+<section id="slide-13-2-8">
+<h4 id="13-2-8"><span class="section-number-4">13.2.8.</span> <code>impl Trait</code> као повратна вредност функције</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn returns_summarizable() -&gt; impl Summary {
@@ -4439,7 +4485,7 @@ fn main() {
 тип превише сложен за писање или је познат само компајлеру.
 </p>
 
-<div class="note" id="org61ab8e8">
+<div class="note" id="org2e4f8d9">
 <p>
 <code>impl Trait</code> синтакса за повратне вредности је могућа само ако функција враћа
 један тип који имплементира дату особину. На пример, ова функција неће радити
@@ -4449,8 +4495,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-9">
-<h4 id="12-2-9"><span class="section-number-4">12.2.9.</span> Поправка <code>largest</code> генеричке функције</h4>
+<section id="slide-13-2-9">
+<h4 id="13-2-9"><span class="section-number-4">13.2.9.</span> Поправка <code>largest</code> генеричке функције</h4>
 <p>
 На претходним сладовима имали смо функцију <code>largest</code>. Сада можемо да завршимо
 њену дефиницију.
@@ -4459,7 +4505,7 @@ fn main() {
 <p>
 Грешка је била следећа:
 </p>
-<pre class="example" id="org4edc89e">
+<pre class="example" id="org9683cad">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -4500,7 +4546,7 @@ error: could not compile `chapter10` due to previous error
 <p>
 Међутим, сада имамо још једну грешку:
 </p>
-<pre class="example" id="orgbb100b7">
+<pre class="example" id="orgeea360f">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -4565,8 +4611,8 @@ fn main() {
 </div>
 
 </section>
-<section id="slide-12-2-10">
-<h4 id="12-2-10"><span class="section-number-4">12.2.10.</span> Употреба особина ограничења за условну имплементацију метода</h4>
+<section id="slide-13-2-10">
+<h4 id="13-2-10"><span class="section-number-4">13.2.10.</span> Употреба особина ограничења за условну имплементацију метода</h4>
 <p>
 Ако желимо да имплементирамо методу само над типовима који имплементирају
 одређене особине.
@@ -4599,13 +4645,13 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </div>
 
 </section>
-<section id="slide-12-3">
-<h3 id="12-3"><span class="section-number-3">12.3.</span> Валидација референци кроз животни век (<i>Lifetimes</i>)</h3>
-<div class="outline-text-3" id="text-12-3">
+<section id="slide-13-3">
+<h3 id="13-3"><span class="section-number-3">13.3.</span> Валидација референци кроз животни век (<i>Lifetimes</i>)</h3>
+<div class="outline-text-3" id="text-13-3">
 </div>
 </section>
-<section id="slide-12-3-1">
-<h4 id="12-3-1"><span class="section-number-4">12.3.1.</span> Животни век (<i>Lifetime</i>)</h4>
+<section id="slide-13-3-1">
+<h4 id="13-3-1"><span class="section-number-4">13.3.1.</span> Животни век (<i>Lifetime</i>)</h4>
 <ul>
 <li>Свака референца има животни век, опсег у коме је референца валидна.</li>
 <li>У доста ситуација компајлер аутоматски може да закључи који је животни век
@@ -4615,8 +4661,8 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </ul>
 
 </section>
-<section id="slide-12-3-2">
-<h4 id="12-3-2"><span class="section-number-4">12.3.2.</span> Спречавање "висећих" референци</h4>
+<section id="slide-13-3-2">
+<h4 id="13-3-2"><span class="section-number-4">13.3.2.</span> Спречавање "висећих" референци</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >{
@@ -4633,7 +4679,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </code></pre>
 </div>
 
-<pre class="example" id="orgee05fd8">
+<pre class="example" id="org1d3075e">
  cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0597]: `x` does not live long enough
@@ -4652,8 +4698,8 @@ error: could not compile `chapter10` due to previous error
 </pre>
 
 </section>
-<section id="slide-12-3-3">
-<h4 id="12-3-3"><span class="section-number-4">12.3.3.</span> <i>Borrow Checker</i></h4>
+<section id="slide-13-3-3">
+<h4 id="13-3-3"><span class="section-number-4">13.3.3.</span> <i>Borrow Checker</i></h4>
 <ul>
 <li>Раст компајлер има компоненту <i>borrow checker</i> која проверава да ли су све
 позајмице валидне.</li>
@@ -4691,7 +4737,7 @@ error: could not compile `chapter10` due to previous error
 смештају се у варијабле (нпр. <code>r=&amp;x</code> из претходног примера).
 </p>
 
-<div class="note" id="org5eb12eb">
+<div class="note" id="orgec51691">
 <p>
 Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
 дуже од саме варијабле. Односно <i>животни век варијабле мора да садржи животни
@@ -4721,7 +4767,7 @@ error: could not compile `chapter10` due to previous error
 век варијабле у коју је смештена.
 </p>
 
-<div class="note" id="orgab3ca93">
+<div class="note" id="org9f40359">
 <p>
 Кажемо да <i>животни век референце мора да садржи животни век варијабле у коју је
 смештена</i>.
@@ -4754,7 +4800,7 @@ error: could not compile `chapter10` due to previous error
 Ако претходна два правила објединимо можемо рећи да:
 </p>
 
-<div class="note" id="orga1cb432">
+<div class="note" id="org736c296">
 <p>
 <i>Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
 вредност од посматране варијабле</i>.
@@ -4789,8 +4835,8 @@ error: could not compile `chapter10` due to previous error
 </div>
 
 </section>
-<section id="slide-12-3-4">
-<h4 id="12-3-4"><span class="section-number-4">12.3.4.</span> Генерички животни векови у функцијама</h4>
+<section id="slide-13-3-4">
+<h4 id="13-3-4"><span class="section-number-4">13.3.4.</span> Генерички животни векови у функцијама</h4>
 <ul>
 <li>Креирамо функцију <code>longest</code> која враћа дужи од два прослеђена стринга.
 Прослеђујемо референцу на стринг исечак <code>&amp;str</code>.</li>
@@ -4827,7 +4873,7 @@ error: could not compile `chapter10` due to previous error
 </code></pre>
 </div>
 
-<pre class="example" id="org84bff11">
+<pre class="example" id="org9c20c09">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0106]: missing lifetime specifier
@@ -4861,8 +4907,8 @@ error: could not compile `chapter10` due to previous error
 </ul>
 
 </section>
-<section id="slide-12-3-5">
-<h4 id="12-3-5"><span class="section-number-4">12.3.5.</span> Синтакса за анотацију животног века</h4>
+<section id="slide-13-3-5">
+<h4 id="13-3-5"><span class="section-number-4">13.3.5.</span> Синтакса за анотацију животног века</h4>
 <ul>
 <li>Да би помогли компајлеру референце означавамо са животним веком и тиме
 доводимо у везу различите референце (нпр. параметре и повратне вредности
@@ -4892,8 +4938,8 @@ error: could not compile `chapter10` due to previous error
 </ul>
 
 </section>
-<section id="slide-12-3-6">
-<h4 id="12-3-6"><span class="section-number-4">12.3.6.</span> Анотација животног века у сигнатурама функција</h4>
+<section id="slide-13-3-6">
+<h4 id="13-3-6"><span class="section-number-4">13.3.6.</span> Анотација животног века у сигнатурама функција</h4>
 <ul>
 <li>Следећа анотација за функцију <code>longest</code> је исправна јер референца која се враћа
 може бити <code>x</code> или <code>y</code> у зависности од дужине стринга. Стога је потребно да имамо
@@ -4947,7 +4993,7 @@ error: could not compile `chapter10` due to previous error
 За код мора да постоји <code>'a</code> тако да важи:
 </p>
 
-<pre class="example" id="org49a326d">
+<pre class="example" id="org0984ffe">
 lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
 lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
 'a ≥ lt(result)       # 'a мора да садржи животни веку ресулт варијабле
@@ -4989,12 +5035,26 @@ lt(string2) ≥ 'a     # животни век вредности другог �
 Иако, можемо видети да ће, због дужине стринга, враћена вредност бити <code>string1</code> и
 програм је валидан, компајлер ово не може да закључи.
 </p>
-
 </section>
 </section>
 <section>
-<section id="slide-13">
-<h2 id="13"><span class="section-number-2">13.</span> Литература</h2>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> Макрои</h2>
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> Функционално програмирање, затворења и итератори</h2>
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> ООП, паметни поинтери, конкурентно програмирање</h2>
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Литература</h2>
 <ul>
 <li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
 <li>Slice is NOT reference, <a href="https://github.com/rust-lang/book/issues/3070">https://github.com/rust-lang/book/issues/3070</a></li>

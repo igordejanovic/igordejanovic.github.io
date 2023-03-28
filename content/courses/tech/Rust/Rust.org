@@ -239,7 +239,7 @@ fn main() {
   let mut bananas = 5; // mutable
   #+end_src
 
-- Исто важи и за параметре функција:
+- Исто важи и за параметре и аргументе функција:
 
   #+begin_src rust
   io::stdin()
@@ -256,8 +256,21 @@ io::stdin()
     .expect("Failed to read line");
 #+end_src
 
-=expect= имплементиран на =Ok= варијанти ће вратити вредност која је садржана унутар
-варијанте док имплементација над =Err= варијанти прекида извршавање програма.
+=expect= je имплементиран тако да ће у случају =Ok= варијанте вратити вредност која
+је садржана унутар варијанте док ће у случају =Err= варијанте прекинути извршавање
+програма.
+
+#+begin_src rust
+pub fn expect(self, msg: &str) -> T
+    where
+        E: fmt::Debug,
+    {
+        match self {
+            Ok(t) => t,
+            Err(e) => unwrap_failed(msg, &e),
+        }
+    }
+#+end_src
 
 ** Покретање
 #+begin_src rust
@@ -2458,6 +2471,7 @@ if let Coin::Quarter(state) = coin {
 * Модули
 * Колекције
 * Обрада грешака
+* Тестирање
 * Генерички типови, особине (/Traits/) и животни век (/Lifetimes/)
 ** Генерички типови (/generics/)
 *** Генерички типови (/generics/)
@@ -3496,7 +3510,9 @@ fn main() {
 
 Иако, можемо видети да ће, због дужине стринга, враћена вредност бити =string1= и
 програм је валидан, компајлер ово не може да закључи.
-
+* Макрои
+* Функционално програмирање, затворења и итератори
+* ООП, паметни поинтери, конкурентно програмирање
 * Литература
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - Slice is NOT reference, https://github.com/rust-lang/book/issues/3070
