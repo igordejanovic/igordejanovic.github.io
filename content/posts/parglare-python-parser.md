@@ -1,7 +1,7 @@
 +++
 title = "Parglare Python parser"
 date = 2017-08-09
-lastmod = 2023-01-15T18:37:38+01:00
+lastmod = 2023-03-30T22:27:39+02:00
 ptags = ["programming", "python"]
 type = "post"
 draft = false
@@ -65,7 +65,7 @@ lexical ambiguities.
 Parsing is a process of transforming a flat sequence of tokens to some other
 form, tree being a most common. This doesn't imply that the input must be text
 at all. It can be sequence of any objects. Parglare indeed can parse anything by
-introducing the concept of [recognizers](http://www.igordejanovic.net/parglare/recognizers/). You can also see in [this test](https://github.com/igordejanovic/parglare/blob/master/tests/func/test_parse_list_of_objects.py) how a list
+introducing the concept of [recognizers](http://www.igordejanovic.net/parglare/recognizers/). You can also see in [this test](https://github.com/igordejanovic/parglare/blob/master/tests/func/recognizers/test_recognizers.py) how a list
 of integer is being parsed.
 
 Both Arpeggio and textX provide a handy visualization features which can really
@@ -82,7 +82,7 @@ afterwards. The parse tree is built using default actions. Calling actions on
 the fly is again something that can hardly be done with PEG parsers because of
 backtracking.
 
-[Error recovery](http://www.igordejanovic.net/parglare/recovery/) was much easier to implement as the parser state is explicit. In
+[Error recovery](http://www.igordejanovic.net/parglare/handling_errors/) was much easier to implement as the parser state is explicit. In
 parglare you can use built-in error recovery strategy or write your own.
 
 From the same grammar Parglare can construct both LR(1) (modified LALR(1), or
@@ -91,7 +91,7 @@ token of lookahead to deduce next step or if the language is inherently
 ambiguous. In case of ambiguous parse, all trees will be returned by the GLR
 parser (a.k.a. the parse forest). Common sub-tree sharing is used which reduce
 memory usage significantly. Some common pitfalls with GLR algorithm are taken
-care of which is [tested using published grammars](https://github.com/igordejanovic/parglare/blob/master/tests/func/test_special_grammars.py) that are specifically crafted
+care of which is [tested using published grammars](https://github.com/igordejanovic/parglare/blob/master/tests/func/grammar/test_special_grammars.py) that are specifically crafted
 to confuse GLR parser.
 
 Describing everything that can be done with parglare would make this post too
