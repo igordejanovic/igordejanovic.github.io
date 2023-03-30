@@ -55,7 +55,7 @@ weight = 3001
     2009.
 
 
-### Пројекти претходних генерација (избор) {#пројекти-претходних-генерација--избор}
+## Пројекти претходних генерација (избор) {#пројекти-претходних-генерација--избор}
 
 -   [A Domain-Specific Language (DSL) for simplified music notation](https://github.com/E2Music/pyTabs)
 -   [Web automation DSL](https://github.com/Tim6FTN/wash-lang-prototype)
@@ -64,3 +64,4 @@ weight = 3001
 -   [A domain-specific language for definining web-based surveys](https://github.com/majak96/dsl-project)
 -   [DSL for generating Web applications](https://github.com/vtanja/JSD)
 -   [Sprint DSL for SCRUM](https://github.com/vlaksi/JSZD-Proj)
+-   [SPM - Solidity Package Manager](https://github.com/albertmakan/nft-specific-language)
