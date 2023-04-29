@@ -35,7 +35,7 @@
 <h1 class="title">Програмски језик Раст</h1>
 <h2 class="subtitle">Базирано на верзији 1.65.0. У изради.</h2>
 <h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Креирано 2023-04-10 Mon 14:19, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+<p class="date">Креирано 2023-04-29 Sat 13:44, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
 
 <section>
@@ -1465,7 +1465,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org8e8d30b">
+<pre class="example" id="org60436f3">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -2022,7 +2022,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="org0cb1d2f" class="figure">
+<div id="org0ddcc25" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -2046,7 +2046,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="orge6a6277" class="figure">
+<div id="org928d54d" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -2065,7 +2065,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </p>
 
 
-<div id="orge55245f" class="figure">
+<div id="orge385b4f" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -2090,7 +2090,7 @@ println!("{}, world!", s1);
 Добићемо грешку:
 </p>
 
-<pre class="example" id="orgc2651c3">
+<pre class="example" id="org182c500">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2131,7 +2131,7 @@ error: could not compile `ownership` due to previous error
 </p>
 
 
-<div id="org3c84cdc" class="figure">
+<div id="orgbafcd1a" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2335,7 +2335,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org67c8c0b" class="figure">
+<div id="orgb072720" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2401,7 +2401,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org246df51">
+<pre class="example" id="orgd2e766e">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2457,7 +2457,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="orgf7b5036">
+<pre class="example" id="orgd09ee74">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2531,7 +2531,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org3236a05">
+<pre class="example" id="orgc862ab0">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2616,7 +2616,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="orge1207ab">
+<pre class="example" id="orgaa954ef">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2805,7 +2805,7 @@ let world = &amp;s[6..11];
 
 <div class="column" style="float:right; width: 45%">
 
-<div id="orgaa4aed7" class="figure">
+<div id="orgc062b7b" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 500px;" />
 </p>
 </div>
@@ -2896,7 +2896,7 @@ let slice = &amp;s[..];
 </code></pre>
 </div>
 
-<pre class="example" id="org7e68ccd">
+<pre class="example" id="org3992b96">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3005,6 +3005,275 @@ assert_eq!(slice, &amp;[2, 3]);
 <section>
 <section id="slide-7">
 <h2 id="7"><span class="section-number-2">7.</span> Структуре</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> <code>struct</code> тип</h3>
+<p>
+Кориснички тип који омогућава груписање више логички повезаних вредности - поља
+(<i>fields</i>).
+</p>
+
+<p>
+У Расту постоје три врсте структура:
+</p>
+<ul>
+<li>Структуре торки (<i>tuple structs</i>) - у основи представљају именоване торке</li>
+<li>Класичне Ц-овске структуре</li>
+<li>Јединичне структуре (<i>unit structs</i>) - структуре без атрибута</li>
+
+</ul>
+
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Дефиниција структуре</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Креирање инстанце структуре</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Промена вредности поља</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let mut user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+
+    user1.email = String::from("anotheremail@example.com");
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Креирање структуре путем функције</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username: username,
+        email: email,
+        sign_in_count: 1,
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6.</span> Употреба скраћеног облика</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7.</span> Креирање инстанце из друге инстанце употребом синтаксе за ажурирање (<i>update syntax</i>)</h3>
+<p>
+Уместо:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    // --snip--
+    let user2 = User {
+        active: user1.active,
+        username: user1.username,
+        email: String::from("another@example.com"),
+        sign_in_count: user1.sign_in_count,
+    };
+}
+</code></pre>
+</div>
+
+<p>
+Можемо писати:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8.</span> Структуре торки</h3>
+<p>
+Тзв. <i>именоване торке</i>. Поља немају имена, приступа им се као код обичних торки
+употребом <code>x.n</code> синтаксе где је <code>n</code> редни број поља.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(5, 8, 0);
+    let y = origin.1;
+    println!("{}", y);
+}
+</code></pre>
+</div>
+
+<pre class="example">
+8
+</pre>
+
+</section>
+<section id="slide-7-9">
+<h3 id="7-9"><span class="section-number-3">7.9.</span> Јединичне структуре - без поља</h3>
+<p>
+Користе се за креирање типова који имају понашање (имплементирају особине) али
+не чувају податке (тзв. <a href="https://doc.rust-lang.org/nomicon/exotic-sizes.html#zero-sized-types-zsts">Zero Sized Types (ZSTs)</a>)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-7-10">
+<h3 id="7-10"><span class="section-number-3">7.10.</span> Разни примери</h3>
+<div class="org-src-container">
+
+<pre><code class="rust" >#[derive(Debug)]
+struct Person {
+    name: String,
+    age: u8,
+}
+
+// A unit struct
+struct Unit;
+
+// A tuple struct
+struct Pair(i32, f32);
+
+// A struct with two fields
+struct Point {
+    x: f32,
+    y: f32,
+}
+// Structs can be reused as fields of another struct
+struct Rectangle {
+    // A rectangle can be specified by where the top left and bottom right
+    // corners are in space.
+    top_left: Point,
+    bottom_right: Point,
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >// Create struct with field init shorthand
+let name = String::from("Peter");
+let age = 27;
+let peter = Person { name, age };
+
+// Print debug struct
+println!("{:?}", peter);
+
+// Instantiate a `Point`
+let point: Point = Point { x: 10.3, y: 0.4 };
+
+// Access the fields of the point
+println!("point coordinates: ({}, {})", point.x, point.y);
+
+// Make a new point by using struct update syntax to use the fields of our
+// other one
+let bottom_right = Point { x: 5.2, ..point };
+
+// `bottom_right.y` will be the same as `point.y` because we used that field
+// from `point`
+println!("second point: ({}, {})", bottom_right.x, bottom_right.y);
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >// Destructure the point using a `let` binding
+let Point { x: left_edge, y: top_edge } = point;
+
+let _rectangle = Rectangle {
+    // struct instantiation is an expression too
+    top_left: Point { x: left_edge, y: top_edge },
+    bottom_right: bottom_right,
+};
+
+// Instantiate a unit struct
+let _unit = Unit;
+
+// Instantiate a tuple struct
+let pair = Pair(1, 0.1);
+
+// Access the fields of a tuple struct
+println!("pair contains {:?} and {:?}", pair.0, pair.1);
+
+// Destructure a tuple struct
+let Pair(integer, decimal) = pair;
+
+println!("pair contains {:?} and {:?}", integer, decimal);
+</code></pre>
+</div>
+
 </section>
 </section>
 <section>
@@ -3245,6 +3514,224 @@ let m = Message::Write(String::from("hello"));
 m.call();
 </code></pre>
 </div>
+</section>
+<section id="slide-8-1-7">
+<h4 id="8-1-7"><span class="section-number-4">8.1.7.</span> Пример - <i>WebEvent</i></h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >enum WebEvent {
+    // An `enum` variant may either be `unit-like`,
+    PageLoad,
+    PageUnload,
+    // like tuple structs,
+    KeyPress(char),
+    Paste(String),
+    // or c-like structures.
+    Click { x: i64, y: i64 },
+}
+
+fn inspect(event: WebEvent) {
+    match event {
+        WebEvent::PageLoad =&gt; println!("page loaded"),
+        WebEvent::PageUnload =&gt; println!("page unloaded"),
+        // Destructure `c` from inside the `enum` variant.
+        WebEvent::KeyPress(c) =&gt; println!("pressed '{}'.", c),
+        WebEvent::Paste(s) =&gt; println!("pasted \"{}\".", s),
+        // Destructure `Click` into `x` and `y`.
+        WebEvent::Click { x, y } =&gt; {
+            println!("clicked at x={}, y={}.", x, y);
+        },
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    let pressed = WebEvent::KeyPress('x');
+    // `to_owned()` creates an owned `String` from a string slice.
+    let pasted  = WebEvent::Paste("my text".to_owned());
+    let click   = WebEvent::Click { x: 20, y: 80 };
+    let load    = WebEvent::PageLoad;
+    let unload  = WebEvent::PageUnload;
+
+    inspect(pressed);
+    inspect(pasted);
+    inspect(click);
+    inspect(load);
+    inspect(unload);
+}
+</code></pre>
+</div>
+
+<pre class="example">
+pressed 'x'.
+pasted "my text".
+clicked at x=20, y=80.
+page loaded
+page unloaded
+</pre>
+
+</section>
+<section id="slide-8-1-8">
+<h4 id="8-1-8"><span class="section-number-4">8.1.8.</span> Употреба <code>use</code> кључне речи</h4>
+<p>
+Варијанте можемо импортовати у текући опсег тако да се може избећи пуна
+квалификација варијанти енумерисаног типа.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >enum Status {
+    Rich,
+    Poor,
+}
+
+enum Work {
+    Civilian,
+    Soldier,
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    // Explicitly `use` each name so they are available without
+    // manual scoping.
+    use crate::Status::{Poor, Rich};
+    // Automatically `use` each name inside `Work`.
+    use crate::Work::*;
+
+    // Equivalent to `Status::Poor`.
+    let status = Poor;
+    // Equivalent to `Work::Civilian`.
+    let work = Civilian;
+
+    match status {
+        // Note the lack of scoping because of the explicit `use` above.
+        Rich =&gt; println!("The rich have lots of money!"),
+        Poor =&gt; println!("The poor have no money..."),
+    }
+
+    match work {
+        // Note again the lack of scoping.
+        Civilian =&gt; println!("Civilians work!"),
+        Soldier  =&gt; println!("Soldiers fight!"),
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section id="slide-8-1-9">
+<h4 id="8-1-9"><span class="section-number-4">8.1.9.</span> Ц-овски енумерисани тип</h4>
+<p>
+Енумерисани тип у Расту се може користити као у Ц-у.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >// enum with implicit discriminator (starts at 0)
+enum Number {
+    Zero,
+    One,
+    Two,
+}
+
+// enum with explicit discriminator
+enum Color {
+    Red = 0xff0000,
+    Green = 0x00ff00,
+    Blue = 0x0000ff,
+}
+
+fn main() {
+    // `enums` can be cast as integers.
+    println!("zero is {}", Number::Zero as i32);
+    println!("one is {}", Number::One as i32);
+
+    println!("roses are #{:06x}", Color::Red as i32);
+    println!("violets are #{:06x}", Color::Blue as i32);
+}
+</code></pre>
+</div>
+
+<pre class="example">
+zero is 0
+one is 1
+roses are #ff0000
+violets are #0000ff
+</pre>
+
+</section>
+<section id="slide-8-1-10">
+<h4 id="8-1-10"><span class="section-number-4">8.1.10.</span> Тест случај - повезана листа</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >use crate::List::*;
+enum List {
+    Cons(u32, Box&lt;List&gt;),
+    Nil,
+}
+impl List {
+    fn new() -&gt; List {
+        Nil
+    }
+    fn prepend(self, elem: u32) -&gt; List {
+        Cons(elem, Box::new(self))
+    }
+    fn len(&amp;self) -&gt; u32 {
+        match *self {
+            Cons(_, ref tail) =&gt; 1 + tail.len(),
+            Nil =&gt; 0
+        }
+    }
+    fn stringify(&amp;self) -&gt; String {
+        match *self {
+            Cons(head, ref tail) =&gt; {
+                format!("{}, {}", head, tail.stringify())
+            },
+            Nil =&gt; {
+                format!("Nil")
+            },
+        }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    // Create an empty linked list
+    let mut list = List::new();
+    // Prepend some elements
+    list = list.prepend(1);
+    list = list.prepend(2);
+    list = list.prepend(3);
+
+    // Show the final state of the list
+    println!("linked list has length: {}", list.len());
+    println!("{}", list.stringify());
+}
+</code></pre>
+</div>
+
+<pre class="example">
+linked list has length: 3
+3, 2, 1, Nil
+</pre>
 
 </section>
 <section id="slide-8-2">
@@ -3327,7 +3814,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="orgc53e941">
+<pre class="example" id="orgb3252ae">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3505,7 +3992,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="orgb3eb152">
+<pre class="example" id="orgfe963df">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3562,7 +4049,7 @@ let none = plus_one(None);
 </code></pre>
 </div>
 
-<pre class="example" id="org3bbb871">
+<pre class="example" id="org06340dd">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -3842,7 +4329,10 @@ if let Some(max) = config_max {
 </section>
 <section>
 
-<div class="note" id="org5ec44e7">
+</section>
+<section id="slide-9-9">
+<h3 id="9-9"><span class="section-number-3">9.9.</span> Поништиви и непоништиви обрасци</h3>
+<div class="note" id="org2e928a2">
 <p>
 Обрасци за подударање <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">могу имати две форме</a>: поништив (<i>refutable</i>) и непоништив
 (<i>irrefutable</i>). Образац који увек мора успети (нпр. <code>let x = 5;</code>) је непоништив.
@@ -3864,6 +4354,7 @@ if let Some(max) = config_max {
 
 </section>
 <section>
+
 <p>
 Можемо користити и <code>else</code> грану. Следеће је еквивалентно.
 </p>
@@ -3888,12 +4379,97 @@ if let Coin::Quarter(state) = coin {
 }
 </code></pre>
 </div>
-</section>
-<section id="slide-9-9">
-<h3 id="9-9"><span class="section-number-3">9.9.</span> <code>let else</code></h3>
+
 </section>
 <section id="slide-9-10">
-<h3 id="9-10"><span class="section-number-3">9.10.</span> <code>while let</code></h3>
+<h3 id="9-10"><span class="section-number-3">9.10.</span> <code>let else</code></h3>
+<p>
+Омогућава употребу поништивих образаца у исказима доделе. Уколико додела не
+успева можемо дивергирати са <code>else</code> граном (нпр. <code>break</code>, <code>return</code>, <code>panic!</code>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >use std::str::FromStr;
+
+fn get_count_item(s: &amp;str) -&gt; (u64, &amp;str) {
+    let mut it = s.split(' ');
+    let (Some(count_str), Some(item)) = (it.next(), it.next()) else {
+        panic!("Can't segment count item pair: '{s}'");
+    };
+    let Ok(count) = u64::from_str(count_str) else {
+        panic!("Can't parse integer: '{count_str}'");
+    };
+    (count, item)
+}
+
+assert_eq!(get_count_item("3 chairs"), (3, "chairs"));
+</code></pre>
+</div>
+
+</section>
+<section id="slide-9-11">
+<h3 id="9-11"><span class="section-number-3">9.11.</span> <code>while let</code></h3>
+<p>
+Слично као <code>if let</code> и <code>while let</code> чини одређене конструкције са подударањем образаца
+језгровитије.
+</p>
+
+<p>
+На пример, ако имамо нешто попут:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >// Make `optional` of type `Option&lt;i32&gt;`
+let mut optional = Some(0);
+
+// Repeatedly try this test.
+loop {
+    match optional {
+        // If `optional` destructures, evaluate the block.
+        Some(i) =&gt; {
+            if i &gt; 9 {
+                println!("Greater than 9, quit!");
+                optional = None;
+            } else {
+                println!("`i` is `{:?}`. Try again.", i);
+                optional = Some(i + 1);
+            }
+        },
+        // Quit the loop when the destructure fails:
+        _ =&gt; { break; }
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+То можемо написати као:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >fn main() {
+    // Make `optional` of type `Option&lt;i32&gt;`
+    let mut optional = Some(0);
+
+    // This reads: "while `let` destructures `optional` into
+    // `Some(i)`, evaluate the block (`{}`). Else `break`.
+    while let Some(i) = optional {
+        if i &gt; 9 {
+            println!("Greater than 9, quit!");
+            optional = None;
+        } else {
+            println!("`i` is `{:?}`. Try again.", i);
+            optional = Some(i + 1);
+        }
+    }
+}
+</code></pre>
+</div>
+
 </section>
 </section>
 <section>
@@ -4206,7 +4782,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="org8cfa28c">
+<pre class="example" id="org7e5dcab">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -4495,7 +5071,7 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="org6297212">
+<div class="note" id="org0b657af">
 <p>
 Ограничење у употреби особина је да можемо имплементирати особину над типом
 једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
@@ -4743,7 +5319,7 @@ fn main() {
 тип превише сложен за писање или је познат само компајлеру.
 </p>
 
-<div class="note" id="org685cbd9">
+<div class="note" id="org37dd42d">
 <p>
 <code>impl Trait</code> синтакса за повратне вредности је могућа само ако функција враћа
 један тип који имплементира дату особину. На пример, ова функција неће радити
@@ -4763,7 +5339,7 @@ fn main() {
 <p>
 Грешка је била следећа:
 </p>
-<pre class="example" id="org3fe3431">
+<pre class="example" id="orgecf8c41">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -4804,7 +5380,7 @@ error: could not compile `chapter10` due to previous error
 <p>
 Међутим, сада имамо још једну грешку:
 </p>
-<pre class="example" id="org3ca8296">
+<pre class="example" id="org6bae9f0">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -4937,7 +5513,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </code></pre>
 </div>
 
-<pre class="example" id="orgb13cb0b">
+<pre class="example" id="org196f4c5">
  cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0597]: `x` does not live long enough
@@ -4995,7 +5571,7 @@ error: could not compile `chapter10` due to previous error
 смештају се у варијабле (нпр. <code>r=&amp;x</code> из претходног примера).
 </p>
 
-<div class="note" id="org1cd432b">
+<div class="note" id="orge9e6886">
 <p>
 Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
 дуже од саме варијабле. Односно <i>животни век варијабле мора да садржи животни
@@ -5025,7 +5601,7 @@ error: could not compile `chapter10` due to previous error
 век варијабле у коју је смештена.
 </p>
 
-<div class="note" id="orgce324d6">
+<div class="note" id="orgff688dc">
 <p>
 Кажемо да <i>животни век референце мора да садржи животни век варијабле у коју је
 смештена</i>.
@@ -5058,7 +5634,7 @@ error: could not compile `chapter10` due to previous error
 Ако претходна два правила објединимо можемо рећи да:
 </p>
 
-<div class="note" id="org8a8297e">
+<div class="note" id="org62a7f68">
 <p>
 <i>Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
 вредност од посматране варијабле</i>.
@@ -5131,7 +5707,7 @@ error: could not compile `chapter10` due to previous error
 </code></pre>
 </div>
 
-<pre class="example" id="orgccb663f">
+<pre class="example" id="org5ad38b9">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0106]: missing lifetime specifier
@@ -5251,7 +5827,7 @@ error: could not compile `chapter10` due to previous error
 За код мора да постоји <code>'a</code> тако да важи:
 </p>
 
-<pre class="example" id="orgd188805">
+<pre class="example" id="org3337ef6">
 lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
 lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
 'a ≥ lt(result)       # 'a мора да садржи животни веку ресулт варијабле
