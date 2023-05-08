@@ -3664,7 +3664,539 @@ pub mod hosting;
 pub fn add_to_waitlist() {}
 #+end_src
 
+#+begin_note
+=mod= је потребно навести само једном. Тиме се модул увезује у стабло модула и
+могуће га је референцирати путањама из остатка кода. Односно, =mod= није исто што
+и =include= из других програмских језика.
+#+end_note
+
 * Колекције
+** Вектор (=Vec<T>=)
+*** Шта је вектор?
+- Линеарна структура која омогућава смештање података у суседне локације у меморији.
+- Хомогена структура. Елементи морају бити истог тима.
+
+*** Креирање новог вектора
+#+begin_src rust
+let v: Vec<i32> = Vec::new();
+#+end_src
+
+- Морали смо додати анотацију типа јер је вектор генерички тип и компајлер не
+  зна тип елемента које ћемо смештати у вектор.
+
+- Ако креирамо вектор са већ постојећим елементима чешће користимо =vec!= макро:
+
+  #+begin_src rust
+    let v = vec![1, 2, 3];
+  #+end_src
+*** Ажурирање вектора
+#+begin_src rust
+let mut v = Vec::new();
+v.push(5);
+v.push(6);
+v.push(7);
+v.push(8);
+#+end_src
+
+*** Читање елемената вектора
+- Индексни приступ или употреба =get= методе.
+
+#+begin_src rust
+let v = vec![1, 2, 3, 4, 5];
+
+let third: &i32 = &v[2];
+println!("The third element is {third}");
+
+let third: Option<&i32> = v.get(2);
+match third {
+    Some(third) => println!("The third element is {third}"),
+    None => println!("There is no third element."),
+}
+#+end_src
+
+- Индексни приступ може да доведе до прекида програма уколико индексирамо ван
+  опсега валидних индекса.
+- =get= метода увек успева и враћа =Option<&T>=.
+
+#+REVEAL: split
+
+#+begin_src rust
+let v = vec![1, 2, 3, 4, 5];
+
+let does_not_exist = &v[100];
+let does_not_exist = v.get(100);
+#+end_src
+
+- Први индексни приступ ће изазвати панику.
+- Приступ са =get= би вратио =None=.
+
+*** Провера позајмљивања у контексту вектора
+- [[*Референце и позајмљивање (/References and Borrowing/)][Правила позајмљивања]] важе и у контексту вектора. Не можемо истовремено имати
+  промењиву и непромењиву референцу на елемент вектора.
+
+#+begin_src rust
+let mut v = vec![1, 2, 3, 4, 5];
+let first = &v[0];
+v.push(6);
+println!("The first element is: {first}");
+#+end_src
+
+#+begin_src
+$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+error[E0502]: cannot borrow `v` as mutable because it is also borrowed as immutable
+ --> src/main.rs:6:5
+  |
+4 |     let first = &v[0];
+  |                  - immutable borrow occurs here
+5 |
+6 |     v.push(6);
+  |     ^^^^^^^^^ mutable borrow occurs here
+7 |
+8 |     println!("The first element is: {first}");
+  |                                      ----- immutable borrow later used here
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `collections` due to previous error
+#+end_src
+
+#+REVEAL: split
+
+#+begin_note
+Имамо референцу на први елемент вектора а покушавамо промењивом референцом да
+додамо на крај. Ово делује као да би било безбедно.
+
+/Зашто Раст не дозвољава овакве операције?/
+
+Приликом додавања новог елемента може доћи до попуњавања текуће алоциране зоне и
+алоцирања нове зоне уз премештање свих елемената на нову локацију чиме би све
+текуће референце постале невалидне. Правило позајмљивања спречава овакве грешке.
+#+end_note
+
+*** Итерација преко елемената вектора
+
+#+begin_src rust
+let v = vec![100, 32, 57];
+for i in &v {
+    println!("{i}");
+}
+#+end_src
+
+#+RESULTS:
+: 100
+: 32
+: 57
+
+#+begin_note
+Пошто итерирамо преко позајмљене вредности =&v=, тип од =i= ће бити позајмљен
+(=&u32=). Уколико би итерирали преко поседоване вредности =for i in v= тада би сви
+елементи из вектора били премештени (тј. конзумирани) од стране =for= петље и не
+би могли више да им приступимо.
+#+end_note
+
+#+REVEAL: split
+
+#+begin_src rust
+let mut v = vec![100, 32, 57];
+for i in &mut v {
+    ,*i += 50;
+}
+println!("{v:?}");
+#+end_src
+
+#+RESULTS:
+: [150, 82, 107]
+
+*** Смештање елемената различитог типа
+- Вектор може садржати само елементе истог типа.
+- Уколико желимо да сместимо елементе различитог типа користимо енумерације.
+
+#+begin_src rust
+#[derive(Debug)]
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
+}
+let row = vec![
+    SpreadsheetCell::Int(3),
+    SpreadsheetCell::Text(String::from("blue")),
+    SpreadsheetCell::Float(10.12),
+];
+println!("{row:?}");
+#+end_src
+
+#+RESULTS:
+: [Int(3), Text("blue"), Float(10.12)]
+
+- Употреба енумерација осигурава да ћемо обрадити све могуће случајеве нпр. =match= изразом.
+
+*** Ослобађање елемената вектора
+- Вектор ће деалоцирати своје елементе када власник напусти опсег важења.
+
+#+begin_src rust
+{
+    let v = vec![1, 2, 3, 4];
+
+    // do stuff with v
+} // <- v goes out of scope and is freed here
+#+end_src
+
+** =String=
+*** Шта је стринг?
+- Раст има само један тип стринга подржан директно од стране језика - =str= који
+  се обично користи у позајмљеној форми =&str= - стринг исечак који представља
+  референцу на UTF-8 енкодован садржај.
+- Тип =String=, дефинисан у Раст стандардној библиотеци, је растући, промењиви,
+  поседовани UTF-8 енкодовани стринг тип.
+
+*** Креирање новог стринга
+- Нова празна =String= вредност се креира на следећи начин:
+#+begin_src rust
+let mut s = String::new();
+#+end_src
+
+Обично користимо =to_string= методу типа који имплементира =Display= особину да би
+добили почетну вреност стринга.
+
+#+begin_src rust
+let data = "initial contents";
+
+let s = data.to_string();
+
+// the method also works on a literal directly:
+let s = "initial contents".to_string();
+#+end_src
+
+Такође, можемо користити =String::from=:
+#+begin_src rust
+let s = String::from("initial contents");
+#+end_src
+
+*** Стринг може да садржи произвољну UTF-8 вредност
+#+begin_src rust
+let hello = String::from("السلام عليكم");
+let hello = String::from("Dobrý den");
+let hello = String::from("Hello");
+let hello = String::from("שָׁלוֹם");
+let hello = String::from("नमस्ते");
+let hello = String::from("こんにちは");
+let hello = String::from("안녕하세요");
+let hello = String::from("你好");
+let hello = String::from("Olá");
+let hello = String::from("Здравствуйте");
+let hello = String::from("Hola");
+#+end_src
+
+*** Ажурирање стринга
+#+begin_src rust
+let mut s = String::from("foo");
+s.push_str("bar");
+#+end_src
+
+#+begin_src rust
+let mut s1 = String::from("foo");
+let s2 = "bar";
+s1.push_str(s2);
+println!("s2 is {s2}");
+#+end_src
+
+=s2= је позајмљено и може да се користи после додавања.
+
+#+REVEAL: split
+
+- Додавање једног карактера:
+  #+begin_src rust
+    let mut s = String::from("lo");
+    s.push('l');
+  #+end_src
+
+*** Употреба =+= оператора
+#+begin_src rust
+let s1 = String::from("Hello, ");
+let s2 = String::from("world!");
+let s3 = s1 + &s2; // note s1 has been moved here and can no longer be used
+#+end_src
+
+=+= оператор конзумира први операнд тако да у претходном примеру =s1= варијабла не
+важи после задње линије.
+
+=+= оператор интерно користи =add= методу чија сигнатура је нешто попут:
+
+#+begin_src rust
+fn add(self, s: &str) -> String {
+#+end_src
+
+#+begin_note
+Обратите пажњу да је други параметар типа =&str= док је прослеђен тип =&String=.
+Компајлер ово прихвата. Зашто?
+
+Користи се техника [[https://doc.rust-lang.org/std/ops/trait.Deref.html#more-on-deref-coercion][Deref coercion]], јер =String= имплементира особину =Deref<Target=str>=.
+#+end_note
+
+*** Употреба =format!= макроа
+Уместо:
+#+begin_src rust
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
+
+let s = s1 + "-" + &s2 + "-" + &s3;
+#+end_src
+
+Можемо писати:
+#+begin_src rust
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
+
+let s = format!("{s1}-{s2}-{s3}");
+#+end_src
+
+*** Индексни приступ унутар стринга
+#+begin_src rust
+let s1 = String::from("hello");
+let h = s1[0];
+#+end_src
+
+#+begin_src
+$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+error[E0277]: the type `String` cannot be indexed by `{integer}`
+ --> src/main.rs:3:13
+  |
+3 |     let h = s1[0];
+  |             ^^^^^ `String` cannot be indexed by `{integer}`
+  |
+  = help: the trait `Index<{integer}>` is not implemented for `String`
+  = help: the following other types implement trait `Index<Idx>`:
+            <String as Index<RangeFrom<usize>>>
+            <String as Index<RangeFull>>
+            <String as Index<RangeInclusive<usize>>>
+            <String as Index<RangeTo<usize>>>
+            <String as Index<RangeToInclusive<usize>>>
+            <String as Index<std::ops::Range<usize>>>
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `collections` due to previous error
+#+end_src
+
+/Зашто?/
+
+*** Чување стринга у меморији
+#+begin_src rust
+let hello = String::from("Hola");
+println!("{}", hello.len());
+#+end_src
+
+#+RESULTS:
+: 4
+
+#+begin_src rust
+let hello = String::from("Здраво");
+println!("{}", hello.len());   // Дужина није 6 већ 12!
+#+end_src
+
+#+RESULTS:
+: 12
+
+Шта би требао да врати елемент на одређеном индексу?
+
+*** Различити погледи на стринг
+Три начина посматрања стринга: низ бајтова, низ скалара и низ графем кластера.
+
+На пример, хинди реч "“नम�ते" ће у меморији бити следећи низ бајтова:
+#+begin_src
+[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
+224, 165, 135]
+#+end_src
+
+Ако исту реч посматрамо као низ скалара или карактера (Раст =char= тип) онда имамо
+следеће вредности:
+
+#+begin_src
+['न', 'म', 'स', '◌्', 'त', '◌े ']
+#+end_src
+
+Четврти и шести карактер су дијакритици тј. немају смисла сами за себе.
+
+Ако посматрамо исти садржај као графем кластере (најприближније концепту слова)
+онда видимо следеће:
+
+#+begin_src rust
+["न", "म", "स्", "ते"]
+#+end_src
+
+*** Сложеност индексног приступа
+Додатни разлог зашто не треба дозволити индексни приступ код стрингова јесте
+чињеница да индексни приступ увак има сложеност =O(1)= што се код стрингова не
+може гарантовати.
+
+*** Креирање исечака
+Могуће је креирање исечака стрингова с тим да је на програмеру да обезбеди да се
+границе исечака налазе на крајевима =char= типа тј. није могуће да играница исечка
+буде унутар карактера.
+
+На пример, ово је могуће:
+#+begin_src rust
+let hello = "Здраво";
+let s = &hello[0..4];
+println!("{s}")
+#+end_src
+
+#+RESULTS:
+: Зд
+
+Али ово је грешка:
+#+begin_src rust
+let hello = "Здраво";
+let s = &hello[0..3];
+println!("{s}")
+#+end_src
+
+#+begin_src
+thread 'main' panicked at 'byte index 3 is not a char boundary; it is inside 'д' (bytes 2..4)
+of `Здраво`', src/main.rs:4:10
+#+end_src
+
+*** Итерација преко стрингова
+Начин да обрадимо све елементе стринга је да итерирамо, при чему имамо две
+методе:
+
+- =chars= - ако желимо да обрадимо стринг као низ карактера
+  #+begin_src rust
+    for c in "Зд".chars() {
+        println!("{c}");
+    }
+  #+end_src
+
+- =bytes= - ако желимо да обрадимо стринг као низ бајтова
+  #+begin_src rust
+    for b in "Зд".bytes() {
+        println!("{b}");
+    }
+  #+end_src
+
+** Хеш мапа (=HashMap<K, V>=)
+*** Шта је хеш мапа?
+- Генеричка, хомогена структура која чува парове кључ-вреност.
+- У другим језицима се зове још и: хеш табела, речник или асоцијативни низ.
+- Корисно у ситацијама када је потребно пронаћи везани податак не по индексу већ
+  по другој вредности.
+
+*** Креирање хеш мапе
+#+begin_src rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+#+end_src
+
+*** Приступање елементима хеш мапе
+#+begin_src rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+
+let team_name = String::from("Blue");
+let score = scores.get(&team_name).copied().unwrap_or(0);
+#+end_src
+
+- =get= метода враћа тип =Option<&T>=, дакле =None= вредност ако за дати кључ не
+  постоји везана вредност. Позивамо =copied= да добијемо =Option<T>= са копираном
+  вредношћу.
+
+*** Итерација преко парова кључ-вредност
+#+begin_src rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+
+for (key, value) in &scores {
+    println!("{key}: {value}");
+}
+#+end_src
+
+#+RESULTS:
+: Yellow: 50
+: Blue: 10
+
+*** Хеш мапа и власништво
+- Ако тип имплементира =Copy= особину биће копиран у мапу, у супротном биће
+  премештен и хеш мапа постаје власник.
+
+#+begin_src rust
+use std::collections::HashMap;
+
+let field_name = String::from("Favorite color");
+let field_value = String::from("Blue");
+
+let mut map = HashMap::new();
+map.insert(field_name, field_value);
+// field_name and field_value are invalid at this point, try using them and
+// see what compiler error you get!
+#+end_src
+
+*** Ажурирање хеш мапе - преписивање вредности
+#+begin_src rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Blue"), 25);
+
+println!("{:?}", scores);
+#+end_src
+
+#+RESULTS:
+: {"Blue": 25}
+
+*** Ажурирање хеш мапе - додавање уклолико кључ не постоји
+#+begin_src rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+scores.insert(String::from("Blue"), 10);
+
+scores.entry(String::from("Yellow")).or_insert(50);
+scores.entry(String::from("Blue")).or_insert(50);
+
+println!("{:?}", scores);
+#+end_src
+
+#+RESULTS:
+: {"Yellow": 50, "Blue": 10}
+
+Користимо =Entry API=.
+
+*** Ажурирање хеш мапе - на основу старе вредности
+#+begin_src rust
+use std::collections::HashMap;
+
+let text = "hello world wonderful world";
+
+let mut map = HashMap::new();
+
+for word in text.split_whitespace() {
+    let count = map.entry(word).or_insert(0);
+    *count += 1;
+}
+
+println!("{:?}", map);
+#+end_src
+
+#+RESULTS:
+: {"wonderful": 1, "hello": 1, "world": 2}
+
 * Обрада грешака
 * Тестирање
 * Генерички типови, особине (/Traits/) и животни век (/Lifetimes/)
