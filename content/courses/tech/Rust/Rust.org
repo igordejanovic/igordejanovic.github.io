@@ -4198,7 +4198,750 @@ println!("{:?}", map);
 : {"wonderful": 1, "hello": 1, "world": 2}
 
 * Обрада грешака
+** Категорије грешака у Расту
+- грешке код којих је могућ опоравак (/recoverable/)
+  - Грешке које очекивано могу да се десе у току рада и које можемо да обрадимо
+    и наставимо извршавање без нарушавања конзитентности стања програма.
+- грешке код којих опоравак није могућ (/unrecoverable/)
+  - Увек су симптом багова у програму, нпр. читање ван опсега низа.
+  - Једини логичан поступак је прекид рада програма.
+- Већина језика не прави разлику већ све обрађује на исти начин, најчешће
+  употребом механизма изузетака.
+
+** =panic!=
+- Макро који доводи до прекида програма. Позивамо га када програм заврши у стању
+  у коме није могућ опоравак.
+
+#+begin_src rust
+fn main() {
+    panic!("crash and burn");
+}
+#+end_src
+
+#+begin_src sh
+$ cargo run
+   Compiling panic v0.1.0 (file:///projects/panic)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.25s
+     Running `target/debug/panic`
+thread 'main' panicked at 'crash and burn', src/main.rs:2:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+#+end_src
+
+** =panic!= повратни траг (/backtrace/)
+
+#+begin_src rust
+fn main() {
+    let v = vec![1, 2, 3];
+
+    v[99];
+}
+#+end_src
+
+#+begin_src sh
+$ cargo run
+   Compiling panic v0.1.0 (file:///projects/panic)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.27s
+     Running `target/debug/panic`
+thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 99', src/main.rs:4:5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+#+end_src
+
+#+REVEAL: split
+
+- Читамо линије повратног трага од горе до доле и интересује нас да пронађемо
+  прво место где се помиње наш код. То је локација која је изазвала прекид.
+#+begin_src sh
+$ RUST_BACKTRACE=1 cargo run
+thread 'main' panicked at 'index out of bounds: the len is 3 but the index is 99', src/main.rs:4:5
+stack backtrace:
+   0: rust_begin_unwind
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/std/src/panicking.rs:584:5
+   1: core::panicking::panic_fmt
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/core/src/panicking.rs:142:14
+   2: core::panicking::panic_bounds_check
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/core/src/panicking.rs:84:5
+   3: <usize as core::slice::index::SliceIndex<[T]>>::index
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/core/src/slice/index.rs:242:10
+   4: core::slice::index::<impl core::ops::index::Index<I> for [T]>::index
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/core/src/slice/index.rs:18:9
+   5: <alloc::vec::Vec<T,A> as core::ops::index::Index<I>>::index
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/alloc/src/vec/mod.rs:2591:9
+   6: panic::main
+             at ./src/main.rs:4:5
+   7: core::ops::function::FnOnce::call_once
+             at /rustc/e092d0b6b43f2de967af0887873151bb1c0b18d3/library/core/src/ops/function.rs:248:5
+note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+#+end_src
+
+#+REVEAL: split
+
+#+begin_note
+У програмском језику Ц, читање ван опсега је недефинисано понашање и компајлер
+може да произведе кôд који ради произвољну ствар. Најчешће ће да чита са
+локације која се налази иза краја низа што представља грешку /buffer overread/
+која доводи до сигурносних пропуста.
+#+end_note
+** Опоравак од грешке - =Result<T,E>=
+- Многе грешке су очекиване током нормалног извршавања програма.
+- На пример, ако покушамо отварање фајла, он можда не постоји тако да би
+  опоравак од грешке могао бити његово креирање.
+- Код оваквих грешака Раст користи генерички тип =Result<T,E>=:
+
+#+begin_src rust
+enum Result<T, E> {
+    Ok(T),
+    Err(E),
+}
+#+end_src
+
+** Отварање фајла
+
+Фајл: =src/main.rs=:
+#+begin_src rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+}
+#+end_src
+
+- Варијабла =greeting_file_result= ће бити типа =Result<std::fs::File,
+  std::io::Error>=. Уколико је враћена варијанта =Ok= она ће у себи садржати фајл,
+  уколико се врати варијанта =Err=, у њој ће бити грешка типа =std::io::Error=.
+
+#+REVEAL: split
+
+- У сваком случају морамо обрадити обе варијанте.
+Фајл: =src/main.rs=:
+#+begin_src rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+}
+#+end_src
+
+** Препознавање различитих грешака
+- Желимо да креирамо фајл уколико не постоји. Морамо да проверимо коју грешку
+  смо добили.
+
+#+begin_src rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => match error.kind() {
+            ErrorKind::NotFound => match File::create("hello.txt") {
+                Ok(fc) => fc,
+                Err(e) => panic!("Problem creating the file: {:?}", e),
+            },
+            other_error => {
+                panic!("Problem opening the file: {:?}", other_error);
+            }
+        },
+    };
+}
+#+end_src
+
+#+REVEAL: split
+
+- Алтернативно можемо користити API =Result= типа:
+
+#+begin_src rust
+use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {:?}", error);
+            })
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
+}
+#+end_src
+
+** Пречица =unwrap=
+
+- С обзиром да је оваква обрада честа, постоји пречица тако да можемо писати
+  доста краће:
+
+#+begin_src rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap();
+}
+#+end_src
+
+#+begin_src
+thread 'main' panicked at 'called `Result::unwrap()` on an `Err` value: Os {
+code: 2, kind: NotFound, message: "No such file or directory" }',
+src/main.rs:4:49
+#+end_src
+
+** Пречица =expect=
+- Или, уколико желимо да дамо више информација у случају прекида:
+
+#+begin_src rust
+use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")
+        .expect("hello.txt should be included in this project");
+}
+#+end_src
+
+#+begin_src
+thread 'main' panicked at 'hello.txt should be included in this project: Os {
+code: 2, kind: NotFound, message: "No such file or directory" }',
+src/main.rs:5:10
+#+end_src
+
+** Пропагација грешака
+
+#+begin_src rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&mut username) {
+        Ok(_) => Ok(username),
+        Err(e) => Err(e),
+    }
+}
+#+end_src
+
+Сада позиваоц може да одлучи како да обради грешку. Нпр. може да:
+- прекине програм са =panic!=
+- користи подразумевано корисничко име
+- пронађе корисничко име на неком другом месту (нпр. из базе података)
+
+** Пречица за пропагацију грешака - оператор =?=
+
+#+begin_src rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut username_file = File::open("hello.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&mut username)?;
+    Ok(username)
+}
+#+end_src
+
+- Оператор =?= елиминише тзв. /boilerplate/ код.
+- Функција мора да враћа компатибилан тип да би могла да се користи ова пречица.
+
+#+REVEAL: split
+
+#+begin_note
+Постоји значајна разлика између =?= оператора и =match= израза. =?= оператор ће
+аутоматски радити конверзију грешака за све грешке које имплементирају =From=
+особину. На пример, ако нека наша грешка =OurError= имплементира конверзију из
+=std::io::Error= тако што имамо =impl From<std::io::Error> for OurError= тада можемо
+декларисати да наша функција враћа =OurError= и даље користити пречицу =?= на
+местима која резултују са =std::io::Error=.
+#+end_note
+
+** Додатно скраћење кода
+- Употребом повезаних позива /chain call/ можемо додатно поједноставити код:
+
+#+begin_src rust
+use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -> Result<String, io::Error> {
+    let mut username = String::new();
+
+    File::open("hello.txt")?.read_to_string(&mut username)?;
+
+    Ok(username)
+}
+#+end_src
+
+** Употреба =?= оператора код =Option= типа
+#+begin_src rust
+fn last_char_of_first_line(text: &str) -> Option<char> {
+    text.lines().next()?.chars().last()
+}
+#+end_src
+
+** Употреба =?= оператора у функцији =main=
+
+#+begin_src rust
+use std::error::Error;
+use std::fs::File;
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let greeting_file = File::open("hello.txt")?;
+
+    Ok(())
+}
+#+end_src
+
 * Тестирање
+** Тестирање
+#+begin_quote
+Program testing can be a very effective way to show the presence of bugs, but it
+is hopelessly inadequate for showing their absence.
+
+                            -- Edsger W. Dijkstra, “The Humble Programmer”, 1972
+#+end_quote
+
+#+REVEAL: split
+
+- Раст систем типова и провера позајмица спречава појаву шире класе логичких
+  грешака али не може да предупреди појаву свих грешака. На пример, Раст не може
+  да провери да ће одређан функција да ради тачно оно што је програмер замислио.
+- Одређена класа логичких грешака захтева креирање тестова.
+
+** Како писати тестове?
+
+1. Поставити потребно стање и податке.
+2. Извршити код који се тестира са датим улазима.
+3. Потврдити да је резултат извршавања очекиван.
+
+** Анатомија тест функције
+#+begin_src rust
+$ cargo new adder --lib
+     Created library `adder` project
+$ cd adder
+#+end_src
+
+Генерисан тест ће бити:
+
+Фајл =src/lib.rs=:
+#+begin_src rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        let result = 2 + 2;
+        assert_eq!(result, 4);
+    }
+}
+#+end_src
+
+** Покретање теста
+#+begin_src sh
+$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.57s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::it_works ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+#+end_src
+
+** Пример теста 1
+
+#+begin_src rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn larger_can_hold_smaller() {
+        let larger = Rectangle {
+            width: 8,
+            height: 7,
+        };
+        let smaller = Rectangle {
+            width: 5,
+            height: 1,
+        };
+
+        assert!(larger.can_hold(&smaller));
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling rectangle v0.1.0 (file:///projects/rectangle)
+    Finished test [unoptimized + debuginfo] target(s) in 0.66s
+     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+
+running 1 test
+test tests::larger_can_hold_smaller ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rectangle
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+#+end_src
+
+** Пример теста 2
+#+begin_src rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn larger_can_hold_smaller() {
+        // --snip--
+    }
+
+    #[test]
+    fn smaller_cannot_hold_larger() {
+        let larger = Rectangle {
+            width: 8,
+            height: 7,
+        };
+        let smaller = Rectangle {
+            width: 5,
+            height: 1,
+        };
+
+        assert!(!smaller.can_hold(&larger));
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling rectangle v0.1.0 (file:///projects/rectangle)
+    Finished test [unoptimized + debuginfo] target(s) in 0.66s
+     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+
+running 2 tests
+test tests::larger_can_hold_smaller ... ok
+test tests::smaller_cannot_hold_larger ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests rectangle
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+#+end_src
+
+** Неуспешан тест
+
+- Намерно уводимо грешку у код да видимо како излгеда када тест не успева:
+#+begin_src rust
+// --snip--
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width < other.width && self.height > other.height
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling rectangle v0.1.0 (file:///projects/rectangle)
+    Finished test [unoptimized + debuginfo] target(s) in 0.66s
+     Running unittests src/lib.rs (target/debug/deps/rectangle-6584c4561e48942e)
+
+running 2 tests
+test tests::larger_can_hold_smaller ... FAILED
+test tests::smaller_cannot_hold_larger ... ok
+
+failures:
+
+---- tests::larger_can_hold_smaller stdout ----
+thread 'tests::larger_can_hold_smaller' panicked at 'assertion failed: larger.can_hold(&smaller)', src/lib.rs:28:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+failures:
+    tests::larger_can_hold_smaller
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+#+end_src
+
+** Тестирање једнакости и неједнакости - =assert_eq!= и =assert_ne!=
+
+#+begin_src rust
+pub fn add_two(a: i32) -> i32 {
+    a + 2
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_adds_two() {
+        assert_eq!(4, add_two(2));
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.58s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::it_adds_two ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+#+end_src
+
+#+REVEAL: split
+
+Уколико тест не успе:
+
+#+begin_src rust
+pub fn add_two(a: i32) -> i32 {
+    a + 3
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.61s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::it_adds_two ... FAILED
+
+failures:
+
+---- tests::it_adds_two stdout ----
+thread 'tests::it_adds_two' panicked at 'assertion failed: `(left == right)`
+  left: `4`,
+ right: `5`', src/lib.rs:11:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::it_adds_two
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+#+end_src
+
+** Произвољна корисничка порука
+#+begin_src rust
+#[test]
+    fn greeting_contains_name() {
+        let result = greeting("Carol");
+        assert!(
+            result.contains("Carol"),
+            "Greeting did not contain name, value was `{}`",
+            result
+        );
+    }
+
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test
+   Compiling greeter v0.1.0 (file:///projects/greeter)
+    Finished test [unoptimized + debuginfo] target(s) in 0.93s
+     Running unittests src/lib.rs (target/debug/deps/greeter-170b942eb5bf5e3a)
+
+running 1 test
+test tests::greeting_contains_name ... FAILED
+
+failures:
+
+---- tests::greeting_contains_name stdout ----
+thread 'tests::greeting_contains_name'
+panicked at 'Greeting did not contain name, value was `Hello!`', src/lib.rs:12:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::greeting_contains_name
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out;
+finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+#+end_src
+
+** Провера =should_panic=
+
+#+begin_src rust
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 {
+            panic!(
+                "Guess value must be greater than or equal to 1, got {}.",
+                value
+            );
+        } else if value > 100 {
+            panic!(
+                "Guess value must be less than or equal to 100, got {}.",
+                value
+            );
+        }
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    #[should_panic(expected = "less than or equal to 100")]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+}
+#+end_src
+** Филтрирање тестова при покретању
+#+begin_src rust
+pub fn add_two(a: i32) -> i32 {
+    a + 2
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn add_two_and_two() {
+        assert_eq!(4, add_two(2));
+    }
+
+    #[test]
+    fn add_three_and_two() {
+        assert_eq!(5, add_two(3));
+    }
+
+    #[test]
+    fn one_hundred() {
+        assert_eq!(102, add_two(100));
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test one_hundred
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.69s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::one_hundred ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+$ cargo test add
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished test [unoptimized + debuginfo] target(s) in 0.61s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 2 tests
+test tests::add_three_and_two ... ok
+test tests::add_two_and_two ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+#+end_src
+
 * Генерички типови, особине (/Traits/) и животни век (/Lifetimes/)
 ** Генерички типови (/generics/)
 *** Генерички типови (/generics/)
@@ -4212,7 +4955,6 @@ println!("{:?}", map);
   могу бити параметризовани генеричким типовима (пример је =Option<T>=).
 
 *** Уклањање дуплог кода употребом функција
-
 #+begin_src rust
 fn main() {
     let number_list = vec![34, 50, 25, 100, 65];
@@ -4297,7 +5039,6 @@ fn main() {
 3. Замена инстанци дуплог кода са позивом функције.
 
 *** Уклањање дуплог кода употребом генеричких функција
-
 Имамо функцију за проналажење највећег елемента у листи са различитим типовима.
 #+begin_src rust
 fn largest_i32(list: &[i32]) -> i32 {
@@ -4399,7 +5140,6 @@ error: could not compile `chapter10` due to previous error
 Видећемо како се ово ради у наставку у причи о особинама (/Traits/).
 
 *** Генерички типови у структурама
-
 #+begin_src rust
 struct Point<T> {
     x: T,
@@ -4458,7 +5198,6 @@ fn main() {
 #+end_src
 
 *** Генерички типови у енумерацијама
-
 #+begin_src rust
 enum Option<T> {
     Some(T),
@@ -4476,7 +5215,6 @@ enum Result<T, E> {
 #+end_src
 
 *** Дефиниције метода
-
 #+begin_src rust
 struct Point<T> {
     x: T,
@@ -4516,7 +5254,6 @@ impl Point<f32> {
 остали =Point= типови неће имати ову методу.
 
 *** Генерички типови у методама и =impl= блоковима
-
 Генерички типови у структурама и методама не морају бити исти. На пример, можемо
 креирати методу =mixup= која узима две инстанце =Point= и враћа нови =Point= тип где
 ће прво поље имати исти тип као прва тачка а друго поље као друга тачка.
@@ -4548,7 +5285,6 @@ fn main() {
   њеном контексту.
 
 *** Перформансе
-
 Употреба генеричког кода не доводи до деградације перформанси. Раст користи
 технику мономорфизације (/Monomorphization/) код које ће компајлер инстанцирати
 конкретан код за сваки тип посебно.
@@ -4585,7 +5321,6 @@ fn main() {
   генерички тип мора задовољити одређена ограничења.
 
 *** Дефинисање особина
-
 - Пример дефинисања медиа агрегатор библиотеке која може да приказе сажетак
   података који се може чувати у =NewsArticle= или =Tweet= инстанци.
 - Дефинишемо =Summary= особину да опишемо ову функционалност.
@@ -4597,7 +5332,6 @@ pub trait Summary {
 #+end_src
 
 *** Имплементација особина
-
 #+begin_src rust
 pub struct NewsArticle {
     pub headline: String,
@@ -4662,7 +5396,6 @@ fn main() {
 да користи.
 #+end_note
 *** Подразумевана имплементација
-
 Особина може имати подразумевану имплементацију метода.
 
 #+begin_src rust
@@ -4724,7 +5457,6 @@ impl Summary for Tweet {
 }
 #+end_src
 *** Osobine kao parametri
-
 - Сада можемо користити особине да дефинишемо функције које раде над параметрима
   различитог типа.
 
@@ -4769,7 +5501,6 @@ pub fn notify<T: Summary>(item1: &T, item2: &T) {
 #+end_src
 
 *** Вишеструке особине код ограничења
-
 Можемо дефинисати и више ограничења употребом =+= синтаксе. На пример, ако
 параметар мора да имплементира =Summary= и =Display=:
 #+begin_src rust
@@ -4783,7 +5514,6 @@ pub fn notify<T: Summary + Display>(item: &T) {
 #+end_src
 
 *** =where= клаузула у ограничењима
-
 - Уколико имамо више ограничења основна синтакса може да смањи читкост.
 
 #+begin_src rust
@@ -4824,7 +5554,6 @@ fn returns_summarizable() -> impl Summary {
 #+end_note
 
 *** Поправка =largest= генеричке функције
-
 На претходним сладовима имали смо функцију =largest=. Сада можемо да завршимо
 њену дефиницију.
 
@@ -4922,7 +5651,6 @@ fn main() {
 #+end_src
 
 *** Употреба особина ограничења за условну имплементацију метода
-
 Ако желимо да имплементирамо методу само над типовима који имплементирају
 одређене особине.
 #+begin_src rust
@@ -4958,7 +5686,6 @@ impl<T: Display + PartialOrd> Pair<T> {
 - Анотацијама животног века доводимо у везу животни век различитих референци.
 
 *** Спречавање "висећих" референци
-
 #+begin_src rust
 {
         let r;
@@ -5014,7 +5741,7 @@ error: could not compile `chapter10` due to previous error
 
 #+REVEAL: split
 
-Варијабле имају животни век који је једнак синстаксном опсегу у коме је
+Варијабле имају животни век који је једнак синтаксном опсегу у коме је
 варијабла дефинисана. Животни век имају и референце које позајмљују вредност и
 смештају се у варијабле (нпр. =r=&x= из претходног примера).
 
@@ -5088,7 +5815,6 @@ error: could not compile `chapter10` due to previous error
 #+end_src
 
 *** Генерички животни векови у функцијама
-
 - Креирамо функцију =longest= која враћа дужи од два прослеђена стринга.
   Прослеђујемо референцу на стринг исечак =&str=.
 
@@ -5145,7 +5871,6 @@ error: could not compile `chapter10` due to previous error
 - Ова информација је потребна да би се обавила калкулација и провера животног века.
 
 *** Синтакса за анотацију животног века
-
 - Да би помогли компајлеру референце означавамо са животним веком и тиме
   доводимо у везу различите референце (нпр. параметре и повратне вредности
   функције).
@@ -5167,7 +5892,6 @@ error: could not compile `chapter10` due to previous error
   односно ='b= је садржано у ='a=.
 
 *** Анотација животног века у сигнатурама функција
-
 - Следећа анотација за функцију =longest= је исправна јер референца која се враћа
   може бити =x= или =y= у зависности од дужине стринга. Стога је потребно да имамо
   строжији услов да је животни век повратне вредности у вези са животним веком
@@ -5209,7 +5933,7 @@ fn main() {
 #+begin_example
 lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
 lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
-'a ≥ lt(result)       # 'a мора да садржи животни веку ресулт варијабле
+'a ≥ lt(result)       # 'a мора да садржи животни веку result варијабле
 #+end_example
 
 Што не може бити испуњено истовремено, тј. не постоји ='a= које испуњава ова
@@ -5237,9 +5961,10 @@ fn main() {
 
 Иако, можемо видети да ће, због дужине стринга, враћена вредност бити =string1= и
 програм је валидан, компајлер ово не може да закључи.
-* Макрои
-* Функционално програмирање, затворења и итератори
-* ООП, паметни поинтери, конкурентно програмирање
+
+* TODO Функционално програмирање, затворења и итератори
+* TODO Макрои
+* TODO ООП, паметни поинтери, конкурентно програмирање
 * Литература
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - Rust by Example, https://doc.rust-lang.org/stable/rust-by-example/index.html
