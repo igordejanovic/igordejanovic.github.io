@@ -3143,533 +3143,6 @@ fn main() {
 }
 #+end_src
 
-* Пакети, сандуци и модули
-** Организација програмског кода
-- Са порастом величине пројекта расте значај организације кода.
-- Раст механизми за организацију кода су:
-  - Пакети
-  - Сандуци (/crates/)
-  - Модули и кључна реч =use=
-  - Путање (/paths/)
-** Сандуци (/crates/)
-- Сандук представља најмању количину кода коју Раст компајлер обрађује у једном тренутку.
-- Сандук може бити у форми /бинарног сандука/ и /библиотечког сандука/.
-- Бинарни сандук представља програме који могу да се компајлирају и покрену. Ови
-  сандуци имају функцију =main= која представља улазну тачку.
-- Библиотечки сандуци представљају функционалност намењену за дељење са другим пројектима.
-- Корен сандука представља почетни фајл од кога Раст компајлер креће, односно
-  представља коренски модул.
-
-** Пакети
-- Пакет представља скуп логички повезаних сандука којима се управља на
-  јединствен начин.
-- Пакет мора имати бар један сандук.
-- Пакет може имати произвољно много бинарних сандука али највише један
-  библиотечки сандук.
-
-** Креирање пакета
-
-#+begin_src sh
-$ cargo new my-project
-     Created binary (application) `my-project` package
-$ ls my-project
-Cargo.toml
-src
-$ ls my-project/src
-main.rs
-#+end_src
-
-- Сваки пакети у корену има =Cargo.toml= конфигурациони фајл.
-- Према конвенцији корен бинарног сандука је =src/main.rs=, док је корен
-  библиотечког сандука =src/lib.rs=.
-- Ако пакет има више бинарних сандука, коренски фајлови се смештају у фолдер =src/bin=.
-
-** Структура пакета
-#+begin_src text
-backyard
-├── Cargo.lock
-├── Cargo.toml              <- конфигурација пакета
-└── src
-    ├── garden
-    │   └── vegetables.rs   <- модул
-    ├── garden.rs           <- модул
-    └── main.rs             <- корен бинарног сандука
-#+end_src
-
-** Груписање повезаног кода у модуле
-- У циљу читљивости, лакшег проналаска и поновне искористљивости, модули нам омогућавају организацију кода унутар сандука у виду стабла.
-- Модули, такође, омогућавају дефинисање правила приступа. Сви елементи унутар
-  модула су подразумевано приватни.
-
-** Пример употребе модула
-#+begin_src sh
-cargo new restaurant --lib
-#+end_src
-
-Фајл: src/lib.rs
-#+begin_src rust
-mod front_of_house {
-    mod hosting {
-        fn add_to_waitlist() {}
-
-        fn seat_at_table() {}
-    }
-
-    mod serving {
-        fn take_order() {}
-
-        fn serve_order() {}
-
-        fn take_payment() {}
-    }
-}
-#+end_src
-
-Модули могу имати друге модуле, структуре, енумерације, константе, особине итд.
-
-** Стабло модула (/module tree/)
-Модули се повезују и чине структуру типа стабла чији корен је корен сандука
-(=main.rs= ili =lib.rs=).
-
-#+begin_src text
-crate
- └── front_of_house
-     ├── hosting
-     │   ├── add_to_waitlist
-     │   └── seat_at_table
-     └── serving
-         ├── take_order
-         ├── serve_order
-         └── take_payment
-#+end_src
-
-Аналогија је систем фајлова и фолдера.
-
-** Путање унутар стабла модула
-Елементи Раст кода се могу референцирати путањама које синтаксни елемент за
-навигацију над стаблом модула.
-
-Постоје две врсте путања:
-- /апсолутна путања/ - пуна путања која почиње од корена сандука. Започиње са
-  речју =crate=.
-- /релативна путања/ - путања која се гради релативно од позиције где се наводи.
-  Може да користи кључне речи =self= i =super=.
-
-** Пример апсолутне и релативне путање
-#+begin_src rust
-mod front_of_house {
-    mod hosting {
-        fn add_to_waitlist() {}
-    }
-}
-
-pub fn eat_at_restaurant() {
-    // Absolute path
-    crate::front_of_house::hosting::add_to_waitlist();
-
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
-}
-#+end_src
-
-** Видљивост елемената унутар модула
-- Претходни пример се не компајлира.
-
-#+begin_src rust
-$ cargo build
-   Compiling restaurant v0.1.0 (file:///projects/restaurant)
-error[E0603]: module `hosting` is private
- --> src/lib.rs:9:28
-  |
-9 |     crate::front_of_house::hosting::add_to_waitlist();
-  |                            ^^^^^^^ private module
-  |
-note: the module `hosting` is defined here
- --> src/lib.rs:2:5
-  |
-2 |     mod hosting {
-  |     ^^^^^^^^^^^
-
-error[E0603]: module `hosting` is private
-  --> src/lib.rs:12:21
-   |
-12 |     front_of_house::hosting::add_to_waitlist();
-   |                     ^^^^^^^ private module
-   |
-note: the module `hosting` is defined here
-  --> src/lib.rs:2:5
-   |
-2  |     mod hosting {
-   |     ^^^^^^^^^^^
-
-For more information about this error, try `rustc --explain E0603`.
-error: could not compile `restaurant` due to 2 previous errors
-#+end_src
-
-#+REVEAL: split
-
-Ако учинимо модул =hosting= јавним:
-
-#+begin_src rust
-mod front_of_house {
-    pub mod hosting {
-        fn add_to_waitlist() {}
-    }
-}
-
-pub fn eat_at_restaurant() {
-    // Absolute path
-    crate::front_of_house::hosting::add_to_waitlist();
-
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
-}
-#+end_src
-
-#+REVEAL: split
-
-И даље имамо грешку:
-#+begin_src rust
-$ cargo build
-   Compiling restaurant v0.1.0 (file:///projects/restaurant)
-error[E0603]: function `add_to_waitlist` is private
- --> src/lib.rs:9:37
-  |
-9 |     crate::front_of_house::hosting::add_to_waitlist();
-  |                                     ^^^^^^^^^^^^^^^ private function
-  |
-note: the function `add_to_waitlist` is defined here
- --> src/lib.rs:3:9
-  |
-3 |         fn add_to_waitlist() {}
-  |         ^^^^^^^^^^^^^^^^^^^^
-
-error[E0603]: function `add_to_waitlist` is private
-  --> src/lib.rs:12:30
-   |
-12 |     front_of_house::hosting::add_to_waitlist();
-   |                              ^^^^^^^^^^^^^^^ private function
-   |
-note: the function `add_to_waitlist` is defined here
-  --> src/lib.rs:3:9
-   |
-3  |         fn add_to_waitlist() {}
-   |         ^^^^^^^^^^^^^^^^^^^^
-
-For more information about this error, try `rustc --explain E0603`.
-error: could not compile `restaurant` due to 2 previous errors
-#+end_src
-
-#+REVEAL: split
-
-Морамо учинити и функцију =add_to_waitlist= јавном јер иако је модул јаван његови
-елементи су подразумевано приватни.
-
-#+begin_src rust
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
-}
-
-pub fn eat_at_restaurant() {
-    // Absolute path
-    crate::front_of_house::hosting::add_to_waitlist();
-
-    // Relative path
-    front_of_house::hosting::add_to_waitlist();
-}
-#+end_src
-
-** Јавни API
-
-Код који је јавно доступан ван библиотечког сандука чини јавни API библиотеке и
-представља "уговор" са корисницима библиотеке. Стога је важно поштовати одређена
-правила измене ових елемената.
-
-Делови кода који нису споља јавно доступни могу слободно да се мењају јер неће
-утицати на кориснике.
-
-** Релативне путање и употреба =super=
-- =super= се користи у ситуацији када релативну путању креирамо са почетком у
-  родитељском модулу.
-
-#+begin_src rust
-fn deliver_order() {}
-
-mod back_of_house {
-    fn fix_incorrect_order() {
-        cook_order();
-        super::deliver_order();
-    }
-
-    fn cook_order() {}
-}
-#+end_src
-
-** Јавни приступ структурама и енумерацијама
-- Постоји одређена разлика у третирању =pub= кључне речи када су у питању
-  структуре и енумерације.
-- Структуре које имају јавни приступ и даље подразумевано имају приватан приступ пољима.
-#+begin_src rust
-mod back_of_house {
-    pub struct Breakfast {
-        pub toast: String,
-        seasonal_fruit: String,
-    }
-    impl Breakfast {
-        pub fn summer(toast: &str) -> Breakfast {
-            Breakfast {
-                toast: String::from(toast),
-                seasonal_fruit: String::from("peaches"),
-            }
-        }
-    }
-}
-pub fn eat_at_restaurant() {
-    let mut meal = back_of_house::Breakfast::summer("Rye");
-
-    meal.toast = String::from("Wheat");
-    println!("I'd like {} toast please", meal.toast);
-
-    // Следећа линија се не компајлира јер је поље приватно
-    // meal.seasonal_fruit = String::from("blueberries");
-}
-#+end_src
-
-#+REVEAL: split
-
-Са друге стране, варијанте енумерација су увек јавне:
-
-#+begin_src rust
-mod back_of_house {
-    pub enum Appetizer {
-        Soup,
-        Salad,
-    }
-}
-
-pub fn eat_at_restaurant() {
-    let order1 = back_of_house::Appetizer::Soup;
-    let order2 = back_of_house::Appetizer::Salad;
-}
-#+end_src
-
-** Увођење елемената у опсег - кључна реч =use=
-- Употреба пуних путања за свако навођење језичког елемента је оптерећујуће и
-  лоше утиче на читкост кода.
-- Употребом кључне речи =use= можемо увести елемент у текући опсег.
-
-#+begin_src rust
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
-}
-
-use crate::front_of_house::hosting;
-
-pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
-}
-#+end_src
-
-Аналогно креирању пречица (/shortcuts/) у фајл систему.
-
-** =use= само креира пречицу
-Следећи пример се не компајлира јер смо поморили функцију =eat_at_restaurant= у
-модул =customer= и релативна пречица више није валидна.
-
-#+begin_src rust
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
-}
-
-use crate::front_of_house::hosting;
-
-mod customer {
-    pub fn eat_at_restaurant() {
-        hosting::add_to_waitlist();
-    }
-}
-#+end_src
-
-** Креирање идиоматских путања
-- Када уводимо функцију у опсег обично то радимо увођењем родитељског модула
-  како смо видели на претходном примеру.
-- Ако уводимо типове (структуре, енумерације) наводимо их директно.
-- На пример, увођење структуре =HashMap= из стандардне библиотеке:
-
-#+begin_src rust
-use std::collections::HashMap;
-
-fn main() {
-    let mut map = HashMap::new();
-    map.insert(1, 2);
-}
-#+end_src
-
-** Употреба кључне речи =as= за промену имена
-Раст не дозвољава да постоје различити елементи у опсегу са истим именом.
-Уколико желимо да уведемо елементе са истим називом можемо:
-- Увести родитељски модул, као у следећем примеру:
-  #+begin_src rust
-    use std::fmt;
-    use std::io;
-    fn function1() -> fmt::Result {
-        // --snip--
-    }
-
-    fn function2() -> io::Result<()> {
-        // --snip--
-    }
-  #+end_src
-
-- Променити име у текућем опсегу употребом кључне речи =as=.
-  #+begin_src rust
-    use std::fmt::Result;
-    use std::io::Result as IoResult;
-    fn function1() -> Result {
-        // --snip--
-    }
-
-    fn function2() -> IoResult<()> {
-        // --snip--
-    }
-  #+end_src
-
-** Реекспорт имена са =pub use=
-- Када уведемо име у опсег са =use= он је приватан за приступ споља.
-- Уколико желимо да буде јаван споља можемо користити =pub use=.
-
-#+begin_src rust
-mod front_of_house {
-    pub mod hosting {
-        pub fn add_to_waitlist() {}
-    }
-}
-
-pub use crate::front_of_house::hosting;
-
-pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
-}
-#+end_src
-
-- Ово се често користи када јавни API библиотеке треба да буде различит од
-  интерне организације кода.
-
-** Употреба екстерних пакета
-
-Фајл =Cargo.toml=:
-#+begin_src rust
-...
-[dependencies]
-rand = "0.8.5"
-...
-#+end_src
-
-И затим можемо увести елементе из =rand= сандука са:
-#+begin_src rust
-use rand::Rng;
-
-fn main() {
-    let secret_number = rand::thread_rng().gen_range(1..=100);
-}
-#+end_src
-
-#+REVEAL: split
-
-Пакети се подразумевано преузимају са =crates.io=. =std= библиотека је сандук, увек
-је локално присутан, није потребно посебно га наводити у конфигурацији али је
-елементе које користимо потребно увести.
-
-#+begin_src rust
-use std::collections::HashMap;
-#+end_src
-
-** Угњеждене путање при увођењу
-- Ако уводимо више елемената из истог модула можемо користити скраћени угњеждени
-  запис.
-
-- На пример:
-  #+begin_src rust
-    // --snip--
-    use std::cmp::Ordering;
-    use std::io;
-    // --snip--
-  #+end_src
-
-- Можемо писати као:
-  #+begin_src rust
-    // --snip--
-    use std::{cmp::Ordering, io};
-    // --snip--
-  #+end_src
-
-#+REVEAL: split
-
-- Moжемо истовремено увести и модул и неке од његових елемената. На пример,
-  уместо:
-  #+begin_src rust
-    use std::io;
-    use std::io::Write;
-  #+end_src
-- Можемо писати:
-  #+begin_src rust
-    use std::io::{self, Write};
-  #+end_src
-
-** /Glob/ оператор
-
-- Ако желимо да уведемо све елементе неког модула можемо писати:
-  #+begin_src rust
-    use std::collections::*;
-  #+end_src
-
-** Подела модула у посебне фајлове
-Модуле често пишемо у посебним фајловима због лакшег приступа и организације.
-
-Фајл =src/lib.rs=:
-#+begin_src rust
-pub mod front_of_house;    // <- наводимо име фајла модула
-
-pub use crate::front_of_house::hosting;
-
-pub fn eat_at_restaurant() {
-    hosting::add_to_waitlist();
-}
-#+end_src
-
-А затим у фајлу =src/front_of_house.rs=
-#+begin_src rust
-pub mod hosting {
-    pub fn add_to_waitlist() {}
-}
-#+end_src
-
-#+REVEAL: split
-
-А можемо даље декомпоновати и извући модул =hosting= из фајла =front_of_house.rs=:
-
-Фајл =src/front_of_house.rs=:
-#+begin_src rust
-pub mod hosting;
-#+end_src
-
-Фајл =src/front_of_house/hosting.rs=:
-#+begin_src rust
-pub fn add_to_waitlist() {}
-#+end_src
-
-#+begin_note
-=mod= је потребно навести само једном. Тиме се модул увезује у стабло модула и
-могуће га је референцирати путањама из остатка кода. Односно, =mod= није исто што
-и =include= из других програмских језика.
-#+end_note
-
 * Колекције
 ** Вектор (=Vec<T>=)
 *** Шта је вектор?
@@ -4501,6 +3974,533 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 #+end_src
+
+* Пакети, сандуци и модули
+** Организација програмског кода
+- Са порастом величине пројекта расте значај организације кода.
+- Раст механизми за организацију кода су:
+  - Пакети
+  - Сандуци (/crates/)
+  - Модули и кључна реч =use=
+  - Путање (/paths/)
+** Сандуци (/crates/)
+- Сандук представља најмању количину кода коју Раст компајлер обрађује у једном тренутку.
+- Сандук може бити у форми /бинарног сандука/ и /библиотечког сандука/.
+- Бинарни сандук представља програме који могу да се компајлирају и покрену. Ови
+  сандуци имају функцију =main= која представља улазну тачку.
+- Библиотечки сандуци представљају функционалност намењену за дељење са другим пројектима.
+- Корен сандука представља почетни фајл од кога Раст компајлер креће, односно
+  представља коренски модул.
+
+** Пакети
+- Пакет представља скуп логички повезаних сандука којима се управља на
+  јединствен начин.
+- Пакет мора имати бар један сандук.
+- Пакет може имати произвољно много бинарних сандука али највише један
+  библиотечки сандук.
+
+** Креирање пакета
+
+#+begin_src sh
+$ cargo new my-project
+     Created binary (application) `my-project` package
+$ ls my-project
+Cargo.toml
+src
+$ ls my-project/src
+main.rs
+#+end_src
+
+- Сваки пакети у корену има =Cargo.toml= конфигурациони фајл.
+- Према конвенцији корен бинарног сандука је =src/main.rs=, док је корен
+  библиотечког сандука =src/lib.rs=.
+- Ако пакет има више бинарних сандука, коренски фајлови се смештају у фолдер =src/bin=.
+
+** Структура пакета
+#+begin_src text
+backyard
+├── Cargo.lock
+├── Cargo.toml              <- конфигурација пакета
+└── src
+    ├── garden
+    │   └── vegetables.rs   <- модул
+    ├── garden.rs           <- модул
+    └── main.rs             <- корен бинарног сандука
+#+end_src
+
+** Груписање повезаног кода у модуле
+- У циљу читљивости, лакшег проналаска и поновне искористљивости, модули нам омогућавају организацију кода унутар сандука у виду стабла.
+- Модули, такође, омогућавају дефинисање правила приступа. Сви елементи унутар
+  модула су подразумевано приватни.
+
+** Пример употребе модула
+#+begin_src sh
+cargo new restaurant --lib
+#+end_src
+
+Фајл: src/lib.rs
+#+begin_src rust
+mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+
+        fn seat_at_table() {}
+    }
+
+    mod serving {
+        fn take_order() {}
+
+        fn serve_order() {}
+
+        fn take_payment() {}
+    }
+}
+#+end_src
+
+Модули могу имати друге модуле, структуре, енумерације, константе, особине итд.
+
+** Стабло модула (/module tree/)
+Модули се повезују и чине структуру типа стабла чији корен је корен сандука
+(=main.rs= ili =lib.rs=).
+
+#+begin_src text
+crate
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+     │   └── seat_at_table
+     └── serving
+         ├── take_order
+         ├── serve_order
+         └── take_payment
+#+end_src
+
+Аналогија је систем фајлова и фолдера.
+
+** Путање унутар стабла модула
+Елементи Раст кода се могу референцирати путањама које синтаксни елемент за
+навигацију над стаблом модула.
+
+Постоје две врсте путања:
+- /апсолутна путања/ - пуна путања која почиње од корена сандука. Започиње са
+  речју =crate=.
+- /релативна путања/ - путања која се гради релативно од позиције где се наводи.
+  Може да користи кључне речи =self= i =super=.
+
+** Пример апсолутне и релативне путање
+#+begin_src rust
+mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Absolute path
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // Relative path
+    front_of_house::hosting::add_to_waitlist();
+}
+#+end_src
+
+** Видљивост елемената унутар модула
+- Претходни пример се не компајлира.
+
+#+begin_src rust
+$ cargo build
+   Compiling restaurant v0.1.0 (file:///projects/restaurant)
+error[E0603]: module `hosting` is private
+ --> src/lib.rs:9:28
+  |
+9 |     crate::front_of_house::hosting::add_to_waitlist();
+  |                            ^^^^^^^ private module
+  |
+note: the module `hosting` is defined here
+ --> src/lib.rs:2:5
+  |
+2 |     mod hosting {
+  |     ^^^^^^^^^^^
+
+error[E0603]: module `hosting` is private
+  --> src/lib.rs:12:21
+   |
+12 |     front_of_house::hosting::add_to_waitlist();
+   |                     ^^^^^^^ private module
+   |
+note: the module `hosting` is defined here
+  --> src/lib.rs:2:5
+   |
+2  |     mod hosting {
+   |     ^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0603`.
+error: could not compile `restaurant` due to 2 previous errors
+#+end_src
+
+#+REVEAL: split
+
+Ако учинимо модул =hosting= јавним:
+
+#+begin_src rust
+mod front_of_house {
+    pub mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Absolute path
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // Relative path
+    front_of_house::hosting::add_to_waitlist();
+}
+#+end_src
+
+#+REVEAL: split
+
+И даље имамо грешку:
+#+begin_src rust
+$ cargo build
+   Compiling restaurant v0.1.0 (file:///projects/restaurant)
+error[E0603]: function `add_to_waitlist` is private
+ --> src/lib.rs:9:37
+  |
+9 |     crate::front_of_house::hosting::add_to_waitlist();
+  |                                     ^^^^^^^^^^^^^^^ private function
+  |
+note: the function `add_to_waitlist` is defined here
+ --> src/lib.rs:3:9
+  |
+3 |         fn add_to_waitlist() {}
+  |         ^^^^^^^^^^^^^^^^^^^^
+
+error[E0603]: function `add_to_waitlist` is private
+  --> src/lib.rs:12:30
+   |
+12 |     front_of_house::hosting::add_to_waitlist();
+   |                              ^^^^^^^^^^^^^^^ private function
+   |
+note: the function `add_to_waitlist` is defined here
+  --> src/lib.rs:3:9
+   |
+3  |         fn add_to_waitlist() {}
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0603`.
+error: could not compile `restaurant` due to 2 previous errors
+#+end_src
+
+#+REVEAL: split
+
+Морамо учинити и функцију =add_to_waitlist= јавном јер иако је модул јаван његови
+елементи су подразумевано приватни.
+
+#+begin_src rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Absolute path
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // Relative path
+    front_of_house::hosting::add_to_waitlist();
+}
+#+end_src
+
+** Јавни API
+
+Код који је јавно доступан ван библиотечког сандука чини јавни API библиотеке и
+представља "уговор" са корисницима библиотеке. Стога је важно поштовати одређена
+правила измене ових елемената.
+
+Делови кода који нису споља јавно доступни могу слободно да се мењају јер неће
+утицати на кориснике.
+
+** Релативне путање и употреба =super=
+- =super= се користи у ситуацији када релативну путању креирамо са почетком у
+  родитељском модулу.
+
+#+begin_src rust
+fn deliver_order() {}
+
+mod back_of_house {
+    fn fix_incorrect_order() {
+        cook_order();
+        super::deliver_order();
+    }
+
+    fn cook_order() {}
+}
+#+end_src
+
+** Јавни приступ структурама и енумерацијама
+- Постоји одређена разлика у третирању =pub= кључне речи када су у питању
+  структуре и енумерације.
+- Структуре које имају јавни приступ и даље подразумевано имају приватан приступ пољима.
+#+begin_src rust
+mod back_of_house {
+    pub struct Breakfast {
+        pub toast: String,
+        seasonal_fruit: String,
+    }
+    impl Breakfast {
+        pub fn summer(toast: &str) -> Breakfast {
+            Breakfast {
+                toast: String::from(toast),
+                seasonal_fruit: String::from("peaches"),
+            }
+        }
+    }
+}
+pub fn eat_at_restaurant() {
+    let mut meal = back_of_house::Breakfast::summer("Rye");
+
+    meal.toast = String::from("Wheat");
+    println!("I'd like {} toast please", meal.toast);
+
+    // Следећа линија се не компајлира јер је поље приватно
+    // meal.seasonal_fruit = String::from("blueberries");
+}
+#+end_src
+
+#+REVEAL: split
+
+Са друге стране, варијанте енумерација су увек јавне:
+
+#+begin_src rust
+mod back_of_house {
+    pub enum Appetizer {
+        Soup,
+        Salad,
+    }
+}
+
+pub fn eat_at_restaurant() {
+    let order1 = back_of_house::Appetizer::Soup;
+    let order2 = back_of_house::Appetizer::Salad;
+}
+#+end_src
+
+** Увођење елемената у опсег - кључна реч =use=
+- Употреба пуних путања за свако навођење језичког елемента је оптерећујуће и
+  лоше утиче на читкост кода.
+- Употребом кључне речи =use= можемо увести елемент у текући опсег.
+
+#+begin_src rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+}
+#+end_src
+
+Аналогно креирању пречица (/shortcuts/) у фајл систему.
+
+** =use= само креира пречицу
+Следећи пример се не компајлира јер смо поморили функцију =eat_at_restaurant= у
+модул =customer= и релативна пречица више није валидна.
+
+#+begin_src rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+use crate::front_of_house::hosting;
+
+mod customer {
+    pub fn eat_at_restaurant() {
+        hosting::add_to_waitlist();
+    }
+}
+#+end_src
+
+** Креирање идиоматских путања
+- Када уводимо функцију у опсег обично то радимо увођењем родитељског модула
+  како смо видели на претходном примеру.
+- Ако уводимо типове (структуре, енумерације) наводимо их директно.
+- На пример, увођење структуре =HashMap= из стандардне библиотеке:
+
+#+begin_src rust
+use std::collections::HashMap;
+
+fn main() {
+    let mut map = HashMap::new();
+    map.insert(1, 2);
+}
+#+end_src
+
+** Употреба кључне речи =as= за промену имена
+Раст не дозвољава да постоје различити елементи у опсегу са истим именом.
+Уколико желимо да уведемо елементе са истим називом можемо:
+- Увести родитељски модул, као у следећем примеру:
+  #+begin_src rust
+    use std::fmt;
+    use std::io;
+    fn function1() -> fmt::Result {
+        // --snip--
+    }
+
+    fn function2() -> io::Result<()> {
+        // --snip--
+    }
+  #+end_src
+
+- Променити име у текућем опсегу употребом кључне речи =as=.
+  #+begin_src rust
+    use std::fmt::Result;
+    use std::io::Result as IoResult;
+    fn function1() -> Result {
+        // --snip--
+    }
+
+    fn function2() -> IoResult<()> {
+        // --snip--
+    }
+  #+end_src
+
+** Реекспорт имена са =pub use=
+- Када уведемо име у опсег са =use= он је приватан за приступ споља.
+- Уколико желимо да буде јаван споља можемо користити =pub use=.
+
+#+begin_src rust
+mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+pub use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+}
+#+end_src
+
+- Ово се често користи када јавни API библиотеке треба да буде различит од
+  интерне организације кода.
+
+** Употреба екстерних пакета
+
+Фајл =Cargo.toml=:
+#+begin_src rust
+...
+[dependencies]
+rand = "0.8.5"
+...
+#+end_src
+
+И затим можемо увести елементе из =rand= сандука са:
+#+begin_src rust
+use rand::Rng;
+
+fn main() {
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+}
+#+end_src
+
+#+REVEAL: split
+
+Пакети се подразумевано преузимају са =crates.io=. =std= библиотека је сандук, увек
+је локално присутан, није потребно посебно га наводити у конфигурацији али је
+елементе које користимо потребно увести.
+
+#+begin_src rust
+use std::collections::HashMap;
+#+end_src
+
+** Угњеждене путање при увођењу
+- Ако уводимо више елемената из истог модула можемо користити скраћени угњеждени
+  запис.
+
+- На пример:
+  #+begin_src rust
+    // --snip--
+    use std::cmp::Ordering;
+    use std::io;
+    // --snip--
+  #+end_src
+
+- Можемо писати као:
+  #+begin_src rust
+    // --snip--
+    use std::{cmp::Ordering, io};
+    // --snip--
+  #+end_src
+
+#+REVEAL: split
+
+- Moжемо истовремено увести и модул и неке од његових елемената. На пример,
+  уместо:
+  #+begin_src rust
+    use std::io;
+    use std::io::Write;
+  #+end_src
+- Можемо писати:
+  #+begin_src rust
+    use std::io::{self, Write};
+  #+end_src
+
+** /Glob/ оператор
+
+- Ако желимо да уведемо све елементе неког модула можемо писати:
+  #+begin_src rust
+    use std::collections::*;
+  #+end_src
+
+** Подела модула у посебне фајлове
+Модуле често пишемо у посебним фајловима због лакшег приступа и организације.
+
+Фајл =src/lib.rs=:
+#+begin_src rust
+pub mod front_of_house;    // <- наводимо име фајла модула
+
+pub use crate::front_of_house::hosting;
+
+pub fn eat_at_restaurant() {
+    hosting::add_to_waitlist();
+}
+#+end_src
+
+А затим у фајлу =src/front_of_house.rs=
+#+begin_src rust
+pub mod hosting {
+    pub fn add_to_waitlist() {}
+}
+#+end_src
+
+#+REVEAL: split
+
+А можемо даље декомпоновати и извући модул =hosting= из фајла =front_of_house.rs=:
+
+Фајл =src/front_of_house.rs=:
+#+begin_src rust
+pub mod hosting;
+#+end_src
+
+Фајл =src/front_of_house/hosting.rs=:
+#+begin_src rust
+pub fn add_to_waitlist() {}
+#+end_src
+
+#+begin_note
+=mod= је потребно навести само једном. Тиме се модул увезује у стабло модула и
+могуће га је референцирати путањама из остатка кода. Односно, =mod= није исто што
+и =include= из других програмских језика.
+#+end_note
 
 * Тестирање
 ** Тестирање
