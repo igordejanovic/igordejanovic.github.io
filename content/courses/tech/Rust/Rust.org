@@ -6177,7 +6177,754 @@ where
 }
 #+end_src
 
-* TODO Функционално програмирање, затворења и итератори
+* Функционално програмирање, затворења и итератори
+** Затворења (/closures/)
+- Анонимне функције које се могу сачувати у варијабли и проследити другим функцијама.
+- За разлику од обичних функција, затворења "памте" варијабле из свога окружења.
+- Често се користе као параметри функција за трансформацију итератора.
+*** Пример
+- Фирма која врши промоцију периодичним слањем мајци насумично одабраним
+  клијентима са мејлинг листе.
+- Ако клијент има омиљену боју подешену у профилу мајица те боје му се шаље. У
+  супротном, шаље му се мајица у боји које тренутно има највише на стању.
+
+#+name: giveaway-types
+#+begin_src rust :session giveaway
+#[derive(Debug, PartialEq, Copy, Clone)]
+enum ShirtColor {
+    Red,
+    Blue,
+}
+
+struct Inventory {
+    shirts: Vec<ShirtColor>,
+}
+#+end_src
+
+#+RESULTS:
+
+#+REVEAL: split
+
+#+name: giveaway-inventory
+#+begin_src rust :giveaway
+impl Inventory {
+    fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
+        user_preference.unwrap_or_else(|| self.most_stocked())    // <- Затворење
+    }
+
+    fn most_stocked(&self) -> ShirtColor {
+        let mut num_red = 0;
+        let mut num_blue = 0;
+
+        for color in &self.shirts {
+            match color {
+                ShirtColor::Red => num_red += 1,
+                ShirtColor::Blue => num_blue += 1,
+            }
+        }
+        if num_red > num_blue {
+            ShirtColor::Red
+        } else {
+            ShirtColor::Blue
+        }
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust :noweb no-export
+<<giveaway-types>>
+<<giveaway-inventory>>
+fn main() {
+    let store = Inventory {
+        shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
+    };
+
+    let user_pref1 = Some(ShirtColor::Red);
+    let giveaway1 = store.giveaway(user_pref1);
+    println!(
+        "The user with preference {:?} gets {:?}",
+        user_pref1, giveaway1
+    );
+
+    let user_pref2 = None;
+    let giveaway2 = store.giveaway(user_pref2);
+    println!(
+        "The user with preference {:?} gets {:?}",
+        user_pref2, giveaway2
+    );
+}
+#+end_src
+
+#+RESULTS:
+: The user with preference Some(Red) gets Red
+: The user with preference None gets Blue
+
+*** Инференца типова
+- За разлику од функција, код затворења није неопходна анотација типова
+  параметара и повратних вредности.
+- Уколико је анотација потребна то радимо на следећи начин:
+
+#+begin_src rust
+let expensive_closure = |num: u32| -> u32 {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    };
+#+end_src
+
+*** Поређење са функцијама
+
+#+begin_src rust
+fn  add_one_v1   (x: u32) -> u32 { x + 1 }
+let add_one_v2 = |x: u32| -> u32 { x + 1 };
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;
+#+end_src
+
+- Последње две линије захтевају евалуацију затворења да би компајлер могао да
+  изведе типове, слично као употреба =let v = Vec::new()=.
+
+*** Инференца типова при евалуацији
+
+#+begin_src rust
+let example_closure = |x| x;
+
+let s = example_closure(String::from("hello"));
+let n = example_closure(5);
+#+end_src
+
+#+begin_src sh
+$ cargo run
+   Compiling closure-example v0.1.0 (file:///projects/closure-example)
+error[E0308]: mismatched types
+ --> src/main.rs:5:29
+  |
+5 |     let n = example_closure(5);
+  |             --------------- ^- help: try using a conversion method: `.to_string()`
+  |             |               |
+  |             |               expected struct `String`, found integer
+  |             arguments to this function are incorrect
+  |
+note: closure parameter defined here
+ --> src/main.rs:2:28
+  |
+2 |     let example_closure = |x| x;
+  |                            ^
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `closure-example` due to previous error
+#+end_src
+
+*** Памћење окружења - референце и власништва
+- Затворење може да запамти варијабле свога окружења на три начина, као и код
+  преноса параметара функције:
+  1. непромењива позајмица (дељена референца)
+  2. промењива позајмица (јединствена референца)
+  3. узимање власништва (премештање)
+
+*** Памћење окружења - непромењива позајмица
+#+begin_src rust
+fn main() {
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    let only_borrows = || println!("From closure: {:?}", list);
+
+    println!("Before calling closure: {:?}", list);
+    only_borrows();
+    println!("After calling closure: {:?}", list);
+}
+#+end_src
+
+#+RESULTS:
+: Before defining closure: [1, 2, 3]
+: Before calling closure: [1, 2, 3]
+: From closure: [1, 2, 3]
+: After calling closure: [1, 2, 3]
+
+*** Памћење окружења - промењива позајмица
+#+begin_src rust
+fn main() {
+    let mut list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    let mut borrows_mutably = || list.push(7);
+
+    // println!("Before calling closure: {:?}", list); // <- Ово не може!
+    borrows_mutably();
+    println!("After calling closure: {:?}", list);
+}
+#+end_src
+
+#+RESULTS:
+: Before defining closure: [1, 2, 3]
+: After calling closure: [1, 2, 3, 7]
+
+*** Памћење окружења - узимање власништва
+- Ако желимо да затворење преузме власништво над вредношћу користимо кључну реч =move=.
+- Најчешће користимо у контексту нити.
+
+#+begin_src rust
+use std::thread;
+
+fn main() {
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    thread::spawn(move || println!("From thread: {:?}", list))
+        .join()
+        .unwrap();
+}
+#+end_src
+
+#+RESULTS:
+: Before defining closure: [1, 2, 3]
+: From thread: [1, 2, 3]
+
+- Неопходно јер =main= нит може завршити раније и тиме деалоцирати =list= вредност
+  која би још увек била позајмљена од стране креиране нити.
+
+#+REVEAL: split
+
+- Ако уклонимо кључну реч =move= добићемо следећу грешку:
+
+#+begin_src sh
+error[E0373]: closure may outlive the current function, but it borrows `list`, which
+is owned by the current function
+ --> src/main.rs:8:19
+  |
+8 |     thread::spawn(|| println!("From thread: {:?}", list))
+  |                   ^^                               ---- `list` is borrowed here
+  |                   |
+  |                   may outlive borrowed value `list`
+  |
+note: function requires argument type to outlive `'static`
+ --> src/main.rs:8:5
+  |
+8 |     thread::spawn(|| println!("From thread: {:?}", list))
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: to force the closure to take ownership of `list` (and any other referenced variables),
+use the `move` keyword
+  |
+8 |     thread::spawn(move || println!("From thread: {:?}", list))
+  |                   ++++
+
+For more information about this error, try `rustc --explain E0373`.
+error: could not compile `cargo0sMXjj` due to previous error
+#+end_src
+
+*** Премештање запамћених вредности и =Fn= особине
+- Затворење може са запамћеним вредностима да уради нешто од следећег:
+  1. Врати власништво позиваоцу приликом евалуације.
+  2. Измени запамћену вредност.
+  3. Само чита запамћену вредности.
+  4. или, може и да не запамти ниједну вредност из свог окружења.
+
+#+REVEAL: split
+
+- У зависности од тога, затворење ће аутоматски имплементирати једну, две или
+  све три особине:
+  1. =FnOnce= - затворења која могу да се позову само једном. Сва затворења
+     имплементирају бар ову особину, пошто могу да се позову бар једном.
+     Затворења која предају власништво приликом позива имплементрају само ову
+     особину пошто се не могу позвати више од једном.
+  2. =FnMut= - затворења која не премештају вредности али их могу мењати. Могу се
+     позвати више од једном.
+  3. =Fn= - затворења која нити премештају нити мењају своје окружење, или не
+     памте ништа из окружења. Могу се позвати више пута.
+
+*** Пример - =FnOnce=
+#+begin_src rust
+impl<T> Option<T> {
+    pub fn unwrap_or_else<F>(self, f: F) -> T
+    where
+        F: FnOnce() -> T
+    {
+        match self {
+            Some(x) => x,
+            None => f(),
+        }
+    }
+}
+#+end_src
+
+- =unwrap_or_else= прихвата најопштији облик затворења која имплементирају =FnOnce=.
+
+*** Пример - =FnMut=
+
+#+begin_src rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    list.sort_by_key(|r| r.width);
+    println!("{:#?}", list);
+}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[
+    Rectangle {
+        width: 3,
+        height: 5,
+    },
+    Rectangle {
+        width: 7,
+        height: 12,
+    },
+    Rectangle {
+        width: 10,
+        height: 1,
+    },
+]
+#+end_example
+
+#+REVEAL: split
+
+- Сигнатура за методу =sort_by_key= над исечком je =FnMut=. Зашто?
+#+begin_src rust
+pub fn sort_by_key<K, F>(&mut self, f: F)
+where
+    F: FnMut(&T) -> K,
+    K: Ord,
+#+end_src
+
+#+REVEAL: split
+
+- Затворење се позива за сваки елемент исечка тако да не може бити само =FnOnce=
+  већ мора имати додатна ограничења.
+- Иако затворење у овом случају =|r| r.width= не модификује својe окружење ипак је
+  ограничење тако дефинисано да буде најмање рестриктивно. Стога, пошто је
+  једини захтев да затворење можемо позивати више пута, ограничење које је
+  следеће најмање рестриктивно после =FnOnce= је =FnMut=.
+- Овим ћемо моћи проследити затворења која су и =Fn= и =FnMut= али не и она која су
+  само =FnOnce=.
+
+#+REVEAL: split
+
+- Да видимо шта ће бити ако имамо затворење које ради премештање из окружења и
+  тиме је само =FnOnce=.
+
+#+begin_src rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut sort_operations = vec![];
+    let value = String::from("by key called");
+
+    list.sort_by_key(|r| {
+        sort_operations.push(value);
+        r.width
+    });
+    println!("{:#?}", list);
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src sh
+error[E0507]: cannot move out of `value`, a captured variable in an `FnMut` closure
+  --> src/main.rs:19:30
+   |
+16 |     let value = String::from("by key called");
+   |         ----- captured outer variable
+17 |
+18 |     list.sort_by_key(|r| {
+   |                      --- captured by this `FnMut` closure
+19 |         sort_operations.push(value);
+   |                              ^^^^^ move occurs because `value` has type `String`, which
+   does not implement the `Copy` trait
+
+For more information about this error, try `rustc --explain E0507`.
+error: could not compile `cargoHMNw8k` due to previous error
+#+end_src
+
+#+REVEAL: split
+
+- Али ово ће радити јер је сада затворење =FnMut=.
+
+#+begin_src rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut num_sort_operations = 0;
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+        r.width
+    });
+    println!("{:#?}, sorted in {num_sort_operations} operations", list);
+}
+#+end_src
+
+** Итератори
+- Итератор образац омогућава процесирање елемената секвенци.
+- Итератори имплементирају логику итерације тј. преузимање елемента редом из
+  секвенце и логику детекције краја итерације.
+- Итератори у Расту су "лењи", односно процесирање ће се одложити и обавити тек
+  онда када је то заиста потребно.
+
+*** Пример
+#+begin_src rust
+let v1 = vec![1, 2, 3];
+
+let v1_iter = v1.iter();
+#+end_src
+
+- =v1_iter= је итератор. Сам по себи не ради ништа док се не конзумира.
+
+#+begin_src rust
+let v1 = vec![1, 2, 3];
+
+let v1_iter = v1.iter();
+
+for val in v1_iter {
+    println!("Got: {}", val);
+}
+#+end_src
+
+#+RESULTS:
+: Got: 1
+: Got: 2
+: Got: 3
+
+*** =Iterator= особина и метода =next=
+#+begin_src rust
+pub trait Iterator {
+    type Item;
+
+    fn next(&mut self) -> Option<Self::Item>;
+
+    // methods with default implementations elided
+}
+#+end_src
+
+- Ова особина има придружени тип (/associated type/) - =type Item= односно
+  =Self::Item=. Стога, имплементација ове особине над неким типом захтева
+  дефиницију и придруженог типа који представља тип елемената над којима се врши
+  итерација.
+
+*** Демонстрација итерације
+#+begin_src rust
+ #[test]
+fn iterator_demonstration() {
+    let v1 = vec![1, 2, 3];
+
+    let mut v1_iter = v1.iter();
+
+    assert_eq!(v1_iter.next(), Some(&1));
+    assert_eq!(v1_iter.next(), Some(&2));
+    assert_eq!(v1_iter.next(), Some(&3));
+    assert_eq!(v1_iter.next(), None);
+}
+#+end_src
+
+- Сваки позив методе =next= врши конзумацију итератора, односно узима се наредни
+  елемент и ажурира се интерно стање итератора.
+- У овом случају =iter= метода производи итератор кроз непромењиве (дељене)
+  референце над елементима вектора, тако да =next= враћа непромењиву референцу на
+  наредни елемент.
+- Ако нам треба итерација преко промењивих референци користимо методу =iter_mut=.
+- Ако нам треба итерација преко власничких вредности користимо методу =into_iter=.
+  У том случају итератор постаје власник колекције и враћа премештене вредности
+  при сваком позиву =next= методе.
+
+*** Методе које конзумирају итераторе
+- =Iterator= особина има богат API.
+- Неке од ових метода позивају =next= методу. За такве методе кажемо да су
+  конзумирајући адаптери јер врше конзумацију итератора.
+- На пример, =sum= метода.
+
+#+begin_src rust
+let v1 = vec![1, 2, 3];
+
+let v1_iter = v1.iter();
+
+let total: i32 = v1_iter.sum();
+
+// println!("{:?}", v1_iter.next());  // <- Ово не може.
+
+assert_eq!(total, 6);
+#+end_src
+
+#+RESULTS:
+
+- Када се позове =sum= више нисмо у стању да позовемо =v1_iter= јер смо га
+  конзумирали.
+
+*** Методе које производе друге итераторе
+- Називамо их итератор адаптерима.
+- Врше конверзију једног итератора у неки други итератор.
+
+#+begin_src rust
+let v1: Vec<i32> = vec![1, 2, 3];
+
+v1.iter().map(|x| x + 1);
+#+end_src
+
+#+REVEAL: split
+
+- Претходни код производи упозорење:
+
+#+begin_src rust
+$ cargo run
+   Compiling iterators v0.1.0 (file:///projects/iterators)
+warning: unused `Map` that must be used
+ --> src/main.rs:4:5
+  |
+4 |     v1.iter().map(|x| x + 1);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: iterators are lazy and do nothing unless consumed
+  = note: `#[warn(unused_must_use)]` on by default
+
+warning: `iterators` (bin "iterators") generated 1 warning
+    Finished dev [unoptimized + debuginfo] target(s) in 0.47s
+     Running `target/debug/iterators`
+#+end_src
+
+- Итератор адаптери су "лењи". Претходни итератор није конзумиран тако да се
+  мапирање никада неће извршити.
+
+#+REVEAL: split
+
+- Дакле, морамо конзумирати итератор. Једна од метода за конзумацију итератора
+  је =collect= која ће да конзумира итератор и креира колекцију са елементима које
+  он враћа.
+
+#+begin_src rust
+let v1: Vec<i32> = vec![1, 2, 3];
+
+let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+
+assert_eq!(v2, vec![2, 3, 4]);
+#+end_src
+
+- Обратите пажњу да је била потребна анотација типа јер је =collect= генеричка
+  метода која може да креира различите типове вредности.
+- Можете позивати више адаптера у низу и сви заједно су лењи тј. морате на крају
+  позвати методу која конзумира да бисте извршили цео ланац.
+*** Употреба затворења као параметара итератор адаптера
+- Многи адаптери користе затворења као своје параметре.
+
+#+begin_src rust
+#[derive(PartialEq, Debug)]
+struct Shoe {
+    size: u32,
+    style: String,
+}
+
+fn shoes_in_size(shoes: Vec<Shoe>, shoe_size: u32) -> Vec<Shoe> {
+    shoes.into_iter().filter(|s| s.size == shoe_size).collect()
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+let shoes = vec![
+    Shoe {
+        size: 10,
+        style: String::from("sneaker"),
+    },
+    Shoe {
+        size: 13,
+        style: String::from("sandal"),
+    },
+    Shoe {
+        size: 10,
+        style: String::from("boot"),
+    },
+];
+
+let in_my_size = shoes_in_size(shoes, 10);
+
+assert_eq!(
+    in_my_size,
+    vec![
+        Shoe {
+            size: 10,
+            style: String::from("sneaker")
+        },
+        Shoe {
+            size: 10,
+            style: String::from("boot")
+        },
+    ]
+);
+#+end_src
+
+*** Употреба итератор адаптера за писање концизнијег кода
+- Пример претраге са =for= петљом:
+#+begin_src rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+#+end_src
+
+- Исти алгоритам употребом итератор адаптера:
+
+#+begin_src rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
+}
+#+end_src
+
+#+REVEAL: split
+
+- Иако интуитивно можемо да помислимо да је код написан на вишем нивоу употребом
+  итератора спорији, заправо компајлер је у прилици да боље оптимизује овај код
+  и он је често нешто бржи од еквивалентног кода написаног употребом =for= петље.
+*** Анализа сложенијих примера
+
+#+begin_src rust
+let buffer: &mut [i32];
+let coefficients: [i64; 12];
+let qlp_shift: i16;
+
+for i in 12..buffer.len() {
+    let prediction = coefficients.iter()
+                                 .zip(&buffer[i - 12..i])
+                                 .map(|(&c, &s)| c * s as i64)
+                                 .sum::<i64>() >> qlp_shift;
+    let delta = buffer[i];
+    buffer[i] = prediction as i32 + delta;
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+token_recognizers
+    .iter()
+    .map(|tr| {
+        (
+            tr.recognize(&context.input[context.position..]),
+            tr.token_kind(),
+        )
+    })
+    // Skip unsuccesful recognition
+    .skip_while(|(recognized, _)| recognized.is_none())
+    // Create tokens
+    .map(|(recognized, token_kind)| Token {
+        kind: token_kind,
+        value: recognized.unwrap(),
+        location: recognized.unwrap().location_span(context.location),
+    })
+    // Take the first token or return None if no tokens are found.
+    .next()
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+let max_actions = self
+    .table
+    .states
+    .iter()
+    .map(|x| x.actions.iter().filter(|x| !x.is_empty()).count())
+    .max()
+    .unwrap();
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+let mut terminals = state
+    .actions
+    .iter()
+    .enumerate()
+    .filter(|(_, actions)| !actions.is_empty())
+    .map(|(idx, _)| TermIndex(idx))
+    .collect::<Vec<_>>();
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+fn context_str(&self, position: usize) -> String {
+    format!(
+        "{:?}",
+        self[position - min(15, position)..position]
+            .iter()
+            .map(|x| format!("{x}"))
+            .chain(once("-->".to_string()))
+            .chain(self[position..].iter().map(|x| format!("{x}")).take(15))
+            .collect::<Vec<_>>()
+    )
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+let actions = state
+    .actions
+    .iter()
+    .enumerate()
+    .filter(|(_, a)| !a.is_empty())
+    .flat_map(|(i, a)| repeat(i).zip(a.iter()))
+    .map(|(i, a)| {
+        (
+            self.grammar.terminals[TermIndex(i)].name.clone(),
+            match a {
+                Action::Shift(s) => format!("Shift to {s}"),
+                Action::Reduce(p, l) => {
+                    format!(
+                        "Reduce for len {l} by:   {}",
+                        self.grammar.productions[*p]
+                            .to_string(self.grammar)
+                    )
+                }
+                Action::Accept => "Accept".into(),
+            },
+        )
+    })
+    .collect::<Vec<_>>();
+#+end_src
+
 * TODO Макрои
 * TODO ООП, паметни поинтери, конкурентно програмирање
 * Литература
