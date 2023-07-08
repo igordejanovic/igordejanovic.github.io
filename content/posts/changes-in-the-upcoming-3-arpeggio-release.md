@@ -1,7 +1,7 @@
 +++
 title = "Some important changes in the upcoming releases of Arpeggio/textX parsers"
 date = 2023-04-07T20:08:00+02:00
-lastmod = 2023-04-07T20:36:06+02:00
+lastmod = 2023-07-08T17:10:17+02:00
 ptags = ["textX", "arpeggio", "python"]
 type = "post"
 draft = false
@@ -26,7 +26,7 @@ alternatives from the most specific to the most generic (e.g. `ab | a` in this
 case).
 
 Another thing to consider are expressions that always succeed (let's call them
-_infallible_ and expressions that may match empty (let's call them _nullable_).
+_infallible_) and expressions that may match empty (let's call them _nullable_).
 
 Infallible expressions are: `Optional`, `ZeroOrMore`, `RegexMatch` that may match
 empty, a `Sequence` of infallibles and `OrderedChoice` where at last one of the
