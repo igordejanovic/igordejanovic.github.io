@@ -1,9 +1,9 @@
 +++
 title = "Sway config"
-lastmod = 2023-02-16T17:48:12+01:00
+lastmod = 2023-07-08T17:11:45+02:00
 rtags = ["linux", "config", "wayland"]
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 28.2 (Org mode 9.6.1 + ox-hugo)"
 +++
 
 Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be
@@ -293,7 +293,7 @@ assign [class="Audacious"] 10
 
 _TODO: Write how to get the name of the application class._
 
-Send current workspace to other output:
+Send current workspace to other output (e.g. from primary to secondary and vice-versa):
 
 ```cfg
 bindsym $mod+o exec swaymsg -t get_outputs | \
@@ -692,6 +692,7 @@ Waybar configuration:
     "clock": {
         "format": "{:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "gsimplecal",
         "tooltip": true
     },
     "custom/weather": {
