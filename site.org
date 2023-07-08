@@ -733,7 +733,7 @@ assign [class="Audacious"] 10
 
 /TODO: Write how to get the name of the application class./
 
-Send current workspace to other output:
+Send current workspace to other output (e.g. from primary to secondary and vice-versa):
 #+begin_src conf
 bindsym $mod+o exec swaymsg -t get_outputs | \
         jq '.[] | select(.focused!=true) | .name' | head -n1 | xargs swaymsg move workspace to
