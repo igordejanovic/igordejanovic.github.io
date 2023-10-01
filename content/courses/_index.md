@@ -2,7 +2,7 @@
 title = "Courses (in Serbian)"
 linkTitle = "Courses/Предавања"
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 29.1 (Org mode 9.7 + ox-hugo)"
 [menu]
   [menu.main]
     weight = 1002
