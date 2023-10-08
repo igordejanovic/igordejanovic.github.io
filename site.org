@@ -1164,10 +1164,12 @@ Waybar configuration:
       // "interface": "wlp2*", // (Optional) To force the use of this interface
       "interval": 3,
       "format-wifi": "{essid} ({signalStrength}%, {bandwidthDownBits}|{bandwidthUpBits}) ",
-      "format-ethernet": "{ifname}: {ipaddr}/{cidr} ({bandwidthDownBits}|{bandwidthUpBits}) ",
+      "format-ethernet": "{ifname}: {bandwidthDownBits}|{bandwidthUpBits} ",
       "format-linked": "{ifname} (No IP) ",
       "format-disconnected": "Disconnected ⚠",
-      "format-alt": "{ifname}: {ipaddr}/{cidr}"
+      "format-alt": "{ifname}: {ipaddr}/{cidr}",
+      "tooltip": true,
+      "tooltip-format": "{ipaddr}/{cidr}"
   },
   "idle_inhibitor": {
           "format": "{icon}",
