@@ -729,6 +729,7 @@ fn main() {
 #+end_src
 
 *** Торке (/tuples/)
+- Хетерогене структуре фиксне дужине.
 #+begin_src rust
 fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
@@ -751,15 +752,22 @@ fn main() {
 Приступ елементима торке:
 #+begin_src rust
 fn main() {
-    let x: (i32, f64, u8) = (500, 6.4, 1);
+    let mut x: (i32, f64, u8) = (500, 6.4, 1);
 
     let five_hundred = x.0;
 
     let six_point_four = x.1;
 
     let one = x.2;
+
+    // Уколико је торка промењива можемо извршити доделу
+    x.2 = 2;
+    println!("{x:?}")
 }
 #+end_src
+
+#+RESULTS:
+: (500, 6.4, 2)
 
 *** Низовни тип
 - Сваки елемент низовног типа мора имати исти тип
@@ -793,6 +801,20 @@ fn main() {
     let second = a[1];
 }
 #+end_src
+
+Конверзија низа у хомогену торку:
+#+begin_src rust
+fn main() {
+    let a = [1, 2, 3];
+    let tup: (u32, u32, u32) = a.into();
+    println!("{tup:?}")
+}
+#+end_src
+
+#+RESULTS:
+: (1, 2, 3)
+
+
 
 ** Функције
 *** Функције
