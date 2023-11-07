@@ -18,7 +18,7 @@ weight = 3003
 5.  [Обрасци понашања](04-obrasci-ponasanja/)
 6.  [Dependency Injection](../tech/dependency-injection/)
 7.  [Развој базиран на компонентама](razvoj-baziran-na-komponentama/)
-8.  [Компонентни развој у Пајтону](../tech/setuptools/)
+8.  [Компонентни развој у Пајтону](../tech/python-plugins/)
 9.  [Пројектни задатак](projektni-zadatak/)
 10. [Django](../tech/django/)
 11. [D3](../tech/d3/)

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Прикључци у Пајтону</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../../s/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Прикључци у Пајтону</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Kreirano 2023-11-07 Tue 18:42, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+</section>
+<section>
+<section id="slide-org12fc52f">
+<h2 id="org12fc52f">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Мотивација</a></li>
+<li><a href="#/slide-2">2. Конзолне скрипте</a></li>
+<li><a href="#/slide-3">3. Прикључне тачке (<i>Entry Points</i>)</a></li>
+<li><a href="#/slide-4">4. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Мотивација</h2>
+<ul>
+<li>Пакет жели да омогући команду која се може позвати са терминала.</li>
+<li>Пакет жели да омогући покретање GUI апликације.</li>
+<li>Пакет жели да омогући прилагођавање своје функционалности употребом прикључака (<i>plugins</i>).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Конзолне скрипте</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Организација пројекта</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >project_root_directory
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        ├── __init__.py
+        └── ...
+</code></pre>
+</div>
+
+<p>
+У <code>__init__.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def hello_world():
+    print("Hello world")
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Покретање као модул</h3>
+<p>
+У <code>src/timmins/__main__.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="python" >from . import hello_world
+
+if __name__ == '__main__':
+    hello_world()
+</code></pre>
+</div>
+
+<p>
+Сада је могуће покренути функцију са терминала на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ python -m timmins
+Hello world
+</code></pre>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Преко екстензионе тачке</h3>
+<p>
+У <code>pyproject.toml</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="toml" >[project.scripts]
+hello-world = "timmins:hello_world"
+</code></pre>
+</div>
+
+<p>
+Сада можемо скрипту директно позвати:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ hello-world
+Hello world
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Исто тако можемо регистровати и GUI скрипту</h3>
+<div class="org-src-container">
+
+<pre><code class="toml" >[project.gui-scripts]
+hello-world = "timmins:hello_world"
+</code></pre>
+</div>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Генеричко решење</h3>
+<ul>
+<li>Регистрација конзолних и GUI скрипти представља специјалну употребу општег
+механизма за проширење који називамо <i>Прикључне тачке</i>.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Прикључне тачке (<i>Entry Points</i>)</h2>
+<ul>
+<li>Општи начин проширења функционалности пакета.</li>
+<li>Тип метаподатка који пакети могу да региструју.</li>
+<li>Други пакети могу динамички да открију и исчитају ове метаподатке.</li>
+
+</ul>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Организација пројекта</h3>
+<p>
+Крећемо од исте организације пројекта.
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >project_root_directory
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        ├── __init__.py
+        └── ...
+</code></pre>
+</div>
+
+<p>
+У <code>__init__.py</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def hello_world():
+    print("Hello world")
+</code></pre>
+</div>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Поставка проблема</h3>
+<ul>
+<li>Желимо да омогућимо прилагођен приказ основног стринга.</li>
+<li><p>
+Прилагођавање могу да ураде други пакети.
+</p>
+
+<p>
+На пример испис може бити промењен на следећи начин:
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >  !!! Hello world !!!
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Први корак</h3>
+<p>
+Раздвајање приказа на две функције:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def display(text):
+    print(text)
+
+def hello_world():
+    display('Hello world')
+</code></pre>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Откривање прикључака и модификоване <code>display</code> функције</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from importlib.metadata import entry_points
+display_eps = entry_points(group='timmins.display')
+</code></pre>
+</div>
+
+<p>
+Прикључне тачке имају назив, групу и вредност (атрибути <code>name</code>, <code>group</code>, <code>value</code>):
+</p>
+<div class="org-src-container">
+
+<pre><code class="python" >(
+    EntryPoint(name='excl', value='timmins_plugin_fancy:excl_display', group='timmins.display'),
+    ...,
+)
+</code></pre>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Учитавање објекта регистрованог у прикључној тачки</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >display = display_eps[0].load()
+</code></pre>
+</div>
+
+<p>
+Потребно је дефинисати понашање у случају да не постоји пакет који региструје
+функцију у прикљуној тачки:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from importlib.metadata import entry_points
+display_eps = entry_points(group='timmins.display')
+try:
+    display = display_eps[0].load()
+except IndexError:
+    def display(text):
+        print(text)
+
+def hello_world():
+    display('Hello world')
+</code></pre>
+</div>
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Регистрација прилагођене <code>display</code> функције</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >timmins-plugin-fancy
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins_plugin_fancy
+        └── __init__.py
+</code></pre>
+</div>
+
+<p>
+У <code>src/timmins_plugin_fancy/__init__.py</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="python" >def excl_display(text):
+    print('!!!', text, '!!!')
+</code></pre>
+</div>
+
+<p>
+<code>pyproject.toml</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="toml" ># Note the quotes around timmins.display in order to escape the dot .
+[project.entry-points."timmins.display"]
+excl = "timmins_plugin_fancy:excl_display"
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Сада можемо видети дејство прикључка уколико је пакет инсталиран:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >&gt;&gt;&gt; from timmins import hello_world
+
+&gt;&gt;&gt; hello_world()
+!!! Hello world !!!
+</code></pre>
+</div>
+
+<p>
+У случају да пакет <code>timmins_plugin_fancy</code> није инсталиран понашање је
+подразумевано:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >&gt;&gt;&gt; from timmins import hello_world
+
+&gt;&gt;&gt; hello_world()
+Hello world
+</code></pre>
+</div>
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Регистрација више прикључака под истом групом</h3>
+<ul>
+<li>Желимо да имамо више различитих начина исписа:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python" >def excl_display(text):
+    print('!!!', text, '!!!')
+
+def lined_display(text):
+    print(''.join(['-' for _ in text]))
+    print(text)
+    print(''.join(['-' for _ in text]))
+</code></pre>
+</div>
+
+<p>
+<code>pyproject.toml</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="toml" >[project.entry-points."timmins.display"]
+excl = "timmins_plugin_fancy:excl_display"
+lined = "timmins_plugin_fancy:lined_display"
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Сада можемо у базном пакету урадити нешто попут овога:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >display_eps = entry_points(group='timmins.display')
+try:
+    display = display_eps['lined'].load()
+except KeyError:
+    # if the 'lined' display is not available, use something else
+    ...
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Или можемо учитати све прикључке:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >display_eps = entry_points(group='timmins.display')
+for ep in display_eps:
+    display = ep.load()
+    # do something with display
+    ...
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Литература</h2>
+<ul>
+<li><a href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html">Setuptools Entry Points</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

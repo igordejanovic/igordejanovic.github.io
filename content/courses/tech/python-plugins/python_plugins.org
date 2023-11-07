@@ -1,0 +1,241 @@
+#+TITLE: Прикључци у Пајтону
+#+SUBTITLE:
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../../courses-startup.org
+
+* Sadržaj
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
+
+* Мотивација
+- Пакет жели да омогући команду која се може позвати са терминала.
+- Пакет жели да омогући покретање GUI апликације.
+- Пакет жели да омогући прилагођавање своје функционалности употребом прикључака (/plugins/).
+
+* Конзолне скрипте
+** Организација пројекта
+#+begin_src text
+project_root_directory
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        ├── __init__.py
+        └── ...
+#+end_src
+
+У =__init__.py=:
+
+#+begin_src python
+def hello_world():
+    print("Hello world")
+#+end_src
+
+** Покретање као модул
+У ~src/timmins/__main__.py~:
+#+begin_src python
+from . import hello_world
+
+if __name__ == '__main__':
+    hello_world()
+#+end_src
+
+Сада је могуће покренути функцију са терминала на следећи начин:
+
+#+begin_src sh
+$ python -m timmins
+Hello world
+#+end_src
+
+** Преко екстензионе тачке
+У ~pyproject.toml~:
+#+begin_src toml
+[project.scripts]
+hello-world = "timmins:hello_world"
+#+end_src
+
+Сада можемо скрипту директно позвати:
+#+begin_src sh
+$ hello-world
+Hello world
+#+end_src
+
+** Исто тако можемо регистровати и GUI скрипту
+#+begin_src toml
+[project.gui-scripts]
+hello-world = "timmins:hello_world"
+#+end_src
+
+** Генеричко решење
+- Регистрација конзолних и GUI скрипти представља специјалну употребу општег
+  механизма за проширење који називамо /Прикључне тачке/.
+
+* Прикључне тачке (/Entry Points/)
+- Општи начин проширења функционалности пакета.
+- Тип метаподатка који пакети могу да региструју.
+- Други пакети могу динамички да открију и исчитају ове метаподатке.
+
+** Организација пројекта
+Крећемо од исте организације пројекта.
+#+begin_src text
+project_root_directory
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins
+        ├── __init__.py
+        └── ...
+#+end_src
+
+У =__init__.py=:
+
+#+begin_src python
+def hello_world():
+    print("Hello world")
+#+end_src
+
+** Поставка проблема
+- Желимо да омогућимо прилагођен приказ основног стринга.
+- Прилагођавање могу да ураде други пакети.
+
+  На пример испис може бити промењен на следећи начин:
+  #+begin_src text
+  !!! Hello world !!!
+  #+end_src
+
+** Први корак
+Раздвајање приказа на две функције:
+
+#+begin_src python
+def display(text):
+    print(text)
+
+def hello_world():
+    display('Hello world')
+#+end_src
+
+** Откривање прикључака и модификоване =display= функције
+#+begin_src python
+from importlib.metadata import entry_points
+display_eps = entry_points(group='timmins.display')
+#+end_src
+
+Прикључне тачке имају назив, групу и вредност (атрибути =name=, =group=, =value=):
+#+begin_src python
+(
+    EntryPoint(name='excl', value='timmins_plugin_fancy:excl_display', group='timmins.display'),
+    ...,
+)
+#+end_src
+
+** Учитавање објекта регистрованог у прикључној тачки
+#+begin_src python
+display = display_eps[0].load()
+#+end_src
+
+Потребно је дефинисати понашање у случају да не постоји пакет који региструје
+функцију у прикљуној тачки:
+
+#+begin_src python
+from importlib.metadata import entry_points
+display_eps = entry_points(group='timmins.display')
+try:
+    display = display_eps[0].load()
+except IndexError:
+    def display(text):
+        print(text)
+
+def hello_world():
+    display('Hello world')
+#+end_src
+
+** Регистрација прилагођене =display= функције
+#+begin_src text
+timmins-plugin-fancy
+├── pyproject.toml        # and/or setup.cfg, setup.py
+└── src
+    └── timmins_plugin_fancy
+        └── __init__.py
+#+end_src
+
+У =src/timmins_plugin_fancy/__init__.py=:
+#+begin_src python
+def excl_display(text):
+    print('!!!', text, '!!!')
+#+end_src
+
+=pyproject.toml=
+#+begin_src toml
+# Note the quotes around timmins.display in order to escape the dot .
+[project.entry-points."timmins.display"]
+excl = "timmins_plugin_fancy:excl_display"
+#+end_src
+
+#+REVEAL: split
+
+Сада можемо видети дејство прикључка уколико је пакет инсталиран:
+
+#+begin_src python
+>>> from timmins import hello_world
+
+>>> hello_world()
+!!! Hello world !!!
+#+end_src
+
+У случају да пакет =timmins_plugin_fancy= није инсталиран понашање је
+подразумевано:
+
+#+begin_src python
+>>> from timmins import hello_world
+
+>>> hello_world()
+Hello world
+#+end_src
+
+** Регистрација више прикључака под истом групом
+- Желимо да имамо више различитих начина исписа:
+#+begin_src python
+def excl_display(text):
+    print('!!!', text, '!!!')
+
+def lined_display(text):
+    print(''.join(['-' for _ in text]))
+    print(text)
+    print(''.join(['-' for _ in text]))
+#+end_src
+
+=pyproject.toml=
+
+#+begin_src toml
+[project.entry-points."timmins.display"]
+excl = "timmins_plugin_fancy:excl_display"
+lined = "timmins_plugin_fancy:lined_display"
+#+end_src
+
+#+REVEAL: split
+
+Сада можемо у базном пакету урадити нешто попут овога:
+
+#+begin_src python
+display_eps = entry_points(group='timmins.display')
+try:
+    display = display_eps['lined'].load()
+except KeyError:
+    # if the 'lined' display is not available, use something else
+    ...
+#+end_src
+
+#+REVEAL: split
+
+Или можемо учитати све прикључке:
+
+#+begin_src python
+display_eps = entry_points(group='timmins.display')
+for ep in display_eps:
+    display = ep.load()
+    # do something with display
+    ...
+#+end_src
+
+* Литература
+- [[https://setuptools.pypa.io/en/latest/userguide/entry_point.html][Setuptools Entry Points]]
