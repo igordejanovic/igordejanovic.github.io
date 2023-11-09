@@ -35,12 +35,11 @@
 <h1 class="title">textX</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:21, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-11-09 Thu 19:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-orgf5e5d56">
-<h2 id="orgf5e5d56">Sadržaj</h2>
+<section id="slide-orgc7ecee8">
+<h2 id="orgc7ecee8">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
@@ -62,7 +61,6 @@
 <li><a href="#/slide-17">17. Veče džeza i slobodnih formi - improvizacije</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -81,18 +79,16 @@
 <li>Dokumentacija i tutorijali dostupni na <a href="https://textx.github.io/textX/">https://textx.github.io/textX/</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>
 <section id="slide-2">
 <h2 id="2"><span class="section-number-2">2.</span> Arhitektura</h2>
 
-<div id="org1e0e472" class="figure">
+<div id="org40eae62" class="figure">
 <p><img src="./images/textX.png" alt="textX.png" />
 </p>
 </div>
-
 </section>
 </section>
 <section>
@@ -121,7 +117,6 @@
  Installing collected packages: Arpeggio, textX
  Successfully installed Arpeggio-1.9.0 textX-1.8.0
 </pre>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Instalacija razvojne verzije</h3>
@@ -143,7 +138,6 @@
    Running setup.py install for textX ... done
  Successfully installed Arpeggio-1.9.0 click-7.0 textX-1.8.0
 </pre>
-
 </section>
 <section id="slide-installation">
 <h3 id="installation"><span class="section-number-3">3.3.</span> Instalacija za razvoj</h3>
@@ -173,7 +167,6 @@
    Running setup.py develop for textX
  Successfully installed textX
 </pre>
-
 </section>
 </section>
 <section>
@@ -209,11 +202,10 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="orgeb71061" class="figure">
+<div id="orgeebd236" class="figure">
 <p><img src="./hello.dot.png" alt="hello.dot.png" style="height: 500px;" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> Model = program</h3>
@@ -224,11 +216,10 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org92788a5" class="figure">
+<div id="orga2a3310" class="figure">
 <p><img src="./images/hello_parts.png" alt="hello_parts.png" style="height: 300px;" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Parsiranje - instanciranje modela</h3>
@@ -239,7 +230,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org1681bb6" class="figure">
+<div id="orgf0427e4" class="figure">
 <p><img src="./example.dot.png" alt="example.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -251,7 +242,6 @@ hello_meta = metamodel_from_file('hello.tx')
 <li>Model možemo dalje interpretirati, analizirati, generisati kod&#x2026;</li>
 
 </ul>
-
 </section>
 <section id="slide-4-4">
 <h3 id="4-4"><span class="section-number-3">4.4.</span> Provera i vizualizacija meta-modela</h3>
@@ -265,7 +255,11 @@ Ako želimo možemo proveriti gramatiku u toku razvoja:
 
 <pre><code class="bash" >  textx check hello.tx
 </code></pre>
-</div></li>
+</div>
+
+<pre class="example">
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx: OK.
+</pre></li>
 
 <li><p>
 U slučaju greške biće prijavljena tačna lokacija.
@@ -286,14 +280,27 @@ ili vizualizovati
 </code></pre>
 </div>
 
+<pre class="example">
+any -&gt; dot           textX    Generating dot visualizations from arbitrary models
+textX -&gt; dot         textX    Generating dot visualizations from textX grammars
+textX -&gt; PlantUML    textX    Generating PlantUML visualizations from textX grammars
+</pre>
+
+
 <div class="org-src-container">
 
 <pre><code class="bash" >  textx generate hello.tx --target dot
 </code></pre>
-</div></li>
+</div>
+
+<pre class="example">
+Generating dot target from models:
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
+-&gt; /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
+   To convert to png run "dot -Tpng -O hello.dot"
+</pre></li>
 
 </ul>
-
 </section>
 <section id="slide-4-5">
 <h3 id="4-5"><span class="section-number-3">4.5.</span> Robot primer</h3>
@@ -349,7 +356,6 @@ end
 </code></pre>
 </div>
 </div>
-
 </section>
 <section id="slide-4-6">
 <h3 id="4-6"><span class="section-number-3">4.6.</span> Instanciranje meta-modela</h3>
@@ -361,7 +367,7 @@ robot_mm = metamodel_from_file('robot.tx')
 </div>
 
 
-<div id="orgf184c3a" class="figure">
+<div id="org76e06ac" class="figure">
 <p><img src="./robot.dot.png" alt="robot.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -372,7 +378,6 @@ robot_mm = metamodel_from_file('robot.tx')
 dot -Tpng -O robot.dot
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-7">
 <h3 id="4-7"><span class="section-number-3">4.7.</span> Parsiranje i instanciranje modela</h3>
@@ -393,7 +398,7 @@ end
 </pre>
 
 
-<div id="org182ea11" class="figure">
+<div id="orga1deb2f" class="figure">
 <p><img src="./program.dot.png" alt="program.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -404,7 +409,6 @@ end
 dot -Tpng -O program.dot
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-8">
 <h3 id="4-8"><span class="section-number-3">4.8.</span> Šta raditi sa modelom?</h3>
@@ -414,7 +418,6 @@ dot -Tpng -O program.dot
 <li>Razne vrste analize i transformacije</li>
 
 </ul>
-
 </section>
 <section id="slide-4-9">
 <h3 id="4-9"><span class="section-number-3">4.9.</span> Interpretiranje Robot modela</h3>
@@ -431,7 +434,6 @@ dot -Tpng -O program.dot
         return "Robot position is {}, {}.".format(self.x, self.y)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-10">
 <h3 id="4-10"><span class="section-number-3">4.10.</span> Interpretiranje Robot modela</h3>
@@ -462,7 +464,6 @@ dot -Tpng -O program.dot
                 self.y += c.steps * move[1]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-11">
 <h3 id="4-11"><span class="section-number-3">4.11.</span> Interpretacija Robot modela</h3>
@@ -487,13 +488,24 @@ end
 
 <div class="column" style="float:right; width: 50%">
 
+<pre class="example" id="orgf9d21c0">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 0 step(s).
+Robot position is -6, 5.
+Going right for 1 step(s).
+Robot position is -5, 5.
+</pre>
 </div>
 
 <p class="attention" style="clear: both;">
 <b>Problem:</b> Ako ne zadamo korak podrazumevano je 0 (textX definiše <i>default</i>
 vrednosti za bazične tipove).
 </p>
-
 </section>
 <section id="slide-4-12">
 <h3 id="4-12"><span class="section-number-3">4.12.</span> Object processor</h3>
@@ -537,6 +549,19 @@ Registracija procesora na meta-modelu:
 <p>
 Sada se robot ponaša ispravno.
 </p>
+
+<pre class="example" id="org2723077">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 1 step(s).
+Robot position is -6, 4.
+Going right for 1 step(s).
+Robot position is -5, 4.
+</pre>
 </section>
 </section>
 <section>
@@ -571,7 +596,6 @@ biti <code>Shape</code>, <code>Line</code>, <code>Circle</code> itd. Sledeće pr
 ;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> Vrste pravila</h3>
@@ -610,7 +634,6 @@ Na primer:
 Pravilo <code>InitialCommand</code> će dovesti do kreiranja Python klase istog imena čije
 instance će imati dva atributa: <code>x</code> i <code>y</code>.
 </p>
-
 </section>
 <section id="slide-5-4">
 <h3 id="5-4"><span class="section-number-3">5.4.</span> Apstraktna pravila</h3>
@@ -710,7 +733,6 @@ apstraktno ili obično pravilo je takođe apstraktno pravilo:
 Ukoliko je <code>OtherRule</code> apstraktno ili obično pravilo tada je i <code>Value</code> apstraktno
 pravilo.
 </p>
-
 </section>
 <section id="slide-5-5">
 <h3 id="5-5"><span class="section-number-3">5.5.</span> Pravila prepoznavanja</h3>
@@ -748,12 +770,11 @@ Njihov tip u vreme izvršavanja je uvek osnovni Python tip (<code>str</code>, <c
 Sva bazična, implicitna, textX pravila (npr. <code>INT</code>, <code>STRING</code>, <code>BASETYPE</code>) su pravila
 prepoznavanja.
 </p>
-
 </section>
 <section id="slide-5-6">
 <h3 id="5-6"><span class="section-number-3">5.6.</span> Bazična pravila/tipovi</h3>
 
-<div id="org3e4d998" class="figure">
+<div id="org88dd7ed" class="figure">
 <p><img src="./images/base_types.png" alt="base_types.png" style="height: 250px;" />
 </p>
 </div>
@@ -783,7 +804,6 @@ navodi koji se koriste da ograniče string mora se koristiti prefix <code>'\'</c
 Prepoznati ugrađeni tipovi se automatski konvertuju u odgovarajuće Python tipove
 i postavljaju na podrazumevanu vrednost u okviru opcionih prepoznavanja.
 </p>
-
 </section>
 <section id="slide-5-7">
 <h3 id="5-7"><span class="section-number-3">5.7.</span> Prepoznavanja (<i>Matches</i>)</h3>
@@ -797,7 +817,6 @@ nivoa. Predstavljaju osnovne gradivne jedinice složenijih pravila. Ova pravila
 Postoje dve vrste prepoznavanja: <i>prepoznavanje stringa</i> i <i>prepoznavanje
 regularnog izraza</i>.
 </p>
-
 </section>
 <section id="slide-5-8">
 <h3 id="5-8"><span class="section-number-3">5.8.</span> Prepoznavanje stringa</h3>
@@ -818,7 +837,6 @@ Primeri:
 'person'
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-9">
 <h3 id="5-9"><span class="section-number-3">5.9.</span> Prepoznavanje regularnog izraza</h3>
@@ -843,7 +861,6 @@ Primeri:
 <a href="https://docs.python.org/3/howto/regex.html">https://docs.python.org/3/howto/regex.html</a></li>
 
 </ol>
-
 </section>
 <section id="slide-5-10">
 <h3 id="5-10"><span class="section-number-3">5.10.</span> Sekvenca (<i>Sequence</i>)</h3>
@@ -878,7 +895,6 @@ Ukoliko je uključeno automatsko preskakanje praznih karaktera (<i>whitespace sk
 što je podrazumevano, tada se može između dva podizraza u sekvenci naći
 proizvoljan broj praznih karaktera kao što je prikazano u prethodnom primeru.
 </p>
-
 </section>
 <section id="slide-5-11">
 <h3 id="5-11"><span class="section-number-3">5.11.</span> Uređeni izbor (<i>Ordered choice</i>)</h3>
@@ -912,7 +928,6 @@ PEG formalizmu gde je operator izbora uređen. Zbog toga parsiranje ne može bit
 višeznačno, odnosno ako se ulaz ispravno parsira može postojati samo jedno
 stablo parsiranja.
 </p>
-
 </section>
 <section id="slide-textx-optional">
 <h3 id="textx-optional"><span class="section-number-3">5.12.</span> Opciono prepoznavanje (<i>Optional</i>)</h3>
@@ -966,7 +981,6 @@ Opcioni izrazi mogu biti i složeniji. Na primer, kod pravila
 imamo da je uređeni izbor opcioni tako da ćemo u ovom slučaju moći navesti ceo
 ili realan broj (<code>INT</code> ili <code>FLOAT</code>), ali nismo obavezni da to učinimo.
 </p>
-
 </section>
 <section id="slide-5-13">
 <h3 id="5-13"><span class="section-number-3">5.13.</span> Ponavljanja (<i>Repetitions</i>)</h3>
@@ -1017,7 +1031,6 @@ ali takođe i
 <p>
 ili prazan string (prepoznavanje nula puta).
 </p>
-
 </section>
 <section id="slide-5-14">
 <h3 id="5-14"><span class="section-number-3">5.14.</span> Ponavljanja (<i>Repetitions</i>)</h3>
@@ -1044,7 +1057,6 @@ obavezno je navođenje bar jedne boje, ali može se navesti i više u proizvoljn
 redosledu i sa ponavljanjem kao i kod prethodnog pravila. Dakle, ovo pravilo ne
 prepoznaje prazan string.
 </p>
-
 </section>
 <section id="slide-textx-dodele">
 <h3 id="textx-dodele"><span class="section-number-3">5.15.</span> Dodele (<i>Assignments</i>)</h3>
@@ -1078,7 +1090,6 @@ Na primer:
 <b>Napomena:</b> Pravilo <code>Name</code> i <code>Surname</code> su definisani u gramatici, ali nisu dati u ovom
 primeru.
 </p>
-
 </section>
 <section id="slide-5-16">
 <h3 id="5-16"><span class="section-number-3">5.16.</span> Dodele - kreiranje atributa</h3>
@@ -1119,7 +1130,6 @@ pravila dodele, kao i tačka-zarez na kraju, moraju se naći u ulaznom stringu,
 ali će biti odbačeni prilikom kreiranja modela jer nemaju nikakvo semantičko
 značenje. Kažemo da predstavljaju <i>sintaksni šum</i>.
 </p>
-
 </section>
 <section id="slide-5-17">
 <h3 id="5-17"><span class="section-number-3">5.17.</span> Dodele - konverzije i vrednosti</h3>
@@ -1173,7 +1183,6 @@ uspešno prepoznati ovaj objekat iza ključne reči <code>lead</code>.
 <p>
 Postoje četiri vrste dodele: <i>obična</i>, <i>bulova</i>, <i>nula ili više</i> i <i>jedan ili više</i>.
 </p>
-
 </section>
 <section id="slide-5-18">
 <h3 id="5-18"><span class="section-number-3">5.18.</span> Obična dodela</h3>
@@ -1190,7 +1199,6 @@ c=/[a-Z0-9]+/
 dir=Direction
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-19">
 <h3 id="5-19"><span class="section-number-3">5.19.</span> Bulova dodela</h3>
@@ -1205,7 +1213,6 @@ prepoznat na ulazu ili na <code>False</code> ukoliko nije.
 number_given ?= INT
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-20">
 <h3 id="5-20"><span class="section-number-3">5.20.</span> Dodela nula/jedan ili više</h3>
@@ -1232,7 +1239,6 @@ prepozna bar jedan objekat tj. LHS nikada neće biti prazna lista.
 <pre><code class="text" >numbers+=INT       // niz celih brojeva, mora postojati bar jedan
 </code></pre>
 </div>
-
 </section>
 <section id="slide-textx-reference">
 <h3 id="textx-reference"><span class="section-number-3">5.21.</span> Reference (<i>References</i>)</h3>
@@ -1241,7 +1247,6 @@ Pravila mogu da se međusobno referenciraju. Reference se navode na RHS. Postoje
 dva načina referenciranja pravila: <i>referenciranje preko prepoznavanja</i> i
 <i>referenciranje preko veze</i>.
 </p>
-
 </section>
 <section id="slide-5-22">
 <h3 id="5-22"><span class="section-number-3">5.22.</span> Referenciranje preko prepoznavanja</h3>
@@ -1273,7 +1278,6 @@ U prethodnom primeru pravilo <code>Structure</code> referencira preko prepoznava
 instanci <code>StructureElement</code> klase. Instance će biti dodeljene <code>elements</code> atributu
 koji će, u ovom slučaju, biti tipa Python liste.
 </p>
-
 </section>
 <section id="slide-5-23">
 <h3 id="5-23"><span class="section-number-3">5.23.</span> Referenciranje preko veze</h3>
@@ -1349,7 +1353,6 @@ Ukoliko želimo to da promenimo možemo uraditi sledeće:
 U prethodnom primeru će za prepoznavanje imena ciljnog objekta biti korišćeno
 pravilo <code>WORD</code>.
 </p>
-
 </section>
 <section id="slide-5-24">
 <h3 id="5-24"><span class="section-number-3">5.24.</span> Sintaksni predikati (<i>Syntactic predicates</i>)</h3>
@@ -1367,7 +1370,6 @@ dalje analize sekvence ukoliko predikat nije uspeo.
 <p>
 Postoje dve vrste sintaksnih predikata u textX-u: <code>Not</code> i <code>And</code>.
 </p>
-
 </section>
 <section id="slide-5-25">
 <h3 id="5-25"><span class="section-number-3">5.25.</span> Negativni pogled unapred</h3>
@@ -1424,7 +1426,6 @@ koristi <code>Not</code> sintaksni predikat da spreči prepoznavanje ključnih r
 <code>end</code> kao izraze <code>Expression</code> pravila. Na ovaj način će <code>end</code> biti konzumirano
 kao završetak <code>Let</code> pravila i gramatika će ispravno funkcionisati.
 </p>
-
 </section>
 <section id="slide-5-26">
 <h3 id="5-26"><span class="section-number-3">5.26.</span> Pozitivni pogled unapred</h3>
@@ -1461,7 +1462,6 @@ proverava prvo <code>AbeforeB</code>, pravilo neće uspeti za prva dva <code>a</
 sledi token <code>b</code>. Poslednji token će biti prepoznat pravilom <code>B</code> jer ga prethodno
 uspešno pravilo <code>AbeforeB</code> nije konzumiralo sa ulaza.
 </p>
-
 </section>
 <section id="slide-5-27">
 <h3 id="5-27"><span class="section-number-3">5.27.</span> Uklanjanje prepoznatog ulaza (<i>Match Suppression</i>)</h3>
@@ -1512,7 +1512,6 @@ tačkama. Pravilo <code>QuotedID</code> prepoznaje <code>ID</code> koje opciono 
 znakova navoda a zatim prepoznate znakove navoda odbacuje upotrebom <code>"-"</code>
 operatora.
 </p>
-
 </section>
 <section id="slide-5-28">
 <h3 id="5-28"><span class="section-number-3">5.28.</span> Modifikatori ponavljanja (<i>Repetition modifiers</i>)</h3>
@@ -1526,7 +1525,6 @@ navesti više modifikatora i u tom slučaju se razdvajaju zarezima.
 U tekućoj implementaciji je definisano dva modifikatora ponavljanja: modifikator
 separacije i modifikator kraja linije.
 </p>
-
 </section>
 <section id="slide-5-29">
 <h3 id="5-29"><span class="section-number-3">5.29.</span> Modifikator separacije</h3>
@@ -1577,7 +1575,6 @@ zarez ili dvotačka. Tako će uspešno da se prepozna sledeći string:
 <pre><code class="text" >first, second; third, fourth: fifth
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-30">
 <h3 id="5-30"><span class="section-number-3">5.30.</span> Modifikator kraja linije</h3>
@@ -1688,7 +1685,6 @@ metamodel objekta.
 <pre><code class="python" >my_model = my_metamodel.model_from_file('some_input.md')
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-2">
 <h3 id="6-2"><span class="section-number-3">6.1.</span> Korisničke klase</h3>
@@ -1731,7 +1727,7 @@ Attribute:
 ;
 '''
 
-class Entity(object):
+class Entity:
   def __init__(self, parent, name, attributes):
     self.parent = parent
     self.name = name
@@ -1761,7 +1757,6 @@ klasa predstavlja dete u vezi roditelj-dete (videti narednu sekciju), tada je
 kao prvi parametar obavezan <code>parent</code> koji predstavlja vezu prema objektu
 roditelju.
 </p>
-
 </section>
 <section id="slide-6-3">
 <h3 id="6-3"><span class="section-number-3">6.2.</span> Veze roditelj-dete</h3>
@@ -1776,7 +1771,7 @@ textX ima automatsku podršku za ovaj tip veze i dinamički kreira <code>parent<
 atribut na svim objektima tipa dete.
 </p>
 
-<div class="note" id="org25cefb4">
+<div class="note" id="org751678e">
 <p>
 Obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno obezbediti
 ovaj parametar kao prvi parametar konstruktora kod svih klasa koje predstavljaju
@@ -1785,8 +1780,6 @@ reference na roditeljski objekat prilikom parsiranja.
 </p>
 
 </div>
-
-
 </section>
 <section id="slide-6-4">
 <h3 id="6-4"><span class="section-number-3">6.3.</span> Procesori</h3>
@@ -1840,7 +1833,6 @@ my_metamodel.register_model_processor(check_some_semantics)
 my_metamodel.model_from_file('some_model.ext')
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-5">
 <h3 id="6-5"><span class="section-number-3">6.4.</span> Ugrađeni objekti</h3>
@@ -1860,7 +1852,7 @@ potrebno je da ih registrujemo kao korisničke klase (slajd <a href="#/slide-6-2
 
 <div class="org-src-container">
 
-<pre><code class="python" >class Entity(object):
+<pre><code class="python" >class Entity:
   def __init__(self, parent, name, attributes):
       self.parent = parent
       self.name = name
@@ -1889,7 +1881,6 @@ instance (<code>integer</code> i <code>string</code>) koje će predstavljati ugr
 <a href="https://github.com/igordejanovic/textX/tree/master/examples/Entity">https://github.com/igordejanovic/textX/tree/master/examples/Entity</a></li>
 
 </ul>
-
 </section>
 <section id="slide-6-6">
 <h3 id="6-6"><span class="section-number-3">6.5.</span> Automatska inicijalizacija atributa</h3>
@@ -1937,7 +1928,6 @@ važi za sve obične dodele (<code>=</code>). Kod opcionih dodela (<code>?=</cod
 <code>False</code> ukoliko nije navedena. Kod dodela sa multiplicitetom višim od 1 (<code>*=</code> i
 <code>+=</code>) atribut će uvek biti inicijalizovan na Python listu.
 </p>
-
 </section>
 <section id="slide-6-7">
 <h3 id="6-7"><span class="section-number-3">6.6.</span> Konfiguracija parsera</h3>
@@ -1946,7 +1936,6 @@ Arpeggio parser kreiran od strane textX-a se može konfigurisati sa stanovišta
 osetljivosti na veličinu slova (<i>case-sensitivity</i>), tretiranju praznih
 karaktera (<i>white-space handling</i>) i automatskoj detekciji ključnih reči.
 </p>
-
 </section>
 <section id="slide-6-7-1">
 <h4 id="6-7-1"><span class="section-number-4">6.6.1.</span> Konfiguracija parsera - <i>case-sensitivity</i></h4>
@@ -1965,7 +1954,6 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
                                    ignore_case=True)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-7-2">
 <h4 id="6-7-2"><span class="section-number-4">6.6.2.</span> Konfiguracija parsera - <i>whitespaces</i></h4>
@@ -1990,7 +1978,6 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
 <p>
 Ova pravila se mogu definisati i na nivou pojedinačnih pravila gramatike.
 </p>
-
 </section>
 <section id="slide-6-7-3">
 <h4 id="6-7-3"><span class="section-number-4">6.6.3.</span> Konfiguracija parsera - <i>keywords</i></h4>
@@ -2027,7 +2014,6 @@ my_metamodel = metamodel_from_file('mygrammar.tx',
                                    autokwd=True)
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -2096,7 +2082,6 @@ Attribute:
 ;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-2">
 <h3 id="7-2"><span class="section-number-3">7.1.</span> Specijalni textX atributi</h3>
@@ -2132,7 +2117,6 @@ Pored pozicije korenski objekat modela ima i atribute:
 <li><code>_tx_metamodel</code> &#x2014; referenca na metamodel sa kojim je dati model usklađen.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -2163,7 +2147,6 @@ neki od bitmapiranih ili vektorskih grafičkih formata (npr. PNG, SVG, JPG, PDF)
 <li>ZGRViewer &#x2014; <a href="http://zvtm.sourceforge.net/zgrviewer.html">http://zvtm.sourceforge.net/zgrviewer.html</a></li>
 
 </ol>
-
 </section>
 <section id="slide-8-2">
 <h3 id="8-2"><span class="section-number-3">8.1.</span> Vizualizacija metamodela</h3>
@@ -2207,11 +2190,10 @@ Ova komanda će proizvesti fajl <code>entity.dot.png</code> grafičkog bitmapira
 </p>
 
 
-<div id="org397b89d" class="figure">
+<div id="org7e1a83b" class="figure">
 <p><img src="./images/entity.dot.png" alt="entity.dot.png" style="height: 500px;" />
 </p>
 </div>
-
 </section>
 <section id="slide-8-3">
 <h3 id="8-3"><span class="section-number-3">8.2.</span> Vizualizacija modela</h3>
@@ -2245,7 +2227,7 @@ format sledećom komandom:
 </div>
 
 
-<div id="orgbb9c341" class="figure">
+<div id="org6abd02e" class="figure">
 <p><img src="./images/person-entity.png" alt="person-entity.png" style="height: 500px;" />
 </p>
 </div>
@@ -2253,7 +2235,6 @@ format sledećom komandom:
 <p class="forwardlink">
 Vizualizacija može da se obavi i upotrebom <a href="#/slide-textx-komanda" class="forwardlink"><code>textx</code> komande</a> opisane u nastavku.
 </p>
-
 </section>
 </section>
 <section>
@@ -2347,7 +2328,6 @@ Generating 'program.rbt.dot' file for model.
 To convert to png run 'dot -Tpng -O program.rbt.dot'
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -2384,7 +2364,6 @@ Na primer:
                   name=ID ';';
 </code></pre>
 </div>
-
 </section>
 <section id="slide-11-2">
 <h3 id="11-2"><span class="section-number-3">11.2.</span> Navođenje u textX gramatici</h3>
@@ -2408,7 +2387,6 @@ prepoznavanja i registrovati procesor koji će da razloži ime na niz delova. Al
 zbog jednostavnosti u nastavku smatramo da se delovi imena razdvajaju uvek sa
 tačkom.
 </p>
-
 </section>
 <section id="slide-11-3">
 <h3 id="11-3"><span class="section-number-3">11.3.</span> RREL operatori</h3>
@@ -2428,7 +2406,6 @@ lokaciji i zatim pretragu atributa <code>b</code>.</li>
 objekat tipa <code>TIP</code>.</li>
 
 </ul>
-
 </section>
 <section id="slide-11-4">
 <h3 id="11-4"><span class="section-number-3">11.4.</span> RREL operatori</h3>
@@ -2451,7 +2428,6 @@ se objekat ne pronađe ili dok ne dođemo do kraja lanca nasleđivanja i tada
 prijavljujemo grešku da objekat nije pronađen.</li>
 
 </ul>
-
 </section>
 <section id="slide-11-5">
 <h3 id="11-5"><span class="section-number-3">11.5.</span> RREL operatori</h3>
@@ -2468,7 +2444,6 @@ pretragu.</li>
 <li><code>,</code> &#x2014; definiše sekvencu izraza koje treba pokušati u redosledu definisanja.</li>
 
 </ul>
-
 </section>
 <section id="slide-11-6">
 <h3 id="11-6"><span class="section-number-3">11.6.</span> RREL prioriteti operatora</h3>
@@ -2563,7 +2538,6 @@ FQN: ID+['.'];
 Comment: /\/\/.*$/;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-11-8">
 <h3 id="11-8"><span class="section-number-3">11.8.</span> RREL primer - model</h3>
@@ -2600,7 +2574,6 @@ package usage {
 }
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -2629,7 +2602,6 @@ zavisnosti na sledeći način:
 <pre><code class="shell" >pip install textx[cli]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-12-2">
 <h3 id="12-2"><span class="section-number-3">12.2.</span> Osnovne potkomande</h3>
@@ -2661,7 +2633,6 @@ Izlistane komande dostupne su od strane osnovne textX biblioteke. Dodatne
 komande će biti dostupne po instalaciji Python paketa koji registruju nove textX
 komande.
 </p>
-
 </section>
 <section id="slide-12-3">
 <h3 id="12-3"><span class="section-number-3">12.3.</span> <code>check</code> potkomanda</h3>
@@ -2687,7 +2658,6 @@ Vidimo da u redu 3, koloni 3 imamo grešku. Parser nam prijavljuje šta je
 očekivano na toj lokaciji i iza znaka <code>=&gt;</code> vidimo deo fajla, odnosno kontekst gde
 se greška nalazi. Karakter <code>*</code> obeležava lokaciju unutar konteksta.
 </p>
-
 </section>
 <section id="slide-12-4">
 <h3 id="12-4"><span class="section-number-3">12.4.</span> Vizualizacija <code>generate</code> potkomandom</h3>
@@ -2726,7 +2696,6 @@ transformiše metamodele u PlantUML dijagrame<sup>1</sup>.
 <a href="https://plantuml.com/">https://plantuml.com/</a></li>
 
 </ol>
-
 </section>
 <section id="slide-12-5">
 <h3 id="12-5"><span class="section-number-3">12.5.</span> Generisanje <code>dot</code> fajla</h3>
@@ -2765,7 +2734,7 @@ Dobićemo sliku u obliku PNG fajla.
 </p>
 
 
-<div id="orge697dea" class="figure">
+<div id="orge517f80" class="figure">
 <p><img src="./images/robot.dot.png" alt="robot.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -2780,7 +2749,6 @@ primer:
 <pre><code class="text" >$ xdot robot.dot
 </code></pre>
 </div>
-
 </section>
 <section id="slide-12-6">
 <h3 id="12-6"><span class="section-number-3">12.6.</span> Konverzija u PlantUML</h3>
@@ -2805,11 +2773,10 @@ Zatim možemo kreirati PNG sliku sa <code>plantuml</code> komandom prema uputstv
 </p>
 
 
-<div id="org193c204" class="figure">
+<div id="orgcd92ccc" class="figure">
 <p><img src="./images/robot.png" alt="robot.png" style="height: 400px;" />
 </p>
 </div>
-
 </section>
 <section id="slide-12-7">
 <h3 id="12-7"><span class="section-number-3">12.7.</span> Generisanje <code>dot</code> fajla za model</h3>
@@ -2827,7 +2794,6 @@ Generating dot target from models:
     To convert to png run "dot -Tpng -O program.dot"
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -2838,7 +2804,6 @@ textX obezbeđuje mehanizam za dinamičku registraciju i otkrivanje jezika i
 generatora kôda. Ovim se postiže mogućnost upotrebe korisnički registrovanih
 jezika i generatora kroz <code>textx</code> komandu (slajd <a href="#/slide-textx-komanda" class="backwardlink">12</a>).
 </p>
-
 </section>
 <section id="slide-13-1">
 <h3 id="13-1"><span class="section-number-3">13.1.</span> Registracija jezika</h3>
@@ -2963,7 +2928,6 @@ def entity_lang():
 Ukoliko smo uspešno registrovali jezik komanda <code>textx list-languages</code> će ga
 prikazati u listi.
 </p>
-
 </section>
 <section id="slide-13-2">
 <h3 id="13-2"><span class="section-number-3">13.2.</span> Registracija generatora</h3>
@@ -3058,7 +3022,6 @@ U prethodnoj komandi pozivamo generator registrovan za fajlove sa ekstenzijom
 <code>java</code>. Dodatni parametar <code>meaning_of_life</code> je specifičan za generator i biće
 prosleđen kroz <code>custom_args</code> rečnik.
 </p>
-
 </section>
 </section>
 <section>
@@ -3101,7 +3064,7 @@ Po uspešnoj instalaciji vaš jezik, odnosno generator je ispravno registrovan i
 vidljiv za komande <code>textx list-languages</code>, odnosno <code>textx list-generators</code>.
 </p>
 
-<div class="note" id="orgb03267e">
+<div class="note" id="orgcfc8b07">
 <p>
 Komanda <code>startproject</code> nije definisana osnovnom textX bibliotekom već projektom
 <code>textX-dev</code>. Zbog toga je potrebno instalirati ovaj Python paket ili direktno sa:
@@ -3128,7 +3091,6 @@ da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</co
 </p>
 
 </div>
-
 </section>
 </section>
 <section>
@@ -3145,7 +3107,6 @@ da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</co
 <li><a href="http://textx.github.io/textX/stable/tutorials/entity/">http://textx.github.io/textX/stable/tutorials/entity/</a></li>
 
 </ul>
-
 </section>
 <section id="slide-15-2">
 <h3 id="15-2"><span class="section-number-3">15.2.</span> State Machine</h3>
@@ -3154,7 +3115,6 @@ da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</co
 <li><a href="http://textx.github.io/textX/stable/tutorials/state_machine/">http://textx.github.io/textX/stable/tutorials/state_machine/</a></li>
 
 </ul>
-
 </section>
 <section id="slide-15-3">
 <h3 id="15-3"><span class="section-number-3">15.3.</span> Izrada mini kompajlera - ppci</h3>
@@ -3180,7 +3140,6 @@ da biste imali <code>startproject</code> dostupnu kao potkomandu <code>textx</co
 <li><a href="https://www.youtube.com/playlist?list=PLOgHC04drILVjnXQTFEL7sJDyfKMR21Vg">Video tutorials</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>

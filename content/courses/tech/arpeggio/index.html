@@ -35,12 +35,11 @@
 <h1 class="title">Arpeggio parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:17, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-11-09 Thu 19:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-org4ae976c">
-<h2 id="org4ae976c">Sadržaj</h2>
+<section id="slide-org3d5c2a3">
+<h2 id="org3d5c2a3">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. PyParsing</a></li>
@@ -53,7 +52,6 @@
 <li><a href="#/slide-8">8. Veče džeza i slobodnih formi - improvizacije</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -80,7 +78,6 @@
 <li><a href="http://pyparsing.wikispaces.com/">http://pyparsing.wikispaces.com/</a></li>
 
 </ul>
-
 </section>
 <section id="slide-1-2">
 <h3 id="1-2"><span class="section-number-3">1.2.</span> Primer</h3>
@@ -96,7 +93,6 @@ print (hello, "-&gt;", greet.parseString( hello ))
 <pre>
 Hello, World! -&gt; ['Hello', ',', 'World', '!']
 </pre>
-
 </section>
 <section id="slide-1-3">
 <h3 id="1-3"><span class="section-number-3">1.3.</span> parsimonious</h3>
@@ -110,7 +106,6 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
 <li><i>Whitespace</i> karakteri se zadaju gramatikom.</li>
 
 </ul>
-
 </section>
 <section id="slide-1-4">
 <h3 id="1-4"><span class="section-number-3">1.4.</span> Primer</h3>
@@ -132,7 +127,6 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
     &lt;Node called "bold_close" matching "))"&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-1-5">
 <h3 id="1-5"><span class="section-number-3">1.5.</span> PLY</h3>
@@ -145,7 +139,6 @@ Hello, World! -&gt; ['Hello', ',', 'World', '!']
 <li>Gramatika se piše u docstring-ovima za semantičke akcije.</li>
 
 </ul>
-
 </section>
 <section id="slide-1-6">
 <h3 id="1-6"><span class="section-number-3">1.6.</span> Primer</h3>
@@ -162,7 +155,6 @@ def p_species(p):
     p[0] = [p[1]]
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -191,11 +183,10 @@ biblioteke.</li>
 <section>
 
 
-<div id="org90183b2" class="figure">
+<div id="org48ef573" class="figure">
 <p><img src="./images/Arpeggio.svg" alt="Arpeggio.svg" class="org-svg" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> PEG pravila</h3>
@@ -228,7 +219,6 @@ rezultat je prazan string,</li>
 konzumiran.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> PEG pravila - predikati</h3>
@@ -242,7 +232,6 @@ Predikati su pravila koja prepoznaju string sa ulaza ali ga ne konzumiraju.
 ulazu.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-4">
 <h3 id="2-4"><span class="section-number-3">2.4.</span> Koncepti</h3>
@@ -254,7 +243,6 @@ se vizualizovati upotrebom dot alata u cilju debagovanja.</li>
 <i>Visitor</i> obrasca.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5.</span> Definisanje gramatike - interni DSL</h3>
@@ -292,7 +280,6 @@ end
 <li>Navedena gramatika prepoznaje ulaz dat na desnoj strani.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-6">
 <h3 id="2-6"><span class="section-number-3">2.6.</span> Definisanje gramatike - eksterni DSL</h3>
@@ -304,7 +291,6 @@ DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
 </pre>
-
 </section>
 <section id="slide-2-7">
 <h3 id="2-7"><span class="section-number-3">2.7.</span> Instanciranje parsera</h3>
@@ -321,12 +307,11 @@ parser = ParserPEG(grammar)
 # gde je grammar gramatika u PEG notaciji
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-8">
 <h3 id="2-8"><span class="section-number-3">2.8.</span> Model parsera</h3>
 
-<div id="org48d4414" class="figure">
+<div id="org7fdbbc7" class="figure">
 <p><img src="./images/robot_parser_model.dot.svg" alt="robot_parser_model.dot.svg" class="org-svg" />
 </p>
 </div>
@@ -338,7 +323,6 @@ parser = ParserPEG(grammar)
 parser = ParserPython(robot, debug=True)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-9">
 <h3 id="2-9"><span class="section-number-3">2.9.</span> Stablo parsiranja</h3>
@@ -358,7 +342,7 @@ parse_tree = parser.parse(prog_src)
 </div>
 
 
-<div id="orgb578874" class="figure">
+<div id="org14e7b1b" class="figure">
 <p><img src="./images/robot_parse_tree.dot.svg" alt="robot_parse_tree.dot.svg" class="org-svg" />
 </p>
 </div>
@@ -370,7 +354,6 @@ Elementi stabla su terminali i neterminali.
 <p class="footer" style="clear: both;">
 <a href="http://igordejanovic.net/Arpeggio/parse_trees/" class="footer" style="clear: both;">Dokumentacija: Stablo parsiranja, navigacija, terminali i ne-terminali</a>
 </p>
-
 </section>
 <section id="slide-2-10">
 <h3 id="2-10"><span class="section-number-3">2.10.</span> Terminali (<i>Terminal nodes</i>)</h3>
@@ -380,7 +363,6 @@ string predstavu pozivom <code>str</code> funkcije.</li>
 <li>Trenutno postoje dve <code>Match</code> naslednice: <code>StrMatch</code> i <code>RegExMatch</code>.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-11">
 <h3 id="2-11"><span class="section-number-3">2.11.</span> Ne-terminali (<i>Non-terminal nodes</i>)</h3>
@@ -391,16 +373,14 @@ itd.</li>
 koristiti i lista.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-12">
 <h3 id="2-12"><span class="section-number-3">2.12.</span> Stablo parsiranja aritmetičkog izraza</h3>
 
-<div id="org6d5d993" class="figure">
+<div id="org730796d" class="figure">
 <p><img src="./images/calc_parse_tree.dot.svg" alt="calc_parse_tree.dot.svg" class="org-svg" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-13">
 <h3 id="2-13"><span class="section-number-3">2.13.</span> Informacije sadržane u čvorovima stabla parsiranja</h3>
@@ -425,7 +405,6 @@ Red i kolona se može dobiti preko parsera na sledeći način:
 <pre><code class="python" >line, col = parser.pos_to_linecol(node.position)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-14">
 <h3 id="2-14"><span class="section-number-3">2.14.</span> Navigacija</h3>
@@ -494,7 +473,6 @@ assert result.bar[0].position == 2
 assert result.bar[1].position == 14
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -516,7 +494,6 @@ assert result.bar[1].position == 14
 <pre><code class="python" >parser = ParserPython(calc, ignore_case=True)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Upravljanje &ldquo;praznim&rdquo; karakterima (<i>Whitespaces</i>)</h3>
@@ -556,7 +533,6 @@ Ovo se može koristiti i na nivou sekvence:
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Ključne reči</h3>
@@ -584,7 +560,6 @@ parser.parse("one two three")
 parser.parse("onetwothree")
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-4">
 <h3 id="3-4"><span class="section-number-3">3.4.</span> Komentari</h3>
@@ -607,7 +582,6 @@ def comment():          return [_("//.*"), _("/\*.*\*/")]
 parser = ParserPython(simpleLanguage, comment)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-5">
 <h3 id="3-5"><span class="section-number-3">3.5.</span> Redukcija stabala parsiranja</h3>
@@ -624,11 +598,10 @@ podčvorom. Zbog jednostavnosti analize nekada je poželjno eliminisati takve
 </div>
 
 
-<div id="org1eab8d2" class="figure">
+<div id="org6e6ab02" class="figure">
 <p><img src="./images/calc_parse_tree_reduced.svg" alt="calc_parse_tree_reduced.svg" class="org-svg" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-6">
 <h3 id="3-6"><span class="section-number-3">3.6.</span> Parsiranje do kraja linije</h3>
@@ -652,7 +625,6 @@ parser = ParserPython(grammar)
 result = parser.parse(input)
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -689,7 +661,6 @@ Arpeggio se može postaviti da radi u režimu za debagovanje.
               &lt;&lt; Leaving rule Optional
               &gt;&gt; Entering rule OrderedChoice in factor at position 1 =&gt; -*(4-1)*5+(2
 </pre>
-
 </section>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> Vizualizacija</h3>
@@ -705,7 +676,7 @@ Koristimo <code>dot</code> alat (deo <a href="https://graphviz.org/">GraphViz al
 </pre>
 
 
-<div id="orga5b5794" class="figure">
+<div id="org0bafd7b" class="figure">
 <p><img src="./images/calc_parser_model.dot.svg" alt="calc_parser_model.dot.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div></li>
@@ -713,7 +684,6 @@ Koristimo <code>dot</code> alat (deo <a href="https://graphviz.org/">GraphViz al
 <li>Možemo direktno koristiti i <code>dot</code> čitače, npr. <a href="https://github.com/jrfonseca/xdot.py">xdot</a>.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Obrada grešaka pri parsiranju</h3>
@@ -745,7 +715,6 @@ arpeggio.NoMatch: Expected '+' or '-' or 'number' or
 </ul></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -794,7 +763,6 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
         return sign * children[-1]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> <code>SemanticActionResults</code></h3>
@@ -820,7 +788,6 @@ result = visit_parse_tree(parse_tree, CalcVisitor())
   baz_created = children['baz']
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Postprocesiranje u drugom pozivu</h3>
@@ -831,7 +798,6 @@ referenci).</li>
 <code>visit_&lt;rule_name&gt;</code> i dodatno ga obrađuje.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-4">
 <h3 id="5-4"><span class="section-number-3">5.4.</span> Podrazumevane semantičke akcije</h3>
@@ -865,12 +831,11 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
     if some_condition:
       ...
     else:
-      return super(MyVisitor, self).visit__default__(node, children)
+      return super().visit__default__(node, children)
 </code></pre>
 </div></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -882,7 +847,6 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 <li><a href="https://textx.github.io/Arpeggio/stable/tutorials/calc/">Calc</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -892,7 +856,6 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 <li><a href="https://textx.github.io/Arpeggio/">https://textx.github.io/Arpeggio/</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>
