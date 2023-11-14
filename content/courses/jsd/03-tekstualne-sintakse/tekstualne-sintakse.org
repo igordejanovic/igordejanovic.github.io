@@ -1,4 +1,4 @@
-# -*- ispell-dictionary: "sr_latn"; -*-
+# -*- ispell-dictionary: "sr-latn"; -*-
 #+TITLE: Jezici specifični za domen
 #+SUBTITLE: Tekstualne sintakse
 #+EXPORT_FILE_NAME: index.html
@@ -63,6 +63,36 @@ imati sledeći oblik (pod pretpostavkom da ignorišemo prazne karaktere):
 #+begin_src text
 [Keyword(if), Variable(a), Operator(>), IntLiteral(5),...]
 #+end_src
+** Leksička analiza problemi
+- Obično leksičku analizu obavljamo kao nezavisan proces što dovodi do problema.
+
+#+begin_src pascal
+array [1..10] of integer
+#+end_src
+
+- Interval =1..10= se može tokenizovati kao konstanta =1.= tipa =real= iza koje sledi
+  konstanta =.10= istog tipa, ili kao interval od 1 do 10. Tek ukoliko imamo
+  kontekst u kome vršimo skeniranje možemo da razlučimo ove dve situacije.
+- Interakcija leksera i parsera - /lexer hack/). Ovakva arhitektura dovodi do
+  komplikacija u implementaciji i održavanju alata.
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 200px;
+[[./images/lexer-hack.svg]]
+
+#+REVEAL: split
+
+- Prethodni problem je uzrokovan nepostojanjem sintaksnog konteksta ali je u
+  nekim situacijama problem složeniji i zahteva semantičke podatke.
+- Primer:
+
+#+begin_src c
+a * b
+#+end_src
+
+Na programskom jeziku C ovaj iskaz može da se tumači kao množenje varijabli =a= i
+=b=, ali i kao deklaracija varijable =b= čiji je tip pokazivač na =a= u zavisnosti od
+semantike.
 
 ** Parsiranje - sintaksna analiza
 - Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
@@ -116,14 +146,13 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
   različitim stablima parsiranja ali je suština izraza ista i rezultovaće
   istim apstraktnim sintaksnim stablima.
 
-* Formalne gramatike
 ** Jezik
 - Definicija jezika na slajdu [[#jezik-definicija][Jezik]] nije preterano korisna u praktičnom smislu
   jer je nemoguće definisati jezik navođenjem svih validnih rečenica.
 - Zato moramo imati sistem koji na konačan način omogućava definisanje
   potencijalno beskonačnog skupa validnih rečenica. U jezičkoj analizi jedan
   takav sistem je /formalna gramatika/.
-
+* Formalna gramatika
 ** Formalna gramatika
 - Predstavlja skup pravila (/produkcije/) pomoću kojih je moguće generisati sve
   /validne rečenice/ nekog jezika (/formalni jezik/) polazeći od /startnog
@@ -134,22 +163,22 @@ Stablo parsiranja za ulazni string =-(4-1)*5/(2+4.67)=
   koriste kao osnova za prepoznavanje validnih rečenica.
 
 ** Formalna gramatika - definicija
-Formalna gramatika je =G = (N, Σ, P, S)= gde je:
+Formalna gramatika je $G = (N, \Sigma, P, S)$ gde je:
 
-- =N= - konačni skup /neterminalnih simbola/,
-- =Σ= - konačni skup /terminalnih simbola/,
-- =P= - konačni skup /produkcionih pravila/ (produkcija) oblika:
-  =(Σ ∪ N)∗ N(Σ ∪ N)∗ → (Σ ∪ N)∗=
-- =S= - neterminal iz skupa =N (S ∈ N)= koga nazivamo /početnim simbolom/.
+- $N$ - konačni skup /neterminalnih simbola/,
+- $\Sigma$ - konačni skup /terminalnih simbola/,
+- $P$ - konačni skup /produkcionih pravila/ (produkcija) oblika:
+  $(\Sigma \cup N)* N(\Sigma \cup N)* \rightarrow (\Sigma \cup N)*$
+- $S$ - neterminal iz skupa $N$ ($S \in N)$ koga nazivamo /početnim simbolom/.
 
 ** Notacija
-- Velika slova alfabeta (=A=, =B=, =C=...) - neterminalni simboli gramatike
-- Mala slova alfabeta (=a=, =b=, =c=...), cifre, oznake operatora (=+=, =-=, ...), oznake
+- Velika slova alfabeta ($A$, $B$, $C$...) - neterminalni simboli gramatike
+- Mala slova alfabeta ($a$, $b$, $c$...), cifre, oznake operatora (=+=, =-=, ...), oznake
   interpunkcije (zagrade, zarez, tačka...) - terminalni simboli gramatike
-- Velika slova kraja alfabeta (=X=, =Y=, =Z=...) - simboli gramatike, bilo neterminali
+- Velika slova kraja alfabeta ($X$, $Y$, $Z$...) - simboli gramatike, bilo neterminali
   ili terminali.
-- Mala slova alfabeta (=u=, =v=, ..., =z=) - niske terminala (moguće prazne)
-- Mala grčka slova (=α=, =β=, =γ=...) - niske simbola gramatike (moguće prazne),
+- Mala slova alfabeta ($u$, $v$, ..., $z$) - niske terminala (moguće prazne)
+- Mala grčka slova (\alpha, \beta, \gamma...) - niske simbola gramatike (moguće prazne),
   moguće i terminala i neterminala.
 
 #+REVEAL: split
@@ -172,15 +201,20 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
   Noama Čomskog^{1}. Prema ovoj klasifikaciji gramatike mogu biti:
 
   - /tipa 0 - rekurzivno prebrojive/ - bez ograničenja na oblik produkcija.
-  - /tipa 1 - kontekstno zavisne/ - produkcije oblika: =αAβ → αγβ=
-  - /tipa 2 - kontekstno slobodne/ - produkcije oblika: =A → γ=
-  - /tipa 3 - regularne/ - produkcije oblika: =A → a, A → aB=
+  - /tipa 1 - kontekstno zavisne/ - produkcije oblika: $\alpha A \beta \rightarrow
+    \alpha \gamma \beta$
+  - /tipa 2 - kontekstno slobodne/ - produkcije oblika: $A \rightarrow \gamma$
+  - /tipa 3 - regularne/ - produkcije oblika: $A \rightarrow a | aB$
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 400px;
+[[./images/chomsky-hierarchy.svg]]
 
 #+attr_html: :class footer :style clear: both;
 1. http://en.wikipedia.org/wiki/Chomsky_hierarchy
 
 ** Kontekstno slobodne gramatike (/Context-Free Grammars - CFGs/)
-- Produkcije oblika: =A → γ=
+- Produkcije oblika: $A \rightarrow \gamma$
 - Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
   /efikasnih algoritama za parsiranje/.
 - Generišu jezike koje nazivamo kontekstno slobodnim jezicima.
@@ -197,27 +231,29 @@ G = ({S}, {a, b}, P, S)
 
 gde je skup produkcionih pravila =P= dat kao:
 
-#+BEGIN_SRC
-S → aSa
-S → bSb
-S → ε
-#+END_SRC
+#+begin_LaTeX
+S \rightarrow a S a \\
+S \rightarrow b S b \\
+S \rightarrow \epsilon
+#+end_LaTeX
 
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
+** Jezik generisan gramatikom
+Ako je $G$ formalna gramatika tada sa $L(G)$ obeležavamo skup svih rečenica koje
+$G$ može da generiše. Ovaj skup zovemo /jezikom/ koji $G$ generiše ili definiše.
 
+* Izvođenje - derivacija (/Derivation/)
 ** Izvođenje - derivacija (/Derivation/)
 - Generisanje ispravne rečenice, počevši od startnog simbola/neterminala,
   sukcesivnom primenom produkcija dok ne dobijemo rečenicu koja se sastoji samo
   od terminala.
 
-#+BEGIN_SRC
-S → aSa    (1)
-S → bSb    (2)
-S → ε      (3)
+  1. $S \rightarrow a S a$
+  2. $S \rightarrow b S b$
+  3. $S \rightarrow \epsilon$
 
-S (1)→ aSa (1)→ aaSaa (2)→ aabSbaa  (3)→ aabbaa
-#+END_SRC
+$S \overset{1}{\rightarrow} aSa \overset{1}{\rightarrow} aaSaa \overset{2}{\rightarrow} aabSbaa \overset{3}{\rightarrow} aabbaa$
 
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
@@ -247,24 +283,16 @@ $n$ koraka, ili, ukoliko je $n>0$ možemo pisati $\sigma \overset{+}{\Rightarrow
   produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
   (/Sentential Form/).
 
-  #+BEGIN_SRC
-  ( x + S ) * S - S * S / ( S + S )
-  #+END_SRC
+  $( x + S ) * S - S * S / ( S + S )$
 
 - Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
   (/Sentence/).
 
-  #+BEGIN_SRC
-  ( x + y ) * x - z * y / ( x + x )
-  #+END_SRC
+  $( x + y ) * x - z * y / ( x + x )$
 
 Odnosno možemo pisati da je rečenična forma niska $\alpha$ za koju važi $S
 \overset{*}{\Rightarrow} \alpha$. A ukoliko važi i $\alpha \in T*$ onda je
 $\alpha$ rečenica.
-
-** Jezik generisan gramatikom
-Ako je $G$ formalna gramatika tada sa $L(G)$ obeležavamo skup svih rečenica koje
-$G$ može da generiše. Ovaj skup zovemo /jezikom/ koji $G$ generiše ili definiše.
 
 ** Primer izvođenja - algebarski izrazi
 
@@ -303,7 +331,7 @@ S (startni simbol)
 
 #+attr_html: :class footer :style clear: both;
 https://en.wikipedia.org/wiki/Context-free_grammar
-            
+* Strategije izvođenja
 ** Odluke pri izvođenju
 - U svakom koraku izvođenja parser donosi dve odluke:
 
@@ -321,12 +349,45 @@ https://en.wikipedia.org/wiki/Context-free_grammar
 - Strategija izvođenja je bitna kod parsera koji izvršavaju određene akcije kod
   svake primene produkcije jer se redosled primene razlikuje iako mogu
   rezultovati istim stablima parsiranja.
-  
+
 ** Levo izvođenje - primer
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/LeftDerivation.svg]]
+** Levo izvođenje - primer 2
 
+#+REVEAL_HTML: <div class="column" style="float:left; width: 60%">
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 550px;
+[[./images/derivation.svg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+$S \xrightarrow{1} E \xrightarrow{2} E + E \xrightarrow{7} 3 + E\\
+\xrightarrow{4} 3 + E * E \xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \\
+\xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \\
+\xrightarrow{7} 3 + 4 * (7 - 2)$
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+begin_src latex
+1. S → E
+2. E → E '+' E
+3. E → E '-' E
+4. E → E '*' E
+5. E → E '/' E
+6. E → '(' E ')'
+7. E → broj
+#+end_src
+
+#+begin_src text
+3 + 4 * (7 - 2)
+#+end_src
+
+* Višeznačne gramatike
 ** Višeznačne gramatike - primer - /dangling else/
 - Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom
 - Višeznačna gramatika je gramatika kod koje postoji ulazni string sa više
@@ -346,7 +407,6 @@ if a then (if b then s else s2)
 - Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
   izbegava višeznačnost. Na primer, za kod =if-else= klauzule može se dodati
   ključna reč =endif=.
-
 ** Višeznačna gramatika - primer
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
@@ -370,30 +430,28 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 - Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
   parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
   navođenja (s leva na desno).
-
+* Leva rekurzija
 ** Leva rekurzija
 - Određene vrste parsera ne smeju da imaju /levo rekurzivne produkcije/ jer to
   dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
   bez konzumiranja tokena sa ulaza.
 - Mogu biti direktne i indirektne.
-- Direktna leva rekurzija je produkcija oblika =A → Aγ=.
+- Direktna leva rekurzija je produkcija oblika $A \rightarrow A \gamma$
 - Leve rekurzije se /mogu refaktorisati/ da koriste desno rekurzivne produkcije
   ali gramatika tada često gubi na intuitivnosti.
 
 ** Eliminacija leve rekurzije u opštem slučaju
-Pravilo =A → Aa | B= postaje =A → Ba*=
+Pravilo $A \rightarrow Aa | B$ postaje $A \rightarrow Ba*$
 
 Primer:
 
-#+BEGIN_SRC
-expr → expr '+' term | number
+expr \rightarrow expr '+' term | number
 
 postaje:
 
-expr → number ('+' term)*
-#+END_SRC
+expr \rightarrow number ('+' term)*
 
-** /Extended Backus–Naur Form - EBNF/
+* /Extended Backus–Naur Form - EBNF/
 - Meta-sintaksa za zapis kontekstno slobodnih gramatika.
 - ISO/IEC 14977
 - Produkcije dodeljuju sekvencu simbola (terminala i neterminala) neterminalima.
@@ -435,7 +493,6 @@ http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form
 * Strategije parsiranja
 ** Strategije parsiranja
 - /Top-down (Silazna)/
-
   - Kreće od polaznog neterminala gramatike i pokušava da generiše(izvede)
     ulazni string primenom produkcija /s leva na desno (lhs -> rhs)/.
   - Od opšteg ka pojedinačnom.
@@ -448,7 +505,6 @@ http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form
 #+REVEAL: split
 
 - /Bottom-up (Uzlazna)/
-
   - Kreće od terminala i primenom produkcija /s desna na levo (lhs <- rhs)/
     pokušava da redukuje ulaz na polazni neterminal gramatike.
   - Od pojedinačnog ka opštem.
@@ -477,7 +533,7 @@ http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form
 - Ukoliko ne koriste vraćanje (prediktivni parseri) prihvataju manji skup
   gramatika.
   
-** LL parser
+* LL parser
 - Top-down parser koji podržava podskup kontekstno slobodnih gramatika.
 - Konzumira tokene s leva na desno i kreira levo izvođenje.
 - Klasa gramatika koju podržava LL parser nazivamo LL gramatikama.
@@ -515,7 +571,7 @@ int              int                Match int
 #+attr_html: :class footer :style clear: both;
 http://stackoverflow.com/questions/5975741/what-is-the-difference-between-ll-and-lr-parsing
 
-** LR parser
+* LR parser
 - Bottom-up parser koji podržava podskup kontekstno slobodnih gramatika.
 - Implementiraju /Shift-Reduce/ strategiju i koriste tablice stanja-prelaza.
   Skup gramatika koje prihvata je nadskup skupa koje prihvata prediktivni LL
@@ -555,6 +611,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 - I kod jednog i kod drugog algoritma generiše se tablica koja pomaže parseru da
   donese odluku u toku parsiranja.
   
+* PEG - /Parsing Expression Grammars/
 ** Rekurzivni silazni parser - /Recursive descent parser/
 - Silazni parser izgrađen na bazi međusobno rekurzivnih procedura.
 - Svaka procedura implementira jednu produkciju odnosno prepoznavanje jednog
@@ -562,7 +619,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 - Kod prediktivnih parsera ne zahteva se vraćanje (/backtracking/).
 - Ukoliko se koristi vraćanje vreme parsiranja /može eksponencijalno da
   poraste/ kod složenijih gramatika.
-  
+
 ** /Top-Down Parsing Language/
 - Šematski opis rekurzivnog silaznog parsera sa vraćanjem (/recursive descent
   parser with backtracking/). Orijentisan je ka prepoznavanju ulaznog teksta.
@@ -618,7 +675,7 @@ Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
   svih kontekstno slobodnih jezika).
 - Linearno vreme parsiranja - popularni u praksi.
 
-** Pristupi u izradi parsera
+* Pristupi u izradi parsera
 - Parser generatori
 - Interpreteri gramatika
 
