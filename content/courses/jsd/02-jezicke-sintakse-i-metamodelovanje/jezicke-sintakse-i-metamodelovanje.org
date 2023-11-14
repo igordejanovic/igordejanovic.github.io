@@ -1,3 +1,4 @@
+# -*- ispell-dictionary: "sr-latn"; -*-
 #+TITLE: Jezici specifični za domen
 #+SUBTITLE: Jezičke sintakse i meta-modelovanje
 #+EXPORT_FILE_NAME: index.html
@@ -505,3 +506,115 @@ terminala na tipu komponente.
 
 #+ATTR_ORG: :width 300px
 [[./images/analiza-domena.png]]
+* Jezici, programi i domeni
+** Programi i jezici
+- Neka je $P$ skup svih mogućih programa gde je $p \in P$ program.
+- Neka je $L$ skup svih mogućih programskih jezika gde je $l \in L$ konkretan jezik.
+- Jezici definišu potrebnu strukturu i notaciju za enkodovanje programa.
+- Ako $p$ možemo enkodovati na jeziku $L$ označavamo ga sa $p_l$.
+- Algoritam npr. /quick sort/ možemo enkodovati na različitim jezicima, npr.
+  Python i Java. Odnosno možemo imati konkretne predstave $p_{l_1}$ i $p_{l_2}$ na
+  jezicima $l_1$ i $l_2$.
+
+** Pogodnost jezika
+- Funkcionalno isti programi enkodovani na različitim jezicima imaju različite
+  nefunkcionalne karakteristike (brzina, zauzeće memorije itd.).
+- Jezici su pogodni za različite primene. Npr /JavaScript/ za veb razvoj, /Go/ za
+  konkurentne programe itd.
+
+** Transformacije programa
+Program možemo transformisati sa jednog jezika na drugi. Na primer
+
+$p_{l_1} \overset{T}{\rightarrow} p_{l_2}$
+
+Transformacija $T$ prevodi program sa jezika $l_1$ na jezik $l_2$. Npr. /Legacy
+Modernization/.
+
+#+REVEAL: split
+
+Možemo transformisati program unutar istog jezika uz očuvanje funkcionalnih
+karakteristika.
+
+${p_1}_{l} \overset{T_{refc}}{\rightarrow} {p_2}_{l}$
+
+Transformaciju $T_{refc}$ nazivamo /refaktorisanje/.
+
+** Definisanje domena upotrebom jezika
+
+- Ako je jezik $l$ specifičan za domen tada se domen može definisati kao skup
+  svih programa na datom jeziku, u oznaci $P_l$.
+
+  $P_l \subset P$
+
+#+ATTR_REVEAL: :frag (roll-in)
+Ali ova definicija nije preterano korisna
+
+** Definisanje domena - induktivni pristup
+- Od dna ka vrhu - eng. /bottom-up/.
+- Definišemo domen putem softvera koji se već koristi u domenu.
+- Ukoliko posmatramo programe na istom jeziku lakše ćemo uočiti određene API-je,
+  idiome i konstrukcije koje se u domenu koriste.
+
+** Definisanje domena - deduktivni pristup
+- Od vrha ka dnu - eng. /top-down/.
+- Posmatramo korpus znanja o datom domenu i obavljamo analizu.
+- $P_D \subset P$ je skup programa koji su interesantni u domenu $D$.
+- Teži pristup jer je potrebno razumeti prirodu domena $D$.
+
+** Definisanje domena - preklapanje skupova
+- $P_D \subset P$ je skup svih programa domena $D$
+- Ovaj skup je moguće iskazati na više jezika. Npr. Ukoliko posmatramo $P_l
+  \subset P$ tj. skup svih programa na jeziku $l$ on će delimično poklopiti $P_D$.
+- Za dobar JSD $l$ će važiti da $P_l \simeq P_D$.
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 400px;
+[[./images/domen-jezici.svg]]
+
+** Definicija
+
+#+begin_quote
+Jezik specifičan za neki domen $D$ (u oznaci $l_D$) predstavlja jezik koji je
+specijalizovan i optimizovan za enkodovanje programa iz skupa $P_D$. Možemo reći
+da je $l_D$ efikasniji u reprezentaciji programa iz $P_D$ od drugih jezika. Ova
+efikasnost se postiže upotrebom apstrakcija koje su prilagođene domenu i
+izostavljanjem nepotrebnih detalja koji su nebitni za $D$.
+#+end_quote
+
+** Nadaproksimacija i podaproksimacija
+- Pokrivenost domena:
+  - Ako $P_l$ može enkodovati sve programe iz $P_D$ ali i još neke =>
+    nadaproksimacija ($P_ln$)
+  - Ako $P_l$ može enkodovati samo programe iz $P_D$ ali ne sve =>
+    podaproksimacija ($P_lp$)
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 400px;
+[[./images/domen-aproksimacija.svg]]
+
+#+REVEAL: split
+
+- Nadaproksimacija - moguće definisati programe van $P_D$ ali jezik nije u tome
+  efikasan.
+- Podaproksimacija - postoje programi koji su u $P_D$ ali ih jezikom nije moguće
+  opisati. Obično se u praksi u tom slučaju koristi JON za dopunu
+  funkcionalnosti.
+
+** Hijerarhija domena
+- Domeni se mogu organizovati u hijerarhije - domeni višeg nivoa čine podskup
+  domena nižeg nivoa u smislu opsega, odnosno domeni višeg nivoa specijalizuju
+  domene nižeg nivoa.
+- Ovaj pristup omogućava bolju organizaciju i ponovnu iskoristivost (eng.
+  /reusability/).
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 300px;
+[[./images/domen-hijerarhija.svg]]
+
+- $D_0$ - domen svih mogućih programa => $P_{D_0} \equiv P$ - domen JON jezika.
+
+* Literatura
+- Igor Dejanović, /Jezici specifični za domen/, Fakultet tehničkih
+  nauka, Novi Sad, 2021. (dostupno u skriptarnici FTN-a)
+- M. Völter, [[http://dslbook.org/][DSL Engineering: Designing, Implementing and
+  Using Domain-Specific Languages]]. 2013.
