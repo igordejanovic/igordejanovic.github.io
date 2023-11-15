@@ -36,11 +36,11 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-11-14 Tue 21:12, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-11-15 Wed 12:03, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 <section>
-<section id="slide-orgb251910">
-<h2 id="orgb251910">Sadržaj</h2>
+<section id="slide-org0c68db9">
+<h2 id="org0c68db9">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -162,7 +162,7 @@ komplikacija u implementaciji i održavanju alata.</li>
 </ul>
 
 
-<div id="org37a52bb" class="figure">
+<div id="orgb3a6517" class="figure">
 <p><img src="./images/lexer-hack.svg" alt="lexer-hack.svg" class="org-svg" style="height: 200px;" />
 </p>
 </div>
@@ -214,7 +214,7 @@ unapred definisane formalne gramatike.</li>
 <section id="slide-1-8">
 <h3 id="1-8"><span class="section-number-3">1.8.</span> Stablo parsiranja - primer</h3>
 
-<div id="orgeed555a" class="figure">
+<div id="orgba23d36" class="figure">
 <p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" class="org-svg" style="height: 600px;" />
 </p>
 </div>
@@ -238,7 +238,7 @@ zagrade, &ldquo;prazni&rdquo; karakteri i komentari.</li>
 <section id="slide-1-10">
 <h3 id="1-10"><span class="section-number-3">1.10.</span> Primer apstraktnog sintaksnog stabla</h3>
 
-<div id="orgc0042d0" class="figure">
+<div id="org5fdf60f" class="figure">
 <p><img src="./images/AST.svg" alt="AST.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -369,7 +369,7 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 </ul>
 
 
-<div id="org4ec1331" class="figure">
+<div id="org7aa1a10" class="figure">
 <p><img src="./images/chomsky-hierarchy.svg" alt="chomsky-hierarchy.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
@@ -404,7 +404,7 @@ G = ({S}, {a, b}, P, S)
 gde je skup produkcionih pravila <code>P</code> dat kao:
 </p>
 
-<div class="LaTeX" id="orga6fafb9">
+<div class="LaTeX" id="org3b9d946">
 <p>
 S &rarr; a S a <br />
 S &rarr; b S b <br />
@@ -598,7 +598,7 @@ rezultovati istim stablima parsiranja.</li>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Levo izvođenje - primer</h3>
 
-<div id="org53c7edc" class="figure">
+<div id="org491a2fd" class="figure">
 <p><img src="./images/LeftDerivation.svg" alt="LeftDerivation.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -607,7 +607,7 @@ rezultovati istim stablima parsiranja.</li>
 <h3 id="4-4"><span class="section-number-3">4.4.</span> Levo izvođenje - primer 2</h3>
 <div class="column" style="float:left; width: 60%">
 
-<div id="orgd1c3248" class="figure">
+<div id="org3193e37" class="figure">
 <p><img src="./images/derivation.svg" alt="derivation.svg" class="org-svg" style="height: 550px;" />
 </p>
 </div>
@@ -652,56 +652,81 @@ rezultovati istim stablima parsiranja.</li>
 </div>
 </section>
 <section id="slide-5-1">
-<h3 id="5-1"><span class="section-number-3">5.1.</span> Višeznačne gramatike - primer - <i>dangling else</i></h3>
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Višeznačnost (<i>ambiguity</i>)</h3>
 <ul>
-<li>Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom</li>
-<li>Višeznačna gramatika je gramatika kod koje postoji ulazni string sa više
-različitih levih izvođenja.</li>
-<li>Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa
-više različitih stabala parsiranja.</li>
-<li>Klasičan primer je &ldquo;viseći else&rdquo;:</li>
+<li>Kod kontekstno slobodnih gramatika isti neterminal može da se nađe u više
+produkcija na levoj strani, odnosno postoji izbor mogućih načina izvođenja
+neterminala.</li>
+<li>Ova situacija omogućava da parseri u zavisnosti od izbora produkcije koje
+primenjuju kao rezultat dobiju različita stabla parsiranja.</li>
+<li>U slučaju mogućnosti postojanja više različitih stabala parsiranja za isti
+ulaz kažemo da je gramatika višeznačna.</li>
+<li>Ovo je neminovno kod parsiranja prirodnih jezika, koji su po prirodi
+višeznačni, ali je loše kod programskih jezika gde je potrebno obezbediti da,
+ukoliko se ulaz parsira, uvek odgovara jednom stablu.</li>
+<li>Višeznačnost je uglavnom <i>osobina gramatike a ne jezika</i>.</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Višeznačne gramatike - primer - <i>dangling else</i></h3>
+<ul>
+<li>Klasičan primer je &ldquo;viseći else&rdquo; (eng. <i>dangling else</i>):</li>
 
 </ul>
 
 <pre>
 if a then if b then s else s2
-Može da se parsira kao:
+</pre>
+
+<p>
+može da se parsira kao:
+</p>
+<pre>
 if a then (if b then s) else s2
-ili kao:
+</pre>
+
+<p>
+gde <code>else</code> pripada spoljnem <code>if</code> iskazu, ili kao:
+</p>
+<pre>
 if a then (if b then s else s2)
 </pre>
 
+<p>
+gde <code>else</code> pripada unutrašnjem <code>if</code> iskazu.
+</p>
+
 <ul>
 <li>Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
-izbegava višeznačnost. Na primer, za kod <code>if-else</code> klauzule može se dodati
+izbegava višeznačnost. Na primer, za kôd <code>if-else</code> klauzule može se dodati
 ključna reč <code>endif</code>.</li>
 
 </ul>
 </section>
-<section id="slide-5-2">
-<h3 id="5-2"><span class="section-number-3">5.2.</span> Višeznačna gramatika - primer</h3>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Višeznačna gramatika - primer</h3>
 
-<div id="orgbe7369d" class="figure">
+<div id="orgf5bf92e" class="figure">
 <p><img src="./images/Ambiguous.svg" alt="Ambiguous.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
 </section>
-<section id="slide-5-3">
-<h3 id="5-3"><span class="section-number-3">5.3.</span> A u ovom slučaju želimo</h3>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> A u ovom slučaju želimo</h3>
 <p style="text-align: center;">
 Stablo koje oslikava prioritet i asocijativnost operacija
 </p>
 
 
-<div id="orgd387bf7" class="figure">
+<div id="orgf49af61" class="figure">
 <p><img src="./images/Ambiguous2.svg" alt="Ambiguous2.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
 </section>
-<section id="slide-5-4">
-<h3 id="5-4"><span class="section-number-3">5.4.</span> Razrešavanje višeznačnosti</h3>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Razrešavanje višeznačnosti</h3>
 <ul>
-<li>Višeznačnost je uglavnom <i>osobina gramatike a ne jezika</i>.</li>
 <li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
 <li>Određeni parseri omogućavaju dodatna pravila (npr. <i>pravilo prioriteta</i>) koje
 pomaže u izboru produkcije koju treba primeniti.</li>
@@ -709,7 +734,7 @@ pomaže u izboru produkcije koju treba primeniti.</li>
 različite interpretacije ulaza biće vraćena sva moguća stabla/interpretacije.</li>
 <li>Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
 parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
-navođenja (s leva na desno).</li>
+navođenja (sleva na desno).</li>
 
 </ul>
 </section>
@@ -723,9 +748,29 @@ navođenja (s leva na desno).</li>
 <section id="slide-6-1">
 <h3 id="6-1"><span class="section-number-3">6.1.</span> Leva rekurzija</h3>
 <ul>
-<li>Određene vrste parsera ne smeju da imaju <i>levo rekurzivne produkcije</i> jer to
+<li><p>
+Određene vrste parsera ne smeju da imaju <i>levo rekurzivne produkcije</i> jer to
 dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
-bez konzumiranja tokena sa ulaza.</li>
+bez konzumiranja tokena sa ulaza.
+</p>
+
+<p>
+Na primer:
+</p>
+
+<p>
+\(A \rightarrow A a | \epsilon\)
+</p>
+
+<p>
+Prepoznaje stringove oblika \(a*\) ali kod parsera koji ne dozvoljavaju levu
+rekurziju će doći do beskonačne rekurzije u pokušaju da se prepozna \(A\).
+</p>
+
+<p>
+\(recognize(A) \overset{Aa}{\rightarrow} recognize(A) \ldots\)
+</p></li>
+
 <li>Mogu biti direktne i indirektne.</li>
 <li>Direktna leva rekurzija je produkcija oblika \(A \rightarrow A \gamma\)</li>
 <li>Leve rekurzije se <i>mogu refaktorisati</i> da koriste desno rekurzivne produkcije
@@ -744,7 +789,7 @@ Primer:
 </p>
 
 <p>
-expr &rarr; expr &rsquo;+&rsquo; term | number
+\(expr \rightarrow expr \; "+" \; term \; | \; number\)
 </p>
 
 <p>
@@ -752,8 +797,103 @@ postaje:
 </p>
 
 <p>
-expr &rarr; number (&rsquo;+&rsquo; term)*
+\(expr \rightarrow number ("+" \; term)*\)
 </p>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Refaktorisanje gramatike izraza</h3>
+<div class="column" style="float:left; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="ebnf" >S → E
+E → E '+' E
+E → E '-' E
+E → E '*' E
+E → E '/' E
+E → '(' E ')'
+E → broj
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="ebnf" >S  → E
+E  → T E'
+E' → '+' T E'
+E' → '-' T E'
+E' → Ɛ
+T  → F T'
+T' → '*' F T'
+T' → '/' F T'
+T' → Ɛ
+F  → ( E )
+F  → broj
+</code></pre>
+</div>
+
+<p>
+ili kompaktnije:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="ebnf" >S → E
+E → T (('+' | '-') T)*
+T → F (('*' | '/') F)*
+F → '(' E ')' | broj
+</code></pre>
+</div>
+</div>
+
+<div style="clear: both;">
+
+</section>
+<section>
+
+<div class="column" style="float:left; width: 70%">
+<p>
+Refaktorisana gramatika nije ekvivalentna polaznoj jer definiše prioritet i
+asocijativnost operacija dok kod nerefaktorisane gramatike pored leve rekurzije
+imamo višeznačnost jer prioriteti i asocijativnost operatora nisu definisani.
+</p>
+
+<p>
+Takođe, stabla parsiranja do kojih dolazimo upotrebom refaktorisane gramatike
+nisu intuitivna kao kod polazne i zahtevaju dodatni posao prilikom analize
+izraza.
+</p>
+
+<p>
+Za ulaz <code>3 + 4 * ( 7 - 2 )</code> dobijamo stablo na desnoj strani.
+</p>
+
+</div>
+
+<div class="column" style="float:right; width: 30%">
+
+<div id="org553fa46" class="figure">
+<p><img src="./images/left-factored.svg" alt="left-factored.svg" class="org-svg" style="height: 600px;" />
+</p>
+</div>
+</div>
+
+<div style="clear: both;">
+
+</section>
+<section>
+
+<p>
+A za dalju obradu daleko bi bilo pogodnije ovakvo stablo koje oslikava smisao
+ulaznog stringa.
+</p>
+
+
+<div id="org3d76240" class="figure">
+<p><img src="./images/derivation.svg" alt="derivation.svg" class="org-svg" style="height: 500px;" />
+</p>
+</div>
 </section>
 </section>
 <section>
@@ -874,6 +1014,17 @@ gramatika.</li>
 
 </ul>
 </section>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4.</span> Determinističko parsiranje</h3>
+<ul>
+<li>Algoritam parsiranja kod koga se ne koristi vraćanje unazad (<i>backtracking</i>).</li>
+<li>Analogno determinističkom potisnom automatu.</li>
+<li>Parseri prihvataju klasu determinističkih kontekstno slobodnih jezika (podskup
+svih kontekstno slobodnih jezika).</li>
+<li>Linearno vreme parsiranja - popularni u praksi.</li>
+
+</ul>
+</section>
 </section>
 <section>
 <section id="slide-9">
@@ -941,7 +1092,7 @@ navoditi rekurzivne produkcije.</li>
 <section id="slide-10-1">
 <h3 id="10-1"><span class="section-number-3">10.1.</span> LR parsiranje - primer</h3>
 
-<div id="org2328800" class="figure">
+<div id="orgf59f069" class="figure">
 <p><img src="./images/LR-Primer.png" alt="LR-Primer.png" style="height: 700px;" />
 </p>
 </div>
@@ -1054,7 +1205,7 @@ proširivih dinamičkih jezika.</li>
 <section id="slide-11-5">
 <h3 id="11-5"><span class="section-number-3">11.5.</span> Refaktorisanje gramatike za PEG parsere</h3>
 
-<div id="orgae1e1a9" class="figure">
+<div id="org55f18b6" class="figure">
 <p><img src="./images/PEGPrioritet.svg" alt="PEGPrioritet.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -1062,17 +1213,6 @@ proširivih dinamičkih jezika.</li>
 <p style="text-align: center;">
 Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
 </p>
-</section>
-<section id="slide-11-6">
-<h3 id="11-6"><span class="section-number-3">11.6.</span> Determinističko parsiranje</h3>
-<ul>
-<li>Algoritam parsiranja kod koga se ne koristi vraćanje unazad (<i>backtracking</i>).</li>
-<li>Analogno determinističkom potisnom automatu.</li>
-<li>Parseri prihvataju klasu determinističkih kontekstno slobodnih jezika (podskup
-svih kontekstno slobodnih jezika).</li>
-<li>Linearno vreme parsiranja - popularni u praksi.</li>
-
-</ul>
 </section>
 </section>
 <section>

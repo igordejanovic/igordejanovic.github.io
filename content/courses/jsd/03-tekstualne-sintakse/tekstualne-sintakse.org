@@ -388,24 +388,40 @@ $S \xrightarrow{1} E \xrightarrow{2} E + E \xrightarrow{7} 3 + E\\
 #+end_src
 
 * Višeznačne gramatike
-** Višeznačne gramatike - primer - /dangling else/
-- Stablo parsiranja za određeni ulaz nije jednoznačno određeno CFG gramatikom
-- Višeznačna gramatika je gramatika kod koje postoji ulazni string sa više
-  različitih levih izvođenja.
-- Ili jednostavnije: ukoliko postoji ulazni string koji može da rezultuje sa
-  više različitih stabala parsiranja.
-- Klasičan primer je "viseći else":
+** Višeznačnost (/ambiguity/)
+- Kod kontekstno slobodnih gramatika isti neterminal može da se nađe u više
+  produkcija na levoj strani, odnosno postoji izbor mogućih načina izvođenja
+  neterminala.
+- Ova situacija omogućava da parseri u zavisnosti od izbora produkcije koje
+  primenjuju kao rezultat dobiju različita stabla parsiranja.
+- U slučaju mogućnosti postojanja više različitih stabala parsiranja za isti
+  ulaz kažemo da je gramatika višeznačna.
+- Ovo je neminovno kod parsiranja prirodnih jezika, koji su po prirodi
+  višeznačni, ali je loše kod programskih jezika gde je potrebno obezbediti da,
+  ukoliko se ulaz parsira, uvek odgovara jednom stablu.
+- Višeznačnost je uglavnom /osobina gramatike a ne jezika/.
 
-#+BEGIN_SRC
+** Višeznačne gramatike - primer - /dangling else/
+- Klasičan primer je "viseći else" (eng. /dangling else/):
+
+#+begin_src
 if a then if b then s else s2
-Može da se parsira kao:
+#+end_src
+
+može da se parsira kao:
+#+begin_src
 if a then (if b then s) else s2
-ili kao:
+#+end_src
+
+gde =else= pripada spoljnem =if= iskazu, ili kao:
+#+begin_src
 if a then (if b then s else s2)
-#+END_SRC
+#+end_src
+
+gde =else= pripada unutrašnjem =if= iskazu.
 
 - Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
-  izbegava višeznačnost. Na primer, za kod =if-else= klauzule može se dodati
+  izbegava višeznačnost. Na primer, za kôd =if-else= klauzule može se dodati
   ključna reč =endif=.
 ** Višeznačna gramatika - primer
 #+ATTR_ORG: :width 300px
@@ -421,7 +437,6 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 [[./images/Ambiguous2.svg]]
 
 ** Razrešavanje višeznačnosti
-- Višeznačnost je uglavnom /osobina gramatike a ne jezika/.
 - Često se gramatika može refaktorisati da ne bude višeznačna.
 - Određeni parseri omogućavaju dodatna pravila (npr. /pravilo prioriteta/) koje
   pomaže u izboru produkcije koju treba primeniti.
@@ -429,12 +444,22 @@ Stablo koje oslikava prioritet i asocijativnost operacija
   različite interpretacije ulaza biće vraćena sva moguća stabla/interpretacije.
 - Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
   parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
-  navođenja (s leva na desno).
+  navođenja (sleva na desno).
 * Leva rekurzija
 ** Leva rekurzija
 - Određene vrste parsera ne smeju da imaju /levo rekurzivne produkcije/ jer to
   dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
   bez konzumiranja tokena sa ulaza.
+
+  Na primer:
+
+  $A \rightarrow A a | \epsilon$
+
+  Prepoznaje stringove oblika $a*$ ali kod parsera koji ne dozvoljavaju levu
+  rekurziju će doći do beskonačne rekurzije u pokušaju da se prepozna $A$.
+
+  $recognize(A) \overset{Aa}{\rightarrow} recognize(A) \ldots$
+
 - Mogu biti direktne i indirektne.
 - Direktna leva rekurzija je produkcija oblika $A \rightarrow A \gamma$
 - Leve rekurzije se /mogu refaktorisati/ da koriste desno rekurzivne produkcije
@@ -445,11 +470,89 @@ Pravilo $A \rightarrow Aa | B$ postaje $A \rightarrow Ba*$
 
 Primer:
 
-expr \rightarrow expr '+' term | number
+$expr \rightarrow expr \; "+" \; term \; | \; number$
 
 postaje:
 
-expr \rightarrow number ('+' term)*
+$expr \rightarrow number ("+" \; term)*$
+
+** Refaktorisanje gramatike izraza
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+begin_src ebnf
+S → E
+E → E '+' E
+E → E '-' E
+E → E '*' E
+E → E '/' E
+E → '(' E ')'
+E → broj
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+begin_src ebnf
+S  → E
+E  → T E'
+E' → '+' T E'
+E' → '-' T E'
+E' → Ɛ
+T  → F T'
+T' → '*' F T'
+T' → '/' F T'
+T' → Ɛ
+F  → ( E )
+F  → broj
+#+end_src
+
+ili kompaktnije:
+
+#+begin_src ebnf
+S → E
+E → T (('+' | '-') T)*
+T → F (('*' | '/') F)*
+F → '(' E ')' | broj
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%">
+Refaktorisana gramatika nije ekvivalentna polaznoj jer definiše prioritet i
+asocijativnost operacija dok kod nerefaktorisane gramatike pored leve rekurzije
+imamo višeznačnost jer prioriteti i asocijativnost operatora nisu definisani.
+
+Takođe, stabla parsiranja do kojih dolazimo upotrebom refaktorisane gramatike
+nisu intuitivna kao kod polazne i zahtevaju dodatni posao prilikom analize
+izraza.
+
+Za ulaz =3 + 4 * ( 7 - 2 )= dobijamo stablo na desnoj strani.
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 600px;
+[[./images/left-factored.svg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+
+A za dalju obradu daleko bi bilo pogodnije ovakvo stablo koje oslikava smisao
+ulaznog stringa.
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/derivation.svg]]
+
+
+
+
+
 
 * /Extended Backus–Naur Form - EBNF/
 - Meta-sintaksa za zapis kontekstno slobodnih gramatika.
@@ -532,7 +635,14 @@ http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form
   /eksponencijalnog vremena parsiranja/.
 - Ukoliko ne koriste vraćanje (prediktivni parseri) prihvataju manji skup
   gramatika.
-  
+
+** Determinističko parsiranje
+- Algoritam parsiranja kod koga se ne koristi vraćanje unazad (/backtracking/).
+- Analogno determinističkom potisnom automatu.
+- Parseri prihvataju klasu determinističkih kontekstno slobodnih jezika (podskup
+  svih kontekstno slobodnih jezika).
+- Linearno vreme parsiranja - popularni u praksi.
+
 * LL parser
 - Top-down parser koji podržava podskup kontekstno slobodnih gramatika.
 - Konzumira tokene s leva na desno i kreira levo izvođenje.
@@ -667,13 +777,6 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 
 #+ATTR_HTML: :style text-align: center;
 Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
-
-** Determinističko parsiranje
-- Algoritam parsiranja kod koga se ne koristi vraćanje unazad (/backtracking/).
-- Analogno determinističkom potisnom automatu.
-- Parseri prihvataju klasu determinističkih kontekstno slobodnih jezika (podskup
-  svih kontekstno slobodnih jezika).
-- Linearno vreme parsiranja - popularni u praksi.
 
 * Pristupi u izradi parsera
 - Parser generatori
