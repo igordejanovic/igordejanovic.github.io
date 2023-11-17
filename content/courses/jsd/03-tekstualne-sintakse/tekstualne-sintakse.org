@@ -402,27 +402,39 @@ $S \xrightarrow{1} E \xrightarrow{2} E + E \xrightarrow{7} 3 + E\\
 - Višeznačnost je uglavnom /osobina gramatike a ne jezika/.
 
 ** Višeznačne gramatike - primer - /dangling else/
-- Klasičan primer je "viseći else" (eng. /dangling else/):
 
-#+begin_src
-if a then if b then s else s2
-#+end_src
+- Klasičan primer je "viseći else" (eng. /dangling else/).
+- U produkciji:
 
-može da se parsira kao:
-#+begin_src
-if a then (if b then s) else s2
-#+end_src
+  #+begin_src ebnf
+  IF -> 'if' COND 'then' STMT 'else' STMT
+        | 'if' COND 'then' STMT
+  #+end_src
 
-gde =else= pripada spoljnem =if= iskazu, ili kao:
-#+begin_src
-if a then (if b then s else s2)
-#+end_src
+- definisan je =if= iskaz nekog jezika:
 
-gde =else= pripada unutrašnjem =if= iskazu.
+  #+begin_src ruby
+  if stmt1 then if stmt2 then stmt3 else stmt4
+  #+end_src
 
-- Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
-  izbegava višeznačnost. Na primer, za kôd =if-else= klauzule može se dodati
-  ključna reč =endif=.
+- Ova konstrukcija može da se tumači na dva načina. Kod prvog tumačenja je =else=
+  deo spoljnjeg =if= iskaza, odnosno:
+
+  #+begin_src ruby
+  if stmt1 then (if stmt2 then stmt3) else stmt4
+  #+end_src
+
+- dok je kod drugog tumačenja =else= deo iskaza u sastavu unutrašnjeg =if= iskaza,
+  odnosno:
+
+  #+begin_src ruby
+  if stmt1 then (if stmt2 then stmt3 else stmt4)
+  #+end_src
+
+- Rešenje je dodavanjem pravila prioriteta ili dodavanje konteksta kojim se
+  izbegava višeznačnost. Na primer, u =if-else= klauzuli može se dodati ključna
+  reč =endif=.
+
 ** Višeznačna gramatika - primer
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
@@ -435,6 +447,58 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 #+ATTR_ORG: :width 300px
 #+ATTR_HTML: :style height: 700px;
 [[./images/Ambiguous2.svg]]
+** Višeznačna gramatika - drugi primer
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 60%">
+#+begin_src ebnf
+S → E
+E → E '+' E
+E → E '-' E
+E → E '*' E
+E → E '/' E
+E → '(' E ')'
+E → broj
+#+end_src
+Ulaz: $3+4*(7-2)$
+
+\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{4} E * E \xrightarrow{2} E + E * E\\
+\xrightarrow{7} 3 + E * E \xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+ATTR_ORG: :width 300px
+[[./images/derivation2.svg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+
+A trebalo bi:
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{2} E + E \\
+\xrightarrow{7} 3 + E \\
+\xrightarrow{4} 3 + E * E \\
+\xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \\
+\xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \\
+\xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+ATTR_ORG: :width 300px
+[[./images/expression-tree.svg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
 
 ** Razrešavanje višeznačnosti
 - Često se gramatika može refaktorisati da ne bude višeznačna.
@@ -445,6 +509,43 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 - Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
   parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
   navođenja (sleva na desno).
+
+** Razrešenje enkodovanjem prioriteta u produkcijama
+- Jedna od tehnika razrešavanja višeznačnosti kroz enkodovanje prioriteta
+  i asocijativnosti operacija na nivou gramatike.
+
+  #+begin_src ebnf
+  S → E
+  E → E + T | E - T | T
+  T → T * F | T / F | F
+  F → ( E ) | id
+  #+end_src
+
+- Na ovom primeru vidimo da gramatička pravila za opis operacija
+  višeg nivoa se definišu na nižem nivou sa stanovišta referenciranja.
+- Na primer, pravilo =E= definiše operacije sabiranja i oduzimanja i referencira
+  pravilo =T= koje definiše operacije množenja i deljenja višeg prioriteta.
+
+** Lesička višeznačnost
+- Za prethodno opisan oblik višeznačnosti kažemo da je sintaksna.
+- Postoji i drugi izvor višeznačnosti koji nastaje na leksičkom nivou i nastaje
+  kada lekser može da prepozna više tokena na istom mestu u ulaznom stringu.
+
+Na primer:
+#+begin_src ebnf
+Something: INT | FLOAT;
+
+terminals
+INT: /\d+/;
+FLOAT: /\d+(\.\d+)?/;
+#+end_src
+
+- Problem nastaje jer terminalna pravila =INT= i =FLOAT= mogu da prepoznaju isti deo
+  ulaza ukoliko u ulaznom broju nemamo decimalnu tačku i cifre iza nje. Ovaj
+  problem nastaje zbog preklapanja na početnom delu definicije (=\d+=).
+- Na primer, ako je ulazni string ="3"= oba pravila mogu da ga prepoznaju što
+  znači da imamo dva moguća rešenja.
+
 * Leva rekurzija
 ** Leva rekurzija
 - Određene vrste parsera ne smeju da imaju /levo rekurzivne produkcije/ jer to
@@ -547,11 +648,7 @@ ulaznog stringa.
 
 #+ATTR_ORG: :width 300px
 #+attr_html: :style height: 500px;
-[[./images/derivation.svg]]
-
-
-
-
+[[./images/expression-tree.svg]]
 
 
 * /Extended Backus–Naur Form - EBNF/
@@ -730,7 +827,7 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 - Ukoliko se koristi vraćanje vreme parsiranja /može eksponencijalno da
   poraste/ kod složenijih gramatika.
 
-** /Top-Down Parsing Language/
+** COMMENT /Top-Down Parsing Language/
 - Šematski opis rekurzivnog silaznog parsera sa vraćanjem (/recursive descent
   parser with backtracking/). Orijentisan je ka prepoznavanju ulaznog teksta.
 - Ideje datiraju unazad u ’70 godine prošlog veka.^{1}
@@ -777,6 +874,52 @@ http://www.dabeaz.com/ply/ply.html#ply_nn22
 
 #+ATTR_HTML: :style text-align: center;
 Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
+** PEG definicija
+Gramatike izraza za parsiranje se sastoje od:
+- konačnog skupa neterminalnih simbola $N$,
+- konačnog skupa terminalnih simbola koji je disjunktan sa $N$, u oznaci
+  $\Sigma$,
+- konačnog skupa pravila parsiranja $P$,
+- početnog izraza $e_s$
+
+Skup terminalnih simbola (terminala) predstavlja alfabet jezika. Neterminalni
+simboli (neterminali) su varijable koje predstavljaju nisku sastavljenu od
+terminala i/ili drugih neterminala.
+
+Pravila parsiranja su oblika $A \leftarrow e$ gde je $A$ neterminal a $e$
+predstavlja izraz za parsiranje. Izraz za parsiranje može biti prost i u tom
+slučaju može biti:
+
+- bilo koji terminalni simbol,
+- bilo koji neterminalni simbol,
+- prazan string
+
+** PEG operatori
+Ukoliko su $e$, $e_1$ i $e_2$ izrazi za parsiranje tada se složeni izrazi za
+parsiranje mogu kreirati upotrebom sledećih operatora:
+
+#+ATTR_HTML: :style font-size: 0.9em;
+| $e_1 e_2$ (sekvenca)        | redom se prepoznaju izrazi $e_1$ i $e_2$                                                                        |
+| $e_1 / e_2$ (uređeni izbor) | prepoznaje se $e_1$ ili $e_2$ u navedenom redosledu                                                             |
+| $e?$ (opciono prep.)        | prepoznaje se izraz $e$ opciono                                                                                 |
+| $e+$ (jedan ili više)       | sukcesivno se vrši prepoznavanje izraza $e$ dok god uspeva. Izraz uspeva ako je bar jedno prepoznavanje uspešno |
+| $e*$ (nula ili više)        | sukcesivno se vrši prepoznavanje izraza $e$ dok god uspeva. Izraz uvek uspeva                                   |
+
+** PEG - sintaksni predikati
+PEG poseduje i posebnu klasu operatora – sintaksne predikate. Oni omogućavaju
+definisanje dodatnih informacija o kontekstu u kome se nalazi izraz koji
+pokušavamo da prepoznamo bez konzumiranja ulaznog stringa. Sintaksni predikati
+su sledeći:
+
+ - *I predikat:* $\&e$ – ukoliko se na ulazu prepozna izraz $e$ predikat ima
+   istinitu vrednost,
+ - *Ne predikat:* $!e$ – ukoliko se na ulazu ne prepozna izraz $e$ predikat
+   ima istinitu vrednost.
+
+Sintaksni predikati omogućavaju definisanje izraza za parsiranje oblika $e_1
+\&e_2$ – biće prepoznat izraz $e_1$ samo ukoliko iza njega sledi tekst koji se
+može prepoznati izrazom $e_2$, pri čemu deo ulaznog teksta prepoznatog izrazom
+$e_2$ neće biti uklonjen sa ulaza (neće biti konzumiran).
 
 * Pristupi u izradi parsera
 - Parser generatori

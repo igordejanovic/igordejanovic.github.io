@@ -36,11 +36,11 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Tekstualne sintakse</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-11-15 Wed 12:03, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-11-17 Fri 11:10, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 <section>
-<section id="slide-org0c68db9">
-<h2 id="org0c68db9">Sadržaj</h2>
+<section id="slide-org409006d">
+<h2 id="org409006d">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Uvod</a></li>
@@ -162,7 +162,7 @@ komplikacija u implementaciji i održavanju alata.</li>
 </ul>
 
 
-<div id="orgb3a6517" class="figure">
+<div id="org0375969" class="figure">
 <p><img src="./images/lexer-hack.svg" alt="lexer-hack.svg" class="org-svg" style="height: 200px;" />
 </p>
 </div>
@@ -214,7 +214,7 @@ unapred definisane formalne gramatike.</li>
 <section id="slide-1-8">
 <h3 id="1-8"><span class="section-number-3">1.8.</span> Stablo parsiranja - primer</h3>
 
-<div id="orgba23d36" class="figure">
+<div id="org24427b9" class="figure">
 <p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" class="org-svg" style="height: 600px;" />
 </p>
 </div>
@@ -238,7 +238,7 @@ zagrade, &ldquo;prazni&rdquo; karakteri i komentari.</li>
 <section id="slide-1-10">
 <h3 id="1-10"><span class="section-number-3">1.10.</span> Primer apstraktnog sintaksnog stabla</h3>
 
-<div id="org5fdf60f" class="figure">
+<div id="orgde01c65" class="figure">
 <p><img src="./images/AST.svg" alt="AST.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -369,7 +369,7 @@ Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
 </ul>
 
 
-<div id="org7aa1a10" class="figure">
+<div id="orgacf8e99" class="figure">
 <p><img src="./images/chomsky-hierarchy.svg" alt="chomsky-hierarchy.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
@@ -404,7 +404,7 @@ G = ({S}, {a, b}, P, S)
 gde je skup produkcionih pravila <code>P</code> dat kao:
 </p>
 
-<div class="LaTeX" id="org3b9d946">
+<div class="LaTeX" id="orgd3c8642">
 <p>
 S &rarr; a S a <br />
 S &rarr; b S b <br />
@@ -598,7 +598,7 @@ rezultovati istim stablima parsiranja.</li>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Levo izvođenje - primer</h3>
 
-<div id="org491a2fd" class="figure">
+<div id="orgce65d7e" class="figure">
 <p><img src="./images/LeftDerivation.svg" alt="LeftDerivation.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -607,7 +607,7 @@ rezultovati istim stablima parsiranja.</li>
 <h3 id="4-4"><span class="section-number-3">4.4.</span> Levo izvođenje - primer 2</h3>
 <div class="column" style="float:left; width: 60%">
 
-<div id="org3193e37" class="figure">
+<div id="orgfd83dc8" class="figure">
 <p><img src="./images/derivation.svg" alt="derivation.svg" class="org-svg" style="height: 550px;" />
 </p>
 </div>
@@ -671,43 +671,60 @@ ukoliko se ulaz parsira, uvek odgovara jednom stablu.</li>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> Višeznačne gramatike - primer - <i>dangling else</i></h3>
 <ul>
-<li>Klasičan primer je &ldquo;viseći else&rdquo; (eng. <i>dangling else</i>):</li>
-
-</ul>
-
-<pre>
-if a then if b then s else s2
-</pre>
-
-<p>
-može da se parsira kao:
-</p>
-<pre>
-if a then (if b then s) else s2
-</pre>
-
-<p>
-gde <code>else</code> pripada spoljnem <code>if</code> iskazu, ili kao:
-</p>
-<pre>
-if a then (if b then s else s2)
-</pre>
-
-<p>
-gde <code>else</code> pripada unutrašnjem <code>if</code> iskazu.
+<li>Klasičan primer je &ldquo;viseći else&rdquo; (eng. <i>dangling else</i>).</li>
+<li><p>
+U produkciji:
 </p>
 
-<ul>
-<li>Rešavaju se dodavanjem pravila prioriteta ili dodavanjem konteksta kojim se
-izbegava višeznačnost. Na primer, za kôd <code>if-else</code> klauzule može se dodati
-ključna reč <code>endif</code>.</li>
+<div class="org-src-container">
+
+<pre><code class="ebnf" >  IF -&gt; 'if' COND 'then' STMT 'else' STMT
+        | 'if' COND 'then' STMT
+</code></pre>
+</div></li>
+
+<li><p>
+definisan je <code>if</code> iskaz nekog jezika:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="ruby" >  if stmt1 then if stmt2 then stmt3 else stmt4
+</code></pre>
+</div></li>
+
+<li><p>
+Ova konstrukcija može da se tumači na dva načina. Kod prvog tumačenja je <code>else</code>
+deo spoljnjeg <code>if</code> iskaza, odnosno:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="ruby" >  if stmt1 then (if stmt2 then stmt3) else stmt4
+</code></pre>
+</div></li>
+
+<li><p>
+dok je kod drugog tumačenja <code>else</code> deo iskaza u sastavu unutrašnjeg <code>if</code> iskaza,
+odnosno:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="ruby" >  if stmt1 then (if stmt2 then stmt3 else stmt4)
+</code></pre>
+</div></li>
+
+<li>Rešenje je dodavanjem pravila prioriteta ili dodavanje konteksta kojim se
+izbegava višeznačnost. Na primer, u <code>if-else</code> klauzuli može se dodati ključna
+reč <code>endif</code>.</li>
 
 </ul>
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Višeznačna gramatika - primer</h3>
 
-<div id="orgf5bf92e" class="figure">
+<div id="orga180af1" class="figure">
 <p><img src="./images/Ambiguous.svg" alt="Ambiguous.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
@@ -719,13 +736,85 @@ Stablo koje oslikava prioritet i asocijativnost operacija
 </p>
 
 
-<div id="orgf49af61" class="figure">
+<div id="org96cedf6" class="figure">
 <p><img src="./images/Ambiguous2.svg" alt="Ambiguous2.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
 </section>
 <section id="slide-5-5">
-<h3 id="5-5"><span class="section-number-3">5.5.</span> Razrešavanje višeznačnosti</h3>
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Višeznačna gramatika - drugi primer</h3>
+<div class="column" style="float:left; width: 60%">
+<div class="org-src-container">
+
+<pre><code class="ebnf" >S → E
+E → E '+' E
+E → E '-' E
+E → E '*' E
+E → E '/' E
+E → '(' E ')'
+E → broj
+</code></pre>
+</div>
+<p>
+Ulaz: \(3+4*(7-2)\)
+</p>
+
+<div>
+\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{4} E * E \xrightarrow{2} E + E * E\\
+\xrightarrow{7} 3 + E * E \xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}
+
+</div>
+</div>
+
+<div class="column" style="float:right; width: 40%">
+
+<div id="orgd6e42bf" class="figure">
+<p><img src="./images/derivation2.svg" alt="derivation2.svg" class="org-svg" />
+</p>
+</div>
+</div>
+
+<div style="clear: both;">
+
+</section>
+<section>
+
+<p>
+A trebalo bi:
+</p>
+
+<div class="column" style="float:left; width: 50%">
+<div>
+\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{2} E + E \\
+\xrightarrow{7} 3 + E \\
+\xrightarrow{4} 3 + E * E \\
+\xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \\
+\xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \\
+\xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}
+
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+
+<div id="org91b2801" class="figure">
+<p><img src="./images/expression-tree.svg" alt="expression-tree.svg" class="org-svg" />
+</p>
+</div>
+</div>
+
+<div style="clear: both;">
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Razrešavanje višeznačnosti</h3>
 <ul>
 <li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
 <li>Određeni parseri omogućavaju dodatna pravila (npr. <i>pravilo prioriteta</i>) koje
@@ -735,6 +824,61 @@ različite interpretacije ulaza biće vraćena sva moguća stabla/interpretacije
 <li>Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
 parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
 navođenja (sleva na desno).</li>
+
+</ul>
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7.</span> Razrešenje enkodovanjem prioriteta u produkcijama</h3>
+<ul>
+<li><p>
+Jedna od tehnika razrešavanja višeznačnosti kroz enkodovanje prioriteta
+i asocijativnosti operacija na nivou gramatike.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="ebnf" >  S → E
+  E → E + T | E - T | T
+  T → T * F | T / F | F
+  F → ( E ) | id
+</code></pre>
+</div></li>
+
+<li>Na ovom primeru vidimo da gramatička pravila za opis operacija
+višeg nivoa se definišu na nižem nivou sa stanovišta referenciranja.</li>
+<li>Na primer, pravilo <code>E</code> definiše operacije sabiranja i oduzimanja i referencira
+pravilo <code>T</code> koje definiše operacije množenja i deljenja višeg prioriteta.</li>
+
+</ul>
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Lesička višeznačnost</h3>
+<ul>
+<li>Za prethodno opisan oblik višeznačnosti kažemo da je sintaksna.</li>
+<li>Postoji i drugi izvor višeznačnosti koji nastaje na leksičkom nivou i nastaje
+kada lekser može da prepozna više tokena na istom mestu u ulaznom stringu.</li>
+
+</ul>
+
+<p>
+Na primer:
+</p>
+<div class="org-src-container">
+
+<pre><code class="ebnf" >Something: INT | FLOAT;
+
+terminals
+INT: /\d+/;
+FLOAT: /\d+(\.\d+)?/;
+</code></pre>
+</div>
+
+<ul>
+<li>Problem nastaje jer terminalna pravila <code>INT</code> i <code>FLOAT</code> mogu da prepoznaju isti deo
+ulaza ukoliko u ulaznom broju nemamo decimalnu tačku i cifre iza nje. Ovaj
+problem nastaje zbog preklapanja na početnom delu definicije (<code>\d+</code>).</li>
+<li>Na primer, ako je ulazni string <code>"3"</code> oba pravila mogu da ga prepoznaju što
+znači da imamo dva moguća rešenja.</li>
 
 </ul>
 </section>
@@ -873,7 +1017,7 @@ Za ulaz <code>3 + 4 * ( 7 - 2 )</code> dobijamo stablo na desnoj strani.
 
 <div class="column" style="float:right; width: 30%">
 
-<div id="org553fa46" class="figure">
+<div id="org3dcdf4d" class="figure">
 <p><img src="./images/left-factored.svg" alt="left-factored.svg" class="org-svg" style="height: 600px;" />
 </p>
 </div>
@@ -890,8 +1034,8 @@ ulaznog stringa.
 </p>
 
 
-<div id="org3d76240" class="figure">
-<p><img src="./images/derivation.svg" alt="derivation.svg" class="org-svg" style="height: 500px;" />
+<div id="org2ec8bc4" class="figure">
+<p><img src="./images/expression-tree.svg" alt="expression-tree.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
 </section>
@@ -1092,7 +1236,7 @@ navoditi rekurzivne produkcije.</li>
 <section id="slide-10-1">
 <h3 id="10-1"><span class="section-number-3">10.1.</span> LR parsiranje - primer</h3>
 
-<div id="orgf59f069" class="figure">
+<div id="org004fb10" class="figure">
 <p><img src="./images/LR-Primer.png" alt="LR-Primer.png" style="height: 700px;" />
 </p>
 </div>
@@ -1149,31 +1293,7 @@ poraste</i> kod složenijih gramatika.</li>
 </ul>
 </section>
 <section id="slide-11-2">
-<h3 id="11-2"><span class="section-number-3">11.2.</span> <i>Top-Down Parsing Language</i></h3>
-<ul>
-<li>Šematski opis rekurzivnog silaznog parsera sa vraćanjem (<i>recursive descent
-parser with backtracking</i>). Orijentisan je ka prepoznavanju ulaznog teksta.</li>
-<li>Ideje datiraju unazad u ’70 godine prošlog veka.<sup>1</sup></li>
-<li>Rekurzivni silazni parseri nisu imali veću popularnost u 20. veku jer vreme
-parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika <i>memoizacije</i>
-u kom slučaju je linearno ali je potreban značajan memorijski prostor koji
-direktno zavisi od veličine ulaza.</li>
-<li>Bryan Ford je obnovio interesovanje za TDPL (<i>Top-Down Parsing Language</i>)
-fomalizam za opis gramatika.<sup>2</sup></li>
-<li>Gramatike koje opisuju TDPL Ford naziva gramatikama izraza za parsiranje
-(<i>Parsing Expression Grammars - PEG</i>).</li>
-
-</ul>
-
-<ol class="footer" style="clear: both;">
-<li>A. Birman, <i>The tmg recognition schema</i>. PhD thesis, 1970</li>
-<li>B. Ford, <i>Packrat parsing: a practical linear-time algorithm with
-backtracking</i>. Master thesis, Massachusetts Institute of Technology, 2002</li>
-
-</ol>
-</section>
-<section id="slide-11-3">
-<h3 id="11-3"><span class="section-number-3">11.3.</span> PEG - <i>Parsing Expression Grammars</i></h3>
+<h3 id="11-2"><span class="section-number-3">11.2.</span> PEG - <i>Parsing Expression Grammars</i></h3>
 <ul>
 <li>Formalizam za opis TDPL.</li>
 <li>Osnovna prednost PEG gramatika u odnosu na CFG jeste upotreba operatora
@@ -1190,8 +1310,8 @@ parser sa bektrekingom i memoizacijom naziva se <i>pakrat parser</i>.</li>
 
 </ul>
 </section>
-<section id="slide-11-4">
-<h3 id="11-4"><span class="section-number-3">11.4.</span> Packrat parser</h3>
+<section id="slide-11-3">
+<h3 id="11-3"><span class="section-number-3">11.3.</span> Packrat parser</h3>
 <ul>
 <li>Rekurzivni silazni parser sa vraćanjem koji koristi tehniku <i>memoizacije</i>
 (pamćenje derivacija podstabala) da bi obezbedio <i>linearno vreme izvršavanja</i>.</li>
@@ -1202,16 +1322,116 @@ proširivih dinamičkih jezika.</li>
 
 </ul>
 </section>
-<section id="slide-11-5">
-<h3 id="11-5"><span class="section-number-3">11.5.</span> Refaktorisanje gramatike za PEG parsere</h3>
+<section id="slide-11-4">
+<h3 id="11-4"><span class="section-number-3">11.4.</span> Refaktorisanje gramatike za PEG parsere</h3>
 
-<div id="org55f18b6" class="figure">
+<div id="org7091bf2" class="figure">
 <p><img src="./images/PEGPrioritet.svg" alt="PEGPrioritet.svg" class="org-svg" style="height: 700px;" />
 </p>
 </div>
 
 <p style="text-align: center;">
 Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?
+</p>
+</section>
+<section id="slide-11-5">
+<h3 id="11-5"><span class="section-number-3">11.5.</span> PEG definicija</h3>
+<p>
+Gramatike izraza za parsiranje se sastoje od:
+</p>
+<ul>
+<li>konačnog skupa neterminalnih simbola \(N\),</li>
+<li>konačnog skupa terminalnih simbola koji je disjunktan sa \(N\), u oznaci
+\(\Sigma\),</li>
+<li>konačnog skupa pravila parsiranja \(P\),</li>
+<li>početnog izraza \(e_s\)</li>
+
+</ul>
+
+<p>
+Skup terminalnih simbola (terminala) predstavlja alfabet jezika. Neterminalni
+simboli (neterminali) su varijable koje predstavljaju nisku sastavljenu od
+terminala i/ili drugih neterminala.
+</p>
+
+<p>
+Pravila parsiranja su oblika \(A \leftarrow e\) gde je \(A\) neterminal a \(e\)
+predstavlja izraz za parsiranje. Izraz za parsiranje može biti prost i u tom
+slučaju može biti:
+</p>
+
+<ul>
+<li>bilo koji terminalni simbol,</li>
+<li>bilo koji neterminalni simbol,</li>
+<li>prazan string</li>
+
+</ul>
+</section>
+<section id="slide-11-6">
+<h3 id="11-6"><span class="section-number-3">11.6.</span> PEG operatori</h3>
+<p>
+Ukoliko su \(e\), \(e_1\) i \(e_2\) izrazi za parsiranje tada se složeni izrazi za
+parsiranje mogu kreirati upotrebom sledećih operatora:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" style="font-size: 0.9em;">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\(e_1 e_2\) (sekvenca)</td>
+<td class="org-left">redom se prepoznaju izrazi \(e_1\) i \(e_2\)</td>
+</tr>
+
+<tr>
+<td class="org-left">\(e_1 / e_2\) (uređeni izbor)</td>
+<td class="org-left">prepoznaje se \(e_1\) ili \(e_2\) u navedenom redosledu</td>
+</tr>
+
+<tr>
+<td class="org-left">\(e?\) (opciono prep.)</td>
+<td class="org-left">prepoznaje se izraz \(e\) opciono</td>
+</tr>
+
+<tr>
+<td class="org-left">\(e+\) (jedan ili više)</td>
+<td class="org-left">sukcesivno se vrši prepoznavanje izraza \(e\) dok god uspeva. Izraz uspeva ako je bar jedno prepoznavanje uspešno</td>
+</tr>
+
+<tr>
+<td class="org-left">\(e*\) (nula ili više)</td>
+<td class="org-left">sukcesivno se vrši prepoznavanje izraza \(e\) dok god uspeva. Izraz uvek uspeva</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-11-7">
+<h3 id="11-7"><span class="section-number-3">11.7.</span> PEG - sintaksni predikati</h3>
+<p>
+PEG poseduje i posebnu klasu operatora – sintaksne predikate. Oni omogućavaju
+definisanje dodatnih informacija o kontekstu u kome se nalazi izraz koji
+pokušavamo da prepoznamo bez konzumiranja ulaznog stringa. Sintaksni predikati
+su sledeći:
+</p>
+
+<ul>
+<li><b>I predikat:</b> \(\&e\) – ukoliko se na ulazu prepozna izraz \(e\) predikat ima
+istinitu vrednost,</li>
+<li><b>Ne predikat:</b> \(!e\) – ukoliko se na ulazu ne prepozna izraz \(e\) predikat
+ima istinitu vrednost.</li>
+
+</ul>
+
+<p>
+Sintaksni predikati omogućavaju definisanje izraza za parsiranje oblika \(e_1
+\&e_2\) – biće prepoznat izraz \(e_1\) samo ukoliko iza njega sledi tekst koji se
+može prepoznati izrazom \(e_2\), pri čemu deo ulaznog teksta prepoznatog izrazom
+\(e_2\) neće biti uklonjen sa ulaza (neće biti konzumiran).
 </p>
 </section>
 </section>
