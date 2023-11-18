@@ -10,5 +10,85 @@
 class Projekat {
         naziv: String
 }
+class Grana {
+        naziv: String
+}
+class Komit {
+        heš: String
+}
+class Razvijač {
+        ime: String
+        epošta: EMail
+        id: Integer
+}
+Projekat "*" -- "*" Razvijač : učestvuje
+
+class Problem {
+        id: Integer
+        naslov: String
+        opis: String
+}
+Problem "*" -- "1" Razvijač : odgovoran
+class Zadatak {
+        id: Integer
+        naslov: String
+}
+Problem *-- "*" Zadatak: deli se na
+Zadatak "*" -- "1" Razvijač : rešava
+
+class VrhovnoDostignuće {
+        krajnji_rok: Date
+}
+Projekat *-- "*" VrhovnoDostignuće
+VrhovnoDostignuće *-- "*" Problem
+class Komentar {
+        sadržaj: String
+}
+Komentar "*" -- "1" Razvijač : autor
+class Tag {
+        naziv: String
+        vreme: DateTime
+}
+Tag "*" -- "1" Komit
+Tag -- Razvijač : autor
+
+Razvijač -- Komit : autor
+Razvijač -- Komit : komiter
+Komit "1..*" -- "1..*" Grana : pripada
+
+abstract class Događaj {
+        vreme: DateTime
+}
+Razvijač *-- "*" Događaj : izazvao
+
+Labeliranje --|> Događaj
+Komentar --|> Događaj
+
+Komentar "*" --* Problem
+VrhovnoDostignuće *-- "*" Događaj
+ZahtevZaPovlačenje *-- "*" Događaj
+class Učestvuje {
+        uloga: Uloga
+}
+
+enum Uloga {
+        Prijavljivač
+        Razvijač
+        Održavač
+        Vlasnik
+}
+
+Učestvuje -- Razvijač
+Učestvuje -- Projekat
+class ZahtevZaPovlačenje {
+
+}
+ZahtevZaPovlačenje --> Grana : izvor
+ZahtevZaPovlačenje --> Grana : odredište
+Projekat *-- "*" ZahtevZaPovlačenje
+ZahtevZaPovlačenje "*" -- "1" Razvijač : autor
+ZahtevZaPovlačenje "*" -- "1..*" Razvijač : recezent
+Grana "*" --> "1" Grana : izvor
 @enduml
 #+END_SRC
+
