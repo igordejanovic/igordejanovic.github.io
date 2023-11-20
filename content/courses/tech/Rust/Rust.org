@@ -3185,7 +3185,385 @@ fn main() {
     }
 }
 #+end_src
-* TODO Паметни поинтери
+* Паметни поинтери (/Smart Pointers/) - први део
+** =Box<T>=
+- Најједноставнији паметни поинтер.
+- Слично обичној референци али подаци се чувају на хипу.
+- Перформансе сличне обичним референцама, осим алокације хип меморије. Али
+  такође нема додатних могућности.
+
+*** Ситуације у којима се користи =Box<T>=
+1. Када имамо тип чија величина не може да се утврди у време компајлирања а
+   желимо да га користимо у контексту где се величина мора знати. Нпр. као
+   локалну варијаблу.
+2. Када имамо тип који чува већу количину података и не желимо да се при
+   премештању власништва подаци копирају.
+3. Када желимо поседовати тип и није нам битно који је конкретан тип већ само
+   које особине имплементира.
+
+*** =Box<T>= употреба
+#+begin_src rust
+fn main() {
+    let b = Box::new(5);
+    println!("b = {}", b);
+}
+#+end_src
+
+#+RESULTS:
+: b = 5
+
+*** Употреба у рекурзивним типовима
+- =Cons= листе. Из LISP-a. Креирање листе употребом парова.
+  #+begin_src lisp
+  (1, (2, (3, Nil)))
+  #+end_src
+
+*** Покушај креирања
+#+begin_src rust
+enum List {
+    Cons(i32, List),
+    Nil,
+}
+use List::{Cons, Nil};
+
+fn main() {
+    let list = Cons(1, Cons(2, Cons(3, Nil)));
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src text
+error[E0072]: recursive type `List` has infinite size
+ --> src/main.rs:2:1
+  |
+2 | enum List {
+  | ^^^^^^^^^
+3 |     Cons(i32, List),
+  |               ---- recursive without indirection
+  |
+help: insert some indirection (e.g., a `Box`, `Rc`, or `&`) to break the cycle
+  |
+3 |     Cons(i32, Box<List>),
+  |               ++++    +
+
+For more information about this error, try `rustc --explain E0072`.
+error: could not compile `cargoXtBWbE` (bin "cargoXtBWbE") due to previous error
+#+end_src
+
+- Величина =List= типа је бесконачна. Компајлер предлаже употребу индирекције кроз =Box=.
+
+*** Како компајлер рачуна величину типа?
+#+begin_src rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+#+end_src
+
+Величина типа је величина највеће алтернативе.
+
+#+REVEAL: split
+
+Како се рачуна величина =List= типа?
+
+#+begin_src rust
+enum List {
+    Cons(i32, List),
+    Nil,
+}
+use List::{Cons, Nil};
+#+end_src
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/list-size.svg]]
+
+*** Преправка =List= типа да користи =Box<T>=
+
+#+begin_src rust
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+
+fn main() {
+    let list = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+}
+#+end_src
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 300px;
+[[./images/list-size-box.svg]]
+
+- Величина =Box<T>= типа је фиксна и позната у време компајлирања. Садржи само
+  адресу садржаја на хипу.
+
+** Употреба паметних поинтера као обичних референци (/Deref/ особина)
+- Типови који имплементирају =Deref= редефинишу оператор =*=.
+- Имплементацијом ове особине произвољни типови се могу третирати као референце.
+
+*** Употреба =Box<T>= као референце
+#+begin_src rust
+fn main() {
+    let x = 5;
+    let y = Box::new(x);
+
+    assert_eq!(5, x);
+    assert_eq!(5, *y);
+}
+#+end_src
+
+*** Дефинисање корисничког паметног поинтера
+#+begin_src rust
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+fn main() {
+    let x = 5;
+    let y = MyBox::new(x);
+
+    assert_eq!(5, x);
+    assert_eq!(5, *y);
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src text
+error[E0614]: type `MyBox<{integer}>` cannot be dereferenced
+  --> src/main.rs:14:19
+   |
+14 |     assert_eq!(5, *y);
+   |                   ^^
+
+For more information about this error, try `rustc --explain E0614`.
+error: could not compile `cargoEj7N5h` (bin "cargoEj7N5h") due to previous error
+#+end_src
+
+*** Имплементација =Deref= особине
+
+#+begin_src rust
+use std::ops::Deref;
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+#+end_src
+
+- =Target= је придружени тип (/Associated type/) особине =Deref=.
+- =deref= враћа референцу на =Target= тип.
+- Приликом дереференцирања, вредност није обична референца, позива се =deref=
+  уколико тип имплементира =Deref= и враћена референца се затим дереференцира на
+  стандардни начин. Компајлер у позадини извршава ово:
+  #+begin_src rust
+  *(y.deref())
+  #+end_src
+
+#+REVEAL: split
+
+- Зашто =deref= враћа референцу на =Target= тип а не директно вредност?
+
+#+ATTR_REVEAL: :frag (roll-in)
+Јер би дошло до премештања вредности из поинтера а то не желимо да се деси.
+Желимо вредност само да позајмимо.
+
+*** Имплицитна =Deref= коерција
+- =Deref= коерција представља имплицитну конверзију референци на тип који
+  имплементира =Deref= у референцу на његов =Target= тип приликом позива функција и
+  метода.
+- Додато у језик да програмери не би морали да пишу превише експлицитних
+  референцирања и дереференцирања.
+- На пример, тип =&String= se имплицитно конвертује у =&str= jer у стандардној
+  библиотеци постоји следећа имплементација:
+
+  #+begin_src rust
+  impl ops::Deref for String {
+      type Target = str;
+
+      #[inline]
+      fn deref(&self) -> &str {
+          unsafe { str::from_utf8_unchecked(&self.vec) }
+      }
+  }
+  #+end_src
+
+*** =Deref= коерција типа =MyBox=
+
+#+begin_src rust
+fn hello(name: &str) {
+    println!("Hello, {name}!");
+}
+
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}
+#+end_src
+
+- Ово је могуће јер се конвертује =&MyBox<String>= у =&String= и затим се конвертује
+  =&String= u =&str= на основу имплементације у стандардној библиотеци.
+- Раст ће позвати потребан број пута =deref= ако постоји ланац конверзије који ће
+  довести до траженог типа.
+- Због овога је боље користити =&str= уместо =&String= у листи параметара функције.
+  Функција ће моћи да се користи и за =&str= и за све друге типове који се
+  имплицитном коерцијом могу превести у =&str=.
+
+#+REVEAL: split
+
+Када Раст не би имплементирао имплицитну коерцију морали бисмо ово да пишемо:
+
+#+begin_src rust
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&(*m)[..]);
+}
+#+end_src
+** Ослобађање ресурса употребом =Drop= особине
+- =Drop= је друга особина битна за паметне поинтере.
+- Ако тип имплементира =Drop= тада ће компајлер позвати =drop= методу приликом
+  изласка вредности из опсега важења.
+- На пример, =Box<T>= имплементира =Drop= да би деалоцирао хип меморију приликом
+  изласка из опсега важења.
+
+*** Пример
+#+begin_src rust
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    println!("CustomSmartPointers created.");
+}
+#+end_src
+
+#+RESULTS:
+: CustomSmartPointers created.
+: Dropping CustomSmartPointer with data `other stuff`!
+: Dropping CustomSmartPointer with data `my stuff`!
+** Дељено власништво кроз бројање референци - =Rc<T>=
+*** Мотивација
+- Постоје случајеви када је потребно имати више власника за неку вредност.
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 300px;
+[[./images/rc-list.svg]]
+
+*** Покушај креирања дељене листе
+#+begin_src rust
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+
+fn main() {
+    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+    let b = Cons(3, Box::new(a));
+    let c = Cons(4, Box::new(a));
+}
+#+end_src
+
+#+begin_src text
+error[E0382]: use of moved value: `a`
+  --> src/main.rs:12:30
+   |
+10 |     let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+   |         - move occurs because `a` has type `List`, which does not implement the `Copy` trait
+11 |     let b = Cons(3, Box::new(a));
+   |                              - value moved here
+12 |     let c = Cons(4, Box::new(a));
+   |                              ^ value used here after move
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `cargo1mCqK5` (bin "cargo1mCqK5") due to previous error
+#+end_src
+
+*** Решење - употреба =Rc<T>= паметног поинтера
+- Бројање референци - /reference counting/.
+- Додавањем новог власника бројач се увећава за један.
+- Када власник изађе из опсега бројач се умањује за један.
+- Када бројач постане 0 врши се деалокација вредности са хипа.
+
+*** Дељене листе употребом =Rc<T>=
+#+begin_src rust
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::rc::Rc;
+
+fn main() {
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    let b = Cons(3, Rc::clone(&a));
+    let c = Cons(4, Rc::clone(&a));
+}
+#+end_src
+
+#+RESULTS:
+
+- =Rc::clone= не клонира вредност већ само увећава бројач.
+- Могли би писати и =a.clone()= али је конвенција да се пише =Rc::clone(&a)= јер
+  овде не долази заиста до клонирања па је лакше уочити оваква места у коду.
+
+*** Тестирање бројача
+#+begin_src rust
+enum List {
+    Cons(i32, Rc<List>),
+    Nil,
+}
+use std::rc::Rc;
+use crate::List::{Cons, Nil};
+fn main() {
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+    println!("count after creating a = {}", Rc::strong_count(&a));
+    let b = Cons(3, Rc::clone(&a));
+    println!("count after creating b = {}", Rc::strong_count(&a));
+    {
+        let c = Cons(4, Rc::clone(&a));
+        println!("count after creating c = {}", Rc::strong_count(&a));
+    }
+    println!("count after c goes out of scope = {}", Rc::strong_count(&a));
+}
+#+end_src
+
+#+RESULTS:
+: count after creating a = 1
+: count after creating b = 2
+: count after creating c = 3
+: count after c goes out of scope = 2
+*** Финалне напомене
+- =Rc<T>= није сигуран у контексту нити (/not threadsafe/). Тип који јесте је
+  =Arc<T>= - /atomic reference counting/.
+- Овај тип има додатно оптерећење јер мора да ради закључавање. Зато у контексту
+  једне нити треба увек користити =Rc<T>=.
 * Колекције
 ** Вектор (=Vec<T>=)
 *** Шта је вектор?
@@ -6219,7 +6597,9 @@ where
     }
 }
 #+end_src
-
+* TODO Паметни поинтери - други део
+** TODO Образац интерне промењивости - =RefCell<T>=
+** TODO Цикличне референце и цурење меморије
 * Функционално програмирање, затворења и итератори
 ** Затворења (/closures/)
 - Анонимне функције које се могу сачувати у варијабли и проследити другим функцијама.
