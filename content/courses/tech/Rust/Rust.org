@@ -1810,7 +1810,7 @@ fn no_dangle() -> String {
 }
 #+end_src
 
-*** Правила референцирања
+*** Правила позајмљивања
 1. У сваком тренутку можемо имати или једну промењиву или произвољан број
    непромењивих референци.
 2. Референце увек морају бити валидне.
@@ -6598,9 +6598,365 @@ where
     }
 }
 #+end_src
-* TODO Паметни поинтери - други део
-** TODO Образац интерне промењивости - =RefCell<T>=
-** TODO Цикличне референце и цурење меморије
+* Паметни поинтери - други део
+** Образац интерне промењивости - =RefCell<T>=
+- Дизајн образац за измену података чак и када постоје дељене референце.
+- Ово је забрањено правилима позајмљивања.
+- Интерно користи несигуран кôд (/unsafe/) чиме се ставља до знања компајлеру да
+  се провера обавља од стране =RefCell<T>= типа.
+- Провера се сели из времена компајлирања у време извршавања (/run-time/)
+*** Правила позајмљивања у време извршавања - =RefCell<T>=
+- За разлику од =Rc<T>=, =RefCell<T>= може имати само једног власника.
+- У чему је разлика у односу на =Box<T>=?
+
+#+REVEAL: split
+
+Подсетимо се правила позајмљивања:
+
+1. У сваком тренутку можемо имати или једну промењиву или произвољан број
+   непромењивих референци.
+2. Референце увек морају бити валидне.
+
+#+REVEAL: split
+
+- Код =Box<T>= правила позајмљивања се проверавају у време компајлирања (статички).
+  Ако прекршимо правила кôд се неће компајлирати.
+- Код =RefCell<T>= правила позајмљивања се проверавају у време извршавања.
+  Ако прекршимо правила програм ће прекинути са извршавањем (/panic/).
+- Боље је провере обавити у време компајлирања али некада то није могуће.
+
+#+REVEAL: split
+
+- Раст компајлер и правила којa користи су исправна али непотпуна (/sound but
+  uncomplete/). Ово значи да ће сви невалидни програми бити одбијени (/sound/) али
+  ће бити одбијени и неки валидни програми (/uncomplete/).
+- =RefCell<T>= користимо у ситуацијама када знамо да је наш програм валидан али
+  Раст компајлер то није у стању да верификује статички.
+- Правила се и даље проверавају али у време извршавања.
+
+*** Рекапитулација правила паметних поинтера
+- =Rc<T>= омогућава више власника. =Box<T>= и =RefCell<T>= само једног.
+- =Box<T>= омогућава непромењиве или промењиве позајмице које се проверавају у
+  време компајлирања. =Rc<T>= дозвољава само непромењиве позајмице у време
+  компајлирања. =RefCell<T>= дозвољава непромењиве и промењиве позајмице у време
+  извршавања.
+- Пошто =RefCell<T>= омогућава промењиве референце које се проверавају у време
+  извршавања, можемо мењати унутрашње податке иако имамо дељену референцу у
+  време компајлирања. Због тога се овај образац назива "унутрашња промењивост"
+  (/İnterior Mutability/).
+
+*** Студија случаја за примену =RefCell<T>= - /Mock/ објекти
+- Лажни објекти коришћени у тестирању, посебна врста тест дублера (/test
+  doubles/).
+- /Mock/ објекти региструју информације о позивима да би се у тесту те информације
+  могле верификовати.
+
+#+REVEAL: split
+
+#+begin_src rust
+pub trait Messenger {
+    fn send(&self, msg: &str);
+}
+
+pub struct LimitTracker<'a, T: Messenger> {
+    messenger: &'a T,
+    value: usize,
+    max: usize,
+}
+
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src rust
+impl<'a, T> LimitTracker<'a, T>
+where
+    T: Messenger,
+{
+    pub fn new(messenger: &'a T, max: usize) -> LimitTracker<'a, T> {
+        LimitTracker {
+            messenger,
+            value: 0,
+            max,
+        }
+    }
+
+    pub fn set_value(&mut self, value: usize) {
+        self.value = value;
+
+        let percentage_of_max = self.value as f64 / self.max as f64;
+
+        if percentage_of_max >= 1.0 {
+            self.messenger.send("Error: You are over your quota!");
+        } else if percentage_of_max >= 0.9 {
+            self.messenger
+                .send("Urgent warning: You've used up over 90% of your quota!");
+        } else if percentage_of_max >= 0.75 {
+            self.messenger
+                .send("Warning: You've used up over 75% of your quota!");
+        }
+    }
+}
+#+end_src
+*** /Mock/ објекти - проблем са тестирањем
+
+#+begin_src rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+    struct MockMessenger {
+        sent_messages: Vec<String>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger {
+                sent_messages: vec![],
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            self.sent_messages.push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        let mock_messenger = MockMessenger::new();
+        let mut limit_tracker = LimitTracker::new(&mock_messenger, 100);
+
+        limit_tracker.set_value(80);
+        assert_eq!(mock_messenger.sent_messages.len(), 1);
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src
+$ cargo test
+   Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
+error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&` reference
+  --> src/lib.rs:58:13
+   |
+2  |     fn send(&self, msg: &str);
+   |             ----- help: consider changing that to be a mutable reference: `&mut self`
+...
+58 |             self.sent_messages.push(String::from(message));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference,
+                                   so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `limit-tracker` due to previous error
+warning: build failed, waiting for other jobs to finish...
+#+end_src
+
+*** /Mock/ објекти - решење са =RefCell<T>=
+#+begin_src rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::RefCell;
+
+    struct MockMessenger {
+        sent_messages: RefCell<Vec<String>>,
+    }
+
+    impl MockMessenger {
+        fn new() -> MockMessenger {
+            MockMessenger {
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            self.sent_messages.borrow_mut().push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        // --snip--
+
+        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
+    }
+}
+#+end_src
+
+*** Покушај нарушавања правила позајмљивања
+
+#+begin_src rust
+impl Messenger for MockMessenger {
+        fn send(&self, message: &str) {
+            let mut one_borrow = self.sent_messages.borrow_mut();
+            let mut two_borrow = self.sent_messages.borrow_mut();
+
+            one_borrow.push(String::from(message));
+            two_borrow.push(String::from(message));
+        }
+    }
+#+end_src
+
+#+REVEAL: split
+
+#+begin_src
+
+
+$ cargo test
+   Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
+    Finished test [unoptimized + debuginfo] target(s) in 0.91s
+     Running unittests src/lib.rs (target/debug/deps/limit_tracker-e599811fa246dbde)
+
+running 1 test
+test tests::it_sends_an_over_75_percent_warning_message ... FAILED
+
+failures:
+
+---- tests::it_sends_an_over_75_percent_warning_message stdout ----
+thread 'tests::it_sends_an_over_75_percent_warning_message' panicked at
+'already borrowed: BorrowMutError', src/lib.rs:60:53
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::it_sends_an_over_75_percent_warning_message
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+#+end_src
+*** Вишеструко власништво над промењивим подацима - =Rc<T>= + =RefCell<T>=
+- Ако нам треба унутрашња промењивост и могућност постојања више власника можемо
+  искомбиновати =Rc<T>= и =RefCell<T>= типове.
+
+#+REVEAL: split
+
+#+begin_src rust
+#[derive(Debug)]
+enum List {
+    Cons(Rc<RefCell<i32>>, Rc<List>),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+fn main() {
+    let value = Rc::new(RefCell::new(5));
+
+    let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));
+
+    let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&a));
+    let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&a));
+
+    *value.borrow_mut() += 10;
+
+    println!("a after = {:?}", a);
+    println!("b after = {:?}", b);
+    println!("c after = {:?}", c);
+}
+#+end_src
+
+#+begin_src
+$ cargo run
+   Compiling cons-list v0.1.0 (file:///projects/cons-list)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.63s
+     Running `target/debug/cons-list`
+a after = Cons(RefCell { value: 15 }, Nil)
+b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
+c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
+#+end_src
+
+** Цикличне референце и цурење меморије
+- Раст меморијске гаранције чине тешким али не и немогућим алокацију меморије
+  која се никада не ослобађа. Ово није једна од Раст гаранција.
+- Комбиновање =Rc<T>= и =RefCell<T>= може да доведе до цурења меморије (/memory leak/).
+
+** Креирање цикличних референци
+
+#+name: cycle-refs-header
+#+begin_src rust
+use List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell<Rc<List>>),
+    Nil,
+}
+
+impl List {
+    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+        match self {
+            Cons(_, item) => Some(item),
+            Nil => None,
+        }
+    }
+}
+
+#+end_src
+
+#+REVEAL: split
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 70%; font-size: 0.9em">
+#+name: cycle-refs
+#+begin_src rust :noweb strip-export :results replace
+<<cycle-refs-header>> // Занемарите ову линију
+fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+
+    println!("a initial rc count = {}", Rc::strong_count(&a));
+    println!("a next item = {:?}", a.tail());
+
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+
+    println!("a rc count after b creation = {}", Rc::strong_count(&a));
+    println!("b initial rc count = {}", Rc::strong_count(&b));
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        ,*link.borrow_mut() = Rc::clone(&b);
+    }
+
+    println!("b rc count after changing a = {}", Rc::strong_count(&b));
+    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+
+    // Uncomment the next line to see that we have a cycle;
+    // it will overflow the stack
+    // println!("a next item = {:?}", a.tail());
+}
+#+end_src
+
+#+RESULTS: cycle-refs
+: a initial rc count = 1
+: a next item = Some(RefCell { value: Nil })
+: a rc count after b creation = 2
+: b initial rc count = 1
+: b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+: b rc count after changing a = 2
+: a rc count after changing a = 2
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 30%">
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/ref-cycle.svg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+** Цикличне референце - могуће решење
+- Конверзија =Rc<T>= у =Weak<T>=.
+- "Слабе" референце нису власници тако да не утичу на деалокацију меморије.
+- Видети детаље у књизи [[https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html][The Rust Programming Language, поглавље 15.06]]
+
 * Функционално програмирање, затворења и итератори
 ** Затворења (/closures/)
 - Анонимне функције које се могу сачувати у варијабли и проследити другим функцијама.

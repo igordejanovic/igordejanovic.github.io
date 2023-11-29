@@ -35,7 +35,7 @@
 <h1 class="title">Програмски језик Раст</h1>
 <h2 class="subtitle">Базирано на верзији 1.65.0. У изради.</h2>
 <h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Креирано 2023-11-28 Tue 13:29, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+<p class="date">Креирано 2023-11-29 Wed 19:46, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
 <section>
 <section id="slide-1">
@@ -1453,7 +1453,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="orga9923f6">
+<pre class="example" id="orgba114c0">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1999,7 +1999,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="orgd272ee6" class="figure">
+<div id="orge97d709" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -2023,7 +2023,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="org0d05a50" class="figure">
+<div id="org237abc6" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -2042,7 +2042,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </p>
 
 
-<div id="org07dcbba" class="figure">
+<div id="org96ededd" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -2066,7 +2066,7 @@ println!("{}, world!", s1);
 Добићемо грешку:
 </p>
 
-<pre class="example" id="orgf9c71fe">
+<pre class="example" id="org89c77af">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2107,7 +2107,7 @@ error: could not compile `ownership` due to previous error
 </p>
 
 
-<div id="org9d8dbdd" class="figure">
+<div id="org97f3fd5" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2307,7 +2307,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="orgee8db0d" class="figure">
+<div id="orgcf3834b" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2371,7 +2371,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="orgdf5558a">
+<pre class="example" id="orgec569c4">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2425,7 +2425,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="orgbe8c7bd">
+<pre class="example" id="org82c6f09">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2498,7 +2498,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="orgfbd134a">
+<pre class="example" id="orgbbef781">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2581,7 +2581,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org887ac4e">
+<pre class="example" id="org6a5da38">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2647,7 +2647,7 @@ error: could not compile `ownership` due to previous error
 </div>
 </section>
 <section id="slide-6-2-10">
-<h4 id="6-2-10"><span class="section-number-4">6.2.10.</span> Правила референцирања</h4>
+<h4 id="6-2-10"><span class="section-number-4">6.2.10.</span> Правила позајмљивања</h4>
 <ol>
 <li>У сваком тренутку можемо имати или једну промењиву или произвољан број
 непромењивих референци.</li>
@@ -2765,7 +2765,7 @@ let world = &amp;s[6..11];
 
 <div class="column" style="float:right; width: 45%">
 
-<div id="orgce5247c" class="figure">
+<div id="org51a602b" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 500px;" />
 </p>
 </div>
@@ -2854,7 +2854,7 @@ let slice = &amp;s[..];
 </code></pre>
 </div>
 
-<pre class="example" id="orgd727713">
+<pre class="example" id="orgc1fb282">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3754,7 +3754,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="org44d44f5">
+<pre class="example" id="org5459f9f">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3927,7 +3927,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="org001ec1b">
+<pre class="example" id="org911c520">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3983,7 +3983,7 @@ let none = plus_one(None);
 </code></pre>
 </div>
 
-<pre class="example" id="org3695e79">
+<pre class="example" id="org2769349">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -4281,7 +4281,7 @@ if let Some(max) = config_max {
 </section>
 <section id="slide-9-9">
 <h3 id="9-9"><span class="section-number-3">9.9.</span> Поништиви и непоништиви обрасци</h3>
-<div class="note" id="org85e6317">
+<div class="note" id="org14914c6">
 <p>
 Обрасци за подударање <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">могу имати две форме</a>: поништив (<i>refutable</i>) и непоништив
 (<i>irrefutable</i>). Образац који увек мора успети (нпр. <code>let x = 5;</code>) је непоништив.
@@ -4555,7 +4555,7 @@ use List::{Cons, Nil};
 </div>
 
 
-<div id="orgccd11c2" class="figure">
+<div id="org06cccfb" class="figure">
 <p><img src="./images/list-size.svg" alt="list-size.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -4578,7 +4578,7 @@ fn main() {
 </div>
 
 
-<div id="orgecfd8b5" class="figure">
+<div id="org2d5bab8" class="figure">
 <p><img src="./images/list-size-box.svg" alt="list-size-box.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
@@ -4819,7 +4819,7 @@ Dropping CustomSmartPointer with data `my stuff`!
 </ul>
 
 
-<div id="org2dc82b9" class="figure">
+<div id="orge049e1e" class="figure">
 <p><img src="./images/rc-list.svg" alt="rc-list.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
@@ -5080,7 +5080,7 @@ error: could not compile `collections` due to previous error
 </section>
 <section>
 
-<div class="note" id="orgbbc0000">
+<div class="note" id="org5903768">
 <p>
 Имамо референцу на први елемент вектора а покушавамо промењивом референцом да
 додамо на крај. Ово делује као да би било безбедно.
@@ -5116,7 +5116,7 @@ for i in &amp;v {
 </pre>
 
 
-<div class="note" id="orgcb52a3a">
+<div class="note" id="org9ba1ae2">
 <p>
 Пошто итерирамо преко позајмљене вредности <code>&amp;v</code>, тип од <code>i</code> ће бити позајмљен
 (<code>&amp;u32</code>). Уколико би итерирали преко поседоване вредности <code>for i in v</code> тада би сви
@@ -5329,7 +5329,7 @@ let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
 </code></pre>
 </div>
 
-<div class="note" id="orgca74565">
+<div class="note" id="orgfbeccbb">
 <p>
 Обратите пажњу да је други параметар типа <code>&amp;str</code> док је прослеђен тип <code>&amp;String</code>.
 Компајлер ово прихвата. Зашто?
@@ -5827,7 +5827,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 </section>
 <section>
 
-<div class="note" id="org8b46ebb">
+<div class="note" id="org15926da">
 <p>
 У програмском језику Ц, читање ван опсега је недефинисано понашање и компајлер
 може да произведе кôд који ради произвољну ствар. Најчешће ће да чита са
@@ -6070,7 +6070,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 </section>
 <section>
 
-<div class="note" id="orgbb4b85b">
+<div class="note" id="orgaba710f">
 <p>
 Постоји значајна разлика између <code>?</code> оператора и <code>match</code> израза. <code>?</code> оператор ће
 аутоматски радити конверзију грешака за све грешке које имплементирају <code>From</code>
@@ -6861,7 +6861,7 @@ pub fn eat_at_restaurant() {
 </code></pre>
 </div>
 
-<div class="note" id="orgb147a47">
+<div class="note" id="org81546f3">
 <p>
 <code>mod</code> је потребно навести само једном. Тиме се модул увезује у стабло модула и
 могуће га је референцирати путањама из остатка кода. Односно, <code>mod</code> није исто што
@@ -7693,7 +7693,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="orgb87a4e6">
+<pre class="example" id="org437a9ea">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -7976,7 +7976,7 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="orgcf07a14">
+<div class="note" id="orgd1f3e5a">
 <p>
 Ограничење у употреби особина је да можемо имплементирати особину над типом
 једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
@@ -8221,7 +8221,7 @@ fn main() {
 тип превише сложен за писање или је познат само компајлеру.
 </p>
 
-<div class="note" id="org2f82d05">
+<div class="note" id="orgae43e0e">
 <p>
 <code>impl Trait</code> синтакса за повратне вредности је могућа само ако функција враћа
 један тип који имплементира дату особину. На пример, ова функција неће радити
@@ -8240,7 +8240,7 @@ fn main() {
 <p>
 Грешка је била следећа:
 </p>
-<pre class="example" id="org9f8800c">
+<pre class="example" id="orgeadc06e">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -8281,7 +8281,7 @@ error: could not compile `chapter10` due to previous error
 <p>
 Међутим, сада имамо још једну грешку:
 </p>
-<pre class="example" id="orgf3c3f9f">
+<pre class="example" id="org13c6740">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -8411,7 +8411,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </code></pre>
 </div>
 
-<pre class="example" id="orgd89da48">
+<pre class="example" id="orgd274ad6">
  cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0597]: `x` does not live long enough
@@ -8468,7 +8468,7 @@ error: could not compile `chapter10` due to previous error
 смештају се у варијабле (нпр. <code>r=&amp;x</code> из претходног примера).
 </p>
 
-<div class="note" id="org488290d">
+<div class="note" id="org185725f">
 <p>
 Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
 дуже од саме варијабле. Односно <i>животни век варијабле мора да садржи животни
@@ -8498,7 +8498,7 @@ error: could not compile `chapter10` due to previous error
 век варијабле у коју је смештена.
 </p>
 
-<div class="note" id="org78127b9">
+<div class="note" id="orgb3b0352">
 <p>
 Кажемо да <i>животни век референце мора да садржи животни век варијабле у коју је
 смештена</i>.
@@ -8531,7 +8531,7 @@ error: could not compile `chapter10` due to previous error
 Ако претходна два правила објединимо можемо рећи да:
 </p>
 
-<div class="note" id="org4d44444">
+<div class="note" id="orgf8f95ed">
 <p>
 <i>Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
 вредност од посматране варијабле</i>.
@@ -8603,7 +8603,7 @@ error: could not compile `chapter10` due to previous error
 </code></pre>
 </div>
 
-<pre class="example" id="orgb2db858">
+<pre class="example" id="orgeda6c7f">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0106]: missing lifetime specifier
@@ -8721,7 +8721,7 @@ error: could not compile `chapter10` due to previous error
 За код мора да постоји <code>'a</code> тако да важи:
 </p>
 
-<pre class="example" id="orgf886ace">
+<pre class="example" id="org63be03b">
 lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
 lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
 'a ≥ lt(result)       # 'a мора да садржи животни веку result варијабле
@@ -8825,7 +8825,7 @@ error: could not compile `chapter10` due to previous error
 </section>
 <section>
 
-<div class="note" id="org756ee07">
+<div class="note" id="org6253704">
 <p>
 Дакле, синтакса за анотацију животних векова доводи у везу животне векове
 улазних параметара и повратних вредности. Наводи се само код референци.
@@ -9079,12 +9079,447 @@ where
 </section>
 <section>
 <section id="slide-16">
-<h2 id="16"><span class="section-number-2">16.</span> Функционално програмирање, затворења и итератори</h2>
+<h2 id="16"><span class="section-number-2">16.</span> Паметни поинтери - други део</h2>
 <div class="outline-text-2" id="text-16">
 </div>
 </section>
 <section id="slide-16-1">
-<h3 id="16-1"><span class="section-number-3">16.1.</span> Затворења (<i>closures</i>)</h3>
+<h3 id="16-1"><span class="section-number-3">16.1.</span> Образац интерне промењивости - <code>RefCell&lt;T&gt;</code></h3>
+<ul>
+<li>Дизајн образац за измену података чак и када постоје дељене референце.</li>
+<li>Ово је забрањено правилима позајмљивања.</li>
+<li>Интерно користи несигуран кôд (<i>unsafe</i>) чиме се ставља до знања компајлеру да
+се провера обавља од стране <code>RefCell&lt;T&gt;</code> типа.</li>
+<li>Провера се сели из времена компајлирања у време извршавања (<i>run-time</i>)</li>
+
+</ul>
+</section>
+<section id="slide-16-1-1">
+<h4 id="16-1-1"><span class="section-number-4">16.1.1.</span> Правила позајмљивања у време извршавања - <code>RefCell&lt;T&gt;</code></h4>
+<ul>
+<li>За разлику од <code>Rc&lt;T&gt;</code>, <code>RefCell&lt;T&gt;</code> може имати само једног власника.</li>
+<li>У чему је разлика у односу на <code>Box&lt;T&gt;</code>?</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Подсетимо се правила позајмљивања:
+</p>
+
+<ol>
+<li>У сваком тренутку можемо имати или једну промењиву или произвољан број
+непромењивих референци.</li>
+<li>Референце увек морају бити валидне.</li>
+
+</ol>
+
+</section>
+<section>
+
+<ul>
+<li>Код <code>Box&lt;T&gt;</code> правила позајмљивања се проверавају у време компајлирања (статички).
+Ако прекршимо правила кôд се неће компајлирати.</li>
+<li>Код <code>RefCell&lt;T&gt;</code> правила позајмљивања се проверавају у време извршавања.
+Ако прекршимо правила програм ће прекинути са извршавањем (<i>panic</i>).</li>
+<li>Боље је провере обавити у време компајлирања али некада то није могуће.</li>
+
+</ul>
+
+</section>
+<section>
+
+<ul>
+<li>Раст компајлер и правила којa користи су исправна али непотпуна (<i>sound but
+uncomplete</i>). Ово значи да ће сви невалидни програми бити одбијени (<i>sound</i>) али
+ће бити одбијени и неки валидни програми (<i>uncomplete</i>).</li>
+<li><code>RefCell&lt;T&gt;</code> користимо у ситуацијама када знамо да је наш програм валидан али
+Раст компајлер то није у стању да верификује статички.</li>
+<li>Правила се и даље проверавају али у време извршавања.</li>
+
+</ul>
+</section>
+<section id="slide-16-1-2">
+<h4 id="16-1-2"><span class="section-number-4">16.1.2.</span> Рекапитулација правила паметних поинтера</h4>
+<ul>
+<li><code>Rc&lt;T&gt;</code> омогућава више власника. <code>Box&lt;T&gt;</code> и <code>RefCell&lt;T&gt;</code> само једног.</li>
+<li><code>Box&lt;T&gt;</code> омогућава непромењиве или промењиве позајмице које се проверавају у
+време компајлирања. <code>Rc&lt;T&gt;</code> дозвољава само непромењиве позајмице у време
+компајлирања. <code>RefCell&lt;T&gt;</code> дозвољава непромењиве и промењиве позајмице у време
+извршавања.</li>
+<li>Пошто <code>RefCell&lt;T&gt;</code> омогућава промењиве референце које се проверавају у време
+извршавања, можемо мењати унутрашње податке иако имамо дељену референцу у
+време компајлирања. Због тога се овај образац назива "унутрашња промењивост"
+(<i>İnterior Mutability</i>).</li>
+
+</ul>
+</section>
+<section id="slide-16-1-3">
+<h4 id="16-1-3"><span class="section-number-4">16.1.3.</span> Студија случаја за примену <code>RefCell&lt;T&gt;</code> - <i>Mock</i> објекти</h4>
+<ul>
+<li>Лажни објекти коришћени у тестирању, посебна врста тест дублера (<i>test
+doubles</i>).</li>
+<li><i>Mock</i> објекти региструју информације о позивима да би се у тесту те информације
+могле верификовати.</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >pub trait Messenger {
+    fn send(&amp;self, msg: &amp;str);
+}
+
+pub struct LimitTracker&lt;'a, T: Messenger&gt; {
+    messenger: &amp;'a T,
+    value: usize,
+    max: usize,
+}
+
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >impl&lt;'a, T&gt; LimitTracker&lt;'a, T&gt;
+where
+    T: Messenger,
+{
+    pub fn new(messenger: &amp;'a T, max: usize) -&gt; LimitTracker&lt;'a, T&gt; {
+        LimitTracker {
+            messenger,
+            value: 0,
+            max,
+        }
+    }
+
+    pub fn set_value(&amp;mut self, value: usize) {
+        self.value = value;
+
+        let percentage_of_max = self.value as f64 / self.max as f64;
+
+        if percentage_of_max &gt;= 1.0 {
+            self.messenger.send("Error: You are over your quota!");
+        } else if percentage_of_max &gt;= 0.9 {
+            self.messenger
+                .send("Urgent warning: You've used up over 90% of your quota!");
+        } else if percentage_of_max &gt;= 0.75 {
+            self.messenger
+                .send("Warning: You've used up over 75% of your quota!");
+        }
+    }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-16-1-4">
+<h4 id="16-1-4"><span class="section-number-4">16.1.4.</span> <i>Mock</i> објекти - проблем са тестирањем</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >#[cfg(test)]
+mod tests {
+    use super::*;
+    struct MockMessenger {
+        sent_messages: Vec&lt;String&gt;,
+    }
+
+    impl MockMessenger {
+        fn new() -&gt; MockMessenger {
+            MockMessenger {
+                sent_messages: vec![],
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&amp;self, message: &amp;str) {
+            self.sent_messages.push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        let mock_messenger = MockMessenger::new();
+        let mut limit_tracker = LimitTracker::new(&amp;mock_messenger, 100);
+
+        limit_tracker.set_value(80);
+        assert_eq!(mock_messenger.sent_messages.len(), 1);
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<pre>
+$ cargo test
+   Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
+error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&amp;` reference
+  --&gt; src/lib.rs:58:13
+   |
+2  |     fn send(&amp;self, msg: &amp;str);
+   |             ----- help: consider changing that to be a mutable reference: `&amp;mut self`
+...
+58 |             self.sent_messages.push(String::from(message));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&amp;` reference,
+                                   so the data it refers to cannot be borrowed as mutable
+
+For more information about this error, try `rustc --explain E0596`.
+error: could not compile `limit-tracker` due to previous error
+warning: build failed, waiting for other jobs to finish...
+</pre>
+</section>
+<section id="slide-16-1-5">
+<h4 id="16-1-5"><span class="section-number-4">16.1.5.</span> <i>Mock</i> објекти - решење са <code>RefCell&lt;T&gt;</code></h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::cell::RefCell;
+
+    struct MockMessenger {
+        sent_messages: RefCell&lt;Vec&lt;String&gt;&gt;,
+    }
+
+    impl MockMessenger {
+        fn new() -&gt; MockMessenger {
+            MockMessenger {
+                sent_messages: RefCell::new(vec![]),
+            }
+        }
+    }
+
+    impl Messenger for MockMessenger {
+        fn send(&amp;self, message: &amp;str) {
+            self.sent_messages.borrow_mut().push(String::from(message));
+        }
+    }
+
+    #[test]
+    fn it_sends_an_over_75_percent_warning_message() {
+        // --snip--
+
+        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
+    }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-16-1-6">
+<h4 id="16-1-6"><span class="section-number-4">16.1.6.</span> Покушај нарушавања правила позајмљивања</h4>
+<div class="org-src-container">
+
+<pre><code class="rust" >impl Messenger for MockMessenger {
+        fn send(&amp;self, message: &amp;str) {
+            let mut one_borrow = self.sent_messages.borrow_mut();
+            let mut two_borrow = self.sent_messages.borrow_mut();
+
+            one_borrow.push(String::from(message));
+            two_borrow.push(String::from(message));
+        }
+    }
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<pre>
+
+
+$ cargo test
+   Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
+    Finished test [unoptimized + debuginfo] target(s) in 0.91s
+     Running unittests src/lib.rs (target/debug/deps/limit_tracker-e599811fa246dbde)
+
+running 1 test
+test tests::it_sends_an_over_75_percent_warning_message ... FAILED
+
+failures:
+
+---- tests::it_sends_an_over_75_percent_warning_message stdout ----
+thread 'tests::it_sends_an_over_75_percent_warning_message' panicked at
+'already borrowed: BorrowMutError', src/lib.rs:60:53
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::it_sends_an_over_75_percent_warning_message
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`
+</pre>
+</section>
+<section id="slide-16-1-7">
+<h4 id="16-1-7"><span class="section-number-4">16.1.7.</span> Вишеструко власништво над промењивим подацима - <code>Rc&lt;T&gt;</code> + <code>RefCell&lt;T&gt;</code></h4>
+<ul>
+<li>Ако нам треба унутрашња промењивост и могућност постојања више власника можемо
+искомбиновати <code>Rc&lt;T&gt;</code> и <code>RefCell&lt;T&gt;</code> типове.</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="rust" >#[derive(Debug)]
+enum List {
+    Cons(Rc&lt;RefCell&lt;i32&gt;&gt;, Rc&lt;List&gt;),
+    Nil,
+}
+
+use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+fn main() {
+    let value = Rc::new(RefCell::new(5));
+
+    let a = Rc::new(Cons(Rc::clone(&amp;value), Rc::new(Nil)));
+
+    let b = Cons(Rc::new(RefCell::new(3)), Rc::clone(&amp;a));
+    let c = Cons(Rc::new(RefCell::new(4)), Rc::clone(&amp;a));
+
+    *value.borrow_mut() += 10;
+
+    println!("a after = {:?}", a);
+    println!("b after = {:?}", b);
+    println!("c after = {:?}", c);
+}
+</code></pre>
+</div>
+
+<pre>
+$ cargo run
+   Compiling cons-list v0.1.0 (file:///projects/cons-list)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.63s
+     Running `target/debug/cons-list`
+a after = Cons(RefCell { value: 15 }, Nil)
+b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
+c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
+</pre>
+</section>
+<section id="slide-16-2">
+<h3 id="16-2"><span class="section-number-3">16.2.</span> Цикличне референце и цурење меморије</h3>
+<ul>
+<li>Раст меморијске гаранције чине тешким али не и немогућим алокацију меморије
+која се никада не ослобађа. Ово није једна од Раст гаранција.</li>
+<li>Комбиновање <code>Rc&lt;T&gt;</code> и <code>RefCell&lt;T&gt;</code> може да доведе до цурења меморије (<i>memory leak</i>).</li>
+
+</ul>
+</section>
+<section id="slide-16-3">
+<h3 id="16-3"><span class="section-number-3">16.3.</span> Креирање цикличних референци</h3>
+<div class="org-src-container">
+
+<pre id="cycle-refs-header"><code class="rust" >use List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell&lt;Rc&lt;List&gt;&gt;),
+    Nil,
+}
+
+impl List {
+    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&gt;&gt;&gt; {
+        match self {
+            Cons(_, item) =&gt; Some(item),
+            Nil =&gt; None,
+        }
+    }
+}
+
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="column" style="float:left; width: 70%; font-size: 0.9em">
+<div class="org-src-container">
+
+<pre id="cycle-refs"><code class="rust" >&lt;&lt;cycle-refs-header&gt;&gt; // Занемарите ову линију
+fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+
+    println!("a initial rc count = {}", Rc::strong_count(&amp;a));
+    println!("a next item = {:?}", a.tail());
+
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
+
+    println!("a rc count after b creation = {}", Rc::strong_count(&amp;a));
+    println!("b initial rc count = {}", Rc::strong_count(&amp;b));
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&amp;b);
+    }
+
+    println!("b rc count after changing a = {}", Rc::strong_count(&amp;b));
+    println!("a rc count after changing a = {}", Rc::strong_count(&amp;a));
+
+    // Uncomment the next line to see that we have a cycle;
+    // it will overflow the stack
+    // println!("a next item = {:?}", a.tail());
+}
+</code></pre>
+</div>
+
+<pre class="example">
+a initial rc count = 1
+a next item = Some(RefCell { value: Nil })
+a rc count after b creation = 2
+b initial rc count = 1
+b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+b rc count after changing a = 2
+a rc count after changing a = 2
+</pre>
+
+
+</div>
+
+<div class="column" style="float:right; width: 30%">
+
+<div id="org6f6bd53" class="figure">
+<p><img src="./images/ref-cycle.svg" alt="ref-cycle.svg" class="org-svg" style="height: 500px;" />
+</p>
+</div>
+</div>
+
+<div style="clear: both;">
+</section>
+<section id="slide-16-4">
+<h3 id="16-4"><span class="section-number-3">16.4.</span> Цикличне референце - могуће решење</h3>
+<ul>
+<li>Конверзија <code>Rc&lt;T&gt;</code> у <code>Weak&lt;T&gt;</code>.</li>
+<li>"Слабе" референце нису власници тако да не утичу на деалокацију меморије.</li>
+<li>Видети детаље у књизи <a href="https://doc.rust-lang.org/stable/book/ch15-06-reference-cycles.html">The Rust Programming Language, поглавље 15.06</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Функционално програмирање, затворења и итератори</h2>
+<div class="outline-text-2" id="text-17">
+</div>
+</section>
+<section id="slide-17-1">
+<h3 id="17-1"><span class="section-number-3">17.1.</span> Затворења (<i>closures</i>)</h3>
 <ul>
 <li>Анонимне функције које се могу сачувати у варијабли и проследити другим функцијама.</li>
 <li>За разлику од обичних функција, затворења "памте" варијабле из свога окружења.</li>
@@ -9092,8 +9527,8 @@ where
 
 </ul>
 </section>
-<section id="slide-16-1-1">
-<h4 id="16-1-1"><span class="section-number-4">16.1.1.</span> Пример</h4>
+<section id="slide-17-1-1">
+<h4 id="17-1-1"><span class="section-number-4">17.1.1.</span> Пример</h4>
 <ul>
 <li>Фирма која врши промоцију периодичним слањем мајци насумично одабраним
 клијентима са мејлинг листе.</li>
@@ -9180,8 +9615,8 @@ The user with preference Some(Red) gets Red
 The user with preference None gets Blue
 </pre>
 </section>
-<section id="slide-16-1-2">
-<h4 id="16-1-2"><span class="section-number-4">16.1.2.</span> Инференца типова</h4>
+<section id="slide-17-1-2">
+<h4 id="17-1-2"><span class="section-number-4">17.1.2.</span> Инференца типова</h4>
 <ul>
 <li>За разлику од функција, код затворења није неопходна анотација типова
 параметара и повратних вредности.</li>
@@ -9199,8 +9634,8 @@ The user with preference None gets Blue
 </code></pre>
 </div>
 </section>
-<section id="slide-16-1-3">
-<h4 id="16-1-3"><span class="section-number-4">16.1.3.</span> Поређење са функцијама</h4>
+<section id="slide-17-1-3">
+<h4 id="17-1-3"><span class="section-number-4">17.1.3.</span> Поређење са функцијама</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn  add_one_v1   (x: u32) -&gt; u32 { x + 1 }
@@ -9216,8 +9651,8 @@ let add_one_v4 = |x|               x + 1  ;
 
 </ul>
 </section>
-<section id="slide-16-1-4">
-<h4 id="16-1-4"><span class="section-number-4">16.1.4.</span> Инференца типова при евалуацији</h4>
+<section id="slide-17-1-4">
+<h4 id="17-1-4"><span class="section-number-4">17.1.4.</span> Инференца типова при евалуацији</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let example_closure = |x| x;
@@ -9251,8 +9686,8 @@ error: could not compile `closure-example` due to previous error
 </code></pre>
 </div>
 </section>
-<section id="slide-16-1-5">
-<h4 id="16-1-5"><span class="section-number-4">16.1.5.</span> Памћење окружења - референце и власништва</h4>
+<section id="slide-17-1-5">
+<h4 id="17-1-5"><span class="section-number-4">17.1.5.</span> Памћење окружења - референце и власништва</h4>
 <ul>
 <li>Затворење може да запамти варијабле свога окружења на три начина, као и код
 преноса параметара функције:
@@ -9265,8 +9700,8 @@ error: could not compile `closure-example` due to previous error
 
 </ul>
 </section>
-<section id="slide-16-1-6">
-<h4 id="16-1-6"><span class="section-number-4">16.1.6.</span> Памћење окружења - непромењива позајмица</h4>
+<section id="slide-17-1-6">
+<h4 id="17-1-6"><span class="section-number-4">17.1.6.</span> Памћење окружења - непромењива позајмица</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -9289,8 +9724,8 @@ From closure: [1, 2, 3]
 After calling closure: [1, 2, 3]
 </pre>
 </section>
-<section id="slide-16-1-7">
-<h4 id="16-1-7"><span class="section-number-4">16.1.7.</span> Памћење окружења - промењива позајмица</h4>
+<section id="slide-17-1-7">
+<h4 id="17-1-7"><span class="section-number-4">17.1.7.</span> Памћење окружења - промењива позајмица</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >fn main() {
@@ -9311,8 +9746,8 @@ Before defining closure: [1, 2, 3]
 After calling closure: [1, 2, 3, 7]
 </pre>
 </section>
-<section id="slide-16-1-8">
-<h4 id="16-1-8"><span class="section-number-4">16.1.8.</span> Памћење окружења - узимање власништва</h4>
+<section id="slide-17-1-8">
+<h4 id="17-1-8"><span class="section-number-4">17.1.8.</span> Памћење окружења - узимање власништва</h4>
 <ul>
 <li>Ако желимо да затворење преузме власништво над вредношћу користимо кључну реч <code>move</code>.</li>
 <li>Најчешће користимо у контексту нити.</li>
@@ -9381,8 +9816,8 @@ error: could not compile `cargo0sMXjj` due to previous error
 </code></pre>
 </div>
 </section>
-<section id="slide-16-1-9">
-<h4 id="16-1-9"><span class="section-number-4">16.1.9.</span> Премештање запамћених вредности и <code>Fn</code> особине</h4>
+<section id="slide-17-1-9">
+<h4 id="17-1-9"><span class="section-number-4">17.1.9.</span> Премештање запамћених вредности и <code>Fn</code> особине</h4>
 <ul>
 <li>Затворење може са запамћеним вредностима да уради нешто од следећег:
 <ol>
@@ -9415,8 +9850,8 @@ error: could not compile `cargo0sMXjj` due to previous error
 
 </ul>
 </section>
-<section id="slide-16-1-10">
-<h4 id="16-1-10"><span class="section-number-4">16.1.10.</span> Пример - <code>FnOnce</code></h4>
+<section id="slide-17-1-10">
+<h4 id="17-1-10"><span class="section-number-4">17.1.10.</span> Пример - <code>FnOnce</code></h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >impl&lt;T&gt; Option&lt;T&gt; {
@@ -9438,8 +9873,8 @@ error: could not compile `cargo0sMXjj` due to previous error
 
 </ul>
 </section>
-<section id="slide-16-1-11">
-<h4 id="16-1-11"><span class="section-number-4">16.1.11.</span> Пример - <code>FnMut</code></h4>
+<section id="slide-17-1-11">
+<h4 id="17-1-11"><span class="section-number-4">17.1.11.</span> Пример - <code>FnMut</code></h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >#[derive(Debug)]
@@ -9461,7 +9896,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="org22b801d">
+<pre class="example" id="org1aaa9bd">
 [
     Rectangle {
         width: 3,
@@ -9600,8 +10035,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-16-2">
-<h3 id="16-2"><span class="section-number-3">16.2.</span> Итератори</h3>
+<section id="slide-17-2">
+<h3 id="17-2"><span class="section-number-3">17.2.</span> Итератори</h3>
 <ul>
 <li>Итератор образац омогућава процесирање елемената секвенци.</li>
 <li>Итератори имплементирају логику итерације тј. преузимање елемента редом из
@@ -9611,8 +10046,8 @@ fn main() {
 
 </ul>
 </section>
-<section id="slide-16-2-1">
-<h4 id="16-2-1"><span class="section-number-4">16.2.1.</span> Пример</h4>
+<section id="slide-17-2-1">
+<h4 id="17-2-1"><span class="section-number-4">17.2.1.</span> Пример</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let v1 = vec![1, 2, 3];
@@ -9644,8 +10079,8 @@ Got: 2
 Got: 3
 </pre>
 </section>
-<section id="slide-16-2-2">
-<h4 id="16-2-2"><span class="section-number-4">16.2.2.</span> <code>Iterator</code> особина и метода <code>next</code></h4>
+<section id="slide-17-2-2">
+<h4 id="17-2-2"><span class="section-number-4">17.2.2.</span> <code>Iterator</code> особина и метода <code>next</code></h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >pub trait Iterator {
@@ -9666,8 +10101,8 @@ Got: 3
 
 </ul>
 </section>
-<section id="slide-16-2-3">
-<h4 id="16-2-3"><span class="section-number-4">16.2.3.</span> Демонстрација итерације</h4>
+<section id="slide-17-2-3">
+<h4 id="17-2-3"><span class="section-number-4">17.2.3.</span> Демонстрација итерације</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" > #[test]
@@ -9697,8 +10132,8 @@ fn iterator_demonstration() {
 
 </ul>
 </section>
-<section id="slide-16-2-4">
-<h4 id="16-2-4"><span class="section-number-4">16.2.4.</span> Методе које конзумирају итераторе</h4>
+<section id="slide-17-2-4">
+<h4 id="17-2-4"><span class="section-number-4">17.2.4.</span> Методе које конзумирају итераторе</h4>
 <ul>
 <li><code>Iterator</code> особина има богат API.</li>
 <li>Неке од ових метода позивају <code>next</code> методу. За такве методе кажемо да су
@@ -9727,8 +10162,8 @@ assert_eq!(total, 6);
 
 </ul>
 </section>
-<section id="slide-16-2-5">
-<h4 id="16-2-5"><span class="section-number-4">16.2.5.</span> Методе које производе друге итераторе</h4>
+<section id="slide-17-2-5">
+<h4 id="17-2-5"><span class="section-number-4">17.2.5.</span> Методе које производе друге итераторе</h4>
 <ul>
 <li>Називамо их итератор адаптерима.</li>
 <li>Врше конверзију једног итератора у неки други итератор.</li>
@@ -9804,8 +10239,8 @@ assert_eq!(v2, vec![2, 3, 4]);
 
 </ul>
 </section>
-<section id="slide-16-2-6">
-<h4 id="16-2-6"><span class="section-number-4">16.2.6.</span> Употреба затворења као параметара итератор адаптера</h4>
+<section id="slide-17-2-6">
+<h4 id="17-2-6"><span class="section-number-4">17.2.6.</span> Употреба затворења као параметара итератор адаптера</h4>
 <ul>
 <li>Многи адаптери користе затворења као своје параметре.</li>
 
@@ -9863,8 +10298,8 @@ assert_eq!(
 </code></pre>
 </div>
 </section>
-<section id="slide-16-2-7">
-<h4 id="16-2-7"><span class="section-number-4">16.2.7.</span> Употреба итератор адаптера за писање концизнијег кода</h4>
+<section id="slide-17-2-7">
+<h4 id="17-2-7"><span class="section-number-4">17.2.7.</span> Употреба итератор адаптера за писање концизнијег кода</h4>
 <ul>
 <li>Пример претраге са <code>for</code> петљом:</li>
 
@@ -9911,8 +10346,8 @@ assert_eq!(
 
 </ul>
 </section>
-<section id="slide-16-2-8">
-<h4 id="16-2-8"><span class="section-number-4">16.2.8.</span> Анализа сложенијих примера</h4>
+<section id="slide-17-2-8">
+<h4 id="17-2-8"><span class="section-number-4">17.2.8.</span> Анализа сложенијих примера</h4>
 <div class="org-src-container">
 
 <pre><code class="rust" >let buffer: &amp;mut [i32];
@@ -10038,8 +10473,8 @@ for i in 12..buffer.len() {
 </section>
 </section>
 <section>
-<section id="slide-17">
-<h2 id="17"><span class="section-number-2">17.</span> Литература</h2>
+<section id="slide-18">
+<h2 id="18"><span class="section-number-2">18.</span> Литература</h2>
 <ul>
 <li>Steve Klabnik and Carol Nichols: <a href="https://doc.rust-lang.org/book/">The Rust Programming Language</a>, no starch press.</li>
 <li><a href="https://doc.rust-lang.org/stable/rust-by-example/index.html">Rust by Example</a></li>
