@@ -37,21 +37,21 @@
 <h1 class="title">textX zadaci</h1>
 <h2 class="subtitle">u izradi</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:20, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2023-12-08 Fri 14:59, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-org064b158">
-<h2 id="org064b158">Sadržaj</h2>
+<section id="slide-orge503ff0">
+<h2 id="orge503ff0">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Instalacija</a></li>
 <li><a href="#/slide-2">2. Robot primer</a></li>
 <li><a href="#/slide-3">3. Expression primer</a></li>
 <li><a href="#/slide-4">4. DSL - uslov -&gt; akcija</a></li>
+<li><a href="#/slide-5">5. <code>Entity</code> proširenje</a></li>
+<li><a href="#/slide-6">6. <i>Turtle graphics</i> jezik</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -82,7 +82,6 @@ Instalirati textX sa <code>dev</code> zavisnostima:
 </div></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -100,7 +99,6 @@ Instalirati textX sa <code>dev</code> zavisnostima:
 <li>Uključiti <code>debug</code> mod i analizirati izlaz</li>
 
 </ul>
-
 </section>
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> <code>for</code> petlje u Robot jeziku</h3>
@@ -114,7 +112,6 @@ for i in 5..10
     right i
 end
 </pre>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> <code>if</code> iskazi u robot jeziku</h3>
@@ -149,7 +146,6 @@ Posle <code>if</code> iskaza navodi se Bulov izraz sa standardnim operatorima <c
 <li>Uključiti <code>debug</code> mod i analizirati izlaz</li>
 
 </ul>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Pozivi funkcija u <code>expression</code> jeziku</h3>
@@ -164,7 +160,6 @@ b = 2 * a + 17;
 
 5 * sin(a + sqrt(b + 50)) - 3 / 18
 </pre>
-
 </section>
 </section>
 <section>
@@ -198,6 +193,44 @@ razdvojeni zarezima. <code>with</code> deo je opcion.</li>
 <li>I akcija i <code>on</code> pravila može biti više</li>
 
 </ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> <code>Entity</code> proširenje</h2>
+<p>
+Proučiti <i>Entity</i> primer iz textX dokumentacije i proširiti ga na sledeći
+način:
+</p>
+<ol>
+<li>Omogućiti da tip osobine bude kardinaliteta višeg od 1. Odnosno da osobina
+može biti kolekcija drugih entiteta ili prostih tipova.</li>
+<li>Omogućiti da tip kolekcije bude skup ili niz/lista.</li>
+<li>Omogućiti dvosmerne reference.</li>
+<li>Dodati podršku za pakete koji mogu da se ugnjezde na proizvoljnu dubinu.</li>
+<li>Omogućiti referenciranje entiteta upotrebom kvalifikovanih imena
+(<code>paket1.paket2.entitet</code>). Za ispravno razrešavanje referenci koristiti RREL
+izraze u gramatici.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> <i>Turtle graphics</i> jezik</h2>
+<p>
+Upotrebom textX-a kreirati <a href="https://docs.python.org/3/library/turtle.html">Turtle graphics</a> JSD.
+</p>
+<ol>
+<li>Podržati najmanje sledeće komande: <code>forward</code>, <code>backward</code>, <code>right</code>, <code>left</code>,
+<code>pendown</code>, <code>penup</code>, <code>pensize</code>, <code>color</code>.</li>
+<li>Implementirati <code>while</code> petlju gde će uslov biti logički izraz sa tekućim
+stanjem kornjače (npr. pozicija, ugao).</li>
+<li>Implementirati <code>if-else</code> iskaz.</li>
+<li>Napraviti interpreter.</li>
+<li>Napraviti kompajler koji će generisati odgovarajući Python kôd.</li>
+
+</ol>
 </section>
 </section>
 </div>
