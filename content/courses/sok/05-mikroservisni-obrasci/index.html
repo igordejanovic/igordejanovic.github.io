@@ -35,12 +35,11 @@
 <h1 class="title">Микросервисни обрасци</h1>
 <h2 class="subtitle">У изради</h2>
 <h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Креирано 2023-03-05 Sun 15:15, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+<p class="date">Креирано 2023-12-12 Tue 10:23, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
-
 <section>
-<section id="slide-org6124354">
-<h2 id="org6124354">Садржај</h2>
+<section id="slide-orgc4326cb">
+<h2 id="orgc4326cb">Садржај</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Увод</a></li>
@@ -66,7 +65,7 @@
 <li>Софтверске компоненте.</li>
 <li>Висока кохезија, слаба спрега.</li>
 <li>Комуникација се обавља путем стандардних технолошки независних протокола
-(најчешће HTTP).</li>
+(најчешће HTTP употребом REST стила уз JSON формат порука).</li>
 <li>Могу бити имплементирани у различитим програмских језицима и технологијама.</li>
 <li>Мали су, ограниченог контекста. Независно се развијају и уводе.</li>
 <li>Имају јасно дефинисане интерфејсе путем којих комуницирају.</li>
@@ -80,7 +79,6 @@ Do one thing and do it well.
 </blockquote></li>
 
 </ul>
-
 </section>
 <section id="slide-1-2">
 <h3 id="1-2"><span class="section-number-3">1.2.</span> Архитектура базирана на микросервисима</h3>
@@ -97,11 +95,10 @@ Do one thing and do it well.
 </ul>
 
 
-<div id="org16fb1fe" class="figure">
+<div id="org5ecaeaf" class="figure">
 <p><img src="./images/msa.png" alt="msa.png" style="height: 450px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-1-3">
 <h3 id="1-3"><span class="section-number-3">1.3.</span> Предности у односу на монолитну архитектуру</h3>
@@ -119,7 +116,6 @@ Do one thing and do it well.
 <li>Континуална интеграција и достава (<i>Continuous Integration/Delivery</i>)</li>
 
 </ul>
-
 </section>
 <section id="slide-1-4">
 <h3 id="1-4"><span class="section-number-3">1.4.</span> Мане у односу на монолитну архитектуру</h3>
@@ -152,16 +148,14 @@ Do one thing and do it well.
 <p class="footer" style="clear: both;">
 <a href="https://microservices.io/patterns/data/database-per-service.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/database-per-service.html</a>
 </p>
-
 </section>
 <section id="slide-2-1-1">
 <h4 id="2-1-1"><span class="section-number-4">2.1.1.</span> Структура</h4>
 
-<div id="org79c5eae" class="figure">
+<div id="orga876a90" class="figure">
 <p><img src="images/dps-01.svg" alt="dps-01.svg" class="org-svg" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-1-2">
 <h4 id="2-1-2"><span class="section-number-4">2.1.2.</span> Предности</h4>
@@ -171,7 +165,6 @@ Do one thing and do it well.
 <li>Могуће је користити хетерогене технологије.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-1-3">
 <h4 id="2-1-3"><span class="section-number-4">2.1.3.</span> Мане</h4>
@@ -181,7 +174,6 @@ Do one thing and do it well.
 <li>Отежани сложени упити који обухватају податке више сервиса. Видети образац <a href="#/slide-4-2" class="forwardlink">CQRS</a>.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-1-4">
 <h4 id="2-1-4"><span class="section-number-4">2.1.4.</span> Начини имплементације</h4>
@@ -207,32 +199,29 @@ Do one thing and do it well.
 <p class="footer" style="clear: both;">
 <a href="https://microservices.io/patterns/data/shared-database.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/shared-database.html</a>
 </p>
-
 </section>
 <section id="slide-2-2-1">
 <h4 id="2-2-1"><span class="section-number-4">2.2.1.</span> Структура</h4>
 
-<div id="org5d78290" class="figure">
+<div id="org27fb037" class="figure">
 <p><img src="images/dps-02.svg" alt="dps-02.svg" class="org-svg" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-2-2">
 <h4 id="2-2-2"><span class="section-number-4">2.2.2.</span> Предности</h4>
 <ul>
 <li>Једноставније за имплементацију и операцију.</li>
-<li>Једноставније трансакције (ACID) и упити (нпр. могуће JOIN између табела
+<li>Једноставније трансакције (ACID) и упити (нпр. могућ JOIN између табела
 различитих сервиса).</li>
 
 </ul>
-
 </section>
 <section id="slide-2-2-3">
 <h4 id="2-2-3"><span class="section-number-4">2.2.3.</span> Мане</h4>
 <ul>
 <li>Јача спрега између сервиса у време развоја (нпр. одржавање шеме базе мора
-бити кооринисано између тимова) и у време извршавања (нпр. један сервис може
+бити координисано између тимова) и у време извршавања (нпр. један сервис може
 да закључа табелу и спречи друге сервисе да приступе).</li>
 <li>Сервиси могу да мењају податке других сервиса. Ово је могуће административно
 регулисати уколико база подржава.</li>
@@ -240,7 +229,6 @@ Do one thing and do it well.
 особине захтеване од стране неких сервиса.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -263,11 +251,10 @@ Do one thing and do it well.
 </ul>
 
 
-<div id="orgcf67c9e" class="figure">
+<div id="org8f63cad" class="figure">
 <p><img src="./images/saga-01.png" alt="saga-01.png" style="height: 250px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-1-1">
 <h4 id="3-1-1"><span class="section-number-4">3.1.1.</span> Приступи</h4>
@@ -282,7 +269,6 @@ Do one thing and do it well.
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-3-1-2">
 <h4 id="3-1-2"><span class="section-number-4">3.1.2.</span> Структура - кореографија</h4>
@@ -298,11 +284,10 @@ Do one thing and do it well.
 </ol>
 
 
-<div id="org11542e9" class="figure">
+<div id="orgd5f1a9f" class="figure">
 <p><img src="images/saga-02.png" alt="saga-02.png" style="width: 60%; height: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-1-3">
 <h4 id="3-1-3"><span class="section-number-4">3.1.3.</span> Структура - оркестрација</h4>
@@ -313,11 +298,10 @@ Do one thing and do it well.
 </ul>
 
 
-<div id="org030e345" class="figure">
+<div id="org938034c" class="figure">
 <p><img src="./images/saga-03.png" alt="saga-03.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-1-4">
 <h4 id="3-1-4"><span class="section-number-4">3.1.4.</span> Предности</h4>
@@ -326,7 +310,6 @@ Do one thing and do it well.
 <li>Боља скалабилност.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-1-5">
 <h4 id="3-1-5"><span class="section-number-4">3.1.5.</span> Мане</h4>
@@ -334,10 +317,18 @@ Do one thing and do it well.
 <li>Мора се пажљиво моделовати редослед операција због потенцијалног поништавања.</li>
 <li>Шта радити у ситуацији када је операција неуспешна због техничког проблема
 (нпр. сервис није тренутно доступан)?</li>
-<li>Коначна конзистентност (<i>Eventual Consistency</i>).</li>
+<li>Модел конзистентности - коначна конзистентност (<i>Eventual Consistency</i>) - немамо
+гаранције да ће прочитани подаци бити право стање система тј. да ће бити конзистентни.</li>
+<li>BASE семантика (<i>Basically-Available, Soft-state, Eventual consistency</i>)
+<ul>
+<li><i>Basically-Available</i> - добра доступност података али без гаранције на конзистентност</li>
+<li><i>Soft-state</i> - одређена вероватноћа да знамо стање јер систем можда још није конвергирао.</li>
+<li><i>Eventual consistency</i> - ако изменимо стање после одређеног времена измена ће
+бити видљива свим клијентима.</li>
+
+</ul></li>
 
 </ul>
-
 </section>
 <section id="slide-event-sourcing">
 <h3 id="event-sourcing"><span class="section-number-3">3.2.</span> <i>Event sourcing (ES)</i></h3>
@@ -349,21 +340,19 @@ Do one thing and do it well.
 <li>Природно се користи са обрасцем <a href="#/slide-4-2" class="forwardlink">CQRS</a>.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-2-1">
 <h4 id="3-2-1"><span class="section-number-4">3.2.1.</span> Структура код класичног приступа</h4>
 
-<div id="org8c5ef7f" class="figure">
+<div id="org97360e0" class="figure">
 <p><img src="./images/es-01.png" alt="es-01.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-2-2">
 <h4 id="3-2-2"><span class="section-number-4">3.2.2.</span> Структура код <i>ES</i> приступа</h4>
 
-<div id="org972121e" class="figure">
+<div id="orge49b2f1" class="figure">
 <p><img src="./images/es-02.png" alt="es-02.png" />
 </p>
 </div>
@@ -383,7 +372,6 @@ Do one thing and do it well.
 <li>Додатно можемо користити брокере порука (<i>message brokers</i>) уместо базе података.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -403,7 +391,6 @@ Do one thing and do it well.
 <p class="footer" style="clear: both;">
 <a href="https://microservices.io/patterns/data/api-composition.html" class="footer" style="clear: both;">https://microservices.io/patterns/data/api-composition.html</a>
 </p>
-
 </section>
 <section id="slide-4-1-1">
 <h4 id="4-1-1"><span class="section-number-4">4.1.1.</span> Решење</h4>
@@ -416,11 +403,10 @@ Do one thing and do it well.
 <section id="slide-4-1-2">
 <h4 id="4-1-2"><span class="section-number-4">4.1.2.</span> Структура</h4>
 
-<div id="org881f559" class="figure">
+<div id="org59a3b36" class="figure">
 <p><img src="images/apic-01.png" alt="apic-01.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-1-3">
 <h4 id="4-1-3"><span class="section-number-4">4.1.3.</span> Предности и мане</h4>
@@ -433,7 +419,7 @@ Do one thing and do it well.
 </ul></li>
 <li>Мане:
 <ul>
-<li>Поједини упити могу бити неефикасни јер се велика количина података прености
+<li>Поједини упити могу бити неефикасни јер се велика количина података преноси
 преко мреже и удружује у меморији.</li>
 
 </ul></li>
@@ -453,14 +439,13 @@ Do one thing and do it well.
 <li><i>Command Query Responsibility Segregation</i> (<i>CQRS</i>) се користи у ситуацији када
 имамо обрасце <a href="#/slide-database-per-service" class="backwardlink"><i>Database per service</i></a> и <a href="#/slide-event-sourcing" class="backwardlink"><i>Event sourcing</i></a> имплементиране и желимо
 да подржимо упите који удружују податке из више микросервиса.</li>
-<li>Базиран на идеји поделе захтева на оне који мењају стања и оне који само
+<li>Базиран на идеји поделе захтева на оне који мењају стање и оне који само
 читају тј. немају бочне ефекте. Еквивалентно са <i>REST</i> методама за читање (<code>GET,
   HEAD</code>) и измену стања (<code>POST, PUT, PATCH...</code>).</li>
 <li>Креирање базе која је само за читање и која се континуално ажурира обрадом
 догађаја који се емитују при промени података.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-2-1">
 <h4 id="4-2-1"><span class="section-number-4">4.2.1.</span> Структура - посебне базе</h4>
@@ -472,11 +457,10 @@ Do one thing and do it well.
 
 </ul>
 
-<div id="org4630d30" class="figure">
+<div id="orgb912374" class="figure">
 <p><img src="./images/cqrs-01.png" alt="cqrs-01.png" style="height: 600px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-2-2">
 <h4 id="4-2-2"><span class="section-number-4">4.2.2.</span> Структура - јединствена база</h4>
@@ -487,11 +471,10 @@ Do one thing and do it well.
 
 </ul>
 
-<div id="org7f88f1c" class="figure">
+<div id="org2822b41" class="figure">
 <p><img src="./images/cqrs-02.png" alt="cqrs-02.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-2-3">
 <h4 id="4-2-3"><span class="section-number-4">4.2.3.</span> Предности</h4>
@@ -502,7 +485,6 @@ Do one thing and do it well.
 денормализовани у циљу постизања оптималних перформанси.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-2-4">
 <h4 id="4-2-4"><span class="section-number-4">4.2.4.</span> Мане</h4>
@@ -512,7 +494,6 @@ Do one thing and do it well.
 <li>Дуплирање података. Постоји могућност неконзистенције.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -530,7 +511,6 @@ Do one thing and do it well.
 баферовање и перзистенцију порука.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-1-1">
 <h4 id="5-1-1"><span class="section-number-4">5.1.1.</span> <i>Send/Receive</i> образац</h4>
@@ -538,16 +518,15 @@ Do one thing and do it well.
 <li>Обично представља комуникацију између два учесника (<i>point-to-point</i>) са
 специфичном наменом, најчешће извршење акције над циљним сервисом.</li>
 <li>Овај облик је коришћен типично од стране команди.</li>
-<li>Мора се обезбедити да само циљани сервис реагује на поруку.</li>
+<li>Мора се обезбедити да само циљни сервис реагује на поруку.</li>
 
 </ul>
 
 
-<div id="orge0b042b" class="figure">
+<div id="orgb2162c4" class="figure">
 <p><img src="./images/messaging-01.png" alt="messaging-01.png" style="height: 500px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-5-1-2">
 <h4 id="5-1-2"><span class="section-number-4">5.1.2.</span> <i>Publish/Subscribe</i> образац</h4>
@@ -559,26 +538,25 @@ Do one thing and do it well.
 
 </ul>
 
-<div id="org17caf24" class="figure">
+<div id="org459581d" class="figure">
 <p><img src="./images/messaging-01.png" alt="messaging-01.png" style="height: 500px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-5-1-3">
 <h4 id="5-1-3"><span class="section-number-4">5.1.3.</span> <i>Request/Response</i> образац</h4>
 <ul>
 <li>Имплементира се када је потребна повратна информација, обично при
 имплементацији <a href="#/slide-5-1-1" class="backwardlink"><i>Send/Receive</i> образца</a>.</li>
-<li>Команда и догађај као реакција на команду могу бити корелирани одређеним идентификатором.</li>
+<li>Порука/команда и одговор на команду могу бити корелирани одређеним
+идентификатором.</li>
 
 </ul>
 
-<div id="org7606bff" class="figure">
+<div id="org9e69821" class="figure">
 <p><img src="./images/messaging-02.png" alt="messaging-02.png" style="height: 500px; width: auto;" />
 </p>
 </div>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> <i>Remote Procedure Invocation (RPI)</i></h3>
@@ -587,7 +565,6 @@ Do one thing and do it well.
 <li>Понекад је синхрони начин комуникације бољи. Тада користимо <i>RPI</i>.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-2-1">
 <h4 id="5-2-1"><span class="section-number-4">5.2.1.</span> Предности</h4>
@@ -595,7 +572,6 @@ Do one thing and do it well.
 <li>Једноставан вид комуникације. Синхрона варијанта <a href="#/slide-5-1-3" class="backwardlink"><i>Request/Response</i> образца</a>.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-2-2">
 <h4 id="5-2-2"><span class="section-number-4">5.2.2.</span> Мане</h4>
@@ -603,7 +579,6 @@ Do one thing and do it well.
 <li>Јако темпорално спрезање сервиса. Морају бити доступни истовремено.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-2-3">
 <h4 id="5-2-3"><span class="section-number-4">5.2.3.</span> Приступи</h4>
@@ -629,28 +604,25 @@ Do one thing and do it well.
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> <i>API Gateway</i></h3>
 <ul>
 <li>Инстанца класичног ОО обрасца <i>Facade</i>. Скривање интерне сложености.</li>
 <li>Посредник за спољне клијенте.</li>
-<li>Инстанца <a href="#/slide-api-composition" class="backwardlink">обрасца API композицијe</a> за екстерне клијенте. Интеграција података са
-више микросервиса.</li>
+<li>Специјализација <a href="#/slide-api-composition" class="backwardlink">обрасца API композицијe</a> за екстерне клијенте. Интеграција
+података са више микросервиса.</li>
 <li>Може имплементирати додатне функционалности, нпр. ауторизацију.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-3-1">
 <h4 id="5-3-1"><span class="section-number-4">5.3.1.</span> Структура</h4>
 
-<div id="org16bc29f" class="figure">
+<div id="orgd5df8fb" class="figure">
 <p><img src="./images/apig-01.png" alt="apig-01.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-5-3-2">
 <h4 id="5-3-2"><span class="section-number-4">5.3.2.</span> Варијанта - <i>Backends for Frontends</i></h4>
@@ -661,11 +633,10 @@ Do one thing and do it well.
 </ul>
 
 
-<div id="org5397605" class="figure">
+<div id="orgf982443" class="figure">
 <p><img src="./images/apig-02.png" alt="apig-02.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-5-3-3">
 <h4 id="5-3-3"><span class="section-number-4">5.3.3.</span> Напомена</h4>
@@ -673,7 +644,6 @@ Do one thing and do it well.
 <li>Једна тачка отказа. Обезбедити високу доступност.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -692,31 +662,28 @@ Do one thing and do it well.
 локацијама свих других сервиса.</li>
 <li>Два приступа:
 <ul>
-<li><i>клијентски</i> при којем клијент сервис сам пита регистар,</li>
-<li><i>серверски</i> при којем имамо посредника (<i>рутер</i>) који поставља питање регистру.</li>
+<li><i>клијентски</i> - код којег клијент сервис сам пита регистар,</li>
+<li><i>серверски</i> - код којег имамо посредника (<i>рутер</i>) који поставља питање регистру.</li>
 
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-6-1-1">
 <h4 id="6-1-1"><span class="section-number-4">6.1.1.</span> Структура - клијентски</h4>
 
-<div id="org3273701" class="figure">
+<div id="org8f95a0c" class="figure">
 <p><img src="./images/reg-01.png" alt="reg-01.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-6-1-2">
 <h4 id="6-1-2"><span class="section-number-4">6.1.2.</span> Структура - серверски</h4>
 
-<div id="org053d4e1" class="figure">
+<div id="org88a8a01" class="figure">
 <p><img src="./images/reg-02.png" alt="reg-02.png" />
 </p>
 </div>
-
 </section>
 </section>
 <section>
