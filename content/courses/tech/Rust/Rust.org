@@ -1,6 +1,6 @@
 # -*- ispell-dictionary: "sr"; -*-
 #+TITLE: Програмски језик Раст
-#+SUBTITLE: Базирано на верзији 1.65.0. У изради.
+#+SUBTITLE: Базирано на верзији 1.74.0. У изради.
 #+EXPORT_FILE_NAME: index.html
 #+EXPORT_REVEAL_HLEVEL: 10
 #+SETUPFILE: ../../courses-startup-cyr.org
@@ -6664,6 +6664,9 @@ where
 
 #+REVEAL: split
 
+Креирамо библиотеку за праћење потрошње неког ресурса и обавештавање када се
+приближавамо лимиту потрошње.
+
 #+begin_src rust
 pub trait Messenger {
     fn send(&self, msg: &str);
@@ -6918,7 +6921,7 @@ impl List {
 #+REVEAL_HTML: <div class="column" style="float:left; width: 70%; font-size: 0.9em">
 #+name: cycle-refs
 #+begin_src rust :noweb strip-export :results replace
-<<cycle-refs-header>>
+<<cycle-refs-header>> // <- Занемарите овy линију
 fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
@@ -7025,9 +7028,9 @@ impl Inventory {
 
 #+REVEAL: split
 
-#+begin_src rust :noweb no-export
+#+begin_src rust :noweb strip-export
 <<giveaway-types>>
-<<giveaway-inventory>>
+<<giveaway-inventory>> // <- Занемарите ове линије
 fn main() {
     let store = Inventory {
         shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
@@ -7218,10 +7221,10 @@ error: could not compile `cargo0sMXjj` due to previous error
 
 - У зависности од тога, затворење ће аутоматски имплементирати једну, две или
   све три особине:
-  1. =FnOnce= - затворења која могу да се позову само једном. Сва затворења
+  1. =FnOnce= - затворења која могу да се позову једном. Сва затворења
      имплементирају бар ову особину, пошто могу да се позову бар једном.
-     Затворења која предају власништво приликом позива имплементрају само ову
-     особину пошто се не могу позвати више од једном.
+     Затворења која предају власништво запамћене вредности приликом позива
+     имплементрају само ову особину пошто се не могу позвати више од једном.
   2. =FnMut= - затворења која не премештају вредности али их могу мењати. Могу се
      позвати више од једном.
   3. =Fn= - затворења која нити премештају нити мењају своје окружење, или не
@@ -7524,7 +7527,7 @@ assert_eq!(v2, vec![2, 3, 4]);
 #+end_src
 
 - Обратите пажњу да је била потребна анотација типа јер је =collect= генеричка
-  метода која може да креира различите типове вредности.
+  метода која може да креира вредности различитог типа.
 - Можете позивати више адаптера у низу и сви заједно су лењи тј. морате на крају
   позвати методу која конзумира да бисте извршили цео ланац.
 *** Употреба затворења као параметара итератор адаптера

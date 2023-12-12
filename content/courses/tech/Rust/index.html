@@ -33,9 +33,9 @@
 <div class="slides">
 <section id="sec-title-slide">
 <h1 class="title">Програмски језик Раст</h1>
-<h2 class="subtitle">Базирано на верзији 1.65.0. У изради.</h2>
+<h2 class="subtitle">Базирано на верзији 1.74.0. У изради.</h2>
 <h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Креирано 2023-12-12 Tue 12:35, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
+<p class="date">Креирано 2023-12-12 Tue 12:37, притисни ESC за мапу, "м" за мени, Ctrl+Shift+F за претрагу</p>
 </section>
 <section>
 <section id="slide-1">
@@ -1453,7 +1453,7 @@ fn plus_one(x: i32) -&gt; i32 {
 </code></pre>
 </div>
 
-<pre class="example" id="org098e599">
+<pre class="example" id="org38e2747">
 error[E0308]: mismatched types
  --&gt; src/main.rs:8:24
   |
@@ -1999,7 +1999,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="org11ec0b9" class="figure">
+<div id="orgcc8a576" class="figure">
 <p><img src="./images/string-type.png" alt="string-type.png" style="height: 400px;" />
 </p>
 </div>
@@ -2023,7 +2023,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </ul>
 
 
-<div id="org1ca9f94" class="figure">
+<div id="org3472492" class="figure">
 <p><img src="./images/string-type-2.png" alt="string-type-2.png" style="height: 400px;" />
 </p>
 </div>
@@ -2042,7 +2042,7 @@ names: ["Hello", "Hello", "There is a rustacean among us!"]
 </p>
 
 
-<div id="org7102d82" class="figure">
+<div id="org0e4dc79" class="figure">
 <p><img src="./images/string-type-3.png" alt="string-type-3.png" style="height: 500px;" />
 </p>
 </div>
@@ -2066,7 +2066,7 @@ println!("{}, world!", s1);
 Добићемо грешку:
 </p>
 
-<pre class="example" id="org493237f">
+<pre class="example" id="orgc24119f">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0382]: borrow of moved value: `s1`
@@ -2107,7 +2107,7 @@ error: could not compile `ownership` due to previous error
 </p>
 
 
-<div id="orgfd00077" class="figure">
+<div id="orgbb8da89" class="figure">
 <p><img src="./images/string-type-4.png" alt="string-type-4.png" style="height: 400px;" />
 </p>
 </div>
@@ -2307,7 +2307,7 @@ fn calculate_length(s: &amp;String) -&gt; usize {
 </div>
 
 
-<div id="org2b82a7f" class="figure">
+<div id="orge92d128" class="figure">
 <p><img src="./images/reference.png" alt="reference.png" style="height: 400px;" />
 </p>
 </div>
@@ -2371,7 +2371,7 @@ fn change(some_string: &amp;String) {
 </code></pre>
 </div>
 
-<pre class="example" id="org16e31c9">
+<pre class="example" id="org983b1cd">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0596]: cannot borrow `*some_string` as mutable, as it is behind a `&amp;` reference
@@ -2425,7 +2425,7 @@ println!("{}, {}", r1, r2);
 </code></pre>
 </div>
 
-<pre class="example" id="orga368e3f">
+<pre class="example" id="orgf58a9af">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0499]: cannot borrow `s` as mutable more than once at a time
@@ -2498,7 +2498,7 @@ println!("{}, {}, and {}", r1, r2, r3);
 </code></pre>
 </div>
 
-<pre class="example" id="org59bb04e">
+<pre class="example" id="org8c15731">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -2581,7 +2581,7 @@ fn dangle() -&gt; &amp;String {
 </section>
 <section>
 
-<pre class="example" id="org162d3f8">
+<pre class="example" id="orgd1eb3f3">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0106]: missing lifetime specifier
@@ -2765,7 +2765,7 @@ let world = &amp;s[6..11];
 
 <div class="column" style="float:right; width: 45%">
 
-<div id="orgbbf6b8f" class="figure">
+<div id="org81ad218" class="figure">
 <p><img src="./images/slice.png" alt="slice.png" style="height: 500px;" />
 </p>
 </div>
@@ -2854,7 +2854,7 @@ let slice = &amp;s[..];
 </code></pre>
 </div>
 
-<pre class="example" id="org25e786f">
+<pre class="example" id="org6c276c8">
 $ cargo run
    Compiling ownership v0.1.0 (file:///projects/ownership)
 error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable
@@ -3754,7 +3754,7 @@ let sum = x + y;
 </code></pre>
 </div>
 
-<pre class="example" id="org2464f75">
+<pre class="example" id="orgca87437">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
@@ -3927,7 +3927,7 @@ fn value_in_cents(coin: Coin) -&gt; u8 {
 </code></pre>
 </div>
 
-<pre class="example" id="org1a6b76e">
+<pre class="example" id="org05c4b52">
 $ cargo run
    Compiling match_test v0.1.0 (/home/igor/NTP/match_test)
 error[E0004]: non-exhaustive patterns: `Quarter(Arizona)` not covered
@@ -3983,7 +3983,7 @@ let none = plus_one(None);
 </code></pre>
 </div>
 
-<pre class="example" id="org8e151cb">
+<pre class="example" id="org5fb4a5d">
 $ cargo run
    Compiling enums v0.1.0 (file:///projects/enums)
 error[E0004]: non-exhaustive patterns: `None` not covered
@@ -4281,7 +4281,7 @@ if let Some(max) = config_max {
 </section>
 <section id="slide-9-9">
 <h3 id="9-9"><span class="section-number-3">9.9.</span> Поништиви и непоништиви обрасци</h3>
-<div class="note" id="org94e5611">
+<div class="note" id="orgf4c97a1">
 <p>
 Обрасци за подударање <a href="https://doc.rust-lang.org/book/ch18-02-refutability.html">могу имати две форме</a>: поништив (<i>refutable</i>) и непоништив
 (<i>irrefutable</i>). Образац који увек мора успети (нпр. <code>let x = 5;</code>) је непоништив.
@@ -4555,7 +4555,7 @@ use List::{Cons, Nil};
 </div>
 
 
-<div id="org049c8e7" class="figure">
+<div id="org51b288e" class="figure">
 <p><img src="./images/list-size.svg" alt="list-size.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -4578,7 +4578,7 @@ fn main() {
 </div>
 
 
-<div id="org29d2fd9" class="figure">
+<div id="org16ace9c" class="figure">
 <p><img src="./images/list-size-box.svg" alt="list-size-box.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
@@ -4819,7 +4819,7 @@ Dropping CustomSmartPointer with data `my stuff`!
 </ul>
 
 
-<div id="org98d15f9" class="figure">
+<div id="orgfdf0b53" class="figure">
 <p><img src="./images/rc-list.svg" alt="rc-list.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
@@ -5080,7 +5080,7 @@ error: could not compile `collections` due to previous error
 </section>
 <section>
 
-<div class="note" id="orga5d2b4c">
+<div class="note" id="org2730692">
 <p>
 Имамо референцу на први елемент вектора а покушавамо промењивом референцом да
 додамо на крај. Ово делује као да би било безбедно.
@@ -5116,7 +5116,7 @@ for i in &amp;v {
 </pre>
 
 
-<div class="note" id="orge3c52aa">
+<div class="note" id="orgf726fd4">
 <p>
 Пошто итерирамо преко позајмљене вредности <code>&amp;v</code>, тип од <code>i</code> ће бити позајмљен
 (<code>&amp;u32</code>). Уколико би итерирали преко поседоване вредности <code>for i in v</code> тада би сви
@@ -5329,7 +5329,7 @@ let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
 </code></pre>
 </div>
 
-<div class="note" id="org75c37fe">
+<div class="note" id="orgcf6f8f2">
 <p>
 Обратите пажњу да је други параметар типа <code>&amp;str</code> док је прослеђен тип <code>&amp;String</code>.
 Компајлер ово прихвата. Зашто?
@@ -5827,7 +5827,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 </section>
 <section>
 
-<div class="note" id="org4547c38">
+<div class="note" id="org29dfbd8">
 <p>
 У програмском језику Ц, читање ван опсега је недефинисано понашање и компајлер
 може да произведе кôд који ради произвољну ствар. Најчешће ће да чита са
@@ -6070,7 +6070,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 </section>
 <section>
 
-<div class="note" id="orga07b240">
+<div class="note" id="org2d7c3a9">
 <p>
 Постоји значајна разлика између <code>?</code> оператора и <code>match</code> израза. <code>?</code> оператор ће
 аутоматски радити конверзију грешака за све грешке које имплементирају <code>From</code>
@@ -6861,7 +6861,7 @@ pub fn eat_at_restaurant() {
 </code></pre>
 </div>
 
-<div class="note" id="org1fa81e6">
+<div class="note" id="org9384f1a">
 <p>
 <code>mod</code> је потребно навести само једном. Тиме се модул увезује у стабло модула и
 могуће га је референцирати путањама из остатка кода. Односно, <code>mod</code> није исто што
@@ -7693,7 +7693,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="orgfa43dc3">
+<pre class="example" id="org923a619">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0308]: mismatched types
@@ -7986,7 +7986,7 @@ fn main() {
 </section>
 <section>
 
-<div class="note" id="orga814d12">
+<div class="note" id="orgdf79e3c">
 <p>
 Ограничење у употреби особина је да можемо имплементирати особину над типом
 једино ако је бар једно од њих локално за наш сандук. Ово правило је део скупа
@@ -8231,7 +8231,7 @@ fn main() {
 тип превише сложен за писање или је познат само компајлеру.
 </p>
 
-<div class="note" id="orge103883">
+<div class="note" id="org2d12230">
 <p>
 <code>impl Trait</code> синтакса за повратне вредности је могућа само ако функција враћа
 један тип који имплементира дату особину. На пример, ова функција неће радити
@@ -8250,7 +8250,7 @@ fn main() {
 <p>
 Грешка је била следећа:
 </p>
-<pre class="example" id="orgcd1fc2d">
+<pre class="example" id="org5630b8b">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0369]: binary operation `&gt;` cannot be applied to type `T`
@@ -8291,7 +8291,7 @@ error: could not compile `chapter10` due to previous error
 <p>
 Међутим, сада имамо још једну грешку:
 </p>
-<pre class="example" id="org678846d">
+<pre class="example" id="org7c36121">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0508]: cannot move out of type `[T]`, a non-copy slice
@@ -8421,7 +8421,7 @@ impl&lt;T: Display + PartialOrd&gt; Pair&lt;T&gt; {
 </code></pre>
 </div>
 
-<pre class="example" id="org08b7700">
+<pre class="example" id="org5a6d7b7">
  cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0597]: `x` does not live long enough
@@ -8478,7 +8478,7 @@ error: could not compile `chapter10` due to previous error
 смештају се у варијабле (нпр. <code>r=&amp;x</code> из претходног примера).
 </p>
 
-<div class="note" id="org98581a1">
+<div class="note" id="orgd1d1ca4">
 <p>
 Једно од правила је да референца на варијаблу (тј. вредност) не може да живи
 дуже од саме варијабле. Односно <i>животни век варијабле мора да садржи животни
@@ -8508,7 +8508,7 @@ error: could not compile `chapter10` due to previous error
 век варијабле у коју је смештена.
 </p>
 
-<div class="note" id="org2483a3c">
+<div class="note" id="orgc0e93e3">
 <p>
 Кажемо да <i>животни век референце мора да садржи животни век варијабле у коју је
 смештена</i>.
@@ -8541,7 +8541,7 @@ error: could not compile `chapter10` due to previous error
 Ако претходна два правила објединимо можемо рећи да:
 </p>
 
-<div class="note" id="org7033b14">
+<div class="note" id="orgd815a70">
 <p>
 <i>Животни век варијабле мора да садржи животни век свих варијабли које позајмљују
 вредност од посматране варијабле</i>.
@@ -8613,7 +8613,7 @@ error: could not compile `chapter10` due to previous error
 </code></pre>
 </div>
 
-<pre class="example" id="orgc45ea20">
+<pre class="example" id="org7096a9a">
 $ cargo run
    Compiling chapter10 v0.1.0 (file:///projects/chapter10)
 error[E0106]: missing lifetime specifier
@@ -8731,7 +8731,7 @@ error: could not compile `chapter10` due to previous error
 За код мора да постоји <code>'a</code> тако да важи:
 </p>
 
-<pre class="example" id="org6d984d7">
+<pre class="example" id="org337bb00">
 lt(string1) ≥ 'a     # животни век вредности првог параметара садржи 'a
 lt(string2) ≥ 'a     # животни век вредности другог параметара садржи 'a
 'a ≥ lt(result)       # 'a мора да садржи животни веку result варијабле
@@ -8835,7 +8835,7 @@ error: could not compile `chapter10` due to previous error
 </section>
 <section>
 
-<div class="note" id="org90ba5ec">
+<div class="note" id="org7a10181">
 <p>
 Дакле, синтакса за анотацију животних векова доводи у везу животне векове
 улазних параметара и повратних вредности. Наводи се само код референци.
@@ -9179,6 +9179,11 @@ doubles</i>).</li>
 </section>
 <section>
 
+<p>
+Креирамо библиотеку за праћење потрошње неког ресурса и обавештавање када се
+приближавамо лимиту потрошње.
+</p>
+
 <div class="org-src-container">
 
 <pre><code class="rust" >pub trait Messenger {
@@ -9462,7 +9467,7 @@ impl List {
 <div class="column" style="float:left; width: 70%; font-size: 0.9em">
 <div class="org-src-container">
 
-<pre id="cycle-refs"><code class="rust" >&lt;&lt;cycle-refs-header&gt;&gt;
+<pre id="cycle-refs"><code class="rust" >&lt;&lt;cycle-refs-header&gt;&gt; // &lt;- Занемарите овy линију
 fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
@@ -9489,7 +9494,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="orgb22dbeb">
+<pre class="example" id="org916c9f8">
 : a initial rc count = 1
 : a next item = Some(RefCell { value: Nil })
 : a rc count after b creation = 2
@@ -9503,7 +9508,7 @@ fn main() {
 
 <div class="column" style="float:right; width: 30%">
 
-<div id="org0fa0b78" class="figure">
+<div id="orgb442a7b" class="figure">
 <p><img src="./images/ref-cycle.svg" alt="ref-cycle.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -9596,7 +9601,7 @@ struct Inventory {
 <div class="org-src-container">
 
 <pre><code class="rust" >&lt;&lt;giveaway-types&gt;&gt;
-&lt;&lt;giveaway-inventory&gt;&gt;
+&lt;&lt;giveaway-inventory&gt;&gt; // &lt;- Занемарите ове линије
 fn main() {
     let store = Inventory {
         shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
@@ -9846,10 +9851,10 @@ error: could not compile `cargo0sMXjj` due to previous error
 <li>У зависности од тога, затворење ће аутоматски имплементирати једну, две или
 све три особине:
 <ol>
-<li><code>FnOnce</code> - затворења која могу да се позову само једном. Сва затворења
+<li><code>FnOnce</code> - затворења која могу да се позову једном. Сва затворења
 имплементирају бар ову особину, пошто могу да се позову бар једном.
-Затворења која предају власништво приликом позива имплементрају само ову
-особину пошто се не могу позвати више од једном.</li>
+Затворења која предају власништво запамћене вредности приликом позива
+имплементрају само ову особину пошто се не могу позвати више од једном.</li>
 <li><code>FnMut</code> - затворења која не премештају вредности али их могу мењати. Могу се
 позвати више од једном.</li>
 <li><code>Fn</code> - затворења која нити премештају нити мењају своје окружење, или не
@@ -9905,7 +9910,7 @@ fn main() {
 </code></pre>
 </div>
 
-<pre class="example" id="orgc67e292">
+<pre class="example" id="orga1b1e4d">
 [
     Rectangle {
         width: 3,
@@ -10242,7 +10247,7 @@ assert_eq!(v2, vec![2, 3, 4]);
 
 <ul>
 <li>Обратите пажњу да је била потребна анотација типа јер је <code>collect</code> генеричка
-метода која може да креира различите типове вредности.</li>
+метода која може да креира вредности различитог типа.</li>
 <li>Можете позивати више адаптера у низу и сви заједно су лењи тј. морате на крају
 позвати методу која конзумира да бисте извршили цео ланац.</li>
 
