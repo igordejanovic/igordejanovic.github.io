@@ -6918,7 +6918,7 @@ impl List {
 #+REVEAL_HTML: <div class="column" style="float:left; width: 70%; font-size: 0.9em">
 #+name: cycle-refs
 #+begin_src rust :noweb strip-export :results replace
-<<cycle-refs-header>> // Занемарите ову линију
+<<cycle-refs-header>>
 fn main() {
     let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
 
@@ -6944,7 +6944,7 @@ fn main() {
 }
 #+end_src
 
-#+RESULTS: cycle-refs
+#+begin_example
 : a initial rc count = 1
 : a next item = Some(RefCell { value: Nil })
 : a rc count after b creation = 2
@@ -6952,6 +6952,7 @@ fn main() {
 : b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
 : b rc count after changing a = 2
 : a rc count after changing a = 2
+#+end_example
 
 #+REVEAL_HTML: </div>
 
