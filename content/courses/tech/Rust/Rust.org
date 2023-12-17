@@ -7718,10 +7718,1241 @@ let actions = state
     })
     .collect::<Vec<_>>();
 #+end_src
+* Објектно-оријентисано програмирање у Расту
+** Објектно-оријентисане особине Раста
+*** Објекти садрже податке и понашање
+- Дефиниција из књиге: Erich Gamma, Richard Helm, Ralph Johnson, and John
+  Vlissides: /Design Patterns: Elements of Reusable Object-Oriented Software/,
+  Addison-Wesley Professional, 1994. (позната под називом /The Gang of Four
+  book - GoF/):
 
-* TODO Макрои
-* TODO OOP
-* TODO Конкурентно програмирање
+  #+begin_quote
+  Object-oriented programs are made up of objects. An object packages both data
+  and the procedures that operate on that data. The procedures are typically
+  called methods or operations.
+  #+end_quote
+
+- Према овој дефиницији Раст јесте објектно-оријентисан језик.
+*** Енкапсулација - скривање имплементационих детаља
+- Идеја често придружена ООП парадигми је енкапсулација која значи да
+  имплементациони детаљи објекта нису познати коду који користи посматрани
+  објекат.
+- Раст има могућност енкапсулирања интерне имплементације и дефинисања шта је
+  споља видљиво употребом =pub= кључне речи.
+
+*** Енкапсулација - пример
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 35%">
+#+begin_src rust
+pub struct AveragedCollection {
+    list: Vec<i32>,
+    average: f64,
+}
+#+end_src
+
+- Можемо мењати интерну имплементацију =AveragedCollection= типа без утицаја на
+  кориснике док год не мењамо сигнатуре јавних метода.
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 65%">
+#+begin_src rust
+impl AveragedCollection {
+    pub fn add(&mut self, value: i32) {
+        self.list.push(value);
+        self.update_average();
+    }
+
+    pub fn remove(&mut self) -> Option<i32> {
+        let result = self.list.pop();
+        match result {
+            Some(value) => {
+                self.update_average();
+                Some(value)
+            }
+            None => None,
+        }
+    }
+
+    pub fn average(&self) -> f64 {
+        self.average
+    }
+
+    fn update_average(&mut self) {
+        let total: i32 = self.list.iter().sum();
+        self.average = total as f64 / self.list.len() as f64;
+    }
+}
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+
+- Ако је енкапсулација неопходна да би се језик сматрао објектно-оријентисаним
+  онда Раст задовољава тај услов.
+*** Наслеђивање
+- Наслеђивање представља механизам где објекат/класа може наследити елементе из
+  дефиниције другог објекта/класе чиме добија податке и понашање свог родитеља.
+- Раст не поседује овај механизам.
+
+*** Разлози за употребу наслеђивања
+1. Поновна искористивост кода (/code reuse/)
+   - Делимично подржано са подразумеваним имплементацијама метода особина.
+   - [[*Подразумевана имплементација][Видели смо на примеру =Summary= особине]].
+2. Полиморфизам
+   - Често синоним за наслеђивање али је заправо општији концепт где кôд може да
+     ради са вредностима различитог типа.
+   - Раст ово подржава употребом генеричког кода за апстракцију могућих типова и
+     дефинисањем ограничења кроз особине да се специфицира које особине тражени
+     тип мора да има. Често се оваква врста полиморфизма зове ограничени
+     параметарски полиморфизам (/bounded parametric polymorphism/).
+
+*** Наслеђивање као анти-образац у дизајну језика
+- У модерним језицима наслеђивање није заступљено јер се сматра да доноси више
+  проблема него користи.
+- Често се дешава да родитељске класе деле више кода него што би требало или да
+  деле методе чије позивање код подкласа нема смисла.
+- Додатно, многи језици омогућавају само једноструко наслеђивање што додатно
+  смањује флексибилност дизајна.
+** Употреба објеката са особином (/Trait Objects/)
+*** Мотивација
+- Некада је потребно да у одређеним контекстима користимо вредности различитог
+  типа.
+- На пример да имамо колекцију вредности различитог типа.
+- Ако је унапред познато који су могући типови можемо користити =enum= за ову
+  намену, као што смо [[*Смештање елемената различитог типа][видели раније]].
+- Али некада, нпр. код развоја библиотеке, није могуће унапред знати. Тј. желимо
+  да омогућимо флексибиност да се дефинишу нови типови са којима ће постојећи
+  кôд радити.
+
+*** Дефинисање особина за дељење понашања
+- Правимо GUI чије методе ће радити са вредностима које имплементирају особину =Draw=.
+
+#+begin_src rust
+pub trait Draw {
+    fn draw(&self);
+}
+#+end_src
+
+*** Имплементација генеричког кода
+Желимо да подржимо овакву методу:
+
+#+begin_src rust
+impl Screen {
+    pub fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Са оним што до сада знамо могли бисмо пробати нешто овако:
+
+#+begin_src rust
+pub struct Screen<T: Draw> {
+    pub components: Vec<T>,
+}
+
+impl<T> Screen<T>
+where
+    T: Draw,
+{
+    pub fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+#+end_src
+
+Али је проблем што тип =T= ће бити исти за све елементе вектора =components= тј.
+обавиће се мономорфизација. Значи да нећемо моћи да у вектор сместимо различите
+GUI компоненте, нпр. =Button= и =TextField=.
+
+*** Генерички кôд употребом објеката са особином
+У овом случају користимо објекте са особином (/Trait Objects/) употребом кључне
+речи =dyn=. С обзиром да конкретан тип објекта са особином није познат у време
+компајлирања његова величина није позната па се увек користи кроз неки облик
+индирекције/референце (нпр. =&= или =Box=).
+
+#+begin_src rust
+pub struct Screen {
+    pub components: Vec<Box<dyn Draw>>,
+}
+
+impl Screen {
+    pub fn run(&self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Сада можемо имплементирати различите GUI компоненте које све имају особину =Draw=.
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
+#+begin_src rust
+pub struct Button {
+    pub width: u32,
+    pub height: u32,
+    pub label: String,
+}
+
+impl Draw for Button {
+    fn draw(&self) {
+        // code to actually draw a button
+    }
+}
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%">
+#+begin_src rust
+use gui::Draw;
+
+struct SelectBox {
+    width: u32,
+    height: u32,
+    options: Vec<String>,
+}
+
+impl Draw for SelectBox {
+    fn draw(&self) {
+        // code to actually draw a select box
+    }
+}
+#+end_src
+#+REVEAL_HTML: </div>
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+
+И можемо у вектор ставити вредности ових типова.
+
+#+begin_src rust
+use gui::{Button, Screen};
+
+fn main() {
+    let screen = Screen {
+        components: vec![
+            Box::new(SelectBox {
+                width: 75,
+                height: 10,
+                options: vec![
+                    String::from("Yes"),
+                    String::from("Maybe"),
+                    String::from("No"),
+                ],
+            }),
+            Box::new(Button {
+                width: 50,
+                height: 10,
+                label: String::from("OK"),
+            }),
+        ],
+    };
+
+    screen.run();
+}
+#+end_src
+*** Напомена о начину позивања метода
+- Генеричка варијанта са мономорфизацијом користи статичко позивање кода јер се
+  тип =T= разрешава у време компајлирања и компајлер зна где се метода налази па
+  може да генерише кôд који ће је директно позвати.
+- Код објекта са особинама у време компајлирања се не зна који ће то тип бити па
+  се позивање обавља у време извршавања тако што сваки објекат са особином има
+  дефинисану таблицу адреса свих својих метода.
+- У време извршавања се ова таблица консултује да би се одредила функција коју
+  је потребно позвати.
+- Ова индирекција има своју цену па је такав кôд нешто спорији.
+- Већина ООП језика користи само ову варијанту тј. нема могућност да се метода
+  позове директно.
+- Индиректно позивање методе спречава компајлер да обави тзв. /inlining/
+  оптимизацију где се кôд методе директно уграђује на месту позива.
+** Имплементација /State/ ООП дизајн образаца
+- Вредност има скуп интерних стања.
+- Стања су представљена као објекти и вредност мења своје понашање у зависности
+  од тренутно активног стања.
+- Пример: процесирање блог објаве. Стања: =draft=, =review= и =published=.
+- Вредност која чува стање не зна ништа о промени понашања када дође до промене стања.
+
+*** Предност употребе /State/ обрасца
+- Предност употребе овог обрасца је да када дође до промене захтева неће бити
+  потребно мењати имплементацију кода самог типа који имплментира овај образац
+  или клијентског кода већ само кода самих стања.
+
+*** Финална жељена функционалност
+1. Блог објава почиње у =draft= стању.
+2. Када се драфт заврши прелази у стање =review=.
+3. Ако се објава одобри, објављује се и прелази у стање =published=.
+4. Само објаве у стању =published= могу вратити садржај.
+
+*** Иницијална =main= функција
+#+begin_src rust
+use blog::Post;
+
+fn main() {
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("", post.content());
+
+    post.request_review();
+    assert_eq!("", post.content());
+
+    post.approve();
+    assert_eq!("I ate a salad for lunch today", post.content());
+}
+#+end_src
+
+*** Дефинисање =Post= типа
+#+begin_src rust
+pub struct Post {
+    state: Option<Box<dyn State>>,
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> Post {
+        Post {
+            state: Some(Box::new(Draft {})),
+            content: String::new(),
+        }
+    }
+}
+
+trait State {}
+
+struct Draft {}
+
+impl State for Draft {}
+#+end_src
+
+=State= дефинише дељену функционалност свих стања. За сада ова особина не дефинише
+методе. =Post= започиње животни циклус у стању =Draft=.
+
+*** Чување садржаја у =Post= структури
+#+begin_src rust
+impl Post {
+    // --snip--
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+    pub fn content(&self) -> &str {
+        ""
+    }
+}
+#+end_src
+
+*** Захтевање рецензије
+#+ATTR_HTML: :style font-size: 0.45em
+#+begin_src rust
+impl Post {
+    // --snip--
+    pub fn request_review(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.request_review())
+        }
+    }
+}
+
+trait State {
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+}
+
+struct Draft {}
+
+impl State for Draft {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(PendingReview {})
+    }
+}
+
+struct PendingReview {}
+
+impl State for PendingReview {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+#+end_src
+
+- =take= над =Option= типом је потребан јер желимо да узмемо власништво над
+  вредношћу која је у =self.state= али морамо оставити поље у валидном стању. =take=
+  ће заменити вредност са =None=. Ово је могуће јер имамо =&mut self= референцу.
+
+*** Имплементација =approve= методе
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%; font-size: 0.8em;">
+#+begin_src rust
+impl Post {
+    // --snip--
+    pub fn approve(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.approve())
+        }
+    }
+}
+
+trait State {
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+    fn approve(self: Box<Self>) -> Box<dyn State>;
+}
+
+struct Draft {}
+
+impl State for Draft {
+    // --snip--
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%; font-size: 0.8em;">
+#+begin_src rust
+struct PendingReview {}
+
+impl State for PendingReview {
+    // --snip--
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Published {})
+    }
+}
+
+struct Published {}
+
+impl State for Published {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+*** Ажурирање =content= методе у =Post= типу
+- Вршимо делегацију истој методи текућег стања.
+
+    #+begin_src rust
+    impl Post {
+        // --snip--
+        pub fn content(&self) -> &str {
+            self.state.as_ref().unwrap().content(self)
+        }
+        // --snip--
+    }
+    #+end_src
+
+- Метода =as_ref= над =Option= је дефинисана на следећи начин:
+
+    #+begin_src rust
+    /// Converts from `&Option<T>` to `Option<&T>`.
+    pub const fn as_ref(&self) -> Option<&T> {
+        match *self {
+            Some(ref x) => Some(x),
+            None => None,
+        }
+    }
+    #+end_src
+
+  Пошто је стање типа =Option<Box<dyn State>>= када позовемо =as_ref= добијемо
+  =Option<&Box<dyn State>>=. Да нисмо то урадили добили би грешку јер не можемо да
+  преместимо стање (са =unwrap=) из позајмљене =&self= вредности.
+
+#+REVEAL: split
+
+#+begin_src rust
+self.state.as_ref().unwrap().content(self)
+#+end_src
+
+Тип над којим се позива =content= je =&Box<dyn State>=. =Deref= коерција ће омогућити
+да се "прође кроз" =&= и =Box= тако да ће се позвати над типом који имплементира
+=State=.
+
+#+REVEAL: split
+
+Сада је потребно још имплементирати ову методу над =State= типовима.
+#+begin_src rust
+trait State {
+    // --snip--
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        ""
+    }
+}
+
+// --snip--
+struct Published {}
+
+impl State for Published {
+    // --snip--
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        &post.content
+    }
+}
+#+end_src
+
+- Користимо подразумевану имплементацију у =State= особини.
+- Тип =Published= редефинише ову имплементацију.
+*** Други приступ - енкодовање стања у типовима
+- Идеја: свако стање објаве је представљено другим типом. Објаве се током
+  животног циклуса трансформишу у вредности другог типа.
+
+#+begin_src rust
+fn main() {
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("", post.content());
+}
+#+end_src
+
+#+REVEAL: split
+
+- =Post= тип представља објављену објаву и тренутно није могуће креирати ову вредност.
+- Иницијално је могуће креирати само =DraftPost= кроз =Post::new=.
+#+begin_src rust
+pub struct Post {
+    content: String,
+}
+
+pub struct DraftPost {
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> DraftPost {
+        DraftPost {
+            content: String::new(),
+        }
+    }
+
+    pub fn content(&self) -> &str {
+        &self.content
+    }
+}
+
+impl DraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Једино =DraftPost= има методу =request_review= тако да је немогуће позвати ову
+методу над објавама које су у другом стању.
+#+begin_src rust
+impl DraftPost {
+    // --snip--
+    pub fn request_review(self) -> PendingReviewPost {
+        PendingReviewPost {
+            content: self.content,
+        }
+    }
+}
+
+pub struct PendingReviewPost {
+    content: String,
+}
+
+impl PendingReviewPost {
+    pub fn approve(self) -> Post {
+        Post {
+            content: self.content,
+        }
+    }
+}
+#+end_src
+
+Једино =PendingReviewPost= има =approve= методу тако да није могуће одобрити објаве
+у другим стањима.
+
+#+REVEAL: split
+
+Објаве се трансформишу овим методама (узима се власништво над претходном) да се
+осигура да не постоје исте објаве у различитим стањима. Због овога је потребно
+користити /shadowing/ употребом =let post = post.<metoda>=.
+#+begin_src rust
+use blog::Post;
+
+fn main() {
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+
+    let post = post.request_review();
+
+    let post = post.approve();
+
+    assert_eq!("I ate a salad for lunch today", post.content());
+}
+#+end_src
+
+*** Предност приступа
+- Није могуће креирати невалидно стање.
+- Покушај креирања невалидног стања је грешка у време компајлирања.
+
+* Конкурентно програмирање (факултативно)
+** Употреба нити
+- Раст стандардна библиотека користи 1:1 модел имплементације нити. Једна нит у
+  Расту се мапира на једну нит оперативног система.
+- Постоје разни сандуци који имплементирају друге моделе.
+
+** Проблеми са нитима
+Нити се извршавају конкурентно тако да не постоје инхерентне гаранције на
+редослед извршавања. Ово може довести до разних проблема:
+- Стање трке (/race conditions/) - када нити приступају ресурсима у
+  неконзистентном редоследу.
+- Закључавање (/Deadlocks/) - када нити међусобно чекају једни на друге и
+  истовремено се спречавају да наставе са радом и ослободе ресурсе које држе
+  закључаним.
+- Разне грешке које се манифестују под тачно одређеним околностима које се тешко
+  репродукују.
+
+** Креирање нове нити
+#+begin_src rust
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+}
+#+end_src
+
+#+RESULTS:
+: hi number 1 from the main thread!
+: hi number 1 from the spawned thread!
+: hi number 2 from the main thread!
+: hi number 2 from the spawned thread!
+: hi number 3 from the main thread!
+: hi number 3 from the spawned thread!
+: hi number 4 from the main thread!
+: hi number 4 from the spawned thread!
+: hi number 5 from the spawned thread!
+
+- Када основна нит, дефинисана =main= функцијом, заврши све остале нити се гасе.
+
+** Употреба =join=
+Да би сачекали да све нити заврше користимо повратну вредност =thread::spawn=
+позива која је типа =JoinHandle=. У питању је поседована вредност чија метода =join=
+ће блокирати текућу нит док дата нит не заврши.
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 65%; font-size: 0.9em;">
+#+begin_src rust
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    handle.join().unwrap();
+}
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 35%; font-size: 0.9em;">
+#+RESULTS:
+#+begin_example
+hi number 1 from the main thread!
+hi number 1 from the spawned thread!
+hi number 2 from the main thread!
+hi number 2 from the spawned thread!
+hi number 3 from the spawned thread!
+hi number 3 from the main thread!
+hi number 4 from the spawned thread!
+hi number 4 from the main thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
+#+end_example
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+
+#+REVEAL: split
+Ако преместимо =handle.join()= пре петље.
+
+#+REVEAL_HTML: <div class="column" style="float:left; width: 65%; font-size: 0.9em;">
+#+begin_src rust
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    handle.join().unwrap();
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+}
+#+end_src
+
+
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 35%; font-size: 0.9em;">
+#+RESULTS:
+#+begin_example
+hi number 1 from the spawned thread!
+hi number 2 from the spawned thread!
+hi number 3 from the spawned thread!
+hi number 4 from the spawned thread!
+hi number 5 from the spawned thread!
+hi number 6 from the spawned thread!
+hi number 7 from the spawned thread!
+hi number 8 from the spawned thread!
+hi number 9 from the spawned thread!
+hi number 1 from the main thread!
+hi number 2 from the main thread!
+hi number 3 from the main thread!
+hi number 4 from the main thread!
+#+end_example
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+** Позајмљивање вредности
+Често нам треба да нит позајми вредност из текуће нити. У следећем примеру
+вектор =v= се покушава читати из нити.
+#+begin_src rust
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(|| {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}
+#+end_src
+
+#+REVEAL: split
+Али се овај кôд не компајлира.
+
+#+begin_example
+error[E0373]: closure may outlive the current function, but it borrows `v`,
+which is owned by the current function
+ --> src/main.rs:7:32
+  |
+7 |     let handle = thread::spawn(|| {
+  |                                ^^ may outlive borrowed value `v`
+8 |         println!("Here's a vector: {:?}", v);
+  |                                           - `v` is borrowed here
+  |
+note: function requires argument type to outlive `'static`
+ --> src/main.rs:7:18
+  |
+7 |       let handle = thread::spawn(|| {
+  |  __________________^
+8 | |         println!("Here's a vector: {:?}", v);
+9 | |     });
+  | |______^
+help: to force the closure to take ownership of `v` (and any other referenced
+variables), use the `move` keyword
+  |
+7 |     let handle = thread::spawn(move || {
+  |                                ++++
+
+For more information about this error, try `rustc --explain E0373`.
+#+end_example
+
+#+REVEAL: split
+Раст инференца проналази да се вектор треба позајмити путем дељене референце али
+нема гаранције да ће позајмљена вредност бити "жива" када је нит буде користила.
+
+У овом примеру користимо =drop= па је још јасније зашто је ово проблем.
+
+#+begin_src rust
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(|| {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    drop(v); // oh no!
+
+    handle.join().unwrap();
+}
+#+end_src
+
+** Премештање вредности
+Решење је да се вектор премести у нит употребом кључне речи =move=.
+
+#+begin_src rust
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+    let handle = thread::spawn(move || {
+        println!("Here's a vector: {:?}", v);
+    });
+
+    handle.join().unwrap();
+}
+#+end_src
+
+#+REVEAL: split
+
+Ово решава проблем са оба претходна примера. Али је једино први пример валидан.
+Није могуће користити =drop= над премештеном вредношћу.
+
+#+begin_src
+$ cargo run
+   Compiling threads v0.1.0 (file:///projects/threads)
+error[E0382]: use of moved value: `v`
+  --> src/main.rs:10:10
+   |
+4  |     let v = vec![1, 2, 3];
+   |         - move occurs because `v` has type `Vec<i32>`, which does not implement the `Copy` trait
+5  |
+6  |     let handle = thread::spawn(move || {
+   |                                ------- value moved into closure here
+7  |         println!("Here's a vector: {:?}", v);
+   |                                           - variable moved due to use in closure
+...
+10 |     drop(v); // oh no!
+   |          ^ value used here after move
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `threads` due to previous error
+#+end_src
+
+#+REVEAL: split
+
+Правила власништва одбацују невалидан кôд и лепо се уклапају и у причу о
+вишенитном програмирању.
+** Конкурентно програмирање слањем порука
+Слање порука је све популарнији модел конкурентног програмирања где се сигурност
+постиже разменом порука између нити.
+
+Један од слогана Го програмског језика је:
+
+#+begin_quote
+Do not communicate by sharing memory; instead, share memory by communicating.
+#+end_quote
+
+** =mpsc::channel()=
+- =mpsc= је модул у стандардној библиотеци који омогућава овај стил конкурентног програмирања.
+- /Multiple Producer, Single Consumer - MPSC/
+
+#+REVEAL: split
+
+#+begin_src rust
+use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}
+#+end_src
+
+- =recv= је блокирајући позив који чека да прихвати поруку. Враћа =Result<T, E>=
+  тип. Уколико се добије грешка то је знак да је пошиљалац затворио свој крај
+  конекције и да поруке више неће стизати.
+- Постоји и =try_recv= који није блокирајућ.
+
+** Власништво
+- Раст правила власништва играју битну улогу у креирању сигурног конкурентног кода.
+- Покушај употребе вредности =val= после слања.
+  #+begin_src rust
+    use std::sync::mpsc;
+    use std::thread;
+
+    fn main() {
+        let (tx, rx) = mpsc::channel();
+
+        thread::spawn(move || {
+            let val = String::from("hi");
+            tx.send(val).unwrap();
+            println!("val is {}", val);
+        });
+
+        let received = rx.recv().unwrap();
+        println!("Got: {}", received);
+    }
+  #+end_src
+
+#+REVEAL: split
+
+  #+begin_example
+    error[E0382]: borrow of moved value: `val`
+    --> src/main.rs:11:35
+    |
+    9  |             let val = String::from("hi");
+    |                 --- move occurs because `val` has type `String`, which does
+    not implement the `Copy` trait
+    10 |             tx.send(val).unwrap();
+    |                     --- value moved here
+    11 |             println!("val is {}", val);
+    |                                   ^^^ value borrowed here after move
+    |
+    help: consider cloning the value if the performance cost is acceptable
+    |
+    10 |             tx.send(val.clone()).unwrap();
+    |                        ++++++++
+
+    For more information about this error, try `rustc --explain E0382`.
+  #+end_example
+
+** Итерација над пријемником
+#+begin_src rust
+use std::sync::mpsc;
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}
+#+end_src
+
+#+RESULTS:
+: Got: hi
+: Got: from
+: Got: the
+: Got: thread
+
+** Клонирање пошиљаоца
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%; font-size: 0.9em;">
+#+begin_src rust
+    // --snip--
+
+    let (tx, rx) = mpsc::channel();
+
+    let tx1 = tx.clone();
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx1.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    // --snip--
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width: 50%; font-size: 0.9em;">
+#+begin_src rust
+    // --snip--
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("more"),
+            String::from("messages"),
+            String::from("for"),
+            String::from("you"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+
+    // --snip--
+#+end_src
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div style="clear: both;">
+** Дељено стање
+- Употреба канала је слична приступу јединственог власништва. Када се податак
+  пошаље низ канал преноси се и власништво на примаоца поруке.
+- Алтернативни метод конкурентног програмирања је употреба дељеног стања.
+- Потребно је обезбедити да само једна нит приступа дељеном стању и једном
+  тренутку. То се постиже ексклузивним закључавањем путем =mutex= структура.
+
+#+REVEAL: split
+
+- =Mutex= структуре имају репутацију да су тешки за употребу зато што се морају
+  строго поштовати два правила:
+  1. Мора се добити приступ (/lock/) пре приступа ресурсу који се дели.
+  2. Када се приступ ресурсу заврши потребно је откључати =mutex= да би друге нити
+     могле да га користе.
+- Уколико се заборави правило 1 долази до грешака у неконзистентности података.
+- Уколико се заборави правило 2 друге нити никада не могу добити приступ ресурсу
+  коме морају приступити.
+- Употребом Раст система типова компајлер спречава да се ова правила забораве
+  или да се употреба =mutex=-а неправилно спроведе.
+
+** =Mutex<T>= API
+#+begin_src rust
+use std::sync::Mutex;
+
+fn main() {
+    let m = Mutex::new(5);
+
+    {
+        let mut num = m.lock().unwrap();
+        *num = 6;
+    }
+
+    println!("m = {:?}", m);
+}
+#+end_src
+
+#+ATTR_HTML: :style font-size: 0.9em;
+- =Mutex<T>= је /wrapper/ тип који садржи у себи податак који се дели.
+- Тип варијабле =m= је =Mutex<i32>= а не =i32=.
+- Једини начин приступа податку је кроз методу =lock()= која ће да блокира док се
+  не добије ексклузиван приступ. Дакле, немогуће је заборавити да се =mutex=
+  закључа јер је то једини начин да се приступи податку.
+- =lock()= враћа =LockResult= јер може да не успе уколико нит која држи закључан
+  ресурс прекине са радом кроз =panic=.
+- =LockResult= уколико успе у себи садржи =MutexGuard= паметни поинтер који
+  имплементира =Deref=, да би могао да врати интерне податке, и =Drop= да би
+  аутоматски откључао ресурс када изађе из опсега важења.
+
+** Дељење =Mutex<T>= између нити
+#+begin_src rust
+use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let counter = Mutex::new(0);
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_example
+error[E0382]: borrow of moved value: `counter`
+  --> src/main.rs:22:29
+   |
+6  |     let counter = Mutex::new(0);
+   |         ------- move occurs because `counter` has type `Mutex<i32>`, which
+   does not implement the `Copy` trait
+...
+10 |         let handle = thread::spawn(move || {
+   |                                    ------- value moved into closure here,
+   in previous iteration of loop
+...
+22 |     println!("Result: {}", *counter.lock().unwrap());
+   |                             ^^^^^^^ value borrowed here after move
+#+end_example
+
+** Покушај употребе =Rc<T>= за вишеструко власништво
+#+begin_src rust
+use std::rc::Rc;
+use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let counter = Rc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Rc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            ,*num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+#+end_src
+
+#+REVEAL: split
+
+#+begin_example
+error[E0277]: `Rc<Mutex<i32>>` cannot be sent between threads safely
+   --> src/main.rs:12:36
+    |
+12  |           let handle = thread::spawn(move || {
+    |                        ------------- ^------
+    |                        |             |
+    |  ______________________|_____________within this `{closure@src/main.rs:12:36: 12:43}`
+    | |                      |
+    | |                      required by a bound introduced by this call
+13  | |             let mut num = counter.lock().unwrap();
+14  | |
+15  | |             *num += 1;
+16  | |         });
+    | |_________^ `Rc<Mutex<i32>>` cannot be sent between threads safely
+    |
+    = help: within `{closure@src/main.rs:12:36: 12:43}`, the trait `Send` is not implemented for `Rc<Mutex<i32>>`
+note: required because it's used within this closure
+   --> src/main.rs:12:36
+    |
+12  |         let handle = thread::spawn(move || {
+    |                                    ^^^^^^^
+note: required by a bound in `spawn`
+   --> /home/igor/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/std/src/thread/mod.rs:683:8
+    |
+680 | pub fn spawn<F, T>(f: F) -> JoinHandle<T>
+    |        ----- required by a bound in this function
+...
+683 |     F: Send + 'static,
+    |        ^^^^ required by this bound in `spawn`
+#+end_example
+
+#+REVEAL: split
+
+- =`Rc<Mutex<i32>>` cannot be sent between threads safely=
+- =trait `Send` is not implemented for `Rc<Mutex<i32>>`=
+- Специјална особина =Send= је имплементирана само за типове који могу да се шаљу
+  између нити.
+- =Rc<T>= тип не имплементира =Send= јер није сигуран у контексту нити (/thread-safe/).
+
+** Употреба =Arc<T>=
+- /Atomic Reference Counting/
+- Варијанта =Rc<T>= типа која је сигурна у контексту нити и стога имплементира =Send=.
+- Подршка за вишенитно окружење има своју цену, зато не треба користити =Arc<T>= у
+  контексту једне нити.
+
+#+REVEAL: split
+
+    #+begin_src rust
+    use std::sync::{Arc, Mutex};
+    use std::thread;
+
+    fn main() {
+        let counter = Arc::new(Mutex::new(0));
+        let mut handles = vec![];
+
+        for _ in 0..10 {
+            let counter = Arc::clone(&counter);
+            let handle = thread::spawn(move || {
+                let mut num = counter.lock().unwrap();
+
+                *num += 1;
+            });
+            handles.push(handle);
+        }
+
+        for handle in handles {
+            handle.join().unwrap();
+        }
+
+        println!("Result: {}", *counter.lock().unwrap());
+    }
+    #+end_src
+
+    #+RESULTS:
+    : Result: 10
+
+** Напомена о =RefCell<T>/Rc<T>= и =Mutex<T>/Arc<T>=
+- =counter= је непромењив али можемо добити промењиву позајмицу тј. =Mutex<T>=
+  омогућава унутрашњу промењивост као и =RefCell<T>=.
+** =Send= и =Sync= особине
+- Третирају се посебно од стране компајлера.
+- Маркер особине. Без метода.
+- =Send= имплементирају типови чије вредности се безбедно могу прености између нити.
+- Већина типова у Расту су =Send= али има изузетака (нпр. =Rc<T>=). Такође, сви
+  сложени типови који се састоје искључиво од =Send= типова су =Send=.
+- =Sync= имплементирају типови чије вредности се могу позајмљивати између нити.
+- Тип =T= je =Sync= ako je =&T= =Send=.
+- Примитивни Раст типови су =Sync=. Сложени типови који се састоје искључиво од
+  =Sync= типова су =Sync=.
+
+* TODO Макрои (факултативно)
 * Литература
 - Steve Klabnik and Carol Nichols: [[https://doc.rust-lang.org/book/][The Rust Programming Language]], no starch press.
 - [[https://doc.rust-lang.org/stable/rust-by-example/index.html][Rust by Example]]
