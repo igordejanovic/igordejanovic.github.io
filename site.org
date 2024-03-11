@@ -484,7 +484,8 @@ See https://wiki.archlinux.org/title/Sway
 
 Put a warning at the beginning of the tangled file just to be sure not to forget.
 #+begin_src conf
-#Warning: this config is maintained through Org Mode file. Do not edit directly!
+# Warning: this config is maintained through Org Mode file. Do not edit directly!
+# Tangled from site.org
 #+end_src
 
 *** Install
@@ -1417,12 +1418,12 @@ sudo sh -c "echo 'blacklist wacom' > /etc/modprobe.d/nowacom.conf"
 #+end_src
 
 #+begin_src sh
-yay -S opentabletdriver
+yay -S opentabletdriver-git
 #+end_src
 
-Start OTD from sway:
+Start OTD deamon from sway:
 #+begin_src conf
-exec otd
+exec otd-daemon
 #+end_src
 
 Run =otd-gui= for configuration.
