@@ -1428,6 +1428,7 @@ exec otd-daemon
 
 Run =otd-gui= for configuration.
 
+*** Screen annotation with Gromit-MPX
 Using [[https://github.com/bk138/gromit-mpx/][gromit-mpx]] for screen annotation.
 
 There is a problem with capturing hotkeys. A workaround is to [[https://github.com/bk138/gromit-mpx/issues/127#issuecomment-1211957811][handle hotkeys
@@ -1620,10 +1621,17 @@ exec {
 | C-x C-x  | Alternates the cursor with its old position. (C-x, because x has a crossing shape).                         |
 | C-x *    | Inline shell expansion                                                                                      |
 
-*** [[https://alacritty.org/][Alacritty]] specific
+*** [[https://alacritty.org/][Alacritty]]
 :PROPERTIES:
-:header-args:yaml: :mkdirp yes :tangle "~/.config/alacritty/alacritty.yml"
+:header-args:toml: tangle "~/.config/alacritty/alacritty.toml"
 :END:
+[[https://alacritty.org/][Alacritty]] is a modern terminal emulator. See [[https://wiki.archlinux.org/title/Alacritty][additional config info]] in ArchLinux
+Wiki.
+
+Install from packages:
+#+begin_src sh
+sudo pacman -S alacritty
+#+end_src
 
 | Shortcut      | What it does?                        |
 |---------------+--------------------------------------|
@@ -1631,29 +1639,91 @@ exec {
 | Ctl-Shift-C   | Copy selection                       |
 | Ctl-Shift-V   | Paste clipboard content              |
 
-**** Regex hints
-- Recognizing URLs and executing open command. Put this into
-  =~/.config/alacritty/alacritty.yml=:
-  #+begin_src yaml
-hints:
-  enabled:
-   - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-              [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
-     command: xdg-open
-     post_processing: true
-     mouse:
-       enabled: true
-       mods: None
-     binding:
-       key: U
-       mods: Control|Shift
-  #+end_src
+**** Initial Color scheme
+#+begin_src toml
+[colors.bright]
+black = "0xb4b4b4"
+blue = "0xb3d2ff"
+cyan = "0xc2fefa"
+green = "0xe3f7a1"
+magenta = "0xe5bdff"
+red = "0xf99f92"
+white = "0xffffff"
+yellow = "0xf2e9bf"
 
-  Now you can press =Ctrl-Shift-U= to get hints overlay (a letter for each
-  recognized URL on the terminal). Press the letter to execute =xdg-open= over the
-  matched content (URL).
+[colors.cursor]
+cursor = "0x444444"
+text = "0xeeeeee"
+
+[colors.normal]
+black = "0x000000"
+blue = "0x6ebaf8"
+cyan = "0x90fdf8"
+green = "0xbde97c"
+magenta = "0xef88ff"
+red = "0xf7786d"
+white = "0xe5e1d8"
+yellow = "0xefdfac"
+
+[colors.primary]
+background = "0x1f1f1f"
+foreground = "0xe5e1d8"
+#+end_src
+
+**** Enable URL lookups (regex hints)
+Triggered by =Ctrl-Shift-U=, then use highlighted letters to choose:
+#+begin_src toml
+[[hints.enabled]]
+command = "xdg-open"
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+#+end_src
+
+Now you can press =Ctrl-Shift-U= to get hints overlay (a letter for each
+recognized URL on the terminal). Press the letter to execute =xdg-open= over the
+matched content (URL).
+
+**** Additional keybindings
+***** Spawn a new instance in the same directory
+#+begin_src toml
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+#+end_src
+
+***** Cycle color schemes - [[https://github.com/toggle-corp/alacritty-colorscheme/pull/44][not working currently]] due to move to TOML
+Make a keyboard shortcut for easier [[#color-schemes][cycling of color scheme]]:
+#+begin_src toml
+[[keyboard.bindings]]
+key = "F12"
+
+[keyboard.bindings.command]
+args = ["-V", "toggle", "wombat.yaml", "papercolor_light.yaml"]
+program = "alacritty-colorscheme"
+
+#+end_src
 
 **** Color schemes with dynamic change
+:PROPERTIES:
+:CUSTOM_ID: color-schemes
+:END:
+#+begin_quote
+Warning: this is not working at the moment as alacrity has migrated to TOML
+format.
+#+end_quote
+
+
 Nice color schemes can be found in [[https://github.com/eendroroy/alacritty-theme][eendroroy/alacritty-theme]] repo.
 
 #+begin_src sh
@@ -1686,22 +1756,9 @@ See current scheme by:
 alacritty-colorscheme status
 #+end_src
 
-Toggle by:
+Toggle by (see above for keybinding in alacritty config):
 #+begin_src sh
-alacritty-colorscheme -V toggle wombat.yaml papercolor_light.yaml
-#+end_src
-
-Make keybinding in =~/.config/alacritty/alacritty.yml=:
-#+begin_src yaml
-key_bindings:
-  - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "wombat.yaml",  "papercolor_light.yaml"] } }
-
-#+end_src
-
-**** Spawn a new instance in the same directory
-Add to =~/.config/alacritty/alacritty.yml=:
-#+begin_src yaml
-  - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
+alacritty-colorscheme -V toggle one_dark.yaml papercolor_light.yaml
 #+end_src
 
 *** Tricks with zsh and [[https://ohmyz.sh/][oh-my-zsh]]
