@@ -519,6 +519,11 @@ A script to handle lock/suspend.
 
 #+end_src
 
+A script to unmount all encFS mounts and remove keys from ssh agent.
+#+begin_src conf
+    $umount_all $sway/umount_all.sh
+#+end_src
+
 A script for managing multiple displays. See [[#display-profile][bellow]].
 #+begin_src conf
     $display_profile $sway/display-profile.sh
@@ -808,13 +813,14 @@ bindsym $mod+r mode "resize"
 #+end_src
 *** System mode
 #+begin_src conf
-set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+set $mode_system System (l)ock, (e)lout, (s)usp, (r)eboot, (u)mount, (Shift+s) shutdown
 mode "$mode_system" {
     bindsym l exec $exit lock; mode "default"
     bindsym e exec $exit logout
     bindsym s exec $exit suspend & systemctl suspend; mode "default"
+    bindsym u exec $umount_all; mode "default"
     bindsym r exec systemctl reboot
-    bindsym Shift+s exec systemctl shutdown
+    bindsym Shift+s exec systemctl poweroff
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -842,9 +848,7 @@ case "$1" in
         swaymsg 'exit'
         ;;
     suspend)
-        encfs -u ~/Consulting
-        encfs -u ~/.ssh
-        ssh-add -D
+        #~/.config/sway/umount_all.sh
         lock
         ;;
     ,*)
@@ -856,6 +860,13 @@ exit 0
 #+end_src
 
 [[https://www.reddit.com/r/swaywm/comments/qngc2q/systemd_service_for_swaylock/][Source]] for exports setup. Needed cause this is called from system-level systemd service.
+**** =umount_all.sh= script for umounting all encFS mounts
+This script is called on suspend when not home or explicitly from [[*System mode][the system mode]].
+#+begin_src sh :shebang "#!/bin/sh" :tangle "~/.config/sway/umount_all.sh"
+encfs -u ~/Consulting
+encfs -u ~/.ssh
+ssh-add -D
+#+end_src
 
 **** Call =exit.sh= script on lid close
 System should lock and unmount all encrypted shares on lid close. See [[https://wiki.archlinux.org/index.php/Power_management#Sleep_hooks][here]] for
