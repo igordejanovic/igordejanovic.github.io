@@ -1621,10 +1621,11 @@ In recent versions Viber uses an annoying popup for notification instead of
 sending notifications through standard system facilities. This popup is
 displayed on the focused workspace as a new fullscreen window.
 
-This fix will make notification float in the upper right corner of the screen
-which is less distracting.
+This fix will make notification float in the upper right corner of the screen,
+without focus change, which is less distracting.
 #+begin_src conf
 for_window [title="ViberPC"] floating enable, move up 500, move right 800
+no_focus [title="ViberPC"]
 #+end_src
 
 ** Terminal/shell tricks :linux:shell:terminal:config:
