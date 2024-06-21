@@ -112,9 +112,9 @@
 **** Теме
 - Предложени пројекти морају бити базирани на textX или parglare библиотекама.
 - Могу бити ЈСД имплементације или унапређења поменутих библиотека.
-- Језици могу да дефинишу и подршку за едиторе (/Code completion/, /Syntax
-  highlighting/ итд. за нпр. /VS Code/) -- пожељно посебно код већих тимова.
-  Видети пројекте [[https://github.com/textX/textX-LS][textX-LS]] и [[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]].
+- Језици морају имплементирати и подршку за едиторе (/Code completion/, /Syntax
+  highlighting/ итд. за нпр. /VS Code/). Видети пројекте [[https://github.com/textX/textX-LS][textX-LS]] и [[https://microsoft.github.io/language-server-protocol/][Language Server
+  Protocol]].
 
 **** О вођењу пројекта
 - Сви пројекти морају бити отвореног кода јавно хостовани на GitHub-у. Избор
@@ -123,29 +123,52 @@
   одобрење.
 - Задаци на пројекту се дефинишу у склопу [[https://github.com/features/issues/][GitHub issues]].
 - Текуће стање се прати употребом [[https://docs.github.com/en/issues/organizing-your-work-with-project-boards/managing-project-boards/about-project-boards][Канбан табле]].
+- Трајне белешке (/commit/) се повезују са задацима (/issues/) употребом
 
 **** Потребно проверити пре слања професору на преглед
-- Пројекат може да се инсталира у моду за развој са =pip install -e=.
-  - Да би ово било могуће пројекат мора имати =setup.py= односно =setup.cfg= са
-    валидним мета-подацима.
-  - Проверите да ли =python setup.py bdist_wheel= пакује све потребне фајлове у
-    резултујћи wheel фајл.
-  - Уколико се исправно подеси пројекат је могуће инсталирати у виртуелно
-    окружење употребом пип команде директно из гит репозиторијума. На пример:
-    #+begin_src sh
-    pip install git+https://github.com/textX/textX.git
-    #+end_src
-  - За додатне информације погледати [[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/][Python упутство за паковање и дистрибуцију
-    пројеката]].
+- Све што се оцењује мора бити на основној грани =main=.
+- Пројекат може да се инсталира употребом =pip= алата.
+- Да би ово било могуће пројекат мора имати [[https://packaging.python.org/en/latest/guides/writing-pyproject-toml/][pyproject.toml]] са валидним
+  мета-подацима.
+- Проверите да ли се при изградњи =wheel= фајла пакују сви потребни фајлови. =Wheel=
+  фајл је зип архива коју можете отворити у произвољном софтверу за рад са
+  архивама и проверити садржај. Ако нешто недостаје погледајте [[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#packaging-your-project][упутство]].
+
+  На пример, уколико се изградња спроводи са =flit= алатом wheel се креира са:
+  #+begin_src sh
+  pip install flit
+  flit build
+  #+end_src
+
+  У фолдеру =dist= биће креиран wheel фајл.
+
+  Као пример, видети како је [[https://github.com/textX/textX/blob/master/pyproject.toml][конфигурисан textX]].
+
+- Уколико се исправно подеси пројекат је могуће инсталирати у виртуелно
+  окружење употребом pip команде директно из гит репозиторијума. На пример:
+  #+begin_src sh
+  python -m venv venv
+  source venv/bin/activate
+  pip install git+https://github.com/textX/textX.git
+  #+end_src
+
+  Такође је могуће инсталирати пројекат у моду за развој:
+  #+begin_src sh
+  pip install -e .
+  #+end_src
 
 - Сви textX језици и генератори су регистровани на одговарајући начин у
-  =setup.cfg= и доступни =textx= команди. Видите [[http://textx.github.io/textX/stable/registration/][textX регистрацију и откривање]]. Као
-  пример видети [[https://github.com/textX/textX/blob/master/setup.cfg][сам textX пројекат]].
+  =pyproject.toml= и доступни =textx= команди. Видите [[https://textx.github.io/textX/registration.html][textX регистрацију и
+  откривање]]. Као пример видети [[https://github.com/textX/textX/blob/master/pyproject.toml][сам textX пројекат]].
 
   Генератори се могу позвати са:
   #+begin_src sh
   textx generate ...
   #+end_src
+
+- Ако пројекат има CLI или GUI команду, и она мора бити регистрована у
+  =pyproject.toml= тако да је доступна по обављеној инсталацији. Видети како је
+  регистрована =textx= CLI команда у textX пројекту.
 
 - =README.md= мора да садржи опис пројекта, упутство за инсталацију и пример
   употребе. Језик може бити српски или енглески али мора бити конзистентно
@@ -156,7 +179,9 @@
 :EXPORT_HUGO_TYPE: page
 :END:
 #+begin_quote
-У изради.
+Непотпуно. У изради.
+
+Током усменог испита биће тестирано знање у писању и тумачењу textX граматика.
 #+end_quote
 
 1. Дефиниши софтверски језик.
