@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Generating program code for psychological experiments from high-level descriptions</title>
+<meta name="author" content="Igor Dejanović$^1$, Mirjana Dejanović$^2$"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../s/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="../../s/reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../talk-slides.css"/>
+
+<link rel="stylesheet" href="../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../s/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Generating program code for psychological experiments from high-level descriptions</h1>
+<h2 class="author">Igor Dejanović\(^1\), Mirjana Dejanović\(^2\) (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<h2 class="venue">University of Novi Sad\(^1\), University of Priština\(^2\), September, 2019 @ ERK Portorož Slovenia</h2>
+<p class="overview-info">Created 2024-09-20 Fri 17:12, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1" class="large-title">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Experiments in Psychology</h3>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> An example &#x2013; the Simon effect test</h3>
+
+<div id="orgc0591f3" class="figure">
+<p><img src="./images/simon_experiment.png" alt="simon_experiment.png" /> 
+</p>
+</div>
+</section>
+<section id="slide-1-3" class="large-title">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Motivation</h3>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Domain-Specific Languages</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> SQL</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Business processes - BPMN</h3>
+
+<div id="orgcb94423" class="figure">
+<p><img src="./images/BPMN.png" alt="BPMN.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> But also&#x2026;</h3>
+
+<div id="orgc25bf8b" class="figure">
+<p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Or&#x2026;</h3>
+
+<div id="orgf68e6ad" class="figure">
+<p><img src="./images/ChessNotation.png" alt="ChessNotation.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-5" class="remove-title">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> textX</h3>
+
+<div id="org2c20b7d" class="figure">
+<p><img src="./images/textX.png" alt="textX.png" width="60%" /> 
+</p>
+</div>
+<div style="font-size: 40%;">
+<p>
+<a href="https://github.com/textX/textX">https://github.com/textX/textX</a>
+</p>
+<blockquote>
+<ol>
+<li>Dejanović, R. Vaderna, G. Milosavljević, Ž. Vuković, TextX: A Python tool for</li>
+
+</ol>
+<p>
+Domain-Specific Languages implementation, Knowledge-Based Systems 115,
+1-4, 2017.
+</p>
+</blockquote>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> pyFlies</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> pyFlies - DSL for psychological RT experiments</h3>
+
+<div id="org1534bdb" class="figure">
+<p><img src="./images/pyFliesGUI.png" alt="pyFliesGUI.png" width="80%" />
+</p>
+</div>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> pyFlies code for the Simon effect test</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >test Simon {
+  conditions {
+    position  color  congruency   response
+
+    left      green  congruent    left
+    left      red    incongruent  right
+    right     green  incongruent  left
+    right     red    congruent    right
+  }
+  
+  stimuli{
+    all: shape(rectangle, position position,
+               color color)
+    error: sound(1000)
+    fixation: shape(cross)
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Connecting stimuli and conditions</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >   position=left and color=red
+</code></pre>
+</div>
+
+
+<div id="orgf160cf7" class="figure">
+<p><img src="./images/stimuli-conditions.png" alt="stimuli-conditions.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Target code generators</h3>
+
+<div id="orgc3e8335" class="figure">
+<p><img src="./images/architecture.png" alt="architecture.png" /> 
+</p>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Template engines</h3>
+
+<div id="org886d043" class="figure">
+<p><img src="./images/template_engine.png" alt="template_engine.png" /> 
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Conclusion</h2>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Thanks! Q&amp;A?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="../../s/reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+{src: '../../s/reveal.js/../reveal-plugins/menu/menu.js'},
+{src: '../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
+ { src: '../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: '../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+</script>
+</body>
+</html>

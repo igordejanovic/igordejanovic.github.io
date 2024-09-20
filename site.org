@@ -4,10 +4,20 @@
 #+hugo_base_dir: .
 #+hugo_section: /
 #+options: creator:t author:nil
+#+OPTIONS: broken-links:mark
 
 * COMMENT Export to Hugo
 - This file is source for [[https://github.com/kaushalmodi/ox-hugo][Org exporter backend for Hugo]]
 - After each change run =org-hugo-export-wim-to-md=
+- Locally site can be served by:
+  #+begin_src sh
+  hugo serve
+  #+end_src
+  Currently using Hugo version 0.105 which can be recreated by nix as:
+  #+begin_src sh
+  nix-shell -p hugo -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/b3a285628a6928f62cdf4d09f4e656f7ecbbcafb.tar.gz
+  #+end_src
+  This is found by an [[https://lazamar.github.io/download-specific-package-version-with-nix/][excellent tool by Marcelo Lazaroni]].
 * Posts
 :PROPERTIES:
 :EXPORT_FILE_NAME: _index
@@ -401,6 +411,23 @@ It is used as a parsing tehnology for textX.
 
 Read more information [[https://textx.github.io/Arpeggio/][here]] or see the project on [[https://github.com/textX/Arpeggio/][GitHub]].
 
+* Talks
+:PROPERTIES:
+:EXPORT_HUGO_LINKTITLE: Talks
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: talks
+:EXPORT_HUGO_TYPE: page
+:EXPORT_HUGO_MENU: :menu main
+:END:
+** COMMENT Introducing Rustemo: A LR/GLR Parser Generator for Rust
+- LangDev Conference, Seville, 17-19 October 2024.
+- [[file:2024-LangDev-rustemo/index.html][HTML]], PDF
+** Developing Domain-Specific Languages in Python with textX
+- 24 February 2022, Strumenta Meetups
+- [[file:2022-Strumenta/index.html][HTML]], [[file:2022-Strumenta/textX.pdf][PDF]]
+** Generating program code for psychological experiments from high-level descriptions
+- 23-24. September 2019, [[https://erk.fe.uni-lj.si/erk19.html][ERK 2019]] - Portorož Slovenia
+- [[file:2019-ERK/ERK-2019.html][HTML]], [[file:2019-ERK/ERK-2019.pdf][PDF]]
 * Recipes
 :PROPERTIES:
 :EXPORT_HUGO_SECTION: recipes
@@ -2472,7 +2499,6 @@ sudo systemctl start org.cups.cupsd
   DSLs, introducing DSLs into companies and the business values of DSLs.
 
   - [[https://beyondparsing.com/interview-with-igor-dejanovic/][Beyond Parsing: Interview with Igor Dejanović]]
-
 * About
 :PROPERTIES:
 :EXPORT_FILE_NAME: about

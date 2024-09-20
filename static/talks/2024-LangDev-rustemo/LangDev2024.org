@@ -1,0 +1,41 @@
+#+TITLE: Introducing Rustemo: A LR/GLR Parser Generator for Rust
+#+AUTHOR: Igor Dejanović
+#+Email: igord at uns ac rs
+#+SUBTITLE: LangDev Conference Seville
+#+DATE: 17-19 October 2024.
+#+EXPORT_FILE_NAME: index.html
+#+SETUPFILE: ../startup.org
+
+* COMMENT Plan
+** Demo Flow for Arithmetic DSL
+:PROPERTIES:
+:CUSTOM_ID: demo-flow-for-arithmetic-dsl
+:END:
+1. *Start with Simple Expressions*: Begin with basic expressions like
+   =3 + 5= or =2 * 6=, showing simple parsing without ambiguity.
+2. *Introduce Ambiguity*: Show an expression like =3 + 4 * 5=, explain
+   the ambiguity in operator precedence, and highlight that the parser
+   can produce multiple valid interpretations (trees).
+3. *Visualize Parse Trees*: If possible, display the different parse
+   trees for ambiguous expressions to demonstrate the GLR parsing
+   capability.
+4. *Wrap with Complex Expression*: Use a more complex expression like
+   =6 / 2 * 3= to show how ambiguity can quickly multiply with more
+   operators and no parentheses.
+
+** Why Arithmetic DSL?
+:PROPERTIES:
+:CUSTOM_ID: why-arithmetic-dsl
+:END:
+- *Universally Understood*: Everyone can grasp basic arithmetic, so the
+  audience won't need to learn new domain concepts.
+- *Clear Ambiguity*: The precedence ambiguity is simple yet powerful
+  enough to showcase GLR parsing.
+- *Extendable*: If time permits, we can extend the language with
+  functions (e.g., =sin=, =cos=, =log=) or more complex expressions.
+
+* TOC
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+#+REVEAL_TOC: headlines 1
