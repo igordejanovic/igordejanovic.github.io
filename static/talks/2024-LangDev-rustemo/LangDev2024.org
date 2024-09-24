@@ -3,39 +3,966 @@
 #+Email: igord at uns ac rs
 #+SUBTITLE: LangDev Conference Seville
 #+DATE: 17-19 October 2024.
+#+SETUPFILE: startup.org
 #+EXPORT_FILE_NAME: index.html
-#+SETUPFILE: ../startup.org
-
-* COMMENT Plan
-** Demo Flow for Arithmetic DSL
-:PROPERTIES:
-:CUSTOM_ID: demo-flow-for-arithmetic-dsl
-:END:
-1. *Start with Simple Expressions*: Begin with basic expressions like
-   =3 + 5= or =2 * 6=, showing simple parsing without ambiguity.
-2. *Introduce Ambiguity*: Show an expression like =3 + 4 * 5=, explain
-   the ambiguity in operator precedence, and highlight that the parser
-   can produce multiple valid interpretations (trees).
-3. *Visualize Parse Trees*: If possible, display the different parse
-   trees for ambiguous expressions to demonstrate the GLR parsing
-   capability.
-4. *Wrap with Complex Expression*: Use a more complex expression like
-   =6 / 2 * 3= to show how ambiguity can quickly multiply with more
-   operators and no parentheses.
-
-** Why Arithmetic DSL?
-:PROPERTIES:
-:CUSTOM_ID: why-arithmetic-dsl
-:END:
-- *Universally Understood*: Everyone can grasp basic arithmetic, so the
-  audience won't need to learn new domain concepts.
-- *Clear Ambiguity*: The precedence ambiguity is simple yet powerful
-  enough to showcase GLR parsing.
-- *Extendable*: If time permits, we can extend the language with
-  functions (e.g., =sin=, =cos=, =log=) or more complex expressions.
+#+REVEAL_TITLE_SLIDE_BACKGROUND: images/background-first.png
+#+REVEAL_DEFAULT_SLIDE_BACKGROUND: images/background.png
+#+REVEAL_EXTRA_CSS: langdev2024.css
+#+REVEAL_TITLE_SLIDE: <img src="images/rustemo-logo-small.jpg"><img src="images/talk-qr.png"><h1 class="title">%t</h1>
+#+REVEAL_TITLE_SLIDE: <h2 class="author"><a href="https://igordejanovic.net/">%a</a> (%e)</h2>
+#+REVEAL_TITLE_SLIDE: <div class="overview-info">Created %T, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
+#+REVEAL_TITLE_SLIDE_BACKGROUND_SIZE: contain
+#+REVEAL_DEFAULT_SLIDE_BACKGROUND_SIZE: contain
+#+OPTIONS: reveal_width:1886 reveal_height:1062
+#+REVEAL_MARGIN: 0.1
 
 * TOC
 :PROPERTIES:
 :UNNUMBERED: notoc
 :END:
 #+REVEAL_TOC: headlines 1
+* Introduction
+- [[https://github.com/igordejanovic/rustemo/commit/dae2461][Project started]] in November 2021
+- [[https://github.com/igordejanovic/rustemo/commit/869eb59][Bootstrapping done]] in August 2022
+- An old-school LR parser generator (a.k.a. /compiler-compiler/)
+- With a modern twist
+- Generalized LR - [[https://doi.org/10.1145/1146809.1146810][Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.]]
+- Other similar projects
+  - [[https://github.com/igordejanovic/parglare/][parglare]] - Python, used to reach bootstrapping
+  - [[https://github.com/lalrpop/lalrpop][LALRPOP]] - most popular LR parser for Rust
+- Name: serbian word "растемо" pronounced as "rustemo" means "we grow"
+* Project goals
+- Clean separation between CFG grammar and semantic actions written in Rust
+- Context-aware lexing
+- Flexibility: clean separation between lexer, parser and builder + all of those
+  are replaceable
+- Inference of AST node types from the grammar
+- Zero-copy by default
+- Usability and error reporting
+- Each feature covered by docs and tests
+
+* Demo repository
+- [[https://github.com/igordejanovic/langdev2024-rustemo][GitHub repo]]
+- Each step in this demo is a separate commit in the Git repo
+  - Use diff to see what changed in each step
+  - These slides are linked to relevant commits/steps - look for =step x= in
+    titles.
+- Prerequisite - [[https://www.rust-lang.org/tools/install][Rust installed]]
+
+* Live demo - arithmetic expressions
+:PROPERTIES:
+:header-args:sh: :results output
+:END:
+** Why Arithmetic DSL?
+- *Universally Understood*: Everyone can grasp basic arithmetic, so no need to
+  explain domain concepts.
+- *Clear Ambiguity*: The precedence/asociativity ambiguity is simple yet powerful
+  enough to showcase GLR parsing.
+- *Extendable*: We can extend the language with functions (e.g., =sin=, =cos=, =log=) or
+  more complex expressions. This is left as an excercise.
+** Initial project
+*** Create initial Rust project ([[https://github.com/igordejanovic/langdev2024-rustemo/commit/d22fa8c6dc2797dc71ec40d2a568562a980fb57f][step 1]])
+#+begin_src sh :results none :eval never-export
+cargo new --bin arithmetic
+#+end_src
+
+Project layout is:
+
+#+begin_example
+.
+└── arithmetic
+    ├── Cargo.toml
+    └── src
+        └── main.rs
+
+#+end_example
+*** Create expression grammar ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_1...step_2][step 2]])
+File =src/arithmetic.rustemo=
+
+#+begin_src text
+E: E '+' E
+ | E '*' E
+ | '(' E ')'
+ | Number
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+
+*** Install Rustemo compiler
+#+begin_src sh
+cargo install rustemo-compiler
+#+end_src
+
+After the installation completes the compiler (=rcomp= CLI tool) is available.
+
+*** Try to compile the grammar
+
+#+begin_src sh
+cd arithmetic/src/
+rcomp arithmetic.rustemo
+#+end_src
+
+#+ATTR_HTML: :style font-size: 0.4em;
+#+begin_example
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 4
+Non-terminals: 1
+Productions: 3
+States: 7
+
+CONFLICTS:
+In State 5:E
+	1: E: E Add E .    {STOP, Add, Mul}
+	1: E: E . Add E    {STOP, Add, Mul}
+	2: E: E . Mul E    {STOP, Add, Mul}
+When I saw E and see token Add ahead I can't decide should I shift or reduce by production:
+E: E Add E
+
+In State 5:E
+	1: E: E Add E .    {STOP, Add, Mul}
+	1: E: E . Add E    {STOP, Add, Mul}
+	2: E: E . Mul E    {STOP, Add, Mul}
+When I saw E and see token Mul ahead I can't decide should I shift or reduce by production:
+E: E Add E
+...
+
+4 conflict(s). 4 Shift/Reduce and 0 Reduce/Reduce.
+Error: Grammar is not deterministic. There are conflicts.
+Parser(s) not generated.
+#+end_example
+
+/This grammar is ambiguous!/
+*** We can also visualize DFA for this grammar ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_2...step_3][step 3]])
+#+begin_src sh :results file
+cd arithmetic/src
+rcomp --dot arithmetic.rustemo
+dot -Tpng -O arithmetic.dot
+#+end_src
+
+We get a PNG file with the DFA.
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: auto;
+[[./images/arithmetic.dot.png]]
+
+States colored red have conflicts.
+* Ambiguous grammars
+** What does it mean for a grammar to be ambiguous?
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+/1 + 2 * 3 + 4/
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: auto;
+[[./images/parse-tree-ambiguous.png]]
+
+#+ATTR_REVEAL: :frag (appear)
+- The number of possible interpretation rise quickly with the addition of new operations.
+- [[https://en.wikipedia.org/wiki/Catalan_number][1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, ... - Catalan numbers]]
+
+** What does it mean for a grammar to be ambiguous?
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+/1 + 2 * 3 + 4/
+
+#+ATTR_ORG: :width 300px
+#+attr_html: :style height: 500px;
+[[./images/parse-tree-unambiguous.png]]
+
+While the grammar is ambiguous, the language is not!
+
+** How to disambiguate?
+A classic approach - grammar rework by introducing intermediate rules:
+
+#+begin_src text :tangle langdev2024-rustemo/arithmetic/src/arithmetic1.rustemo
+AddExpr: MulExpr AddExprRest*;
+AddExprRest: Add MulExpr;
+MulExpr: AtomExpr MulExprRest*;
+MulExprRest: Mul AtomExpr;
+AtomExpr: Number | '(' AddExpr ')';
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+
+We stay in the CFG realm, but this quickly leads to unmaintainable grammar +
+produced trees are not what the user expects.
+
+* Using GLR
+** Ok, lets try GLR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4][step 4]])
+- GLR - Generalized LR - can accept any CFG, even ambiguous.
+- Explores and returns all possible interpretations efficienly (polinomial time/space).
+
+We'll just let the grammar be without any disambiguation.
+
+#+begin_src text
+E: E '+' E
+ | E '*' E
+ | '(' E ')'
+ | Number
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+
+#+REVEAL: split
+
+Now, lets compile the grammar to a GLR parser.
+
+#+begin_src sh
+rcomp --parser-algo glr arithmentic.rustemo
+#+end_src
+
+#+begin_example
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 6
+Non-terminals: 1
+Productions: 4
+States: 10
+Writing actions file "arithmetic_actions.rs"
+Writing parser file "arithmetic.rs"
+#+end_example
+
+** Add required dependencies ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5][step 5]])
+Generated parser depends on =rustemo= library. It is a runtime part of the Rustemo.
+
+#+begin_src sh
+cargo add rustemo
+#+end_src
+
+#+begin_example
+    Updating crates.io index
+      Adding rustemo v0.6.0 to dependencies
+             Features:
+             + glr
+    Updating crates.io index
+#+end_example
+
+
+Generated code also uses =regex=, =once_cell= and =colored= libraries, so lets add those.
+
+#+begin_src sh
+cargo add regex --no-default-features --features std,unicode-perl
+cargo add once_cell colored
+#+end_src
+
+#+REVEAL: split
+
+Now, your =Cargo.toml= should look like this:
+
+#+begin_src toml
+[package]
+name = "arithmetic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+colored = "2.1.0"
+once_cell = "1.20.1"
+regex = { version = "1.11.0", default-features = false, features = ["std", "unicode-perl"] }
+rustemo = "0.6.1"
+#+end_src
+
+** Update =main.rs=
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+Read expression from stdin.
+#+ATTR_HTML: :data-id id1 :style font-size: 0.45em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers
+#+begin_src rust
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+}
+#+end_src
+
+** Update =main.rs=
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+Import generated parser modules and the parser type.
+
+#+ATTR_HTML: :data-id id1 :style font-size: 0.53em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=3-11
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+}
+#+end_src
+
+** Update =main.rs= ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6][step 6]])
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+Parse the input and process the forest.
+
+#+ATTR_HTML: :data-id id1 :style font-size: 0.4em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=22-30
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    for (tree_idx, tree) in forest.iter().enumerate() {
+        println!("**** TREE {tree_idx}");
+        println!("{tree:#?}");
+    }
+}
+#+end_src
+
+#+REVEAL: split
+
+Run with:
+#+begin_src sh
+cargo run
+#+end_src
+
+#+begin_example
+Expression:
+2 + 3 * 5
+Number of interpretations = 2
+,**** TREE 0
+[
+    [
+        [
+            "2",
+        ],
+        "+",
+        [
+            "3",
+        ],
+    ],
+    "*",
+    [
+        "5",
+    ],
+]
+,**** TREE 1
+[
+    [
+        "2",
+        ...
+#+end_example
+
+** Improve default actions
+- The builder can be changed. See [[https://www.igordejanovic.net/rustemo/builders.html][builders section]] in the Rustemo book for more info.
+- The default builder calls actions to create AST nodes where the types are
+  auto-inferred from the grammar.
+- Actions are generated Rust functions.
+
+** Improve default actions
+File =arithmetic_actions.rs=
+
+#+ATTR_HTML: :style font-size: 0.45em;
+#+begin_src rust
+<snip>
+pub type Number = String;
+pub fn number(_ctx: &Ctx, token: Token) -> Number {
+    token.value.into()
+}
+#[derive(Debug, Clone)]
+pub struct EC1 {
+    pub e_1: Box<E>,
+    pub e_3: Box<E>,
+}
+<snip>
+pub fn e_c1(_ctx: &Ctx, e_1: E, e_3: E) -> E {
+    E::C1(EC1 {
+        e_1: Box::new(e_1),
+        e_3: Box::new(e_3),
+    })
+}
+pub fn e_number(_ctx: &Ctx, number: Number) -> E {
+    E::Number(number)
+}
+#+end_src
+
+/This just creates an AST. But, we would like actions to perform actual
+calculation. Let's do that!/
+
+** Improve actions - add nice production names
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+ATTR_HTML: :data-id actions-id
+#+ATTR_REVEAL: :code_attribs data-line-numbers=1-4
+#+begin_src text
+E: E '+' E {Add}
+ | E '*' E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+
+** Improve actions - add assignments
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+ATTR_HTML: :data-id actions-id
+#+ATTR_REVEAL: :code_attribs data-line-numbers=1-2
+#+begin_src text
+E: left=E '+' right=E {Add}
+ | left=E '*' right=E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+** Improve actions - regenerate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7][step 7]])
+- Actions are regenerated on each =rcomp= run.
+- Old content is preserved as we are able to manually tune actions and types.
+- In this case we don't have manual changes so we just delete
+  =arithmentic_actions.rs= and run =rcomp= again.
+  #+begin_src sh
+rm arithmetic_actions.rs
+rcomp --parser-algo glr arithmentic.rustemo
+  #+end_src
+
+** Improve actions - improved
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+And, now our actions are more readable.
+
+#+ATTR_HTML: :data-id actions-improved-id
+#+begin_src rust
+pub type Token<'i> = RustemoToken<'i, Input, TokenKind>;
+pub type Number = String;
+pub fn number(_ctx: &Ctx, token: Token) -> Number {
+    token.value.into()
+}
+#[derive(Debug, Clone)]
+pub struct Add {
+    pub left: Box<E>,
+    pub right: Box<E>,
+}
+#[derive(Debug, Clone)]
+pub struct Mul {
+    pub left: Box<E>,
+    pub right: Box<E>,
+}
+#[derive(Debug, Clone)]
+pub enum E {
+    Add(Add),
+    Mul(Mul),
+    Paren(Box<E>),
+    Num(Number),
+}
+#+end_src
+
+** Improve actions - improved
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+And, now our actions are more readable.
+
+#+ATTR_HTML: :data-id actions-improved-id
+#+begin_src rust
+pub fn e_add(_ctx: &Ctx, left: E, right: E) -> E {
+    E::Add(Add {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_mul(_ctx: &Ctx, left: E, right: E) -> E {
+    E::Mul(Mul {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_paren(_ctx: &Ctx, e: E) -> E {
+    E::Paren(Box::new(e))
+}
+pub fn e_num(_ctx: &Ctx, number: Number) -> E {
+    E::Num(number)
+}
+#+end_src
+** Improve actions - calculate
+We can now manually tune our actions to do calculations during the build. We
+don't want to build the tree, we want to get the result of the calculation.
+
+First, we change this:
+#+begin_src rust
+pub type Number = String;
+pub fn number(_ctx: &Ctx, token: Token) -> Number {
+    token.value.into()
+}
+#+end_src
+
+Into this:
+#+begin_src rust
+pub type Number = i32;
+pub fn number(_ctx: &Ctx, token: Token) -> Number {
+    token.value.parse().unwrap()
+}
+#+end_src
+
+to convert numbers from strings to integers.
+
+** Improve actions - calculate
+We replace all these types.
+#+begin_src rust
+#[derive(Debug, Clone)]
+pub struct Add {
+    pub left: Box<E>,
+    pub right: Box<E>,
+}
+#[derive(Debug, Clone)]
+pub struct Mul {
+    pub left: Box<E>,
+    pub right: Box<E>,
+}
+#[derive(Debug, Clone)]
+pub enum E {
+    Add(Add),
+    Mul(Mul),
+    Paren(Box<E>),
+    Num(Number),
+}
+#+end_src
+With just:
+#+begin_src rust
+pub type E = i32;
+#+end_src
+** Improve actions - calculate
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+Now, we replace actions bodies with a proper calculations.
+
+We replace this:
+#+ATTR_HTML: :data-id actions-calculate-id
+#+begin_src rust
+pub fn e_add(_ctx: &Ctx, left: E, right: E) -> E {
+    E::Add(Add {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_mul(_ctx: &Ctx, left: E, right: E) -> E {
+    E::Mul(Mul {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_paren(_ctx: &Ctx, e: E) -> E {
+    E::Paren(Box::new(e))
+}
+pub fn e_num(_ctx: &Ctx, number: Number) -> E {
+    E::Num(number)
+}
+#+end_src
+** Improve actions - calculate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8][step 8]])
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+Now, we replace actions bodies with a proper calculations.
+
+With this:
+#+ATTR_HTML: :data-id actions-calculate-id
+#+begin_src rust
+pub fn e_add(_ctx: &Ctx, left: E, right: E) -> E {
+    left + right
+}
+pub fn e_mul(_ctx: &Ctx, left: E, right: E) -> E {
+    left * right
+}
+pub fn e_paren(_ctx: &Ctx, e: E) -> E {
+    e
+}
+pub fn e_num(_ctx: &Ctx, number: Number) -> E {
+    number
+}
+#+end_src
+** Improve actions - run
+
+Run it again:
+#+begin_src sh
+cargo run
+#+end_src
+
+
+#+ATTR_REVEAL: :frag (appear)
+- Nothing changed! Why?
+- When using GLR, trees are not converted by builders automatically as it would
+  impose a big overhead.
+- We must call builder explicitly over trees extracted from the forest.
+
+** GLR - calculate over all trees
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+Change our =main.rs= to build all trees from the forest using our new calculation
+actions.
+
+** GLR - calculate over all trees
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+Change from this:
+#+ATTR_HTML: :data-id glr-calculate-id :style font-size: 0.4em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=22-30
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    for (tree_idx, tree) in forest.iter().enumerate() {
+        println!("**** TREE {tree_idx}");
+        println!("{tree:#?}");
+    }
+}
+#+end_src
+
+** GLR - calculate over all trees
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+To this:
+#+ATTR_HTML: :data-id glr-calculate-id :style font-size: 0.33em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=4-5,28-37
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser and builder
+use crate::arithmetic::{ArithmeticParser, DefaultBuilder};
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&mut builder)
+        })
+        .collect::<Vec<_>>();
+
+    println!("{results:?}");
+}
+#+end_src
+
+** GLR - calculate over all trees ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9][step 9]])
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+To this:
+#+ATTR_HTML: :data-id glr-calculate-id;
+#+ATTR_REVEAL: :code_attribs data-line-numbers data-ln-start-from=23
+#+begin_src rust
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&mut builder)
+        })
+        .collect::<Vec<_>>();
+
+    println!("{results:?}");
+#+end_src
+
+* Declarative disambiguation
+** Rustemo - declarative disambiguation
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+
+But, this language is not ambiguous. We have priorities and associativities.
+Let's disambiguate by using Rustemo declarative disambiguation so we can use LR
+instead of GLR.
+
+#+ATTR_HTML: :data-id disamb-id
+#+ATTR_REVEAL: :code_attribs data-line-numbers
+#+begin_src text
+E: left=E '+' right=E {Add}
+ | left=E '*' right=E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+** Rustemo - declarative disambiguation
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+ATTR_HTML: :data-id disamb-id
+#+ATTR_REVEAL: :code_attribs data-line-numbers=1-2
+#+begin_src text
+E: left=E '+' right=E {Add, 1, left}
+ | left=E '*' right=E {Mul, 2, left}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+#+end_src
+
+** Regenerate the parser
+Now, we can use LR.
+
+#+begin_src sh
+rcomp arithmetic.rustemo
+#+end_src
+
+#+begin_example
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 6
+Non-terminals: 1
+Productions: 4
+States: 10
+Writing actions file "arithmetic_actions.rs"
+Writing parser file "arithmetic.rs"
+#+end_example
+** Fix =main.rs= for LR
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+Now, we don't get a forest from the LR parser but the result of the default builder evaluation.
+Let's fix that.
+
+** Fix =main.rs= for LR
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+We change =main.rs= from this:
+#+ATTR_HTML: :data-id lr-calculate-id :style font-size: 0.33em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=4-5,28-37
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser and builder
+use crate::arithmetic::{ArithmeticParser, DefaultBuilder};
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&mut builder)
+        })
+        .collect::<Vec<_>>();
+
+    println!("{results:?}");
+}
+#+end_src
+
+** Fix =main.rs= for LR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10][step 10]])
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+To this:
+#+ATTR_HTML: :data-id lr-calculate-id :style font-size: 0.45em;
+#+ATTR_REVEAL: :code_attribs data-line-numbers=3-4,22-25
+#+begin_src rust
+use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get the result.
+    let result = ArithmeticParser::new().parse(&expression).unwrap();
+
+    println!("Result = {result}");
+}
+#+end_src
+
+* Where to go next?
+- [[https://www.igordejanovic.net/rustemo/][The Rustemo Book]]
+- [[https://github.com/igordejanovic/rustemo/tree/main/tests/src][Rustemo integration/features tests]]
+* \nbsp
+:PROPERTIES:
+:UNNUMBERED: notoc
+:END:
+
+#+ATTR_HTML: :style font-size: 3em;
+Thanks!
+
+#+ATTR_HTML: :style font-size: 3em;
+Q&A
+
+#+attr_html: :style height: auto;
+#+ATTR_ORG: :width 300px
+[[./images/talk-qr.png]]
+
+
+
+#+ATTR_HTML: :style font-size: 2em;
+ProxyHands code: ZWQR
