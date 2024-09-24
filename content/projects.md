@@ -1,7 +1,7 @@
 +++
 title = "Open-source"
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 [menu]
   [menu.main]
     weight = 1004
@@ -47,3 +47,15 @@ can be used for all sort of general purpose parsing.
 It is used as a parsing tehnology for textX.
 
 Read more information [here](https://textx.github.io/Arpeggio/) or see the project on [GitHub](https://github.com/textX/Arpeggio/).
+
+
+## [Rustemo](https://github.com/igordejanovic/rustemo/) {#rustemo}
+
+Rustemo is a LR/GLR parser generator for Rust which features a clean separation
+between its core components: lexers, parsers, and builders. Lexers break an
+input sequence into tokens. Parsers perform syntax analysis on the tokens
+recognized by the lexer, while builders are responsible for producing the final
+output. It is an old-school LR approach with a modern twist. It supports
+Generalized LR (GLR) parsing as well.
+
+To learn more read [the docs](https://www.igordejanovic.net/rustemo/) or visit the [project on GitHub](https://github.com/igordejanovic/rustemo/).
