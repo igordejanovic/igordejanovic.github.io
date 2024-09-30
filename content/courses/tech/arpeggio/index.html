@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,11 +24,11 @@
 <h1 class="title">Arpeggio parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-11-24 Fri 11:39, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 <section>
-<section id="slide-orga225400">
-<h2 id="orga225400">Sadržaj</h2>
+<section id="slide-orgb5cb72f">
+<h2 id="orgb5cb72f">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. PyParsing</a></li>
@@ -183,7 +172,7 @@ biblioteke.</li>
 <section>
 
 
-<div id="org35e7adf" class="figure">
+<div id="orga5995cc" class="figure">
 <p><img src="./images/Arpeggio.svg" alt="Arpeggio.svg" class="org-svg" />
 </p>
 </div>
@@ -311,7 +300,7 @@ parser = ParserPEG(grammar)
 <section id="slide-2-8">
 <h3 id="2-8"><span class="section-number-3">2.8.</span> Model parsera</h3>
 
-<div id="org483f8ee" class="figure">
+<div id="org65ccb1e" class="figure">
 <p><img src="./images/robot_parser_model.dot.svg" alt="robot_parser_model.dot.svg" class="org-svg" />
 </p>
 </div>
@@ -342,7 +331,7 @@ parse_tree = parser.parse(prog_src)
 </div>
 
 
-<div id="orga662732" class="figure">
+<div id="org606b512" class="figure">
 <p><img src="./images/robot_parse_tree.dot.svg" alt="robot_parse_tree.dot.svg" class="org-svg" />
 </p>
 </div>
@@ -377,7 +366,7 @@ koristiti i lista.</li>
 <section id="slide-2-12">
 <h3 id="2-12"><span class="section-number-3">2.12.</span> Stablo parsiranja aritmetičkog izraza</h3>
 
-<div id="orge0d70c8" class="figure">
+<div id="org74c6c97" class="figure">
 <p><img src="./images/calc_parse_tree.dot.svg" alt="calc_parse_tree.dot.svg" class="org-svg" />
 </p>
 </div>
@@ -598,7 +587,7 @@ podčvorom. Zbog jednostavnosti analize nekada je poželjno eliminisati takve
 </div>
 
 
-<div id="org3220ae0" class="figure">
+<div id="org261e3b4" class="figure">
 <p><img src="./images/calc_parse_tree_reduced.svg" alt="calc_parse_tree_reduced.svg" class="org-svg" />
 </p>
 </div>
@@ -676,7 +665,7 @@ Koristimo <code>dot</code> alat (deo <a href="https://graphviz.org/">GraphViz al
 </pre>
 
 
-<div id="org203a62b" class="figure">
+<div id="orgfe3b947" class="figure">
 <p><img src="./images/calc_parser_model.dot.svg" alt="calc_parser_model.dot.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div></li>
@@ -873,7 +862,10 @@ Podrazumevane akcije se mogu eksplicitno pozvati:
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -896,18 +888,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>

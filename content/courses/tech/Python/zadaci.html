@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../reveal.js/css/theme/black.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/black.css" id="theme"/>
 
-<link rel="stylesheet" href="../../reveal-slides.css"/>
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
-<link rel="stylesheet" href="../../highlight-styles/docco.css"/>
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,13 +24,12 @@
 <h1 class="title">Zadaci iz Python-a</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2021-10-31 Sun 17:30, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:44, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-orgabd388a">
-<h2 id="orgabd388a">Sadržaj</h2>
-<div id="text-table-of-contents">
+<section id="slide-org37850b3">
+<h2 id="org37850b3">Sadržaj</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Priprema</a></li>
 <li><a href="#/slide-2">2. Liste, rečnici i fajlovi</a></li>
@@ -49,7 +37,6 @@
 <li><a href="#/slide-4">4. Struktura projekta</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -63,7 +50,6 @@
 <p>
 Instalirajte proizvoljan editor koji podržava Python. Npr. <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> ili <a href="https://code.visualstudio.com/">VS Code</a>.
 </p>
-
 </section>
 <section id="slide-1-2">
 <h3 id="1-2"><span class="section-number-3">1.2.</span> Kreiranje i aktivacija virtualnog okruženja</h3>
@@ -116,7 +102,6 @@ kloniranog git repozitorijuma. Sada je moguće ažurirati paket upotrebom git-a:
 cd pyflies
 git pull
 </pre>
-
 </section>
 </section>
 <section>
@@ -138,7 +123,6 @@ predstavlja broj samoglasnika iz originalne liste.
 Napisati funkciju koja kreira akronim (prva slova svake reči, kao velika slova)
 od zadate rečenice. Na primer: <code>Fakultet tehničkih nauka</code> -&gt; <code>FTN</code>.
 </p>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Rečnik iz fajla</h3>
@@ -163,7 +147,6 @@ programiranje, 450
 Napraviti funkciju koja za zadatu putanju do fajla vraća rečnik (<code>dict</code>) gde će
 ključevi biti reči a vrednosti odgovarajući brojevi iz datog fajla.
 </p>
-
 </section>
 </section>
 <section>
@@ -208,7 +191,6 @@ koji vraća ukupnu vrednost lagera proizvoda bez i sa uračunatim popustom.
 <p>
 Napisati kod koji testira implementaciju.
 </p>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Specijalne metode</h3>
@@ -262,7 +244,6 @@ assert a is x
 <p>
 Napisati test gde će lista tačaka biti translirana za isti vektor.
 </p>
-
 </section>
 <section id="slide-3-4">
 <h3 id="3-4"><span class="section-number-3">3.4.</span> Polimorfizam kroz <i>Duck typing</i></h3>
@@ -276,7 +257,6 @@ Napisati test gde će lista koja sadrži i tačke i duži biti translirana za is
 vektor. Prolazak kroz listu i translacija treba da se obavi kodom koji ne
 proverava tip elementa.
 </p>
-
 </section>
 </section>
 <section>
@@ -310,7 +290,10 @@ samostalno. Uporediti svoje rešenje sa <code>roman</code> paketom.
 </section>
 </div>
 </div>
-<script src="../../reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -333,18 +316,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transition: 'convex',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>

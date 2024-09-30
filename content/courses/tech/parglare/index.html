@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,12 +24,11 @@
 <h1 class="title">parglare parser</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:20, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:44, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-org8807cc9">
-<h2 id="org8807cc9">Sadržaj</h2>
+<section id="slide-org43110a4">
+<h2 id="org43110a4">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
@@ -49,7 +37,6 @@
 <li><a href="#/slide-4">4. Primeri</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -67,7 +54,6 @@
 <li>Dokumentacija: <a href="http://www.igordejanovic.net/parglare">http://www.igordejanovic.net/parglare</a></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -121,7 +107,6 @@ Successfully installed parglare-0.11.0.dev0
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-installation">
 <h3 id="installation"><span class="section-number-3">2.3.</span> Instalacija za razvoj</h3>
@@ -154,7 +139,6 @@ Successfully installed parglare
 </pre></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -191,7 +175,6 @@ actions = {
 
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Parsiranje sa LR parserom</h3>
@@ -218,7 +201,6 @@ tako što preferira <i>Shift</i> operaciju (videti <a href="http://www.igordejan
 <li>Ovo dovodi do evaluacije s desna na levo.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Generalizovano parsiranje</h3>
@@ -252,7 +234,6 @@ operacija u izrazu.
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-3-4">
 <h3 id="3-4"><span class="section-number-3">3.4.</span> Deklarativno razrešavanje višeznačnosti</h3>
@@ -301,7 +282,6 @@ koja znači levu asocijativnost).</li>
 <li>Potrebno je definisati prioritete operacija!</li>
 
 </ul>
-
 </section>
 <section id="slide-3-5">
 <h3 id="3-5"><span class="section-number-3">3.5.</span> Prioriteti</h3>
@@ -337,7 +317,6 @@ print("Result = ", result)
 <li>Sada je rezultat ispravan.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-6">
 <h3 id="3-6"><span class="section-number-3">3.6.</span> Kompajliranje gramatike</h3>
@@ -371,7 +350,6 @@ ukoliko postoji. Ukoliko ne postoji biće kreirana u vreme izvršavanja i
 upisana u <code>.pgt</code> fajl.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-7">
 <h3 id="3-7"><span class="section-number-3">3.7.</span> Greške u gramatici</h3>
@@ -387,7 +365,6 @@ Error in the grammar file.
 Error in file "calc.pg" at position 4,16 =&gt; "/' E  left*, 2}\n | E ".
 Expected: { or | or ; or Name or RegExTerm or StrTerm
 </pre>
-
 </section>
 <section id="slide-3-8">
 <h3 id="3-8"><span class="section-number-3">3.8.</span> Detaljna analiza gramatike i mašine stanja/prelaza</h3>
@@ -425,7 +402,6 @@ State 0
       (-&gt;SHIFT:2, number-&gt;SHIFT:3
 ...
 </pre>
-
 </section>
 <section id="slide-3-9">
 <h3 id="3-9"><span class="section-number-3">3.9.</span> Vizualizacija mašine stanja prelaza</h3>
@@ -451,11 +427,10 @@ ili konvertovati u neki grafički format (npr. <code>dot -Tpdf -O calc.pg.dot</c
 </ul>
 
 
-<div id="org0da841b" class="figure">
+<div id="org8391e28" class="figure">
 <p><img src="./images/calc.pg.dot.png" alt="calc.pg.dot.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-10">
 <h3 id="3-10"><span class="section-number-3">3.10.</span> Vizualizacija GLR parsiranja</h3>
@@ -482,11 +457,10 @@ $ pglr trace calc.pg -i "2 + 3 * 5"
 </pre>
 
 
-<div id="org14570b8" class="figure">
+<div id="org0d19e8a" class="figure">
 <p><img src="./images/calc_trace.dot.png" alt="calc_trace.dot.png" style="height: 200px;" />
 </p>
 </div>
-
 </section>
 </section>
 <section>
@@ -542,7 +516,6 @@ result = parser.parse("2 * 3 + 4 / 2 / 2")
 print("Result = ", result)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-1-2">
 <h4 id="4-1-2"><span class="section-number-4">4.1.2.</span> Zadaci za vežbu</h4>
@@ -578,7 +551,6 @@ Javiti grešku ukoliko funkcija nije definisana. Podržati izračunavanje
 vrednosti za proizvoljne funkcije iz Python <code>math</code> modula.</li>
 
 </ol>
-
 </section>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> <code>Robot</code> jezik</h3>
@@ -633,7 +605,6 @@ Comment: /\/\/.*/;
 </code></pre>
 </div>
 </div>
-
 </section>
 <section id="slide-4-2-2">
 <h4 id="4-2-2"><span class="section-number-4">4.2.2.</span> Akcije</h4>
@@ -686,7 +657,6 @@ def move(context, nodes, direction, steps):
     context.extra = (x + steps * move[0], y + steps * move[1])
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-2-3">
 <h4 id="4-2-3"><span class="section-number-4">4.2.3.</span> Pokretanje</h4>
@@ -709,7 +679,6 @@ if __name__ == "__main__":
     main(debug=False)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-2-4">
 <h4 id="4-2-4"><span class="section-number-4">4.2.4.</span> Zadaci za vežbu</h4>
@@ -774,7 +743,10 @@ operacije poređenja <code>&lt;</code>, <code>&gt;</code>, <code>=</code>, i isk
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -797,18 +769,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>

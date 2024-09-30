@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,11 +24,11 @@
 <h1 class="title">textX</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-12-01 Fri 10:14, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:43, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
 <section>
-<section id="slide-orgeab9996">
-<h2 id="orgeab9996">Sadržaj</h2>
+<section id="slide-org857518c">
+<h2 id="org857518c">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Osnovne osobine</a></li>
@@ -86,7 +75,7 @@
 <section id="slide-2">
 <h2 id="2"><span class="section-number-2">2.</span> Arhitektura</h2>
 
-<div id="org7ba9cfc" class="figure">
+<div id="orgf924454" class="figure">
 <p><img src="./images/textX.png" alt="textX.png" />
 </p>
 </div>
@@ -203,7 +192,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org88f2393" class="figure">
+<div id="org56dd308" class="figure">
 <p><img src="./hello.dot.png" alt="hello.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -217,7 +206,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="org007c5aa" class="figure">
+<div id="orgc1628f3" class="figure">
 <p><img src="./images/hello_parts.png" alt="hello_parts.png" style="height: 300px;" />
 </p>
 </div>
@@ -231,7 +220,7 @@ hello_meta = metamodel_from_file('hello.tx')
 </div>
 
 
-<div id="orgcce9679" class="figure">
+<div id="org05e76dc" class="figure">
 <p><img src="./example.dot.png" alt="example.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -256,11 +245,7 @@ Ako želimo možemo proveriti gramatiku u toku razvoja:
 
 <pre><code class="bash" >  textx check hello.tx
 </code></pre>
-</div>
-
-<pre class="example">
-/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx: OK.
-</pre></li>
+</div></li>
 
 <li><p>
 U slučaju greške biće prijavljena tačna lokacija.
@@ -281,25 +266,11 @@ ili vizualizovati
 </code></pre>
 </div>
 
-<pre class="example">
-any -&gt; dot           textX    Generating dot visualizations from arbitrary models
-textX -&gt; dot         textX    Generating dot visualizations from textX grammars
-textX -&gt; PlantUML    textX    Generating PlantUML visualizations from textX grammars
-</pre>
-
-
 <div class="org-src-container">
 
 <pre><code class="bash" >  textx generate hello.tx --target dot
 </code></pre>
-</div>
-
-<pre class="example">
-Generating dot target from models:
-/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
--&gt; /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
-   To convert to png run "dot -Tpng -O hello.dot"
-</pre></li>
+</div></li>
 
 </ul>
 </section>
@@ -368,7 +339,7 @@ robot_mm = metamodel_from_file('robot.tx')
 </div>
 
 
-<div id="orgee2d677" class="figure">
+<div id="org8e52ee3" class="figure">
 <p><img src="./robot.dot.png" alt="robot.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -399,7 +370,7 @@ end
 </pre>
 
 
-<div id="org86fe82a" class="figure">
+<div id="org28c90e1" class="figure">
 <p><img src="./program.dot.png" alt="program.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -489,7 +460,7 @@ end
 
 <div class="column" style="float:right; width: 50%">
 
-<pre class="example" id="org9cf936a">
+<pre class="example" id="org71d1508">
 Setting position to: 3, 1
 Robot position is 3, 1.
 Going up for 4 step(s).
@@ -550,19 +521,6 @@ Registracija procesora na meta-modelu:
 <p>
 Sada se robot ponaša ispravno.
 </p>
-
-<pre class="example" id="orgd8882af">
-Setting position to: 3, 1
-Robot position is 3, 1.
-Going up for 4 step(s).
-Robot position is 3, 5.
-Going left for 9 step(s).
-Robot position is -6, 5.
-Going down for 1 step(s).
-Robot position is -6, 4.
-Going right for 1 step(s).
-Robot position is -5, 4.
-</pre>
 </section>
 </section>
 <section>
@@ -775,7 +733,7 @@ prepoznavanja.
 <section id="slide-5-6">
 <h3 id="5-6"><span class="section-number-3">5.6.</span> Bazična pravila/tipovi</h3>
 
-<div id="org4078dca" class="figure">
+<div id="orgf187121" class="figure">
 <p><img src="./images/base_types.png" alt="base_types.png" style="height: 250px;" />
 </p>
 </div>
@@ -1772,7 +1730,7 @@ textX ima automatsku podršku za ovaj tip veze i dinamički kreira <code>parent<
 atribut na svim objektima tipa dete.
 </p>
 
-<div class="note" id="org846e67a">
+<div class="note" id="orga9ffe5f">
 <p>
 Obratiti pažnju da je, kod definisanja korisničkih klasa, neophodno obezbediti
 ovaj parametar kao prvi parametar konstruktora kod svih klasa koje predstavljaju
@@ -2191,7 +2149,7 @@ Ova komanda će proizvesti fajl <code>entity.dot.png</code> grafičkog bitmapira
 </p>
 
 
-<div id="org3b0e580" class="figure">
+<div id="org4e2945b" class="figure">
 <p><img src="./images/entity.dot.png" alt="entity.dot.png" style="height: 500px;" />
 </p>
 </div>
@@ -2228,7 +2186,7 @@ format sledećom komandom:
 </div>
 
 
-<div id="org6f67782" class="figure">
+<div id="orgb5495a2" class="figure">
 <p><img src="./images/person-entity.png" alt="person-entity.png" style="height: 500px;" />
 </p>
 </div>
@@ -2735,7 +2693,7 @@ Dobićemo sliku u obliku PNG fajla.
 </p>
 
 
-<div id="org2abf24e" class="figure">
+<div id="orgd53e70c" class="figure">
 <p><img src="./images/robot.dot.png" alt="robot.dot.png" style="height: 300px;" />
 </p>
 </div>
@@ -2774,7 +2732,7 @@ Zatim možemo kreirati PNG sliku sa <code>plantuml</code> komandom prema uputstv
 </p>
 
 
-<div id="org69bcf9e" class="figure">
+<div id="org9de3c67" class="figure">
 <p><img src="./images/robot.png" alt="robot.png" style="height: 400px;" />
 </p>
 </div>
@@ -3065,7 +3023,7 @@ Po uspešnoj instalaciji vaš jezik, odnosno generator je ispravno registrovan i
 vidljiv za komande <code>textx list-languages</code>, odnosno <code>textx list-generators</code>.
 </p>
 
-<div class="note" id="org350310d">
+<div class="note" id="orgdaf1473">
 <p>
 Komanda <code>startproject</code> nije definisana osnovnom textX bibliotekom već projektom
 <code>textX-dev</code>. Zbog toga je potrebno instalirati ovaj Python paket ili direktno sa:
@@ -3176,7 +3134,10 @@ Sad, 2021. (dostupno u skriptarnici FTN-a)</li>
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -3199,18 +3160,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>
