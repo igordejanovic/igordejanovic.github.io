@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,12 +24,11 @@
 <h1 class="title">Softverski obrasci i komponente</h1>
 <h2 class="subtitle">Kreacioni obrasci</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:15, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:31, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-org764bc78">
-<h2 id="org764bc78">Sadržaj</h2>
+<section id="slide-org2131281">
+<h2 id="org2131281">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Fundamentalni obrasci</a></li>
@@ -56,7 +44,6 @@
 <li><a href="#/slide-11">11. Literatura</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -72,7 +59,6 @@
 <li>Često podržani programskim jezikom.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -90,34 +76,30 @@ u situaciji kada programski jezik omogućava samo jednostruko nasleđivanje.</li
 <li>Dinamičko proširenje pri instanciranju klase definisanjem delegata.</li>
 
 </ul>
-
 </section>
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> Primer problema</h3>
 
-<div id="orgfd3d448" class="figure">
+<div id="org045d7bc" class="figure">
 <p><img src="./images/Delegation-concreteBad.png" alt="Delegation-concreteBad.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Primer rešenja</h3>
 
-<div id="orgf9a5b24" class="figure">
+<div id="orgf01f342" class="figure">
 <p><img src="./images/Delegation-concreteGood.png" alt="Delegation-concreteGood.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-4">
 <h3 id="2-4"><span class="section-number-3">2.4.</span> Struktura obrasca</h3>
 
-<div id="org12d5ac3" class="figure">
+<div id="org0c27f3e" class="figure">
 <p><img src="./images/Delegation-abstract.png" alt="Delegation-abstract.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5.</span> Primer</h3>
@@ -176,7 +158,6 @@ public class Main {
 <li>Izvor: Wikipedia</li>
 
 </ul>
-
 </section>
 <section id="slide-2-6">
 <h3 id="2-6"><span class="section-number-3">2.6.</span> Kada koristiti?</h3>
@@ -190,7 +171,6 @@ Delegacija je u tom slučaju bezbednija jer nas štiti od nekompatibilnih
 promena nadklase.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -208,25 +188,22 @@ možemo izmeniti klase bez uticaja na klijenta.</li>
 podržano.</li>
 
 </ul>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Struktura obrasca</h3>
 
-<div id="orgcb36e85" class="figure">
+<div id="org8542457" class="figure">
 <p><img src="./images/Interface-Abstract.png" alt="Interface-Abstract.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Primer</h3>
 
-<div id="orgbbaf602" class="figure">
+<div id="orgaf33bef" class="figure">
 <p><img src="./images/Interface-Concrete.png" alt="Interface-Concrete.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-3-4">
 <h3 id="3-4"><span class="section-number-3">3.4.</span> Šta dobijamo?</h3>
@@ -236,7 +213,6 @@ podržano.</li>
 klasu.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -256,25 +232,22 @@ uticaja na klijenta.</li>
 konkretni servisi mogu da redefinišu/dopune baznu implementaciju.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> Struktura obrasca</h3>
 
-<div id="org7a11d4c" class="figure">
+<div id="org3727f4e" class="figure">
 <p><img src="./images/IntAndAbsCls-Abstract.png" alt="IntAndAbsCls-Abstract.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Primer</h3>
 
-<div id="orgaa0c3eb" class="figure">
+<div id="org07935a3" class="figure">
 <p><img src="./images/IntAndAbsCls-Concrete.png" alt="IntAndAbsCls-Concrete.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-4-4">
 <h3 id="4-4"><span class="section-number-3">4.4.</span> Šta dobijamo?</h3>
@@ -287,7 +260,6 @@ proizvoljnu klasu.</li>
 servisnih klasa ubrzava.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -303,7 +275,6 @@ servisnih klasa ubrzava.</li>
 <li>Čine sistem nezavisnim od načina kreiranja i kompozicije objekata.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> Bazične osobine</h3>
@@ -316,7 +287,6 @@ Bazične osobine kreacionih obrazaca su sledeće:
 <li>Skrivaju način na koji se vrši instaciranje klasa i kompozicija objekata.</li>
 
 </ul>
-
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Katalog kreacionih obrazaca</h3>
@@ -338,7 +308,6 @@ Prema [1] kreacioni obrasci su sledeći:
 of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -355,16 +324,14 @@ of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
 klasu instancira.</li>
 
 </ul>
-
 </section>
 <section id="slide-6-2">
 <h3 id="6-2"><span class="section-number-3">6.2.</span> Struktura</h3>
 
-<div id="org9c84f45" class="figure">
+<div id="org987f558" class="figure">
 <p><img src="./images/FactoryMethod.png" alt="FactoryMethod.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-6-3">
 <h3 id="6-3"><span class="section-number-3">6.3.</span> Šta dobijamo?</h3>
@@ -375,7 +342,6 @@ spregnut sa tipom konkretnih instanci.</li>
 podklase čime se postiže veća fleksibilnost.</li>
 
 </ul>
-
 </section>
 <section id="slide-6-4">
 <h3 id="6-4"><span class="section-number-3">6.4.</span> A šta gubimo?</h3>
@@ -384,11 +350,9 @@ podklase čime se postiže veća fleksibilnost.</li>
 <li>Svaki novi Proizvod zahteva novog Kreatora.</li>
 
 </ul>
-
 </section>
 <section id="slide-6-5">
 <h3 id="6-5"><span class="section-number-3">6.5.</span> Demonstracija obrasca <i>Factory Method</i> na primeru u Javi</h3>
-
 </section>
 </section>
 <section>
@@ -405,16 +369,14 @@ podklase čime se postiže veća fleksibilnost.</li>
 čemu klijent (objekat koji ih koristi) &ldquo;ne zna&rdquo; konkrente klase objekata.</li>
 
 </ul>
-
 </section>
 <section id="slide-7-2">
 <h3 id="7-2"><span class="section-number-3">7.2.</span> Struktura</h3>
 
-<div id="orga265b91" class="figure">
+<div id="org04dc7ca" class="figure">
 <p><img src="./images/AbstractFactory.png" alt="AbstractFactory.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-7-3">
 <h3 id="7-3"><span class="section-number-3">7.3.</span> Šta dobijamo?</h3>
@@ -428,7 +390,6 @@ koda).</li>
 <a href="https://en.wikipedia.org/wiki/Pluggable_look_and_feel">Swing PLAF</a>).</li>
 
 </ul>
-
 </section>
 <section id="slide-7-4">
 <h3 id="7-4"><span class="section-number-3">7.4.</span> A šta gubimo?</h3>
@@ -439,7 +400,6 @@ familija proizvoda zahteva novog konkretnog Kreatora i nove konkretne
 proizvode.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -453,16 +413,14 @@ proizvode.</li>
 <p>
 Kreiranje objekta kopiranjem već postojeće instance.
 </p>
-
 </section>
 <section id="slide-8-2">
 <h3 id="8-2"><span class="section-number-3">8.2.</span> Struktura</h3>
 
-<div id="orgaa205db" class="figure">
+<div id="org914f44b" class="figure">
 <p><img src="./images/Prototype.png" alt="Prototype.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-8-3">
 <h3 id="8-3"><span class="section-number-3">8.3.</span> Šta dobijamo?</h3>
@@ -478,7 +436,6 @@ objekta i izmena potrebnih atributa od kreiranja i pune inicijalizacije novog
 objekta.</li>
 
 </ul>
-
 </section>
 <section id="slide-8-4">
 <h3 id="8-4"><span class="section-number-3">8.4.</span> Na šta treba obratiti pažnju?</h3>
@@ -488,11 +445,9 @@ objekta.</li>
 copy</i>).</li>
 
 </ul>
-
 </section>
 <section id="slide-8-5">
 <h3 id="8-5"><span class="section-number-3">8.5.</span> Demonstracija obrasca <i>Prototype</i> na primeru u Javi</h3>
-
 </section>
 </section>
 <section>
@@ -508,16 +463,14 @@ Konstrukcija složenih objekata podelom nadležnosti na onoga ko &ldquo;zna&rdqu
 napraviti strukturu složenog objekta i onoga ko &ldquo;zna&rdquo; kako treba kreirati
 pojedinačne delove.
 </p>
-
 </section>
 <section id="slide-9-2">
 <h3 id="9-2"><span class="section-number-3">9.2.</span> Struktura</h3>
 
-<div id="org9b11948" class="figure">
+<div id="orgd5bf185" class="figure">
 <p><img src="./images/Builder.png" alt="Builder.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-9-3">
 <h3 id="9-3"><span class="section-number-3">9.3.</span> Šta dobijamo?</h3>
@@ -526,7 +479,6 @@ Razdvajamo konstrukciju složenog objekta (najčešće Composite) od njegove
 reprezentacije tako da isti postupak izgradnje može rezultovati različitim
 reprezentacijama.
 </p>
-
 </section>
 <section id="slide-9-4">
 <h3 id="9-4"><span class="section-number-3">9.4.</span> Kada koristiti?</h3>
@@ -537,7 +489,6 @@ konkretnih delova koji sačinjavaju objekat.</li>
 se izgrađuje.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -554,16 +505,14 @@ registar, jedinstvena konekcija ka bazi i sl.</li>
 <li>Jedinična instanca mora biti dostupna svim klijentima.</li>
 
 </ul>
-
 </section>
 <section id="slide-10-2">
 <h3 id="10-2"><span class="section-number-3">10.2.</span> Struktura</h3>
 
-<div id="org4c4fc19" class="figure">
+<div id="org970689f" class="figure">
 <p><img src="./images/Singleton.png" alt="Singleton.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-10-3">
 <h3 id="10-3"><span class="section-number-3">10.3.</span> Šta dobijamo?</h3>
@@ -575,7 +524,6 @@ i u vreme izvršavanja (<i>run-time</i>).</li>
 instance. Na primer, <i>Connection Pool</i>.</li>
 
 </ul>
-
 </section>
 <section id="slide-10-4">
 <h3 id="10-4"><span class="section-number-3">10.4.</span> Napomena</h3>
@@ -593,7 +541,6 @@ Ovaj problem se može rešiti korišćenjem <i>Dependency Injection</i> obrasca.
 </ul></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -610,7 +557,10 @@ with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -633,18 +583,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>
