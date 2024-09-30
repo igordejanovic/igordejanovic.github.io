@@ -3,7 +3,7 @@ title = "Језици специфични за домен (Domain-Specific Lang
 linkTitle = "JSD"
 type = "course"
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 weight = 3001
 +++
 
