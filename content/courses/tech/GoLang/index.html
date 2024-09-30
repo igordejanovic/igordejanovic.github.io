@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,9 +24,8 @@
 <h1 class="title">Programski jezik Go</h1>
 <h2 class="subtitle">Bazirano na Go verziji 1.19 i <a href="https://tour.golang.org/">A Tour of Go</a>. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:16, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 14:29, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
 <section id="slide-1">
 <h2 id="1"><span class="section-number-2">1.</span> Uvod</h2>
@@ -60,7 +48,6 @@ za konkurentno programiranje (<a href="https://en.wikipedia.org/wiki/Communicati
 <p class="footer" style="clear: both;">
 <a href="https://en.wikipedia.org/wiki/Go_(programming_language)" class="footer" style="clear: both;">https://en.wikipedia.org/wiki/Go_(programming_language)</a>
 </p>
-
 </section>
 </section>
 <section>
@@ -99,7 +86,6 @@ podesiti <code>PATH</code>:
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> <i>Workspace</i> direktorijum</h3>
@@ -110,14 +96,13 @@ podesiti <code>PATH</code>:
 
 </ul>
 
-<div class="note" id="orgd31500e">
+<div class="note" id="org16e3669">
 <p>
 Ovo je zastareli način rada. U novijim verzijama koristi se sistem modula dok je
 od verzije 1.18 podržan i radni proces sa <i>workspaces</i> upotrebom <a href="https://go.dev/blog/get-familiar-with-workspaces">go.work fajl</a>.
 </p>
 
 </div>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Testiranje instalacije</h3>
@@ -179,7 +164,6 @@ Pokrenuti <code>go build</code> i zatim startovati program:
 </div></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -199,7 +183,6 @@ izgradnju, instalaciju i pokretanje Go programa.
 <p>
 Bazirano na <a href="https://golang.org/doc/code.html">How to Write Go Code</a>
 </p>
-
 </section>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Paketi</h3>
@@ -207,7 +190,6 @@ Bazirano na <a href="https://golang.org/doc/code.html">How to Write Go Code</a>
 Go programi su organizovani u pakete (eng. <i>packages</i>) - kolekcija fajlova unutar
 istog foldera koji se zajedno kompajliraju.
 </p>
-
 </section>
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Moduli</h3>
@@ -223,7 +205,6 @@ putanja za import bila <a href="https://github.com/google/go-cmp/tree/master/cmp
 <li>Paketi standardne biblioteke nemaju prefiks. Na primer: <code>fmt</code>, <code>net/http</code></li>
 
 </ul>
-
 </section>
 <section id="slide-3-4">
 <h3 id="3-4"><span class="section-number-3">3.4.</span> Prvi Go program</h3>
@@ -340,7 +321,6 @@ $ git commit -m "Initial commit"
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-3-5">
 <h3 id="3-5"><span class="section-number-3">3.5.</span> Prva Go biblioteka</h3>
@@ -423,7 +403,6 @@ $ hello
 Здраво, свете 2!
 </code></pre>
 </div>
-
 </section>
 <section id="slide-3-6">
 <h3 id="3-6"><span class="section-number-3">3.6.</span> Imenovanje paketa</h3>
@@ -446,7 +425,6 @@ ukoliko se paket importuje sa <code>crypto/rot13</code> tada njegovo ime treba d
 ali se zahteva da putanja bude</li>
 
 </ul>
-
 </section>
 <section id="slide-3-7">
 <h3 id="3-7"><span class="section-number-3">3.7.</span> Udaljeni paketi (<i>Remote packages</i>)</h3>
@@ -517,7 +495,6 @@ require github.com/google/go-cmp v0.5.7
 Preuzete zavisnosti se keširaju u <code>pkg/mod</code> podfolderu foldera na koji pokazuje
 promenjiva <code>$GOPATH</code>. Ovaj keš se može obrisati sa <code>go clean -modcache</code>.
 </p>
-
 </section>
 <section id="slide-3-8">
 <h3 id="3-8"><span class="section-number-3">3.8.</span> Promena imena pri <i>import</i>-u paketa</h3>
@@ -542,7 +519,6 @@ promenjiva <code>$GOPATH</code>. Ovaj keš se može obrisati sa <code>go clean -
 <p class="footer" style="clear: both;">
 <a href="https://golang.org/ref/spec#Import_declarations" class="footer" style="clear: both;">https://golang.org/ref/spec#Import_declarations</a>
 </p>
-
 </section>
 <section id="slide-3-9">
 <h3 id="3-9"><span class="section-number-3">3.9.</span> Testiranje</h3>
@@ -599,7 +575,6 @@ $
 </ul></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -623,7 +598,6 @@ Lokalna instalacija:
 $ go install golang.org/x/website/tour
 $ tour
 </pre>
-
 </section>
 </section>
 <section>
@@ -661,7 +635,6 @@ primeru <code>rand</code>).</li>
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> <code>Import</code> iskaz</h3>
@@ -686,7 +659,6 @@ Može se navesti više paketa unutar zagrada (tzv. <i>factored import</i>)
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Eksportovana imena</h3>
@@ -714,7 +686,6 @@ func main() {
 Imenima koji počinju malim slovom ne može se pristupiti izvan paketa u kome
 su definisani.
 </p>
-
 </section>
 <section id="slide-5-4">
 <h3 id="5-4"><span class="section-number-3">5.4.</span> Funkcije</h3>
@@ -758,7 +729,6 @@ Ili kraće
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-5">
 <h3 id="5-5"><span class="section-number-3">5.5.</span> Višestruke povratne vrednosti</h3>
@@ -784,7 +754,6 @@ Funkcije mogu vratiti proizvoljan broj rezultata
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-6">
 <h3 id="5-6"><span class="section-number-3">5.6.</span> Imenovane povratne vrednosti</h3>
@@ -813,7 +782,6 @@ Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-7">
 <h3 id="5-7"><span class="section-number-3">5.7.</span> Varijable</h3>
@@ -839,7 +807,6 @@ Povratne vrednosti mogu biti imenovane i u tom slučaju može se koristiti
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-8">
 <h3 id="5-8"><span class="section-number-3">5.8.</span> Varijable sa inicijalizatorima</h3>
@@ -866,7 +833,6 @@ odredi na osnovu inicijalizatora
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-9">
 <h3 id="5-9"><span class="section-number-3">5.9.</span> Kratka deklaracija varijabli</h3>
@@ -899,7 +865,6 @@ ključnom rečju</li>
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-5-10">
 <h3 id="5-10"><span class="section-number-3">5.10.</span> Osnovni tipovi</h3>
@@ -956,7 +921,6 @@ Type: bool Value: false
 Type: uint64 Value: 18446744073709551615
 Type: complex128 Value: (2+3i)
 </pre>
-
 </section>
 <section id="slide-5-11">
 <h3 id="5-11"><span class="section-number-3">5.11.</span> Nulte vrednosti</h3>
@@ -993,7 +957,6 @@ nulte vrednosti:
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-5-12">
 <h3 id="5-12"><span class="section-number-3">5.12.</span> Konverzija tipova</h3>
@@ -1054,7 +1017,6 @@ konverziju</li>
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-5-13">
 <h3 id="5-13"><span class="section-number-3">5.13.</span> Inferencija tipova (<i>Type inference</i>)</h3>
@@ -1086,7 +1048,6 @@ preciznosti konstante:</li>
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-14">
 <h3 id="5-14"><span class="section-number-3">5.14.</span> Konstante</h3>
@@ -1117,7 +1078,6 @@ Ne mogu se definisati upotrebom <code>:=</code>
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-5-15">
 <h3 id="5-15"><span class="section-number-3">5.15.</span> Numeričke konstante</h3>
@@ -1177,7 +1137,6 @@ Kod netipiziranih konstanti tip se određuje na osnovu konteksta
 </p></li>
 
 </ul>
-
 </section>
 <section id="slide-5-16">
 <h3 id="5-16"><span class="section-number-3">5.16.</span> Enumerisane konstante (<code>iota</code>)</h3>
@@ -1261,7 +1220,6 @@ Možemo kreirati i izraze sa <code>iota</code>
 <p class="footer" style="clear: both;">
 <a href="https://splice.com/blog/iota-elegant-constants-golang/" class="footer" style="clear: both;">https://splice.com/blog/iota-elegant-constants-golang/</a>
 </p>
-
 </section>
 </section>
 <section>
@@ -1332,7 +1290,6 @@ func main() {
 }
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-2">
 <h3 id="6-2"><span class="section-number-3">6.2.</span> <code>for</code> je <code>while</code> u Go-u</h3>
@@ -1363,7 +1320,6 @@ ekvivalent <code>while</code> petlje u drugim jezicima
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-6-3">
 <h3 id="6-3"><span class="section-number-3">6.3.</span> &ldquo;Beskonačna&rdquo; petlja</h3>
@@ -1384,7 +1340,6 @@ Ako se izostavi i uslov dobijamo beskonačnu petlju
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-6-4">
 <h3 id="6-4"><span class="section-number-3">6.4.</span> Uslovi &#x2013; <code>if</code> iskaz</h3>
@@ -1420,7 +1375,6 @@ Kao i kod <code>for</code> i kod <code>if</code> iskaza zagrade nije potrebno na
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-6-5">
 <h3 id="6-5"><span class="section-number-3">6.5.</span> <code>if</code> sa kratkim iskazom</h3>
@@ -1463,7 +1417,6 @@ Varijable deklarisane u ovom iskazu su dostupne samo unutar <code>if</code> iska
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-6-6">
 <h3 id="6-6"><span class="section-number-3">6.6.</span> <code>if</code> i <code>else</code></h3>
@@ -1509,7 +1462,6 @@ bloku
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-6-7">
 <h3 id="6-7"><span class="section-number-3">6.7.</span> <code>switch</code> iskaz</h3>
@@ -1558,7 +1510,6 @@ Go runs on Linux.
 čija vrednost ne mora biti numerička</li>
 
 </ul>
-
 </section>
 <section id="slide-6-8">
 <h3 id="6-8"><span class="section-number-3">6.8.</span> Evaluacija <code>switch</code> iskaza</h3>
@@ -1614,7 +1565,6 @@ Go runs on Linux.
 When's Saturday?
 Too far away.
 </pre>
-
 </section>
 <section id="slide-6-9">
 <h3 id="6-9"><span class="section-number-3">6.9.</span> <code>switch</code> bez uslova</h3>
@@ -1652,7 +1602,6 @@ Good afternoon.
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-6-10">
 <h3 id="6-10"><span class="section-number-3">6.10.</span> <code>defer</code> iskaz</h3>
@@ -1684,7 +1633,6 @@ world
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-6-11">
 <h3 id="6-11"><span class="section-number-3">6.11.</span> Stekovanje <code>defer</code> poziva</h3>
@@ -1712,7 +1660,7 @@ LIFO redosledu
 </code></pre>
 </div>
 
-<pre class="example" id="org3187415">
+<pre class="example" id="org99feacd">
  counting
  done
  9
@@ -1727,7 +1675,6 @@ LIFO redosledu
 </ul></li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -1801,7 +1748,6 @@ LIFO redosledu
 21
 73
 </pre>
-
 </section>
 <section id="slide-7-2">
 <h3 id="7-2"><span class="section-number-3">7.2.</span> Strukture (<code>struct</code>)</h3>
@@ -1862,7 +1808,6 @@ LIFO redosledu
 <pre class="example">
 4
 </pre>
-
 </section>
 <section id="slide-7-3">
 <h3 id="7-3"><span class="section-number-3">7.3.</span> Pokazivači na strukture</h3>
@@ -1898,7 +1843,6 @@ nije potrebno eksplicitno dereferenciranje</li>
 <pre class="example">
 {1000000000 2}
 </pre>
-
 </section>
 <section id="slide-7-4">
 <h3 id="7-4"><span class="section-number-3">7.4.</span> <code>struct</code> literali</h3>
@@ -1936,7 +1880,6 @@ tom slučaju redosled je irelevantan</li>
 <pre class="example">
 {1 2} &amp;{1 2} {1 0} {0 0}
 </pre>
-
 </section>
 <section id="slide-7-5">
 <h3 id="7-5"><span class="section-number-3">7.5.</span> Nizovi (<code>Arrays</code>)</h3>
@@ -1971,7 +1914,6 @@ Hello World
 [Hello World]
 [2 3 5 7 11 13]
 </pre>
-
 </section>
 <section id="slide-7-6">
 <h3 id="7-6"><span class="section-number-3">7.6.</span> Isečci (<code>Slices</code>)</h3>
@@ -2012,7 +1954,6 @@ isključujući poslednji</li>
 <pre class="example">
 [3 5 7]
 </pre>
-
 </section>
 <section id="slide-7-7">
 <h3 id="7-7"><span class="section-number-3">7.7.</span> Isečci kao pokazivači</h3>
@@ -2054,7 +1995,6 @@ isključujući poslednji</li>
 [John ???] [??? George]
 [John ??? George Ringo]
 </pre>
-
 </section>
 <section id="slide-7-8">
 <h3 id="7-8"><span class="section-number-3">7.8.</span> Literali za isečke</h3>
@@ -2104,7 +2044,6 @@ isključujući poslednji</li>
 [true false true true false true]
 [{2 true} {3 false} {5 true} {7 true} {11 false} {13 true}]
 </pre>
-
 </section>
 <section id="slide-7-9">
 <h3 id="7-9"><span class="section-number-3">7.9.</span> Podrazumevane granice intervala</h3>
@@ -2156,7 +2095,6 @@ Ekvivalentni izrazi:
  [3 5]
  [5]
 </pre>
-
 </section>
 <section id="slide-7-10">
 <h3 id="7-10"><span class="section-number-3">7.10.</span> Dužina i kapacitet isečka</h3>
@@ -2208,7 +2146,6 @@ kapacitetom</li>
  len=4 cap=6 [2 3 5 7]
  len=2 cap=4 [5 7]
 </pre>
-
 </section>
 <section id="slide-7-11">
 <h3 id="7-11"><span class="section-number-3">7.11.</span> Prazni (<i>nil</i>) isečci</h3>
@@ -2240,7 +2177,6 @@ Ovakav isečak ima dužinu i kapacitet <code>0</code> i nema potporni niz
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-7-12">
 <h3 id="7-12"><span class="section-number-3">7.12.</span> Kreiranje isečaka sa <code>make</code></h3>
@@ -2306,7 +2242,6 @@ moguće je definisati i kapacitet
 </pre></li>
 
 </ul>
-
 </section>
 <section id="slide-7-13">
 <h3 id="7-13"><span class="section-number-3">7.13.</span> Isečak isečaka</h3>
@@ -2351,7 +2286,6 @@ X _ X
 O _ X
 _ _ O
 </pre>
-
 </section>
 <section id="slide-7-14">
 <h3 id="7-14"><span class="section-number-3">7.14.</span> Dodavanje na isečak</h3>
@@ -2406,7 +2340,6 @@ len=1 cap=1 [0]
 len=2 cap=2 [0 1]
 len=5 cap=6 [0 1 2 3 4]
 </pre>
-
 </section>
 <section id="slide-7-15">
 <h3 id="7-15"><span class="section-number-3">7.15.</span> <code>range</code></h3>
@@ -2488,7 +2421,7 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </code></pre>
 </div>
 
-<pre class="example" id="orgf907bfe">
+<pre class="example" id="org757d300">
   1
   2
   4
@@ -2502,8 +2435,6 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </pre></li>
 
 </ul>
-
-
 </section>
 <section id="slide-7-16">
 <h3 id="7-16"><span class="section-number-3">7.16.</span> Mape</h3>
@@ -2540,7 +2471,6 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 <pre class="example">
 {40.68433 -74.39967}
 </pre>
-
 </section>
 <section id="slide-7-17">
 <h3 id="7-17"><span class="section-number-3">7.17.</span> Literali za mape</h3>
@@ -2606,7 +2536,6 @@ map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
 <pre class="example">
 map[Bell Labs:{40.68433 -74.39967} Google:{37.42202 -122.08408}]
 </pre>
-
 </section>
 <section id="slide-7-18">
 <h3 id="7-18"><span class="section-number-3">7.18.</span> Izmena vrednosti mapa</h3>
@@ -2688,7 +2617,6 @@ The value: 48
 The value: 0
 The value: 0 Present? false
 </pre>
-
 </section>
 <section id="slide-7-19">
 <h3 id="7-19"><span class="section-number-3">7.19.</span> Funkcije kao vrednosti</h3>
@@ -2729,7 +2657,6 @@ dobijati nazad kao povratne vrednosti</li>
 5
 81
 </pre>
-
 </section>
 <section id="slide-7-20">
 <h3 id="7-20"><span class="section-number-3">7.20.</span> Zatvorenja (<i>Closures</i>)</h3>
@@ -2770,7 +2697,7 @@ funkciju (<i>bounded</i>)</li>
 </code></pre>
 </div>
 
-<pre class="example" id="org9b3aff0">
+<pre class="example" id="org4728cab">
 0 0
 1 -2
 3 -6
@@ -2782,7 +2709,6 @@ funkciju (<i>bounded</i>)</li>
 36 -72
 45 -90
 </pre>
-
 </section>
 </section>
 <section>
@@ -2821,7 +2747,6 @@ funkciju (<i>bounded</i>)</li>
  }
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-2">
 <h3 id="8-2"><span class="section-number-3">8.2.</span> Metode su funkcije</h3>
@@ -2895,7 +2820,6 @@ funkciju (<i>bounded</i>)</li>
 <pre class="example">
 1.4142135623730951
 </pre>
-
 </section>
 <section id="slide-8-3">
 <h3 id="8-3"><span class="section-number-3">8.3.</span> Pokazivački prijemnici (<i>Pointer receivers</i>)</h3>
@@ -2936,7 +2860,6 @@ kopiranja, pokazivački prijemnici su češći
 </div></li>
 
 </ul>
-
 </section>
 <section id="slide-8-4">
 <h3 id="8-4"><span class="section-number-3">8.4.</span> Pokazivači i funkcije</h3>
@@ -2973,7 +2896,6 @@ kopiranja, pokazivački prijemnici su češći
 <pre class="example">
 50
 </pre>
-
 </section>
 <section id="slide-8-5">
 <h3 id="8-5"><span class="section-number-3">8.5.</span> Metode i indirekcija pokazivača</h3>
@@ -3125,7 +3047,6 @@ Go će u ovom slučaju interpretirati <code>p.Abs()</code> kao <code>(*p).Abs()<
  }
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-6">
 <h3 id="8-6"><span class="section-number-3">8.6.</span> Kada koristiti vrednosni a kada pokazivački prijemnik?</h3>
@@ -3170,7 +3091,6 @@ Dva razloga za upotrebu pokazivačkog prijemnika:
  }
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-7">
 <h3 id="8-7"><span class="section-number-3">8.7.</span> Interfejsi</h3>
@@ -3225,7 +3145,6 @@ dati skup metoda interfejsa</li>
 ./compile7.go:22:4: cannot use v (type Vertex) as type Abser in assignment:
   Vertex does not implement Abser (Abs method has pointer receiver)
 </pre>
-
 </section>
 <section id="slide-8-8">
 <h3 id="8-8"><span class="section-number-3">8.8.</span> Interfejsi se implementiraju implicitno</h3>
@@ -3262,7 +3181,6 @@ dati skup metoda interfejsa</li>
  }
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-9">
 <h3 id="8-9"><span class="section-number-3">8.9.</span> Interfejs vrednosti</h3>
@@ -3326,7 +3244,6 @@ vrednošću</li>
  (3.141592653589793, main.F)
  3.141592653589793
 </pre>
-
 </section>
 <section id="slide-8-10">
 <h3 id="8-10"><span class="section-number-3">8.10.</span> interfejs vrednosti sa <code>nil</code> sadržanom vrednošću</h3>
@@ -3381,7 +3298,6 @@ func describe(i I) {
 (&amp;{hello}, *main.T)
 hello
 </pre>
-
 </section>
 <section id="slide-8-11">
 <h3 id="8-11"><span class="section-number-3">8.11.</span> <code>nil</code> interfejs vrednost</h3>
@@ -3423,7 +3339,6 @@ tip koji bi odredio metodu koju treba pozvati</li>
  main.main()
    /tmp/compile12.go:12 +0x91
 </pre>
-
 </section>
 <section id="slide-8-12">
 <h3 id="8-12"><span class="section-number-3">8.12.</span> Prazan interfejs</h3>
@@ -3477,7 +3392,6 @@ implementira 0 metoda)</li>
  (42, int)
  (hello, string)
 </pre>
-
 </section>
 <section id="slide-8-13">
 <h3 id="8-13"><span class="section-number-3">8.13.</span> <i>Type assertions</i></h3>
@@ -3542,7 +3456,6 @@ Za proveru da li interfejs sadrži vrednost određenog tipa koristi se
  0 false
  panic: interface conversion: interface {} is string, not float64
 </pre>
-
 </section>
 <section id="slide-8-14">
 <h3 id="8-14"><span class="section-number-3">8.14.</span> <i>Type switches</i></h3>
@@ -3604,7 +3517,6 @@ Twice 21 is 42
 "hello" is 5 bytes long
 I don't know about type bool!
 </pre>
-
 </section>
 <section id="slide-8-15">
 <h3 id="8-15"><span class="section-number-3">8.15.</span> <i>Stringers</i></h3>
@@ -3658,7 +3570,6 @@ func main() {
 <pre>
 Arthur Dent (42 years) Zaphod Beeblebrox (9001 years)
 </pre>
-
 </section>
 <section id="slide-8-16">
 <h3 id="8-16"><span class="section-number-3">8.16.</span> Greške</h3>
@@ -3734,7 +3645,6 @@ proveravaju da li je greška <code>nil</code>
 <pre>
  at 2019-05-27 15:04:16.262931451 +0200 CEST m=+0.000213564, it didn't work
 </pre>
-
 </section>
 <section id="slide-8-17">
 <h3 id="8-17"><span class="section-number-3">8.17.</span> <i>Readers</i></h3>
@@ -3799,7 +3709,6 @@ b[:n] = "eader!"
 n = 0 err = EOF b = [101 97 100 101 114 33 32 82]
 b[:n] = ""
 </pre>
-
 </section>
 </section>
 <section>
@@ -3875,7 +3784,6 @@ korisne primitive za sinhronizaciju iako u Go-u ovo često nije neophodno.</li>
  world
  ...
 </pre>
-
 </section>
 <section id="slide-9-2">
 <h3 id="9-2"><span class="section-number-3">9.2.</span> Kanali (<i>Channels</i>)</h3>
@@ -3949,7 +3857,6 @@ dve Go rutine</li>
 <pre>
  -5 17 12
 </pre>
-
 </section>
 <section id="slide-9-3">
 <h3 id="9-3"><span class="section-number-3">9.3.</span> Baferovani kanali</h3>
@@ -3992,7 +3899,6 @@ Kreiranje bafera omogućeno je drugim parametrom <code>make</code> funkcije
 <pre>
 fatal error: all goroutines are asleep - deadlock!
 </pre>
-
 </section>
 <section id="slide-9-4">
 <h3 id="9-4"><span class="section-number-3">9.4.</span> Zatvaranje kanala</h3>
@@ -4057,7 +3963,7 @@ koristi <code>range</code> petlja</li>
 </code></pre>
 </div>
 
-<pre class="example" id="org20e2c33">
+<pre class="example" id="orge52bbbb">
 0
 1
 1
@@ -4065,7 +3971,6 @@ koristi <code>range</code> petlja</li>
 ...
 34
 </pre>
-
 </section>
 <section id="slide-9-5">
 <h3 id="9-5"><span class="section-number-3">9.5.</span> <code>select</code></h3>
@@ -4108,7 +4013,7 @@ je više u mogućnosti da se izvrši izbor se vrši slučajno</li>
 </code></pre>
 </div>
 
-<pre class="example" id="orgaed0881">
+<pre class="example" id="org745e5f3">
 0
 1
 1
@@ -4116,7 +4021,6 @@ je više u mogućnosti da se izvrši izbor se vrši slučajno</li>
 34
 quit
 </pre>
-
 </section>
 <section id="slide-9-6">
 <h3 id="9-6"><span class="section-number-3">9.6.</span> <code>select/default</code></h3>
@@ -4168,7 +4072,7 @@ quit
 </code></pre>
 </div>
 
-<pre class="example" id="orgd225c77">
+<pre class="example" id="org98deac4">
     .
 tick.
     .
@@ -4176,7 +4080,6 @@ tick.
 tick.
 BOOM!
 </pre>
-
 </section>
 <section id="slide-9-7">
 <h3 id="9-7"><span class="section-number-3">9.7.</span> <code>sync.Mutex</code></h3>
@@ -4218,7 +4121,6 @@ BOOM!
   }
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -4237,7 +4139,10 @@ BOOM!
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -4260,18 +4165,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>
