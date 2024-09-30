@@ -7,25 +7,14 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="../../../s/reveal.js/css/reveal.css"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
 
-<link rel="stylesheet" href="../../../s/reveal.js/css/theme/simple.css" id="theme"/>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
 
 <link rel="stylesheet" href="../../../s/reveal-slides.css"/>
 
 <link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
 <link rel="stylesheet" href=""/>
-
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = '../../../s/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
-</script>
 <base target="_blank">
 </head>
 <body>
@@ -35,12 +24,11 @@
 <h1 class="title">Django</h1>
 <h2 class="subtitle">bazirano na tutorijalu i verziji 3.0</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2023-01-16 Mon 18:19, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-09-30 Mon 13:38, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
 </section>
-
 <section>
-<section id="slide-orgebc5bc2">
-<h2 id="orgebc5bc2">Sadržaj</h2>
+<section id="slide-org29cb1fe">
+<h2 id="org29cb1fe">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Kreiranje i podešavanje projekta</a></li>
@@ -54,7 +42,6 @@
 <li><a href="#/slide-9">9. Reference</a></li>
 </ul>
 </div>
-
 </section>
 </section>
 <section>
@@ -77,7 +64,6 @@
 <li><i>Caching, syndication, internationalization&#x2026;</i></li>
 
 </ul>
-
 </section>
 <section id="slide-1-2">
 <h3 id="1-2"><span class="section-number-3">1.2.</span> Instalacija</h3>
@@ -96,7 +82,6 @@ $ python -m django --version
 <p class="attention">
 <b>Preporuka:</b> Koristiti <a href="https://docs.python.org/3/library/venv.html" class="attention">virtualno okruženje</a>
 </p>
-
 </section>
 <section id="slide-1-3">
 <h3 id="1-3"><span class="section-number-3">1.3.</span> Kreiranje projekta</h3>
@@ -117,7 +102,6 @@ mysite/
         urls.py
         wsgi.py
 </pre>
-
 </section>
 <section id="slide-1-4">
 <h3 id="1-4"><span class="section-number-3">1.4.</span> Podešavanje sajta</h3>
@@ -144,7 +128,6 @@ DATABASES = {
 ...
 </code></pre>
 </div>
-
 </section>
 <section id="slide-1-5">
 <h3 id="1-5"><span class="section-number-3">1.5.</span> Pokretanje projekta</h3>
@@ -163,16 +146,14 @@ Django version 3.0, using settings 'mysite.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 </pre>
-
 </section>
 <section id="slide-1-6">
 <h3 id="1-6"><span class="section-number-3">1.6.</span> Početna strana</h3>
 
-<div id="orga333f57" class="figure">
+<div id="orgd9d73f2" class="figure">
 <p><img src="./images/DjangoStarted.png" alt="DjangoStarted.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-1-7">
 <h3 id="1-7"><span class="section-number-3">1.7.</span> Kreiranje inicijalne šeme baze podataka</h3>
@@ -203,7 +184,6 @@ Running migrations:
 <p>
 Inicijalna šema potiče od podrazumevano uključenih aplikacija.
 </p>
-
 </section>
 <section id="slide-1-8">
 <h3 id="1-8"><span class="section-number-3">1.8.</span> Admin interfejs</h3>
@@ -222,7 +202,6 @@ Password:
 Password (again):
 Superuser created successfully.
 </pre>
-
 </section>
 <section id="slide-1-9">
 <h3 id="1-9"><span class="section-number-3">1.9.</span> Pristup admin interfejsu</h3>
@@ -233,11 +212,10 @@ Superuser created successfully.
 </ul>
 
 
-<div id="orgfd6d89c" class="figure">
+<div id="org8c7c7ee" class="figure">
 <p><img src="./images/DjangoAdmin1.png" alt="DjangoAdmin1.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-1-10">
 <h3 id="1-10"><span class="section-number-3">1.10.</span> Projekti i aplikacije</h3>
@@ -247,7 +225,6 @@ aplikacija za glasanje, forum i sl.</li>
 <li>Projekat predstavlja skup aplikacija i konfiguracije za određene web sajtove.</li>
 
 </ul>
-
 </section>
 <section id="slide-1-11">
 <h3 id="1-11"><span class="section-number-3">1.11.</span> Kreiranje aplikacije unutar projekta</h3>
@@ -270,7 +247,6 @@ polls/
     tests.py
     views.py
 </pre>
-
 </section>
 </section>
 <section>
@@ -304,7 +280,6 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> Aktivacija modela</h3>
@@ -328,7 +303,6 @@ class Choice(models.Model):
 )
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Kreiranje migracije</h3>
@@ -345,7 +319,6 @@ Migrations for 'polls':
 <p>
 Kreiran je fajl <code>polls/migrations/0001_initial.py</code>.
 </p>
-
 </section>
 <section id="slide-2-4">
 <h3 id="2-4"><span class="section-number-3">2.4.</span> Pregled SQL-a za određenu migraciju</h3>
@@ -375,7 +348,6 @@ CREATE TABLE "polls_question" (
 COMMIT;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5.</span> Primena migracije nad bazom</h3>
@@ -386,7 +358,6 @@ Operations to perform:
 Running migrations:
   Applying polls.0001_initial... OK
 </pre>
-
 </section>
 <section id="slide-2-6">
 <h3 id="2-6"><span class="section-number-3">2.6.</span> Migracije - sumarno</h3>
@@ -412,7 +383,6 @@ $ python manage.py makemigrations
 <pre>
 $ python manage.py migrate
 </pre>
-
 </section>
 <section id="slide-2-7">
 <h3 id="2-7"><span class="section-number-3">2.7.</span> Registracija modela u admin interfejsu</h3>
@@ -433,11 +403,10 @@ admin.site.register(Choice)
 </div>
 
 
-<div id="org40a7fe4" class="figure">
+<div id="orgc641fd6" class="figure">
 <p><img src="./images/DjangoAdmin3.png" alt="DjangoAdmin3.png" />
 </p>
 </div>
-
 </section>
 <section id="slide-2-8">
 <h3 id="2-8"><span class="section-number-3">2.8.</span> Model API</h3>
@@ -465,7 +434,6 @@ datetime.datetime(2012, 2, 26, 13, 0, 0, 775217, tzinfo=&lt;UTC&gt;)
 [&lt;Question: Question object&gt;]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-9">
 <h3 id="2-9"><span class="section-number-3">2.9.</span> String reprezentacija instanci modela</h3>
@@ -484,7 +452,6 @@ class Choice(models.Model):
         return self.choice_text
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-10">
 <h3 id="2-10"><span class="section-number-3">2.10.</span> Korisničke metode nad modelom</h3>
@@ -502,7 +469,6 @@ class Question(models.Model):
         return self.pub_date &gt;= timezone.now() - datetime.timedelta(days=1)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-11">
 <h3 id="2-11"><span class="section-number-3">2.11.</span> Model API (2)</h3>
@@ -523,7 +489,6 @@ class Question(models.Model):
 &lt;Question: What's up?&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-12">
 <h3 id="2-12"><span class="section-number-3">2.12.</span> Model API (3)</h3>
@@ -547,7 +512,6 @@ True
 []
 </code></pre>
 </div>
-
 </section>
 <section id="slide-2-13">
 <h3 id="2-13"><span class="section-number-3">2.13.</span> Model API (4)</h3>
@@ -574,7 +538,6 @@ True
 &gt;&gt;&gt; c.delete()
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -589,7 +552,6 @@ True
 <li>Videti uputstvo <a href="https://docs.djangoproject.com/en/3.0/intro/tutorial02/#introducing-the-django-admin">ovde</a>.</li>
 
 </ul>
-
 </section>
 </section>
 <section>
@@ -617,7 +579,6 @@ True
 <li>Realizuju se kao python funkcije ili metode klase.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> Prvi pogled</h3>
@@ -638,7 +599,6 @@ def index(request):
 <p>
 Iz pogleda se vraća <code>HttpResponse</code> instanca ili izuzetak.
 </p>
-
 </section>
 <section id="slide-4-3">
 <h3 id="4-3"><span class="section-number-3">4.3.</span> Rutiranje zahteva</h3>
@@ -678,7 +638,6 @@ urlpatterns = [
 ]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-4">
 <h3 id="4-4"><span class="section-number-3">4.4.</span> Rutiranje zahteva (2)</h3>
@@ -689,7 +648,6 @@ Ako sada odete na adresu <a href="http://localhost:8000/polls/">http://localhost
 <p>
 <code>Hello, world. You’re at the polls index.</code>
 </p>
-
 </section>
 <section id="slide-4-5">
 <h3 id="4-5"><span class="section-number-3">4.5.</span> Dodatni <code>polls</code> pogledi</h3>
@@ -709,7 +667,6 @@ def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-6">
 <h3 id="4-6"><span class="section-number-3">4.6.</span> Dodatne rute</h3>
@@ -744,8 +701,6 @@ Primer mapiranja:
 <pre><code class="example" >/polls/34   =&gt;   detail(request=&lt;HttpRequest object&gt;, question_id=34)
 </code></pre>
 </div>
-
-
 </section>
 <section id="slide-4-7">
 <h3 id="4-7"><span class="section-number-3">4.7.</span> Pogled koji nešto zaista i radi</h3>
@@ -773,7 +728,6 @@ def index(request):
 <li>Prepustićemo renderovanje stranice Django obrađivaču šablona.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-8">
 <h3 id="4-8"><span class="section-number-3">4.8.</span> Šabloni</h3>
@@ -808,7 +762,6 @@ modulu:
 <code>polls/index.html</code></li>
 
 </ul>
-
 </section>
 <section id="slide-4-9">
 <h3 id="4-9"><span class="section-number-3">4.9.</span> Prvi šablon</h3>
@@ -829,7 +782,6 @@ Fajl <code>polls/templates/polls/index.html</code>:
 {% endif %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-10">
 <h3 id="4-10"><span class="section-number-3">4.10.</span> Ažuriranje pogleda da koristi šablon</h3>
@@ -853,7 +805,6 @@ def index(request):
     return HttpResponse(template.render(context, request))
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-11">
 <h3 id="4-11"><span class="section-number-3">4.11.</span> Prečica <code>render</code></h3>
@@ -880,7 +831,6 @@ def index(request):
     return render(request, 'polls/index.html', context)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-12">
 <h3 id="4-12"><span class="section-number-3">4.12.</span> Greška 404</h3>
@@ -916,7 +866,6 @@ Za sada šablon <code>polls/templates/polls/detail.html</code> može biti prosto
 <pre><code class="jinja2" >{{ question }}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-13">
 <h3 id="4-13"><span class="section-number-3">4.13.</span> Prečica <code>get_object_or_404</code></h3>
@@ -947,7 +896,6 @@ def detail(request, question_id):
 ukoliko je lista prazna.</li>
 
 </ul>
-
 </section>
 <section id="slide-4-14">
 <h3 id="4-14"><span class="section-number-3">4.14.</span> Prepravka <code>details</code> šablona</h3>
@@ -965,7 +913,6 @@ Fajl <code>polls/templates/polls/detail.html</code>:
 &lt;/ul&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-15">
 <h3 id="4-15"><span class="section-number-3">4.15.</span> URL-ovi u šablonima</h3>
@@ -1006,7 +953,6 @@ path('&lt;int:question_id&gt;/', views.detail, name='detail'),
 ...
 </code></pre>
 </div>
-
 </section>
 <section id="slide-4-16">
 <h3 id="4-16"><span class="section-number-3">4.16.</span> <i>Namespaces</i> u URL rutama</h3>
@@ -1049,7 +995,6 @@ Fajl <code>polls/templates/polls/index.html</code>:
 &lt;/li&gt;
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -1080,7 +1025,6 @@ Fajl <code>polls/templates/polls/index.html</code>:
 &lt;/form&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-2">
 <h3 id="5-2"><span class="section-number-3">5.2.</span> Pogled</h3>
@@ -1124,7 +1068,6 @@ def vote(request, question_id):
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 </code></pre>
 </div>
-
 </section>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Rezultati glasanja</h3>
@@ -1163,7 +1106,6 @@ def results(request, question_id):
 &lt;/ul&gt;
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -1213,7 +1155,6 @@ urlpatterns = [
     path('about/', MyView.as_view()),
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-2">
 <h3 id="6-2"><span class="section-number-3">6.2.</span> Nasleđivanje</h3>
@@ -1247,7 +1188,6 @@ Fajl <code>urls.py</code>:
 ]
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-3">
 <h3 id="6-3"><span class="section-number-3">6.3.</span> Podrška za forme</h3>
@@ -1303,7 +1243,6 @@ class MyFormView(View):
         return render(request, self.template_name, {'form': form})
 </code></pre>
 </div>
-
 </section>
 <section id="slide-6-4">
 <h3 id="6-4"><span class="section-number-3">6.4.</span> Dekoracija pogleda</h3>
@@ -1347,7 +1286,6 @@ class ProtectedView(TemplateView):
 <li>Za više informacija videti <a href="https://docs.djangoproject.com/en/3.0/topics/class-based-views/intro/">Introduction to class-based views</a></li>
 
 </ul>
-
 </section>
 <section id="slide-6-5">
 <h3 id="6-5"><span class="section-number-3">6.5.</span> Podrška za HTTP metode</h3>
@@ -1380,7 +1318,6 @@ class BookListView(ListView):
         return response
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -1404,7 +1341,6 @@ class BookListView(ListView):
 <li>Dva generička pogleda: <code>ListView</code> i <code>DetailsView</code>.</li>
 
 </ul>
-
 </section>
 <section id="slide-7-2">
 <h3 id="7-2"><span class="section-number-3">7.2.</span> Korišćeni primer</h3>
@@ -1440,7 +1376,6 @@ class Book(models.Model):
     publication_date = models.DateField()
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-3">
 <h3 id="7-3"><span class="section-number-3">7.3.</span> Pogled</h3>
@@ -1499,7 +1434,6 @@ Fajl <code>books/.html</code>:
 specifičnim za konkretan model.</li>
 
 </ul>
-
 </section>
 <section id="slide-7-4">
 <h3 id="7-4"><span class="section-number-3">7.4.</span> Definisanje boljeg imena za kontekst šablona</h3>
@@ -1514,7 +1448,6 @@ class PublisherList(ListView):
     context_object_name = 'my_favorite_publishers'
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-5">
 <h3 id="7-5"><span class="section-number-3">7.5.</span> Dodavanje novih informacija u kontekst</h3>
@@ -1538,7 +1471,6 @@ class PublisherDetail(DetailView):
         return context
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-6">
 <h3 id="7-6"><span class="section-number-3">7.6.</span> Pregled samo podskupa objekata</h3>
@@ -1581,7 +1513,6 @@ class AcmeBookList(ListView):
     template_name = 'books/acme_list.html'
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-7">
 <h3 id="7-7"><span class="section-number-3">7.7.</span> Dinamičko filtriranje</h3>
@@ -1601,7 +1532,6 @@ class PublisherBookList(ListView):
         return Book.objects.filter(publisher=self.publisher)
 </code></pre>
 </div>
-
 </section>
 <section id="slide-7-8">
 <h3 id="7-8"><span class="section-number-3">7.8.</span> Izmena objekata</h3>
@@ -1623,7 +1553,6 @@ class AuthorDetailView(DetailView):
         return obj
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -1640,7 +1569,6 @@ class AuthorDetailView(DetailView):
 CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 
 </ul>
-
 </section>
 <section id="slide-8-2">
 <h3 id="8-2"><span class="section-number-3">8.2.</span> Primer</h3>
@@ -1664,7 +1592,6 @@ CSS, JavaScrip, Java, Python, Email, izveštaji&#x2026;</li>
 {% endblock %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-3">
 <h3 id="8-3"><span class="section-number-3">8.3.</span> Varijable konteksta</h3>
@@ -1695,7 +1622,6 @@ Primer:
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-8-4">
 <h3 id="8-4"><span class="section-number-3">8.4.</span> Filteri</h3>
@@ -1734,7 +1660,6 @@ Mogu imati parametre:
 {{ list|join:", " }}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-5">
 <h3 id="8-5"><span class="section-number-3">8.5.</span> Tagovi</h3>
@@ -1752,7 +1677,6 @@ Složenije konstrukcije oblika:
 Služe za implementaciju kontrole toke (petlji, uslova), učitavanje eksternih
 informacija i sl.
 </p>
-
 </section>
 <section id="slide-8-6">
 <h3 id="8-6"><span class="section-number-3">8.6.</span> <code>For</code></h3>
@@ -1765,7 +1689,6 @@ informacija i sl.
 &lt;/ul&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-7">
 <h3 id="8-7"><span class="section-number-3">8.7.</span> <code>If</code>, <code>elif</code> i <code>else</code></h3>
@@ -1790,7 +1713,6 @@ informacija i sl.
 {% endif %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-8">
 <h3 id="8-8"><span class="section-number-3">8.8.</span> Nasleđivanje šablona</h3>
@@ -1801,7 +1723,6 @@ specijalizaciju za konkretne slučajeve.</li>
 <li>Ovim se većina konkretnih šablona minimizuje.</li>
 
 </ul>
-
 </section>
 <section id="slide-8-9">
 <h3 id="8-9"><span class="section-number-3">8.9.</span> Nasleđivanje šablona (2)</h3>
@@ -1831,7 +1752,6 @@ specijalizaciju za konkretne slučajeve.</li>
 &lt;/html&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-10">
 <h3 id="8-10"><span class="section-number-3">8.10.</span> Nasleđivanje šablona (3)</h3>
@@ -1849,7 +1769,6 @@ specijalizaciju za konkretne slučajeve.</li>
 {% endblock %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-11">
 <h3 id="8-11"><span class="section-number-3">8.11.</span> Nasleđivanje šablona (4)</h3>
@@ -1871,7 +1790,6 @@ potrebno.</li>
 {% endblock content %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-12">
 <h3 id="8-12"><span class="section-number-3">8.12.</span> Automatski HTML <i>escaping</i></h3>
@@ -1892,7 +1810,6 @@ obrađivača.</li>
 </ul></li>
 
 </ul>
-
 </section>
 <section id="slide-8-13">
 <h3 id="8-13"><span class="section-number-3">8.13.</span> Automatski HTML <i>escaping</i> - varijable</h3>
@@ -1913,7 +1830,6 @@ Za <code>data</code> vrednost <code>&lt;b&gt;</code> rezultuje sledećim kodom:
 This will not be escaped: &lt;b&gt;
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-14">
 <h3 id="8-14"><span class="section-number-3">8.14.</span> Automatski HTML <i>escaping</i> - blokovi</h3>
@@ -1939,7 +1855,6 @@ This will not be escaped: &lt;b&gt;
 {% endautoescape %}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-15">
 <h3 id="8-15"><span class="section-number-3">8.15.</span> Pozivi metoda u šablonima</h3>
@@ -1980,7 +1895,6 @@ Moguće je pozivati i korisničke metode.
 <pre><code class="jinja2" >{{ task.foo }}
 </code></pre>
 </div>
-
 </section>
 <section id="slide-8-16">
 <h3 id="8-16"><span class="section-number-3">8.16.</span> Biblioteke tagova i filtera</h3>
@@ -2010,7 +1924,6 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 <pre><code class="jinja2" >{% load humanize i18n %}
 </code></pre>
 </div>
-
 </section>
 </section>
 <section>
@@ -2024,7 +1937,10 @@ konfiguraciji <code>INSTALLED_APPS</code>.</li>
 </section>
 </div>
 </div>
-<script src="../../../s/reveal.js/js/reveal.js"></script>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -2047,18 +1963,17 @@ height: 1000,
 minScale: 0.30,
 maxScale: 4.00,
 
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // see README of reveal.js for options
+transition: 'slide',
 transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
 
 // Optional libraries used to extend reveal.js
 dependencies: [
-{src: '../../../s/reveal.js/../reveal-plugins/menu/menu.js'},
-{src: '../../../s/reveal.js/../reveal-plugins/chalkboard/chalkboard.js'},
- { src: '../../../s/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: '../../../s/reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }]
+]
 
-,keyboard: {67: function() { RevealChalkboard.toggleNotesCanvas() },	66: function() { RevealChalkboard.toggleChalkboard() },	46: function() { RevealChalkboard.clear() },	8: function() { RevealChalkboard.reset() },	68: function() { RevealChalkboard.download() },	},});
+,copycode: {button: "always", display: "icons"}});
 </script>
 </body>
 </html>
