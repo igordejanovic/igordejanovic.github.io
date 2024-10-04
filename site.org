@@ -1709,7 +1709,7 @@ no_focus [title="ViberPC"]
 
 *** [[https://alacritty.org/][Alacritty]]
 :PROPERTIES:
-:header-args:toml: tangle "~/.config/alacritty/alacritty.toml"
+:header-args:toml: :tangle "~/.config/alacritty/alacritty.toml"
 :END:
 [[https://alacritty.org/][Alacritty]] is a modern terminal emulator. See [[https://wiki.archlinux.org/title/Alacritty][additional config info]] in ArchLinux
 Wiki.
@@ -1725,35 +1725,27 @@ sudo pacman -S alacritty
 | Ctl-Shift-C   | Copy selection                       |
 | Ctl-Shift-V   | Paste clipboard content              |
 
-**** Initial Color scheme
+**** Color schemes with dynamic change
+:PROPERTIES:
+:CUSTOM_ID: color-schemes
+:END:
+Nice color schemes can be found in [[https://github.com/alacritty/alacritty-theme][alacritty/alacritty-theme]] repo.
+
+#+begin_src sh
+git clone https://github.com/alacritty/alacritty-theme.git ~/.alacritty-colorscheme
+#+end_src
+
+Color scheme can be applied inside alacritty config:
 #+begin_src toml
-[colors.bright]
-black = "0xb4b4b4"
-blue = "0xb3d2ff"
-cyan = "0xc2fefa"
-green = "0xe3f7a1"
-magenta = "0xe5bdff"
-red = "0xf99f92"
-white = "0xffffff"
-yellow = "0xf2e9bf"
+import = [
+  "~/.alacritty-colorscheme/themes/alabaster_dark.toml"
+]
+#+end_src
 
-[colors.cursor]
-cursor = "0x444444"
-text = "0xeeeeee"
+To [[https://wiki.archlinux.org/title/Alacritty][change theme dynamically]]:
 
-[colors.normal]
-black = "0x000000"
-blue = "0x6ebaf8"
-cyan = "0x90fdf8"
-green = "0xbde97c"
-magenta = "0xef88ff"
-red = "0xf7786d"
-white = "0xe5e1d8"
-yellow = "0xefdfac"
-
-[colors.primary]
-background = "0x1f1f1f"
-foreground = "0xe5e1d8"
+#+begin_src sh
+alacritty msg config "$(cat ~/path/to/theme.toml)"
 #+end_src
 
 **** Enable URL lookups (regex hints)
@@ -1788,63 +1780,27 @@ mods = "Control|Shift"
 
 #+end_src
 
-***** Cycle color schemes - [[https://github.com/toggle-corp/alacritty-colorscheme/pull/44][not working currently]] due to move to TOML
-Make a keyboard shortcut for easier [[#color-schemes][cycling of color scheme]]:
+***** Toggle white/dark theme temporarily - e.g. during presentations
+Make a script =~/bin/alacritty-toggle.sh= for toggling white/dark theme:
+#+begin_src sh :shebang "#!/bin/sh" :tangle "~/bin/alacritty-toggle.sh"
+if [ -f ~/.alacritty-white ]; then
+        alacritty msg config "$(cat ~/.alacritty-colorscheme/themes/alabaster_dark.toml)"
+        rm ~/.alacritty-white
+else
+        alacritty msg config "$(cat ~/.alacritty-colorscheme/themes/alabaster.toml)"
+        touch ~/.alacritty-white
+fi
+#+end_src
+
+Make a keyboard shortcut for the command.
 #+begin_src toml
 [[keyboard.bindings]]
 key = "F12"
 
 [keyboard.bindings.command]
-args = ["-V", "toggle", "wombat.yaml", "papercolor_light.yaml"]
-program = "alacritty-colorscheme"
+#args = ["msg", "config", "cat"]
+program = "alacritty-toggle.sh"
 
-#+end_src
-
-**** Color schemes with dynamic change
-:PROPERTIES:
-:CUSTOM_ID: color-schemes
-:END:
-#+begin_quote
-Warning: this is not working at the moment as alacrity has migrated to TOML
-format.
-#+end_quote
-
-
-Nice color schemes can be found in [[https://github.com/eendroroy/alacritty-theme][eendroroy/alacritty-theme]] repo.
-
-#+begin_src sh
-git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
-#+end_src
-
-Link to default location:
-#+begin_src sh
-ln -s ~/.alacritty-colorscheme/themes ~/.config/alacritty/colors
-#+end_src
-
-Color scheme can be applied either statically inside alacritty config:
-#+begin_src yaml :tangle no
-import:
-  - ~/.alacritty-colorscheme/themes/{scheme_name}.yaml
-#+end_src
-
-or dynamically using [[https://github.com/toggle-corp/alacritty-colorscheme][alacritty-colorscheme]]:
-#+begin_src sh
-pip install --user alacritty-colorscheme
-#+end_src
-
-List schemes by:
-#+begin_src sh
-alacritty-colorscheme list
-#+end_src
-
-See current scheme by:
-#+begin_src sh
-alacritty-colorscheme status
-#+end_src
-
-Toggle by (see above for keybinding in alacritty config):
-#+begin_src sh
-alacritty-colorscheme -V toggle one_dark.yaml papercolor_light.yaml
 #+end_src
 
 *** Tricks with zsh and [[https://ohmyz.sh/][oh-my-zsh]]

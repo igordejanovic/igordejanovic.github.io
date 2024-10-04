@@ -1,9 +1,9 @@
 +++
 title = "Terminal/shell tricks"
-lastmod = 2023-02-03T10:02:54+01:00
+lastmod = 2024-10-04T15:39:46+02:00
 rtags = ["linux", "shell", "terminal", "config"]
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 +++
 
 ## Useful terminal shortcuts {#useful-terminal-shortcuts}
@@ -19,7 +19,16 @@ creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 | C-x \*   | Inline shell expansion                                                                                      |
 
 
-## [Alacritty](https://alacritty.org/) specific {#alacritty-specific}
+## [Alacritty](https://alacritty.org/) {#alacritty}
+
+[Alacritty](https://alacritty.org/) is a modern terminal emulator. See [additional config info](https://wiki.archlinux.org/title/Alacritty) in ArchLinux
+Wiki.
+
+Install from packages:
+
+```sh
+sudo pacman -S alacritty
+```
 
 | Shortcut      | What it does?                        |
 |---------------|--------------------------------------|
@@ -28,89 +37,89 @@ creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
 | Ctl-Shift-V   | Paste clipboard content              |
 
 
-### Regex hints {#regex-hints}
+### Color schemes with dynamic change {#color-schemes}
 
--   Recognizing URLs and executing open command. Put this into
-    `~/.config/alacritty/alacritty.yml`:
-    ```yaml
-      hints:
-        enabled:
-    ​     - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-                    [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
-           command: xdg-open
-           post_processing: true
-           mouse:
-             enabled: true
-             mods: None
-           binding:
-             key: U
-             mods: Control|Shift
-    ```
-    Now you can press `Ctrl-Shift-U` to get hints overlay (a letter for each
-    recognized URL on the terminal). Press the letter to execute `xdg-open` over the
-    matched content (URL).
-
-
-### Color schemes with dynamic change {#color-schemes-with-dynamic-change}
-
-Nice color schemes can be found in [eendroroy/alacritty-theme](https://github.com/eendroroy/alacritty-theme) repo.
+Nice color schemes can be found in [alacritty/alacritty-theme](https://github.com/alacritty/alacritty-theme) repo.
 
 ```sh
-git clone https://github.com/eendroroy/alacritty-theme.git ~/.alacritty-colorscheme
+git clone https://github.com/alacritty/alacritty-theme.git ~/.alacritty-colorscheme
 ```
 
-Link to default location:
+Color scheme can be applied inside alacritty config:
+
+```toml
+import = [
+  "~/.alacritty-colorscheme/themes/alabaster_dark.toml"
+]
+```
+
+To [change theme dynamically](https://wiki.archlinux.org/title/Alacritty):
 
 ```sh
-ln -s ~/.alacritty-colorscheme/themes ~/.config/alacritty/colors
+alacritty msg config "$(cat ~/path/to/theme.toml)"
 ```
 
-Color scheme can be applied either statically inside alacritty config:
 
-```yaml
-import:
-  - ~/.alacritty-colorscheme/themes/{scheme_name}.yaml
+### Enable URL lookups (regex hints) {#enable-url-lookups--regex-hints}
+
+Triggered by `Ctrl-Shift-U`, then use highlighted letters to choose:
+
+```toml
+[[hints.enabled]]
+command = "xdg-open"
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
 ```
 
-or dynamically using [alacritty-colorscheme](https://github.com/toggle-corp/alacritty-colorscheme):
+Now you can press `Ctrl-Shift-U` to get hints overlay (a letter for each
+recognized URL on the terminal). Press the letter to execute `xdg-open` over the
+matched content (URL).
+
+
+### Additional keybindings {#additional-keybindings}
+
+
+#### Spawn a new instance in the same directory {#spawn-a-new-instance-in-the-same-directory}
+
+```toml
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+```
+
+
+#### Toggle white/dark theme temporarily - e.g. during presentations {#toggle-white-dark-theme-temporarily-e-dot-g-dot-during-presentations}
+
+Make a script `~/bin/alacritty-toggle.sh` for toggling white/dark theme:
 
 ```sh
-pip install --user alacritty-colorscheme
+if [ -f ~/.alacritty-white ]; then
+        alacritty msg config "$(cat ~/.alacritty-colorscheme/themes/alabaster_dark.toml)"
+        rm ~/.alacritty-white
+else
+        alacritty msg config "$(cat ~/.alacritty-colorscheme/themes/alabaster.toml)"
+        touch ~/.alacritty-white
+fi
 ```
 
-List schemes by:
+Make a keyboard shortcut for the command.
 
-```sh
-alacritty-colorscheme list
-```
+```toml
+[[keyboard.bindings]]
+key = "F12"
 
-See current scheme by:
-
-```sh
-alacritty-colorscheme status
-```
-
-Toggle by:
-
-```sh
-alacritty-colorscheme -V toggle wombat.yaml papercolor_light.yaml
-```
-
-Make keybinding in `~/.config/alacritty/alacritty.yml`:
-
-```yaml
-key_bindings:
-  - { key: F12, command: { program: "alacritty-colorscheme", args: ["-V",  "toggle",  "wombat.yaml",  "papercolor_light.yaml"] } }
-```
-
-
-### Spawn a new instance in the same directory {#spawn-a-new-instance-in-the-same-directory}
-
-Add to `~/.config/alacritty/alacritty.yml`:
-
-```yaml
-key_bindings:
-  - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
+[keyboard.bindings.command]
+#args = ["msg", "config", "cat"]
+program = "alacritty-toggle.sh"
 ```
 
 
