@@ -2,7 +2,7 @@
 title = "Courses (in Serbian)"
 linkTitle = "Courses/Предавања"
 draft = false
-creator = "Emacs 29.1 (Org mode 9.7 + ox-hugo)"
+creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 [menu]
   [menu.main]
     weight = 1002
@@ -15,7 +15,6 @@ creator = "Emacs 29.1 (Org mode 9.7 + ox-hugo)"
 
 -   `Esc` - приказ 2д мапе, навигација могућа са стрелицама
 -   `Ctrl-Shift-F` - претрага по задатој речи
--   `M` - садржај
 -   `?` - преглед пречица
 
 Уколико желите да слајдове читате офлајн можете их конвертовати у PDF тако што
