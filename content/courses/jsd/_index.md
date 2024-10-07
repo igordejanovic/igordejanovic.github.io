@@ -33,24 +33,22 @@ weight = 3001
 
 ### Основна {#основна}
 
--   Игор Дејановић, _Језици специфични за домен_, Факултет техничких
-    наука, Нови Сад, 2021. (доступно у скриптарници ФТН-а)
+-   Игор Дејановић, _Језици специфични за домен_, Факултет техничких наука, Нови
+    Сад, 2021. (доступно у скриптарници ФТН-а)
 
 
 ### Додатна {#додатна}
 
--   M. Völter, [_DSL Engineering: Designing, Implementing
-    and Using Domain-Specific Languages_](http://dslbook.org/). 2013.
+-   M. Völter, [_DSL Engineering: Designing, Implementing and Using Domain-Specific
+    Languages_](http://dslbook.org/). 2013.
+-   Meinte Boersma,[_Building User-Friendly DSLs_](https://www.manning.com/books/building-user-friendly-dsls), Manning, 2024.
 -   S. Kelly and J.-P. Tolvanen, _Domain-Specific Modeling: Enabling Full Code
     Generation._ Wiley-IEEE Computer Society Pr, March 2008
 -   A. Kleppe, _Software language engineering: creating domain-specific languages
     using metamodels._ Addison-Wesley, 2009
--   Federico Tomassetti, [_The
-    complete guide to (external) Domain Specific Languages_](https://tomassetti.me/domain-specific-languages/), published on [the
-    author's blog](https://tomassetti.me/), February 2017.
--   Alessio Stalla,
-    [Quick
-    Domain-Specific Languages in Python with textX](https://tomassetti.me/domain-specific-languages-in-python-with-textx/)
+-   Federico Tomassetti, [_The complete guide to (external) Domain Specific
+    Languages_](https://tomassetti.me/domain-specific-languages/), published on [the author's blog](https://tomassetti.me/), February 2017.
+-   Alessio Stalla, [Quick Domain-Specific Languages in Python with textX](https://tomassetti.me/domain-specific-languages-in-python-with-textx/)
 -   Beazley, David M. _Python essential reference_. Addison-Wesley Professional,
     2009.
 
