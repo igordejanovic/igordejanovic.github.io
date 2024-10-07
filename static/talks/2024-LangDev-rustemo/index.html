@@ -25,11 +25,11 @@
 <section id="sec-title-slide" data-background="images/background-first.png" data-background-size="contain">
 <img src="images/rustemo-logo-small.jpg"><img src="images/talk-qr.png"><h1 class="title">Introducing Rustemo: A LR/GLR Parser Generator for Rust</h1>
 <h2 class="author"><a href="https://igordejanovic.net/">Igor Dejanović</a> (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<div class="overview-info">Created 2024-10-03 Thu 18:25, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
+<div class="overview-info">Created 2024-10-07 Mon 13:56, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
 </section>
 <section>
-<section id="slide-org5b7b901" data-background="images/background.png" data-background-size="contain">
-<h2 id="org5b7b901">TOC</h2>
+<section id="slide-org8030137" data-background="images/background.png" data-background-size="contain">
+<h2 id="org8030137">TOC</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Introduction</a></li>
@@ -130,7 +130,7 @@ more complex expressions. This is left as an excercise.</li>
 Project layout is:
 </p>
 
-<pre class="example" id="org33f0b24">
+<pre class="example" id="orgbfe567c">
 .
 └── arithmetic
     ├── Cargo.toml
@@ -183,25 +183,25 @@ rcomp arithmetic.rustemo
 </code></pre>
 </div>
 
-<pre style="font-size: 0.4em;" class="example" id="orgebafe04">
+<pre style="font-size: 0.4em;" class="example" id="orgf6c7b78">
 Generating parser for grammar "arithmetic.rustemo"
-Terminals: 4
+Terminals: 6
 Non-terminals: 1
-Productions: 3
-States: 7
+Productions: 4
+States: 10
 
 CONFLICTS:
-In State 5:E
-	1: E: E Add E .    {STOP, Add, Mul}
-	1: E: E . Add E    {STOP, Add, Mul}
-	2: E: E . Mul E    {STOP, Add, Mul}
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
 When I saw E and see token Add ahead I can't decide should I shift or reduce by production:
 E: E Add E
 
-In State 5:E
-	1: E: E Add E .    {STOP, Add, Mul}
-	1: E: E . Add E    {STOP, Add, Mul}
-	2: E: E . Mul E    {STOP, Add, Mul}
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
 When I saw E and see token Mul ahead I can't decide should I shift or reduce by production:
 E: E Add E
 ...
@@ -230,7 +230,7 @@ We get a PNG file with the DFA.
 </p>
 
 
-<div id="org51dde0e" class="figure">
+<div id="org6250aae" class="figure">
 <p><img src="./images/arithmetic.dot.png" alt="arithmetic.dot.png" style="height: auto;" />
 </p>
 </div>
@@ -253,7 +253,7 @@ States colored red have conflicts.
 </p>
 
 
-<div id="orgc63ffc3" class="figure">
+<div id="orgfe99e33" class="figure">
 <p><img src="./images/parse-tree-ambiguous.png" alt="parse-tree-ambiguous.png" style="height: auto;" />
 </p>
 </div>
@@ -271,7 +271,7 @@ States colored red have conflicts.
 </p>
 
 
-<div id="org880de65" class="figure">
+<div id="orgd9876d1" class="figure">
 <p><img src="./images/parse-tree-unambiguous.png" alt="parse-tree-unambiguous.png" style="height: 500px;" />
 </p>
 </div>
@@ -353,11 +353,11 @@ Now, lets compile the grammar to a GLR parser.
 
 <div class="org-src-container">
 
-<pre><code class="sh" >rcomp --parser-algo glr arithmentic.rustemo
+<pre><code class="sh" >rcomp --parser-algo glr arithmetic.rustemo
 </code></pre>
 </div>
 
-<pre class="example" id="orgc48bced">
+<pre class="example" id="org4948136">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -379,7 +379,7 @@ Generated parser depends on <code>rustemo</code> library. It is a runtime part o
 </code></pre>
 </div>
 
-<pre class="example" id="org073689e">
+<pre class="example" id="org1dee1b1">
     Updating crates.io index
       Adding rustemo v0.6.0 to dependencies
              Features:
@@ -526,7 +526,7 @@ Run with:
 </code></pre>
 </div>
 
-<pre class="example" id="orgae496a9">
+<pre class="example" id="org0bfce76">
 Expression:
 2 + 3 * 5
 Number of interpretations = 2
@@ -1048,7 +1048,7 @@ Now, we can use LR.
 </code></pre>
 </div>
 
-<pre class="example" id="org5385048">
+<pre class="example" id="orgb7a7f5a">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -1160,8 +1160,8 @@ fn main() {
 </section>
 </section>
 <section>
-<section id="slide-org6f2034d" data-background="images/background.png" data-background-size="contain">
-<h2 id="org6f2034d">&nbsp;</h2>
+<section id="slide-orge33c8e9" data-background="images/background.png" data-background-size="contain">
+<h2 id="orge33c8e9">&nbsp;</h2>
 <p style="font-size: 3em;">
 Thanks!
 </p>
@@ -1171,7 +1171,7 @@ Q&amp;A
 </p>
 
 
-<div id="org4713a8d" class="figure">
+<div id="orgaf0a90a" class="figure">
 <p><img src="./images/talk-qr.png" alt="talk-qr.png" style="height: auto;" />
 </p>
 </div>

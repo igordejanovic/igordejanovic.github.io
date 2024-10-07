@@ -111,23 +111,23 @@ rcomp arithmetic.rustemo
 #+ATTR_HTML: :style font-size: 0.4em;
 #+begin_example
 Generating parser for grammar "arithmetic.rustemo"
-Terminals: 4
+Terminals: 6
 Non-terminals: 1
-Productions: 3
-States: 7
+Productions: 4
+States: 10
 
 CONFLICTS:
-In State 5:E
-	1: E: E Add E .    {STOP, Add, Mul}
-	1: E: E . Add E    {STOP, Add, Mul}
-	2: E: E . Mul E    {STOP, Add, Mul}
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
 When I saw E and see token Add ahead I can't decide should I shift or reduce by production:
 E: E Add E
 
-In State 5:E
-	1: E: E Add E .    {STOP, Add, Mul}
-	1: E: E . Add E    {STOP, Add, Mul}
-	2: E: E . Mul E    {STOP, Add, Mul}
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
 When I saw E and see token Mul ahead I can't decide should I shift or reduce by production:
 E: E Add E
 ...
@@ -229,7 +229,7 @@ PClose: ')';
 Now, lets compile the grammar to a GLR parser.
 
 #+begin_src sh
-rcomp --parser-algo glr arithmentic.rustemo
+rcomp --parser-algo glr arithmetic.rustemo
 #+end_src
 
 #+begin_example
