@@ -24,11 +24,11 @@
 <h1 class="title">Napredne tehnike programiranja u Python-u</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2024-09-30 Mon 13:34, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-10-09 Wed 12:48, pritisni ESC za mapu, Ctrl+Shift+F za pretragu, ? za pomoć</p>
 </section>
 <section>
-<section id="slide-orga18ae0b">
-<h2 id="orga18ae0b">Sadržaj</h2>
+<section id="slide-org2cbed92">
+<h2 id="org2cbed92">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Specijalne metode</a></li>
@@ -394,6 +394,12 @@ a.a = 10
 out = a.a
 </code></pre>
 </div>
+
+<pre class="example">
+setattr
+set
+get
+</pre>
 </section>
 </section>
 <section>
@@ -563,6 +569,12 @@ except ValueError as e:
 </code></pre>
 </div>
 
+<pre class="example">
+10
+Woops: Cannot be negative.
+</pre>
+
+
 <p class="footer" style="clear: both;">
 <a href="https://dev.to/dawranliou/writing-descriptors-in-python-36" class="footer" style="clear: both;">https://dev.to/dawranliou/writing-descriptors-in-python-36</a>
 </p>
@@ -618,6 +630,12 @@ except ValueError as e:
        print('Woops:', str(e))
 </code></pre>
 </div>
+
+<pre class="example">
+10
+Woops: Cannot be negative.
+</pre>
+
 
 <p class="footer" style="clear: both;">
 <a href="https://dev.to/dawranliou/writing-descriptors-in-python-36" class="footer" style="clear: both;">https://dev.to/dawranliou/writing-descriptors-in-python-36</a>
@@ -1017,7 +1035,11 @@ Upotreba:
     for i in chain(a, b):
         print(i, end=' ')
 </code></pre>
-</div></li>
+</div>
+
+<pre class="example">
+1 2 3 a b c
+</pre></li>
 
 <li><p>
 Ekvivalentno sa sledećim Python kodom:
@@ -1048,7 +1070,47 @@ Primer:
 <pre><code class="python" >    from itertools import cycle, islice
     return list(islice(cycle('ABCD'), 10))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">A</td>
+<td class="org-left">B</td>
+<td class="org-left">C</td>
+<td class="org-left">D</td>
+<td class="org-left">A</td>
+<td class="org-left">B</td>
+<td class="org-left">C</td>
+<td class="org-left">D</td>
+<td class="org-left">A</td>
+<td class="org-left">B</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1084,7 +1146,32 @@ Primer:
 
 <pre><code class="python" >    return list(filter(lambda x: x % 2, range(10)))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+<td class="org-right">5</td>
+<td class="org-right">7</td>
+<td class="org-right">9</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1118,7 +1205,26 @@ Primer:
 
 <pre><code class="python" >    return list(map(pow, (2, 3, 10), (5, 2, 3)))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">32</td>
+<td class="org-right">9</td>
+<td class="org-right">1000</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1157,7 +1263,28 @@ Primer:
 
 <pre><code class="python" >    return list(zip('ABCD', 'xy'))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">A</td>
+<td class="org-left">x</td>
+</tr>
+
+<tr>
+<td class="org-left">B</td>
+<td class="org-left">y</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1209,7 +1336,26 @@ Primer:
 <pre><code class="python" >    from itertools import dropwhile
     return list(dropwhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">4</td>
+<td class="org-right">1</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1243,7 +1389,23 @@ Primer:
 <pre><code class="python" >    from itertools import takewhile
     return list(takewhile(lambda x: x &lt; 5, [1, 4, 6, 4, 1]))
 </code></pre>
-</div></li>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">4</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><p>
 Ekvivalentno sa:
@@ -1471,7 +1633,7 @@ pozvati da kreira novi element.</li>
 </ul>
 
 
-<div id="orgb9f9a70" class="figure">
+<div id="org1a712a8" class="figure">
 <p><img src="./slike/Diamond_inheritance.svg" alt="Diamond_inheritance.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -1821,20 +1983,20 @@ print("Total time: {}".format(end - start))
 </section>
 <section id="slide-10-7">
 <h3 id="10-7"><span class="section-number-3">10.7.</span> Async kod sa <code>time.sleep(1)</code> - rezultati</h3>
-<pre class="example" id="org79e4ed8">
+<pre class="example" id="orge680548">
   Task A: Compute factorial(2)
-  SLEEP 2024-09-30 13:34:45.502564
+  SLEEP 2022-10-26 16:02:51.591313
   Task A: Compute factorial(3)
-  SLEEP 2024-09-30 13:34:46.502748
+  SLEEP 2022-10-26 16:02:52.592472
   Task A: factorial(3) is 6n
   Task B: Compute factorial(2)
-  SLEEP 2024-09-30 13:34:47.503038
+  SLEEP 2022-10-26 16:02:53.593721
   Task B: Compute factorial(3)
-  SLEEP 2024-09-30 13:34:48.503324
+  SLEEP 2022-10-26 16:02:54.594089
   Task B: Compute factorial(4)
-  SLEEP 2024-09-30 13:34:49.503558
+  SLEEP 2022-10-26 16:02:55.595270
   Task B: factorial(4) is 24n
-  Total time: 5.00154185295105
+  Total time: 5.006118059158325
 </pre>
 
 <p>
@@ -1884,20 +2046,20 @@ print("Total time: {}".format(end - start))
 </section>
 <section id="slide-10-9">
 <h3 id="10-9"><span class="section-number-3">10.9.</span> Async kod sa <code>asyncio.sleep(1)</code> - rezultati</h3>
-<pre class="example" id="org6f18689">
+<pre class="example" id="org994b4a3">
   Task A: Compute factorial(2)
-  SLEEP 2024-09-30 13:34:50.739833n
+  SLEEP 2022-10-26 16:03:33.711905n
   Task B: Compute factorial(2)
-  SLEEP 2024-09-30 13:34:50.739860n
+  SLEEP 2022-10-26 16:03:33.711931n
   Task A: Compute factorial(3)
-  SLEEP 2024-09-30 13:34:51.741039n
+  SLEEP 2022-10-26 16:03:34.713288n
   Task B: Compute factorial(3)
-  SLEEP 2024-09-30 13:34:51.741098n
+  SLEEP 2022-10-26 16:03:34.713412n
   Task A: factorial(3) is 6n
   Task B: Compute factorial(4)
-  SLEEP 2024-09-30 13:34:52.741418n
+  SLEEP 2022-10-26 16:03:35.714253n
   Task B: factorial(4) is 24n
-  Total time: 3.0035600662231445
+  Total time: 3.0045108795166016
 </pre>
 
 <p>
@@ -1977,7 +2139,7 @@ True
 <section id="slide-11-4">
 <h3 id="11-4"><span class="section-number-3">11.4.</span> Ili predstavljeno dijagramom</h3>
 
-<div id="org15554bd" class="figure">
+<div id="org0fa2e72" class="figure">
 <p><img src="./slike/metaclass.png" alt="metaclass.png" />
 </p>
 </div>
@@ -2014,7 +2176,7 @@ print(MyClass2.__mro__)
 
 <pre class="example">
 &lt;class 'type'&gt;
-['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'a', 'b']
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'a', 'b']
 (&lt;class '__main__.MyClass2'&gt;, &lt;class '__main__.MyClass'&gt;, &lt;class 'object'&gt;)
 </pre>
 </section>
