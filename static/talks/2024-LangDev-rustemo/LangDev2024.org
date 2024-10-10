@@ -22,16 +22,16 @@
 :END:
 #+REVEAL_TOC: headlines 1
 * Introduction
+** Introduction
 - [[https://github.com/igordejanovic/rustemo/commit/dae2461][Project started]] in November 2021
 - [[https://github.com/igordejanovic/rustemo/commit/869eb59][Bootstrapping done]] in August 2022
-- An old-school LR parser generator (a.k.a. /compiler-compiler/)
-- With a modern twist
+- An old-school LR parser generator (a.k.a. /compiler-compiler/) ... with a modern twist
 - Generalized LR - [[https://doi.org/10.1145/1146809.1146810][Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.]]
 - Other similar projects
   - [[https://github.com/igordejanovic/parglare/][parglare]] - Python, used to reach bootstrapping
   - [[https://github.com/lalrpop/lalrpop][LALRPOP]] - most popular LR parser for Rust
 - Name: serbian word "растемо" pronounced as "rustemo" means "we grow"
-* Project goals
+** Project goals
 - Clean separation between CFG grammar and semantic actions written in Rust
 - Context-aware lexing
 - Flexibility: clean separation between lexer, parser and builder + all of those
@@ -40,14 +40,84 @@
 - Zero-copy by default
 - Usability and error reporting
 - Each feature covered by docs and tests
+** Rustemo compiler
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 800px;
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-rcomp-0.png]]
 
-* Demo repository
-- [[https://github.com/igordejanovic/langdev2024-rustemo][GitHub repo]]
-- Each step in this demo is a separate commit in the Git repo
-  - Use diff to see what changed in each step
-  - These slides are linked to relevant commits/steps - look for =step x= in
-    titles.
-- Prerequisite - [[https://www.rust-lang.org/tools/install][Rust installed]]
+** Rustemo compiler
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 800px;
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-rcomp-1.png]]
+
+** Rustemo compiler
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 800px;
+#+ATTR_HTML: :data-id arch-overview-rcomp
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-rcomp-2.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-rcomp
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-1.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-parse
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-2.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-parse
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-3.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-parse
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-4.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-parse
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-5.png]]
+
+** Parsing process overview
+:PROPERTIES:
+:reveal_extra_attr: data-auto-animate
+:END:
+#+attr_html: :style height: 850px;
+#+ATTR_HTML: :data-id arch-overview-parse
+#+ATTR_ORG: :width 300px
+[[./images/rustemo-architecture-overview-parsing-6.png]]
 
 * Live demo - arithmetic expressions
 :PROPERTIES:
@@ -60,6 +130,14 @@
   enough to showcase GLR parsing.
 - *Extendable*: We can extend the language with functions (e.g., =sin=, =cos=, =log=) or
   more complex expressions. This is left as an excercise.
+** Demo repository
+- [[https://github.com/igordejanovic/langdev2024-rustemo][GitHub repo]]
+- Each step in this demo is a separate commit in the Git repo
+  - Use diff to see what changed in each step
+  - These slides are linked to relevant commits/steps - look for =step x= in
+    titles.
+- Prerequisite - [[https://www.rust-lang.org/tools/install][Rust installed]]
+
 ** Initial project
 *** Create initial Rust project ([[https://github.com/igordejanovic/langdev2024-rustemo/commit/d22fa8c6dc2797dc71ec40d2a568562a980fb57f][step 1]])
 #+begin_src sh :results none :eval never-export
@@ -152,8 +230,8 @@ We get a PNG file with the DFA.
 [[./images/arithmetic.dot.png]]
 
 States colored red have conflicts.
-* Ambiguous grammars
-** What does it mean for a grammar to be ambiguous?
+** Ambiguous grammars
+*** What does it mean for a grammar to be ambiguous?
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -168,7 +246,7 @@ States colored red have conflicts.
 - The number of possible interpretation rise quickly with the addition of new operations.
 - [[https://en.wikipedia.org/wiki/Catalan_number][1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, ... - Catalan numbers]]
 
-** What does it mean for a grammar to be ambiguous?
+*** What does it mean for a grammar to be ambiguous?
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -181,7 +259,7 @@ States colored red have conflicts.
 
 While the grammar is ambiguous, the language is not!
 
-** How to disambiguate?
+*** How to disambiguate?
 A classic approach - grammar rework by introducing intermediate rules:
 
 #+begin_src text :tangle langdev2024-rustemo/arithmetic/src/arithmetic1.rustemo
@@ -202,8 +280,8 @@ PClose: ')';
 We stay in the CFG realm, but this quickly leads to unmaintainable grammar +
 produced trees are not what the user expects.
 
-* Using GLR
-** Ok, lets try GLR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4][step 4]])
+** Using GLR
+*** Ok, lets try GLR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4][step 4]])
 - GLR - Generalized LR - can accept any CFG, even ambiguous.
 - Explores and returns all possible interpretations efficienly (polinomial time/space).
 
@@ -242,7 +320,7 @@ Writing actions file "arithmetic_actions.rs"
 Writing parser file "arithmetic.rs"
 #+end_example
 
-** Add required dependencies ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5][step 5]])
+*** Add required dependencies ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5][step 5]])
 Generated parser depends on =rustemo= library. It is a runtime part of the Rustemo.
 
 #+begin_src sh
@@ -282,7 +360,7 @@ regex = { version = "1.11.0", default-features = false, features = ["std", "unic
 rustemo = "0.6.1"
 #+end_src
 
-** Update =main.rs=
+*** Update =main.rs=
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -302,7 +380,7 @@ fn main() {
 }
 #+end_src
 
-** Update =main.rs=
+*** Update =main.rs=
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -335,7 +413,7 @@ fn main() {
 }
 #+end_src
 
-** Update =main.rs= ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6][step 6]])
+*** Update =main.rs= ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6][step 6]])
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -412,13 +490,13 @@ Number of interpretations = 2
         ...
 #+end_example
 
-** Improve default actions
+*** Improve default actions
 - The builder can be changed. See [[https://www.igordejanovic.net/rustemo/builders.html][builders section]] in the Rustemo book for more info.
 - The default builder calls actions to create AST nodes where the types are
   auto-inferred from the grammar.
 - Actions are generated Rust functions.
 
-** Improve default actions
+*** Improve default actions
 File =arithmetic_actions.rs=
 
 #+ATTR_HTML: :style font-size: 0.45em;
@@ -448,7 +526,7 @@ pub fn e_number(_ctx: &Ctx, number: Number) -> E {
 /This just creates an AST. But, we would like actions to perform actual
 calculation. Let's do that!/
 
-** Improve actions - add nice production names
+*** Improve actions - add nice production names
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -469,7 +547,7 @@ POpen: '(';
 PClose: ')';
 #+end_src
 
-** Improve actions - add assignments
+*** Improve actions - add assignments
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -489,7 +567,7 @@ Mul: '*';
 POpen: '(';
 PClose: ')';
 #+end_src
-** Improve actions - regenerate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7][step 7]])
+*** Improve actions - regenerate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7][step 7]])
 - Actions are regenerated on each =rcomp= run.
 - Old content is preserved as we are able to manually tune actions and types.
 - In this case we don't have manual changes so we just delete
@@ -499,7 +577,7 @@ rm arithmetic_actions.rs
 rcomp --parser-algo glr arithmentic.rustemo
   #+end_src
 
-** Improve actions - improved
+*** Improve actions - improved
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -532,7 +610,7 @@ pub enum E {
 }
 #+end_src
 
-** Improve actions - improved
+*** Improve actions - improved
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -560,7 +638,7 @@ pub fn e_num(_ctx: &Ctx, number: Number) -> E {
     E::Num(number)
 }
 #+end_src
-** Improve actions - calculate
+*** Improve actions - calculate
 We can now manually tune our actions to do calculations during the build. We
 don't want to build the tree, we want to get the result of the calculation.
 
@@ -582,7 +660,7 @@ pub fn number(_ctx: &Ctx, token: Token) -> Number {
 
 to convert numbers from strings to integers.
 
-** Improve actions - calculate
+*** Improve actions - calculate
 We replace all these types.
 #+begin_src rust
 #[derive(Debug, Clone)]
@@ -607,7 +685,7 @@ With just:
 #+begin_src rust
 pub type E = i32;
 #+end_src
-** Improve actions - calculate
+*** Improve actions - calculate
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -635,7 +713,7 @@ pub fn e_num(_ctx: &Ctx, number: Number) -> E {
     E::Num(number)
 }
 #+end_src
-** Improve actions - calculate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8][step 8]])
+*** Improve actions - calculate ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8][step 8]])
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -657,7 +735,7 @@ pub fn e_num(_ctx: &Ctx, number: Number) -> E {
     number
 }
 #+end_src
-** Improve actions - run
+*** Improve actions - run
 
 Run it again:
 #+begin_src sh
@@ -671,14 +749,14 @@ cargo run
   impose a big overhead.
 - We must call builder explicitly over trees extracted from the forest.
 
-** GLR - calculate over all trees
+*** GLR - calculate over all trees
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
 Change our =main.rs= to build all trees from the forest using our new calculation
 actions.
 
-** GLR - calculate over all trees
+*** GLR - calculate over all trees
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -719,7 +797,7 @@ fn main() {
 }
 #+end_src
 
-** GLR - calculate over all trees
+*** GLR - calculate over all trees
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -766,7 +844,7 @@ fn main() {
 }
 #+end_src
 
-** GLR - calculate over all trees ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9][step 9]])
+*** GLR - calculate over all trees ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9][step 9]])
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -791,8 +869,8 @@ To this:
     println!("{results:?}");
 #+end_src
 
-* Declarative disambiguation
-** Rustemo - declarative disambiguation
+** Declarative disambiguation
+*** Rustemo - declarative disambiguation
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -817,7 +895,7 @@ Mul: '*';
 POpen: '(';
 PClose: ')';
 #+end_src
-** Rustemo - declarative disambiguation
+*** Rustemo - declarative disambiguation
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -838,7 +916,7 @@ POpen: '(';
 PClose: ')';
 #+end_src
 
-** Regenerate the parser
+*** Regenerate the parser
 Now, we can use LR.
 
 #+begin_src sh
@@ -854,14 +932,14 @@ States: 10
 Writing actions file "arithmetic_actions.rs"
 Writing parser file "arithmetic.rs"
 #+end_example
-** Fix =main.rs= for LR
+*** Fix =main.rs= for LR
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
 Now, we don't get a forest from the LR parser but the result of the default builder evaluation.
 Let's fix that.
 
-** Fix =main.rs= for LR
+*** Fix =main.rs= for LR
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -908,7 +986,7 @@ fn main() {
 }
 #+end_src
 
-** Fix =main.rs= for LR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10][step 10]])
+*** Fix =main.rs= for LR ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10][step 10]])
 :PROPERTIES:
 :reveal_extra_attr: data-auto-animate
 :END:
@@ -944,9 +1022,17 @@ fn main() {
 }
 #+end_src
 
-* Where to go next?
-- [[https://www.igordejanovic.net/rustemo/][The Rustemo Book]]
-- [[https://github.com/igordejanovic/rustemo/tree/main/tests/src][Rustemo integration/features tests]]
+* Wrap up
+- Learn more
+  - [[https://www.igordejanovic.net/rustemo/][The Rustemo Book]]
+  - [[https://github.com/igordejanovic/rustemo/tree/main/tests/src][Rustemo integration/features tests]]
+- Possible further directions
+  - Grammars compositions. Grammars importing, rule inheritance etc.
+  - Better disambiguations (static vs. dynamic)
+  - Error recovery
+  - Incremental parsing
+  - Tooling for working with Rustemo grammars (e.g. LSP server, plugins for popular editors).
+- Rustemo is [[https://www.igordejanovic.net/rustemo/contributing.html][open for contributions]]!
 * \nbsp
 :PROPERTIES:
 :UNNUMBERED: notoc

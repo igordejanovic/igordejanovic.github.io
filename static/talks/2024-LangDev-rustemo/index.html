@@ -25,21 +25,16 @@
 <section id="sec-title-slide" data-background="images/background-first.png" data-background-size="contain">
 <img src="images/rustemo-logo-small.jpg"><img src="images/talk-qr.png"><h1 class="title">Introducing Rustemo: A LR/GLR Parser Generator for Rust</h1>
 <h2 class="author"><a href="https://igordejanovic.net/">Igor Dejanović</a> (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<div class="overview-info">Created 2024-10-07 Mon 13:56, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
+<div class="overview-info">Created 2024-10-10 Thu 20:11, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
 </section>
 <section>
-<section id="slide-org8030137" data-background="images/background.png" data-background-size="contain">
-<h2 id="org8030137">TOC</h2>
+<section id="slide-org603f2d5" data-background="images/background.png" data-background-size="contain">
+<h2 id="org603f2d5">TOC</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Introduction</a></li>
-<li><a href="#/slide-2">2. Project goals</a></li>
-<li><a href="#/slide-3">3. Demo repository</a></li>
-<li><a href="#/slide-4">4. Live demo - arithmetic expressions</a></li>
-<li><a href="#/slide-5">5. Ambiguous grammars</a></li>
-<li><a href="#/slide-6">6. Using GLR</a></li>
-<li><a href="#/slide-7">7. Declarative disambiguation</a></li>
-<li><a href="#/slide-8">8. Where to go next?</a></li>
+<li><a href="#/slide-2">2. Live demo - arithmetic expressions</a></li>
+<li><a href="#/slide-3">3. Wrap up</a></li>
 </ul>
 </div>
 </section>
@@ -47,11 +42,15 @@
 <section>
 <section id="slide-1" data-background="images/background.png" data-background-size="contain">
 <h2 id="1"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Introduction</h3>
 <ul>
 <li><a href="https://github.com/igordejanovic/rustemo/commit/dae2461">Project started</a> in November 2021</li>
 <li><a href="https://github.com/igordejanovic/rustemo/commit/869eb59">Bootstrapping done</a> in August 2022</li>
-<li>An old-school LR parser generator (a.k.a. <i>compiler-compiler</i>)</li>
-<li>With a modern twist</li>
+<li>An old-school LR parser generator (a.k.a. <i>compiler-compiler</i>) &#x2026; with a modern twist</li>
 <li>Generalized LR - <a href="https://doi.org/10.1145/1146809.1146810">Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.</a></li>
 <li>Other similar projects
 <ul>
@@ -63,10 +62,8 @@
 
 </ul>
 </section>
-</section>
-<section>
-<section id="slide-2" data-background="images/background.png" data-background-size="contain">
-<h2 id="2"><span class="section-number-2">2.</span> Project goals</h2>
+<section id="slide-1-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Project goals</h3>
 <ul>
 <li>Clean separation between CFG grammar and semantic actions written in Rust</li>
 <li>Context-aware lexing</li>
@@ -79,10 +76,97 @@ are replaceable</li>
 
 </ul>
 </section>
+<section id="slide-1-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Rustemo compiler</h3>
+
+<div id="org14738df" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-0.png" alt="rustemo-architecture-overview-rcomp-0.png" style="height: 800px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Rustemo compiler</h3>
+
+<div id="orgb2189ac" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-1.png" alt="rustemo-architecture-overview-rcomp-1.png" style="height: 800px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Rustemo compiler</h3>
+
+<div id="org825f7e0" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-2.png" alt="rustemo-architecture-overview-rcomp-2.png" style="height: 800px;" data-id="arch-overview-rcomp" />
+</p>
+</div>
+</section>
+<section id="slide-1-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Parsing process overview</h3>
+
+<div id="org689386f" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-1.png" alt="rustemo-architecture-overview-parsing-1.png" style="height: 850px;" data-id="arch-overview-rcomp" />
+</p>
+</div>
+</section>
+<section id="slide-1-7" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Parsing process overview</h3>
+
+<div id="orgc37805b" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-2.png" alt="rustemo-architecture-overview-parsing-2.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Parsing process overview</h3>
+
+<div id="orgd2259ec" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-3.png" alt="rustemo-architecture-overview-parsing-3.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Parsing process overview</h3>
+
+<div id="orgc784c35" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-4.png" alt="rustemo-architecture-overview-parsing-4.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-10" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Parsing process overview</h3>
+
+<div id="orgea75fca" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-5.png" alt="rustemo-architecture-overview-parsing-5.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-11" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-11"><span class="section-number-3">1.11.</span> Parsing process overview</h3>
+
+<div id="org3502937" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-6.png" alt="rustemo-architecture-overview-parsing-6.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
 </section>
 <section>
-<section id="slide-3" data-background="images/background.png" data-background-size="contain">
-<h2 id="3"><span class="section-number-2">3.</span> Demo repository</h2>
+<section id="slide-2" data-background="images/background.png" data-background-size="contain">
+<h2 id="2"><span class="section-number-2">2.</span> Live demo - arithmetic expressions</h2>
+</section>
+<section id="slide-2-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Why Arithmetic DSL?</h3>
+<ul>
+<li><b>Universally Understood</b>: Everyone can grasp basic arithmetic, so no need to
+explain domain concepts.</li>
+<li><b>Clear Ambiguity</b>: The precedence/asociativity ambiguity is simple yet powerful
+enough to showcase GLR parsing.</li>
+<li><b>Extendable</b>: We can extend the language with functions (e.g., <code>sin</code>, <code>cos</code>, <code>log</code>) or
+more complex expressions. This is left as an excercise.</li>
+
+</ul>
+</section>
+<section id="slide-2-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Demo repository</h3>
 <ul>
 <li><a href="https://github.com/igordejanovic/langdev2024-rustemo">GitHub repo</a></li>
 <li>Each step in this demo is a separate commit in the Git repo
@@ -96,30 +180,13 @@ titles.</li>
 
 </ul>
 </section>
-</section>
-<section>
-<section id="slide-4" data-background="images/background.png" data-background-size="contain">
-<h2 id="4"><span class="section-number-2">4.</span> Live demo - arithmetic expressions</h2>
-</section>
-<section id="slide-4-1" data-background="images/background.png" data-background-size="contain">
-<h3 id="4-1"><span class="section-number-3">4.1.</span> Why Arithmetic DSL?</h3>
-<ul>
-<li><b>Universally Understood</b>: Everyone can grasp basic arithmetic, so no need to
-explain domain concepts.</li>
-<li><b>Clear Ambiguity</b>: The precedence/asociativity ambiguity is simple yet powerful
-enough to showcase GLR parsing.</li>
-<li><b>Extendable</b>: We can extend the language with functions (e.g., <code>sin</code>, <code>cos</code>, <code>log</code>) or
-more complex expressions. This is left as an excercise.</li>
-
-</ul>
-</section>
-<section id="slide-4-2" data-background="images/background.png" data-background-size="contain">
-<h3 id="4-2"><span class="section-number-3">4.2.</span> Initial project</h3>
-<div class="outline-text-3" id="text-4-2">
+<section id="slide-2-3" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Initial project</h3>
+<div class="outline-text-3" id="text-2-3">
 </div>
 </section>
-<section id="slide-4-2-1" data-background="images/background.png" data-background-size="contain">
-<h4 id="4-2-1"><span class="section-number-4">4.2.1.</span> Create initial Rust project (<a href="https://github.com/igordejanovic/langdev2024-rustemo/commit/d22fa8c6dc2797dc71ec40d2a568562a980fb57f">step 1</a>)</h4>
+<section id="slide-2-3-1" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-1"><span class="section-number-4">2.3.1.</span> Create initial Rust project (<a href="https://github.com/igordejanovic/langdev2024-rustemo/commit/d22fa8c6dc2797dc71ec40d2a568562a980fb57f">step 1</a>)</h4>
 <div class="org-src-container">
 
 <pre><code class="sh" >cargo new --bin arithmetic
@@ -130,7 +197,7 @@ more complex expressions. This is left as an excercise.</li>
 Project layout is:
 </p>
 
-<pre class="example" id="orgbfe567c">
+<pre class="example" id="org25b5339">
 .
 └── arithmetic
     ├── Cargo.toml
@@ -139,8 +206,8 @@ Project layout is:
 
 </pre>
 </section>
-<section id="slide-4-2-2" data-background="images/background.png" data-background-size="contain">
-<h4 id="4-2-2"><span class="section-number-4">4.2.2.</span> Create expression grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_1...step_2">step 2</a>)</h4>
+<section id="slide-2-3-2" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-2"><span class="section-number-4">2.3.2.</span> Create expression grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_1...step_2">step 2</a>)</h4>
 <p>
 File <code>src/arithmetic.rustemo</code>
 </p>
@@ -162,8 +229,8 @@ PClose: ')';
 </code></pre>
 </div>
 </section>
-<section id="slide-4-2-3" data-background="images/background.png" data-background-size="contain">
-<h4 id="4-2-3"><span class="section-number-4">4.2.3.</span> Install Rustemo compiler</h4>
+<section id="slide-2-3-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-3"><span class="section-number-4">2.3.3.</span> Install Rustemo compiler</h4>
 <div class="org-src-container">
 
 <pre><code class="sh" >cargo install rustemo-compiler
@@ -174,8 +241,8 @@ PClose: ')';
 After the installation completes the compiler (<code>rcomp</code> CLI tool) is available.
 </p>
 </section>
-<section id="slide-4-2-4" data-background="images/background.png" data-background-size="contain">
-<h4 id="4-2-4"><span class="section-number-4">4.2.4.</span> Try to compile the grammar</h4>
+<section id="slide-2-3-4" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-4"><span class="section-number-4">2.3.4.</span> Try to compile the grammar</h4>
 <div class="org-src-container">
 
 <pre><code class="sh" >cd arithmetic/src/
@@ -183,7 +250,7 @@ rcomp arithmetic.rustemo
 </code></pre>
 </div>
 
-<pre style="font-size: 0.4em;" class="example" id="orgf6c7b78">
+<pre style="font-size: 0.4em;" class="example" id="org271dd0f">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -215,8 +282,8 @@ Parser(s) not generated.
 <i>This grammar is ambiguous!</i>
 </p>
 </section>
-<section id="slide-4-2-5" data-background="images/background.png" data-background-size="contain">
-<h4 id="4-2-5"><span class="section-number-4">4.2.5.</span> We can also visualize DFA for this grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_2...step_3">step 3</a>)</h4>
+<section id="slide-2-3-5" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-5"><span class="section-number-4">2.3.5.</span> We can also visualize DFA for this grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_2...step_3">step 3</a>)</h4>
 <div class="org-src-container">
 
 <pre><code class="sh" >cd arithmetic/src
@@ -230,7 +297,7 @@ We get a PNG file with the DFA.
 </p>
 
 
-<div id="org6250aae" class="figure">
+<div id="orgfc7cec2" class="figure">
 <p><img src="./images/arithmetic.dot.png" alt="arithmetic.dot.png" style="height: auto;" />
 </p>
 </div>
@@ -239,21 +306,19 @@ We get a PNG file with the DFA.
 States colored red have conflicts.
 </p>
 </section>
-</section>
-<section>
-<section id="slide-5" data-background="images/background.png" data-background-size="contain">
-<h2 id="5"><span class="section-number-2">5.</span> Ambiguous grammars</h2>
-<div class="outline-text-2" id="text-5">
+<section id="slide-2-4" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Ambiguous grammars</h3>
+<div class="outline-text-3" id="text-2-4">
 </div>
 </section>
-<section id="slide-5-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="5-1"><span class="section-number-3">5.1.</span> What does it mean for a grammar to be ambiguous?</h3>
+<section id="slide-2-4-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-1"><span class="section-number-4">2.4.1.</span> What does it mean for a grammar to be ambiguous?</h4>
 <p>
 <i>1 + 2 * 3 + 4</i>
 </p>
 
 
-<div id="orgfe99e33" class="figure">
+<div id="orgf163432" class="figure">
 <p><img src="./images/parse-tree-ambiguous.png" alt="parse-tree-ambiguous.png" style="height: auto;" />
 </p>
 </div>
@@ -264,14 +329,14 @@ States colored red have conflicts.
 
 </ul>
 </section>
-<section id="slide-5-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="5-2"><span class="section-number-3">5.2.</span> What does it mean for a grammar to be ambiguous?</h3>
+<section id="slide-2-4-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-2"><span class="section-number-4">2.4.2.</span> What does it mean for a grammar to be ambiguous?</h4>
 <p>
 <i>1 + 2 * 3 + 4</i>
 </p>
 
 
-<div id="orgd9876d1" class="figure">
+<div id="org1ef5e37" class="figure">
 <p><img src="./images/parse-tree-unambiguous.png" alt="parse-tree-unambiguous.png" style="height: 500px;" />
 </p>
 </div>
@@ -280,8 +345,8 @@ States colored red have conflicts.
 While the grammar is ambiguous, the language is not!
 </p>
 </section>
-<section id="slide-5-3" data-background="images/background.png" data-background-size="contain">
-<h3 id="5-3"><span class="section-number-3">5.3.</span> How to disambiguate?</h3>
+<section id="slide-2-4-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-3"><span class="section-number-4">2.4.3.</span> How to disambiguate?</h4>
 <p>
 A classic approach - grammar rework by introducing intermediate rules:
 </p>
@@ -308,15 +373,13 @@ We stay in the CFG realm, but this quickly leads to unmaintainable grammar +
 produced trees are not what the user expects.
 </p>
 </section>
-</section>
-<section>
-<section id="slide-6" data-background="images/background.png" data-background-size="contain">
-<h2 id="6"><span class="section-number-2">6.</span> Using GLR</h2>
-<div class="outline-text-2" id="text-6">
+<section id="slide-2-5" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Using GLR</h3>
+<div class="outline-text-3" id="text-2-5">
 </div>
 </section>
-<section id="slide-6-1" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-1"><span class="section-number-3">6.1.</span> Ok, lets try GLR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4">step 4</a>)</h3>
+<section id="slide-2-5-1" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-1"><span class="section-number-4">2.5.1.</span> Ok, lets try GLR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4">step 4</a>)</h4>
 <ul>
 <li>GLR - Generalized LR - can accept any CFG, even ambiguous.</li>
 <li>Explores and returns all possible interpretations efficienly (polinomial time/space).</li>
@@ -357,7 +420,7 @@ Now, lets compile the grammar to a GLR parser.
 </code></pre>
 </div>
 
-<pre class="example" id="org4948136">
+<pre class="example" id="org523bd52">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -367,8 +430,8 @@ Writing actions file "arithmetic_actions.rs"
 Writing parser file "arithmetic.rs"
 </pre>
 </section>
-<section id="slide-6-2" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-2"><span class="section-number-3">6.2.</span> Add required dependencies (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5">step 5</a>)</h3>
+<section id="slide-2-5-2" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-2"><span class="section-number-4">2.5.2.</span> Add required dependencies (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5">step 5</a>)</h4>
 <p>
 Generated parser depends on <code>rustemo</code> library. It is a runtime part of the Rustemo.
 </p>
@@ -379,7 +442,7 @@ Generated parser depends on <code>rustemo</code> library. It is a runtime part o
 </code></pre>
 </div>
 
-<pre class="example" id="org1dee1b1">
+<pre class="example" id="org889b06f">
     Updating crates.io index
       Adding rustemo v0.6.0 to dependencies
              Features:
@@ -421,8 +484,8 @@ rustemo = "0.6.1"
 </code></pre>
 </div>
 </section>
-<section id="slide-6-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-3"><span class="section-number-3">6.3.</span> Update <code>main.rs</code></h3>
+<section id="slide-2-5-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-3"><span class="section-number-4">2.5.3.</span> Update <code>main.rs</code></h4>
 <p>
 Read expression from stdin.
 </p>
@@ -440,8 +503,8 @@ Read expression from stdin.
 </code></pre>
 </div>
 </section>
-<section id="slide-6-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-4"><span class="section-number-3">6.4.</span> Update <code>main.rs</code></h3>
+<section id="slide-2-5-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-4"><span class="section-number-4">2.5.4.</span> Update <code>main.rs</code></h4>
 <p>
 Import generated parser modules and the parser type.
 </p>
@@ -472,8 +535,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-5"><span class="section-number-3">6.5.</span> Update <code>main.rs</code> (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6">step 6</a>)</h3>
+<section id="slide-2-5-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-5"><span class="section-number-4">2.5.5.</span> Update <code>main.rs</code> (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6">step 6</a>)</h4>
 <p>
 Parse the input and process the forest.
 </p>
@@ -526,7 +589,7 @@ Run with:
 </code></pre>
 </div>
 
-<pre class="example" id="org0bfce76">
+<pre class="example" id="orgc1f42ed">
 Expression:
 2 + 3 * 5
 Number of interpretations = 2
@@ -553,8 +616,8 @@ Number of interpretations = 2
         ...
 </pre>
 </section>
-<section id="slide-6-6" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-6"><span class="section-number-3">6.6.</span> Improve default actions</h3>
+<section id="slide-2-5-6" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-6"><span class="section-number-4">2.5.6.</span> Improve default actions</h4>
 <ul>
 <li>The builder can be changed. See <a href="https://www.igordejanovic.net/rustemo/builders.html">builders section</a> in the Rustemo book for more info.</li>
 <li>The default builder calls actions to create AST nodes where the types are
@@ -563,8 +626,8 @@ auto-inferred from the grammar.</li>
 
 </ul>
 </section>
-<section id="slide-6-7" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-7"><span class="section-number-3">6.7.</span> Improve default actions</h3>
+<section id="slide-2-5-7" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-7"><span class="section-number-4">2.5.7.</span> Improve default actions</h4>
 <p>
 File <code>arithmetic_actions.rs</code>
 </p>
@@ -599,8 +662,8 @@ pub fn e_number(_ctx: &amp;Ctx, number: Number) -&gt; E {
 calculation. Let&rsquo;s do that!</i>
 </p>
 </section>
-<section id="slide-6-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-8"><span class="section-number-3">6.8.</span> Improve actions - add nice production names</h3>
+<section id="slide-2-5-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-8"><span class="section-number-4">2.5.8.</span> Improve actions - add nice production names</h4>
 <div class="org-src-container">
 
 <pre data-id="actions-id"><code class="text" data-line-numbers=1-4>E: E '+' E {Add}
@@ -618,8 +681,8 @@ PClose: ')';
 </code></pre>
 </div>
 </section>
-<section id="slide-6-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-9"><span class="section-number-3">6.9.</span> Improve actions - add assignments</h3>
+<section id="slide-2-5-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-9"><span class="section-number-4">2.5.9.</span> Improve actions - add assignments</h4>
 <div class="org-src-container">
 
 <pre data-id="actions-id"><code class="text" data-line-numbers=1-2>E: left=E '+' right=E {Add}
@@ -637,8 +700,8 @@ PClose: ')';
 </code></pre>
 </div>
 </section>
-<section id="slide-6-10" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-10"><span class="section-number-3">6.10.</span> Improve actions - regenerate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7">step 7</a>)</h3>
+<section id="slide-2-5-10" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-10"><span class="section-number-4">2.5.10.</span> Improve actions - regenerate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7">step 7</a>)</h4>
 <ul>
 <li>Actions are regenerated on each <code>rcomp</code> run.</li>
 <li>Old content is preserved as we are able to manually tune actions and types.</li>
@@ -655,8 +718,8 @@ rcomp --parser-algo glr arithmentic.rustemo
 
 </ul>
 </section>
-<section id="slide-6-11" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-11"><span class="section-number-3">6.11.</span> Improve actions - improved</h3>
+<section id="slide-2-5-11" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-11"><span class="section-number-4">2.5.11.</span> Improve actions - improved</h4>
 <p>
 And, now our actions are more readable.
 </p>
@@ -688,8 +751,8 @@ pub enum E {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-12" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-12"><span class="section-number-3">6.12.</span> Improve actions - improved</h3>
+<section id="slide-2-5-12" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-12"><span class="section-number-4">2.5.12.</span> Improve actions - improved</h4>
 <p>
 And, now our actions are more readable.
 </p>
@@ -717,8 +780,8 @@ pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-13" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-13"><span class="section-number-3">6.13.</span> Improve actions - calculate</h3>
+<section id="slide-2-5-13" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-13"><span class="section-number-4">2.5.13.</span> Improve actions - calculate</h4>
 <p>
 We can now manually tune our actions to do calculations during the build. We
 don&rsquo;t want to build the tree, we want to get the result of the calculation.
@@ -752,8 +815,8 @@ pub fn number(_ctx: &amp;Ctx, token: Token) -&gt; Number {
 to convert numbers from strings to integers.
 </p>
 </section>
-<section id="slide-6-14" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-14"><span class="section-number-3">6.14.</span> Improve actions - calculate</h3>
+<section id="slide-2-5-14" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-14"><span class="section-number-4">2.5.14.</span> Improve actions - calculate</h4>
 <p>
 We replace all these types.
 </p>
@@ -787,8 +850,8 @@ With just:
 </code></pre>
 </div>
 </section>
-<section id="slide-6-15" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-15"><span class="section-number-3">6.15.</span> Improve actions - calculate</h3>
+<section id="slide-2-5-15" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-15"><span class="section-number-4">2.5.15.</span> Improve actions - calculate</h4>
 <p>
 Now, we replace actions bodies with a proper calculations.
 </p>
@@ -819,8 +882,8 @@ pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-16" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-16"><span class="section-number-3">6.16.</span> Improve actions - calculate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8">step 8</a>)</h3>
+<section id="slide-2-5-16" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-16"><span class="section-number-4">2.5.16.</span> Improve actions - calculate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8">step 8</a>)</h4>
 <p>
 Now, we replace actions bodies with a proper calculations.
 </p>
@@ -845,8 +908,8 @@ pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-17" data-background="images/background.png" data-background-size="contain">
-<h3 id="6-17"><span class="section-number-3">6.17.</span> Improve actions - run</h3>
+<section id="slide-2-5-17" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-17"><span class="section-number-4">2.5.17.</span> Improve actions - run</h4>
 <p>
 Run it again:
 </p>
@@ -865,15 +928,15 @@ impose a big overhead.</li>
 
 </ul>
 </section>
-<section id="slide-6-18" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-18"><span class="section-number-3">6.18.</span> GLR - calculate over all trees</h3>
+<section id="slide-2-5-18" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-18"><span class="section-number-4">2.5.18.</span> GLR - calculate over all trees</h4>
 <p>
 Change our <code>main.rs</code> to build all trees from the forest using our new calculation
 actions.
 </p>
 </section>
-<section id="slide-6-19" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-19"><span class="section-number-3">6.19.</span> GLR - calculate over all trees</h3>
+<section id="slide-2-5-19" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-19"><span class="section-number-4">2.5.19.</span> GLR - calculate over all trees</h4>
 <p>
 Change from this:
 </p>
@@ -913,8 +976,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-20" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-20"><span class="section-number-3">6.20.</span> GLR - calculate over all trees</h3>
+<section id="slide-2-5-20" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-20"><span class="section-number-4">2.5.20.</span> GLR - calculate over all trees</h4>
 <p>
 To this:
 </p>
@@ -960,8 +1023,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-6-21" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="6-21"><span class="section-number-3">6.21.</span> GLR - calculate over all trees (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9">step 9</a>)</h3>
+<section id="slide-2-5-21" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-21"><span class="section-number-4">2.5.21.</span> GLR - calculate over all trees (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9">step 9</a>)</h4>
 <p>
 To this:
 </p>
@@ -985,15 +1048,13 @@ To this:
 </code></pre>
 </div>
 </section>
-</section>
-<section>
-<section id="slide-7" data-background="images/background.png" data-background-size="contain">
-<h2 id="7"><span class="section-number-2">7.</span> Declarative disambiguation</h2>
-<div class="outline-text-2" id="text-7">
+<section id="slide-2-6" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Declarative disambiguation</h3>
+<div class="outline-text-3" id="text-2-6">
 </div>
 </section>
-<section id="slide-7-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="7-1"><span class="section-number-3">7.1.</span> Rustemo - declarative disambiguation</h3>
+<section id="slide-2-6-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-6-1"><span class="section-number-4">2.6.1.</span> Rustemo - declarative disambiguation</h4>
 <p>
 But, this language is not ambiguous. We have priorities and associativities.
 Let&rsquo;s disambiguate by using Rustemo declarative disambiguation so we can use LR
@@ -1017,8 +1078,8 @@ PClose: ')';
 </code></pre>
 </div>
 </section>
-<section id="slide-7-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="7-2"><span class="section-number-3">7.2.</span> Rustemo - declarative disambiguation</h3>
+<section id="slide-2-6-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-6-2"><span class="section-number-4">2.6.2.</span> Rustemo - declarative disambiguation</h4>
 <div class="org-src-container">
 
 <pre data-id="disamb-id"><code class="text" data-line-numbers=1-2>E: left=E '+' right=E {Add, 1, left}
@@ -1036,8 +1097,8 @@ PClose: ')';
 </code></pre>
 </div>
 </section>
-<section id="slide-7-3" data-background="images/background.png" data-background-size="contain">
-<h3 id="7-3"><span class="section-number-3">7.3.</span> Regenerate the parser</h3>
+<section id="slide-2-6-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-6-3"><span class="section-number-4">2.6.3.</span> Regenerate the parser</h4>
 <p>
 Now, we can use LR.
 </p>
@@ -1048,7 +1109,7 @@ Now, we can use LR.
 </code></pre>
 </div>
 
-<pre class="example" id="orgb7a7f5a">
+<pre class="example" id="org6484a5b">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -1058,15 +1119,15 @@ Writing actions file "arithmetic_actions.rs"
 Writing parser file "arithmetic.rs"
 </pre>
 </section>
-<section id="slide-7-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="7-4"><span class="section-number-3">7.4.</span> Fix <code>main.rs</code> for LR</h3>
+<section id="slide-2-6-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-6-4"><span class="section-number-4">2.6.4.</span> Fix <code>main.rs</code> for LR</h4>
 <p>
 Now, we don&rsquo;t get a forest from the LR parser but the result of the default builder evaluation.
 Let&rsquo;s fix that.
 </p>
 </section>
-<section id="slide-7-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="7-5"><span class="section-number-3">7.5.</span> Fix <code>main.rs</code> for LR</h3>
+<section id="slide-2-6-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-6-5"><span class="section-number-4">2.6.5.</span> Fix <code>main.rs</code> for LR</h4>
 <p>
 We change <code>main.rs</code> from this:
 </p>
@@ -1112,8 +1173,8 @@ fn main() {
 </code></pre>
 </div>
 </section>
-<section id="slide-7-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
-<h3 id="7-6"><span class="section-number-3">7.6.</span> Fix <code>main.rs</code> for LR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10">step 10</a>)</h3>
+<section id="slide-2-6-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-6-6"><span class="section-number-4">2.6.6.</span> Fix <code>main.rs</code> for LR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10">step 10</a>)</h4>
 <p>
 To this:
 </p>
@@ -1150,18 +1211,32 @@ fn main() {
 </section>
 </section>
 <section>
-<section id="slide-8" data-background="images/background.png" data-background-size="contain">
-<h2 id="8"><span class="section-number-2">8.</span> Where to go next?</h2>
+<section id="slide-3" data-background="images/background.png" data-background-size="contain">
+<h2 id="3"><span class="section-number-2">3.</span> Wrap up</h2>
+<ul>
+<li>Learn more
 <ul>
 <li><a href="https://www.igordejanovic.net/rustemo/">The Rustemo Book</a></li>
 <li><a href="https://github.com/igordejanovic/rustemo/tree/main/tests/src">Rustemo integration/features tests</a></li>
+
+</ul></li>
+<li>Possible further directions
+<ul>
+<li>Grammars compositions. Grammars importing, rule inheritance etc.</li>
+<li>Better disambiguations (static vs. dynamic)</li>
+<li>Error recovery</li>
+<li>Incremental parsing</li>
+<li>Tooling for working with Rustemo grammars (e.g. LSP server, plugins for popular editors).</li>
+
+</ul></li>
+<li>Rustemo is <a href="https://www.igordejanovic.net/rustemo/contributing.html">open for contributions</a>!</li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orge33c8e9" data-background="images/background.png" data-background-size="contain">
-<h2 id="orge33c8e9">&nbsp;</h2>
+<section id="slide-org0840594" data-background="images/background.png" data-background-size="contain">
+<h2 id="org0840594">&nbsp;</h2>
 <p style="font-size: 3em;">
 Thanks!
 </p>
@@ -1171,7 +1246,7 @@ Q&amp;A
 </p>
 
 
-<div id="orgaf0a90a" class="figure">
+<div id="org9e7ab5f" class="figure">
 <p><img src="./images/talk-qr.png" alt="talk-qr.png" style="height: auto;" />
 </p>
 </div>
