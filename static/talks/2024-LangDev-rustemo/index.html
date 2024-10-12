@@ -25,11 +25,11 @@
 <section id="sec-title-slide" data-background="images/background-first.png" data-background-size="contain">
 <img src="images/rustemo-logo-small.jpg"><img src="images/talk-qr.png"><h1 class="title">Introducing Rustemo: A LR/GLR Parser Generator for Rust</h1>
 <h2 class="author"><a href="https://igordejanovic.net/">Igor Dejanović</a> (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>), University of Novi Sad</h2>
-<div class="overview-info">Created 2024-10-11 Fri 20:39, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
+<div class="overview-info">Created 2024-10-12 Sat 22:12, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
 </section>
 <section>
-<section id="slide-org019f6cf" data-background="images/background.png" data-background-size="contain">
-<h2 id="org019f6cf">TOC</h2>
+<section id="slide-org580fd92" data-background="images/background.png" data-background-size="contain">
+<h2 id="org580fd92">Agenda</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Introduction</a></li>
@@ -39,7 +39,7 @@
 </div>
 
 
-<div id="org8be3664" class="figure">
+<div id="org5ab9dbd" class="figure">
 <p><img src="./images/proxyhands.png" alt="proxyhands.png" style="height: 150px;" />
 </p>
 </div>
@@ -54,14 +54,15 @@
 <section id="slide-1-1" data-background="images/background.png" data-background-size="contain">
 <h3 id="1-1"><span class="section-number-3">1.1.</span> Introduction</h3>
 <ul>
+<li>An old-school LALR(1) parser generator (a.k.a. <a href="https://en.wikipedia.org/wiki/Compiler-compiler">compiler-compiler</a>) &#x2026; with a
+modern twist - context aware lexing, GLR, flexible lexers/builders.</li>
 <li><a href="https://github.com/igordejanovic/rustemo/commit/dae2461">Project started</a> in November 2021</li>
 <li><a href="https://github.com/igordejanovic/rustemo/commit/869eb59">Bootstrapping done</a> in August 2022</li>
-<li>An old-school LALR parser generator (a.k.a. <a href="https://en.wikipedia.org/wiki/Compiler-compiler">compiler-compiler</a>) &#x2026; with a modern twist</li>
 <li>Generalized LR - <a href="https://doi.org/10.1145/1146809.1146810">Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.</a></li>
 <li>Other similar projects
 <ul>
 <li><a href="https://github.com/igordejanovic/parglare/">parglare</a> - Python, used to reach bootstrapping</li>
-<li><a href="https://github.com/lalrpop/lalrpop">LALRPOP</a> - most popular LR parser for Rust</li>
+<li><a href="https://github.com/lalrpop/lalrpop">LALRPOP</a> - most popular LALR parser generator for Rust</li>
 
 </ul></li>
 <li>Name: serbian word &ldquo;растемо&rdquo; pronounced as &ldquo;rustemo&rdquo; means &ldquo;we grow&rdquo;</li>
@@ -71,7 +72,7 @@
 <section id="slide-1-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-2"><span class="section-number-3">1.2.</span> Rustemo compiler</h3>
 
-<div id="org34a34e1" class="figure">
+<div id="org1f9120f" class="figure">
 <p><img src="./images/rustemo-architecture-overview-rcomp-0.png" alt="rustemo-architecture-overview-rcomp-0.png" style="height: 800px;" />
 </p>
 </div>
@@ -79,7 +80,7 @@
 <section id="slide-1-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-3"><span class="section-number-3">1.3.</span> Rustemo compiler</h3>
 
-<div id="org85680f9" class="figure">
+<div id="org9648a70" class="figure">
 <p><img src="./images/rustemo-architecture-overview-rcomp-1.png" alt="rustemo-architecture-overview-rcomp-1.png" style="height: 800px;" />
 </p>
 </div>
@@ -87,7 +88,7 @@
 <section id="slide-1-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-4"><span class="section-number-3">1.4.</span> Rustemo compiler</h3>
 
-<div id="org7ecef2d" class="figure">
+<div id="org3d87b36" class="figure">
 <p><img src="./images/rustemo-architecture-overview-rcomp-2.png" alt="rustemo-architecture-overview-rcomp-2.png" style="height: 800px;" data-id="arch-overview-rcomp" />
 </p>
 </div>
@@ -95,7 +96,7 @@
 <section id="slide-1-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-5"><span class="section-number-3">1.5.</span> Parsing process overview</h3>
 
-<div id="org15f352b" class="figure">
+<div id="orgb62d619" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-1.png" alt="rustemo-architecture-overview-parsing-1.png" style="height: 850px;" data-id="arch-overview-rcomp" />
 </p>
 </div>
@@ -103,7 +104,7 @@
 <section id="slide-1-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-6"><span class="section-number-3">1.6.</span> Parsing process overview</h3>
 
-<div id="org0e3b966" class="figure">
+<div id="org84ca1fa" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-2.png" alt="rustemo-architecture-overview-parsing-2.png" style="height: 850px;" data-id="arch-overview-parse" />
 </p>
 </div>
@@ -111,7 +112,7 @@
 <section id="slide-1-7" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-7"><span class="section-number-3">1.7.</span> Parsing process overview</h3>
 
-<div id="org9ea371d" class="figure">
+<div id="org7f867db" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-3.png" alt="rustemo-architecture-overview-parsing-3.png" style="height: 850px;" data-id="arch-overview-parse" />
 </p>
 </div>
@@ -119,7 +120,7 @@
 <section id="slide-1-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-8"><span class="section-number-3">1.8.</span> Parsing process overview</h3>
 
-<div id="orgae7826b" class="figure">
+<div id="org85baafe" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-4.png" alt="rustemo-architecture-overview-parsing-4.png" style="height: 850px;" data-id="arch-overview-parse" />
 </p>
 </div>
@@ -127,7 +128,7 @@
 <section id="slide-1-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-9"><span class="section-number-3">1.9.</span> Parsing process overview</h3>
 
-<div id="org2a88fad" class="figure">
+<div id="orgc2b7915" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-5.png" alt="rustemo-architecture-overview-parsing-5.png" style="height: 850px;" data-id="arch-overview-parse" />
 </p>
 </div>
@@ -135,7 +136,7 @@
 <section id="slide-1-10" data-background="images/background.png" data-background-size="contain" data-auto-animate>
 <h3 id="1-10"><span class="section-number-3">1.10.</span> Parsing process overview</h3>
 
-<div id="orgf16067a" class="figure">
+<div id="org3bf8de5" class="figure">
 <p><img src="./images/rustemo-architecture-overview-parsing-6.png" alt="rustemo-architecture-overview-parsing-6.png" style="height: 850px;" data-id="arch-overview-parse" />
 </p>
 </div>
@@ -189,7 +190,7 @@ titles.</li>
 Project layout is:
 </p>
 
-<pre class="example" id="org60a5cbc">
+<pre class="example" id="org3cada7a">
 .
 └── arithmetic
     ├── Cargo.toml
@@ -242,7 +243,7 @@ rcomp arithmetic.rustemo
 </code></pre>
 </div>
 
-<pre style="font-size: 0.4em;" class="example" id="orgaf9dffa">
+<pre style="font-size: 0.4em;" class="example fragment (appear)" id="org85051fa">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -270,7 +271,7 @@ Error: Grammar is not deterministic. There are conflicts.
 Parser(s) not generated.
 </pre>
 
-<p>
+<p class="fragment (appear)">
 <i>This grammar is ambiguous!</i>
 </p>
 </section>
@@ -289,7 +290,7 @@ We get a PNG file with the DFA.
 </p>
 
 
-<div id="org0123734" class="figure">
+<div id="org7724703" class="figure">
 <p><img src="./images/arithmetic.dot.png" alt="arithmetic.dot.png" style="height: auto;" />
 </p>
 </div>
@@ -310,7 +311,7 @@ States colored red have conflicts.
 </p>
 
 
-<div id="org92a17af" class="figure">
+<div id="org6abe6a4" class="figure">
 <p><img src="./images/parse-tree-ambiguous.png" alt="parse-tree-ambiguous.png" style="height: auto;" />
 </p>
 </div>
@@ -328,7 +329,7 @@ States colored red have conflicts.
 </p>
 
 
-<div id="orgc2827d3" class="figure">
+<div id="org50fa5ab" class="figure">
 <p><img src="./images/parse-tree-unambiguous.png" alt="parse-tree-unambiguous.png" style="height: 500px;" />
 </p>
 </div>
@@ -412,7 +413,7 @@ Now, lets compile the grammar to a GLR parser.
 </code></pre>
 </div>
 
-<pre class="example" id="org0b8f5bb">
+<pre class="example" id="org37f236c">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -434,7 +435,7 @@ Generated parser depends on <code>rustemo</code> library. It is a runtime part o
 </code></pre>
 </div>
 
-<pre class="example" id="org1b64825">
+<pre class="example" id="org1cbbb4f">
     Updating crates.io index
       Adding rustemo v0.6.0 to dependencies
              Features:
@@ -581,7 +582,7 @@ Run with:
 </code></pre>
 </div>
 
-<pre class="example" id="org73e3291">
+<pre class="example" id="org291c097">
 Expression:
 2 + 3 * 5
 Number of interpretations = 2
@@ -1101,7 +1102,7 @@ Now, we can use LR.
 </code></pre>
 </div>
 
-<pre class="example" id="orgcfe08a7">
+<pre class="example" id="orgbee67e1">
 Generating parser for grammar "arithmetic.rustemo"
 Terminals: 6
 Non-terminals: 1
@@ -1208,6 +1209,7 @@ fn main() {
 <ul>
 <li>Learn more
 <ul>
+<li><a href="https://github.com/igordejanovic/rustemo/">Rustemo GitHub repo</a></li>
 <li><a href="https://www.igordejanovic.net/rustemo/">The Rustemo Book</a></li>
 <li><a href="https://github.com/igordejanovic/rustemo/tree/main/tests/src">Rustemo integration/features tests</a></li>
 
@@ -1221,14 +1223,14 @@ fn main() {
 <li>Tooling for working with Rustemo grammars (e.g. LSP server, plugins for popular editors).</li>
 
 </ul></li>
-<li>Rustemo is <a href="https://www.igordejanovic.net/rustemo/contributing.html">open for contributions</a>!</li>
+<li>Rustemo is FLOSS and <a href="https://www.igordejanovic.net/rustemo/contributing.html">open for contributions</a>!</li>
 
 </ul>
 </section>
 </section>
 <section>
-<section id="slide-orgd34feea" data-background="./images/background-first.png" data-background-size="contain" data-background-transition="slide">
-<h2 id="orgd34feea">&nbsp;</h2>
+<section id="slide-orge54b524" data-background="./images/background-first.png" data-background-size="contain" data-background-transition="slide">
+<h2 id="orge54b524">&nbsp;</h2>
 <p style="font-size: 3em; color: rgb(225, 108, 23);">
 Thanks!
 </p>

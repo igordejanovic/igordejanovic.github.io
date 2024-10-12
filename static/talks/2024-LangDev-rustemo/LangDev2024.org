@@ -16,7 +16,7 @@
 #+OPTIONS: reveal_width:1886 reveal_height:1062
 #+REVEAL_MARGIN: 0.1
 
-* TOC
+* Agenda
 :PROPERTIES:
 :UNNUMBERED: notoc
 :END:
@@ -28,13 +28,14 @@
 
 * Introduction
 ** Introduction
+- An old-school LALR(1) parser generator (a.k.a. [[https://en.wikipedia.org/wiki/Compiler-compiler][compiler-compiler]]) ... with a
+  modern twist - context aware lexing, GLR, flexible lexers/builders.
 - [[https://github.com/igordejanovic/rustemo/commit/dae2461][Project started]] in November 2021
 - [[https://github.com/igordejanovic/rustemo/commit/869eb59][Bootstrapping done]] in August 2022
-- An old-school LALR parser generator (a.k.a. [[https://en.wikipedia.org/wiki/Compiler-compiler][compiler-compiler]]) ... with a modern twist
 - Generalized LR - [[https://doi.org/10.1145/1146809.1146810][Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.]]
 - Other similar projects
   - [[https://github.com/igordejanovic/parglare/][parglare]] - Python, used to reach bootstrapping
-  - [[https://github.com/lalrpop/lalrpop][LALRPOP]] - most popular LR parser for Rust
+  - [[https://github.com/lalrpop/lalrpop][LALRPOP]] - most popular LALR parser generator for Rust
 - Name: serbian word "растемо" pronounced as "rustemo" means "we grow"
 ** COMMENT Project goals
 - Clean separation between CFG grammar and semantic actions written in Rust
@@ -191,6 +192,7 @@ cd arithmetic/src/
 rcomp arithmetic.rustemo
 #+end_src
 
+#+ATTR_REVEAL: :frag (appear)
 #+ATTR_HTML: :style font-size: 0.4em;
 #+begin_example
 Generating parser for grammar "arithmetic.rustemo"
@@ -220,6 +222,7 @@ Error: Grammar is not deterministic. There are conflicts.
 Parser(s) not generated.
 #+end_example
 
+#+ATTR_REVEAL: :frag (appear)
 /This grammar is ambiguous!/
 *** We can also visualize DFA for this grammar ([[https://github.com/igordejanovic/langdev2024-rustemo/compare/step_2...step_3][step 3]])
 #+begin_src sh :results file
@@ -1029,6 +1032,7 @@ fn main() {
 
 * Wrap up
 - Learn more
+  - [[https://github.com/igordejanovic/rustemo/][Rustemo GitHub repo]]
   - [[https://www.igordejanovic.net/rustemo/][The Rustemo Book]]
   - [[https://github.com/igordejanovic/rustemo/tree/main/tests/src][Rustemo integration/features tests]]
 - Possible further directions
@@ -1037,7 +1041,7 @@ fn main() {
   - Error recovery
   - Incremental parsing
   - Tooling for working with Rustemo grammars (e.g. LSP server, plugins for popular editors).
-- Rustemo is [[https://www.igordejanovic.net/rustemo/contributing.html][open for contributions]]!
+- Rustemo is FLOSS and [[https://www.igordejanovic.net/rustemo/contributing.html][open for contributions]]!
 * \nbsp
 :PROPERTIES:
 :UNNUMBERED: notoc
