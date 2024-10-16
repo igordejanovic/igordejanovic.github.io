@@ -12,7 +12,7 @@ creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 
 ## Introducing Rustemo: A LR/GLR Parser Generator for Rust {#introducing-rustemo-a-lr-glr-parser-generator-for-rust}
 
--   LangDev Conference, Seville, 17-19 October 2024.
+-   [LangDev Conference](https://langdevcon.org/), Seville, 17-19 October 2024.
 -   [HTML](2024-LangDev-rustemo/index.html)
 
 
