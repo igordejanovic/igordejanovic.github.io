@@ -13,7 +13,7 @@ creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 ## Introducing Rustemo: A LR/GLR Parser Generator for Rust {#introducing-rustemo-a-lr-glr-parser-generator-for-rust}
 
 -   [LangDev Conference](https://langdevcon.org/), Seville, 17-19 October 2024.
--   [HTML](2024-LangDev-rustemo/index.html)
+-   [HTML](2024-LangDev-rustemo/index.html), [PDF](2024-LangDev-rustemo/LangDev2024-Rustemo.pdf)
 
 
 ## Developing Domain-Specific Languages in Python with textX {#developing-domain-specific-languages-in-python-with-textx}
