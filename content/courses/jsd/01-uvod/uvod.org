@@ -100,7 +100,7 @@ public class Course {
 #+ATTR_HTML: :style height: 700px;
 [[./images/BPMN.png]]
 ** [[https://orgmode.org/][OrgMode]]
-- Beleške, kreiranje sadržaja, agenda, pismeno programiranje (/literate programming/).
+Beleške, kreiranje sadržaja, agenda, pismeno programiranje (/literate programming/).
   #+begin_src org
 ,** PROJ
 ,*** TODO Pregledati prijavu greške #173
@@ -129,10 +129,71 @@ SCHEDULED: <2022-12-14 Wed>
 
 #+end_src
 ** [[https://scratch.mit.edu/][Scratch]]
-- Učenje programiranja za decu.
+Učenje programiranja za decu.
 
 #+ATTR_ORG: :width 300px
 [[./images/scratch.png]]
+** Inform
+Inform je jezik za kreiranje interaktivne fikcije (tekstualnih avantura) baziran
+na prirodnom jeziku.
+#+begin_src text
+    "Cactus Will Outlive Us All"
+
+    Death Valley is a room. Luckless Luke and Dead-Eye Pete are men in the Valley.
+      A cactus is in the Valley. Persuasion rule: persuasion succeeds.
+
+    A person has an action called death knell. The death knell of Luckless Luke is pulling the cactus.
+      The death knell of Dead-Eye Pete is Luke trying dropping the cactus.
+
+    Before an actor doing something:
+        repeat with the victim running through people in the location:
+            let the DK be the death knell of the victim;
+            if the DK is not waiting and the current action is the DK:
+                say "It looks as if [the DK] was the death knell for [the victim], who looks startled,
+                    then nonexistent.";
+                now the victim is nowhere.
+#+end_src
+** [[https://chuck.cs.princeton.edu/][ChucK]]
+Jezik za kreiranje muzike i sintezu zvuka u realnom vremenu.
+#+begin_src chuck
+// this synchronizes to period
+.5::second => dur T;
+T - (now % T) => now;
+
+// construct the patch
+SndBuf buf => Gain g => dac;
+// read in the file
+"kick.wav" => buf.read;
+// set the gain
+.5 => g.gain;
+
+// time loop
+while( true )
+{
+    // set the play position to beginning
+    0 => buf.pos;
+    // randomize gain a bit
+    Math.random2f(.8,.9) => buf.gain;
+
+    // advance time
+    1::T => now;
+}
+#+end_src
+** GritQL
+[[https://github.com/getgrit/gritql][GritQL]] je JSD za pretragu, linting i transformaciju koda.
+
+#+begin_src text
+`console.log($log)` => . where {
+  $log <: not within `try { $_ } catch { $_ }`
+}
+#+end_src
+
+** Colobot
+- [[https://en.wikipedia.org/wiki/Colobot][Colobot]] je edukativna real-time strategija.
+- Igrač programira robote u virtuelnom okruženju JSD-om nalik na C++ i Javu.
+
+#+ATTR_ORG: :width 300px
+[[./images/colobot.png]]
 
 ** Mobilne aplikacije
 

@@ -24,11 +24,11 @@
 <h1 class="title">Jezici specifični za domen</h1>
 <h2 class="subtitle">Uvod</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2024-10-07 Mon 19:33, pritisni ESC za mapu, Ctrl+Shift+F za pretragu, ? za pomoć</p>
+<p class="date">Kreirano 2024-10-25 Fri 10:22, pritisni ESC za mapu, Ctrl+Shift+F za pretragu, ? za pomoć</p>
 </section>
 <section>
-<section id="slide-orgfee7cd7">
-<h2 id="orgfee7cd7">Sadržaj</h2>
+<section id="slide-orgd1efe2f">
+<h2 id="orgd1efe2f">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Problem i motivacija</a></li>
@@ -163,7 +163,7 @@ public class Course {
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Build jezici (Ant/Maven/Gradle)</h3>
 
-<div id="org16146d3" class="figure">
+<div id="org73f932c" class="figure">
 <p><img src="./images/Ant-Maven-Gradle.png" alt="Ant-Maven-Gradle.png" style="height: 700px;" />
 </p>
 </div>
@@ -171,15 +171,14 @@ public class Course {
 <section id="slide-2-4">
 <h3 id="2-4"><span class="section-number-3">2.4.</span> Poslovni procesi - BPMN</h3>
 
-<div id="org09a1500" class="figure">
+<div id="orgc640a7a" class="figure">
 <p><img src="./images/BPMN.png" alt="BPMN.png" style="height: 700px;" />
 </p>
 </div>
 </section>
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5.</span> <a href="https://orgmode.org/">OrgMode</a></h3>
-<ul>
-<li><p>
+<p>
 Beleške, kreiranje sadržaja, agenda, pismeno programiranje (<i>literate programming</i>).
 </p>
 <div class="org-src-container">
@@ -210,27 +209,110 @@ SCHEDULED: &lt;2022-12-14 Wed&gt;
 | Druga aktinost |      25% | Problemi u snabdevanju |
 
 </code></pre>
-</div></li>
-
-</ul>
+</div>
 </section>
 <section id="slide-2-6">
 <h3 id="2-6"><span class="section-number-3">2.6.</span> <a href="https://scratch.mit.edu/">Scratch</a></h3>
-<ul>
-<li>Učenje programiranja za decu.</li>
+<p>
+Učenje programiranja za decu.
+</p>
 
-</ul>
 
-
-<div id="org5e8f64f" class="figure">
+<div id="orgb500a4d" class="figure">
 <p><img src="./images/scratch.png" alt="scratch.png" />
 </p>
 </div>
 </section>
 <section id="slide-2-7">
-<h3 id="2-7"><span class="section-number-3">2.7.</span> Mobilne aplikacije</h3>
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Inform</h3>
+<p>
+Inform je jezik za kreiranje interaktivne fikcije (tekstualnih avantura) baziran
+na prirodnom jeziku.
+</p>
+<div class="org-src-container">
 
-<div id="orgba34357" class="figure">
+<pre><code class="text" >    "Cactus Will Outlive Us All"
+
+    Death Valley is a room. Luckless Luke and Dead-Eye Pete are men in the Valley.
+      A cactus is in the Valley. Persuasion rule: persuasion succeeds.
+
+    A person has an action called death knell. The death knell of Luckless Luke is pulling the cactus.
+      The death knell of Dead-Eye Pete is Luke trying dropping the cactus.
+
+    Before an actor doing something:
+        repeat with the victim running through people in the location:
+            let the DK be the death knell of the victim;
+            if the DK is not waiting and the current action is the DK:
+                say "It looks as if [the DK] was the death knell for [the victim], who looks startled,
+                    then nonexistent.";
+                now the victim is nowhere.
+</code></pre>
+</div>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> <a href="https://chuck.cs.princeton.edu/">ChucK</a></h3>
+<p>
+Jezik za kreiranje muzike i sintezu zvuka u realnom vremenu.
+</p>
+<div class="org-src-container">
+
+<pre><code class="chuck" >// this synchronizes to period
+.5::second =&gt; dur T;
+T - (now % T) =&gt; now;
+
+// construct the patch
+SndBuf buf =&gt; Gain g =&gt; dac;
+// read in the file
+"kick.wav" =&gt; buf.read;
+// set the gain
+.5 =&gt; g.gain;
+
+// time loop
+while( true )
+{
+    // set the play position to beginning
+    0 =&gt; buf.pos;
+    // randomize gain a bit
+    Math.random2f(.8,.9) =&gt; buf.gain;
+
+    // advance time
+    1::T =&gt; now;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> GritQL</h3>
+<p>
+<a href="https://github.com/getgrit/gritql">GritQL</a> je JSD za pretragu, linting i transformaciju koda.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >`console.log($log)` =&gt; . where {
+  $log &lt;: not within `try { $_ } catch { $_ }`
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Colobot</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Colobot">Colobot</a> je edukativna real-time strategija.</li>
+<li>Igrač programira robote u virtuelnom okruženju JSD-om nalik na C++ i Javu.</li>
+
+</ul>
+
+
+<div id="orgde51452" class="figure">
+<p><img src="./images/colobot.png" alt="colobot.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Mobilne aplikacije</h3>
+
+<div id="org074256a" class="figure">
 <p><img src="./images/MobilneAplikacije.png" alt="MobilneAplikacije.png" style="height: 700px;" />
 </p>
 </div>
@@ -241,32 +323,32 @@ Kelly, S. &amp; Tolvanen, J.-P. <i>Domain-Specific Modeling: Enabling Full Code
 Generation</i>, Wiley-IEEE Computer Society Pr, 2008
 </p>
 </section>
-<section id="slide-2-8">
-<h3 id="2-8"><span class="section-number-3">2.8.</span> Ali i&#x2026;</h3>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Ali i&#x2026;</h3>
 
-<div id="orgb527c6c" class="figure">
+<div id="orgd3419f1" class="figure">
 <p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" style="height: 700px;" />
 </p>
 </div>
 </section>
-<section id="slide-2-9">
-<h3 id="2-9"><span class="section-number-3">2.9.</span> ili&#x2026;</h3>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> ili&#x2026;</h3>
 
-<div id="org76a2f50" class="figure">
+<div id="org874805d" class="figure">
 <p><img src="./images/ChessNotation.png" alt="ChessNotation.png" style="height: 700px;" />
 </p>
 </div>
 </section>
-<section id="slide-2-10">
-<h3 id="2-10"><span class="section-number-3">2.10.</span> pa čak i&#x2026;</h3>
+<section id="slide-2-14">
+<h3 id="2-14"><span class="section-number-3">2.14.</span> pa čak i&#x2026;</h3>
 
-<div id="orge41fe49" class="figure">
+<div id="org5e4b319" class="figure">
 <p><img src="./images/saobracajni-znaci.jpg" alt="saobracajni-znaci.jpg" style="height: 700px;" />
 </p>
 </div>
 </section>
-<section id="slide-2-11">
-<h3 id="2-11"><span class="section-number-3">2.11.</span> Kada jezik smatramo JSD-om?</h3>
+<section id="slide-2-15">
+<h3 id="2-15"><span class="section-number-3">2.15.</span> Kada jezik smatramo JSD-om?</h3>
 <ul>
 <li>Zavisi od toga šta nam je domen.</li>
 <li>Jezik može biti više ili manje prilagođen nekom domenu.</li>
@@ -304,7 +386,7 @@ ga možemo smatrati JON.</li>
 <section id="slide-3-2">
 <h3 id="3-2"><span class="section-number-3">3.2.</span> Problem mentalnog mapiranja</h3>
 
-<div id="org66e580e" class="figure">
+<div id="org380f8a8" class="figure">
 <p><img src="./images/MentalnoMapiranje-1.svg" alt="MentalnoMapiranje-1.svg" class="org-svg" />
 </p>
 </div>
@@ -317,7 +399,7 @@ JetBrains onBoard, 2004.
 <section id="slide-3-3">
 <h3 id="3-3"><span class="section-number-3">3.3.</span> Rešenje upotrebom JSD</h3>
 
-<div id="org87f3e94" class="figure">
+<div id="orgdccbbf3" class="figure">
 <p><img src="./images/MentalnoMapiranje-2.svg" alt="MentalnoMapiranje-2.svg" class="org-svg" />
 </p>
 </div>
@@ -384,7 +466,7 @@ tehnologije. Potrebno je ažurirati generator koda.</li>
 <section id="slide-4-1">
 <h3 id="4-1"><span class="section-number-3">4.1.</span> Arhitektura bazirana na prevodiocima</h3>
 
-<div id="org58d8a90" class="figure">
+<div id="orgd3e624f" class="figure">
 <p><img src="./images/Arhitektura-kompajler.svg" alt="Arhitektura-kompajler.svg" class="org-svg" />
 </p>
 </div>
@@ -392,7 +474,7 @@ tehnologije. Potrebno je ažurirati generator koda.</li>
 <section id="slide-4-2">
 <h3 id="4-2"><span class="section-number-3">4.2.</span> Arhitektura bazirana na interpreterima</h3>
 
-<div id="orgb83f4a1" class="figure">
+<div id="org00f6185" class="figure">
 <p><img src="./images/Arhitektura-interpreter.svg" alt="Arhitektura-interpreter.svg" class="org-svg" />
 </p>
 </div>
@@ -435,7 +517,7 @@ i konkretne sintakse i semantika.</li>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Primer - apstraktna sintaksa jezika za opis konačnih automata</h3>
 
-<div id="org4e18058" class="figure">
+<div id="org9da58d8" class="figure">
 <p><img src="./images/StateMachine.svg" alt="StateMachine.svg" class="org-svg" />
 </p>
 </div>
@@ -453,7 +535,7 @@ na Javi tada ključne reči nisu deo apstraktnog stabla).</li>
 <section id="slide-5-5">
 <h3 id="5-5"><span class="section-number-3">5.5.</span> Primer apstraktnog sintaksnog stabla</h3>
 
-<div id="orgf4fa854" class="figure">
+<div id="orgd73d6d7" class="figure">
 <p><img src="./images/AbstractSyntaxTree.png" alt="AbstractSyntaxTree.png" />
 </p>
 </div>
@@ -483,7 +565,7 @@ Primer istog iskaza upotrebom dve različite konkretne sintakse
 </p>
 
 
-<div id="org3ba65dc" class="figure">
+<div id="orgb8a7b19" class="figure">
 <p><img src="./images/RazliciteSintakse.png" alt="RazliciteSintakse.png" />
 </p>
 </div>
@@ -560,7 +642,7 @@ Potrebno je razviti poseban VCS alat.</li>
 <section id="slide-6-5">
 <h3 id="6-5"><span class="section-number-3">6.5.</span> Podela prema vrsti domena</h3>
 
-<div id="org4d6fa91" class="figure">
+<div id="orgf2d3a26" class="figure">
 <p><img src="./images/HorizontalniVertikalniDSL.svg" alt="HorizontalniVertikalniDSL.svg" class="org-svg" />
 </p>
 </div>
@@ -689,7 +771,7 @@ Eksterni JSD za definisanje grafički korisničkih interfejsa (<i>WindowBuilder<
 </p>
 
 
-<div id="org59741a8" class="figure">
+<div id="orgf58b109" class="figure">
 <p><img src="./images/GUIDSL-External.png" alt="GUIDSL-External.png" />
 </p>
 </div>
@@ -730,8 +812,8 @@ calc = expression+ EOF
 <h3 id="6-16"><span class="section-number-3">6.16.</span> Konkretna sintaksa je važna!!!</h3>
 <div class="outline-text-3" id="text-6-16">
 </div>
-<div id="outline-container-orgf8c5281" class="outline-4">
-<h4 id="orgf8c5281">Neki jezici su pogodniji za kreiranje internih JSD</h4>
+<div id="outline-container-orgbedcf9c" class="outline-4">
+<h4 id="orgbedcf9c">Neki jezici su pogodniji za kreiranje internih JSD</h4>
 </div>
 </section>
 <section id="slide-6-17">
@@ -818,7 +900,7 @@ domenskim ekspertima.
 </p>
 
 
-<div id="orga77c61a" class="figure">
+<div id="org6fce8d1" class="figure">
 <p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" style="height: 600px;" />
 </p>
 </div>
@@ -831,7 +913,7 @@ ekspertima.
 </p>
 
 
-<div id="org2567504" class="figure">
+<div id="org9a0c61a" class="figure">
 <p><img src="./images/Lilypond.png" alt="Lilypond.png" style="height: 600px;" />
 </p>
 </div>
@@ -899,7 +981,7 @@ projekciju.
 </p>
 
 
-<div id="org76efec8" class="figure">
+<div id="orgfd007f2" class="figure">
 <p><img src="./images/projekcija.png" alt="projekcija.png" style="height: 270px;" />
 </p>
 </div></li>
@@ -910,7 +992,7 @@ bi se dobila apstraktna reprezentacija.
 </p>
 
 
-<div id="org3afdecf" class="figure">
+<div id="orgc1bccc9" class="figure">
 <p><img src="./images/parseri.png" alt="parseri.png" style="height: 270px;" />
 </p>
 </div></li>
@@ -984,7 +1066,7 @@ bazirani na ćelijama, grafičke.</li>
 <section id="slide-7-6">
 <h3 id="7-6"><span class="section-number-3">7.6.</span> <i>Meta Programming System</i> - karakterističan izgled</h3>
 
-<div id="orgd5cd524" class="figure">
+<div id="org0dbb9b9" class="figure">
 <p><img src="./images/MPS.png" alt="MPS.png" />
 </p>
 </div>
@@ -1017,7 +1099,7 @@ razliku sa podrškom za bilo koji drugi jezik sa Eclipse podrškom (npr. Java).<
 <section id="slide-7-8">
 <h3 id="7-8"><span class="section-number-3">7.8.</span> Xtext - <i>Little tortoise</i> jezik</h3>
 
-<div id="org9bcc798" class="figure">
+<div id="orgef20df7" class="figure">
 <p><img src="./images/xText-tortoise.png" alt="xText-tortoise.png" style="height: 600px;" />
 </p>
 </div>
@@ -1029,7 +1111,7 @@ razliku sa podrškom za bilo koji drugi jezik sa Eclipse podrškom (npr. Java).<
 <section id="slide-7-9">
 <h3 id="7-9"><span class="section-number-3">7.9.</span> Xtext - <i>Little tortoise</i> gramatika</h3>
 
-<div id="org0e820bb" class="figure">
+<div id="orgbd041e9" class="figure">
 <p><img src="./images/xText-grammar.png" alt="xText-grammar.png" style="height: 600px;" />
 </p>
 </div>
@@ -1063,7 +1145,7 @@ uvek stablo parsiranja (<i>parse tree</i>).</li>
 <section id="slide-7-12">
 <h3 id="7-12"><span class="section-number-3">7.12.</span> Spoofax - karakterističan izgled</h3>
 
-<div id="org67038be" class="figure">
+<div id="org37ebb49" class="figure">
 <p><img src="./images/Spoofax-prikaz.png" alt="Spoofax-prikaz.png" style="height: 700px;" />
 </p>
 </div>
