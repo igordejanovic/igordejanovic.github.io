@@ -24,7 +24,7 @@
 <h1 class="title">Programski jezik Go</h1>
 <h2 class="subtitle">Bazirano na Go verziji 1.19 i <a href="https://tour.golang.org/">A Tour of Go</a>. U izradi.</h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2024-09-30 Mon 14:29, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-10-26 Sat 17:10, pritisni ESC za mapu, Ctrl+Shift+F za pretragu, ? za pomoć</p>
 </section>
 <section>
 <section id="slide-1">
@@ -96,7 +96,7 @@ podesiti <code>PATH</code>:
 
 </ul>
 
-<div class="note" id="org16e3669">
+<div class="note" id="org8daff30">
 <p>
 Ovo je zastareli način rada. U novijim verzijama koristi se sistem modula dok je
 od verzije 1.18 podržan i radni proces sa <i>workspaces</i> upotrebom <a href="https://go.dev/blog/get-familiar-with-workspaces">go.work fajl</a>.
@@ -337,7 +337,7 @@ $ cd morestrings
 </div>
 
 <ul>
-<li>pravimo fajl <code>reverse.go</code></li>
+<li>pravimo fajl <code>reverse.go</code> u folderu <code>morestrings</code></li>
 
 </ul>
 
@@ -391,16 +391,21 @@ import (
 )
 
 func main() {
-    fmt.Println(stringutil.Reverse("!2 етевс ,овардЗ"))
+    fmt.Println(morestrings.ReverseRunes("!етевс ,овардЗ"))
 }
 </code></pre>
 </div>
 
 <div class="org-src-container">
 
-<pre><code class="shell" >$ go install example/user/hello
+<pre><code class="shell" >$ cd ..
+$ go run hello.go
+
+ili
+
+$ go install example/user/hello
 $ hello
-Здраво, свете 2!
+Здраво, свете!
 </code></pre>
 </div>
 </section>
@@ -1660,7 +1665,7 @@ LIFO redosledu
 </code></pre>
 </div>
 
-<pre class="example" id="org99feacd">
+<pre class="example" id="org7c1f8ea">
  counting
  done
  9
@@ -2421,7 +2426,7 @@ Ako vam treba samo indeks možete izostaviti drugu varijablu:
 </code></pre>
 </div>
 
-<pre class="example" id="org757d300">
+<pre class="example" id="orga0fd5e8">
   1
   2
   4
@@ -2697,7 +2702,7 @@ funkciju (<i>bounded</i>)</li>
 </code></pre>
 </div>
 
-<pre class="example" id="org4728cab">
+<pre class="example" id="org96fb311">
 0 0
 1 -2
 3 -6
@@ -3963,7 +3968,7 @@ koristi <code>range</code> petlja</li>
 </code></pre>
 </div>
 
-<pre class="example" id="orge52bbbb">
+<pre class="example" id="orgdfbf9ea">
 0
 1
 1
@@ -4013,7 +4018,7 @@ je više u mogućnosti da se izvrši izbor se vrši slučajno</li>
 </code></pre>
 </div>
 
-<pre class="example" id="org745e5f3">
+<pre class="example" id="org1f757e7">
 0
 1
 1
@@ -4072,7 +4077,7 @@ quit
 </code></pre>
 </div>
 
-<pre class="example" id="org98deac4">
+<pre class="example" id="orga607fdb">
     .
 tick.
     .

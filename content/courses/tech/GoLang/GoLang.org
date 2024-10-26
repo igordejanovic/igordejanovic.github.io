@@ -196,7 +196,7 @@ $ mkdir morestrings
 $ cd morestrings
 #+END_SRC
 
-- pravimo fajl =reverse.go=
+- pravimo fajl =reverse.go= u folderu =morestrings=
 
 #+BEGIN_SRC go
 // Package morestrings implements additional functions to manipulate UTF-8
@@ -234,14 +234,19 @@ import (
 )
 
 func main() {
-    fmt.Println(stringutil.Reverse("!2 етевс ,овардЗ"))
+    fmt.Println(morestrings.ReverseRunes("!етевс ,овардЗ"))
 }
 #+END_SRC
 
 #+BEGIN_SRC shell
+$ cd ..
+$ go run hello.go
+
+ili
+
 $ go install example/user/hello
 $ hello
-Здраво, свете 2!
+Здраво, свете!
 #+END_SRC
 
 ** Imenovanje paketa
