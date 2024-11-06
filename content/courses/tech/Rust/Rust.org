@@ -618,6 +618,11 @@ fn main() {
     println!("The value of x is: {}", x);
 }
 #+end_src
+
+#+RESULTS:
+: The value of x is: 5
+: The value of x is: 6
+
 ** Константе - =const=
 - Слично као непромењиве варијабле са следећим разликама:
   - Увек су непромењиве
@@ -747,6 +752,9 @@ fn main() {
 }
 #+end_src
 
+#+RESULTS:
+: The value of y is: 6.4
+
 #+REVEAL: split
 
 Приступ елементима торке:
@@ -814,8 +822,6 @@ fn main() {
 #+RESULTS:
 : (1, 2, 3)
 
-
-
 ** Функције
 *** Функције
 #+begin_src rust
@@ -829,6 +835,11 @@ fn another_function() {
     println!("Another function.");
 }
 #+end_src
+
+#+RESULTS:
+: Hello, world!
+: Another function.
+
 - За именовање функција као и варијабли користи се /snake_case/.
 *** Funkcije - parametri
 #+begin_src rust
@@ -840,6 +851,9 @@ fn print_labeled_measurement(value: i32, unit_label: char) {
     println!("The measurement is: {}{}", value, unit_label);
 }
 #+end_src
+
+#+RESULTS:
+: The measurement is: 5h
 
 *** Искази и изрази
 - Рaст је језик базиран на изразима (/expression-based/)
@@ -885,6 +899,7 @@ fn main() {
 
 #+RESULTS:
 : The value of y is: 4
+
 *** Повратне вредности функција
 Вредност функције је вредност блока који представља тело функције, дакле
 последњег израза унутар тела функције.
@@ -1010,6 +1025,9 @@ fn main() {
 }
 #+end_src
 
+#+RESULTS:
+: condition was true
+
 *** =if-else=
 #+begin_src rust
 fn main() {
@@ -1026,6 +1044,10 @@ fn main() {
     }
 }
 #+end_src
+
+#+RESULTS:
+: number is divisible by 3
+
 *** =if= у =let= исказима
 =if= је израз па се може користити где год можемо писати и било који други израз.
 
@@ -1055,6 +1077,20 @@ fn main() {
     println!("The value of number is: {}", number);
 }
 #+end_src
+
+#+begin_example
+error[E0308]: `if` and `else` have incompatible types
+ --> src/main.rs:5:44
+  |
+5 |     let number = if condition { 5 } else { "six" };
+  |                                 -          ^^^^^ expected integer, found `&str`
+  |                                 |
+  |                                 expected because of this
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `cargoF7mlQA` (bin "cargoF7mlQA") due to 1 previous error
+#+end_example
+
 *** Петље
 Рaст има три типа петље:
 - =loop= - за бесконачне петље
@@ -1074,6 +1110,7 @@ fn main() {
 Уколико имамо угњеждене =loop= исказе можемо користити лабеле приликом изласка са
 =break= инструкцијом.
 
+#+REVEAL_HTML: <div class="column" style="float:left; width: 50%">
 #+begin_src rust
 fn main() {
     let mut count = 0;
@@ -1097,7 +1134,21 @@ fn main() {
     println!("End count = {}", count);
 }
 #+end_src
+#+REVEAL_HTML: </div>
 
+#+REVEAL_HTML: <div class="column" style="float:right; width: 40%">
+#+RESULTS:
+: count = 0
+: remaining = 10
+: remaining = 9
+: count = 1
+: remaining = 10
+: remaining = 9
+: count = 2
+: remaining = 10
+: End count = 2
+#+REVEAL_HTML: </div>
+#+REVEAL_HTML: <div style="clear: both;">
 *** =loop= као израз
 =loop= може имати повратну вредност. Повратна вредност се дефинише као параметар
 =break= инструкције.
@@ -1117,6 +1168,10 @@ fn main() {
     println!("The result is {}", result);
 }
 #+end_src
+
+#+RESULTS:
+: The result is 20
+
 *** =while=
 #+begin_src rust
 fn main() {
@@ -1131,6 +1186,13 @@ fn main() {
     println!("LIFTOFF!!!");
 }
 #+end_src
+
+#+RESULTS:
+: 3!
+: 2!
+: 1!
+: LIFTOFF!!!
+
 *** =for=
 Итерацију кроз уређену колекцију, као што је низ, можемо обавити са =while= петљом.
 #+begin_src rust
@@ -1146,6 +1208,13 @@ fn main() {
 }
 #+end_src
 
+#+RESULTS:
+: the value is: 10
+: the value is: 20
+: the value is: 30
+: the value is: 40
+: the value is: 50
+
 #+REVEAL: split
 Али је за ту намену природније и сигурније користити =for= петљу. Такође ће се
 програм брже извршавати.
@@ -1159,6 +1228,13 @@ fn main() {
     }
 }
 #+end_src
+
+#+RESULTS:
+: the value is: 10
+: the value is: 20
+: the value is: 30
+: the value is: 40
+: the value is: 50
 
 #+REVEAL: split
 =for= петље су најчешћи облик петљи у употреби у Расту. Користе се нпр. и у
@@ -1196,6 +1272,11 @@ fn main() {
     // println!("names: {:?}", names); -- FIXME: колекција овде није доступна
 }
 #+end_src
+
+#+RESULTS:
+: Hello Bob
+: Hello Frank
+: There is a rustacean among us!
 
 #+REVEAL: split
 
@@ -1238,6 +1319,7 @@ fn main() {
 }
 #+end_src
 
+#+ATTR_REVEAL: :frag (roll-in)
 #+RESULTS:
 : names: ["Hello", "Hello", "There is a rustacean among us!"]
 
@@ -1549,7 +1631,7 @@ fn calculate_length(s: &String) -> usize {
 }
 #+end_src
 
-#+attr_html: :style height: 400px;
+#+attr_html: :style height: 350px;
 #+ATTR_ORG: :width 300px
 [[./images/reference.png]]
 
