@@ -24,11 +24,11 @@
 <h1 class="title">Git DVCS</h1>
 <h2 class="subtitle"></h2>
 <h2 class="author">Prof. dr Igor Dejanović (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
-<p class="date">Kreirano 2024-09-30 Mon 13:38, pritisni ESC za mapu, m za meni, Ctrl+Shift+F za pretragu</p>
+<p class="date">Kreirano 2024-11-21 Thu 12:01, pritisni ESC za mapu, Ctrl+Shift+F za pretragu, ? za pomoć</p>
 </section>
 <section>
-<section id="slide-org97236de">
-<h2 id="org97236de">Sadržaj</h2>
+<section id="slide-orga662e74">
+<h2 id="orga662e74">Sadržaj</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#/slide-1">1. Uvod u Git</a></li>
@@ -122,7 +122,7 @@ really really Right(tm).ref[1].
 <section id="slide-2-2">
 <h3 id="2-2"><span class="section-number-3">2.2.</span> Veza radnog stabla, indeksa i repozitorijuma</h3>
 
-<div id="org208d9bb" class="figure">
+<div id="org6ad20c3" class="figure">
 <p><img src="./images/Workflow.svg" alt="Workflow.svg" class="org-svg" />
 </p>
 </div>
@@ -130,7 +130,7 @@ really really Right(tm).ref[1].
 <section id="slide-2-3">
 <h3 id="2-3"><span class="section-number-3">2.3.</span> Životni ciklus fajla u git repozitorijumu</h3>
 
-<div id="orgaf0d197" class="figure">
+<div id="org809c034" class="figure">
 <p><img src="./images/FileLifecycle.svg" alt="FileLifecycle.svg" class="org-svg" />
 </p>
 </div>
@@ -151,7 +151,7 @@ izvršena inicijalizacija sa <code>git init</code> komandom (videti u nastavku).
 <section id="slide-2-5">
 <h3 id="2-5"><span class="section-number-3">2.5.</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div id="orgb01db4c" class="figure">
+<div id="org5f42ea7" class="figure">
 <p><img src="./images/git-repo.svg" alt="git-repo.svg" class="org-svg" />
 </p>
 </div>
@@ -793,7 +793,7 @@ kloniraju u lokalni.</li>
 <section id="slide-5-3">
 <h3 id="5-3"><span class="section-number-3">5.3.</span> Kako to sve izgleda u repozitorijumu</h3>
 
-<div id="org36a5c24" class="figure">
+<div id="orgc24c25b" class="figure">
 <p><img src="./images/DAG.svg" alt="DAG.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -812,7 +812,7 @@ grana.</li>
 <section id="slide-5-4">
 <h3 id="5-4"><span class="section-number-3">5.4.</span> Grane i operacije</h3>
 
-<div id="org2691f21" class="figure">
+<div id="orgb2013fa" class="figure">
 <p><img src="./images/branches-SO.png" alt="branches-SO.png" />
 </p>
 </div>
@@ -897,11 +897,18 @@ Grana se menja komandom checkout na sledeći način:
 </p>
 
 <pre>
-  $ git checkout moja_grana
+  $ git switch moja_grana
   Switched to branch ’moja_grana’
-  $ git checkout master
+  $ git switch master
   Switched to branch ’master’
-</pre></li>
+</pre>
+
+<div class="note" id="orgbd60572">
+<p>
+Takođe možemo koristiti i <code>checkout</code>.
+</p>
+
+</div></li>
 
 <li><p>
 Ako želimo da kreiramo novu granu i pređemo na nju:
@@ -1011,10 +1018,10 @@ Naravno preduslov je da je <code>origin</code> udaljeni repozitorijum podešen.
 <section id="slide-5-12">
 <h3 id="5-12"><span class="section-number-3">5.12.</span> Podešavanje veze sa udaljenim repozitorijumom</h3>
 <p>
-Prethodne komande su podrazumevale da je udaljeni repozitorijum sa imenom
-<code>origin</code> već podešen. Ukoliko je lokalni repozitorijum nastao kloniranjem
-udaljenog ovo jeste tako, ali ukoliko nije (na primer, hoćemo da uradimo <code>push</code>
-u prazan centralni repozitorijum) možemo kreirati vezu na sledeći način:
+Prethodne komande su podrazumevale da je udaljeni repozitorijum sa imenom <code>origin</code>
+već podešen. Ukoliko je lokalni repozitorijum nastao kloniranjem udaljenog ovo
+jeste tako, ali ukoliko nije (na primer, hoćemo da uradimo <code>push</code> u prazan
+centralni repozitorijum) možemo kreirati vezu na sledeći način:
 </p>
 
 <pre>
@@ -1104,6 +1111,15 @@ Poređenje možemo obaviti između bilo koja dva <i>commit</i>-a (po <i>hash</i>
 </section>
 <section id="slide-6-1">
 <h3 id="6-1"><span class="section-number-3">6.1.</span> Spajanje grana – <i>merge</i></h3>
+
+<div id="org25cbd88" class="figure">
+<p><img src="./images/merge.png" alt="merge.png" />
+</p>
+</div>
+
+</section>
+<section>
+
 <ul>
 <li><p>
 Komanda <code>pull</code> automatski radi spajanje grane sa udaljenog repozitorijuma.
@@ -1150,7 +1166,7 @@ podrazumevano da uradi tzv. <i>fast-forward</i> merge.
 </p>
 
 
-<div id="org56a3d9f" class="figure">
+<div id="orgb09c99e" class="figure">
 <p><img src="./images/Merge-ff.svg" alt="Merge-ff.svg" class="org-svg" />
 </p>
 </div>
@@ -1164,7 +1180,7 @@ način.
 </p>
 
 
-<div id="org5c18094" class="figure">
+<div id="org2a4c1e0" class="figure">
 <p><img src="./images/Merge-no-ff.svg" alt="Merge-no-ff.svg" class="org-svg" />
 </p>
 </div>
@@ -1176,7 +1192,7 @@ Drugi mehanizam spajanja promena sa druge grane je <i>rebase</i>.
 </p>
 
 
-<div id="org73f7cc5" class="figure">
+<div id="org7de1fb1" class="figure">
 <p><img src="./images/Merge-rebase.svg" alt="Merge-rebase.svg" class="org-svg" />
 </p>
 </div>
@@ -1452,6 +1468,18 @@ Resetujemo indeks ali ne i radno stablo. Ovo je podrazumevano ponašanje
 $ git reset --mixed HEAD
 </pre>
 
+</section>
+<section>
+
+<p>
+Modifikuje lokalne fajlove kao i <code>--hard</code> ali ukoliko postoje lokalne promene one
+neće biti &ldquo;pregažene&rdquo; tj. fajlovi sa lokalnim promenama ostaju a ako bi morao
+biti promenjen onda se operacija prekida.
+</p>
+<pre>
+$ git reset --keep HEAD^
+</pre>
+
 <p class="forwardlink attention">
 <b>Napomena</b>: <code>reset</code> komanda je generalan način za pomeranje pokazivača tekuće
 grane. Pomeranjem <code>HEAD</code>-a git pamti prethodni u <code>ORIG_HEAD</code> tako da možemo uvek
@@ -1619,7 +1647,7 @@ git reflog
 </pre>
 
 
-<div id="org8c669ca" class="figure">
+<div id="orgcd9a661" class="figure">
 <p><img src="./images/reflog.png" alt="reflog.png" style="height: 500px;" />
 </p>
 </div>
@@ -1683,7 +1711,7 @@ potreban je i nešto složeniji model.</li>
 </ol>
 </section>
 <section id="slide-10-2">
-<h3 id="10-2"><span class="section-number-3">10.2.</span> <i>Feature branches</i></h3>
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Grane funkcionalnosti (<i>Feature branches</i>)</h3>
 <ul>
 <li>Način razvoja softvera gde se za svaku funkcionalnost softvera (<i>feature</i>)
 kreira nova grana.</li>
@@ -1697,16 +1725,19 @@ kreira nova grana.</li>
 <li>Mane:
 <ul>
 <li>kod funkcionanosti koja se dugo razvija odlaže se integracija što može
-dovesti do kasnijih problema.</li>
+dovesti do kasnijih problema u integraciji.</li>
 
 </ul></li>
+<li>Najbolja praksa: ove grane treba da &ldquo;žive&rdquo; relativno kratak period i da se
+konstantno vrši spajanje ciljne grane na nju da bi se izbegli problemi u
+integraciji.</li>
 
 </ul>
 </section>
 <section id="slide-10-3">
 <h3 id="10-3"><span class="section-number-3">10.3.</span> <i>GitFlow</i> model</h3>
 
-<div id="org1e81668" class="figure">
+<div id="org825e661" class="figure">
 <p><img src="./images/GitFlow.svg" alt="GitFlow.svg" class="org-svg" />
 </p>
 </div>
@@ -1718,10 +1749,20 @@ dovesti do kasnijih problema.</li>
 <section id="slide-10-4">
 <h3 id="10-4"><span class="section-number-3">10.4.</span> Modifikovani <i>GitFlow</i> model</h3>
 
-<div id="orge38a364" class="figure">
-<p><img src="./images/GitFlow-Reloaded.svg" alt="GitFlow-Reloaded.svg" class="org-svg" />
+<div id="org8a8e0e8" class="figure">
+<p><img src="./images/GitFlow-Reloaded.svg" alt="GitFlow-Reloaded.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
+</section>
+<section id="slide-10-5">
+<h3 id="10-5"><span class="section-number-3">10.5.</span> <i>Trunk-based development</i></h3>
+<ul>
+<li>Ideja je da svi programeri rade na istoj grani uz eventualno kreiranje
+kratkotrajnih grana (do par dana) koje se spajaju na glavnu.</li>
+<li>Nastao zbog problema kod dugotrajnih grana funkcionalnosti.</li>
+<li>Lepo radi u saradnji sa zastavicama za funkcionalnosti (<i>feature flags</i>).</li>
+
+</ul>
 </section>
 </section>
 <section>
@@ -1962,7 +2003,7 @@ class MainClass {
 </div>
 
 
-<div id="org8c57aae" class="figure">
+<div id="orgf18a380" class="figure">
 <p><img src="./images/blob.svg" alt="blob.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
@@ -1984,7 +2025,7 @@ tree 64\0
 </pre>
 
 
-<div id="orgf033f7d" class="figure">
+<div id="orgb5f2400" class="figure">
 <p><img src="./images/tree.svg" alt="tree.svg" class="org-svg" style="height: 400px;" />
 </p>
 </div>
@@ -2011,7 +2052,7 @@ Prvi commit.
 </pre>
 
 
-<div id="org0affc0d" class="figure">
+<div id="orge935705" class="figure">
 <p><img src="./images/commit.svg" alt="commit.svg" class="org-svg" style="height: 300px;" />
 </p>
 </div>
@@ -2019,7 +2060,7 @@ Prvi commit.
 <section id="slide-13-6">
 <h3 id="13-6"><span class="section-number-3">13.6.</span> Prvi <i>commit</i></h3>
 
-<div id="orgc9cc328" class="figure">
+<div id="orga454a29" class="figure">
 <p><img src="./images/prvi-commit.svg" alt="prvi-commit.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -2027,7 +2068,7 @@ Prvi commit.
 <section id="slide-13-7">
 <h3 id="13-7"><span class="section-number-3">13.7.</span> Drugi <i>commit</i></h3>
 
-<div id="orgeb6b46a" class="figure">
+<div id="org0cf0dac" class="figure">
 <p><img src="./images/drugi-commit.svg" alt="drugi-commit.svg" class="org-svg" style="height: 500px;" />
 </p>
 </div>
@@ -2054,7 +2095,7 @@ fajlu.</li>
 <section id="slide-13-9">
 <h3 id="13-9"><span class="section-number-3">13.9.</span> Git repozitorijum sa objektima i referencama</h3>
 
-<div id="orgac6d9eb" class="figure">
+<div id="org3b09b61" class="figure">
 <p><img src="./images/git-repo.svg" alt="git-repo.svg" class="org-svg" style="height: 600px;" />
 </p>
 </div>

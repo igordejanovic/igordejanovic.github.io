@@ -596,18 +596,20 @@ $ git branch -vv
 #+END_SRC
 
 ** Prelazak između grana
-
-
 - Promena grane podrazumeva izmenu radnog stabla tako da odgovara verziji sa
   grane.
 - Grana se menja komandom checkout na sledeći način:
   
   #+BEGIN_SRC
-  $ git checkout moja_grana
+  $ git switch moja_grana
   Switched to branch ’moja_grana’
-  $ git checkout master
+  $ git switch master
   Switched to branch ’master’
   #+END_SRC
+
+  #+begin_note
+  Takođe možemo koristiti i =checkout=.
+  #+end_note
 
 - Ako želimo da kreiramo novu granu i pređemo na nju:
   
@@ -626,7 +628,6 @@ $ git branch -vv
   #+END_SRC
 
 ** Brisanje lokalnih grana
-
 Brisanje lokalne grane:
 
 #+BEGIN_SRC
@@ -645,7 +646,6 @@ $ git branch -D grana_za_brisanje
 #+END_SRC
 
 ** Slanje promena u drugi repozitorijum
-
 Slanje promena na /upstream/ granu se radi sa:
 
 #+BEGIN_SRC
@@ -674,7 +674,6 @@ $ git push origin '*:*'
 #+END_SRC
 
 ** Slanje promena u drugi repozitorijum
-
 A ako želimo da lokalne grane ujedno postanu tracking za upravo objavljene grane:
 
 #+BEGIN_SRC
@@ -685,11 +684,10 @@ Naravno preduslov je da je =origin= udaljeni repozitorijum podešen.
 
 ** push.default - TODO
 ** Podešavanje veze sa udaljenim repozitorijumom
-
-Prethodne komande su podrazumevale da je udaljeni repozitorijum sa imenom
-=origin= već podešen. Ukoliko je lokalni repozitorijum nastao kloniranjem
-udaljenog ovo jeste tako, ali ukoliko nije (na primer, hoćemo da uradimo =push=
-u prazan centralni repozitorijum) možemo kreirati vezu na sledeći način:
+Prethodne komande su podrazumevale da je udaljeni repozitorijum sa imenom =origin=
+već podešen. Ukoliko je lokalni repozitorijum nastao kloniranjem udaljenog ovo
+jeste tako, ali ukoliko nije (na primer, hoćemo da uradimo =push= u prazan
+centralni repozitorijum) možemo kreirati vezu na sledeći način:
 
 #+BEGIN_SRC
 $ git remote add origin https://puppet.ftn.uns.ac.rs/rks/timX/git
@@ -709,7 +707,6 @@ $ git remote show origin
 #+END_SRC
 
 ** Brisanje udaljenih grana
-
 Brisanje grane u udaljenom repozitorijumu se može uraditi na sledeći način:
 
 #+BEGIN_SRC
@@ -723,7 +720,6 @@ $ git push origin --delete udaljena_grana
 #+END_SRC
 
 ** Poređenje grana (/commit/-a)
-
 Da bi videli koji fajlovi su promenjeni između dve grane uz ignorisanje
 /whitespace/ karaktera (=-w=):
 
@@ -753,6 +749,11 @@ Poređenje možemo obaviti između bilo koja dva /commit/-a (po /hash/ /id/-u).
 
 * Spajanje grana (/merging/)
 ** Spajanje grana – /merge/
+#+ATTR_ORG: :width 300px
+[[./images/merge.png]]
+
+#+REVEAL: split
+
 - Komanda =pull= automatski radi spajanje grane sa udaljenog repozitorijuma.
   
   #+BEGIN_SRC
@@ -978,6 +979,15 @@ Resetujemo indeks ali ne i radno stablo. Ovo je podrazumevano ponašanje
 $ git reset --mixed HEAD
 #+END_SRC
 
+#+REVEAL: split
+
+Modifikuje lokalne fajlove kao i =--hard= ali ukoliko postoje lokalne promene one
+neće biti "pregažene" tj. fajlovi sa lokalnim promenama ostaju a ako bi morao
+biti promenjen onda se operacija prekida.
+#+begin_src
+$ git reset --keep HEAD^
+#+end_src
+
 #+ATTR_HTML: :class attention
 *Napomena*: =reset= komanda je generalan način za pomeranje pokazivača tekuće
 grane. Pomeranjem =HEAD=-a git pamti prethodni u =ORIG_HEAD= tako da možemo uvek
@@ -1161,8 +1171,7 @@ git config push.recurseSubmodules on-demand
 #+attr_html: :class footer :style clear: both;
 1. http://nvie.com/posts/a-successful-git-branching-model/
 
-** /Feature branches/
-
+** Grane funkcionalnosti (/Feature branches/)
 - Način razvoja softvera gde se za svaku funkcionalnost softvera (/feature/)
   kreira nova grana.
 - Prednosti:
@@ -1171,7 +1180,10 @@ git config push.recurseSubmodules on-demand
   - jednostavniji uvid u progres po funkcionalnostima.
 - Mane:
   - kod funkcionanosti koja se dugo razvija odlaže se integracija što može
-    dovesti do kasnijih problema.
+    dovesti do kasnijih problema u integraciji.
+- Najbolja praksa: ove grane treba da "žive" relativno kratak period i da se
+  konstantno vrši spajanje ciljne grane na nju da bi se izbegli problemi u
+  integraciji.
 
 ** /GitFlow/ model
 
@@ -1184,7 +1196,13 @@ http://nvie.com/posts/a-successful-git-branching-model/
 ** Modifikovani /GitFlow/ model
 
 #+ATTR_ORG: :width 300px
+#+ATTR_HTML: :style height: 500px;
 [[./images/GitFlow-Reloaded.svg]]
+** /Trunk-based development/
+- Ideja je da svi programeri rade na istoj grani uz eventualno kreiranje
+  kratkotrajnih grana (do par dana) koje se spajaju na glavnu.
+- Nastao zbog problema kod dugotrajnih grana funkcionalnosti.
+- Lepo radi u saradnji sa zastavicama za funkcionalnosti (/feature flags/).
 
 * Preporučena praksa
 ** Preporučena praksa u radu sa granama
