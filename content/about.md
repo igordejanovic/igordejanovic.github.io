@@ -1,10 +1,10 @@
 +++
 title = "About"
 draft = false
-creator = "Emacs 28.2 (Org mode 9.6 + ox-hugo)"
+creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 [menu]
   [menu.main]
-    weight = 1007
+    weight = 1008
     identifier = "about"
 +++
 
