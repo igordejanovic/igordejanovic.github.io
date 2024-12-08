@@ -11,23 +11,23 @@ creator = "Emacs 29.4 (Org mode 9.8 + ox-hugo)"
 {{< figure src="/ox-hugo/igord.jpg" >}}
 
 I work as a professor of Computer Science and Software Engineering at the
-Faculty of technical sciences, University of Novi Sad.
+Faculty of Technical Sciences, University of Novi Sad.
 
-When I was a kid I got struck by a passion for programming and computers in
+When I was a kid, I was struck by a passion for programming and computers in
 general. That passion never left me.
 
-Nowadays I am particularly interested in Domain-Specific Languages and
+Nowadays, I am particularly interested in Domain-Specific Languages and
 Model-Driven Engineering. I strongly believe that the future of programming is
 in languages fit for the purpose, with both abstract and concrete syntaxes fully
-aligned with the domain. I always strive for simplicity - simple tools, simple
+aligned with the domain. I always strive for simplicity — simple tools, simple
 processes.
 
-I am user, supporter, and developer of Free/Libre Open-Source Software. Some of
-my FLOSS projects are described [here]({{< relref "projects" >}}). Check it out at [github](https://github.com/igordejanovic).
+I am a user, supporter, and developer of Free/Libre Open-Source Software. Some
+of my FLOSS projects are described [here]({{< relref "projects" >}}). Check them out on [GitHub](https://github.com/igordejanovic).
 
-Some of my research is listed at [my university page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
+Some of my research is listed on [my university page](http://informatika.ftn.uns.ac.rs/IgorDejanovic/).
 
-To contact me follow social links/icons on the left.
+To contact me, follow the social links/icons on the left.
 
 
 ## OpenPGP info {#openpgp-info}
