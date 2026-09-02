@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-04 Tue 13:35 -->
+<meta charset="utf-8"/>
+<title>Управљање конфигурацијом софтвера</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Управљање конфигурацијом софтвера</h1>
+<h2 class="subtitle">Упознавање са предметом</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-04 Tue 13:35, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Опште информације</h2>
+<ul>
+<li>Број ЕСПБ: 6</li>
+<li>Фонд часова: 3+2</li>
+<li>Предметни наставник: <a href="https://igordejanovic.net">Проф. др Игор Дејановић</a> (igord на uns ac rs)</li>
+<li>Предметни асистент:
+<ul>
+<li>MSc Вања Мијатов, vanja.mijatov на uns.ac.rs</li>
+
+</ul></li>
+<li>Материјали са предавања су доступни на линку:
+<ul>
+<li><a href="https://www.igordejanovic.net/courses/uks/">https://www.igordejanovic.net/courses/uks/</a></li>
+
+</ul></li>
+<li>Материјали за вежбе биће доступни преко GitHub-a и Гугл групе.</li>
+<li>Комуникација се обавља преко Гугл групе:
+<ul>
+<li><a href="https://groups.google.com/g/kzi-uks">https://groups.google.com/g/kzi-uks</a></li>
+<li><i>Обавезно се пријавите!</i></li>
+
+</ul></li>
+<li>Консултације се обављају по потреби уз најаву на имејл</li>
+<li>Договор о усменим испитима се обавља преко групе:
+<ul>
+<li><a href="https://groups.google.com/d/forum/dejanovic-ispiti">https://groups.google.com/d/forum/dejanovic-ispiti</a></li>
+<li><i>Не заборавите да се пријавите када положите практични део!</i></li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Шта представља управљање конфигурацијом софтвера?</h2>
+<ul>
+<li>Управљање конфигурацијом софтвера (<i>Software Configuration Management</i>)
+представља дисциплину која се бави контролисаном еволуцијом сложених
+софтверских система.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>Estublier, <i>Software configuration management: a roadmap</i>, in Proceedings of
+the conference on The future of Software engineering, pp. 279–289, ACM, 2000</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Зашто користити УКС?</h2>
+<ul>
+<li>Софтверски производи често “живе” годинама па чак и деценијама.</li>
+<li>Софтверски производи су често изузетно комплексни.</li>
+<li>Да би обезбедили континуалну еволуцију морамо увести процесе, технике и алате
+који ће то омогућити.</li>
+<li>Пракса је показала да је успех пројекта директно повезан са употребом
+ефикасних УКС техника и алата.</li>
+<li>Прва 4 на листи од 12 корака за бољи развој софтвера<sup>1</sup> истакнутог софтвер
+инжењера, писца и аутора изузетно популарног сервиса <a href="http://stackoverflow.com/">StackOverflow</a> <a href="http://www.joelonsoftware.com/AboutMe.html">Џоела
+Сполског</a> представљају УКС технике (контрола верзија изворног кода,
+аутоматизована и континуална изградња и праћење грешака).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/">J. Spolsky, The joel test: 12 steps to better code</a>, August 2000.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Зашто користити УКС?</h2>
+<ul>
+<li>Подршка за паралелни рад. Ручно спајање паралелних измена није ни мало
+забавно.</li>
+<li>Употреба УКС алата, пре свега дистрибуираних система за контролу верзија је
+довела до појаве тзв. друштвеног кодирања (<a href="http://www.techrepublic.com/blog/it-consultant/social-coding-the-next-wave-in-development/">Social Coding</a>) и сервиса као што су
+<a href="https://github.com/">GitHub</a>, <a href="https://bitbucket.org/">BitBucket</a> и др. Ово је омогућило експлозију развоја слободног
+софтвера.</li>
+<li class="fragment roll-in">Зато што вам то тражи послодавац.</li>
+<li class="fragment roll-in">Зато што вам то тражи клијент.</li>
+<li class="fragment roll-in"><b>Савет:</b> Ако фирма не користи УКС технике (пре свега контролу верзија) запитајте
+се да ли желите да радите у таквој фирми.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Циљ предмета</h2>
+<ul>
+<li>Савладавање теоретских основа дисциплине управљања конфигурацијом софтвера
+(<i>Software Configuration Management</i>).</li>
+<li>Оспособљавање за увођење и примену процеса управљања конфигурацијом софтвера.</li>
+<li>Упознавање са индустријским стандардима, оквирима и алатима из области
+управљања конфигурацијом софтвера.</li>
+<li>Савладавање модерних УКС технологија (Git, pytest, GitHub/GitLab, Docker,
+Docker Compose, Chef/Ansimble/Teraform).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Структура оцене</h2>
+<ul>
+<li>Предиспитне обавезе - 60%</li>
+<li>Теоријски део испита - 40%</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Пројекат</h2>
+<ul>
+<li>Тимски рад - тимови од 4±1 студента.</li>
+<li>Обавезна употреба система за контролу верзија (<a href="https://git-scm.com/">Git</a>).</li>
+<li>Обавезна употреба система за праћење пројекта (<a href="https://github.com/">GitHub</a>).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Пројекат - расподела бодова</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Активност</th>
+<th scope="col" class="org-center">Бодови</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Модел</td>
+<td class="org-center">4</td>
+</tr>
+
+<tr>
+<td class="org-left">Имплементација пројекта</td>
+<td class="org-center">26</td>
+</tr>
+
+<tr>
+<td class="org-left">Имплементација тестова</td>
+<td class="org-center">6</td>
+</tr>
+
+<tr>
+<td class="org-left">Git</td>
+<td class="org-center">6</td>
+</tr>
+
+<tr>
+<td class="org-left">GitHub</td>
+<td class="org-center">10</td>
+</tr>
+
+<tr>
+<td class="org-left">УКС</td>
+<td class="org-center">8</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Укупно</b></td>
+<td class="org-center"><b>60</b></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+<i>И поред тимског рада сви бодови се добијају индивидуално.</i>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> План извођења наставе</h2>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Пројектни задатак</h2>
+<ul>
+<li>Веб апликација за управљање Docker сликама.</li>
+<li>Слично <a href="https://hub.docker.com/">Docker Hub</a>-у.</li>
+<li>Детаљи ће бити презентовани на вежбама.</li>
+<li><i>Крајњи циљ: дефинисан УКС процес за управљање Docker сликама, подржан
+апликацијом.</i></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Основе управљања конфигурацијом софтвера</h2>
+<ul>
+<li>Основни појмови и концепти.</li>
+<li>Шта све обухвата УКС? Који су разлози увођења?</li>
+<li>Традиционална и модерна схватања УКС дисциплине.</li>
+<li>УКС процеси.</li>
+<li>УКС обрасци и препоручена пракса (<i>best practice</i>).</li>
+<li>УКС алати.</li>
+<li>УКС индустријски оквири и стандарди.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Управљање изворним кодом (<i>Source Code Management</i>)</h2>
+<ul>
+<li>Алгоритми и модели. Дистрибуирани и централизовани системи.</li>
+<li>Управљање алтернативних токовима развоја. Гранање.</li>
+<li>Формирање основне линије (<i>Baseline</i>).</li>
+<li>Управљање конкурентним радом. Оптимистичко и песимистичко закључавање.</li>
+<li>Препоручена пракса.</li>
+<li>Алати.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Системи за контролу верзија</h2>
+<ul>
+<li>Преглед основних особина најпопуларнијих алата за контролу верзија
+(Subversion, Mercurial, Bazaar, Git).</li>
+<li>Детаљно упознавање са Git алатом.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> Управљање променама (<i>Change Control</i>)</h2>
+<ul>
+<li>Шта представља управљање променама?</li>
+<li>Какве све промене могу настати и у којим фазама животног циклуса?</li>
+<li>Како се промене прате? Животни циклус захтева за променом.</li>
+<li>Како се анализира утицај промена на компоненте система?</li>
+<li>Извештавање.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> Управљање изградњом и увођење (<i>Build and Deploy</i>)</h2>
+<ul>
+<li>Шта представља изградња а шта увођење софтвера?</li>
+<li>Зашто је потребно поступак аутоматизовати?</li>
+<li>Како се изградња и увођење могу аутоматизовати?</li>
+<li>Шта представља континуална изградња (<i>Continuous Build</i>) и континуална достава
+(<i>Continuous Delivery</i>)?</li>
+<li>Puppet, Teraform, Fabric, Docker, Kubernetes&#x2026;</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> Управљање издањима (<i>Release Management</i>)</h2>
+<ul>
+<li>Шта представља издање софтвера?</li>
+<li>Зашто је битно да уведемо управљање у овај сегмент?</li>
+<li>Технике вођења верзија издања?</li>
+<li>Алтернативна издања.</li>
+<li>Следљивост и повезивање издања за компоненте и њихове верзије од којих је
+издање креирано.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Литература за предмет</h2>
+<ul>
+<li>J. Humble and D. Farley, <i>Continuous delivery: reliable software releases
+through build, test and deployment automation</i> Addison-Wesley Professional,
+2010</li>
+<li>S. Berczuk and B. Appleton, <i>Software configuration management patterns:
+effective teamwork, practical integration</i>, Addison-Wesley Professional, 2003</li>
+<li>M. Handbook, <i>Configuration management guidance, tech. rep., MIL-HDBK-61A
+(SE)</i>, Department of Defense–United States of America, 2001</li>
+<li>Scott Chacon and Ben Straub, <a href="https://git-scm.com/book/en/v2">Pro Git</a>. APress, 2014.</li>
+<li>Beazley, David M. <i>Python essential reference</i> Addison-Wesley Professional.</li>
+<li><a href="https://docs.python.org/release/3.4.0/tutorial/">The Python Tutorial</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

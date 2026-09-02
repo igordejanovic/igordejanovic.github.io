@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2026-01-30 Fri 12:43 -->
+<meta charset="utf-8"/>
+<title>Nix управљач пакетима</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Nix управљач пакетима</h1>
+<h2 class="subtitle">Слајдови у изради</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2026-01-30 Fri 12:43, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-orgb61367e">
+<h2 id="orgb61367e">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Шта је nix?</a></li>
+<li><a href="#/slide-2">2. Шта може са nix-ом да се уради?</a></li>
+<li><a href="#/slide-3">3. Nix складиште (<i>Nix store</i>)</a></li>
+<li><a href="#/slide-4">4. Деривације</a></li>
+<li><a href="#/slide-5">5. Nix језик</a></li>
+<li><a href="#/slide-6">6. Nix пахуљице (<i>flakes</i>)</a></li>
+<li><a href="#/slide-7">7. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Шта је nix?</h2>
+<ul>
+<li>Управљач пакетима и систем за изградњу пакета</li>
+<li>Али и језик специфичан за домен изградње пакета</li>
+<li>Декларативна спецификација пакета</li>
+<li>Чист функционални језик са лењом евалуацијом</li>
+<li>Поновљива изградња</li>
+<li>На основу зависности -&gt; деривација - дефинише комплетно окружење за поновљиву
+изградњу пакета</li>
+<li>Производ изградње смешта се у непромењиво складиште са путањом која садржи хеш
+целокупног графа зависности</li>
+<li>Ово омогућава атомичко ажурирање, конкурентно инсталирање више верзија истог
+пакета, ефикасно кеширање, враћање на старе верзије итд.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Шта може са nix-ом да се уради?</h2>
+<ul>
+<li>Поновљива развојна окружења.</li>
+<li>Инсталација и/или покретање софтвера преко URL-а</li>
+<li>Лак пренос окружења између рачунара</li>
+<li>Декларативна спецификација линукс рачунара</li>
+<li>Поновљиво интеграционо тестирање употребом виртуалних машина</li>
+<li>Избегавање конфликта са већ инсталираним софтвером</li>
+<li>Инсталација софтвера из изворног кода</li>
+<li>Транспарентно кеширање бинарних производа изградње</li>
+<li>Јака подршка за ревизију софтвера</li>
+<li>Подршка за кроскомпајлирање</li>
+<li>Удаљена изградња</li>
+<li>Удаљено распоређивање</li>
+<li>Атомичко ажурирање и повратак на стару верзију</li>
+
+</ul>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Поновљива развојна окружења</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+</section>
+<section id="slide-2-1-1">
+<h4 id="2-1-1"><span class="section-number-4">2.1.1.</span> Креирање шкољке са инсталираним зависностима</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ cowsay no can do
+The program ‘cowsay’ is currently not installed.
+
+$ echo no chance | lolcat
+The program ‘lolcat’ is currently not installed.
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-shell -p cowsay lolcat
+these 3 derivations will be built:
+  /nix/store/zx1j8gchgwzfjn7sr4r8yxb7a0afkjdg-builder.pl.drv
+  /nix/store/h9sbaa2k8ivnihw2czhl5b58k0f7fsfh-lolcat-100.0.1.drv
+  ...
+
+[nix-shell:~]$
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >[nix-shell:~]$ cowsay Hello, Nix! | lolcat
+...
+# сада програми cowsay и lolcat постоје у окружењу
+
+[nix-shell:~]$ exit
+
+# када напустимо шкољку програми више нису доступни
+
+$ echo all gone | lolcat
+The program ‘lolcat’ is currently not installed.
+</code></pre>
+</div>
+</section>
+<section id="slide-2-1-2">
+<h4 id="2-1-2"><span class="section-number-4">2.1.2.</span> Покретање програма једном</h4>
+<p>
+Ако желимо да покренемо програм само једном можемо то урадити на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-shell -p cowsay --run "cowsay Nix"
+</code></pre>
+</div>
+
+<p>
+или ако се команда састоји само од имена програма нису потребни знаци навода:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-shell -p hello --run hello
+</code></pre>
+</div>
+</section>
+<section id="slide-2-1-3">
+<h4 id="2-1-3"><span class="section-number-4">2.1.3.</span> Покретање комбинације програма</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-shell -p git neovim nodejs
+these 9 derivations will be built:
+  /nix/store/7gz8jyn99kw4k74bgm4qp6z487l5ap06-packdir-start.drv
+  /nix/store/d6fkgxc3b04m85wrhg6j0l5y0ray82l7-packdir-opt.drv
+  /nix/store/da6njv7r0zzc2n54n2j54g2a5sbi4a5i-manifest.vim.drv
+  /nix/store/zs4jb2ybr4rcyzwq0dagg9rlhlc368h6-builder.pl.drv
+  /nix/store/g8sl2xnsshfrz9f39ki94k8p15vp3xd7-vim-pack-dir.drv
+  /nix/store/jmxkg8b1psk52awsvfziy9nq6dwmxmjp-luajit-2.1.0-2022-10-04-env.drv
+  /nix/store/kn83q8yk6ds74zgyklrjhvv5wkv5wmch-python3-3.10.9-env.drv
+  /nix/store/m445wn3vizcgg7syna2cdkkws3kk1gq8-neovim-ruby-env.drv
+  /nix/store/r2wa882mw99c311a4my7hcis9lq3kp3v-neovim-0.8.1.drv
+these 151 paths will be fetched (186.43 MiB download, 1018.20 MiB unpacked):
+  /nix/store/046zxlxhq4srm3ggafkymx794bn1jksc-bzip2-1.0.8
+  /nix/store/0p1jxcb7b4p8jhhlf8qnjc4cqwy89460-unibilium-2.1.1
+  /nix/store/0q4fpnqmg8liqraj7zidylcyd062f6z0-perl5.36.0-URI-5.05
+  ...
+
+# ова шкољка има доступан git, neovim и nodejs
+[nix-shell:~]$
+</code></pre>
+</div>
+</section>
+<section id="slide-2-1-4">
+<h4 id="2-1-4"><span class="section-number-4">2.1.4.</span> Провера верзија пакета</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >[nix-shell:~]$ which git
+/nix/store/3cdi52xh6lk3h1fb51jkxs3p561p37wg-git-2.38.3/bin/git
+
+[nix-shell:~]$ git --version
+git version 2.38.3
+
+[nix-shell:~]$ which nvim
+/nix/store/ynskzgkf07lmrrs3cl2kzr9ah487lwab-neovim-0.8.1/bin/nvim
+
+[nix-shell:~]$ nvim --version | head -1
+NVIM v0.8.1
+
+[nix-shell:~]$ which npm
+/nix/store/q12w83z0i5pi1y0m6am7qmw1r73228sh-nodejs-18.12.1/bin/npm
+
+[nix-shell:~]$ npm --version
+8.19.2
+</code></pre>
+</div>
+</section>
+<section id="slide-2-1-5">
+<h4 id="2-1-5"><span class="section-number-4">2.1.5.</span> Угњеждене шкољке</h4>
+<p>
+Ако приметимо да нам недостаје неки програм док смо у nix шкољци можемо
+доинсталирати потребан пакет употребом угњеждене шкољке:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >[nix-shell:~]$ nix-shell -p python3
+this path will be fetched (11.42 MiB download, 62.64 MiB unpacked):
+  /nix/store/pwy30a7siqrkki9r7xd1lksyv9fg4l1r-python3-3.10.11
+copying path '/nix/store/pwy30a7siqrkki9r7xd1lksyv9fg4l1r-python3-3.10.11' from 'https://cache.nixos.org'...
+
+[nix-shell:~]$ python --version
+Python 3.10.11
+</code></pre>
+</div>
+</section>
+<section id="slide-2-1-6">
+<h4 id="2-1-6"><span class="section-number-4">2.1.6.</span> Поновљивост</h4>
+<ul>
+<li>Претходне команде нису поновљиве јер исте команде на разичитим рачунарима и у
+различито време позива могу креирати окружење са различитим верзијама пакета.</li>
+<li>Да добијемо поновљиво окружење можемо урадити следеће:</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="sh" >nix-shell -p git --run "git --version" --pure -I nixpkgs=https://github.com/NixOS/nixpkgs/tarball/2a601aafdc5605a5133a2ca506a34a3a73377247
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Nix складиште (<i>Nix store</i>)</h2>
+<ul>
+<li>Централно, глобално складиште свих изграђених пакета, деривација и извора.</li>
+<li>Сваки елемент је јединствено идентификован <b>криптографским хешом садржаја</b>
+(<i>content addressable</i>). Путања: <code>/nix/store/ХЕШ-имепакета</code>.</li>
+<li>Гарантује непроменљивост (<i>immutability</i>) и поновљивост (<i>reproducibility</i>).
+Промена зависности = нови хеш = нова путања.</li>
+<li>Омогућава истовремену инсталацију различитих верзија истог пакета
+(<i>side-by-side</i>).</li>
+<li><b>Garbage Collector (GC)</b> уклања пакете који више нису референцирани.</li>
+
+</ul>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Пример путање у <code>/nix/store</code></h3>
+<pre>
+/nix/store/jbz6j4iwnrvki1zl34hwcyj2i0m6l2y1-coreutils-9.8
+</pre>
+
+<ul>
+<li><code>jbz6j4iwnrvki1zl34hwcyj2i0m6l2y1</code> – 160-битни SHA-256 хеш (32 карактера у base32) изведен из свих улаза за изградњу пакета</li>
+<li><code>coreutils-9.8</code> – људски-читљиво име пакета и верзија</li>
+
+</ul>
+
+<p>
+<b>Садржај директоријума:</b>
+</p>
+<pre>
+bin/
+├── ls
+├── cp
+├── rm
+└── ... (остали coreutils алати)
+libexec/...
+</pre>
+
+<p>
+<b>Кључна својства:</b>
+</p>
+<ul>
+<li>Ако поново изградите исти пакет са истим улазима, добићете <b>потпуно исту путању</b> (исти хеш)</li>
+<li>Два различита пакета могу делити датотеке преко хард линкова ако су идентичне</li>
+<li>Потпуно изолован – нема општих апсолутних путања попут <code>/lib64/libc.so.6</code> већ
+пакети користе специфичне путање за из Nix складишта.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Деривације</h2>
+<ul>
+<li>Рецепти који садрже све потребне информације за изградњу пакета:
+<ul>
+<li>Изворни код</li>
+<li>Зависности (у општем случају друге деривације)</li>
+<li>Заставице за изградњу (<i>build flags</i>)</li>
+<li>Кораке за изградњу и инсталацију</li>
+<li>Тестове</li>
+<li>Променљиве окружења</li>
+<li>&#x2026;</li>
+
+</ul></li>
+<li>Скуп свих директних и индиректних зависности назива се "затворење изградње"
+(<i>build closure</i>).</li>
+<li>Користи се криптографски хеш свих информација за креирање јединственог имена
+и путање у Nix складишту.</li>
+
+</ul>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Типови деривација</h3>
+<ul>
+<li><i>Fixed Output Derivations</i> (FODs)
+<ul>
+<li>Дефинисани само својим садржајем. Немају зависности. Представљају листове
+затворења изградње.</li>
+<li>Креирају се са <code>fetch*</code> функцијама у <code>nixpkgs</code> и <code>builtins</code>.</li>
+
+</ul></li>
+<li><i>Input-Addressed Derivations</i>
+<ul>
+<li>"Нормалне" деривације. Имају завиности и дефинисане кораке изградње и инсталације.</li>
+<li>Креирају се са <code>stdenv.mkDerivation</code> и повезаним <code>build*</code> помоћним функцијама.</li>
+
+</ul></li>
+<li><i>Content-Addressable Derivations</i> (CA)
+<ul>
+<li>Експерименталне деривације</li>
+<li>Хибридне. Имају особине претходне две.</li>
+<li>Намена: оптимизација изградње графа зависности када дође до промене зависних деривација</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Креирање деривација</h3>
+<ul>
+<li>Процес креирања деривација назива се "инстанцирање" или уопштеније "евалуација"</li>
+<li>Сваки пакет у колекцији Nix пакета <code>nixpkgs</code> има одговарајућу деривацију.</li>
+<li><p>
+Значи да можемо креирати и извршити инспекцију деривације свега што је
+извезено из <code>nixpkgs</code>.
+</p>
+
+<p>
+Пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-instantiate '&lt;nixpkgs&gt;' -A hello
+/nix/store/rn30zy2bj4zka8axq0ipknfp1pbgnnd1-hello-2.12.1.drv
+
+# или са flakes, nix&gt;=2.4
+
+$ nix eval nixpkgs#hello.drvPath
+"/nix/store/9vkdb4vqqyqjkm2825vkm74gdxcr0m46-hello-2.12.1.drv"
+</code></pre>
+</div></li>
+
+</ul>
+
+<p>
+Обратите пажњу да ове две команде не морају бити еквивалентне јер <code>&lt;nixpkgs&gt;</code> не
+мора на исти начин да се разреши.
+</p>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Садржај деривације</h3>
+<div class="org-src-container">
+
+<pre style="font-size: 0.5em;"><code class="sh" >~&gt; nix derivation show /nix/store/9vkdb4vqqyqjkm2825vkm74gdxcr0m46-hello-2.12.1.drv
+{
+  "/nix/store/9vkdb4vqqyqjkm2825vkm74gdxcr0m46-hello-2.12.1.drv": {
+    "args": [
+      "-e",
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "builder": "/nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash",
+    "env": {
+      "__structuredAttrs": "",
+      "buildInputs": "",
+      "builder": "/nix/store/p6k7xp1lsfmbdd731mlglrdj2d66mr82-bash-5.2p37/bin/bash",
+      ...
+      "src": "/nix/store/pa10z4ngm0g83kx9mssrqzz30s84vq7k-hello-2.12.1.tar.gz",
+      "stdenv": "/nix/store/m1p78gqlc0pw3sdbz3rdhklzm0g26g96-stdenv-linux",
+      "strictDeps": "",
+      "system": "x86_64-linux",
+      "version": "2.12.1"
+    },
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >    "inputDrvs": {
+      "/nix/store/bfhj6w6zvy1v7l6dm6ppsk2hrlcrkyfl-hello-2.12.1.tar.gz.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      "/nix/store/s63zivn27i8qv5cqiy8r5hf48r323qwa-bash-5.2p37.drv": {
+        "dynamicOutputs": {},
+        "outputs": [
+          "out"
+        ]
+      },
+      ...
+    },
+    "inputSrcs": [
+      "/nix/store/v6x3cs394jgqfbi0a42pam708flxaphh-default-builder.sh"
+    ],
+    "name": "hello-2.12.1",
+    "outputs": {
+      "out": {
+        "path": "/nix/store/1q8w6gl1ll0mwfkqc3c2yx005s6wwfrl-hello-2.12.1"
+      }
+    },
+    "system": "x86_64-linux"
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Особине деривација</h3>
+<ul>
+<li>Опис како изградити пакет из изворног кода</li>
+<li>Пуне путање излаза су дефинисане пре почетка процеса изградње</li>
+<li>Све зависности су разрешене приликом инстанцирања</li>
+<li>Све додатне заставице су експлицитне</li>
+<li>Нема неодређености. Систем, архитектура и друге опције су разрешене</li>
+<li>Деривација је непромењива (<i>immutable</i>). Ако се деривација промени то је нова деривација.</li>
+<li>Путања деривација је јединствена. Ако се две деривације подударају са путањама
+онда су једнаке у сваком погледу (исте зависности, исте заставице&#x2026;)</li>
+
+</ul>
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Реализација деривације</h3>
+<ul>
+<li>Изградња деривације се назива и "реализација" (<i>realization</i>).</li>
+<li><p>
+Деривација представља план изградње. Њеном реализацијом настаје циљни објекат изградње.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; nix-store --realize  /nix/store/9vkdb4vqqyqjkm2825vkm74gdxcr0m46-hello-2.12.1.drv
+warning: you did not specify '--add-root'; the result might
+         be removed by the garbage collector
+/nix/store/1q8w6gl1ll0mwfkqc3c2yx005s6wwfrl-hello-2.12.1
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> <a href="https://nix.dev/manual/nix/2.24/language/">Nix језик</a></h2>
+<ul>
+<li>Чисто функционалан, декларативан језик са лењом евалуацијом.</li>
+<li>Специјализован за дефинисање пакета и конфигурација система.</li>
+<li>Нема петље, имена/идентификатори су непромењиве (<i>immutable</i>).</li>
+<li>Главни циљ: описати како се нешто гради.</li>
+
+</ul>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Основни типови података</h3>
+<ul>
+<li><b>String</b>: <code>"Hello, Nix"</code> или <code>''multi-line string''</code></li>
+<li><b>Integer</b>: <code>42</code></li>
+<li><b>Boolean</b>: <code>true</code>, <code>false</code></li>
+<li><b>Path</b>: <code>/putanja/do/fajla</code> или <code>./relativna/putanja</code> (аутоматски се копира у Nix
+складиште)</li>
+<li><b>Null</b>: <code>null</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >"Ovo je string."
+''
+  Ovo je
+  string u više
+  redova.
+''
+/etc/passwd
+./default.nix
+</code></pre>
+</div>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Листе (<i>Lists</i>)</h3>
+<ul>
+<li>Низ вредности било ког типа.</li>
+<li>Дефинишу се у угластим заградама, елементи су одвојени размаком.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >[ 1 2 3 ]
+[ "hello" "world" ]
+[ 1 "dva" true null ]
+[ [ "ugnjezdena" ] "lista" ]
+</code></pre>
+</div>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Скупови атрибута (<i>Attribute Sets</i>)</h3>
+<ul>
+<li>Кључна структура у Nix-у, слична мапама или објектима у другим језицима.</li>
+<li>Колекција парова кључ-вредност.</li>
+<li>Кључеви су стрингови, вредности могу бити било ког типа.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >{
+  name = "moj-paket";
+  version = "1.0";
+  enableTests = true;
+  dependencies = [ "openssl" "zlib" ];
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> <code>let ... in</code> изрази</h3>
+<ul>
+<li>Користе се за дефинисање локалних, непроменљивих имена (везивања -
+<i>bindings</i>).</li>
+<li>Све што је дефинисано у <code>let</code> делу је доступно у <code>in</code> делу.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >let
+  ime = "Свет";
+  pozdrav = "Здраво, ${ime}!";
+in
+  pozdrav
+# Резултат: "Здраво, Свет!"
+</code></pre>
+</div>
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Функције (Ламбде)</h3>
+<ul>
+<li>Функције су грађани првог реда.</li>
+<li>Примају један аргумент и враћају једну вредност.</li>
+<li>Синтакса: <code>аргумент: тело_функције</code></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" ># Функција која прима један број и враћа његов квадрат
+x: x * x
+
+# Позив функције
+(x: x * x) 5
+# Резултат: 25
+</code></pre>
+</div>
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Функције са скуповима атрибута</h3>
+<ul>
+<li>Најчешћи начин за прослеђивање више аргумената.</li>
+<li>Омогућава именоване и опционе параметре.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="nix" >{ ime, verzija, sistem ? "x86_64-linux" }:
+
+let
+  fullName = "${ime}-${verzija}";
+in
+  "Paket ${fullName} za sistem ${sistem}"
+
+# Позив:
+# ( { ime, ... }: ... ) { ime = "openssl"; verzija = "3.0"; }
+# Резултат: "Paket openssl-3.0 за sistem x86_64-linux"
+</code></pre>
+</div>
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7.</span> <code>import</code></h3>
+<ul>
+<li>Учитава, парсира и евалуира други <code>.nix</code> фајл.</li>
+<li>Враћа вредност коју тај фајл дефинише.</li>
+<li>Омогућава модуларизацију кода.</li>
+
+</ul>
+
+<p>
+Садржај <code>podaci.nix</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="nix" >{ verzija = "2.12.1"; }
+</code></pre>
+</div>
+
+<p>
+Садржај <code>default.nix</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="nix" >let
+  podaci = import ./podaci.nix;
+in
+  "Verzija programa je: ${podaci.verzija}"
+# Резултат: "Verzija programa je: 2.12.1"
+</code></pre>
+</div>
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Уграђене функције (<code>builtins</code>)</h3>
+<ul>
+<li>Nix језик има скуп моћних уграђених функција.</li>
+<li>Доступне су преко <code>builtins</code> скупа атрибута.</li>
+<li>Примери: <code>builtins.readFile</code>, <code>builtins.toJSON</code>, <code>builtins.fetchGit</code>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >let
+  sadrzaj = builtins.readFile ./README.md;
+in
+  "Dužina README fajla je: ${toString (builtins.stringLength sadrzaj)}"
+</code></pre>
+</div>
+</section>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9.</span> Дефиниција деривације (<code>.nix</code> фајл)</h3>
+<p>
+Пример дефиниције пакета <code>hello</code> коришћењем функције <code>stdenv.mkDerivation</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="nix" ># default.nix
+{ lib, stdenv, fetchurl }:
+
+stdenv.mkDerivation rec {
+  pname = "hello";
+  version = "2.12.1";
+
+  src = fetchurl {
+    url = "mirror://gnu/hello/${pname}-${version}.tar.gz";
+    sha256 = "sha256-jZkUKv2SV28wsM18tCqNxoCZmLxdYH2Idh9RLibH2yA=";
+  };
+
+  # 'hello' нема build зависности, али овако би изгледало:
+  # buildInputs = [ pkgs.nekaZavisnost ];
+
+  meta = {
+    description = "A program that produces a familiar, friendly greeting";
+    homepage = "https://www.gnu.org/software/hello/";
+    license = lib.licenses.gpl3Plus;
+  };
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+<b>Кључни делови:</b>
+</p>
+<ul>
+<li><code>{ lib, stdenv, fetchurl }:</code> - Функција која прима зависности. Ово је стандардни
+образац у <code>nixpkgs</code>.</li>
+<li><code>stdenv.mkDerivation</code> - Основна функција за изградњу која аутоматизује
+<code>./configure &amp;&amp; make &amp;&amp; make install</code>.</li>
+<li><code>pname</code>, <code>version</code> - Име и верзија пакета. <code>rec</code> омогућава да их користимо унутар
+истог скупа.</li>
+<li><code>src</code> - Изворни код. <code>fetchurl</code> га преузима и верификује помоћу <code>sha256</code> хеша, чиме
+се гарантује поновљивост.</li>
+<li><code>buildInputs</code> - Листа зависности потребних за изградњу пакета.</li>
+<li><code>meta</code> - Метаподаци о пакету (опис, лиценца, веб страница&#x2026;).</li>
+
+</ul>
+</section>
+<section id="slide-5-10">
+<h3 id="5-10"><span class="section-number-3">5.10.</span> Изградња деривације - класичан приступ (без <i>flakes</i>)</h3>
+<p>
+Најједноставније је направити још један <code>.nix</code> фајл који ће учитати <code>nixpkgs</code>, а
+затим позвати деривацију.
+</p>
+
+<p>
+<b>Направити <code>release.nix</code> фајл</b> у истом директоријуму:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >let
+  pkgs = import &lt;nixpkgs&gt; {};
+in
+  # Позива функцију и аутоматски јој прослеђује
+  # аргументе (stdenv, fetchurl, lib...) из pkgs скупа.
+  pkgs.callPackage ./default.nix {}
+</code></pre>
+</div>
+
+<p>
+<b>Изградња програма (<i>build</i>):</b>
+</p>
+
+<p>
+Користи се команда <code>nix-build</code>. Она ће креирати симболички линк <code>./result</code> који
+показује на изграђени пакет у <code>/nix/store</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ nix-build release.nix
+... (output изградње) ...
+
+$ ls -l result
+lrwxrwxrwx 1 user user 56 Dec  3 16:00 result -&gt; /nix/store/1q8w6gl1ll0mwfkqc3c2yx005s6wwfrl-hello-2.12.1
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Извршна датотека се налази унутар <code>bin</code> директоријума унутар <code>result</code> линка.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >$ ./result/bin/hello
+Hello, world!
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Nix пахуљице (<i>flakes</i>)</h2>
+<ul>
+<li><p>
+Нови, експериментални начин дефиниције деривација и изградње
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >  ~&gt; cat .config/nix/nix.conf
+  experimental-features = nix-command flakes
+</code></pre>
+</div></li>
+<li>Пахуљица представља стабло фајлова у чијем корену се налази <code>flake.nix</code></li>
+<li>Нови CLI - <code>nix &lt;команда&gt;</code></li>
+<li>Није потпуно компатибилна са старим командама типа <code>nix-&lt;команда&gt;</code> али већина
+команди има еквивалент</li>
+
+</ul>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Текућа конфигурација</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >nix config show
+</code></pre>
+</div>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Регистар пахуљица</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; nix config show | grep -i registry
+flake-registry = https://channels.nixos.org/flake-registry.json
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; wget 'https://channels.nixos.org/flake-registry.json' -O - 2&amp;&gt;/dev/null | head -20
+{
+  "flakes": [
+    {
+      "from": {
+        "id": "agda",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "agda",
+        "repo": "agda",
+        "type": "github"
+      }
+    },
+    {
+      "from": {
+        "id": "arion",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "hercules-ci",
+</code></pre>
+</div>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Листање регистра пахуљица</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; nix registry list
+global flake:agda github:agda/agda
+global flake:arion github:hercules-ci/arion
+global flake:blender-bin github:edolstra/nix-warez?dir=blender
+global flake:bundlers github:NixOS/bundlers
+global flake:cachix github:cachix/cachix
+...
+global flake:nix github:NixOS/nix
+global flake:nixpkgs github:NixOS/nixpkgs/nixpkgs-unstable
+...
+</code></pre>
+</div>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Коришћење тачне верзије пахуљице</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >nix registry pin nixpkgs --url github:NixOS/nixpkgs/&lt;commit-hash&gt;
+</code></pre>
+</div>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Додавање и уклањање пахуљице из регистра</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; nix registry add crane github:ipetkov/crane
+~&gt; cat ~/.config/nix/registry.json
+{
+  "flakes": [
+    {
+      "from": {
+        "id": "crane",
+        "type": "indirect"
+      },
+      "to": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    }
+  ],
+  "version": 2
+}
+
+~&gt; nix registry remove crane
+</code></pre>
+</div>
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Референцирање израза за евалуацију</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >nix build nixpkgs#hello
+
+</code></pre>
+</div>
+</section>
+<section id="slide-6-7">
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Структура <code>flake.nix</code> фајла</h3>
+<p>
+Сваки <code>flake.nix</code> има следећу основну структуру:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="nix" >{
+  description = "Опис пахуљице";
+
+  inputs = {
+    # Зависности пахуљице
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
+
+  outputs = { self, nixpkgs, ... }: {
+    # Излази пахуљице: пакети, развојна окружења, NixOS конфигурације...
+  };
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-8">
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Типови излаза пахуљице</h3>
+<ul>
+<li><code>packages.&lt;систем&gt;.&lt;име&gt;</code> - Пакети за изградњу</li>
+<li><code>devShells.&lt;систем&gt;.default</code> - Развојно окружење</li>
+<li><code>apps.&lt;систем&gt;.&lt;име&gt;</code> - Апликације за покретање</li>
+<li><code>nixosConfigurations.&lt;име&gt;</code> - NixOS системске конфигурације</li>
+<li><code>overlays.default</code> - Преклопи за nixpkgs</li>
+<li><code>templates.&lt;име&gt;</code> - Шаблони за нове пројекте</li>
+
+</ul>
+</section>
+<section id="slide-6-9">
+<h3 id="6-9"><span class="section-number-3">6.9.</span> Пример: Једноставна пахуљица за пројекат</h3>
+<div class="org-src-container">
+
+<pre><code class="nix" ># flake.nix
+{
+  description = "Мој Python пројекат";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs = { self, nixpkgs, flake-utils }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        # Развојно окружење
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            python311
+            python311Packages.pip
+            python311Packages.pytest
+          ];
+        };
+      }
+    );
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-10">
+<h3 id="6-10"><span class="section-number-3">6.10.</span> Пример: Пахуљица са пакетом и развојним окружењем</h3>
+<div class="org-src-container">
+
+<pre><code class="nix" >{
+  description = "Hello World C пројекат";
+
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      packages.${system}.default = pkgs.stdenv.mkDerivation {
+        pname = "moj-hello";
+        version = "1.0.0";
+        src = ./.;
+        buildPhase = "gcc -o hello hello.c";
+        installPhase = "mkdir -p $out/bin &amp;&amp; cp hello $out/bin/";
+      };
+
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [ pkgs.gcc pkgs.gdb ];
+      };
+    };
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-11">
+<h3 id="6-11"><span class="section-number-3">6.11.</span> Употреба пахуљице</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" ># Иницијализација пахуљице у постојећем пројекту
+nix flake init
+
+# Креирање на основу шаблона
+nix flake init -t templates#c-hello
+
+# Улазак у развојно окружење
+nix develop
+
+# Изградња пакета
+nix build
+
+# Покретање без инсталације
+nix run
+
+# Ажурирање зависности (flake.lock)
+nix flake update
+
+# Провера пахуљице
+nix flake check
+</code></pre>
+</div>
+</section>
+<section id="slide-6-12">
+<h3 id="6-12"><span class="section-number-3">6.12.</span> <code>flake.lock</code> - Закључавање верзија</h3>
+<ul>
+<li>Аутоматски генерисан фајл који садржи тачне верзије свих зависности</li>
+<li>Гарантује поновљивост изградње</li>
+<li>Треба га чувати у систему за контролу верзија (Git)</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="json" >{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1703013332,
+        "narHash": "sha256-+tFNwMvlXLbJZXiMHqYq77z/RfmpfpiI3yjL6o/Zo9M=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "54aac082a4d9bb5bbc5c4e899603abfb76a3f6d6",
+        "type": "github"
+      }
+    }
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-13">
+<h3 id="6-13"><span class="section-number-3">6.13.</span> Пахуљица за Rust пројекат (са crane)</h3>
+<div class="org-src-container">
+
+<pre><code class="nix" >{
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    crane.url = "github:ipetkov/crane";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+
+  outputs = { self, nixpkgs, crane, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        craneLib = crane.mkLib pkgs;
+      in {
+        packages.default = craneLib.buildPackage {
+          src = craneLib.cleanCargoSource ./.;
+        };
+
+        devShells.default = craneLib.devShell {
+          packages = [ pkgs.rust-analyzer ];
+        };
+      }
+    );
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-14">
+<h3 id="6-14"><span class="section-number-3">6.14.</span> Креирање пахуљице из шаблона</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ mkdir moj_projekat
+$ cd moj_projekat
+$ nix flake init --template "https://flakehub.com/f/the-nix-way/dev-templates/*#python"
+</code></pre>
+</div>
+</section>
+<section id="slide-6-15">
+<h3 id="6-15"><span class="section-number-3">6.15.</span> Удаљено покретање пахуљица</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" ># Покретање програма директно са GitHub-а
+nix run github:NixOS/nixpkgs#hello
+
+# Развојно окружење из удаљене пахуљице
+nix develop github:korisnik/repo
+
+# Изградња пакета из удаљене пахуљице
+nix build github:korisnik/repo#paket
+
+# Са специфичном граном или комитом
+nix run github:korisnik/repo/grana#app
+nix run github:korisnik/repo/abc123#app
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Литература</h2>
+<ul>
+<li>Jonathan Ringer и Tim Deherra: <a href="https://book.divnix.com/">The Nix Package Manager</a>, доступно онлајн.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

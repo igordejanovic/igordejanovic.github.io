@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-12-01 Mon 07:31 -->
+<meta charset="utf-8"/>
+<title>Софтверски обрасци и компоненте</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Софтверски обрасци и компоненте</h1>
+<h2 class="subtitle">Структурални обрасци</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-12-01 Mon 07:31, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-orga904699">
+<h2 id="orga904699">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Структурални софтверски обрасци</a></li>
+<li><a href="#/slide-2">2. Adapter</a></li>
+<li><a href="#/slide-3">3. Bridge</a></li>
+<li><a href="#/slide-4">4. Composite</a></li>
+<li><a href="#/slide-5">5. Decorator</a></li>
+<li><a href="#/slide-6">6. Proxy</a></li>
+<li><a href="#/slide-7">7. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Структурални софтверски обрасци</h2>
+<p>
+Баве се удруживањем објеката и класа, коришћењем наслеђивања, композиције и
+делегације, у циљу формирања сложенијих структура.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Adapter</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Adapter</h3>
+<ul>
+<li>Прилагођавамо компоненту чија нам је функционалност потребна али њен
+интерфејс не одговара нашим захтевима.</li>
+<li>Нпр. прилагођавање COTS (<i>Commercial Of-The-Shelf</i>) компоненти нашем систему или
+прилагођавање старих компоненти захтевима новог система.</li>
+<li>Креирање компоненте тако да је могуће користити у различитим, унапред
+непознатим, сценаријима.</li>
+<li>Познат још и као <i>Wrapper</i>.</li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Пример</h3>
+
+<div id="org50df241" class="figure">
+<p><img src="./images/Adapter-concrete.png" alt="Adapter-concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Структура</h3>
+
+<div id="org046f91a" class="figure">
+<p><img src="./images/Adapter-abstract.png" alt="Adapter-abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Две верзије</h3>
+<ul>
+<li><i>Базиран на класама и наслеђивању</i> – Класа која се адаптира се наслеђује и
+класа наследница имплементира одговарајући интерфејс.</li>
+<li><i>Базиран на објектима и делегацији</i> – Објекту који се адаптира се делегирају
+позиви од стране адаптер објекта.</li>
+
+</ul>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Напомене</h3>
+<ul>
+<li>Количина посла коју адаптер ради варира од обичне конверзије параметара и
+назива метода до подршке за потпуно другачији сет операција.</li>
+<li>Измењиви адаптери (<i>Pluggable adapters</i>) – Креирање компоненте тако да
+се унапред предвиди адаптација објеката са којима треба да сарађује иако
+унапред објекти и њихове класе нису познати. Пример <i>TreeDisplay</i>.<sup>1</sup></li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Пример - TreeDisplay</h3>
+
+<div id="org63a2532" class="figure">
+<p><img src="./images/TreeDisplay.png" alt="TreeDisplay.png" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Bridge</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Bridge</h3>
+<p>
+Раздвајање абстракције од имплементације тако да се могу независно мењати.
+</p>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Пример проблема</h3>
+
+<div id="org918f90a" class="figure">
+<p><img src="./images/Bridge-concreteBad.png" alt="Bridge-concreteBad.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Примена <i>Bridge</i> обрасца</h3>
+
+<div id="org174012c" class="figure">
+<p><img src="./images/Bridge-concreteGood.png" alt="Bridge-concreteGood.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Структура</h3>
+
+<div id="orgc91d10e" class="figure">
+<p><img src="./images/Bridge-abstract.png" alt="Bridge-abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Када кориситити</h3>
+<ul>
+<li>Када желимо избећи трајно везивање апстракције и имплементације. На пример,
+ако је потребна измена имплементације у време извршавања апликације.</li>
+<li>Када желимо да омогућимо независно проширење апстракције и имплементације
+кроз наслеђивање.</li>
+<li>Када имамо сложене хијерархије класа као што је показано у примеру.</li>
+
+</ul>
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Инстанцирање конкретне имплементације</h3>
+<p>
+Одлука о инстанцирању конкретне имплементације:
+</p>
+<ul>
+<li>Конструктор апстракције путем параметра (ако зна за све имплементације).</li>
+<li>Делегирање надлежности другом објекту – видети <i>Factory Method</i> - уколико је
+потребно учинити апстракције несвесне конкретних имплементација.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Composite</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Composite</h3>
+<ul>
+<li>Композиција објеката у структуре облика стабла.</li>
+<li>Униформно третирање простих и сложених објеката.</li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Структура обрасца</h3>
+
+<div id="org672ed5e" class="figure">
+<p><img src="./images/Composite-Abstract.png" alt="Composite-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Пример</h3>
+
+<div id="org558c8dc" class="figure">
+<p><img src="./images/Composite-Concrete.png" alt="Composite-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Напомена</h3>
+<p>
+GOF књига – методе за манипулацију <i>child</i> елементима у <code>Component</code> апстрактној класи.
+</p>
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Када користити?</h3>
+<ul>
+<li>Ако желите да креирате хијерархије објеката типа целина-део.</li>
+<li>Желите да клијент може да игнорише разлике између композитних и простих
+објеката и третира их на униформан начин.</li>
+
+</ul>
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Демонстрација обрасца <i>Composite</i> на примеру у Јави</h3>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Decorator</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Decorator</h3>
+<ul>
+<li>Додавање одговорности објекту динамички.</li>
+<li>Флексибилна алтернатива за наслеђивање.</li>
+<li>По структури сличан <i>Adapter</i> обрасцу али има другу намену.</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Мотивација</h3>
+
+<div id="org7435587" class="figure">
+<p><img src="./images/Decorator-ConcreteBad.png" alt="Decorator-ConcreteBad.png" />
+</p>
+</div>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Пример</h3>
+
+<div id="org037d4cb" class="figure">
+<p><img src="./images/Decorator-ConcreteGood.png" alt="Decorator-ConcreteGood.png" />
+</p>
+</div>
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Структура обрасца</h3>
+
+<div id="orgc041d36" class="figure">
+<p><img src="./images/Decorator-Abstract.png" alt="Decorator-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Пример - <i>React Higher-Order Components (HOCs)</i></h3>
+<div class="org-src-container">
+
+<pre><code class="javascript" >function withLogging(WrappedComponent) {
+  return function(props) {
+    console.log('Rendering:', WrappedComponent.name);
+    return &lt;WrappedComponent {...props} /&gt;;
+  };
+}
+
+const EnhancedButton = withLogging(Button);
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Proxy</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Proxy</h3>
+<ul>
+<li>Посредовање између објекта који пружа сервис и објекта који користи сервис у
+циљу имплементације контроле приступа, транспарентног приступа удаљеним
+објектима, AOP техника и сл.</li>
+<li>Имплементација најчешће делегира позиве метода објекту који пружа</li>
+<li>Клијент није свестан да постоји посредник између њега и објекта који
+обезбеђује сервис.</li>
+<li>Познат и под називом <i>Surrogate</i>.</li>
+
+</ul>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Структура обрасца</h3>
+
+<div id="org5871890" class="figure">
+<p><img src="./images/Proxy-Abstract.png" alt="Proxy-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Када се користи?</h3>
+<ul>
+<li>Одлагање скупе иницијализације објекта – виртуелни прокси (<i>Virtual Proxy</i>) или
+лењи прокси (<i>Lazy Proxy</i>).</li>
+<li>Приступ удаљеном објекту као да је локални (употребом технологија за
+дистрибуиране објекте - CORBA, DCOM, RMI и сл.) – <i>Remote Proxy</i>.</li>
+<li>Провера права приступа објекту – <i>Protective Proxy</i>.</li>
+<li>Синхронизација приступа (проверавање да ли је објекат закључан приликом
+приступа), бројање референци (<i>smart pointer</i>), имплементацију AOP техника –
+<i>Smart Proxy</i>.</li>
+
+</ul>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Пример - <i>Lazy Proxy</i></h3>
+
+<div id="org77ac93f" class="figure">
+<p><img src="./images/Proxy-Concrete.png" alt="Proxy-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> <i>Copy-On-Write</i> оптимизација</h3>
+<ul>
+<li>Посебна врста лењег или виртуелног проксија.</li>
+<li>Одлагање копирања сложеног објекта (видети <i>Prototype</i> образац) за тренутак
+када се затражи операција модификације.</li>
+<li>Потребно бројање референци: свако креирање новог проксија увећава бројач
+референци, свако стварно копирање циљног објекта умањује бројач референци.
+Када бројач референци постане 0 објекат се може уклонити.</li>
+
+</ul>
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Демонстрација обрасца <i>Proxy</i> на примеру у Јави</h3>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Литература</h2>
+<ul>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp;amp; Sons, Inc., vol. 1, 2002</li>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

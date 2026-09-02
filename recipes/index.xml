@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recipes on Random bits and pieces</title>
+    <link>https://www.igordejanovic.net/recipes/</link>
+    <description>Recent content in Recipes on Random bits and pieces</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 10 Apr 2026 18:32:16 +0200</lastBuildDate><atom:link href="https://www.igordejanovic.net/recipes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sway config</title>
+      <link>https://www.igordejanovic.net/recipes/sway-config/</link>
+      <pubDate>Fri, 10 Apr 2026 18:32:16 +0200</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/sway-config/</guid>
+      <description>Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be tangled with Org Mode to appropriate locations. See the source of this site.
+See https://wiki.archlinux.org/title/Sway
+Put a warning at the beginning of the tangled file just to be sure not to forget.
+# Warning: this config is maintained through Org Mode file. Do not edit directly! # Tangled from site.org Install sudo pacman -S wayland xorg-xwayland sway swaylock swaybg See other sections for the installation of other tools used in this config.</description>
+    </item>
+    
+    <item>
+      <title>Terminal/shell tricks</title>
+      <link>https://www.igordejanovic.net/recipes/terminal-tricks/</link>
+      <pubDate>Fri, 04 Oct 2024 15:39:46 +0200</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/terminal-tricks/</guid>
+      <description>Useful terminal shortcuts Shortcut What it does? C-x C-e Edits the current line in the $EDITOR program, or vi if undefined. C-x C-r Read in the contents of the inputrc file, and incorporate any bindings or variable assignments found there. C-x C-u Incremental undo, separately remembered for each line. C-x C-v Display version information about the current instance of bash. In zsh switch to line vi mode (equivalent to bindkey -v)?</description>
+    </item>
+    
+    <item>
+      <title>Diff two buffers/ranges with external diff tool in Emacs</title>
+      <link>https://www.igordejanovic.net/recipes/diff-buffers-external/</link>
+      <pubDate>Fri, 20 Jan 2023 18:57:42 +0100</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/diff-buffers-external/</guid>
+      <description>This function is based on built-in ediff in Emacs. I noticed that in some complex situations meld gives better results so here is a function based on ediff-buffers that let user choose two buffers and then run meld on the selection. Note that buffers must be saved to files for this to work, and of course meld must be installed.
+(defun diff-buffers-external (buffer-A buffer-B) &amp;#34;Based on ediff-buffers. Run meld on a pair of buffers, BUFFER-A and BUFFER-B.</description>
+    </item>
+    
+    <item>
+      <title>Debugging Elisp</title>
+      <link>https://www.igordejanovic.net/recipes/debugging-elisp/</link>
+      <pubDate>Sun, 15 Jan 2023 12:44:37 +0100</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/debugging-elisp/</guid>
+      <description>debug debug is a Lisp machine stack back-trace debugger.
+Usual workflow:
+Choose the way to initiate debugger. E.g. call debug-on-entry and choose a function. See bellow for other options. Do some operation that should eventually call the function. In the backtrace inspect the state, step through, look at locals, evaluate expressions etc. See bellow for useful shortcuts. Initiating debugger - useful shortcuts/functions debug-on-error - enters the debugger if an error is found.</description>
+    </item>
+    
+    <item>
+      <title>Git tips</title>
+      <link>https://www.igordejanovic.net/recipes/git-tips/</link>
+      <pubDate>Tue, 10 Jan 2023 18:46:24 +0100</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/git-tips/</guid>
+      <description>How to get the changes on a branch in Git # Changes on branch but not on HEAD (three dots) git diff HEAD...branch # List recent branches and switch $ git checkout $(git for-each-ref --sort=&amp;#39;-authordate:iso8601&amp;#39; --format=&amp;#39; %(authordate:relative)%09%(refname:short)&amp;#39; refs | pick | cut -f2) # .gitconfig alias [alias] branches = &amp;#34;!sh -c \&amp;#34;git checkout $(git for-each-ref --sort=&amp;#39;-authordate:iso8601&amp;#39; --format=&amp;#39; %(authordate:relative)%09%(refname:short)&amp;#39; refs | pick | cut -f2)\&amp;#34;&amp;#34; Source. Uses pick.
+See branches merged into other branch git branch --merged master # lists branches merged into master git branch --merged # lists branches merged into HEAD (i.</description>
+    </item>
+    
+    <item>
+      <title>Guix tips and tricks</title>
+      <link>https://www.igordejanovic.net/recipes/guix-tips-and-tricks/</link>
+      <pubDate>Wed, 04 Jan 2023 21:08:03 +0100</pubDate>
+      
+      <guid>https://www.igordejanovic.net/recipes/guix-tips-and-tricks/</guid>
+      <description>Useful Guix commands subcommand (guix &amp;hellip;) description describe --format=channel Decribe channels in Guile format search &amp;lt;what&amp;gt; Search packages install &amp;lt;packages&amp;gt; Install packages and make a new generation package --list-installed (or -I) List installed packages package -A List available packages package -A wlr List available containing given word in name add --profile=&amp;lt;path&amp;gt; to previous commands List installed packages from given profile package --roll-back Roll-back to previous generation package --list-generations List generations package --switch-generation &amp;lt;&amp;gt; Switch to given generation by number size &amp;lt;package&amp;gt; Report size of package and its deps graph -M 2 &amp;lt;package&amp;gt; Produce dot graph of deps with depth 2 .</description>
+    </item>
+    
+  </channel>
+</rss>

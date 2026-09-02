@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2026-03-12 Thu 14:27 -->
+<meta charset="utf-8"/>
+<title>Језици специфични за домен</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Језици специфични за домен</h1>
+<h2 class="subtitle">Увод</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2026-03-12 Thu 14:27, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-orgf9d730a">
+<h2 id="orgf9d730a">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Проблем и мотивација</a></li>
+<li><a href="#/slide-2">2. Примери</a></li>
+<li><a href="#/slide-3">3. Предности</a></li>
+<li><a href="#/slide-4">4. Архитектуре</a></li>
+<li><a href="#/slide-5">5. Градивни елементи</a></li>
+<li><a href="#/slide-6">6. Класификација</a></li>
+<li><a href="#/slide-7">7. Језичке радионице (<i>Language Workbenches</i>)</a></li>
+<li><a href="#/slide-8">8. <i>LLM-native DSLs</i></a></li>
+<li><a href="#/slide-9">9. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Проблем и мотивација</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Шта је језик?</h3>
+<ul>
+<li>Комуникација мисли и осећања системом знакова као што су звуци, гестови или
+писани симболи<sup>1</sup>.</li>
+<li>Систем знакова, симбола, гестова и правила који се користе у комуникацији<sup>2</sup>.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.thefreedictionary.com/language">http://www.thefreedictionary.com/language</a></li>
+<li><a href="http://oxforddictionaries.com/definition/english/language">http://oxforddictionaries.com/definition/english/language</a></li>
+
+</ol>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Шта је софтверски језик?</h3>
+<ul>
+<li>Језик коришћен у комуникацији човек-рачунар или рачунар-рачунар.</li>
+<li>У варијанти човек-рачунар тежимо да језик буде лак за разумевање од стране
+човека али ипак да може да се процесира на ефикасан начин од стране рачунара.</li>
+<li>У контексту развој софтвера две су улоге језика:
+<ul>
+<li><b>прескриптивна</b> - за опис будућих система</li>
+<li><b>дескриптивна</b> - за опис постојећих система</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Шта домен?</h3>
+<ul>
+<li>Сфера деловања, интереса или функције<sup>1</sup>.</li>
+<li>Област знања, утицаја, или деловања<sup>2</sup>.</li>
+<li>Да би се доменско знање могло процесирати и да би могли комуницирати у
+одређеном домену корисно је дефинисати онтологију домена која описује концепте
+домена и њихове међусобне везе.</li>
+<li>Пример домена: осигурање, здравство, финансије, саобраћај&#x2026;</li>
+<li>Домени могу садржати поддомене. На пример, ако је посматрани домен проблема
+осигурање, поддомени могу бити животно осигурање, осигурање возила, осигурање
+некретнина и сл.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.thefreedictionary.com/domain">http://www.thefreedictionary.com/domain</a></li>
+<li><a href="http://www.merriam-webster.com/dictionary/domain">http://www.merriam-webster.com/dictionary/domain</a></li>
+
+</ol>
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Језици специфични за домен - ЈСД (<i>Domain-Specific Languages - DSL</i>)</h3>
+<ul>
+<li>Језици специфични за домен (ЈСД, енг. <i>Domain-Specific Languages - DSL</i>) су
+језици прилагођени и ограничени на одређени домен проблема.</li>
+<li>За разлику од језика опште намене (ЈОН, енг. <i>General Purpose Language - GPL</i>),
+нуде повећање експресивности кроз употребу концепата и нотација прилагођених
+домену проблема и доменским експертима.</li>
+<li>Називају се још и <i>мали језици</i> (енг. <i>little languages</i>).</li>
+<li>Успешан ЈСД је фокусиран на узак, добро дефинисан домен и покрива га на
+одговарајући начин.</li>
+<li>Домен често има свој језик коришћен од стране доменских експерата иако не
+постоји његова имплементација на рачунару.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Примери</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> SQL</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> JPA мапирање</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >@Entity
+@Table(name="COURSES")
+public class Course {
+
+  private long courseId;
+  private String courseName;
+
+  public Course() {
+  }
+
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+
+  @Id
+  @GeneratedValue
+  @Column(name="COURSE_ID")
+  public long getCourseId() {
+    return this.courseId;
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Build језици (Ant/Maven/Gradle)</h3>
+
+<div id="orgba318a3" class="figure">
+<p><img src="./images/Ant-Maven-Gradle.png" alt="Ant-Maven-Gradle.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Пословни процеси - BPMN</h3>
+
+<div id="orgb0a0b1d" class="figure">
+<p><img src="./images/BPMN.png" alt="BPMN.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> <a href="https://orgmode.org/">OrgMode</a></h3>
+<p>
+Белешке, креирање садржаја, агенда, писмено програмирање (<i>literate programming</i>).
+</p>
+<div class="org-src-container">
+
+<pre><code class="org" >** PROJ
+*** TODO Прегледати пријаву грешке #173
+SCHEDULED: &lt;2022-12-14 Wed&gt;
+1. [x] Неко парче кода:
+   #+begin_src rust
+    fn main() {
+        // Statements here are executed when the compiled binary is called
+
+        // Print text to the console
+        println!("Hello World!");
+    }
+   #+end_src
+
+   #+RESULTS:
+   : Hello World!
+
+2. [ ] Нека друга забелешка...
+
+*** WAIT Предати пројектни извештај
+
+| Активност      | Завршено | Проблеми               |
+|----------------+----------+------------------------|
+| Прва активност |      30% | Нема                   |
+| Друга актиност |      25% | Проблеми у снабдевању  |
+
+</code></pre>
+</div>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> <a href="https://typst.app/">Typst</a></h3>
+<p>
+Припрема за штампу (<i>typesetting</i>).
+</p>
+
+<div id="org9e8601f" class="figure">
+<p><img src="./images/typst.png" alt="typst.png" style="height: 300px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> <a href="https://scratch.mit.edu/">Scratch</a></h3>
+<p>
+Учење програмирања за децу.
+</p>
+
+
+<div id="org20232e8" class="figure">
+<p><img src="./images/scratch.png" alt="scratch.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Inform</h3>
+<p>
+Информ је језик за креирање интерактивне фикције (текстуалних авантура) базиран
+на природном језику.
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >    "Cactus Will Outlive Us All"
+
+    Death Valley is a room. Luckless Luke and Dead-Eye Pete are men in the Valley.
+      A cactus is in the Valley. Persuasion rule: persuasion succeeds.
+
+    A person has an action called death knell. The death knell of Luckless Luke is pulling the cactus.
+      The death knell of Dead-Eye Pete is Luke trying dropping the cactus.
+
+    Before an actor doing something:
+        repeat with the victim running through people in the location:
+            let the DK be the death knell of the victim;
+            if the DK is not waiting and the current action is the DK:
+                say "It looks as if [the DK] was the death knell for [the victim], who looks startled,
+                    then nonexistent.";
+                now the victim is nowhere.
+</code></pre>
+</div>
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> <a href="https://chuck.cs.princeton.edu/">ChucK</a></h3>
+<p>
+Језик за креирање музике и синтезу звука у реалном времену.
+</p>
+<div class="org-src-container">
+
+<pre><code class="chuck" >// this synchronizes to period
+.5::second =&gt; dur T;
+T - (now % T) =&gt; now;
+
+// construct the patch
+SndBuf buf =&gt; Gain g =&gt; dac;
+// read in the file
+"kick.wav" =&gt; buf.read;
+// set the gain
+.5 =&gt; g.gain;
+
+// time loop
+while( true )
+{
+    // set the play position to beginning
+    0 =&gt; buf.pos;
+    // randomize gain a bit
+    Math.random2f(.8,.9) =&gt; buf.gain;
+
+    // advance time
+    1::T =&gt; now;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> GritQL</h3>
+<p>
+<a href="https://github.com/getgrit/gritql">GritQL</a> је ЈСД за претрагу, линтинг и трансформацију кода.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >`console.log($log)` =&gt; . where {
+  $log &lt;: not within `try { $_ } catch { $_ }`
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> LMQL</h3>
+<p>
+<a href="https://lmql.ai/">LMQL</a> је ЈСД за програмирање у контексту великих језичких модела.
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >@lmql.query
+def meaning_of_life():
+    '''lmql
+    # top-level strings are prompts
+    "Q: What is the answer to life, the \
+     universe and everything?"
+
+    # generation via (constrained) variables
+    "A: [ANSWER]" where \
+        len(ANSWER) &lt; 120 and STOPS_AT(ANSWER, ".")
+
+    # results are directly accessible
+    print("LLM returned", ANSWER)
+
+    # use typed variables for guaranteed 
+    # output format
+    "The answer is [NUM: int]"
+
+    # query programs are just functions 
+    return NUM
+    '''
+
+# so from Python, you can just do this
+meaning_of_life() # 42
+
+</code></pre>
+</div>
+</section>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> Colobot</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Colobot">Colobot</a> је едукативна реал-тиме стратегија.</li>
+<li>Играч програмира роботе у виртуелном окружењу ЈСД-ом налик на C++ и Javu.</li>
+
+</ul>
+
+
+<div id="orgeb64639" class="figure">
+<p><img src="./images/colobot.png" alt="colobot.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> Мобилне апликације</h3>
+
+<div id="org8f35ee5" class="figure">
+<p><img src="./images/MobilneAplikacije.png" alt="MobilneAplikacije.png" style="height: 700px;" />
+</p>
+</div>
+
+
+<p class="footer" style="clear: both;">
+Kelly, S. &amp; Tolvanen, J.-P. <i>Domain-Specific Modeling: Enabling Full Code
+Generation</i>, Wiley-IEEE Computer Society Pr, 2008
+</p>
+</section>
+<section id="slide-2-14">
+<h3 id="2-14"><span class="section-number-3">2.14.</span> Али и&#x2026;</h3>
+
+<div id="orgf2be08d" class="figure">
+<p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-15">
+<h3 id="2-15"><span class="section-number-3">2.15.</span> или&#x2026;</h3>
+
+<div id="org336b68a" class="figure">
+<p><img src="./images/ChessNotation.png" alt="ChessNotation.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-16">
+<h3 id="2-16"><span class="section-number-3">2.16.</span> па чак и&#x2026;</h3>
+
+<div id="orgdb2660c" class="figure">
+<p><img src="./images/saobracajni-znaci.jpg" alt="saobracajni-znaci.jpg" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-17">
+<h3 id="2-17"><span class="section-number-3">2.17.</span> Када језик сматрамо ЈСД-ом?</h3>
+<ul>
+<li>Зависи од тога шта нам је домен.</li>
+<li>Језик може бити више или мање прилагођен неком домену.</li>
+<li>У екстремном случају и општи језик као што је Јава можемо сматрати ЈСД-ом ако
+нам је домен "развој софтвера". Наравно, иако тачно у теоријском смислу, у
+практичном губимо све предности ЈСД.</li>
+<li>Добар ЈСД покрива узак, добро дефинисан домен (домен проблема). Користи само
+концепте циљног домена, ограничен је на дати домен и самим тим је исказивање
+решења језгровитије и јасније доменским експертима.</li>
+<li>Чест је случај да језик настане као ЈСД али се временом прошири до те мере да
+га можемо сматрати ЈОН.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Предности</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Утицај на продуктивност</h3>
+<ul>
+<li>Поједине студије показују да повећање продуктивности иде и до 1000%<sup>1</sup>.</li>
+<li>Шта је основни разлог за повећање продуктивности?</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>MetaCase, <i>Nokia case study</i>, tech. rep., MetaCase, 2007</li>
+
+</ol>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Проблем менталног мапирања</h3>
+
+<div id="orgc2a1d36" class="figure">
+<p><img src="./images/MentalnoMapiranje-1.svg" alt="MentalnoMapiranje-1.svg" class="org-svg" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Решење употребом ЈСД</h3>
+
+<div id="orga99f3b6" class="figure">
+<p><img src="./images/MentalnoMapiranje-2.svg" alt="MentalnoMapiranje-2.svg" class="org-svg" />
+</p>
+</div>
+
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Зашто ЈСД?</h3>
+<ul>
+<li>ЈСД су концизнији од језика опште намене што омогућава корисницима да јасније
+искажу своју намеру.</li>
+<li>ЈСД синтакса, било текстуална или графичка, може се прилагодити и
+приближити доменским експертима.</li>
+<li>Концепти коришћени у ЈСД су концепти проблемског (пословног) домена што
+под одређеним условима омогућава да доменски експерти директно користе ЈСД без
+посредовања програмера.</li>
+<li>Употребом концепата проблемског домена избегава се ручно мапирање на концепте
+циљне имплементационе платформе. Тај посао се обавља аутоматски употребом
+ЈСД преводиоца (компајлера или генератора кода).</li>
+<li>Исказивање решења концептима независним од коришћене технологије резултује
+дужим животним веком апликације.</li>
+<li>Самодокументујући језички искази.</li>
+
+</ul>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Утицај на квалитет софтвера</h3>
+<ul>
+<li>Коришћење концепата домена проблема доводи до смањења броја линија кода (у
+терминологији текстуалних нотација), што има позитиван утицај на брзину
+развоја и једноставност оџавања.</li>
+<li>Смањење броја линија кода иде и до <b>50 пута</b> у појединим доменима примене.
+Густина софтверских грешака (број софтверских грешака на хиљаду линија кода)
+не зависи значајно од језика који се користи.</li>
+<li>Из тога се може закључити да ЈСД кроз смањење броја линија кода посредно
+утичу на смањење апсолутног броја софтверских грешака што повећава квалитет
+софтверског производа и смањује цену одржавања.</li>
+<li>Превођење кода на циљну платформу (компајлирање) ће резултовати
+конзистентним кодом.</li>
+
+</ul>
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Утицај на еволуцију апликације</h3>
+<ul>
+<li>Исказивање решења концептима независним од коришћене технологије резултује
+дужим животним веком апликације.</li>
+<li>Није потребно мењати језичке исказе (програме/моделе) када дође до промене
+технологије. Потребно је ажурирати генератор кода.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Архитектуре</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Архитектура базирана на преводиоцима</h3>
+
+<div id="org7520d0e" class="figure">
+<p><img src="./images/Arhitektura-kompajler.svg" alt="Arhitektura-kompajler.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Архитектура базирана на интерпретерима</h3>
+
+<div id="org8d14425" class="figure">
+<p><img src="./images/Arhitektura-interpreter.svg" alt="Arhitektura-interpreter.svg" class="org-svg" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Градивни елементи</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Градивни елементи ЈСД</h3>
+<p>
+Као и сваки софтверски језик и ЈСД се састоји од:
+</p>
+<ul>
+<li>Апстрактне синтаксе</li>
+<li>Једне или више конкретних синтакси</li>
+<li>Семантике</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Апстрактна синтакса</h3>
+<ul>
+<li>Одређује правила валидности исказа са становишта његове структуре.</li>
+<li>Дефинише концепте домена, њихове особине и међусобне релације</li>
+<li>Језици за дефинисање апстрактних синтакси језика се у домену моделовања
+називају мета-мета-моделима<sup>1</sup>.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>Прецизније, мета-метамодел је апстрактна синтакса таквог језика. Језик још чине
+и конкретне синтаксе и семантика.</li>
+
+</ol>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Пример - апстрактна синтакса језика за опис коначних аутомата</h3>
+
+<div id="org5157713" class="figure">
+<p><img src="./images/StateMachine.svg" alt="StateMachine.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Апстрактно синтаксно стабло</h3>
+<ul>
+<li>Сваки исказ на датом језику се може на апстрактан начин описати апстрактним
+синтаксним стаблом (<b>Abstract Syntax Tree</b>).</li>
+<li>Конкретна синтакса није важна у том случају (на пример, ако посматрамо програм
+на Јави тада кључне речи нису део апстрактног стабла).</li>
+
+</ul>
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Пример апстрактног синтаксног стабла</h3>
+
+<div id="org1c33258" class="figure">
+<p><img src="./images/AbstractSyntaxTree.png" alt="AbstractSyntaxTree.png" />
+</p>
+</div>
+
+
+<p class="footer" style="clear: both; margin-top: 0;">
+<a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree" class="footer" style="clear: both; margin-top: 0;">http://en.wikipedia.org/wiki/Abstract_syntax_tree</a>
+</p>
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Конкретна синтакса</h3>
+<ul>
+<li>Да би могли да прикажемо исказ на конкретан начин потребна нам је конкретна
+синтакса.</li>
+<li>Конкретна синтакса дефинише <b>изглед</b> исказа на неком језику, односно у
+ширем смислу дефинише и начине интеракције корисника са језичким исказима тј.
+представља интерфејс језик-корисник.</li>
+<li>Иако нам је довољна једна конкретна синтакса за један језик, можемо их имати
+више.</li>
+
+</ul>
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7.</span> Конкретна синтакса</h3>
+<p>
+Пример истог исказа употребом две различите конкретне синтаксе
+</p>
+
+
+<div id="org23b2d46" class="figure">
+<p><img src="./images/RazliciteSintakse.png" alt="RazliciteSintakse.png" />
+</p>
+</div>
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Семантика</h3>
+<ul>
+<li>Дефинише смисао језичких исказа.</li>
+<li>Иако постоје и друге технике у пракси се најчешће семантика дефинише
+превођењем (компајлирањем тј. генерисањем кода) на језик који већ има
+дефинисану семантику путем преводиоца на ниже језике или интерпретера (нпр.
+виртуалне машине).</li>
+<li>Најчешће су циљни језици на које се ЈСД преводи језици опште намене.</li>
+<li><b>Пример:</b> генерисање Јава програмског кода из ЈСД језичког исказа.</li>
+<li>Језици се преводе на све "ниже" и "ниже". Где је крај превођењу? Машински
+језик. Дефинисан у хардверу рачунара (процесору).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Класификација</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Подела ЈСД према врсти конкретне синтаксе</h3>
+<ul>
+<li>Текстуални</li>
+<li>Графички</li>
+<li>Табеларни</li>
+<li>Базиран на екранским формама</li>
+<li>&#x2026;</li>
+<li>Хибридни - комбинација више основних</li>
+
+</ul>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Текстуалне синтаксе - предности и мане</h3>
+<ul>
+<li>Програмери се осећају "код куће".</li>
+<li>Могу се користити регуларни текст едитори.</li>
+<li>Серијализована форма је идентична са презентационом. се користити стандардни
+системи за контролу верзија (Git, Mercurial, Subversion &#x2026;).</li>
+<li>Подршка у алатима: бојење кода, допуна кода, претрага, навигација&#x2026;</li>
+<li>Мана: Није погодна за опис и разумевање структуре која није линеарне природе
+(графови, табеле итд.).</li>
+
+</ul>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Графичке синтаксе - предности</h3>
+<ul>
+<li>Разумевање структуре. Подржано операцијама <b>zoom</b>, <b>pan</b> и сл.</li>
+<li>Често разумљивије доменским експертима (најчешће је доменски језик графичке
+природе).</li>
+<li>Интуитивнији и лакши за учење - учење кроз испробавање (палета са алатима и
+концептима, онемогућавање креирање невалидних конструкција итд.).</li>
+
+</ul>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Графичке синтаксе - мане</h3>
+<ul>
+<li>Још увек сложенији за имплементацију и одржавање.</li>
+<li>За серијализацију се користи формат који се разликује од презентационог.</li>
+<li>Отежано или потпуно немогуће коришћење стандардних алата за контролу верзија.
+Потребно је развити посебан VCS алат.</li>
+<li>Захтева наменске едиторе.</li>
+
+</ul>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Подела према врсти домена</h3>
+
+<div id="orgd7d0575" class="figure">
+<p><img src="./images/HorizontalniVertikalniDSL.svg" alt="HorizontalniVertikalniDSL.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Подела ЈСД према начину имплементације</h3>
+<ul>
+<li><b>Интерни</b> - Настали су на бази већ постојећих програмских језика (најчешће
+ЈОН).</li>
+<li><b>Екстерни</b> - Израђени "он нуле" дефинисањем синтаксе и имплементацијом
+компајлера који преводи програме писане на овом језику на неки други језик
+(најчешће ЈОН) или се програм директно интерпретира.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>Fowler, <i>Domain-Specific Languages</i>. Addison-Wesley Professional, 1 ed., Oct. 2010</li>
+
+</ol>
+</section>
+<section id="slide-6-7">
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Интерни ЈСД</h3>
+<ul>
+<li>Базирани на постојећем језику и алатима. Најчешће текстуални.</li>
+<li>Користе сву инфраструктуру језика домаћина (едиторе, дебагере,
+компајлере/интерпретере&#x2026;).</li>
+<li>Брзи за имплементацију и лаки за одржавање. Популарни у појединим заједницама
+(Lisp, Ruby, Groovy, Scala&#x2026;).</li>
+<li>Добри као улазница у свет DSL/DSM/MDE приступа.</li>
+<li>Најчешће на паметан начин користе могућности језика (анонимне функције,
+мета-програмирање итд.).</li>
+<li>Ограничења конкретне синтаксе.</li>
+<li>Свака наменска библиотека може се сматрати интерним ЈСД (API базирани)&#x2026;</li>
+<li>&#x2026; али конкретна синтакса таквог језика није прилагођена домену.</li>
+
+</ul>
+</section>
+<section id="slide-6-8">
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Екстерни ЈСД</h3>
+<ul>
+<li>Израђени "он нуле" - скупљи развој и одржавање.</li>
+<li>Пуна контрола конкретне синтаксе - боље прилагођавање доменским експертима.</li>
+<li>Едитори и сви пропратни алати такође морају да се праве "од нуле"&#x2026;</li>
+<li>&#x2026;mada данас постоје алати који нам тај посао олакшавају.</li>
+
+</ul>
+</section>
+<section id="slide-6-9">
+<h3 id="6-9"><span class="section-number-3">6.9.</span> Неки од познатијих екстерних ЈСД</h3>
+<ul>
+<li><b>SQL</b>: текстуални, домен - рад са релационим базама података</li>
+<li><b>HTML</b>: текстуални, домен - дефинисање садржаја на вебу</li>
+<li><b>CSS</b>: текстуални, домен - стилизовање садржаја</li>
+<li><b>make</b>: текстуални, домен - изградња апликације (<i>build</i>)</li>
+<li><b>LaTeX/Typst</b>: текстуални, домен: креирање штампаних материјала (<i>typesetting</i>)</li>
+<li><b>Window Builder</b>: GUI базиран, домен - изградња интерфејса</li>
+<li><b>R</b>: текстуални, домен - статистичка обрада података</li>
+
+</ul>
+</section>
+<section id="slide-6-10">
+<h3 id="6-10"><span class="section-number-3">6.10.</span> Пример: Интерни ЈСД за дефинисање емаил-а (<b>JavaMail API</b>)</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >MimeMessage message = new MimeMessage(session);
+
+message.setFrom(new InternetAddress(from));
+
+message.addRecipient(Message.RecipientType.TO,
+          new InternetAddress(to));
+
+message.setSubject("Greetings from Novi Sad");
+message.setText("Enjoying my stay in Novi Sad! See you soon!");
+
+Transport.send(message);
+</code></pre>
+</div>
+</section>
+<section id="slide-6-11">
+<h3 id="6-11"><span class="section-number-3">6.11.</span> Пример: Хипотетички екстерни ЈСД за дефинисање емаил-а</h3>
+<pre>
+BEGIN myMail
+  FROM me@myself.com
+  TO myfriend@somewhere.org
+  SUBJECT Greetings  from  Novi Sad
+
+Enjoying my stay in Novi Sad! See you soon!
+
+END
+SEND myMail
+</pre>
+</section>
+<section id="slide-6-12">
+<h3 id="6-12"><span class="section-number-3">6.12.</span> Пример</h3>
+<p>
+Интерни ЈСД за дефинисање графички корисничких интерфејса (<b>Сwинг</b>)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="java" >public DSLKurs() {
+    setBounds(100, 100, 450, 300);
+    getContentPane().setLayout(new BorderLayout());
+    contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    getContentPane().add(contentPanel, BorderLayout.CENTER);
+    contentPanel.setLayout(new FormLayout(new ColumnSpec[ {
+                            FormFactory.RELATED_GAP_COLSPEC,
+                            FormFactory.DEFAULT_COLSPEC,
+                            FormFactory.RELATED_GAP_COLSPEC,
+                            ColumnSpec.decode("default:grow"),},
+                  new RowSpec[] {
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,
+                  FormFactory.RELATED_GAP_ROWSPEC,
+                  FormFactory.DEFAULT_ROWSPEC,}));
+    ....
+</code></pre>
+</div>
+</section>
+<section id="slide-6-13">
+<h3 id="6-13"><span class="section-number-3">6.13.</span> Пример</h3>
+<p>
+Екстерни ЈСД за дефинисање графички корисничких интерфејса (<i>WindowBuilder</i>)
+</p>
+
+
+<div id="orgfe5e9f6" class="figure">
+<p><img src="./images/GUIDSL-External.png" alt="GUIDSL-External.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-14">
+<h3 id="6-14"><span class="section-number-3">6.14.</span> Пример</h3>
+<p>
+Интерни ЈСД за дефинисање граматике језика (<b>Arpeggio Python</b>)
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def number():     return _(r'\d*\.\d*|\d+')
+def factor():     return Optional(["+","-"]), [number,
+                          ("(", expression, ")")]
+def term():       return factor, ZeroOrMore(["*","/"], factor)
+def expression(): return term, ZeroOrMore(["+", "-"], term)
+def calc():       return OneOrMore(expression), EOF
+</code></pre>
+</div>
+</section>
+<section id="slide-6-15">
+<h3 id="6-15"><span class="section-number-3">6.15.</span> Пример</h3>
+<p>
+Екстерни ЈСД за дефинисање граматике језика (<b>Arpeggio PEG</b>)
+</p>
+
+<pre>
+number = r'\d*\.\d*|\d+'
+factor = ("+" / "-")?
+        (number / "(" expression ")")
+term = factor (( "*" / "/") factor)*
+expression = term (("+" / "-") term)*
+calc = expression+ EOF
+</pre>
+</section>
+<section id="slide-6-16">
+<h3 id="6-16"><span class="section-number-3">6.16.</span> Конкретна синтакса је важна!!!</h3>
+<div class="outline-text-3" id="text-6-16">
+</div>
+<div id="outline-container-org4d9a7d6" class="outline-4">
+<h4 id="org4d9a7d6">Неки језици су погоднији за креирање интерних ЈСД</h4>
+</div>
+</section>
+<section id="slide-6-17">
+<h3 id="6-17"><span class="section-number-3">6.17.</span> Језици погодни за креирање интерних ЈСД</h3>
+<ul>
+<li>Ruby</li>
+<li>Groovy</li>
+<li>Scala</li>
+<li>Lisp</li>
+<li>&#x2026;</li>
+
+</ul>
+
+<p>
+&#x2014;
+</p>
+</section>
+<section id="slide-6-18">
+<h3 id="6-18"><span class="section-number-3">6.18.</span> Пример интерног ЈСД (<i>Ruby Sinatra</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="ruby" >get '/dogs' do
+    # get a listing of all the dogs
+end
+get '/dog/:id' do
+    # just get one dog, you might find him like this:
+    @dog = Dog.find(params[:id])
+    # using the params convention, you specified in your route
+end
+post '/dog' do
+    # create a new dog listing
+end
+put '/dog/:id' do
+    # HTTP PUT request method to update an existing dog
+end
+delete '/dog/:id' do
+    # HTTP DELETE request method to remove a dog who's been sold!
+end
+</code></pre>
+</div>
+</section>
+<section id="slide-6-19">
+<h3 id="6-19"><span class="section-number-3">6.19.</span> Пример интерног ЈСД (<i>Groovy Gradle</i>)</h3>
+<div class="org-src-container">
+
+<pre><code class="groovy" >repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy fileTree(dir: new File(gradle.gradleHomeDir, 'lib'),
+                    includes: ['**/groovy­all­*.jar'])
+    compile gradleApi()
+    compile 'eu.appsatori:gradle­fatjar­plugin:0.1.3',
+    {
+        ext.optional = true
+    }
+    testCompile 'org.spockframework:spock­core:0.6­groovy­1.8'
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-6-20">
+<h3 id="6-20"><span class="section-number-3">6.20.</span> Екстерни ЈСД омогућавају потпуно прилагођавање домену.</h3>
+</section>
+<section id="slide-6-21">
+<h3 id="6-21"><span class="section-number-3">6.21.</span> Интерни ЈСД за музичку нотацију</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >Score k = new Score(Tonality.G_major);
+Bar bar = new Bar(BarType.4_4);
+t.addPause(Duration.1_4);
+t.addNote(NoteType.A3, Duration.1_4);
+t.addNote(NoteType.C2, Duration.1_4);
+k.addBar(bar);
+</code></pre>
+</div>
+</section>
+<section id="slide-6-22">
+<h3 id="6-22"><span class="section-number-3">6.22.</span> Екстерни ЈСД за музичку нотацију</h3>
+<p>
+У екстерној варијанти можемо у потпуности прилагодити конкретну синтаксу
+доменским експертима.
+</p>
+
+
+<div id="org86d2028" class="figure">
+<p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" style="height: 600px;" />
+</p>
+</div>
+</section>
+<section id="slide-6-23">
+<h3 id="6-23"><span class="section-number-3">6.23.</span> Lilypond note script</h3>
+<p>
+Али се дешава да и у екстерној варијанти ЈСД није прилагођен доменским
+експертима.
+</p>
+
+
+<div id="orga41c19b" class="figure">
+<p><img src="./images/Lilypond.png" alt="Lilypond.png" style="height: 600px;" />
+</p>
+</div>
+</section>
+<section id="slide-6-24">
+<h3 id="6-24"><span class="section-number-3">6.24.</span> Критике ЈСД</h3>
+<ul>
+<li>Скуп развој и одржавање језика.</li>
+<li>Потреба за експертима у домену развоја језика који су истовремено способни да
+анализирају домен примене.</li>
+<li>Језичка "какофонија" (<i>Language Cacophony</i>)<sup>1</sup> и потреба да програмери познају
+велики број језика (посебан језик за сваки технички и/или пословни домен).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>M. Fowler, <i>Language workbenches: The killer-app for domain specific
+languages</i>, Online <a href="http://www.martinfowler.com/articles/languageWorkbench.html">http://www.martinfowler.com/articles/languageWorkbench.html</a>, 2005.</li>
+
+</ol>
+</section>
+<section id="slide-6-25">
+<h3 id="6-25"><span class="section-number-3">6.25.</span> <i>Low code/No Code</i> платформе</h3>
+<p>
+Данас се платформе базиране на ЈСД често брендирају као <i>Low Code</i> или <i>No Code</i>
+платформе.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Језичке радионице (<i>Language Workbenches</i>)</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Језичке радионице (<i>Language Workbenches</i>)</h3>
+<ul>
+<li>Интегрисана окружења за развој, тестирање и еволуцију језика и алата за
+њихово ефикасно коришћење (едитори, интерпретери, компајлери и сл.). Користе
+се код парадигме развоја оријентисане ка језицима (<i>Language Oriented
+Programming - LOP</i>)<sup>1</sup>.</li>
+<li>Решавају проблем брзине развоја и лакоће одржавања ЈСД.</li>
+<li>Примери језичких радионица:
+<ul>
+<li>Meta Programming System (MPS)</li>
+<li>Xtext</li>
+<li>Spoofax</li>
+
+</ul></li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>M. Fowler, <i>Language workbenches: The killer-app for domain specific languages</i>, Online <a href="http://www.martinfowler.com/articles/languageWorkbench.html">http://www.martinfowler.com/articles/languageWorkbench.html</a>, 2005.</li>
+
+</ol>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Приступи</h3>
+<ul>
+<li><p>
+Пројекционе радионице - директна измена апстрактне репрезентације кроз
+пројекцију.
+</p>
+
+
+<div id="org82c3e95" class="figure">
+<p><img src="./images/projekcija.png" alt="projekcija.png" style="height: 270px;" />
+</p>
+</div></li>
+
+<li><p>
+Базиране на парсерима - измена се врши посредно кроз текст који се парсира да
+би се добила апстрактна репрезентација.
+</p>
+
+
+<div id="orgaf75afb" class="figure">
+<p><img src="./images/parseri.png" alt="parseri.png" style="height: 270px;" />
+</p>
+</div></li>
+
+</ul>
+
+<p class="footer" style="clear: both; margin-top: 0px;">
+Eye icon designed by Freepik. Hand icon by Yannick Lung.
+</p>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Пројекционе радионице</h3>
+<ul>
+<li>Предности:
+<ul>
+<li>Могуће вишеструке конкретне синтаксе (текстуалне, графичке, табеларне&#x2026;) -
+боље прилагођавање конкретном домену.</li>
+<li>Синтаксе се могу "у лету" мењати.</li>
+<li>Контрола валидности израза у време измене модела.</li>
+
+</ul></li>
+
+<li>Мане:
+<ul>
+<li>Сложеност алата.</li>
+<li>Формат за перзистенцију није у вези са конкретним синтаксама које корисник
+користи. Немогуће је користити стандардне системе за контролу верзија
+базиране на тексту.</li>
+<li>Морају се развити наменски генерички едитори за сваку класу конкретних синтакси.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Радионице базиране на парсерима</h3>
+<ul>
+<li>Предности:
+<ul>
+<li>Једноставније за израду и одржавање.</li>
+<li>Теорија парсирања добро установљена. Велики број библиотека за парсирање.</li>
+<li>Могуће користити обичне текстуалне едиторе.</li>
+<li>Могуће користити стандардне системе за контролу верзија (нпр. git,
+subversion).</li>
+<li>Једноставно копирање и лепљење (енг. <i>copy/paste</i>).</li>
+
+</ul></li>
+
+<li>Мане:
+<ul>
+<li>Могућа само текстуална синтакса -&gt; ограничено прилагођавање домену.</li>
+<li>Провера валидности се одлаже до фазе парсирања.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> <i>Meta Programming System (MPS)</i></h3>
+<ul>
+<li>JetBrains - <a href="http://www.jetbrains.com/mps/">http://www.jetbrains.com/mps/</a></li>
+<li>Пројекциона језичка радионица - едитори манипулишу директно апстрактном
+репрезентацијом (апстрактним синтаксним стаблом). Чак и у случају текстуалних
+нотација.</li>
+<li>Подршка за различите конкретне синтаксе (нотације): табеларне, текстуалне,
+базирани на ћелијама, графичке.</li>
+<li>Подршка за контролу верзија.</li>
+
+</ul>
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6.</span> <i>Meta Programming System</i> - карактеристичан изглед</h3>
+
+<div id="org7e7f94c" class="figure">
+<p><img src="./images/MPS.png" alt="MPS.png" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+<a href="https://www.jetbrains.com/mps/" class="footer" style="clear: both;">https://www.jetbrains.com/mps/</a>
+</p>
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7.</span> Xtext</h3>
+<ul>
+<li>Настао као део пројекта слободног софтвера - <i>openArchitectureWare</i>.</li>
+<li>Иза развоја у највећој мери стоји немачка фирма <a href="https://www.itemis.com/en/">Itemis</a>.</li>
+<li>Постао део Ецлипсе пројекта.</li>
+<li>Текстуалне синтаксе. EBNF граматика.</li>
+<li>Употреба ECore мета-метамодела<sup>1</sup>. Мета-модел се генерише из граматике а може
+да користи и већ постојећи мета-модел.</li>
+<li>Генерисање Eclipse едитора са подршком за бојење синтаксе, навигацију,
+<i>outline</i> поглед итд.</li>
+<li>Xtext базирани ЈСД се дубоко интегрише у Eclipse окружење и тешко је уочити
+разлику са подршком за било који други језик са Eclipse подршком (нпр. Јава).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.eclipse.org/modeling/emf/">http://www.eclipse.org/modeling/emf/</a></li>
+
+</ol>
+</section>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8.</span> Xtext - <i>Little tortoise</i> језик</h3>
+
+<div id="org42957a6" class="figure">
+<p><img src="./images/xText-tortoise.png" alt="xText-tortoise.png" style="height: 600px;" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+<a href="http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise" class="footer" style="clear: both;">http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise</a>
+</p>
+</section>
+<section id="slide-7-9">
+<h3 id="7-9"><span class="section-number-3">7.9.</span> Xtext - <i>Little tortoise</i> граматика</h3>
+
+<div id="org6830d50" class="figure">
+<p><img src="./images/xText-grammar.png" alt="xText-grammar.png" style="height: 600px;" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+<a href="http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise" class="footer" style="clear: both;">http://www.eclipse.org/Xtext/7languagesDoc.html#tortoise</a>
+</p>
+</section>
+<section id="slide-7-10">
+<h3 id="7-10"><span class="section-number-3">7.10.</span> Spoofax</h3>
+<ul>
+<li>Као и Xtext базиран на парсирању и текстуалним синтаксама. Креира пуну
+подршку за језик у виду Eclipse прикључака.</li>
+<li>Истраживачки пројекат на TU Delft у Холандији.</li>
+<li>Граматика језика се дефинише мета-језиком SDF (<i>Syntax Definition Formalism</i>).</li>
+<li>Парсер користи SGLR алгоритам (<i>Scanerless GLR</i>) и омогућава парсирање пуног
+скупа контекстно слободних граматика. У случају неодређености парсер враћа
+шуму парсирања (<i>parse forest</i>) док у случају детерминистичке граматике враћа
+увек стабло парсирања (<i>parse tree</i>).</li>
+<li>За транформацију програма и преписивање стабала користи се ЈСД <i>Stratego</i>.</li>
+
+</ul>
+</section>
+<section id="slide-7-11">
+<h3 id="7-11"><span class="section-number-3">7.11.</span> Spoofax - карактеристичан изглед</h3>
+
+<div id="org1a4c74b" class="figure">
+<p><img src="./images/Spoofax-prikaz.png" alt="Spoofax-prikaz.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-12">
+<h3 id="7-12"><span class="section-number-3">7.12.</span> Инжењерство софтверских језика</h3>
+<ul>
+<li><i>Software Language Engineering - SLE</i>.</li>
+<li>Правац и поглед на развој софтверских језика који покушава да уједини све
+друге правце који у основи имају развој и употребу софтверских језика
+(<i>MDE/MDA/DSM</i>.., онтологије, <i>grammarware</i>, <i>Language Oriented
+Programming</i>&#x2026;).</li>
+<li>Једна од идеја је изједначавање модела и програма - као јединствен назив
+предложен је <i>мограм</i>.<sup>*</sup></li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<code>*</code> A. Kleppe, <i>Software language engineering: creating domain-specific
+languages using metamodels</i>. Addison-Wesley, 2009
+</p>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> <i>LLM-native DSLs</i></h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Идеја</h3>
+<ul>
+<li>Природни језици као декларативна спецификација</li>
+<li>ЈСД као међурепрезентација</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="text" >Циљ
+  ↓
+LLM
+  ↓
+генерисани ЈСД
+  ↓
+парсер / валидатор
+  ↓
+runtime
+</code></pre>
+</div>
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Предности и мане</h3>
+<ul>
+<li>Међурепрезентација има прецизну семантику -&gt; детерминизам.</li>
+<li><p>
+Али и даље је "изворни код" на природном језику тако да резултат може да
+варира.
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >циљ -&gt; модел -&gt; ЈСД(међурепрезентација) -&gt; извршавање
+извршавање 1 -&gt; ЈСД А
+извршавање 2 -&gt; ЈСД Б
+</code></pre>
+</div>
+<ul>
+<li><i>Резултат није детерминистички! Поновљивост је тешко постићи!</i></li>
+
+</ul></li>
+<li>Ако треба да се разуме зашто смо добили одређени резултат, дебаговање се
+одвија на ЈСД нивоу са којим корисник није фамилијаран.</li>
+
+</ul>
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Решење</h3>
+<ul>
+<li>ЈСД се чувао као "извор истине". Природни језик само служи за његово
+генерисање.</li>
+<li>Корисници морају разумети ЈСД. ЈСД мора бити лак за читање и разумевање.</li>
+<li>ЈСД мора имати канонички облик. Више различитих форми мора имати једну
+каноничку репрезентацију.</li>
+<li><i>Round-tripping</i>: ЈСД програм &lt;-&gt; објашњење на природном језику</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Литература</h2>
+<ul>
+<li>Основна
+<ul>
+<li>Игор Дејановић, <i>Језици специфични за домен</i>, Факултет техничких наука, Нови
+Сад, 2021. (доступно у скриптарници ФТН-а)</li>
+
+</ul></li>
+<li>Додатна
+<ul>
+<li>Meinte Boersma, <a href="https://www.manning.com/books/building-user-friendly-dsls"><i>Building User-Friendly DSLs</i></a>, Manning, 2024.</li>
+<li>M. Völter, <a href="http://dslbook.org/"><i>DSL Engineering: Designing, Implementing and Using Domain-Specific
+Languages</i></a>. 2013</li>
+<li>S. Kelly and J.-P. Tolvanen, <i>Domain-Specific Modeling: Enabling Full Code
+Generation</i>. Wiley-IEEE Computer Society Pr, March 2008</li>
+<li>Federico Tomassetti, <a href="https://tomassetti.me/domain-specific-languages/"><i>The complete guide to (external) Domain Specific
+Languages</i></a>, February 2017.</li>
+<li>Alessio Stalla, <a href="https://tomassetti.me/domain-specific-languages-in-python-with-textx/"><i>Quick Domain-Specific Languages in Python with textX</i></a></li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

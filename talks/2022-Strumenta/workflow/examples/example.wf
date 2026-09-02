@@ -1,0 +1,25 @@
+package BuildHouse {
+        task feasibility DONE {
+             next buyLand
+        }
+        task buyLand DONE {
+             searchAds, findLand, buyLand
+             next makePlan
+        }
+        task makePlan DOING {
+             chooseArchitect, giveInstructions, choosePlan
+             next buildHouse
+        }
+        task buildHouse TODO {
+             buildHouse
+             next BuildFence.feasibility
+        }
+        task moveIn {}
+}
+package BuildFence {
+        task feasibility TODO {}
+        task buildFence {
+             chooseCompany, giveInstructions, buildFence
+             next BuildHouse.moveIn
+        }
+}

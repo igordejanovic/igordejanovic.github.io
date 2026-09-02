@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-12-06 Sat 21:51 -->
+<meta charset="utf-8"/>
+<title>textX</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<script type="text/javascript" src="../../../s/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">textX</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-12-06 Sat 21:51, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Основни подаци</h2>
+<ul>
+<li>100% Пајтон код</li>
+<li>МИТ лиценца - користи се и у комерцијалним решењима и на истраживачким
+пројектима</li>
+<li>Најпопуларнија библиотека за израду ЈСД-ова у Пајтону
+<ul>
+<li>GitHub stars - 800+</li>
+<li>GitHub forks - 80</li>
+<li>GitHub contributors - 24</li>
+<li>GitHub used by - 584</li>
+
+</ul></li>
+<li>Екосистем под GitHub организацијом <a href="https://github.com/textX/">https://github.com/textX/</a></li>
+<li>Документација, примери и туторијали доступни на <a href="https://textx.github.io/textX/">https://textx.github.io/textX/</a></li>
+<li>Интеграција са VS Code за све језике базиране на textX-у кроз <a href="https://github.com/textX/textX-LS">textX-LS пројекат</a></li>
+<li>Онлајн игралиште за испробавање <a href="https://textx.github.io/textx-playground/">https://textx.github.io/textx-playground/</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Архитектура</h2>
+
+<div id="org1920f64" class="figure">
+<p><img src="./images/textX.png" alt="textX.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Инсталација</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Инсталација</h3>
+<ul>
+<li>Са PyPI</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; mkdir jsd
+~&gt; cd jsd
+~/jsd&gt; uv init
+Initialized project `jsd`
+?main ~/jsd&gt; ls
+main.py  pyproject.toml  README.md
+?main ~/jsd&gt; uv add textx[cli]
+Using CPython 3.14.0
+Creating virtual environment at: .venv
+Resolved 5 packages in 8ms
+Installed 3 packages in 15ms
+ + arpeggio==2.0.3
+ + click==8.3.1
+ + textx==4.2.3
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >?main ~/jsd&gt; uv run textx
+Usage: textx [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug  Debug/trace output.
+  --help   Show this message and exit.
+
+Commands:
+  check            Check/validate model given its file path.
+  generate         Run code generator on a provided model(s).
+  list-generators  List all registered generators
+  list-languages   List all registered languages
+  version          Print version info.
+</code></pre>
+</div>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Инсталација развојне верзије са GitHub-а</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; mkdir jsd
+~&gt; cd jsd
+~/jsd&gt; uv init
+Initialized project `jsd`
+?main ~/jsd&gt; uv add git+https://github.com/textx/textx@master
+Using CPython 3.14.0
+Creating virtual environment at: .venv
+Resolved 3 packages in 210ms
+    Updated https://github.com/textx/textx (6ef5164d77988a8b905a98748e90586c44efba9e)
+      Built textx @ git+https://github.com/textx/textx@6ef5164d77988a8b905a98748e90586c44efba9e
+Prepared 1 package in 2.20s
+Installed 2 packages in 2ms
+ + arpeggio==2.0.3
+ + textx==4.3.0.dev0 (from git+https://github.com/textx/textx@6ef5164d77988a8b905a98748e90586c44efba9e)
+</code></pre>
+</div>
+</section>
+<section id="slide-installation">
+<h3 id="installation"><span class="section-number-3">3.3.</span> Инсталација за развој</h3>
+<div class="org-src-container">
+
+<pre><code class="sh" >~&gt; mkdir jsd
+~&gt; cd jsd
+~/jsd&gt; git clone git@github.com:textX/textX
+Cloning into 'textX'...
+remote: Enumerating objects: 14302, done.
+remote: Counting objects: 100% (2641/2641), done.
+remote: Compressing objects: 100% (975/975), done.
+remote: Total 14302 (delta 1463), reused 2486 (delta 1365), pack-reused 11661 (from 1)
+Receiving objects: 100% (14302/14302), 17.28 MiB | 12.45 MiB/s, done.
+Resolving deltas: 100% (8808/8808), done.
+~/jsd&gt; cd textX
+master ~/jsd/textX&gt; make dev
+rm -fr build/
+rm -fr dist/
+rm -fr .eggs/
+...
+ + urwid-readline==0.15.1
+ + wcwidth==0.2.14
+ + webencodings==0.5.1
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Основна употреба</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Граматика = мета-модел + конкретна синтакса</h3>
+<div class="column" style="float:left; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="textx" >HelloWorldModel:
+  'hello' to_greet+=Who[',']
+;
+
+Who:
+  name = /[^,]*/
+;
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_from_file
+hello_meta = metamodel_from_file('hello.tx')
+</code></pre>
+</div>
+
+</div>
+
+
+<div id="orgecf8de9" class="figure">
+<p><img src="./hello.dot.png" alt="hello.dot.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Модел = програм</h3>
+<div class="org-src-container">
+
+<pre><code class="example" >hello World, Solar System, Universe
+</code></pre>
+</div>
+
+
+<div id="orge20565d" class="figure">
+<p><img src="./images/hello_parts.png" alt="hello_parts.png" style="height: 300px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Парсирање - инстанцирање модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >example_hello_model = hello_meta.model_from_file('example.hello')
+</code></pre>
+</div>
+
+
+<div id="org56218bc" class="figure">
+<p><img src="./example.dot.png" alt="example.dot.png" style="height: 300px;" />
+</p>
+</div>
+
+
+<ul>
+<li>Модел је граф Пајтон објеката чија структура је у складу са граматиком (нпр.
+<code>HelloWorldModel</code> објекат садржи Пајтон листу <code>to_greet</code>).</li>
+<li>Модел можемо даље интерпретирати, анализирати, генерисати код&#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Провера и визуализација мета-модела</h3>
+<ul>
+<li>textX ће при парсирају граматике пријавити синтаксне грешке.</li>
+<li><p>
+Ако желимо можемо проверити граматику у току развоја:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >  textx check hello.tx
+</code></pre>
+</div>
+
+<pre class="example">
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx: OK.
+</pre></li>
+
+<li><p>
+У случају грешке биће пријављена тачна локација.
+</p>
+
+<pre>
+  Error in meta-model file.
+  Expected 'abstract_rule_ref' at position (6, 9) =&gt; ':   name |*= /[^,]*/ '.
+</pre></li>
+
+<li><p>
+или визуализовати
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >  textx list-generators
+</code></pre>
+</div>
+
+<pre class="example">
+any -&gt; dot           textX    Generating dot visualizations from arbitrary models
+textX -&gt; dot         textX    Generating dot visualizations from textX grammars
+textX -&gt; PlantUML    textX    Generating PlantUML visualizations from textX grammars
+</pre>
+
+
+<div class="org-src-container">
+
+<pre><code class="bash" >  textx generate hello.tx --target dot
+</code></pre>
+</div>
+
+<pre class="example">
+Generating dot target from models:
+/home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.tx
+-&gt; /home/igor/repos/igordejanovic.github.io/courses/tech/textX/hello.dot
+   To convert to png run "dot -Tpng -O hello.dot"
+</pre></li>
+
+</ul>
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Робот пример</h3>
+<div class="column" style="float:left; width: 50%">
+<p>
+fajl <code>robot.tx</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="textx" >Program:
+  'begin'
+    commands*=Command
+  'end'
+;
+
+Command:
+  InitialCommand | MoveCommand
+;
+
+InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+
+MoveCommand:
+  direction=Direction (steps=INT)?
+;
+
+Direction:
+  "up"|"down"|"left"|"right"
+;
+
+Comment:
+  /\/\/.*$/
+;
+</code></pre>
+</div>
+
+</div>
+
+<div class="column" style="float:right; width: 50%">
+<p>
+fajl <code>program.rbt</code>
+</p>
+<div class="org-src-container">
+
+<pre><code class="example" >begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+</code></pre>
+</div>
+</div>
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> Инстанцирање мета-модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_from_file
+robot_mm = metamodel_from_file('robot.tx')
+</code></pre>
+</div>
+
+
+<div id="org75c1259" class="figure">
+<p><img src="./robot.dot.png" alt="robot.dot.png" style="height: 500px;" />
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >textx generate robot.tx --target dot
+dot -Tpng -O robot.dot
+</code></pre>
+</div>
+</section>
+<section id="slide-4-7">
+<h3 id="4-7"><span class="section-number-3">4.7.</span> Парсирање и инстанцирање модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >robot_model = robot_mm.model_from_file('program.rbt')
+</code></pre>
+</div>
+
+<pre>
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+</pre>
+
+
+<div id="orgd5e5963" class="figure">
+<p><img src="./program.dot.png" alt="program.dot.png" style="height: 300px;" />
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >textx generate program.rbt --grammar robot.tx --target dot
+dot -Tpng -O program.dot
+</code></pre>
+</div>
+</section>
+<section id="slide-4-8">
+<h3 id="4-8"><span class="section-number-3">4.8.</span> Шта радити са моделом?</h3>
+<ul>
+<li>Интерпретирање</li>
+<li>Генерисање кода</li>
+<li>Разне врсте анализе и трансформације</li>
+
+</ul>
+</section>
+<section id="slide-4-9">
+<h3 id="4-9"><span class="section-number-3">4.9.</span> Интерпретирање Робот модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class Robot(object):
+
+    def __init__(self):
+        # Initial position is (0,0)
+        self.x = 0
+        self.y = 0
+
+    def __str__(self):
+        return "Robot position is {}, {}.".format(self.x, self.y)
+</code></pre>
+</div>
+</section>
+<section id="slide-4-10">
+<h3 id="4-10"><span class="section-number-3">4.10.</span> Интерпретирање Робот модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >    def interpret(self, model):
+
+        # model is an instance of Program
+        for c in model.commands:
+
+            if c.__class__.__name__ == "InitialCommand":
+                print("Setting position to: {}, {}".format(c.x, c.y))
+                self.x = c.x
+                self.y = c.y
+            else:
+                dir = c.direction
+                print("Going {} for {} step(s).".format(dir, c.steps))
+
+                move = {
+                    "up": (0, 1),
+                    "down": (0, -1),
+                    "left": (-1, 0),
+                    "right": (1, 0)
+                }[dir]
+
+                # Calculate new robot position
+                self.x += c.steps * move[0]
+                self.y += c.steps * move[1]
+</code></pre>
+</div>
+</section>
+<section id="slide-4-11">
+<h3 id="4-11"><span class="section-number-3">4.11.</span> Интерпретација Робот модела</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >    robot = Robot()
+    robot.interpret(robot_model)
+</code></pre>
+</div>
+
+<div class="column" style="float:left; width: 50%">
+<pre>
+begin
+    initial 3, 1
+    up 4
+    left 9
+    down
+    right 1
+end
+</pre>
+</div>
+
+<div class="column" style="float:right; width: 50%">
+
+<pre class="example" id="org41b172c">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 0 step(s).
+Robot position is -6, 5.
+Going right for 1 step(s).
+Robot position is -5, 5.
+</pre>
+</div>
+
+<p class="attention" style="clear: both;">
+<b>Проблем:</b> Ако не задамо корак подразумевано је 0 (textX дефинише <i>default</i>
+вредности за базичне типове).
+</p>
+</section>
+<section id="slide-4-12">
+<h3 id="4-12"><span class="section-number-3">4.12.</span> Object processor</h3>
+<div class="column" style="float:left; width: 60%">
+<div class="org-src-container">
+
+<pre><code class="python" >def move_command_processor(move_cmd):
+    """
+    This is object processor for MoveCommand instances.
+    It implements a default step of 1 in case not given
+    in the program.
+    """
+
+    if move_cmd.steps == 0:
+        move_cmd.steps = 1
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 40%">
+<div class="org-src-container">
+
+<pre><code class="textx" >MoveCommand:
+  direction=Direction (steps=INT)?
+;
+</code></pre>
+</div>
+</div>
+
+<p style="clear: both;">
+Регистрација процесора на мета-моделу:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >        # Register object processor for MoveCommand
+        robot_mm.register_obj_processors({'MoveCommand': move_command_processor})
+</code></pre>
+</div>
+
+<p>
+Сада се робот понаша исправно.
+</p>
+
+<pre class="example" id="orgf4b7446">
+Setting position to: 3, 1
+Robot position is 3, 1.
+Going up for 4 step(s).
+Robot position is 3, 5.
+Going left for 9 step(s).
+Robot position is -6, 5.
+Going down for 1 step(s).
+Robot position is -6, 4.
+Going right for 1 step(s).
+Robot position is -5, 4.
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> textX језик</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> textX граматичка правила</h3>
+<p>
+textX метајезик, односно граматика, се састоји од скупа правила.
+</p>
+
+<p>
+На пример, ако развијамо језик за опис цртежа, концепти овог језика би могли
+бити <code>Shape</code>, <code>Line</code>, <code>Circle</code> итд. Следеће правило се користи да опише концепт
+<code>Circle</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Circle:
+  'Circle' '(' color=ID ',' size=INT ')'
+;
+</code></pre>
+</div>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Врсте правила</h3>
+<p>
+Постоје три врсте правила у textX-у:
+</p>
+<ul>
+<li>Обична правила (<i>Common rules</i>),</li>
+<li>Апстрактна правила (<i>Abstract rules</i>), i</li>
+<li>Правила препознавања (<i>Match rules</i>).</li>
+
+</ul>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Обична правила</h3>
+<p class="forwardlink">
+<b>Обична правила</b> су правила која садрже бар један израз доделе (видети
+<a href="#/slide-textx-dodele" class="forwardlink">5.15</a>), односно имају дефинисане атрибуте. Ова врста правила ће за
+последицу имати динамичко креирање Пајтон класа које ће бити инстанциране за
+време парсирања улазног стринга.
+</p>
+
+<p>
+На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >InitialCommand:
+  'initial' x=INT ',' y=INT
+;
+</code></pre>
+</div>
+
+<p>
+Правило <code>InitialCommand</code> ће довести до креирања Пајтон класе истог имена чије
+instance će imati dva atributa: <code>x</code> и <code>y</code>.
+</p>
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Апстрактна правила</h3>
+<p>
+<b>Апстрактна правила</b> су правила која немају изразе доделе и референцирају бар
+једно апстрактно или обично правило. Најчешће су дефинисана као уређени избор
+других правила јер се користе да генерализују друга правила. На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Program:
+  'begin'
+    commands*=Command
+  'end'
+;
+
+Command:
+  MoveCommand | InitialCommand
+;
+</code></pre>
+</div>
+
+<p>
+У овом примеру, Пајтон објекат у листи <code>commands</code> ће бити или <code>MoveCommand</code> или
+<code>InitialCommand</code>. <code>Command</code> правило је апстрактно. Ово правило никада неће
+резултовати Пајтон објектом.
+</p>
+
+</section>
+<section>
+
+<p class="forwardlink">
+Апстрактно правило може да се користи и у референцама повезивања (видети
+<a href="#/slide-textx-reference" class="forwardlink">5.21</a>). На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >ListOfCommands:
+  commands*=[Command][',']
+;
+</code></pre>
+</div>
+
+<p>
+Такође, апстрактна правила могу референцирати правила препознавања и базичне
+типове. На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Value:
+    STRING | FLOAT | BOOL | Object
+    | Array | "null"
+;
+</code></pre>
+</div>
+
+<p>
+У овом примеру, базични типови као и препознавање стринг <code>"null"</code> су правила
+препознавања, али <code>Object</code> и <code>Array</code> су обична правила и стога је <code>Value</code> правило
+апстрактно.
+</p>
+
+</section>
+<section>
+
+<p>
+Апстрактна правила могу бити сложена секвенца или уређени избор референци и
+правила препознавања док год имамо бар једну референцу на апстрактно или обично
+правило. На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Value:
+  'id' /\d+-\d+/ | FLOAT | Object
+;
+</code></pre>
+</div>
+
+<p>
+Правило чије тело се састоји само од једне референце препознавања на друго
+апстрактно или обично правило је такође апстрактно правило:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Value:
+    OtherRule
+;
+</code></pre>
+</div>
+
+<p>
+Уколико је <code>OtherRule</code> апстрактно или обично правило тада је и <code>Value</code> апстрактно
+правило.
+</p>
+</section>
+<section id="slide-5-5">
+<h3 id="5-5"><span class="section-number-3">5.5.</span> Правила препознавања</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >Widget:
+  "edit"|"combo"|"checkbox"|"togglebutton"
+;
+
+Name:
+  STRING|/(\w|\+|-)+/
+;
+</code></pre>
+</div>
+
+<p>
+Сва базична, имплицитна, textX правила (нпр. <code>INT</code>, <code>STRING</code>, <code>BASETYPE</code>) су правила
+препознавања.
+</p>
+</section>
+<section id="slide-5-6">
+<h3 id="5-6"><span class="section-number-3">5.6.</span> Базична правила/типови</h3>
+
+<div id="org3f45738" class="figure">
+<p><img src="./images/base_types.png" alt="base_types.png" style="height: 250px;" />
+</p>
+</div>
+
+<p>
+Препознати уграђени типови се аутоматски конвертују у одговарајуће Пајтон типове
+и постављају на подразумевану вредност у оквиру опционих препознавања.
+</p>
+</section>
+<section id="slide-5-7">
+<h3 id="5-7"><span class="section-number-3">5.7.</span> Препознавања (<i>Matches</i>)</h3>
+<p>
+Поред уграђених базичних правила, правила препознавања су правила најнижег
+нивоа. Представљају основне градивне јединице сложенијих правила. Ова правила ће
+конзумирати део улаза уколико је препознавање успешно.
+</p>
+
+<p>
+Постоје две врсте препознавања: <i>препознавање стринга</i> и <i>препознавање регуларног
+израза</i>.
+</p>
+</section>
+<section id="slide-5-8">
+<h3 id="5-8"><span class="section-number-3">5.8.</span> Препознавање стринга</h3>
+<p>
+<b>Препознавање стринга</b> се пише као стринг у једноструким или двоструким знацима
+навода. Овако написано правило препознаће задати стринг са улаза у облику у ком
+је задат.
+</p>
+
+<p>
+Примери:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >'blue'
+'zero'
+'person'
+</code></pre>
+</div>
+</section>
+<section id="slide-5-9">
+<h3 id="5-9"><span class="section-number-3">5.9.</span> Препознавање регуларног израза</h3>
+<p>
+<b>Препознавање регуларног израза</b> користи Пyтхон регуларне изразе<sup>1</sup> који се наводе
+унутар <code>/ /</code>. Дакле, дефинишу класу стрингова који се могу наћи на улазу.
+</p>
+
+<p>
+Примери:
+</p>
+
+<ul>
+<li><code>/\d+/</code> &#x2014; препознаје стринг од једне или више цифри.</li>
+<li><code>/\d{3,4}-\d{3}/</code> &#x2014; 3 или 4 цифре, затим '-' па затим још 3 цифре.</li>
+<li><code>/[^}]*/</code> &#x2014; нула или више карактера различитих од '}'.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>За увод у регуларне изразе на програмском језику Пајтон видети
+<a href="https://docs.python.org/3/howto/regex.html">https://docs.python.org/3/howto/regex.html</a></li>
+
+</ol>
+</section>
+<section id="slide-5-10">
+<h3 id="5-10"><span class="section-number-3">5.10.</span> Секвенца (<i>Sequence</i>)</h3>
+<p>
+Секвенца је најједноставнији сложени израз који се добија навођењем подизраза
+један иза другог. На пример, следеће правило:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Colors:
+  "red" "green" "blue"
+;
+</code></pre>
+</div>
+
+<p>
+је дефинисано као секвенца која се састоји од три стринг препознавања (<code>red</code>,
+<code>greeen</code> i <code>blue</code>). Секвенца ће успешно бити препозната ако су препознати сви њени
+подизрази у редоследу у ком су наведени. Претходно <code>Colors</code> правило ће препознати
+следећи стринг:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >red green   blue
+</code></pre>
+</div>
+
+<p>
+Уколико је укључено аутоматско прескакање празних карактера (<i>whitespace skip</i>),
+што је подразумевано, тада се може између два подизраза у секвенци наћи
+произвољан број празних карактера као што је приказано у претходном примеру.
+</p>
+</section>
+<section id="slide-5-11">
+<h3 id="5-11"><span class="section-number-3">5.11.</span> Уређени избор (<i>Ordered choice</i>)</h3>
+<p>
+Уређени избор се наводи као скуп израза раздвојених знаком <code>|</code>. Овај израз ће
+покушати да препозна подизразе с лева на десно. Први израз који се успешно
+препозна биће коришћен као резултат препознавања.
+</p>
+
+<p>
+На пример, следеће правило
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Color:
+  "red" | "green" | "blue"
+;
+</code></pre>
+</div>
+
+<p>
+ће препознати или реч <code>red</code> или <code>green</code> или <code>blue</code> при чему ће парсер да покуша сваки
+од подизраза с лева на десно.
+</p>
+</section>
+<section id="slide-textx-optional">
+<h3 id="textx-optional"><span class="section-number-3">5.12.</span> Опционо препознавање (<i>Optional</i>)</h3>
+<p>
+Опционо препознавање је израз који ће да покуша да препозна свој подизраз ако
+може, али ће успети у препознавању и уколико подизраз није препознат.
+</p>
+
+<p>
+На пример, уколико имамо правило
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >MoveUp:
+  'up' INT?
+;
+</code></pre>
+</div>
+
+<p>
+<code>INT</code> ће бити опционо (јер је наведен знак <code>?</code>) па ће бити могуће навести број иза
+речи <code>up</code>, али неће бити обавезно.
+</p>
+
+</section>
+<section>
+
+<p>
+Следеће линије ће бити успешно препознате претходним правилом:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >up 45
+up 1
+up
+</code></pre>
+</div>
+
+<p>
+Опциони изрази могу бити и сложенији. На пример, код правила
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >MoveUp:
+  'up' ( INT | FLOAT )?
+;
+</code></pre>
+</div>
+
+<p>
+имамо да је уређени избор опциони тако да ћемо у овом случају моћи навести цео
+или реалан број (<code>INT</code> или <code>FLOAT</code>), али нисмо обавезни да то учинимо.
+</p>
+</section>
+<section id="slide-5-13">
+<h3 id="5-13"><span class="section-number-3">5.13.</span> Понављања (<i>Repetitions</i>)</h3>
+<p>
+<b>Понављање нула или више пута</b> (<i>zero or more</i>) се наводи употребом оператора <code>*</code>
+иза подизраза. Подизраз ће у том случају бити препознат нула или више пута.
+</p>
+
+<p>
+На пример, уколико имамо правило
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Colors:
+  ("red" | "green" | "blue")*
+;
+</code></pre>
+</div>
+<p>
+Следећи улаз ће бити успешно парсиран:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >red blue green
+</code></pre>
+</div>
+
+<p>
+али такође и
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >red blue blue red red blue green
+</code></pre>
+</div>
+
+<p>
+или празан стринг (препознавање нула пута).
+</p>
+</section>
+<section id="slide-5-14">
+<h3 id="5-14"><span class="section-number-3">5.14.</span> Понављања (<i>Repetitions</i>)</h3>
+<p>
+<b>Понављање једном или више пута</b> се наводи употребом оператора <code>+</code> иза подизраза.
+Подизраз ће у том случају бити препознат један или више пута.
+</p>
+
+<p>
+На пример, уколико имамо правило које је слично претходном, али користи овај
+облик понављања
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Colors:
+  ("red" | "green" | "blue")+
+;
+</code></pre>
+</div>
+
+<p>
+обавезно је навођење бар једне боје, али може се навести и више у произвољном
+редоследу и са понављањем као и код претходног правила. Дакле, ово правило не
+препознаје празан стринг.
+</p>
+</section>
+<section id="slide-textx-dodele">
+<h3 id="textx-dodele"><span class="section-number-3">5.15.</span> Доделе (<i>Assignments</i>)</h3>
+<p>
+Доделе се користе као део поступка за дедукцију метамодела. Свака додела
+резултује креирањем атрибута мета-класе креиране textX правилом.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Person:
+  name=Name ',' surname=Surname ','
+    age=INT ',' height=INT ';'
+;
+</code></pre>
+</div>
+
+<p>
+<b>Напомена:</b> Правило <code>Name</code> и <code>Surname</code> су дефинисани у граматици, али нису дати у овом
+примеру.
+</p>
+</section>
+<section id="slide-5-16">
+<h3 id="5-16"><span class="section-number-3">5.16.</span> Доделе - креирање атрибута</h3>
+<p>
+Претходни пример описује правило и мета-класу <code>Person</code> које ће парсирати и
+инстанцирати објекат са четири атрибута.
+</p>
+
+<p>
+Пример:
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >  Petar, Petrović, 25, 185;
+</code></pre>
+</div>
+
+<p>
+Зарези, дати у претходном примеру, који ће бити препознати између препознавања
+правила доделе, као и тачка-зарез на крају, морају се наћи у улазном стрингу,
+али ће бити одбачени приликом креирања модела јер немају никакво семантичко
+значење. Кажемо да представљају <i>синтаксни шум</i>.
+</p>
+</section>
+<section id="slide-5-17">
+<h3 id="5-17"><span class="section-number-3">5.17.</span> Доделе - конверзије и вредности</h3>
+<p>
+Увек када је на RHS неки од базичних типова (нпр. <code>INT</code>, <code>BOOL</code>, <code>FLOAT</code>, <code>ID</code>) доћи ће
+до конверзије препознатог стринга у одговарајући Пајтон тип (нпр. <code>int</code>, <code>bool</code>,
+<code>float</code>, <code>str</code>).
+</p>
+
+<p>
+Ако је на RHS препознавање стринга или регуларног израза као у следећем примеру:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Color:
+  color=/\w+/
+;
+</code></pre>
+</div>
+
+<p>
+тада ће атрибут на LHS (<code>color</code>) бити постављен на вредност коју препозна RHS
+правило.
+</p>
+
+</section>
+<section>
+
+<p>
+Уколико се на RHS налази референца на друго правило тада ће бити препознат и
+инстанциран објекат класе датог правила и атрибут на LHS ће бити референца на
+дату инстанцу. На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Project:
+  'project' name=ID 'lead' lead=Person
+;
+</code></pre>
+</div>
+
+
+<p>
+<code>lead</code> атрибут биће референца на објекат класе <code>Person</code> а правило <code>Person</code> мора
+успешно препознати овај објекат иза кључне речи <code>lead</code>.
+</p>
+
+<p>
+Постоје четири врсте доделе: <i>obična</i>, <i>bulova</i>, <i>nula ili više</i> и <i>jedan ili više</i>.
+</p>
+</section>
+<section id="slide-5-18">
+<h3 id="5-18"><span class="section-number-3">5.18.</span> Обична додела</h3>
+<p>
+<b>Обична додела ( = )</b> ће обавити препознавање RHS једном и објекат који се креира
+доделити атрибуту на LHS.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >a=INT
+b=FLOAT
+c=/[a-Z0-9]+/
+dir=Direction
+</code></pre>
+</div>
+</section>
+<section id="slide-5-19">
+<h3 id="5-19"><span class="section-number-3">5.19.</span> Булова додела</h3>
+<p>
+<b>Булова додела ( ?= )</b> ће поставити LHS атрибут на <code>True</code> уколико је RHS препознат
+на улазу или на <code>False</code> уколико није.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >cold ?= 'cold'
+number_given ?= INT
+</code></pre>
+</div>
+</section>
+<section id="slide-5-20">
+<h3 id="5-20"><span class="section-number-3">5.20.</span> Додела нула/један или више</h3>
+<p>
+<b>Додела нула или више ( *= )</b> ће препознавати RHS све док успева и све објекте
+редом сместити у Пајтон листу која је на LHS. Ако препознавање не успе ни једном
+LHS ће бити празна листа.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >commands*=Command  // опциони низ команди
+numbers*=INT       // опциони низ целих бројева
+</code></pre>
+</div>
+
+<p>
+<b>Додела један или више ( += )</b> ради исто као претходна с тим што RHS мора да
+препозна бар један објекат тј. LHS никада неће бити празна листа.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >numbers+=INT       // низ целих бројева, мора постојати бар један
+</code></pre>
+</div>
+</section>
+<section id="slide-textx-reference">
+<h3 id="textx-reference"><span class="section-number-3">5.21.</span> Референце (<i>References</i>)</h3>
+<p>
+Правила могу да се међусобно референцирају. Референце се наводе на RHS. Постоје
+два начина референцирања правила: <i>референцирање преко препознавања</i> и
+<i>референцирање преко везе</i>.
+</p>
+</section>
+<section id="slide-5-22">
+<h3 id="5-22"><span class="section-number-3">5.22.</span> Референцирање преко препознавања</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >Structure:
+  'structure' '{'
+    elements*=StructureElement
+  '}'
+;
+</code></pre>
+</div>
+
+<p>
+У претходном примеру правило <code>Structure</code> референцира преко препознавања правило
+<code>StructureElement</code>. Унутар тела <code>Structure</code> концепта, биће препознато нула или више
+инстанци <code>StructureElement</code> класе. Инстанце ће бити додељене <code>elements</code> атрибуту
+који ће, у овом случају, бити типа Пајтон листе.
+</p>
+</section>
+<section id="slide-5-23">
+<h3 id="5-23"><span class="section-number-3">5.23.</span> Референцирање преко везе</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >ScreenType:
+  'screen' name=ID "{"
+  '}'
+;
+
+ScreenInstance:
+  'screen' type=[ScreenType]
+;
+</code></pre>
+</div>
+
+<p>
+<code>type</code> атрибут који припада правилу <code>ScreenInstance</code> референцира преко везе правило
+<code>ScreenType</code>.
+</p>
+
+</section>
+<section>
+
+<p>
+Ово би био пример правилне употребе:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >// Ово је дефиниција ScreenType објекта
+// који се зове Introduction
+screen Introduction {
+
+}
+
+// А ово је инстанца ScreenInstance која
+// референцира претходни Introduction ScreenType.
+screen Introduction
+</code></pre>
+</div>
+
+<p>
+Подразумевано се користи <code>ID</code> правило за препознавање назива циљног објекта.
+Уколико желимо то да променимо можемо урадити следеће:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >ScreenInstance:
+  'screen' type=[ScreenType|WORD]
+;
+</code></pre>
+</div>
+
+<p>
+У претходном примеру ће за препознавање имена циљног објекта бити коришћено
+правило <code>WORD</code>.
+</p>
+</section>
+<section id="slide-5-24">
+<h3 id="5-24"><span class="section-number-3">5.24.</span> Синтаксни предикати (<i>Syntactic predicates</i>)</h3>
+</section>
+<section id="slide-5-25">
+<h3 id="5-25"><span class="section-number-3">5.25.</span> Негативни поглед унапред</h3>
+<p>
+<b><code>Not</code> &#x2014; негативни поглед унапред (<code>!</code>)</b> &#x2014; Успева уколико правило које следи иза
+<code>!</code> предиката не препознаје наставак улазног стринга и обрнуто.
+</p>
+
+<p>
+Пример проблема:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Expression: Let | ID | NUMBER;
+Let:
+    'let'
+        expr+=Expression
+    'end'
+;
+</code></pre>
+</div>
+
+<p>
+У претходном примеру имамо рекурзивно правило <code>Let</code> које се индиректно референцира
+преко правила <code>Expression</code>. Проблем је у томе што ће <code>ID</code> правило које се позива из
+<code>Expression</code> правила препознати кључну реч <code>end</code> што ће довести до тога да ниједно
+<code>Let</code> правило неће моћи успешно да се заврши.
+</p>
+
+</section>
+<section>
+
+<p>
+Да бисмо решили овај проблем модификујемо граматику на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Expression: Let | MyID | NUMBER;
+Let:
+    'let'
+        expr+=Expression
+    'end'
+;
+Keyword: 'let' | 'end';
+MyID: !Keyword ID;
+</code></pre>
+</div>
+
+<p>
+Уместо директне употребе уграђеног <code>ID</code> правила уводимо правило <code>MyID</code> које користи
+<code>Not</code> синтаксни предикат да спречи препознавање кључних речи <code>let</code> и <code>end</code> као изразе
+<code>Expression</code> правила. На овај начин ће <code>end</code> бити конзумирано као завршетак <code>Let</code>
+правила и граматика ће исправно функционисати.
+</p>
+</section>
+<section id="slide-5-26">
+<h3 id="5-26"><span class="section-number-3">5.26.</span> Позитивни поглед унапред</h3>
+<p>
+<b><code>And</code> &#x2014; позитивни поглед унапред (<code>&amp;</code>)</b> &#x2014; Успева уколико правило које следи иза
+<code>&amp;</code> предиката препознаје наставак улазног стринга и обрнуто.
+</p>
+
+<p>
+Пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >Model:
+    elements+=Element
+;
+Element:
+    AbeforeB | A | B
+;
+AbeforeB:
+    a='a' &amp;'b'      // правило успева само
+                    // ако 'b' следи после 'a'
+;
+A: a='a';
+B: a='b';
+</code></pre>
+</div>
+
+<p>
+Уколико имамо улазни стринг <code>"a a a b"</code>, прва два <code>a</code> токена ће бити препознати
+правилом <code>A</code> док ће трећи токен <code>а</code> бити препознат правилом <code>AbeforeB</code>. Иако се увек
+проверава прво <code>AbeforeB</code>, правило неће успети за прва два <code>a</code> токена јер иза не
+следи токен <code>b</code>. Последњи токен ће бити препознат правилом <code>B</code> јер га претходно
+успешно правило <code>AbeforeB</code> није конзумирало са улаза.
+</p>
+</section>
+<section id="slide-5-27">
+<h3 id="5-27"><span class="section-number-3">5.27.</span> Уклањање препознатог улаза (<i>Match Suppression</i>)</h3>
+<p>
+Некада је потребно дефинисати правило препознавања које ће вратити само део
+препознатог улаза. У овом случају можемо користити оператор за уклањање
+препознатог улаза (<code>-</code>) који се наводи после израза препознавања.
+</p>
+
+<p>
+На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >FullyQualifiedID[noskipws]:
+    /\s*/-
+    QuotedID+['.']
+    /\s*/-
+;
+QuotedID:
+    '"'?- ID '"'?-
+;
+</code></pre>
+</div>
+</section>
+<section id="slide-5-28">
+<h3 id="5-28"><span class="section-number-3">5.28.</span> Модификатори понављања (<i>Repetition modifiers</i>)</h3>
+<p>
+Користе се за модификацију понашања свих оператора понављања (<code>*</code>, <code>+</code>, <code>*=</code>,
+<code>+=</code>). Наводе се унутар угластих заграда иза оператора понављања. Може се
+навести више модификатора и у том случају се раздвајају зарезима.
+</p>
+
+<p>
+У текућој имплементацији је дефинисано два модификатора понављања: модификатор
+сепарације и модификатор краја линије.
+</p>
+</section>
+<section id="slide-5-29">
+<h3 id="5-29"><span class="section-number-3">5.29.</span> Модификатор сепарације</h3>
+<p>
+<b>Модификатор сепарације (<i>Separator modifier</i>)</b> се користи да дефинише сепаратор код
+вишеструког препознавања. Наводи се као једноставно препознавање (препознавање
+стринга или регуларног израза).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >numbers*=INT[',']
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="text" >45, 47, 3, 78
+</code></pre>
+</div>
+
+<p>
+Такође, можемо дефинисати као модификатор препознавање регуларног израза. На
+пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >fields += ID[/;|,|:/]
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="text" >first, second; third, fourth: fifth
+</code></pre>
+</div>
+</section>
+<section id="slide-5-30">
+<h3 id="5-30"><span class="section-number-3">5.30.</span> Модификатор краја линије</h3>
+<p>
+<b>Модификатор краја линије (<i>End-of-line terminate modifier</i>)</b> се наводи као кључна
+реч <code>eolterm</code>. Уколико је укључен овај модификатор оператори понављања ће
+завршити понављање на крају текућег реда тј. радиће само за текући ред.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >STRING*[',', eolterm]
+</code></pre>
+</div>
+
+<p>
+Код овог примера вршимо препознавање нула или више стрингова раздвојених
+зарезима, али само унутар текућег реда. Ако задамо следећи улаз:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >"first", "second", "third"
+"fourth"
+</code></pre>
+</div>
+
+<p>
+правило ће препознати и конзумирати само прави ред. Стринг <code>"fourth"</code> неће бити
+обухваћен.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Метамодели</h2>
+<p>
+Пример креирања метамодела из граматике дефинисане у фајлу:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+my_metamodel = metamodel_from_file('my_grammar.tx')
+</code></pre>
+</div>
+
+<p>
+Парсирање текстуалне репрезентације модела и креирање меморијске објектне
+репрезентације се обавља позивом метода <code>model_from_file</code> i <code>model_from_str</code>
+метамодел објекта.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >my_model = my_metamodel.model_from_file('some_input.md')
+</code></pre>
+</div>
+</section>
+<section id="slide-textx-korisnicke">
+<h3 id="textx-korisnicke"><span class="section-number-3">6.1.</span> Корисничке класе</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_str
+
+grammar = '''
+EntityModel:
+  entities+=Entity
+;
+
+Entity:
+  'entity' name=ID '{'
+    attributes+=Attribute
+  '}'
+;
+
+Attribute:
+  name=ID ':' type=[Entity]
+;
+'''
+
+class Entity:
+  def __init__(self, parent, name, attributes):
+    self.parent = parent
+    self.name = name
+    self.attributes = attributes
+
+
+# Користимо "нашу" Entity класу.
+# "Attribute" класа ће бити креирана динамички.
+entity_mm = metamodel_from_str(grammar, classes=[Entity])
+</code></pre>
+</div>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.2.</span> Процесори</h3>
+<p>
+<b>Процесори објеката (<i>object processors</i>)</b> &#x2014; су процесори који се позивају
+после сваког успешног препознавања објекта. Као једини параметар добијају
+објекат који требају да провере/модификују.
+</p>
+
+<p>
+<b>Процесори модела (<i>Model processors</i>)</b> &#x2014; су процесори који се позивају када се
+цео модел успешно парсира. Као параметар добијају метамодел и модел. Могу да
+обаве произвољну проверу и/или модификацију модела. Региструју се позивом методе
+<code>register_model_processor</code> над метамодел објектом.
+</p>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+
+# Процесор модела је функција који ће прихватити метамодел
+# и модел као своје параметре.
+def check_some_semantics(metamodel, model):
+  ...
+  ... Vrši proveru modela i baca TextXSemanticError
+  ... ako su semantička pravila narušena.
+
+my_metamodel = metamodel_from_file('mygrammar.tx')
+
+# Региструјемо модел процесор на инстанци метамодела
+my_metamodel.register_model_processor(check_some_semantics)
+
+# Парсирамо модел. Функција check_some_semantics ће бити
+# аутоматски позвана након успешног парсирања да обави
+# додатну семантичку проверу модела.
+my_metamodel.model_from_file('some_model.ext')
+</code></pre>
+</div>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.3.</span> Уграђени објекти</h3>
+<div class="org-src-container">
+
+<pre><code class="python" >class Entity:
+  def __init__(self, parent, name, attributes):
+      self.parent = parent
+      self.name = name
+      self.attributes = attributes
+
+entity_builtins = {
+        'integer': Entity(None, 'integer', []),
+        'string': Entity(None, 'string', [])
+}
+entity_mm = metamodel_from_file(
+  'entity.tx',
+  classes=[Entity],        # Регистровање Entity
+                           # корисничке класе,
+  builtins=entity_builtins # Регистровање integer и string
+)                          # уграђених Entity објеката
+</code></pre>
+</div>
+
+<p>
+У претходном примеру региструјемо корисничку класу <code>Entity</code> и затим две њене
+инстанце (<code>integer</code> и <code>string</code>) које ће представљати уграђене типове за атрибуте.
+</p>
+
+<ul class="footer" style="clear: both;">
+<li>За више детаља видети пример
+<a href="https://github.com/igordejanovic/textX/tree/master/examples/Entity">https://github.com/igordejanovic/textX/tree/master/examples/Entity</a></li>
+
+</ul>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.4.</span> Конфигурација парсера</h3>
+<p>
+Arpeggio парсер креиран од стране textX-а се може конфигурисати са становишта
+осетљивости на величину слова (<i>case-sensitivity</i>), третирању празних карактера
+(<i>white-space handling</i>) и аутоматској детекцији кључних речи.
+</p>
+</section>
+<section id="slide-6-5-1">
+<h4 id="6-5-1"><span class="section-number-4">6.4.1.</span> Конфигурација парсера - <i>case-sensitivity</i></h4>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+
+my_metamodel = metamodel_from_file('mygrammar.tx',
+                                   ignore_case=True)
+</code></pre>
+</div>
+</section>
+<section id="slide-6-5-2">
+<h4 id="6-5-2"><span class="section-number-4">6.4.2.</span> Конфигурација парсера - <i>whitespaces</i></h4>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+my_metamodel = metamodel_from_file('mygrammar.tx',
+                                   skipws=False, ws='\s\n')
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Визуализације</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.1.</span> Визуализација метамодела</h3>
+<p>
+Метамодел се може визуализовати директно из програмског кода на следећи
+начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+from textx.export import metamodel_export
+
+entity_mm = metamodel_from_file('entity.tx')
+
+metamodel_export(entity_mm, 'entity.dot')
+</code></pre>
+</div>
+
+<p>
+Позив функције <code>metamodel_export</code> над метамоделом ће произвести <i>dot</i> фајл датог
+имена (у овом случају <code>entity.dot</code>).
+</p>
+
+</section>
+<section>
+
+<p>
+Текстуални <i>dot</i> фајл можемо превести у неки од графичких формата на следећи
+начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ dot -Tpng -O entity.dot
+</code></pre>
+</div>
+
+<p>
+Ова команда ће произвести фајл <code>entity.dot.png</code> графичког битмапираног формата
+PNG.
+</p>
+
+
+<div id="org42f23f6" class="figure">
+<p><img src="./images/entity.dot.png" alt="entity.dot.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.2.</span> Визуализација модела</h3>
+<p>
+Такође, и модели се могу визуализовати из програмског кода. То се изводи на
+следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.export import model_export
+
+person_model = entity_mm.model_from_file('person.ent')
+
+model_export(person_model, 'person.dot')
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Претходни кôд ће произвести фајл <code>person.dot</code> који се може превести у графички
+формат следећом командом:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ dot -Tpng -O person.dot
+</code></pre>
+</div>
+
+
+<div id="org7fc781e" class="figure">
+<p><img src="./images/person-entity.png" alt="person-entity.png" style="height: 500px;" />
+</p>
+</div>
+
+<p class="forwardlink">
+Визуализација може да се обави и употребом <a href="#/slide-textx-komanda" class="forwardlink"><code>textx</code> komande</a> описане у наставку.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-textx-debug">
+<h2 id="textx-debug"><span class="section-number-2">8.</span> Обрада грешака</h2>
+<div class="org-src-container">
+
+<pre><code class="python" >from textx.metamodel import metamodel_from_file
+
+robot_metamodel = metamodel_from_file('robot.tx', debug=True)
+</code></pre>
+</div>
+
+<p>
+или
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >robot_program = robot_metamodel.model_from_file('program.rbt',
+                                                debug=True)
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p class="forwardlink">
+textX се у мод за отклањање грешака може поставити и употребом <code>textx</code> команде и
+параметра <code>-d</code> (видети <a href="#/slide-textx-komanda" class="forwardlink">10</a>).
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ textx -d visualize robot.tx program.rbt
+
+ *** PARSING LANGUAGE DEFINITION ***
+New rule: grammar_to_import -&gt; RegExMatch
+New rule: import_stm -&gt; Sequence
+New rule: rule_name -&gt; RegExMatch
+New rule: param_name -&gt; RegExMatch
+New rule: string_value -&gt; OrderedChoice
+New rule: rule_param -&gt; Sequence
+Rule rule_param founded in cache.
+New rule: rule_params -&gt; Sequence
+...
+
+&gt;&gt; Matching rule textx_model=Sequence at position 0 =
+  &gt;&gt; Matching rule ZeroOrMore in textx_model at posit
+      &gt;&gt; Matching rule import_stm=Sequence in textx_m
+        ?? Try match rule StrMatch(import) in import_
+        &gt;&gt; Matching rule comment=OrderedChoice in imp
+            ?? Try match rule comment_line=RegExMatch
+            -- NoMatch at 0
+            ?? Try match rule comment_block=RegExMatc
+
+...
+
+
+Generating 'robot.tx.dot' file for meta-model.
+To convert to png run 'dot -Tpng -O robot.tx.dot'
+Generating 'program.rbt.dot' file for model.
+To convert to png run 'dot -Tpng -O program.rbt.dot'
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> RREL</h2>
+<div class="org-src-container">
+
+<pre><code class="text" >Attribute: 'attr' ref=[Class|FQN|^packages*.classes]
+                  name=ID ';';
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-textx-komanda">
+<h2 id="textx-komanda"><span class="section-number-2">10.</span> <code>textx</code> команда</h2>
+</section>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1.</span> <code>textx</code> команда</h3>
+<p>
+<code>textx</code> CLI команда није подразумевано инсталирана када инсталирате textX
+библиотеку. Да бисте имали ову команду доступну потребно је да инсталирате <code>cli</code>
+зависности на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >pip install textx[cli]
+</code></pre>
+</div>
+</section>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Основне поткоманде</h3>
+<p>
+Основно упутство за употребу може се добити позивом команде без параметара или
+са параметром <code>--help</code> односно <code>-h</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ textx --help
+Usage: textx [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --debug  Debug/trace output.
+  --help   Show this message and exit.
+
+Commands:
+  check            Check/validate model given its file path.
+  generate         Run code generator on a provided model(s).
+  list-generators  List all registered generators
+  list-languages   List all registered languages
+  version          Print version info.
+</code></pre>
+</div>
+
+<p>
+Излистане команде доступне су од стране основне textX библиотеке. Додатне
+команде ће бити доступне по инсталацији Пајтон пакета који региструју нове textX
+команде.
+</p>
+</section>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3.</span> <code>check</code> поткоманда</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >$ textx check --grammar robot.tx program.rbt
+Error:
+/home/igor/repos/textX/textX/examples/robot/program.rbt:3:3:
+Expected 'initial' or 'up' or 'down' or 'left' or 'right'
+        or 'end' =&gt; 'al 3, 1   *gore 4    '
+</code></pre>
+</div>
+
+<p>
+Vidimo da u redu 3, koloni 3 imamo grešku. Parser nam prijavljuje šta je
+očekivano na toj lokaciji i iza znaka <code>=&gt;</code> vidimo deo fajla, odnosno kontekst gde
+se greška nalazi. Karakter <code>*</code> obeležava lokaciju unutar konteksta.
+</p>
+</section>
+<section id="slide-10-4">
+<h3 id="10-4"><span class="section-number-3">10.4.</span> Визуализација <code>generate</code> поткомандом</h3>
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx list-generators
+any -&gt; dot         textX[2.3.0]  Generating dot visual...
+textX -&gt; dot       textX[2.3.0]  Generating dot visual...
+textX -&gt; PlantUML  textX[2.3.0]  Generating PlantUML v...
+</code></pre>
+</div>
+
+<p>
+Видимо да имамо три регистрована генератора од стране textX пакета. Први
+генератор је у стању да трансформише било који модел на <i>dot</i> језик. Други
+генератор трансформише textX моделе (тј. метамоделе) у <i>dot</i>. Трећи генератор
+трансформише метамоделе у PlantUML дијаграме<sup>1</sup>.
+</p>
+
+<ol class="footer" style="clear: both;">
+<li>PlantUML је текстуални ЈСД за креирање UML дијаграма &#x2014;
+<a href="https://plantuml.com/">https://plantuml.com/</a></li>
+
+</ol>
+</section>
+<section id="slide-10-5">
+<h3 id="10-5"><span class="section-number-3">10.5.</span> Генерисање <code>dot</code> фајла</h3>
+<p>
+На пример, за визуализацију метамодела потребно је урадити следеће:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx generate robot.tx --target dot --overwrite
+Generating dot target from models:
+/home/igor/repos/textX/textX/examples/robot/robot.tx
+-&gt; /home/igor/repos/textX/textX/examples/robot/robot.dot
+    To convert to png run "dot -Tpng -O robot.dot"
+</code></pre>
+</div>
+
+<p>
+Овом командом позивамо генератор који је регистрован за <code>.tx</code> екстензију и бирамо
+циљни формат/платформу, у овом случају <code>dot</code>. Генератор који ће бити позван је
+<code>textX -&gt; dot</code> са списка добијеног употребом <code>list-generators</code>. <code>dot</code> фајл који смо
+добили можемо конвертовати у слику према упутству:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ dot -Tpng -O robot.dot
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Добићемо слику у облику PNG фајла.
+</p>
+
+
+<div id="orgb1e13bd" class="figure">
+<p><img src="./images/robot.dot.png" alt="robot.dot.png" style="height: 300px;" />
+</p>
+</div>
+
+<p>
+Уместо креирања слике, <code>dot</code> фајл можемо прегледати неким од <code>dot</code> прегледача. На
+пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >$ xdot robot.dot
+</code></pre>
+</div>
+</section>
+<section id="slide-10-6">
+<h3 id="10-6"><span class="section-number-3">10.6.</span> Конверзија у PlantUML</h3>
+<p>
+Алтернативно, метамодел можемо конвертовати у UML дијаграм употребом PlantUML
+алата. Да бисмо креирали PlantUML фајл из метамодела позивамо команду <code>generate</code>
+на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx generate robot.tx --target plantuml --overwrite
+Generating plantuml target from models:
+/home/igor/repos/textX/textX/examples/robot/robot.tx
+-&gt; /home/igor/repos/textX/textX/examples/robot/robot.pu
+    To convert to png run "plantuml robot.pu"
+</code></pre>
+</div>
+
+<p>
+Затим можемо креирати PNG слику са <code>plantuml</code> командом према упутству.
+</p>
+
+
+<div id="orgc097579" class="figure">
+<p><img src="./images/robot.png" alt="robot.png" style="height: 400px;" />
+</p>
+</div>
+</section>
+<section id="slide-10-7">
+<h3 id="10-7"><span class="section-number-3">10.7.</span> Генерисање <code>dot</code> фајла за модел</h3>
+<p>
+Уколико желимо да визуализујемо модел потребно је навести и граматику на следећи
+начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx generate --grammar robot.tx program.rbt --target dot --overwrite
+Generating dot target from models:
+/home/igor/repos/textX/textX/examples/robot/program.rbt
+-&gt; /home/igor/repos/textX/textX/examples/robot/program.dot
+    To convert to png run "dot -Tpng -O program.dot"
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Регистрација језика и генератора</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+</section>
+<section id="slide-11-1">
+<h3 id="11-1"><span class="section-number-3">11.1.</span> Регистрација језика</h3>
+<p>
+Инстанцирати <code>LanguageDesc</code> класу где као параметре наводимо: јединствени назив
+језика, фајл образац/екстензију за моделе на датом језику, опис и функцију
+(тачније Пајтон <i>callable</i>) који врши креирање и конфигурацију метамодела.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import LanguageDesc
+
+def entity_metamodel():
+    # Funkcija konstruiše i vraća metamodel
+    # Npr. poziva metamodel_from_file
+    ...
+
+entity_lang = LanguageDesc(
+    'entity',
+    pattern='*.ent',
+    description='Entity-relationship language',
+    metamodel=entity_metamodel)
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Инстанцу <code>LanguageDesc</code> затим можемо регистровати употребом <code>register_language</code>
+позива:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import register_language
+register_language(entity_lang)
+</code></pre>
+</div>
+
+<p>
+По обављеној регистрацији метамодел се може добити на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import metamodel_for_language
+lang_mm = metamodel_for_language('entity')
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Декларативан начин регистрације путем <code>setup.py</code>, односно <code>setup.cfg</code>. Користимо
+улазне тачке (енг. <i>entry points</i>), стандардан механизам Пајтон <code>setuptools</code> пакета:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >setup(
+    ...
+    entry_points={
+        'textx_languages': [
+            'entity = entity.metamodel:entity_lang',
+        ],
+    },
+</code></pre>
+</div>
+
+<p>
+Улазна тачка се зове <code>textx_languages</code> - листа стрингова облика "&lt;име језика&gt; =
+&lt;путања_до_LanguageDesc_инстанце&gt;". У овом примеру инстанца <code>LanguageDesc</code> се
+налази у пакету <code>entity.metamodel</code>. Варијабле тј. референца се зове <code>entity_lang</code>.
+</p>
+
+</section>
+<section>
+
+<p>
+Алтернативно, можемо користити и новији начин употребом <code>setup.cfg</code> фајла:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >[options.entry_points]
+textx_languages =
+    entity = entity.metamodel:entity_lang
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Декоратор <code>language</code> - параметри су назив језика и екстензија фајлова модел.
+<i>Docstring</i> се користи као опис.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import language
+
+@language('entity', '*.ent')
+def entity_lang():
+    """
+    Entity-relationship language
+    """
+    # Funkcija konstruiše i vraća metamodel
+    # Npr. poziva metamodel_from_file
+    ...
+</code></pre>
+</div>
+
+<p>
+Уколико смо успешно регистровали језик команда <code>textx list-languages</code> ће га
+приказати у листи.
+</p>
+</section>
+<section id="slide-11-2">
+<h3 id="11-2"><span class="section-number-3">11.2.</span> Регистрација генератора</h3>
+<p>
+Користимо инстанцу <code>GeneratorDesc</code>. При инстанцирању наводимо: назив језика, назив
+циљне технологије, опис и на крају функцију која врши генерисање. Функција мора
+бити следећег облика:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def generator(metamodel, model, output_path, overwrite, debug,
+              **custom_args)
+</code></pre>
+</div>
+
+<p>
+Параметри генератор функције су следећи:
+</p>
+
+<ul>
+<li><code>metamodel</code> &#x2014; инстанца метамодела изворног језика,</li>
+<li><code>model</code> &#x2014; инстанца модела за који вршимо генерисање,</li>
+<li><code>output_path</code> &#x2014; циљна путања у фајл систему где треба сместити генерисани кôд,</li>
+<li><code>overwrite</code> &#x2014; да ли се врши преписивање циљних фајлова,</li>
+<li><code>debug</code> &#x2014; да ли се генератор позива у моду за отклањање грешака,</li>
+<li><code>**custom_args</code> &#x2014; додатни параметри специфични за генератор.</li>
+
+</ul>
+
+</section>
+<section>
+
+<p>
+Декоратор <code>generator</code> - параметри су назив језика и назив циљне платформе. Опис
+генератора се наводи у <i>docstring</i>-у генератор функције.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" >from textx import generator
+
+@generator('entity', 'java')
+def entity_java_generator(metamodel, model, output_path,
+                          overwrite, debug, **custom_args)
+    "Entity-relationship to Java language generator"
+    # Код који врши генерисање на основу модела.
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<p>
+Регистрација се врши у <code>setup.cfg</code> (или <code>setup.py</code>) на исти начин као и језик с тим
+што се улазна тачка назива <code>textx_generators</code>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >[options.entry_points]
+textx_generators =
+    entity_java = entity.generators:entity_java_generator
+</code></pre>
+</div>
+
+<p>
+По успешној регистрацији команда <code>textx list-generators</code> ће листати информације о
+генератору.
+</p>
+
+</section>
+<section>
+
+<p>
+Регистровани генератор се може позвати командом <code>text generate</code>. На пример:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx generate mymodel.ent --target java --overwrite
+        --meaning_of_life 42
+</code></pre>
+</div>
+
+<p>
+У претходној команди позивамо генератор регистрован за фајлове са екстензијом
+<code>.ent</code> над моделом <code>mymodel.ent</code>. У питању је <i>Entity</i> језик. Циљна платформа је <code>java</code>.
+Додатни параметар <code>meaning_of_life</code> је специфичан за генератор и биће прослеђен
+кроз <code>custom_args</code> речник.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Креирање иницијалног пројекта - <i>scaffolding</i></h2>
+<p>
+Иницијални пројекат креирамо са следећом командом:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ textx startproject &lt;folder&gt;
+</code></pre>
+</div>
+
+<p>
+Ова команда покреће генератор који поставља пар питања<sup>1</sup> и затим креира
+пројекат у задатом фолдеру. Добра пракса је да се затим пројекат инсталира у
+текуће радно окружење у развојном моду са:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ pip install -e &lt;folder&gt;
+</code></pre>
+</div>
+
+<ol class="footer" style="clear: both;">
+<li>Одговори на питања се кеширају и биће подразумевана при наредном покретању
+генератора.</li>
+
+</ol>
+
+</section>
+<section>
+
+
+<p>
+По успешној инсталацији ваш језик, односно генератор је исправно регистрован и
+видљив за команде <code>textx list-languages</code>, односно <code>textx list-generators</code>.
+</p>
+
+<div class="note" id="org33189f6">
+<p>
+Команда <code>startproject</code> није дефинисана основном textX библиотеком већ пројектом
+<code>textX-dev</code>. Због тога је потребно инсталирати овај Пајтон пакет или директно са:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ pip install textX-dev
+</code></pre>
+</div>
+
+<p>
+или путем инсталације свих развојних зависности за textX на следећи начин:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="shell" >$ pip install textX[dev]
+</code></pre>
+</div>
+
+<p>
+да бисте имали <code>startproject</code> доступну као поткоманду <code>textx</code> команде.
+</p>
+
+</div>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Примери</h2>
+<div class="outline-text-2" id="text-13">
+</div>
+</section>
+<section id="slide-13-1">
+<h3 id="13-1"><span class="section-number-3">13.1.</span> Генерисање кода - Entity пример</h3>
+<ul>
+<li>Референцирање других објеката.</li>
+<li>Употреба обрађивача шаблона (<b>Template Engines</b>) за генерисање кода.</li>
+<li><a href="http://textx.github.io/textX/stable/tutorials/entity/">http://textx.github.io/textX/stable/tutorials/entity/</a></li>
+
+</ul>
+</section>
+<section id="slide-13-2">
+<h3 id="13-2"><span class="section-number-3">13.2.</span> State Machine</h3>
+<ul>
+<li>Видео туториал</li>
+<li><a href="http://textx.github.io/textX/stable/tutorials/state_machine/">http://textx.github.io/textX/stable/tutorials/state_machine/</a></li>
+
+</ul>
+</section>
+<section id="slide-13-3">
+<h3 id="13-3"><span class="section-number-3">13.3.</span> Израда мини компајлера - ppci</h3>
+<ul>
+<li><a href="http://www.windel.nl/">Windel Bouwman</a></li>
+<li><a href="https://ppci.readthedocs.io/en/latest/howto/toy.html">https://ppci.readthedocs.io/en/latest/howto/toy.html</a></li>
+
+</ul>
+</section>
+<section id="slide-13-4">
+<h3 id="13-4"><span class="section-number-3">13.4.</span> Quick Domain-Specific Languages in Python with textX</h3>
+<ul>
+<li><a href="https://tomassetti.me/domain-specific-languages-in-python-with-textx/">https://tomassetti.me/domain-specific-languages-in-python-with-textx/</a></li>
+<li>Written by Alessio Stalla</li>
+
+</ul>
+</section>
+<section id="slide-13-5">
+<h3 id="13-5"><span class="section-number-3">13.5.</span> PyFlies - језик за психолошке тестове</h3>
+<ul>
+<li><a href="https://pyflies.github.io/pyflies/latest/">https://pyflies.github.io/pyflies/latest/</a></li>
+<li><a href="https://github.com/pyflies">https://github.com/pyflies</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLOgHC04drILVjnXQTFEL7sJDyfKMR21Vg">Video tutorials</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> Протокол језичких сервера (<i>Language Server Protocol - LSP</i>)</h2>
+<p>
+Да би се повећала поновна искористивост језичких подршки, фирма Microsoft је у
+склопу свог <i>VS Code</i> едитора издвојила језичку "памет" у посебну серверску
+компоненту са којом едитор комуницира у улози клијента. Протокол комуникације је
+данас отворени стандард под називом <i>протокол језичких сервера</i> (енг. <a href="https://microsoft.github.io/language-server-protocol/">Language
+Server Protocol - LSP</a>).
+</p>
+
+</section>
+<section>
+
+
+<div id="org2afe25e" class="figure">
+<p><img src="./images/lsp-editors-languages.svg" alt="lsp-editors-languages.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+Проблем димензије \(m × n\) мењамо у проблем димензије \(m + n\).
+</p>
+
+</section>
+<section>
+
+
+<div id="orgab105f4" class="figure">
+<p><img src="./images/lsp-example.svg" alt="lsp-example.svg" class="org-svg" />
+</p>
+</div>
+
+<p>
+LSP протокол је базиран на JSON-RPC, односно позивању удаљених процедура (енг.
+<i>Remote Procedure Call - RPC</i>) разменом JSON порука. 
+</p>
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> textX-LS</h2>
+<p>
+Алат за креирање ЈСД textX има подршку за LSP кроз пројекат <a href="https://github.com/textX/textX-LS">textX-LS</a>. Идеја овог
+пројекта је аутоматско генерисање језичких сервера за све језике који су
+креирани употребом textX алата. Библиотека која пружа генеричке сервисе и
+омогућава брз развој језичких сервера на програмском језику Пајтон је <a href="https://github.com/openlawlibrary/pygls">pygls</a>.
+</p>
+
+
+<div id="org068ab1d" class="figure">
+<p><img src="./images/textX-LS.png" alt="textX-LS.png" style="height: 550px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> textX игралиште (<i>textX playground</i>)</h2>
+<ul>
+<li>Веб апликација доступна на адреси <a href="https://textx.github.io/textx-playground/">https://textx.github.io/textx-playground/</a></li>
+<li><p>
+Омогућава једноставно испробавање и играње са textX језицима без потребе за
+локалном инсталацијом.
+</p></li>
+
+</ul>
+
+<div id="org5b30336" class="figure">
+<p><img src="./images/textX-playground.png" alt="textX-playground.png" style="height: 550px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Литература</h2>
+<ul>
+<li>Игор Дејановић, <i>Језици специфични за домен</i>, Факултет техничких наука, Нови
+Сад, 2021. (доступно у скриптарници ФТН-а)</li>
+<li><a href="https://textx.github.io/textX/">textX dokumentacija</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

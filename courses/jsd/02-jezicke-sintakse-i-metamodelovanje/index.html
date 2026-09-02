@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-16 Sun 13:12 -->
+<meta charset="utf-8"/>
+<title>Језици специфични за домен</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<script type="text/javascript" src="../../../s/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Језици специфични за домен</h1>
+<h2 class="subtitle">Језичке синтаксе и мета-моделовање</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-16 Sun 13:12, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org62b9c1b">
+<h2 id="org62b9c1b">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Синтаксе</a></li>
+<li><a href="#/slide-2">2. Секундарна нотација</a></li>
+<li><a href="#/slide-3">3. Мета-моделовање</a></li>
+<li><a href="#/slide-4">4. Мета-метамодели</a></li>
+<li><a href="#/slide-5">5. Пример усклађености кроз метанивое</a></li>
+<li><a href="#/slide-6">6. Анализа и моделовање домена</a></li>
+<li><a href="#/slide-7">7. Језици, програми и домени</a></li>
+<li><a href="#/slide-8">8. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Синтаксе</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Технике и технологије за имплементацију ЈСД-ова</h3>
+<ul>
+<li>Парсер генератори/интерпретери</li>
+<li>Мета-моделовање</li>
+<li>Друге технике: онтологије, XML технологије&#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Конкретна синтакса</h3>
+<ul>
+<li>Да би мограм приказали кориснику потребна нам је конкретна синтакса.</li>
+<li>Конкретна синтакса дефинише "изглед" исказа на неком језику, односно у ширем
+смислу дефинише и начине интеракције корисника са језичким исказима тј.
+представља интерфејс језик-корисник.</li>
+<li>Иако нам је за један језик довољна једна конкретна синтакса, можемо их имати
+више.</li>
+<li>Конкретне синтаксе могу бити текстуалне, графичке, табеларне, типа стабла,
+базиране на дијалозима &#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Пример истог исказа употребом две различите конкретне синтаксе</h3>
+
+<div id="orgf594563" class="figure">
+<p><img src="./images/RazliciteSintakse.png" alt="RazliciteSintakse.png" />
+</p>
+</div>
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Парсирање - синтаксна анализа</h3>
+<ul>
+<li>Анализа линеарног записа низа симбола на основу правила неке формалне
+граматике језика.</li>
+<li>Трансформација улазног стринга у стабло парсирања.</li>
+
+</ul>
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Стабло парсирања (енг. <i>parse tree</i>)</h3>
+<ul>
+<li>Настаје из ниске симбола (улазног стринга) процесом скенирања (токенизације
+или лексичке анализе) и парсирања.</li>
+<li>Листови стабла су токени препознати од стране скенера док је структура стабла
+одређена граматиком језика.</li>
+<li>Стабло парсирања рефлектује синтаксну структуру улазног стринга на бази
+унапред дефинисане формалне граматике.</li>
+
+</ul>
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Стабло парсирања - Пример</h3>
+
+<div id="orgc0c61ff" class="figure">
+<p><img src="./images/calc_parse_tree.svg" alt="calc_parse_tree.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-1-7">
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Апстрактна синтакса</h3>
+<ul>
+<li>Одређује правила валидности језичких исказа са становишта његове структуре
+без разматрања конкретне репрезентације исказа (конкретне синтаксе).</li>
+<li>Дефинише структуре валидних реченица са становишта језика.</li>
+<li>Садржи концепте домена, њихове особине и међусобне релације.</li>
+<li>Језици за дефинисање апстрактних синтакси језика се у домену моделовања
+називају мета-мета-моделима<sup>*</sup>.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<code>*</code> Прецизније, мета-метамодел је апстрактна синтакса таквог језика. Језик још
+чине и конкретне синтаксе и семантика.
+</p>
+</section>
+<section id="slide-1-8">
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Пример - апстрактна синтакса језика за опис коначних аутомата</h3>
+
+<div id="org0da2b39" class="figure">
+<p><img src="./images/StateMachine.svg" alt="StateMachine.svg" class="org-svg" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-9">
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Пример - апстрактна синтакса језика за једноставне алгебарске изразе</h3>
+
+<div id="org4449fe5" class="figure">
+<p><img src="./images/AST-Expression.png" alt="AST-Expression.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-10">
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Апстрактно синтаксно стабло</h3>
+<ul>
+<li>Сваки исказ на датом језику се може на апстрактан начин описати апстрактним
+синтаксним стаблом (енг. <i>Abstract Syntax Tree - AST</i>).</li>
+<li>AST је усмерено лабелирано стабло где чворови стабла представљају инстанце
+концепата апстрактне синтаксе.</li>
+
+</ul>
+</section>
+<section id="slide-1-11">
+<h3 id="1-11"><span class="section-number-3">1.11.</span> Пример апстрактног синтаксног стабла</h3>
+
+<div id="org86cea53" class="figure">
+<p><img src="./images/AST.svg" alt="AST.svg" class="org-svg" style="height: 800px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-12">
+<h3 id="1-12"><span class="section-number-3">1.12.</span> Разлике између апстрактног и конкретног синтаксног стабла</h3>
+<ul>
+<li>Конкретно синтаксно стабло је базирано на формалној граматици која описује
+детаље записа у текстуалном облику.</li>
+<li>Апстрактно синтаксно стабло садржи суштину језичког исказа.</li>
+<li>Можемо имати више граматика за исти језик односно једно апстрактно синтаксно
+стабло можемо записати на више различитих начина што резултује различитим
+конкретним синтаксним стаблима.</li>
+<li><b>Пример:</b> Израз <code>-(4-1)*5/(2+4.67)</code> можемо у постфиксној нотацији записати као <code>4
+  1 - 5 * 2 4.67 + / -</code>. Ово ће резултовати различитим стаблима парсирања али је
+суштина израза иста и може резултовати истим апстрактним синтаксним стаблом.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Секундарна нотација</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Секундарна нотација</h3>
+<ul>
+<li>Иако конкретна синтакса намеће своја правила, готово увек постоји одређена
+слобода која се оставља кориснику и која омогућава да се мограм који је исти
+са становиша апстрактне синтаксе (исто апстрактно синтаксно стабло) презентује
+на различите начине.</li>
+<li>Примери:
+<ul>
+<li>"Празни" карактери код текстуалних синтакси (<i>white-spaces</i>) најчешће немају
+семантичког значаја па се могу користити на различите начине (код се може
+назубљивати на више начина).</li>
+<li>Положаји, боја и величине симбола код графичких синтакси најчешће немају
+семантичког значења па корисник може да искористи ове особине да енкодује
+неко своје значење.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Проблеми са секундарном нотацијом</h3>
+<ul>
+<li>Секундарна нотација се може користити на произвољан начин.</li>
+<li>Сваки корисник развија свој стил употребе секундарне нотације што може
+проузроковати погрешно или отежано тумачење.</li>
+
+</ul>
+
+
+<div id="orga8d6ac7" class="figure">
+<p><img src="./images/Sekundarna.png" alt="Sekundarna.png" style="height: 600px;" />
+</p>
+</div>
+
+<p style="text-align: center;">
+Да ли су ова два мограма иста?
+</p>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Проблеми са секундарном нотацијом</h3>
+
+<div id="org7dd29d4" class="figure">
+<p><img src="./images/Sekundarna2.png" alt="Sekundarna2.png" />
+</p>
+</div>
+
+<p style="text-align: center;">
+А сада?
+</p>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Могућа решења</h3>
+<ul>
+<li>Дефинисање стила кодирања - <i>coding style</i> (код текстуалних) кога се
+придржавају сви програмери. Потребна је одређена доза дисциплине.</li>
+<li>Смањење корисничке слободе - уграђивање могућих елемената секундарне
+нотације у формални језик. Алати ће спречити неисправну употребу.</li>
+
+</ul>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Пример - Python</h3>
+<ul>
+<li>Python користи идентацију кода за контролу тока програма.</li>
+<li>Један од разлога читљивости Пyтхон кода - сви програмери морају исправно да
+<i>назубљују</i> код.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre><code class="python" >def inner_from_python(expression):
+    retval = None
+    if isinstance(expression, types.FunctionType):
+        # If this expression is a parser rule
+        rule_name = expression.__name__
+        if rule_name in __rule_cache:
+            c_rule = __rule_cache.get(rule_name)
+            if self.debug:
+                print("Rule {} founded in cache.".format(rule_name))
+            if isinstance(c_rule, CrossRef):
+                self.__cross_refs += 1
+                if self.debug:
+                    print("CrossRef usage: {}"
+                          .format(c_rule.target_rule_name))
+            return c_rule
+        ...
+</code></pre>
+</div>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Приступи у реализацији едитора за ЈСД-ове</h3>
+<ul>
+<li><p>
+Пројекционе радионице - директна измена апстрактне репрезентације кроз
+пројекцију.
+</p>
+
+
+<div id="org17f3112" class="figure">
+<p><img src="./images/projekcija.png" alt="projekcija.png" style="height: 270px;" />
+</p>
+</div></li>
+
+<li><p>
+Базиране на парсерима - измена се врши посредно кроз текст који се парсира да
+би се добила апстрактна репрезентација.
+</p>
+
+
+<div id="orge768fdd" class="figure">
+<p><img src="./images/parseri.png" alt="parseri.png" style="height: 270px;" />
+</p>
+</div></li>
+
+</ul>
+
+<p class="footer" style="clear: both; margin-top: 0px;">
+Eye icon designed by Freepik. Hand icon by Yannick Lung.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Мета-моделовање</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Модел</h3>
+<ul>
+<li>Моделовање је есенцијално за људску активност јер свакој акцији претходи,
+експлицитно или имплицитно, креирање модела.</li>
+<li>Модели могу бити дескриптивни, уколико моделују постојећи реални систем, или
+прескриптивни (спецификација) уколико представљају <i>план</i> система који треба да
+се изгради.</li>
+<li>Модел представља опис, или спецификацију система и његовог окружења креиран за
+одређену намену. Најчешће је модел представљен као комбинација цртежа и
+текста. Текст може бити задат језиком за моделовање или природним језиком<sup>*</sup>.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<code>*</code> J. Miller, J. Mukerji, et al., <i>MDA Guide Version 1.0.1</i>, Object Management
+Group, vol. 234, 2003
+</p>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Модел - други покушај</h3>
+<blockquote>
+<p>
+Модел представља <i>поједностављење система</i> са одређеним циљем. Модел треба да
+одговори на питања уместо стварног система. <i>Одговори</i> добијени од модела <i>морају
+да буду исти</i> као и они добијени од реалног система, под условом да се питања
+налазе у домену дефинисаном циљем модела. Да би био користан, модел мора бити
+<i>једноставнији за употребу</i> од реалног система. Да би се ово постигло, многи
+детаљи реалног система су <i>апстраховани</i> и изостављени. Ово поједностављење је срж
+моделовања.
+</p>
+</blockquote>
+
+<ul class="footer" style="clear: both;">
+<li>J. Bézivin and O. Gerbé, <i>Towards a precise definition of the OMG/MDA
+framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001</li>
+
+</ul>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Основне карактеристике модела</h3>
+<ul>
+<li>Модел не представљају само цртежи и текстуални описи. Модел може имати
+материјалну форму нпр. може бити модел/макета авиона, поједностављена верзија
+мотора са унутрашњим сагоревањем итд.</li>
+<li>Апстракција и намена, тј. скуп питања на које желимо да добијемо одговоре, су
+основне карактеристике модела.</li>
+<li>У општем случају, не можемо очекивати да ће модел дати потпуно исте одговоре
+као моделовани систем али можемо очекивати да разлике (грешке) буду у
+пројектованим границама.</li>
+
+</ul>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Мета-модел</h3>
+<ul>
+<li>Када креирамо модел система морамо поштовати одређена правила односно морамо
+користити одређени језик за моделовање.</li>
+<li>Језик може бити опште намене (нпр. UML) или специфичан за домен.</li>
+<li>Такав језик представља експлицитну спецификацију коришћене апстракције при
+моделовању<sup>*</sup>.</li>
+<li>Апстрактна синтакса датог језика у свету моделовања је такође представљена као
+модел. Овакав модел називамо мета-моделом.</li>
+<li>Мета-модел садржи концепте домена, њихове међусобне везе и ограничења.</li>
+
+</ul>
+
+<p class="footer" style="clear: both;">
+<code>*</code> J. Bézivin and O. Gerbé, <i>Towards a precise definition of the OMG/MDA
+framework</i>, in ase, p. 273, Published by the IEEE Computer Society, 2001
+</p>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Пример - мета-модел језика за опис коначних аутомата</h3>
+
+<div id="orgb73193d" class="figure">
+<p><img src="./images/StateMachine.svg" alt="StateMachine.svg" class="org-svg" style="height: 700px;" />
+</p>
+</div>
+
+<p style="text-align: center;">
+Апстрактна синтакса је мета-модел
+</p>
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> Мета-метамодел</h3>
+<ul>
+<li>Креирање језика представља домен са својим концептима и правилима.</li>
+<li>Језик овог домена (језик за опис језика) називамо мета-језиком.</li>
+<li>Као што апстрактну синтаксу било ког језика називамо мета-моделом, апстракну
+синтаксу мета-језика називамо мета-метамоделом.</li>
+<li>Мета-метамоделом можемо описати апстрактну синтаксу било ког језика па и
+мета-језика. Стога кажемо да је мета-метамодел самодефинишући.</li>
+
+</ul>
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> Стек за метамоделовање</h3>
+
+<div id="orgeb350e2" class="figure">
+<p><img src="./images/Metanivoi.svg" alt="Metanivoi.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> Проблеми са стеком за метамоделовање</h3>
+<p>
+Два важна проблема постоје када је стек за метамоделовање у питању:
+</p>
+
+<ol>
+<li>У каквој су вези ентитети и концепти реалног света са моделима?</li>
+<li>Како тумачити дуалност везе инстанцирања? На пример, конкретан UML објекат са
+М1 нивоа је инстанца конкретне UML класе са М1 нивоа, али је истовремено и
+инстанца UML <code>Object</code> концепта са М2 нивоа.</li>
+
+</ol>
+</section>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> Могућа решења</h3>
+<ul>
+<li>Први проблем: посебан третман М0 нивоа. М1→М0 &#x2013; <i>представа</i> (енг.
+<i>representation</i> или <i>representationOf</i>). У обрнутом смеру М0→М1 (енг.
+<i>representedBy</i>). Елементи модела са М1 нивоа представљају ентитете стварног
+света са М0 нивоа.</li>
+<li>Други проблем: веза између метанивоа &#x2013; <i>усклађеност</i> (енг. <i>conformantTo</i> или
+<i>conformsTo</i>) или <i>meta</i>. Нпр. конкретна UML класа са М1 нивоа у складу са UML
+<code>Class</code> концептом М2 нивоа.</li>
+<li>Везе између нивоа изнад М0 називамо <i>лингвистичко инстанцирање</i> за разлику од
+веза инстанцирања унутар метанивоа која су подржана језиком описаним вишим
+метанивоом. Инстанцирање унутар метанивоа називамо <i>онтолошким инстанцирањем</i>.</li>
+
+</ul>
+</section>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10.</span> Операције које користимо при (мета)моделовању</h3>
+<ul>
+<li>Апстракција</li>
+<li>Класификација</li>
+<li>Генерализација</li>
+
+</ul>
+</section>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11.</span> Апстракција</h3>
+<ul>
+<li>Једно од основних оруђа људског интелекта.</li>
+<li>Процес занемаривања небитних информација приликом креирања модела.</li>
+
+</ul>
+
+
+<div id="org9e07039" class="figure">
+<p><img src="./images/apstrakcija.svg" alt="apstrakcija.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-3-12">
+<h3 id="3-12"><span class="section-number-3">3.12.</span> Апстракција</h3>
+<blockquote>
+<p>
+If you assume a certain basic knowledge in the audience, you can talk in a
+language that deals with bigger concepts, and express things in a much shorter
+and clearer way. This, more or less, is what abstraction is.
+</p>
+</blockquote>
+
+<ul class="footer" style="clear: both;">
+<li>Marijn Haverbeke: <a href="http://eloquentjavascript.net/"><i>Eloquent JavaScript</i></a>.</li>
+
+</ul>
+</section>
+<section id="slide-3-13">
+<h3 id="3-13"><span class="section-number-3">3.13.</span> Апстракција и метанивои</h3>
+<ul>
+<li>Операција апстракције се дешава на преласку између нивоа М0 и М1.</li>
+<li>Веза између нивоа М0 (реални систем) и М1 (модел система): <i>representationOf</i> у
+смеру М1 → М0 или <i>representedBy</i> у смеру М0 → М1.</li>
+<li>Класичне инфраструктуре за метамоделовање не дефинишу у каквој су вези објекти
+реалног света са моделима.</li>
+<li>На нивоу М0, се код класичног приступа, посматрају софтверске репрезентације
+објеката реалног света (нпр, ред у табели базе, објекат у меморији итд.) док
+се стварни објекти као што су људи, предмети, догађаји не анализирају
+експлицитно.</li>
+
+</ul>
+</section>
+<section id="slide-3-14">
+<h3 id="3-14"><span class="section-number-3">3.14.</span> Класификација</h3>
+<ul>
+<li>Објекти реалних система, као и њихови модели, се могу груписати на основу
+заједничких особина.</li>
+
+</ul>
+
+
+<div id="org9865521" class="figure">
+<p><img src="./images/klasifikacija.svg" alt="klasifikacija.svg" class="org-svg" />
+</p>
+</div>
+</section>
+<section id="slide-3-15">
+<h3 id="3-15"><span class="section-number-3">3.15.</span> Класификација и метанивои</h3>
+<ul>
+<li>Класификација се може обављати у оквиру метанивоа уколико језик то допушта.
+На пример, група одређених објеката UML објектног дијаграма која описује
+конкретне особе са именом, презименом и другим релевантним информацијама
+дефинисаних апстракцијом може бити класификована и описана УМЛ класом.</li>
+
+<li>Веза класификације се може обављати и између метанивоа, тако се веза елемената
+модела са метаелементима може карактерисати као веза класификације. На пример
+све класе дијаграма класа, који користи УМЛ метамодел, су у вези са концептом
+<code>Class</code> UML метамодела. У том случају, класификација је извршена на основу
+особина <code>Class</code> концепта.</li>
+
+</ul>
+</section>
+<section id="slide-3-16">
+<h3 id="3-16"><span class="section-number-3">3.16.</span> Токен модели и модели типова</h3>
+<ul>
+<li>Први их је дефинисао Чарлс Сандерс Пирс.</li>
+<li>Токен модели:
+<ul>
+<li>Модели конкретних појединачних појава реалног света.</li>
+<li>Настају искључиво процесом апстракције.</li>
+<li>Пример: географска мапа, макета авиона&#x2026;</li>
+
+</ul></li>
+<li>Модели типова:
+<ul>
+<li>Настају процесом класификације модела токена на основу заједничких особина.</li>
+<li>Овакав модел описује класу појава реалног света.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-3-17">
+<h3 id="3-17"><span class="section-number-3">3.17.</span> Генерализација</h3>
+<ul>
+<li>Представља даљи процес класификације модела типова на основу заједничких
+особина.</li>
+<li>Одвија се унутар модела типова на тај начин што се типови групишу у апстрактне
+концепте на основу заједничких особина. За тако креиране концепте кажемо да
+генерализују посматрани скуп концепата, односно посматрани скуп концепата се
+наслеђује из генерализованог концепта.</li>
+
+</ul>
+</section>
+<section id="slide-3-18">
+<h3 id="3-18"><span class="section-number-3">3.18.</span> Апстракција, класификација и генерализација</h3>
+
+<div id="org29cd72e" class="figure">
+<p><img src="./images/aps-klas-gen.png" alt="aps-klas-gen.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Мета-метамодели</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> MOF</h3>
+<ul>
+<li>MOF (<i>Meta-Object Facility</i>)<sup>1</sup> је мета-метамодел и индустријски стандард који
+се развија под окриљем OMG (<i>Object Management Group</i>) конзорцијума.</li>
+<li>Представља основну интеграциону платформу MDA (<i>Model-Driven Architecture</i>)
+правца и омогућава интероперабилност UML базираних алата.</li>
+<li>Настао је на бази UML-а и у MOF-у се данас описују OMG језици за моделовање,
+између осталог и UML</li>
+<li>MOF је подељен на EMOF (<i>Essential MOF</i>), CMOF(<i>Complete MOF</i>) и SMOF(<i>Semantic
+MOF</i>).</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.omg.org/mof/">http://www.omg.org/mof/</a></li>
+
+</ol>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> EMOF</h3>
+
+<div id="orge142fdc" class="figure">
+<p><img src="./images/EMOF.png" alt="EMOF.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> ECore</h3>
+<ul>
+<li>ECore је мета-метамодел чији је развој започео IBM а касније је развијан у
+оквиру Eclipse EMF (<i>Eclipse Modeling Framework</i>)<sup>1</sup> пројекта.</li>
+<li>Базиран на програмском језику Јава. Под лиценцом слободног софтвера (<i>Eclipse
+Public License</i>).</li>
+<li>У основи представља ефикасну имплементацију EMOF мета-метамодела.</li>
+<li>Индустријски стандард, доказан и тестиран кроз вишегодишњу употребу на реалним
+пројектима.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.eclipse.org/modeling/emf/">http://www.eclipse.org/modeling/emf/</a></li>
+
+</ol>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> ECore</h3>
+
+<div id="org73daccc" class="figure">
+<p><img src="./images/EcoreRelations.png" alt="EcoreRelations.png" />
+</p>
+</div>
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> GOPPRR</h3>
+<ul>
+<li>Име представља скраћеницу речи које описују основне концепте језика: <b>G</b> raph, <b>O</b>
+bject, <b>P</b> roperty, <b>P</b> ort, <b>R</b> ole, <b>R</b> elationship.</li>
+<li>Власнички софтвер. Окосница MetaEdit+ alata<sup>1</sup>. Настао је од ранијих верзија
+које су носиле назив GOPRR и OPRR<sup>2</sup>.</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li><a href="http://www.metacase.com/products.html">http://www.metacase.com/products.html</a></li>
+<li>S. Kelly, <i>Towards a comprehensive MetaCASE and CAME environment: conceptual,
+architectural, functional and usability advances in MetaEdit+</i>. PhD thesis,
+University of Jyväskylä, 1997</li>
+
+</ol>
+</section>
+<section id="slide-4-6">
+<h3 id="4-6"><span class="section-number-3">4.6.</span> MoRP</h3>
+<ul>
+<li>Развијен на Катедри за информатику.</li>
+<li>Једноставан - мали број концепата.</li>
+<li>Имплементација на Јави<sup>1</sup>. У току порт на Пајтон<sup>2</sup> (чим се нађе времена ;)
+).</li>
+
+</ul>
+
+
+<div id="org6c0fba3" class="figure">
+<p><img src="./images/MoRP.svg" alt="MoRP.svg" class="org-svg" style="height:500px" />
+</p>
+</div>
+
+
+<ol class="footer" style="clear: both;">
+<li><a href="https://github.com/igordejanovic/MoRP">https://github.com/igordejanovic/MoRP</a></li>
+<li><a href="https://github.com/igordejanovic/MoRPy">https://github.com/igordejanovic/MoRPy</a></li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Пример усклађености кроз метанивое</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Пример - Мограм, језик, мета-језик</h3>
+
+<div id="orgdafa68a" class="figure">
+<p><img src="./images/Kapija-StateMachine-MoRP.svg" alt="Kapija-StateMachine-MoRP.svg" class="org-svg" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Анализа и моделовање домена</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Анализа домена</h3>
+<ul>
+<li>Проблем у комуникацији:
+<ul>
+<li>Доменски експерти причају одређеним језиком. Програмери су такође доменски
+експерти за израду софтвера и имају свој језик.</li>
+<li>Неко из тима мора постати билингвалан у циљу <i>превођења</i> исказа између два
+тима.</li>
+<li>Језик није формализован и временом долази до фрагментације значења.
+Различити чланови тима или подтимови измају различита тумачења одређених
+термина.</li>
+
+</ul></li>
+<li>Анализа домена - тимска, итеративна активност. Аналитичар кроз разговор са
+доменским експертима и читањем документације креира доменски модел.</li>
+
+</ul>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Свеприсутни језик</h3>
+<ul>
+<li>Доменски модел, тј. метамодел, представља срж знања о домену и основу
+комуникације свих учесника на пројекту.</li>
+<li>Свеприсутни језик (<i>Ubiquitous Language</i>) има јасно дефинисану семантику чиме се
+избегава произвољно тумачење.</li>
+<li>Временом сви чланови тима усвајају нови речник појмова који директно
+произилази из доменског модела чиме се омогућава боље разумевање и отклањају
+се тешкоће у комуникацији.</li>
+
+</ul>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Пример - ЈСД за електронику</h3>
+<p>
+Узмимо за пример да је потребно креирати метамодел за област електронике. Циљ
+нам је креирање софтвера за цртање електричних шема. У разговору са доменским
+експертима чујемо следеће исказе:
+</p>
+
+<blockquote>
+<p>
+<i>Електрична шема</i> се састоји од електричних <i>компоненти</i> које поседују <i>терминале</i>.
+Терминали се спајају <i>конекцијама</i>. Свака шема, компонента, терминал и конекција
+имају <i>назив</i> и <i>опис</i>.
+</p>
+</blockquote>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Прва итерација</h3>
+
+<div id="orga8d3701" class="figure">
+<p><img src="./images/analiza-domena-skica1.png" alt="analiza-domena-skica1.png" style="height:400px" />
+</p>
+</div>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Конкретни модели</h3>
+<p>
+У току анализе користимо конкретне примере модела да би боље разумели домен.
+</p>
+
+
+<div id="org8510157" class="figure">
+<p><img src="./images/analiza-domena-konksint.png" alt="analiza-domena-konksint.png" style="height:500px" />
+</p>
+</div>
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Друга итерација</h3>
+<p>
+Даљи ток разговора може ићи у правцу профињења модела, односно дефинисања
+детаља. Искази би могли бити, на пример:
+</p>
+
+<blockquote>
+<p>
+Компоненте имају <i>особине</i> које су дефинисане <i>називом</i> и <i>вредношћу</i>. <i>Тип особине</i>
+одређује <i>GUI компоненту</i> за унос вредности, <i>подразумевану вредност</i>, <i>јединицу
+мере</i>, <i>минималну</i> и <i>максималну допуштену вредност</i>.
+</p>
+
+<p>
+Компоненте су такође <i>одређеног типа</i>. Све компоненте истог типа имају исту <i>икону</i>,
+<i>опис</i>, <i>типове особина</i> и <i>терминала</i>. <i>Типови терминала</i> дефинишу додатно и <i>позицију</i>
+терминала на типу компоненте.
+</p>
+</blockquote>
+</section>
+<section id="slide-6-7">
+<h3 id="6-7"><span class="section-number-3">6.7.</span> Друга итерација - скица</h3>
+
+<div id="org673a542" class="figure">
+<p><img src="./images/analiza-domena-skica2.png" alt="analiza-domena-skica2.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-8">
+<h3 id="6-8"><span class="section-number-3">6.8.</span> Финални модел</h3>
+
+<div id="org8e4533e" class="figure">
+<p><img src="./images/analiza-domena.png" alt="analiza-domena.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Језици, програми и домени</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Програми и језици</h3>
+<ul>
+<li>Нека је \(P\) скуп свих могућих програма где је \(p \in P\) програм.</li>
+<li>Нека је \(L\) скуп свих могућих програмских језика где је \(l \in L\) конкретан
+језик.</li>
+<li>Језици дефинишу потребну структуру и нотацију за енкодовање програма.</li>
+<li>Ако \(p\) можемо енкодовати на језику \(L\) означавамо га са \(p_l\).</li>
+<li>Алгоритам нпр. <i>quick sort</i> можемо енкодовати на различитим језицима, нпр.
+Пyтхон и Јава. Односно можемо имати конкретне представе \(p_{l_1}\) и \(p_{l_2}\)
+на језицима \(l_1\) и \(l_2\).</li>
+
+</ul>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Погодност језика</h3>
+<ul>
+<li>Функционално исти програми енкодовани на различитим језицима имају различите
+нефункционалне карактеристике (брзина, заузеће меморије итд.).</li>
+<li>Језици су погодни за различите примене. Нпр <i>JavaScript</i> за веб развој, <i>Go</i> за
+конкурентне програме итд.</li>
+
+</ul>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Трансформације програма</h3>
+<p>
+Програм можемо трансформисати са једног језика на други. На пример
+</p>
+
+<p>
+\(p_{l_1} \overset{T}{\rightarrow} p_{l_2}\)
+</p>
+
+<p>
+Трансформација \(T\) преводи програм са језика \(l_1\) на језик \(l_2\). Нпр. <i>Legacy
+Modernization</i>.
+</p>
+
+</section>
+<section>
+
+<p>
+Можемо трансформисати програм унутар истог језика уз очување функционалних
+карактеристика.
+</p>
+
+<p>
+\({p_1}_{l} \overset{T_{refc}}{\rightarrow} {p_2}_{l}\)
+</p>
+
+<p>
+Трансформацију \(T_{refc}\) називамо <i>рефакторисање</i>.
+</p>
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Дефинисање домена употребом језика</h3>
+<ul>
+<li><p>
+Ако је језик \(l\) специфичан за домен тада се домен може дефинисати као скуп
+свих програма на датом језику, у ознаци \(P_l\).
+</p>
+
+<p>
+\(P_l \subset P\)
+</p></li>
+
+</ul>
+
+<p class="fragment (roll-in)">
+Али ова дефиниција није претерано корисна
+</p>
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Дефинисање домена - индуктивни приступ</h3>
+<ul>
+<li>Од дна ка врху - енг. <i>bottom-up</i>.</li>
+<li>Дефинишемо домен путем софтвера који се већ користи у домену.</li>
+<li>Уколико посматрамо програме на истом језику лакше ћемо уочити одређене API-је,
+идиоме и конструкције које се у домену користе.</li>
+
+</ul>
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6.</span> Дефинисање домена - дедуктивни приступ</h3>
+<ul>
+<li>Од врха ка дну - енг. <i>top-down</i>.</li>
+<li>Посматрамо корпус знања о датом домену и обављамо анализу.</li>
+<li>\(P_D \subset P\) је скуп програма који су интересантни у домену \(D\).</li>
+<li>Тежи приступ јер је потребно разумети природу домена \(D\).</li>
+
+</ul>
+</section>
+<section id="slide-7-7">
+<h3 id="7-7"><span class="section-number-3">7.7.</span> Дефинисање домена - преклапање скупова</h3>
+<ul>
+<li>\(P_D \subset P\) је скуп свих програма домена \(D\)</li>
+<li>Овај скуп је могуће исказати на више језика. Нпр. Уколико посматрамо \(P_l
+  \subset P\) тј. скуп свих програма на језику \(l\) он ће делимично поклопити
+\(P_D\).</li>
+<li>За добар ЈСД \(l\) ће важити да \(P_l \simeq P_D\).</li>
+
+</ul>
+
+
+<div id="orga8643da" class="figure">
+<p><img src="./images/domen-jezici.svg" alt="domen-jezici.svg" class="org-svg" style="height: 400px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-8">
+<h3 id="7-8"><span class="section-number-3">7.8.</span> Дефиниција</h3>
+<blockquote>
+<p>
+Језик специфичан за неки домен \(D\) (у ознаци \(l_D\)) представља језик који је
+специјализован и оптимизован за енкодовање програма из скупа \(P_D\). Можемо рећи
+да је \(l_D\) ефикаснији у репрезентацији програма из \(P_D\) од других језика. Ова
+ефикасност се постиже употребом апстракција које су прилагођене домену и
+изостављањем непотребних детаља који су небитни за \(D\).
+</p>
+</blockquote>
+</section>
+<section id="slide-7-9">
+<h3 id="7-9"><span class="section-number-3">7.9.</span> Надапроксимација и подапроксимација</h3>
+<ul>
+<li>Покривеност домена:
+<ul>
+<li>Ако \(P_l\) може енкодовати све програме из \(P_D\) али и још неке =&gt;
+надапроксимација (\(P_ln\))</li>
+<li>Ако \(P_l\) може енкодовати само програме из \(P_D\) али не све =&gt;
+подапроксимација (\(P_lp\))</li>
+
+</ul></li>
+
+</ul>
+
+
+<div id="org8ab1e6d" class="figure">
+<p><img src="./images/domen-aproksimacija.svg" alt="domen-aproksimacija.svg" class="org-svg" style="height: 400px;" />
+</p>
+</div>
+
+</section>
+<section>
+
+<ul>
+<li>Надапроксимација - могуће дефинисати програме ван \(P_D\) али језик није у томе
+ефикасан.</li>
+<li>Подапроксимација - постоје програми који су у \(P_D\) али их језиком није могуће
+описати. Обично се у пракси у том случају користи ЈОН за допуну
+функционалности.</li>
+
+</ul>
+</section>
+<section id="slide-7-10">
+<h3 id="7-10"><span class="section-number-3">7.10.</span> Хијерархија домена</h3>
+<ul>
+<li>Домени се могу организовати у хијерархије - домени вишег нивоа чине подскуп
+домена нижег нивоа у смислу опсега, односно домени вишег нивоа специјализују
+домене нижег нивоа.</li>
+<li>Овај приступ омогућава бољу организацију и поновну искористивост (енг.
+<i>reusability</i>).</li>
+
+</ul>
+
+
+<div id="org6e36c08" class="figure">
+<p><img src="./images/domen-hijerarhija.svg" alt="domen-hijerarhija.svg" class="org-svg" style="height: 300px;" />
+</p>
+</div>
+
+<ul>
+<li>\(D_0\) - домен свих могућих програма =&gt; \(P_{D_0} \equiv P\) - домен ЈОН језика.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Литература</h2>
+<ul>
+<li>Игор Дејановић, <i>Језици специфични за домен</i>, Факултет техничких наука, Нови
+Сад, 2021. (доступно у скриптарници ФТН-а)</li>
+<li>M. Völter, <a href="http://dslbook.org/">DSL Engineering: Designing, Implementing and Using Domain-Specific
+Languages</a>. 2013.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

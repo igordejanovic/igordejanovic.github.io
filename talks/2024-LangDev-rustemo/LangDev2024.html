@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Introduction to org-re-reveal</title>
+<meta name="author" content="Yujie Wen and others"/>
+<meta name="description" content="Readme for org-re-reveal to generate HTML/reveal.js presentations from Org mode source files."/>
+<meta name="keywords" content="org mode, reveal.js, presentation, HTML, slide show, org-re-reveal, emacs-reveal, OER"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../s/reveal.js/dist/theme/black.css" id="theme"/>
+<link rel="stylesheet" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css"/>
+<style>
+/* Position computations of klipse get confused by reveal.js's scaling.
+   Hence, scaling should be disabled with this code.  Fix height of code area
+   with scrollbar (use overflow instead of overflow-y to restore CodeMirror
+   setting afterwards): */
+.reveal section pre { max-height: 70vh; height: auto; overflow: auto; }
+/* Reset some reveal.js and oer-reveal settings: */
+.reveal section pre .CodeMirror pre { font-size: 2em; box-shadow: none; width: auto; padding: 0.4em; display: block; overflow: visible; }
+/* Enlarge cursor: */
+.CodeMirror-cursor { border-left: 3px solid black; }
+</style>
+<script>
+    window.klipse_settings = {
+        selector: '.language-klipse',
+        selector_eval_html: '.language-klipse-html',
+        selector_eval_js: '.language-klipse-javascript',
+        selector_eval_js: '.language-klipse-js',
+        selector_eval_php: '.language-klipse-php',
+        selector_eval_python_client: '.language-klipse-python',
+        selector_eval_ruby: '.language-klipse-ruby',
+        selector_eval_scheme: '.language-klipse-scheme',
+        selector_sql: '.language-klipse-sql'
+    };
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Introduction to org-re-reveal</h1><h2 class="author">Yujie Wen and others</h2><p class="date">Created: 2024-09-24 Tue 18:00</p>
+</section>
+<section id="table-of-contents-section">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-org41791db">Introduction</a></li>
+<li><a href="#/slide-org4497c9f">Demo repository</a></li>
+<li><a href="#/slide-org4a390fe">Live demo 1 - arithmetic expressions</a></li>
+<li><a href="#/slide-org8b9fdf7">Live demo 2 - nix language</a></li>
+</ul>
+</div>
+</div>
+</section>
+<p>
+<a href="https://stable.melpa.org/#/org-re-reveal"><img src="https://stable.melpa.org/packages/org-re-reveal-badge.svg" alt="org-re-reveal-badge.svg" class="org-svg" /></a>
+<a href="https://melpa.org/#/org-re-reveal"><img src="https://melpa.org/packages/org-re-reveal-badge.svg" alt="org-re-reveal-badge.svg" class="org-svg" /></a>
+</p>
+<section>
+<section id="slide-org53fa1df">
+<h2 id="org53fa1df">TOC</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-org41791db">Introduction</a></li>
+<li><a href="#/slide-org4497c9f">Demo repository</a></li>
+<li><a href="#/slide-org4a390fe">Live demo 1 - arithmetic expressions</a></li>
+<li><a href="#/slide-org8b9fdf7">Live demo 2 - nix language</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org41791db">
+<h2 id="org41791db">Introduction</h2>
+</section>
+</section>
+<section>
+<section id="slide-org4497c9f">
+<h2 id="org4497c9f">Demo repository</h2>
+<ul>
+<li>GitHub repo</li>
+<li>Each step is a separate commit
+<ul>
+<li>Diffs shows difference</li>
+<li>You can go to any step in history and investigate</li>
+<li>These slides are linked to relevant commits</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org4a390fe">
+<h2 id="org4a390fe">Live demo 1 - arithmetic expressions</h2>
+<div class="outline-text-2" id="text-org4a390fe">
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org99e4784">
+<h3 id="org99e4784">Why Arithmetic DSL?</h3>
+<ul>
+<li><b>Universally Understood</b>: Everyone can grasp basic arithmetic, so no need to
+explain domain concepts.</li>
+<li><b>Clear Ambiguity</b>: The precedence ambiguity is simple yet powerful
+enough to showcase GLR parsing.</li>
+<li><b>Extendable</b>: We can extend the language with functions (e.g., <code>sin</code>, <code>cos</code>, <code>log</code>) or
+more complex expressions. This is left as an excercise.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org0d166d2">
+<h3 id="org0d166d2">Step 1 - create Rust project</h3>
+<div class="org-src-container">
+
+<pre class="src src-sh">cargo new --bin arithmetic
+</pre>
+</div>
+
+<p>
+The layout of the generated project is:
+</p>
+<pre class="example">
+arithmetic
+├── Cargo.toml
+└── src
+    └── main.rs
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-org9cbce94">
+<h3 id="org9cbce94">Step 2 - Create expression grammar</h3>
+<ul>
+<li><p>
+File <code>src/arithmetic.rustemo</code>
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text">E: E '+' E
+ | E '*' E
+ | Number
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+</pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org8b9fdf7">
+<h2 id="org8b9fdf7">Live demo 2 - nix language</h2>
+</section>
+</section>
+</div>
+</div>
+<p> Based upon work by yjwen. </p>
+<script src="../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../s/reveal.js/plugin/notes/notes.js"></script>
+<script src="../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../s/reveal.js/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+margin: 0.10,
+minScale: 1.00,
+maxScale: 1.00,
+
+transition: 'cube',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+<script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+<script>
+/* Recompute layout upon changes by klipse.  Code fragment from
+   asciidoctor-revealjs-klipse by Timothy Pratley under GPLv3:
+   https://github.com/timothypratley/asciidoctor-revealjs-klipse/blob/master/docs/docinfo-footer.html */
+Reveal.addEventListener( 'slidechanged', function( event ) {
+    window.dispatchEvent( new Event('resize') );
+} );
+</script>
+</body>
+</html>

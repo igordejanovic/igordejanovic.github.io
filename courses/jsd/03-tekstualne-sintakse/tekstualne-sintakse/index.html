@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Jezici specifični za domen
+Sadržaj Uvod Jezik Jezik omogućava određivanje ispravnosti rečenice. Svaka rečenica predstavlja sekvencu simbola. Jezik možemo definisati kao skup, u opštem slučaju beskonačan, svih validnih rečenica na datom jeziku. Jezički softver (Language Software) Osnovne klase alata:
+Generators - generišu validne rečenice na nekom jeziku. Recognizers - prepoznaju da li rečenica pripada jeziku. Parsers - prevode rečenice u stabla. Formatters - prevode stabla u rečenice. Leksička analiza Svaki jezik poseduje alfabet mogućih karaktera koji se mogu pojaviti u sklopu validnih rečenica.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content=' • Random bits and pieces'>
+<meta property='og:description' content='Jezici specifični za domen
+Sadržaj Uvod Jezik Jezik omogućava određivanje ispravnosti rečenice. Svaka rečenica predstavlja sekvencu simbola. Jezik možemo definisati kao skup, u opštem slučaju beskonačan, svih validnih rečenica na datom jeziku. Jezički softver (Language Software) Osnovne klase alata:
+Generators - generišu validne rečenice na nekom jeziku. Recognizers - prepoznaju da li rečenica pripada jeziku. Parsers - prevode rečenice u stabla. Formatters - prevode stabla u rečenice. Leksička analiza Svaki jezik poseduje alfabet mogućih karaktera koji se mogu pojaviti u sklopu validnih rečenica.'>
+<meta property='og:url' content='https://www.igordejanovic.net/courses/jsd/03-tekstualne-sintakse/tekstualne-sintakse/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='courses'><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title> • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/courses/jsd/03-tekstualne-sintakse/tekstualne-sintakse/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-courses has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item has-current'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'></h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='0001-01-01T00:00:00Z'>0001, Jan 01</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+22 mins read
+</span>
+
+
+</div>
+
+
+
+  
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <h1 class="title"><p>Jezici specifični za domen</p>
+</h1>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Sadržaj
+</h2>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Uvod
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<div id="outline-container-jezik-definicija" class="outline-3">
+<h3 id="jezik-definicija">
+Jezik
+</h3>
+<div id="outline-text-jezik-definicija" class="outline-text-3">
+<ul>
+<li>Jezik omogućava određivanje ispravnosti rečenice.</li>
+<li>Svaka rečenica predstavlja sekvencu simbola.</li>
+<li>Jezik možemo definisati kao skup, u opštem slučaju beskonačan, svih validnih
+rečenica na datom jeziku.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Jezički softver (<em>Language Software</em>)
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<p>Osnovne klase alata:</p>
+<ul>
+<li><em>Generators</em> - generišu validne rečenice na nekom jeziku.</li>
+<li><em>Recognizers</em> - prepoznaju da li rečenica pripada jeziku.</li>
+<li><em>Parsers</em> - prevode rečenice u stabla.</li>
+<li><em>Formatters</em> - prevode stabla u rečenice.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Leksička analiza
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<ul>
+<li>Svaki jezik poseduje <em>alfabet mogućih karaktera</em> koji se mogu pojaviti u
+sklopu validnih rečenica. Kod računarskih jezika određene kombinacije simbola
+se tretiraju kao jedinstveni entitet - <em>token</em>.</li>
+<li>Leksička analiza je <em>proces grupisanja</em> niza uzastopnih karaktera ulaznog
+stringa u tokene. Tekstualni blok koji odgovara tokenu naziva se još i
+<em>leksema</em>.</li>
+<li>Program koji vrši leksičku analizu naziva se <em>lekser</em>, <em>skener</em> ili
+<em>tokenizator</em>.</li>
+<li>Leksička analiza <em>prethodi procesu parsiranja</em> tako što se karakteri sa ulaza
+prvo grupišu u tokene a zatim parser vrši sintaksnu analizu i kreira stablo
+parsiranja.</li>
+<li>Skeneri mogu biti posebni alati a mogu biti integrisani u parser (<em>scannerless
+parsing</em>).</li>
+<li>Poznatiji skeneri: flex i lex, JLex…</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Leksična analiza - primer
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<p>Posmatrajmo sledeći jednostavan iskaz:</p>
+<div class="src src-python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> a <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Veće od 5!&#34;</span>)</span></span></code></pre></div>
+</div>
+<p>
+Ulazni string čine karakteri ovog programskog koda: <code class="verbatim">i</code>, <code class="verbatim">f</code>, <code class="verbatim">&lt;prazno&gt;</code>, <code class="verbatim">a</code>, <code class="verbatim">&lt;prazno&gt;</code>,
+<code class="verbatim">&gt;</code>, itd. Skeniranje će grupisati pojedinačne karaktere u tokene. Svaki token ima
+svoje ime (ili tip, npr. <code class="verbatim">identifikator</code>, <code class="verbatim">operacija</code>, <code class="verbatim">varijabla</code>), i vrednost (npr.
+<code class="verbatim">if</code>, <code class="verbatim">a</code>, <code class="verbatim">&gt;</code>, <code class="verbatim">5</code>), odnosno deo ulaza koji je prepoznat kao ovaj tip tokena. Proces
+tokenizacije će za ulazni string da proizvede nisku tokena koja će služiti kao
+ulaz u proces parsiranja. Za primer sa prethodnog listinga izlaz skenera će
+imati sledeći oblik (pod pretpostavkom da ignorišemo prazne karaktere):</p>
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[Keyword(if), Variable(a), Operator(&gt;), IntLiteral(5),...]</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Leksička analiza problemi
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<ul>
+<li>Obično leksičku analizu obavljamo kao nezavisan proces što dovodi do problema.</li>
+</ul>
+<div class="src src-pascal">
+<pre tabindex="0"><code class="language-pascal" data-lang="pascal">array [1..10] of integer</code></pre>
+</div>
+<ul>
+<li>Interval <code class="verbatim">1..10</code> se može tokenizovati kao konstanta <code class="verbatim">1.</code> tipa <code class="verbatim">real</code> iza koje sledi
+konstanta <code class="verbatim">.10</code> istog tipa, ili kao interval od 1 do 10. Tek ukoliko imamo
+kontekst u kome vršimo skeniranje možemo da razlučimo ove dve situacije.</li>
+<li>Interakcija leksera i parsera - <em>lexer hack</em>). Ovakva arhitektura dovodi do
+komplikacija u implementaciji i održavanju alata.</li>
+</ul>
+<img src="./images/lexer-hack.svg" alt="./images/lexer-hack.svg" title="./images/lexer-hack.svg" style="height: 200px;"/>
+<ul>
+<li>Prethodni problem je uzrokovan nepostojanjem sintaksnog konteksta ali je u
+nekim situacijama problem složeniji i zahteva semantičke podatke.</li>
+<li>Primer:</li>
+</ul>
+<div class="src src-c">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>a <span style="color:#f92672">*</span> b</span></span></code></pre></div>
+</div>
+<p>
+Na programskom jeziku C ovaj iskaz može da se tumači kao množenje varijabli <code class="verbatim">a</code> i
+<code class="verbatim">b</code>, ali i kao deklaracija varijable <code class="verbatim">b</code> čiji je tip pokazivač na <code class="verbatim">a</code> u zavisnosti od
+semantike.</p>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Parsiranje - sintaksna analiza
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<ul>
+<li>Analiza linearnog zapisa niza simbola na osnovu pravila neke formalne
+gramatike jezika.</li>
+<li>Transformacija ulaznog stringa u <em>stablo parsiranja</em> ili neku drugu strukturu
+podataka.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-3">
+<h3 id="headline-9">
+Stablo parsiranja
+</h3>
+<div id="outline-text-headline-9" class="outline-text-3">
+<ul>
+<li>Nastaje iz niske simbola (ulaznog stringa) procesom <em>skeniranja</em> (tokenizacije
+ili leksičke analize) i <em>parsiranja</em>.</li>
+<li>Listovi stabla su tokeni prepoznati od strane skenera (<em>terminali</em>) dok su
+unutrašnji čvorovi stabla (<em>neterminali</em>) definisani gramatikom jezika.</li>
+<li>Stablo parsiranja reflektuje sintaksnu strukturu ulaznog stringa na bazi
+unapred definisane formalne gramatike.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-3">
+<h3 id="headline-10">
+Stablo parsiranja - primer
+</h3>
+<div id="outline-text-headline-10" class="outline-text-3">
+<img src="./images/calc_parse_tree.svg" alt="./images/calc_parse_tree.svg" title="./images/calc_parse_tree.svg" style="height: 600px;"/>
+<p style="text-align: center;">Stablo parsiranja za ulazni string <code class="verbatim">-(4-1)*5/(2+4.67)</code></p>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-3">
+<h3 id="headline-11">
+Apstraktno sintaksno stablo
+</h3>
+<div id="outline-text-headline-11" class="outline-text-3">
+<ul>
+<li>Svaki iskaz na datom jeziku se može na apstraktan način opisati apstraktnim
+sintaksnim stablom (<em>Abstract Syntax Tree</em>).</li>
+<li>AST je usmereno labelirano stablo gde čvorovi stabla predstavljaju instance
+koncepata apstraktne sintakse.</li>
+<li>AST ne sadrži elemente koje ne doprinose semantici kao što su ključne reči,
+zagrade, &#34;prazni&#34; karakteri i komentari.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-3">
+<h3 id="headline-12">
+Primer apstraktnog sintaksnog stabla
+</h3>
+<div id="outline-text-headline-12" class="outline-text-3">
+<img src="./images/AST.svg" alt="./images/AST.svg" title="./images/AST.svg" style="height: 700px;"/>
+<p style="text-align: center;"><code class="verbatim">-(4-1)*5/(2+4.67)</code></p>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Razlike između apstraktnog i konkretnog sintaksnog stabla
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<ul>
+<li>Konkretno sintaksno stablo je bazirano na formalnoj gramatici koja opisuje
+<em>detalje zapisa</em> u tekstualnom obliku.</li>
+<li>Apstraktno sintaksno stablo sadrži <em>suštinu jezičkog iskaza</em>.</li>
+<li>Možemo imati više gramatika za isti jezik odnosno jedno apstraktno sintaksno
+stablo možemo zapisati na više različitih načina što rezultuje različitim
+konkretnim sintaksnim stablima.</li>
+<li>Primer: Izraz <code class="verbatim">-(4-1)/5/(2+4.67)</code> možemo u postfiksnoj notaciji (obrnuta
+poljska notacija) zapisati kao <code class="verbatim">4 1 - 5 / 2 4.67 + / -</code>. Ovo će rezultovati
+različitim stablima parsiranja ali je suština izraza ista i rezultovaće
+istim apstraktnim sintaksnim stablima.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-3">
+<h3 id="headline-14">
+Jezik
+</h3>
+<div id="outline-text-headline-14" class="outline-text-3">
+<ul>
+<li>Definicija jezika na slajdu <a href="#jezik-definicija">Jezik</a> nije preterano korisna u praktičnom smislu
+jer je nemoguće definisati jezik navođenjem svih validnih rečenica.</li>
+<li>Zato moramo imati sistem koji na konačan način omogućava definisanje
+potencijalno beskonačnog skupa validnih rečenica. U jezičkoj analizi jedan
+takav sistem je <em>formalna gramatika</em>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-2">
+<h2 id="headline-15">
+Formalna gramatika
+</h2>
+<div id="outline-text-headline-15" class="outline-text-2">
+<div id="outline-container-headline-16" class="outline-3">
+<h3 id="headline-16">
+Formalna gramatika
+</h3>
+<div id="outline-text-headline-16" class="outline-text-3">
+<ul>
+<li>Predstavlja skup pravila (<em>produkcije</em>) pomoću kojih je moguće generisati sve
+<em>validne rečenice</em> nekog jezika (<em>formalni jezik</em>) polazeći od <em>startnog
+simbola</em>.</li>
+<li>Definiše koji od svih mogućih nizova simbola u jeziku predstavljaju validne
+rečenice tog jezika (ali bez validnosti njihovih značenja).</li>
+<li>Generisanje ispravnih rečenica jezika (<em>generativne gramatike</em>) - često se
+koriste kao osnova za prepoznavanje validnih rečenica.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-3">
+<h3 id="headline-17">
+Formalna gramatika - definicija
+</h3>
+<div id="outline-text-headline-17" class="outline-text-3">
+<p>Formalna gramatika je $G = (N, \Sigma, P, S)$ gde je:</p>
+<ul>
+<li>$N$ - konačni skup <em>neterminalnih simbola</em>,</li>
+<li>$\Sigma$ - konačni skup <em>terminalnih simbola</em>,</li>
+<li>$P$ - konačni skup <em>produkcionih pravila</em> (produkcija) oblika:
+$(\Sigma \cup N)* N(\Sigma \cup N)* \rightarrow (\Sigma \cup N)*$</li>
+<li>$S$ - neterminal iz skupa $N$ ($S \in N)$ koga nazivamo <em>početnim simbolom</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
+<h3 id="headline-18">
+Notacija
+</h3>
+<div id="outline-text-headline-18" class="outline-text-3">
+<ul>
+<li>Velika slova alfabeta ($A$, $B$, $C$…) - neterminalni simboli gramatike</li>
+<li>Mala slova alfabeta ($a$, $b$, $c$…), cifre, oznake operatora (<code class="verbatim">+</code>, <code class="verbatim">-</code>, …), oznake
+interpunkcije (zagrade, zarez, tačka…) - terminalni simboli gramatike</li>
+<li>Velika slova kraja alfabeta ($X$, $Y$, $Z$…) - simboli gramatike, bilo neterminali
+ili terminali.</li>
+<li>Mala slova alfabeta ($u$, $v$, …, $z$) - niske terminala (moguće prazne)</li>
+<li>Mala grčka slova (α, β, γ…) - niske simbola gramatike (moguće prazne),
+moguće i terminala i neterminala.</li>
+</ul>
+<ul>
+<li>Skup produkcija:
+
+$A \rightarrow \alpha_1, A \rightarrow \alpha_2, A \rightarrow \alpha_3$
+
+može se pisati kao:
+
+$A \rightarrow \alpha_1 | \alpha_2 | \alpha_3$
+
+Gde $\alpha_1, \alpha_2, \alpha_3$ nazivamo alternativama produkcije $A$.</li>
+<li>Pišemo $X*$ za skup svih niski koje se mogu kreirati iz elemenata skupa $X$.</li>
+<li>Praznu nisku označavamo sa $\epsilon$.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
+<h3 id="headline-19">
+Klasifikacija formalnih gramatika po Čomskom
+</h3>
+<div id="outline-text-headline-19" class="outline-text-3">
+<p>Formalne gramatike se mogu klasifikovati prema hijerarhijskoj klasifikaciji
+  Noama Čomskog<sup>1</sup>. Prema ovoj klasifikaciji gramatike mogu biti:</p>
+<ul>
+<li><em>tipa 0 - rekurzivno prebrojive</em> - bez ograničenja na oblik produkcija.</li>
+<li><em>tipa 1 - kontekstno zavisne</em> - produkcije oblika: $\alpha A \beta \rightarrow
+\alpha \gamma \beta$</li>
+<li><em>tipa 2 - kontekstno slobodne</em> - produkcije oblika: $A \rightarrow \gamma$</li>
+<li><em>tipa 3 - regularne</em> - produkcije oblika: $A \rightarrow a | aB$</li>
+</ul>
+<img src="./images/chomsky-hierarchy.svg" alt="./images/chomsky-hierarchy.svg" title="./images/chomsky-hierarchy.svg" style="height: 400px;"/>
+<ol class="footer" style="clear: both;">
+<li><a href="http://en.wikipedia.org/wiki/Chomsky_hierarchy">http://en.wikipedia.org/wiki/Chomsky_hierarchy</a></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-3">
+<h3 id="headline-20">
+Kontekstno slobodne gramatike (<em>Context-Free Grammars - CFGs</em>)
+</h3>
+<div id="outline-text-headline-20" class="outline-text-3">
+<ul>
+<li>Produkcije oblika: $A \rightarrow \gamma$</li>
+<li>Popularne u domenu računarskih jezika. Dovoljno jednostavne za konstrukciju
+<em>efikasnih algoritama za parsiranje</em>.</li>
+<li>Generišu jezike koje nazivamo kontekstno slobodnim jezicima.</li>
+<li>Postoje algoritmi za parsiranje koji prihvataju ceo skup CFG (npr. <em>Earley</em>,
+<em>GLR</em>). Njih nazivamo <em>generalizovanim</em>.</li>
+<li>U praksi se češće koriste jednostavniji algoritmi koji prihvataju samo podskup
+CFG.</li>
+<li>Jezik za definisanje CFG - <em>(Extended) Backus-Naur Form (EBNF)</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-3">
+<h3 id="headline-21">
+Primer kontekstno slobodne gramatike
+</h3>
+<div id="outline-text-headline-21" class="outline-text-3">
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>G = ({S}, {a, b}, P, S)</span></span></code></pre></div>
+</div>
+<p>
+gde je skup produkcionih pravila <code class="verbatim">P</code> dat kao:</p>
+<div class="latex-block">
+<p>S → a S a <br>
+S → b S b <br>
+S → ε</p>
+</div>
+<p class="footer" style="clear: both;"><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-3">
+<h3 id="headline-22">
+Jezik generisan gramatikom
+</h3>
+<div id="outline-text-headline-22" class="outline-text-3">
+<p>Ako je $G$ formalna gramatika tada sa $L(G)$ obeležavamo skup svih rečenica koje
+$G$ može da generiše. Ovaj skup zovemo <em>jezikom</em> koji $G$ generiše ili definiše.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-2">
+<h2 id="headline-23">
+Izvođenje - derivacija (<em>Derivation</em>)
+</h2>
+<div id="outline-text-headline-23" class="outline-text-2">
+<div id="outline-container-headline-24" class="outline-3">
+<h3 id="headline-24">
+Izvođenje - derivacija (<em>Derivation</em>)
+</h3>
+<div id="outline-text-headline-24" class="outline-text-3">
+<ul>
+<li>
+<p>Generisanje ispravne rečenice, počevši od startnog simbola/neterminala,
+sukcesivnom primenom produkcija dok ne dobijemo rečenicu koja se sastoji samo
+od terminala.</p>
+<ol>
+<li>$S \rightarrow a S a$</li>
+<li>$S \rightarrow b S b$</li>
+<li>$S \rightarrow \epsilon$</li>
+</ol>
+</li>
+</ul>
+<p>$S \overset{1}{\rightarrow} aSa \overset{1}{\rightarrow} aaSaa \overset{2}{\rightarrow} aabSbaa \overset{3}{\rightarrow} aabbaa$</p>
+<p class="footer" style="clear: both;"><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+</div>
+</div>
+<div id="outline-container-headline-25" class="outline-3">
+<h3 id="headline-25">
+Izvođenje - notacija
+</h3>
+<div id="outline-text-headline-25" class="outline-text-3">
+<p>Korak derivacije je element oblika:</p>
+<p>
+$\gamma A \delta \Rightarrow \gamma \alpha \delta$</p>
+<p>
+gde: $\gamma, \delta \in (N \cup T)*$</p>
+<p>
+i $A \rightarrow \alpha$ je pravilo gramatike.</p>
+<p>
+Izvođenje rečenične forme $\tau$ iz rečenične forme $\sigma$ je sekvenca koraka
+izvođenja:</p>
+<p>
+$\sigma \Rightarrow \beta_1 \Rightarrow \beta_2 \Rightarrow ... \Rightarrow
+\beta_{n-1} \Rightarrow \tau$</p>
+<p>
+Takođe možemo pisati i $\sigma \overset{*}{\Rightarrow} \tau$, ukoliko imamo 0
+ili više koraka, ili $\sigma \overset{n}{\Rightarrow} \tau$ ukoliko imamo tačno
+$n$ koraka, ili, ukoliko je $n&gt;0$ možemo pisati $\sigma \overset{+}{\Rightarrow}
+\tau$.</p>
+</div>
+</div>
+<div id="outline-container-headline-26" class="outline-3">
+<h3 id="headline-26">
+Rečenična forma i rečenica
+</h3>
+<div id="outline-text-headline-26" class="outline-text-3">
+<ul>
+<li>Bilo koja niska terminala i neterminala koja se može dobiti primenom
+produkcionih pravila počevši od početnog simbola naziva se rečeničnom formom
+(<em>Sentential Form</em>).
+
+$( x + S ) * S - S * S / ( S + S )$</li>
+<li>Ukoliko se rečenična forma sastoji samo od terminala onda je to rečenica
+(<em>Sentence</em>).
+
+$( x + y ) * x - z * y / ( x + x )$</li>
+</ul>
+<p>Odnosno možemo pisati da je rečenična forma niska $\alpha$ za koju važi $S
+\overset{*}{\Rightarrow} \alpha$. A ukoliko važi i $\alpha \in T*$ onda je
+$\alpha$ rečenica.</p>
+</div>
+</div>
+<div id="outline-container-headline-27" class="outline-3">
+<h3 id="headline-27">
+Primer izvođenja - algebarski izrazi
+</h3>
+<div id="outline-text-headline-27" class="outline-text-3">
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>1. S → x
+</span></span><span style="display:flex;"><span>2. S → y
+</span></span><span style="display:flex;"><span>3. S → z
+</span></span><span style="display:flex;"><span>4. S → S + S
+</span></span><span style="display:flex;"><span>5. S → S - S
+</span></span><span style="display:flex;"><span>6. S → S * S
+</span></span><span style="display:flex;"><span>7. S → S / S
+</span></span><span style="display:flex;"><span>8. S → ( S )</span></span></code></pre></div>
+</div>
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>S (startni simbol)
+</span></span><span style="display:flex;"><span>→ S - S (pravilo 5)
+</span></span><span style="display:flex;"><span>→ S * S - S (pravilo 6, primenjeno na levi neterminal S)
+</span></span><span style="display:flex;"><span>→ S * S - S / S (pravilo 7, primenjeno na desni neterminal S)
+</span></span><span style="display:flex;"><span>→ ( S ) * S - S / S (pravilo 8, primenjeno na levi S)
+</span></span><span style="display:flex;"><span>→ ( S ) * S - S / ( S ) (pravilo 8, primenjeno na desni S)
+</span></span><span style="display:flex;"><span>→ ( S + S ) * S - S / ( S ) (itd.)
+</span></span><span style="display:flex;"><span>→ ( S + S ) * S - S * S / ( S )
+</span></span><span style="display:flex;"><span>→ ( S + S ) * S - S * S / ( S + S )
+</span></span><span style="display:flex;"><span>→ ( x + S ) * S - S * S / ( S + S )
+</span></span><span style="display:flex;"><span>→ ( x + y ) * S - S * S / ( S + S )
+</span></span><span style="display:flex;"><span>→ ( x + y ) * x - S * y / ( S + S )
+</span></span><span style="display:flex;"><span>→ ( x + y ) * x - S * y / ( x + S )
+</span></span><span style="display:flex;"><span>→ ( x + y ) * x - z * y / ( x + S )
+</span></span><span style="display:flex;"><span>→ ( x + y ) * x - z * y / ( x + x )</span></span></code></pre></div>
+</div>
+<p class="footer" style="clear: both;"><a href="https://en.wikipedia.org/wiki/Context-free_grammar">https://en.wikipedia.org/wiki/Context-free_grammar</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-28" class="outline-2">
+<h2 id="headline-28">
+Strategije izvođenja
+</h2>
+<div id="outline-text-headline-28" class="outline-text-2">
+<div id="outline-container-headline-29" class="outline-3">
+<h3 id="headline-29">
+Odluke pri izvođenju
+</h3>
+<div id="outline-text-headline-29" class="outline-text-3">
+<ul>
+<li>
+<p>U svakom koraku izvođenja parser donosi dve odluke:</p>
+<ol>
+<li><strong>koji neterminal da zameni?</strong>,</li>
+<li><strong>sa kojim pravilom da ga zameni?</strong> - ukoliko imamo više mogućnosti.</li>
+</ol>
+</li>
+<li>Prva odluka je najčešće fiksna (npr. uvek se zamenjuje prvi sleva ili prvi
+sdesna). Ne utiče na izgled stabla.</li>
+<li>Za drugu odluku koriste se tehnike kao što su <strong>preduvid</strong> (eng. <em>lookahead</em>, videti
+u nastavku).</li>
+<li>Strategija pri donošenju druge odluke utiče na izgled stabla parsiranja.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-30" class="outline-3">
+<h3 id="headline-30">
+Strategije izvođenja sa stanovišta izbora neterminala za zamenu
+</h3>
+<div id="outline-text-headline-30" class="outline-text-3">
+<ul>
+<li><em>Levo izvođenje</em> - uvek se prvo razrešava levi neterminal.</li>
+<li><em>Desno izvođenje</em> - uvek se prvo razrešava desni neterminal.</li>
+<li>Strategija izvođenja je bitna kod parsera koji izvršavaju određene akcije kod
+svake primene produkcije jer se redosled primene razlikuje iako mogu
+rezultovati istim stablima parsiranja.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-31" class="outline-3">
+<h3 id="headline-31">
+Levo izvođenje - primer
+</h3>
+<div id="outline-text-headline-31" class="outline-text-3">
+<img src="./images/LeftDerivation.svg" alt="./images/LeftDerivation.svg" title="./images/LeftDerivation.svg" style="height: 700px;"/>
+</div>
+</div>
+<div id="outline-container-headline-32" class="outline-3">
+<h3 id="headline-32">
+Levo izvođenje - primer 2
+</h3>
+<div id="outline-text-headline-32" class="outline-text-3">
+<img src="./images/derivation.svg" alt="./images/derivation.svg" title="./images/derivation.svg" style="height: 550px;"/>
+<p>$S \xrightarrow{1} E \xrightarrow{2} E + E \xrightarrow{7} 3 + E\\
+\xrightarrow{4} 3 + E * E \xrightarrow{7} 3 + 4 * E \\
+\xrightarrow{6} 3 + 4 * (E) \\
+\xrightarrow{3} 3 + 4 * (E - E) \\
+\xrightarrow{7} 3 + 4 * (7 - E) \\
+\xrightarrow{7} 3 + 4 * (7 - 2)$</p>
+<div class="src src-latex">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-latex" data-lang="latex"><span style="display:flex;"><span>1. S → E
+</span></span><span style="display:flex;"><span>2. E → E &#39;+&#39; E
+</span></span><span style="display:flex;"><span>3. E → E &#39;-&#39; E
+</span></span><span style="display:flex;"><span>4. E → E &#39;*&#39; E
+</span></span><span style="display:flex;"><span>5. E → E &#39;/&#39; E
+</span></span><span style="display:flex;"><span>6. E → &#39;(&#39; E &#39;)&#39;
+</span></span><span style="display:flex;"><span>7. E → broj</span></span></code></pre></div>
+</div>
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>3 + 4 * (7 - 2)</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-33" class="outline-2">
+<h2 id="headline-33">
+Višeznačne gramatike
+</h2>
+<div id="outline-text-headline-33" class="outline-text-2">
+<div id="outline-container-headline-34" class="outline-3">
+<h3 id="headline-34">
+Višeznačnost (<em>ambiguity</em>)
+</h3>
+<div id="outline-text-headline-34" class="outline-text-3">
+<ul>
+<li>Kod kontekstno slobodnih gramatika isti neterminal može da se nađe u više
+produkcija na levoj strani, odnosno postoji izbor mogućih načina izvođenja
+neterminala.</li>
+<li>Ova situacija omogućava da parseri u zavisnosti od izbora produkcije koje
+primenjuju kao rezultat dobiju različita stabla parsiranja.</li>
+<li>U slučaju mogućnosti postojanja više različitih stabala parsiranja za isti
+ulaz kažemo da je gramatika višeznačna.</li>
+<li>Ovo je neminovno kod parsiranja prirodnih jezika, koji su po prirodi
+višeznačni, ali je loše kod programskih jezika gde je potrebno obezbediti da,
+ukoliko se ulaz parsira, uvek odgovara jednom stablu.</li>
+<li>Višeznačnost je uglavnom <em>osobina gramatike a ne jezika</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-35" class="outline-3">
+<h3 id="headline-35">
+Višeznačne gramatike - primer - <em>dangling else</em>
+</h3>
+<div id="outline-text-headline-35" class="outline-text-3">
+<ul>
+<li>Klasičan primer je &#34;viseći else&#34; (eng. <em>dangling else</em>).</li>
+<li>
+<p>U produkciji:</p>
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">IF -</span><span style="color:#960050;background-color:#1e0010">&gt;</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">if</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">COND </span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">then</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">STMT </span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">else</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">STMT</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">if</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">COND </span><span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#66d9ef">then</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#66d9ef">STMT</span></span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>definisan je <code class="verbatim">if</code> iskaz nekog jezika:</p>
+<div class="src src-ruby">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> stmt1 <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">if</span> stmt2 <span style="color:#66d9ef">then</span> stmt3 <span style="color:#66d9ef">else</span> stmt4</span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>Ova konstrukcija može da se tumači na dva načina. Kod prvog tumačenja je <code class="verbatim">else</code>
+deo spoljnjeg <code class="verbatim">if</code> iskaza, odnosno:</p>
+<div class="src src-ruby">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> stmt1 <span style="color:#66d9ef">then</span> (<span style="color:#66d9ef">if</span> stmt2 <span style="color:#66d9ef">then</span> stmt3) <span style="color:#66d9ef">else</span> stmt4</span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>dok je kod drugog tumačenja <code class="verbatim">else</code> deo iskaza u sastavu unutrašnjeg <code class="verbatim">if</code> iskaza,
+odnosno:</p>
+<div class="src src-ruby">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ruby" data-lang="ruby"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> stmt1 <span style="color:#66d9ef">then</span> (<span style="color:#66d9ef">if</span> stmt2 <span style="color:#66d9ef">then</span> stmt3 <span style="color:#66d9ef">else</span> stmt4)</span></span></code></pre></div>
+</div>
+</li>
+<li>Rešenje je dodavanjem pravila prioriteta ili dodavanje konteksta kojim se
+izbegava višeznačnost. Na primer, u <code class="verbatim">if-else</code> klauzuli može se dodati ključna
+reč <code class="verbatim">endif</code>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-36" class="outline-3">
+<h3 id="headline-36">
+Višeznačna gramatika - primer
+</h3>
+<div id="outline-text-headline-36" class="outline-text-3">
+<img src="./images/Ambiguous.svg" alt="./images/Ambiguous.svg" title="./images/Ambiguous.svg" style="height: 700px;"/>
+</div>
+</div>
+<div id="outline-container-headline-37" class="outline-3">
+<h3 id="headline-37">
+A u ovom slučaju želimo
+</h3>
+<div id="outline-text-headline-37" class="outline-text-3">
+<p style="text-align: center;">Stablo koje oslikava prioritet i asocijativnost operacija</p>
+<img src="./images/Ambiguous2.svg" alt="./images/Ambiguous2.svg" title="./images/Ambiguous2.svg" style="height: 700px;"/>
+</div>
+</div>
+<div id="outline-container-headline-38" class="outline-3">
+<h3 id="headline-38">
+Višeznačna gramatika - drugi primer
+</h3>
+<div id="outline-text-headline-38" class="outline-text-3">
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">S </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;+&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;-&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;*&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;/&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;(&#39;</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;)&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">broj</span></span></span></code></pre></div>
+</div>
+<p>Ulaz: $3+4*(7-2)$</p>
+<p>
+\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{4} E * E \xrightarrow{2} E + E * E<br>
+\xrightarrow{7} 3 + E * E \xrightarrow{7} 3 + 4 * E <br>
+\xrightarrow{6} 3 + 4 * (E) \xrightarrow{3} 3 + 4 * (E - E) <br>
+\xrightarrow{7} 3 + 4 * (7 - E) \xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}</p>
+<p><img src="./images/derivation2.svg" alt="./images/derivation2.svg" title="./images/derivation2.svg" /></p>
+<p>
+A trebalo bi:</p>
+<p>\begin{gather*}
+S \xrightarrow{1} E \xrightarrow{2} E + E <br>
+\xrightarrow{7} 3 + E <br>
+\xrightarrow{4} 3 + E * E <br>
+\xrightarrow{7} 3 + 4 * E <br>
+\xrightarrow{6} 3 + 4 * (E) <br>
+\xrightarrow{3} 3 + 4 * (E - E) <br>
+\xrightarrow{7} 3 + 4 * (7 - E) <br>
+\xrightarrow{7} 3 + 4 * (7 - 2)
+\end{gather*}</p>
+<p><img src="./images/expression-tree.svg" alt="./images/expression-tree.svg" title="./images/expression-tree.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-39" class="outline-3">
+<h3 id="headline-39">
+Razrešavanje višeznačnosti
+</h3>
+<div id="outline-text-headline-39" class="outline-text-3">
+<ul>
+<li>Često se gramatika može refaktorisati da ne bude višeznačna.</li>
+<li>Određeni parseri omogućavaju dodatna pravila (npr. <em>pravilo prioriteta</em>) koje
+pomaže u izboru produkcije koju treba primeniti.</li>
+<li>Generalizovani parseri dozvoljavaju višeznačne gramatike. Ukoliko postoje
+različite interpretacije ulaza biće vraćena sva moguća stabla/interpretacije.</li>
+<li>Pojedini parseri implicitno razrešavaju višeznačnost. Npr. rekurzivni silazni
+parseri (videti u nastavku) uvek pokušavaju primenu produkcija po redosledu
+navođenja (sleva na desno).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-40" class="outline-3">
+<h3 id="headline-40">
+Razrešenje enkodovanjem prioriteta u produkcijama
+</h3>
+<div id="outline-text-headline-40" class="outline-text-3">
+<ul>
+<li>
+<p>Jedna od tehnika razrešavanja višeznačnosti kroz enkodovanje prioriteta
+i asocijativnosti operacija na nivou gramatike.</p>
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">S </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">E - T </span><span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">T</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#66d9ef">F </span><span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">/</span> <span style="color:#66d9ef">F </span><span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">F</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">F </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">(</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">)</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">id</span></span></span></code></pre></div>
+</div>
+</li>
+<li>Na ovom primeru vidimo da gramatička pravila za opis operacija
+višeg nivoa se definišu na nižem nivou sa stanovišta referenciranja.</li>
+<li>Na primer, pravilo <code class="verbatim">E</code> definiše operacije sabiranja i oduzimanja i referencira
+pravilo <code class="verbatim">T</code> koje definiše operacije množenja i deljenja višeg prioriteta.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-41" class="outline-3">
+<h3 id="headline-41">
+Lesička višeznačnost
+</h3>
+<div id="outline-text-headline-41" class="outline-text-3">
+<ul>
+<li>Za prethodno opisan oblik višeznačnosti kažemo da je sintaksna.</li>
+<li>Postoji i drugi izvor višeznačnosti koji nastaje na leksičkom nivou i nastaje
+kada lekser može da prepozna više tokena na istom mestu u ulaznom stringu.</li>
+</ul>
+<p>Na primer:</p>
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">Something</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#66d9ef">INT </span><span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">FLOAT</span><span style="color:#960050;background-color:#1e0010">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">terminals</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INT</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#960050;background-color:#1e0010">/\</span><span style="color:#66d9ef">d</span><span style="color:#960050;background-color:#1e0010">+/;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">FLOAT</span><span style="color:#960050;background-color:#1e0010">:</span> <span style="color:#960050;background-color:#1e0010">/\</span><span style="color:#66d9ef">d</span><span style="color:#960050;background-color:#1e0010">+(\.\</span><span style="color:#66d9ef">d</span><span style="color:#960050;background-color:#1e0010">+)?/;</span></span></span></code></pre></div>
+</div>
+<ul>
+<li>Problem nastaje jer terminalna pravila <code class="verbatim">INT</code> i <code class="verbatim">FLOAT</code> mogu da prepoznaju isti deo
+ulaza ukoliko u ulaznom broju nemamo decimalnu tačku i cifre iza nje. Ovaj
+problem nastaje zbog preklapanja na početnom delu definicije (<code class="verbatim">\d+</code>).</li>
+<li>Na primer, ako je ulazni string <code class="verbatim">&#34;3&#34;</code> oba pravila mogu da ga prepoznaju što
+znači da imamo dva moguća rešenja.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-42" class="outline-2">
+<h2 id="headline-42">
+Leva rekurzija
+</h2>
+<div id="outline-text-headline-42" class="outline-text-2">
+<div id="outline-container-headline-43" class="outline-3">
+<h3 id="headline-43">
+Leva rekurzija
+</h3>
+<div id="outline-text-headline-43" class="outline-text-3">
+<ul>
+<li>Određene vrste parsera ne smeju da imaju <em>levo rekurzivne produkcije</em> jer to
+dovodi do beskonačne rekurzije gde parser primenjuje stalno iste produkcije
+bez konzumiranja tokena sa ulaza.
+
+Na primer:
+
+$A \rightarrow A a | \epsilon$
+
+Prepoznaje stringove oblika $a*$ ali kod parsera koji ne dozvoljavaju levu
+rekurziju će doći do beskonačne rekurzije u pokušaju da se prepozna $A$.
+
+$recognize(A) \overset{Aa}{\rightarrow} recognize(A) \ldots$</li>
+<li>Mogu biti direktne i indirektne.</li>
+<li>Direktna leva rekurzija je produkcija oblika $A \rightarrow A \gamma$</li>
+<li>Leve rekurzije se <em>mogu refaktorisati</em> da koriste desno rekurzivne produkcije
+ali gramatika tada često gubi na intuitivnosti.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-44" class="outline-3">
+<h3 id="headline-44">
+Eliminacija leve rekurzije u opštem slučaju
+</h3>
+<div id="outline-text-headline-44" class="outline-text-3">
+<p>Pravilo $A \rightarrow Aa | B$ postaje $A \rightarrow Ba*$</p>
+<p>
+Primer:</p>
+<p>
+$expr \rightarrow expr \; &#34;+&#34; \; term \; | \; number$</p>
+<p>
+postaje:</p>
+<p>
+$expr \rightarrow number (&#34;+&#34; \; term)*$</p>
+</div>
+</div>
+<div id="outline-container-headline-45" class="outline-3">
+<h3 id="headline-45">
+Refaktorisanje gramatike izraza
+</h3>
+<div id="outline-text-headline-45" class="outline-text-3">
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">S </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;+&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;-&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;*&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;/&#39;</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;(&#39;</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;)&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">broj</span></span></span></code></pre></div>
+</div>
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">S  </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E  </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">T E</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;+&#39;</span> <span style="color:#66d9ef">T E</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;-&#39;</span> <span style="color:#66d9ef">T E</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">Ɛ</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T  </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">F T</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;*&#39;</span> <span style="color:#66d9ef">F T</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;/&#39;</span> <span style="color:#66d9ef">F T</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T</span><span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">Ɛ</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">F  </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">(</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">F  </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">broj</span></span></span></code></pre></div>
+</div>
+<p>
+ili kompaktnije:</p>
+<div class="src src-ebnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ebnf" data-lang="ebnf"><span style="display:flex;"><span><span style="color:#66d9ef">S </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">E</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">((&#39;+&#39;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">&#39;-&#39;)</span> <span style="color:#66d9ef">T</span><span style="color:#960050;background-color:#1e0010">)*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">T </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#66d9ef">F </span><span style="color:#960050;background-color:#1e0010">((&#39;*&#39;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#960050;background-color:#1e0010">&#39;/&#39;)</span> <span style="color:#66d9ef">F</span><span style="color:#960050;background-color:#1e0010">)*</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">F </span><span style="color:#960050;background-color:#1e0010">→</span> <span style="color:#960050;background-color:#1e0010">&#39;(&#39;</span> <span style="color:#66d9ef">E </span><span style="color:#960050;background-color:#1e0010">&#39;)&#39;</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#66d9ef">broj</span></span></span></code></pre></div>
+</div>
+<p>Refaktorisana gramatika nije ekvivalentna polaznoj jer definiše prioritet i
+asocijativnost operacija dok kod nerefaktorisane gramatike pored leve rekurzije
+imamo višeznačnost jer prioriteti i asocijativnost operatora nisu definisani.</p>
+<p>
+Takođe, stabla parsiranja do kojih dolazimo upotrebom refaktorisane gramatike
+nisu intuitivna kao kod polazne i zahtevaju dodatni posao prilikom analize
+izraza.</p>
+<p>
+Za ulaz <code class="verbatim">3 + 4 * ( 7 - 2 )</code> dobijamo stablo na desnoj strani.</p>
+<img src="./images/left-factored.svg" alt="./images/left-factored.svg" title="./images/left-factored.svg" style="height: 600px;"/>
+<p>
+A za dalju obradu daleko bi bilo pogodnije ovakvo stablo koje oslikava smisao
+ulaznog stringa.</p>
+<img src="./images/expression-tree.svg" alt="./images/expression-tree.svg" title="./images/expression-tree.svg" style="height: 500px;"/>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-46" class="outline-2">
+<h2 id="headline-46">
+<em>Extended Backus–Naur Form - EBNF</em>
+</h2>
+<div id="outline-text-headline-46" class="outline-text-2">
+<ul>
+<li>Meta-sintaksa za zapis kontekstno slobodnih gramatika.</li>
+<li>ISO/IEC 14977</li>
+<li>Produkcije dodeljuju sekvencu simbola (terminala i neterminala) neterminalima.</li>
+<li>U širokoj upotrebi kod parser generatora i interpretera za opis gramatike
+jezika.</li>
+</ul>
+<div id="outline-container-headline-47" class="outline-3">
+<h3 id="headline-47">
+Primer - EBNF u EBNF-u
+</h3>
+<div id="outline-text-headline-47" class="outline-text-3">
+<div class="src src-bnf">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bnf" data-lang="bnf"><span style="display:flex;"><span>letter = &#34;A&#34; | &#34;B&#34; | &#34;C&#34; | &#34;D&#34; | &#34;E&#34; | &#34;F&#34; | &#34;G&#34;
+</span></span><span style="display:flex;"><span>       | &#34;H&#34; | &#34;I&#34; | &#34;J&#34; | &#34;K&#34; | &#34;L&#34; | &#34;M&#34; | &#34;N&#34;
+</span></span><span style="display:flex;"><span>       | &#34;O&#34; | &#34;P&#34; | &#34;Q&#34; | &#34;R&#34; | &#34;S&#34; | &#34;T&#34; | &#34;U&#34;
+</span></span><span style="display:flex;"><span>       | &#34;V&#34; | &#34;W&#34; | &#34;X&#34; | &#34;Y&#34; | &#34;Z&#34; ;
+</span></span><span style="display:flex;"><span>digit = &#34;0&#34; | &#34;1&#34; | &#34;2&#34; | &#34;3&#34; | &#34;4&#34; | &#34;5&#34; | &#34;6&#34; | &#34;7&#34; | &#34;8&#34; | &#34;9&#34; ;
+</span></span><span style="display:flex;"><span>symbol = &#34;[&#34; | &#34;]&#34; | &#34;{&#34; | &#34;}&#34; | &#34;(&#34; | &#34;)&#34; | &#34;&lt;<span style="color:#a6e22e">&#34; | &#34;</span>&gt;&#34;
+</span></span><span style="display:flex;"><span>       | &#34;&#39;&#34; | &#39;&#34;&#39; | &#34;=&#34; | &#34;|&#34; | &#34;.&#34; | &#34;,&#34; | &#34;;&#34; ;
+</span></span><span style="display:flex;"><span>character = letter | digit | symbol | &#34;_&#34; ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>identifier = letter , { letter | digit | &#34;_&#34; } ;
+</span></span><span style="display:flex;"><span>terminal = &#34;&#39;&#34; , character , { character } , &#34;&#39;&#34;
+</span></span><span style="display:flex;"><span>         | &#39;&#34;&#39; , character , { character } , &#39;&#34;&#39; ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lhs = identifier ;
+</span></span><span style="display:flex;"><span>rhs = identifier
+</span></span><span style="display:flex;"><span>     | terminal
+</span></span><span style="display:flex;"><span>     | &#34;[&#34; , rhs , &#34;]&#34;
+</span></span><span style="display:flex;"><span>     | &#34;{&#34; , rhs , &#34;}&#34;
+</span></span><span style="display:flex;"><span>     | &#34;(&#34; , rhs , &#34;)&#34;
+</span></span><span style="display:flex;"><span>     | rhs , &#34;|&#34; , rhs
+</span></span><span style="display:flex;"><span>     | rhs , &#34;,&#34; , rhs ;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rule = lhs , &#34;=&#34; , rhs , &#34;;&#34; ;
+</span></span><span style="display:flex;"><span>grammar = { rule } ;</span></span></code></pre></div>
+</div>
+<p class="footer" style="clear: both;"><a href="http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form">http://en.wikipedia.org/wiki/Extended_Backus-Naur_Form</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-48" class="outline-2">
+<h2 id="headline-48">
+Strategije parsiranja
+</h2>
+<div id="outline-text-headline-48" class="outline-text-2">
+<div id="outline-container-headline-49" class="outline-3">
+<h3 id="headline-49">
+Strategije parsiranja
+</h3>
+<div id="outline-text-headline-49" class="outline-text-3">
+<ul>
+<li>
+<p><em>Top-down (Silazna)</em></p>
+<ul>
+<li>Kreće od polaznog neterminala gramatike i pokušava da generiše(izvede)
+ulazni string primenom produkcija <em>s leva na desno (lhs -&gt; rhs)</em>.</li>
+<li>Od opšteg ka pojedinačnom.</li>
+<li>Ukoliko se izabere pogrešna alternativa radi se vraćanje - <em>backtrack</em>.</li>
+<li>Ukoliko ne koriste vraćanje zovu se <em>prediktivni parseri</em>.</li>
+<li>LL parseri i rekurzivni silazni parseri (<em>recursive descent</em>) koriste ovu
+strategiju.</li>
+<li>LL parseri prirodno primenjuju levo izvođenje stabla parsiranja.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><em>Bottom-up (Uzlazna)</em></p>
+<ul>
+<li>Kreće od terminala i primenom produkcija <em>s desna na levo (lhs &lt;- rhs)</em>
+pokušava da redukuje ulaz na polazni neterminal gramatike.</li>
+<li>Od pojedinačnog ka opštem.</li>
+<li><em>Shift-Reduce</em> - efikasan metod uzlaznog parsiranja.</li>
+<li>LR parseri koriste ovu strategiju.</li>
+<li>LR parseri prirodno primenjuju desno izvođenje stabala parsiranja</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-50" class="outline-3">
+<h3 id="headline-50">
+Preduvid (eng. <em>Lookahead</em>)
+</h3>
+<div id="outline-text-headline-50" class="outline-text-3">
+<ul>
+<li>Strategija kod koje se koristi određeni broj nekonzumiranih tokena sa ulaza da
+bi se odlučilo o sledećim koracima kod parsiranja.</li>
+<li>Manji preduvid znači jednostavniji parser ali takođe i manji skup gramatika
+koje prihvata.</li>
+<li>Koliko tokena unapred koristimo najčešće piše u oznaci parsera - primer <em>LL(1)</em>,
+<em>LR(k)</em>.</li>
+<li>Za većinu programskih jezika potreban je samo jedan preduvidni token - <em>LL(1)</em>,
+<em>LR(1)</em>…</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-51" class="outline-3">
+<h3 id="headline-51">
+Vraćanje (<em>backtracking</em>)
+</h3>
+<div id="outline-text-headline-51" class="outline-text-3">
+<ul>
+<li>Strategija kod koje se u slučaju alternativnih derivacija pokušava redom sa
+svakom i u slučaju da parsiranje ne uspe <em>vrši vraćanje unazad</em> (na stanje
+izbora alternative) i pokušava se sa sledećom alternativom.</li>
+<li>Parseri koji implementiraju vraćanje često prihvataju veći skup gramatika tj.
+manja su ograničenja gramatika koje se prihvataju.</li>
+<li>Mana je što u praksi možemo imati veliki broj alternativa što često dovodi do
+<em>eksponencijalnog vremena parsiranja</em>.</li>
+<li>Ukoliko ne koriste vraćanje (prediktivni parseri) prihvataju manji skup
+gramatika.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-52" class="outline-3">
+<h3 id="headline-52">
+Determinističko parsiranje
+</h3>
+<div id="outline-text-headline-52" class="outline-text-3">
+<ul>
+<li>Algoritam parsiranja kod koga se ne koristi vraćanje unazad (<em>backtracking</em>).</li>
+<li>Analogno determinističkom potisnom automatu.</li>
+<li>Parseri prihvataju klasu determinističkih kontekstno slobodnih jezika (podskup
+svih kontekstno slobodnih jezika).</li>
+<li>Linearno vreme parsiranja - popularni u praksi.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-53" class="outline-2">
+<h2 id="headline-53">
+LL parser
+</h2>
+<div id="outline-text-headline-53" class="outline-text-2">
+<ul>
+<li>Top-down parser koji podržava podskup kontekstno slobodnih gramatika.</li>
+<li>Konzumira tokene s leva na desno i kreira levo izvođenje.</li>
+<li>Klasa gramatika koju podržava LL parser nazivamo LL gramatikama.</li>
+<li>LL(k) parser koristi k tokena preduvida za odluku koju sledeću produkciju da
+primeni. Ako takav parser postoji za neku gramatiku, a da ne koristi vraćanje
+(<em>backtracking</em>) tada kažemo da je gramatika LL(k). Jezik za koji postoji LL(k)
+gramatika naziva se LL(k) jezik.</li>
+<li>LL(*) parseri nisu ograničeni na broj tokena koje mogu preuzeti sa ulaza da bi
+odlučili o sledećoj produkciji - dinamički se prilagođavaju.</li>
+<li>Veće k - moćniji ali i složeniji parser. LL(1) su naročito popularni kod
+računarskih jezika.</li>
+</ul>
+<div id="outline-container-headline-54" class="outline-3">
+<h3 id="headline-54">
+Primer LL parsiranja
+</h3>
+<div id="outline-text-headline-54" class="outline-text-3">
+<div class="src src-text">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Gramatika: S → E    E → T + E    E → T    T → int
+</span></span><span style="display:flex;"><span>Ulaz: int + int + int
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Production       Input              Action
+</span></span><span style="display:flex;"><span>---------------------------------------------------------
+</span></span><span style="display:flex;"><span>S                int + int + int    Predict S -&gt; E
+</span></span><span style="display:flex;"><span>E                int + int + int    Predict E -&gt; T + E
+</span></span><span style="display:flex;"><span>T + E            int + int + int    Predict T -&gt; int
+</span></span><span style="display:flex;"><span>int + E          int + int + int    Match int
+</span></span><span style="display:flex;"><span>+ E              + int + int        Match +
+</span></span><span style="display:flex;"><span>E                int + int          Predict E -&gt; T + E
+</span></span><span style="display:flex;"><span>T + E            int + int          Predict T -&gt; int
+</span></span><span style="display:flex;"><span>int + E          int + int          Match int
+</span></span><span style="display:flex;"><span>+ E              + int              Match +
+</span></span><span style="display:flex;"><span>E                int                Predict E -&gt; T
+</span></span><span style="display:flex;"><span>T                int                Predict T -&gt; int
+</span></span><span style="display:flex;"><span>int              int                Match int
+</span></span><span style="display:flex;"><span>                                    Accept</span></span></code></pre></div>
+</div>
+<p class="footer" style="clear: both;"><a href="http://stackoverflow.com/questions/5975741/what-is-the-difference-between-ll-and-lr-parsing">http://stackoverflow.com/questions/5975741/what-is-the-difference-between-ll-and-lr-parsing</a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-55" class="outline-2">
+<h2 id="headline-55">
+LR parser
+</h2>
+<div id="outline-text-headline-55" class="outline-text-2">
+<ul>
+<li>Bottom-up parser koji podržava podskup kontekstno slobodnih gramatika.</li>
+<li>Implementiraju <em>Shift-Reduce</em> strategiju i koriste tablice stanja-prelaza.
+Skup gramatika koje prihvata je nadskup skupa koje prihvata prediktivni LL
+parser.</li>
+<li>1965 Donald Knuth.</li>
+<li>Gramatika uglavnom ne mora da se prilagođava kao kod LL parsera. Mogu se
+navoditi rekurzivne produkcije.</li>
+<li>Podvarijante: LALR (<em>Look-Ahead LR</em>), SLR (<em>Simple LR</em>), GLR (<em>Generalized LR</em>).</li>
+<li>Generatori: yacc, GNU Bison, Elkhound…</li>
+<li>Interpreteri: parglare</li>
+</ul>
+<div id="outline-container-headline-56" class="outline-3">
+<h3 id="headline-56">
+LR parsiranje - primer
+</h3>
+<div id="outline-text-headline-56" class="outline-text-3">
+<img src="./images/LR-Primer.png" alt="./images/LR-Primer.png" title="./images/LR-Primer.png" style="height: 700px;"/>
+<p class="footer" style="clear: both;"><a href="http://www.dabeaz.com/ply/ply.html#ply_nn22">http://www.dabeaz.com/ply/ply.html#ply_nn22</a></p>
+</div>
+</div>
+<div id="outline-container-headline-57" class="outline-3">
+<h3 id="headline-57">
+GLR
+</h3>
+<div id="outline-text-headline-57" class="outline-text-3">
+<ul>
+<li><em>Generalized</em> <em>LR</em> parser.</li>
+<li>Parsiranje višeznačnih gramatika.</li>
+<li>Efektivno radi kao LR parser ali u svakom stanju dozvoljava više prelaza čime
+simulira nedeterministički algoritam.</li>
+<li>Kod višeznačnih ulaza vraća skup stabala parsiranja (šumu parsiranja - <em>Parse
+Forest</em>).</li>
+<li>Na korisniku je da odredi ispravno stablo - najčešće dodatnim pravilima (npr.
+prioritet, asocijativnost).</li>
+<li>Bison u novijim verzijama može da generiše GLR parser.</li>
+<li>SDF parser, Elkhound, DParser, parglare.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-58" class="outline-3">
+<h3 id="headline-58">
+LL - LR napomene
+</h3>
+<div id="outline-text-headline-58" class="outline-text-3">
+<ul>
+<li>Kod LL parsera problem je predvideti produkciju koju treba primeniti sledeće.</li>
+<li>Kod većine LR parsera (implementiranih kao <em>SHIFT-REDUCE</em>) problem je kada
+uraditi <em>REDUCE</em> operaciju i na koji neterminal redukovati, odnosno kada uraditi
+<em>SHIFT</em>.</li>
+<li>I kod jednog i kod drugog algoritma generiše se tablica koja pomaže parseru da
+donese odluku u toku parsiranja.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-59" class="outline-2">
+<h2 id="headline-59">
+PEG - <em>Parsing Expression Grammars</em>
+</h2>
+<div id="outline-text-headline-59" class="outline-text-2">
+<div id="outline-container-headline-60" class="outline-3">
+<h3 id="headline-60">
+Rekurzivni silazni parser - <em>Recursive descent parser</em>
+</h3>
+<div id="outline-text-headline-60" class="outline-text-3">
+<ul>
+<li>Silazni parser izgrađen na bazi međusobno rekurzivnih procedura.</li>
+<li>Svaka procedura implementira jednu produkciju odnosno prepoznavanje jednog
+(ne)terminala.</li>
+<li>Kod prediktivnih parsera ne zahteva se vraćanje (<em>backtracking</em>).</li>
+<li>Ukoliko se koristi vraćanje vreme parsiranja <em>može eksponencijalno da
+poraste</em> kod složenijih gramatika.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-61" class="outline-3">
+<h3 id="headline-61">
+COMMENT <em>Top-Down Parsing Language</em>
+</h3>
+<div id="outline-text-headline-61" class="outline-text-3">
+<ul>
+<li>Šematski opis rekurzivnog silaznog parsera sa vraćanjem (<em>recursive descent
+parser with backtracking</em>). Orijentisan je ka prepoznavanju ulaznog teksta.</li>
+<li>Ideje datiraju unazad u ’70 godine prošlog veka.<sup>1</sup></li>
+<li>Rekurzivni silazni parseri nisu imali veću popularnost u 20. veku jer vreme
+parsiranja može biti eksponencijalno ukoliko se ne koristi tehnika <em>memoizacije</em>
+u kom slučaju je linearno ali je potreban značajan memorijski prostor koji
+direktno zavisi od veličine ulaza.</li>
+<li>Bryan Ford je obnovio interesovanje za TDPL (<em>Top-Down Parsing Language</em>)
+fomalizam za opis gramatika.<sup>2</sup></li>
+<li>Gramatike koje opisuju TDPL Ford naziva gramatikama izraza za parsiranje
+(<em>Parsing Expression Grammars - PEG</em>).</li>
+</ul>
+<ol class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Birman, <em>The tmg recognition schema</em>. PhD thesis, 1970</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>Ford, /Packrat parsing: a practical linear-time algorithm with</li>
+</ol>
+<p>backtracking/. Master thesis, Massachusetts Institute of Technology, 2002</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-62" class="outline-3">
+<h3 id="headline-62">
+PEG - <em>Parsing Expression Grammars</em>
+</h3>
+<div id="outline-text-headline-62" class="outline-text-3">
+<ul>
+<li>Formalizam za opis TDPL.</li>
+<li>Osnovna prednost PEG gramatika u odnosu na CFG jeste upotreba operatora
+uređenog izbora (eng. <em>ordered choice</em>) koji omogućava nedvosmislenost u
+parsiranju.</li>
+<li>Često se ovaj operator označava sa <code class="verbatim">/</code> umesto sa <code class="verbatim">|</code> da bi se naglasila uređenost.</li>
+<li>Ako ulazni tekst pripada jeziku koji opisuje dati PEG tada postoji samo jedno
+validno stablo koje ga opisuje.</li>
+<li>Odnosno, gramatike <em>ne mogu biti višeznačne</em>.</li>
+<li>Kod CFG postoji neodređenost jer je redosled izbora alternativa neodređen i u
+praktičnim primenama zavisi od korišćenog algoritma u implementaciji parsera.</li>
+<li>Vrsta parsera koja koristi PEG i implementirana je kao rekurzivni silazni
+parser sa bektrekingom i memoizacijom naziva se <em>pakrat parser</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-63" class="outline-3">
+<h3 id="headline-63">
+Packrat parser
+</h3>
+<div id="outline-text-headline-63" class="outline-text-3">
+<ul>
+<li>Rekurzivni silazni parser sa vraćanjem koji koristi tehniku <em>memoizacije</em>
+(pamćenje derivacija podstabala) da bi obezbedio <em>linearno vreme izvršavanja</em>.</li>
+<li>Prepoznaje bilo koji LL(k)/LR(k) jezik kao i mnoge jezike koji zahtevaju
+neograničen lookahead.</li>
+<li>Bolje kompozitne osobine od LL/LR parsera što ga čini pogodnim za opis
+proširivih dinamičkih jezika.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-64" class="outline-3">
+<h3 id="headline-64">
+Refaktorisanje gramatike za PEG parsere
+</h3>
+<div id="outline-text-headline-64" class="outline-text-3">
+<img src="./images/PEGPrioritet.svg" alt="./images/PEGPrioritet.svg" title="./images/PEGPrioritet.svg" style="height: 700px;"/>
+<p style="text-align: center;">Kako enkodovati pravila prioriteta i eliminisati levu rekurziju?</p>
+</div>
+</div>
+<div id="outline-container-headline-65" class="outline-3">
+<h3 id="headline-65">
+PEG definicija
+</h3>
+<div id="outline-text-headline-65" class="outline-text-3">
+<p>Gramatike izraza za parsiranje se sastoje od:</p>
+<ul>
+<li>konačnog skupa neterminalnih simbola $N$,</li>
+<li>konačnog skupa terminalnih simbola koji je disjunktan sa $N$, u oznaci
+$\Sigma$,</li>
+<li>konačnog skupa pravila parsiranja $P$,</li>
+<li>početnog izraza $e_s$</li>
+</ul>
+<p>Skup terminalnih simbola (terminala) predstavlja alfabet jezika. Neterminalni
+simboli (neterminali) su varijable koje predstavljaju nisku sastavljenu od
+terminala i/ili drugih neterminala.</p>
+<p>
+Pravila parsiranja su oblika $A \leftarrow e$ gde je $A$ neterminal a $e$
+predstavlja izraz za parsiranje. Izraz za parsiranje može biti prost i u tom
+slučaju može biti:</p>
+<ul>
+<li>bilo koji terminalni simbol,</li>
+<li>bilo koji neterminalni simbol,</li>
+<li>prazan string</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-66" class="outline-3">
+<h3 id="headline-66">
+PEG operatori
+</h3>
+<div id="outline-text-headline-66" class="outline-text-3">
+<p>Ukoliko su $e$, $e_1$ i $e_2$ izrazi za parsiranje tada se složeni izrazi za
+parsiranje mogu kreirati upotrebom sledećih operatora:</p>
+<table style="font-size: 0.9em;">
+<tbody>
+<tr>
+<td>$e_1 e_2$ (sekvenca)</td>
+<td>redom se prepoznaju izrazi $e_1$ i $e_2$</td>
+</tr>
+<tr>
+<td>$e_1 / e_2$ (uređeni izbor)</td>
+<td>prepoznaje se $e_1$ ili $e_2$ u navedenom redosledu</td>
+</tr>
+<tr>
+<td>$e?$ (opciono prep.)</td>
+<td>prepoznaje se izraz $e$ opciono</td>
+</tr>
+<tr>
+<td>$e+$ (jedan ili više)</td>
+<td>sukcesivno se vrši prepoznavanje izraza $e$ dok god uspeva. Izraz uspeva ako je bar jedno prepoznavanje uspešno</td>
+</tr>
+<tr>
+<td>$e*$ (nula ili više)</td>
+<td>sukcesivno se vrši prepoznavanje izraza $e$ dok god uspeva. Izraz uvek uspeva</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-headline-67" class="outline-3">
+<h3 id="headline-67">
+PEG - sintaksni predikati
+</h3>
+<div id="outline-text-headline-67" class="outline-text-3">
+<p>PEG poseduje i posebnu klasu operatora – sintaksne predikate. Oni omogućavaju
+definisanje dodatnih informacija o kontekstu u kome se nalazi izraz koji
+pokušavamo da prepoznamo bez konzumiranja ulaznog stringa. Sintaksni predikati
+su sledeći:</p>
+<ul>
+<li><strong>I predikat:</strong> $\&amp;e$ – ukoliko se na ulazu prepozna izraz $e$ predikat ima
+istinitu vrednost,</li>
+<li><strong>Ne predikat:</strong> $!e$ – ukoliko se na ulazu ne prepozna izraz $e$ predikat
+ima istinitu vrednost.</li>
+</ul>
+<p>Sintaksni predikati omogućavaju definisanje izraza za parsiranje oblika $e_1
+\&amp;e_2$ – biće prepoznat izraz $e_1$ samo ukoliko iza njega sledi tekst koji se
+može prepoznati izrazom $e_2$, pri čemu deo ulaznog teksta prepoznatog izrazom
+$e_2$ neće biti uklonjen sa ulaza (neće biti konzumiran).</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-68" class="outline-2">
+<h2 id="headline-68">
+Pristupi u izradi parsera
+</h2>
+<div id="outline-text-headline-68" class="outline-text-2">
+<ul>
+<li>Parser generatori</li>
+<li>Interpreteri gramatika</li>
+</ul>
+<div id="outline-container-headline-69" class="outline-3">
+<h3 id="headline-69">
+Parser generatori
+</h3>
+<div id="outline-text-headline-69" class="outline-text-3">
+<ul>
+<li>Na osnovu formalne gramatike <em>generišu programski kod</em> parsera koji će
+prepoznavati rečenice na datom jeziku i pretvarati ulazne stringove u stabla
+parsiranja.</li>
+<li>Često implementiraju mehanizam za obilazak stabla parsiranja i njegovu
+transformaciju.</li>
+<li>Mogu generisati i <em>lexer (scanner)</em> a mogu biti i <em>scannerless</em>.</li>
+<li>Neki od poznatijih parser generatora: ANTLR, JavaCC, yacc, bison.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-70" class="outline-3">
+<h3 id="headline-70">
+ANTLR
+</h3>
+<div id="outline-text-headline-70" class="outline-text-3">
+<ul>
+<li>ANTLR (<em>ANother Tool for Language Recognition</em>) je LL(*) parser generator
+implementiran na programskom jeziku Java.</li>
+<li>Iz opisa gramatike kreira parser kao i infrastrukturu za analizu stabla
+(vizitori, akcije koje se izvršavaju kada se prepozna određena konstrukcija).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-71" class="outline-3">
+<h3 id="headline-71">
+Interpreteri
+</h3>
+<div id="outline-text-headline-71" class="outline-text-3">
+<ul>
+<li>Konfigurišu se gramatikom u vreme izvršavanja (<em>run-time</em>) tj. <em>interpretiraju
+gramatiku</em>.</li>
+<li>Brz <em>round-trip</em>. Nema generisanja parsera. Moguća izmena gramatike &#34;u letu&#34;.</li>
+<li><a href="https://github.com/textX/Arpeggio">Arpeggio</a>, <a href="https://github.com/igordejanovic/parglare">parglare</a>, i <a href="https://github.com/textX/textX">textX</a> rade kao interpreteri.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-72" class="outline-2">
+<h2 id="headline-72">
+Literatura
+</h2>
+<div id="outline-text-headline-72" class="outline-text-2">
+<ul>
+<li>Igor Dejanović, <em>Jezici specifični za domen</em>, Fakultet tehničkih nauka, Novi
+Sad, 2021. (dostupno u skriptarnici FTN-a)</li>
+<li>Aho, Alfred V. and Lam, Monica S. and Sethi, Ravi and Ullman, Jeffrey D.,
+<em>Compilers: Principles, Techniques, and Tools (2nd Edition)</em>, Addison
+Wesley, 2006.</li>
+<li>Grune, Dick and Ceriel J. H., Jacobs, <em>Parsing techniques: a practical guide</em>,
+Springer-Verlag New York Inc, 2007.</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/courses/jsd/guide-to-exhange-students/guide-exchange-students/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>A course on Domain-Specific Languages</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/courses/jsd/02-jezicke-sintakse-i-metamodelovanje/jezicke-sintakse-i-metamodelovanje/'>
+        <span class='screen-reader-text'>Next post: </span><span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+
