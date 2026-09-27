@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Introducing Rustemo: A LR/GLR Parser Generator for Rust</title>
+<meta name="author" content="Igor Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../talk-slides.css"/>
+
+<link rel="stylesheet" href="../../s/highlight-styles/docco.css"/>
+
+<link rel="stylesheet" href="langdev2024.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="images/background-first.png" data-background-size="contain">
+<img src="images/rustemo-logo-small.jpg"><img src="images/talk-qr.png"><h1 class="title">Introducing Rustemo: A LR/GLR Parser Generator for Rust</h1>
+<h2 class="author"><a href="https://igordejanovic.net/">Igor Dejanović</a> (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>), University of Novi Sad</h2>
+<div class="overview-info">Created 2024-10-16 Wed 22:55, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search, ? for help</div>
+</section>
+<section>
+<section id="slide-org60fade5" data-background="images/background.png" data-background-size="contain">
+<h2 id="org60fade5">Agenda</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Introduction</a></li>
+<li><a href="#/slide-2">2. Live demo - arithmetic expressions</a></li>
+<li><a href="#/slide-3">3. Conclusion</a></li>
+</ul>
+</div>
+
+
+<div id="orgda4af85" class="figure">
+<p><img src="./images/proxyhands.png" alt="proxyhands.png" style="height: 150px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1" data-background="images/background.png" data-background-size="contain">
+<h2 id="1"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Introduction</h3>
+<ul>
+<li>An old-school LALR(1) parser generator (a.k.a. <a href="https://en.wikipedia.org/wiki/Compiler-compiler">compiler-compiler</a>) &#x2026; with a
+modern twist - context aware lexing, GLR, flexible lexers/builders.</li>
+<li><a href="https://github.com/igordejanovic/rustemo/commit/dae2461">Project started</a> in November 2021</li>
+<li><a href="https://github.com/igordejanovic/rustemo/commit/869eb59">Bootstrapping done</a> in August 2022</li>
+<li>Generalized LR - <a href="https://doi.org/10.1145/1146809.1146810">Elizabeth Scott, Adrian Johnstone, Right Nulled GLR Parsers, 2006.</a></li>
+<li>Name: serbian word &ldquo;растемо&rdquo; pronounced as &ldquo;rustemo&rdquo; means &ldquo;we grow&rdquo;</li>
+
+</ul>
+</section>
+<section id="slide-1-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Rustemo compiler</h3>
+
+<div id="org1461100" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-0.png" alt="rustemo-architecture-overview-rcomp-0.png" style="height: 800px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Rustemo compiler</h3>
+
+<div id="orgd0c6448" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-1.png" alt="rustemo-architecture-overview-rcomp-1.png" style="height: 800px;" />
+</p>
+</div>
+</section>
+<section id="slide-1-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Rustemo compiler</h3>
+
+<div id="orgab43947" class="figure">
+<p><img src="./images/rustemo-architecture-overview-rcomp-2.png" alt="rustemo-architecture-overview-rcomp-2.png" style="height: 800px;" data-id="arch-overview-rcomp" />
+</p>
+</div>
+</section>
+<section id="slide-1-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Parsing process overview</h3>
+
+<div id="orgae052a3" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-1.png" alt="rustemo-architecture-overview-parsing-1.png" style="height: 850px;" data-id="arch-overview-rcomp" />
+</p>
+</div>
+</section>
+<section id="slide-1-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Parsing process overview</h3>
+
+<div id="org8fee8d1" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-2.png" alt="rustemo-architecture-overview-parsing-2.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-7" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-7"><span class="section-number-3">1.7.</span> Parsing process overview</h3>
+
+<div id="org4ca0a83" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-3.png" alt="rustemo-architecture-overview-parsing-3.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-8"><span class="section-number-3">1.8.</span> Parsing process overview</h3>
+
+<div id="org311b008" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-4.png" alt="rustemo-architecture-overview-parsing-4.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-9"><span class="section-number-3">1.9.</span> Parsing process overview</h3>
+
+<div id="org798f0fb" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-5.png" alt="rustemo-architecture-overview-parsing-5.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+<section id="slide-1-10" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h3 id="1-10"><span class="section-number-3">1.10.</span> Parsing process overview</h3>
+
+<div id="org7cba030" class="figure">
+<p><img src="./images/rustemo-architecture-overview-parsing-6.png" alt="rustemo-architecture-overview-parsing-6.png" style="height: 850px;" data-id="arch-overview-parse" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-2" data-background="images/background.png" data-background-size="contain">
+<h2 id="2"><span class="section-number-2">2.</span> Live demo - arithmetic expressions</h2>
+</section>
+<section id="slide-2-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Demo repository</h3>
+<ul>
+<li><a href="https://github.com/igordejanovic/langdev2024-rustemo">GitHub repo</a></li>
+<li>Each step in this demo is a separate commit in the Git repo
+<ul>
+<li>Use diff to see what changed in each step</li>
+<li>These slides are linked to relevant commits/steps - look for <code>step x</code> in
+titles.</li>
+
+</ul></li>
+<li>Prerequisite - <a href="https://www.rust-lang.org/tools/install">Rust installed</a></li>
+
+</ul>
+</section>
+<section id="slide-2-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Initial project</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+</section>
+<section id="slide-2-2-1" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-2-1"><span class="section-number-4">2.2.1.</span> Create initial Rust project (<a href="https://github.com/igordejanovic/langdev2024-rustemo/commit/d22fa8c6dc2797dc71ec40d2a568562a980fb57f">step 1</a>)</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo new --bin arithmetic
+</code></pre>
+</div>
+
+<p>
+Project layout is:
+</p>
+
+<pre class="example" id="org341ac63">
+.
+└── arithmetic
+    ├── Cargo.toml
+    └── src
+        └── main.rs
+
+</pre>
+</section>
+<section id="slide-2-2-2" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-2-2"><span class="section-number-4">2.2.2.</span> Create expression grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_1...step_2">step 2</a>)</h4>
+<p>
+File <code>src/arithmetic.rustemo</code>
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >E: E '+' E
+ | E '*' E
+ | '(' E ')'
+ | Number
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-2-3"><span class="section-number-4">2.2.3.</span> Install Rustemo compiler</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo install rustemo-compiler
+</code></pre>
+</div>
+
+<p>
+After the installation completes the compiler (<code>rcomp</code> CLI tool) is available.
+</p>
+</section>
+<section id="slide-2-2-4" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-2-4"><span class="section-number-4">2.2.4.</span> Try to compile the grammar</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >cd arithmetic/src/
+rcomp arithmetic.rustemo
+</code></pre>
+</div>
+
+<pre style="font-size: 0.4em;" class="example fragment (appear)" id="org3e8ed77">
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 6
+Non-terminals: 1
+Productions: 4
+States: 10
+
+CONFLICTS:
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
+When I saw E and see token Add ahead I can't decide should I shift or reduce by production:
+E: E Add E
+
+In State 8:E
+	1: E: E Add E .    {STOP, Add, Mul, PClose}
+	1: E: E . Add E    {STOP, Add, Mul, PClose}
+	2: E: E . Mul E    {STOP, Add, Mul, PClose}
+When I saw E and see token Mul ahead I can't decide should I shift or reduce by production:
+E: E Add E
+...
+
+4 conflict(s). 4 Shift/Reduce and 0 Reduce/Reduce.
+Error: Grammar is not deterministic. There are conflicts.
+Parser(s) not generated.
+</pre>
+
+<p class="fragment (appear)">
+<i>This grammar is ambiguous!</i>
+</p>
+</section>
+<section id="slide-2-2-5" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-2-5"><span class="section-number-4">2.2.5.</span> We can also visualize DFA for this grammar (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_2...step_3">step 3</a>)</h4>
+<div class="org-src-container">
+
+<pre><code class="sh" >cd arithmetic/src
+rcomp --dot arithmetic.rustemo
+dot -Tpng -O arithmetic.dot
+</code></pre>
+</div>
+
+<p>
+We get a PNG file with the DFA.
+</p>
+
+
+<div id="orgccfa125" class="figure">
+<p><img src="./images/arithmetic.dot.png" alt="arithmetic.dot.png" style="height: auto;" />
+</p>
+</div>
+
+<p>
+States colored red have conflicts.
+</p>
+</section>
+<section id="slide-2-3" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Ambiguous grammars</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+</section>
+<section id="slide-2-3-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-3-1"><span class="section-number-4">2.3.1.</span> What does it mean for a grammar to be ambiguous?</h4>
+<p>
+<i>1 + 2 * 3 + 4</i>
+</p>
+
+
+<div id="orgd5f25b9" class="figure">
+<p><img src="./images/parse-tree-ambiguous.png" alt="parse-tree-ambiguous.png" style="height: auto;" />
+</p>
+</div>
+
+<ul>
+<li class="fragment appear">The number of possible interpretation rise quickly with the addition of new operations.</li>
+<li class="fragment appear"><a href="https://en.wikipedia.org/wiki/Catalan_number">1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, &#x2026; - Catalan numbers</a></li>
+
+</ul>
+</section>
+<section id="slide-2-3-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-3-2"><span class="section-number-4">2.3.2.</span> What does it mean for a grammar to be ambiguous?</h4>
+<p>
+<i>1 + 2 * 3 + 4</i>
+</p>
+
+
+<div id="org9d66208" class="figure">
+<p><img src="./images/parse-tree-unambiguous.png" alt="parse-tree-unambiguous.png" style="height: 500px;" />
+</p>
+</div>
+
+<p>
+While the grammar is ambiguous, the language is not!
+</p>
+</section>
+<section id="slide-2-3-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-3-3"><span class="section-number-4">2.3.3.</span> How to disambiguate?</h4>
+<p>
+A classic approach - grammar rework by introducing intermediate rules:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >AddExpr: MulExpr AddExprRest*;
+AddExprRest: Add MulExpr;
+MulExpr: AtomExpr MulExprRest*;
+MulExprRest: Mul AtomExpr;
+AtomExpr: Number | '(' AddExpr ')';
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+
+<p>
+We stay in the CFG realm, but this quickly leads to unmaintainable grammar +
+produced trees are not what the user expects.
+</p>
+</section>
+<section id="slide-2-4" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Using GLR</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+</section>
+<section id="slide-2-4-1" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-1"><span class="section-number-4">2.4.1.</span> Ok, lets try GLR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_3...step_4">step 4</a>)</h4>
+<ul>
+<li>GLR - Generalized LR - can accept any CFG, even ambiguous.</li>
+<li>Explores and returns all possible interpretations efficienly (polinomial time/space).</li>
+
+</ul>
+
+<p>
+We&rsquo;ll just let the grammar be without any disambiguation.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >E: E '+' E
+ | E '*' E
+ | '(' E ')'
+ | Number
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+
+</section>
+<section data-background="images/background.png" data-background-size="contain">
+
+<p>
+Now, lets compile the grammar to a GLR parser.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >rcomp --parser-algo glr arithmetic.rustemo
+</code></pre>
+</div>
+
+<pre class="example" id="orgaca3389">
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 6
+Non-terminals: 1
+Productions: 4
+States: 10
+Writing actions file "arithmetic_actions.rs"
+Writing parser file "arithmetic.rs"
+</pre>
+</section>
+<section id="slide-2-4-2" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-2"><span class="section-number-4">2.4.2.</span> Add required dependencies (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_4...step_5">step 5</a>)</h4>
+<p>
+Generated parser depends on <code>rustemo</code> library. It is a runtime part of the Rustemo.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo add rustemo
+</code></pre>
+</div>
+
+<pre class="example" id="org55db36f">
+    Updating crates.io index
+      Adding rustemo v0.6.0 to dependencies
+             Features:
+             + glr
+    Updating crates.io index
+</pre>
+
+
+<p>
+Generated code also uses <code>regex</code>, <code>once_cell</code> and <code>colored</code> libraries, so lets add those.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo add regex --no-default-features --features std,unicode-perl
+cargo add once_cell colored
+</code></pre>
+</div>
+
+</section>
+<section data-background="images/background.png" data-background-size="contain">
+
+<p>
+Now, your <code>Cargo.toml</code> should look like this:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="toml" >[package]
+name = "arithmetic"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+colored = "2.1.0"
+once_cell = "1.20.1"
+regex = { version = "1.11.0", default-features = false, features = ["std", "unicode-perl"] }
+rustemo = "0.6.1"
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-3" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-3"><span class="section-number-4">2.4.3.</span> Update <code>main.rs</code></h4>
+<p>
+Read expression from stdin.
+</p>
+<div class="org-src-container">
+
+<pre data-id="id1" style="font-size: 0.45em;"><code class="rust" data-line-numbers>fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-4"><span class="section-number-4">2.4.4.</span> Update <code>main.rs</code></h4>
+<p>
+Import generated parser modules and the parser type.
+</p>
+
+<div class="org-src-container">
+
+<pre data-id="id1" style="font-size: 0.53em;"><code class="rust" data-line-numbers=3-11>use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-5"><span class="section-number-4">2.4.5.</span> Update <code>main.rs</code> (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_5...step_6">step 6</a>)</h4>
+<p>
+Parse the input and process the forest.
+</p>
+
+<div class="org-src-container">
+
+<pre data-id="id1" style="font-size: 0.4em;"><code class="rust" data-line-numbers=22-30>use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    for (tree_idx, tree) in forest.iter().enumerate() {
+        println!("**** TREE {tree_idx}");
+        println!("{tree:#?}");
+    }
+}
+</code></pre>
+</div>
+
+</section>
+<section data-background="images/background.png" data-background-size="contain">
+
+<p>
+Run with:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo run
+</code></pre>
+</div>
+
+<pre class="example" id="org3d4e667">
+Expression:
+2 + 3 * 5
+Number of interpretations = 2
+**** TREE 0
+[
+    [
+        [
+            "2",
+        ],
+        "+",
+        [
+            "3",
+        ],
+    ],
+    "*",
+    [
+        "5",
+    ],
+]
+**** TREE 1
+[
+    [
+        "2",
+        ...
+</pre>
+</section>
+<section id="slide-2-4-6" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-6"><span class="section-number-4">2.4.6.</span> Improve default actions</h4>
+<ul>
+<li>The builder can be changed. See <a href="https://www.igordejanovic.net/rustemo/builders.html">builders section</a> in the Rustemo book for more info.</li>
+<li>The default builder calls actions to create AST nodes where the types are
+auto-inferred from the grammar.</li>
+<li>Actions are generated Rust functions.</li>
+
+</ul>
+</section>
+<section id="slide-2-4-7" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-7"><span class="section-number-4">2.4.7.</span> Improve default actions</h4>
+<p>
+File <code>arithmetic_actions.rs</code>
+</p>
+
+<div class="org-src-container">
+
+<pre style="font-size: 0.45em;"><code class="rust" >&lt;snip&gt;
+pub type Number = String;
+pub fn number(_ctx: &amp;Ctx, token: Token) -&gt; Number {
+    token.value.into()
+}
+#[derive(Debug, Clone)]
+pub struct EC1 {
+    pub e_1: Box&lt;E&gt;,
+    pub e_3: Box&lt;E&gt;,
+}
+&lt;snip&gt;
+pub fn e_c1(_ctx: &amp;Ctx, e_1: E, e_3: E) -&gt; E {
+    E::C1(EC1 {
+        e_1: Box::new(e_1),
+        e_3: Box::new(e_3),
+    })
+}
+pub fn e_number(_ctx: &amp;Ctx, number: Number) -&gt; E {
+    E::Number(number)
+}
+</code></pre>
+</div>
+
+<p>
+<i>This just creates an AST. But, we would like actions to perform actual
+calculation. Let&rsquo;s do that!</i>
+</p>
+</section>
+<section id="slide-2-4-8" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-8"><span class="section-number-4">2.4.8.</span> Improve actions - add nice production names</h4>
+<div class="org-src-container">
+
+<pre data-id="actions-id"><code class="text" data-line-numbers=1-4>E: E '+' E {Add}
+ | E '*' E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-9" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-9"><span class="section-number-4">2.4.9.</span> Improve actions - add assignments</h4>
+<div class="org-src-container">
+
+<pre data-id="actions-id"><code class="text" data-line-numbers=1-2>E: left=E '+' right=E {Add}
+ | left=E '*' right=E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-10" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-10"><span class="section-number-4">2.4.10.</span> Improve actions - regenerate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_6...step_7">step 7</a>)</h4>
+<ul>
+<li>Actions are regenerated on each <code>rcomp</code> run.</li>
+<li>Old content is preserved as we are able to manually tune actions and types.</li>
+<li><p>
+In this case we don&rsquo;t have manual changes so we just delete
+<code>arithmentic_actions.rs</code> and run <code>rcomp</code> again.
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >rm arithmetic_actions.rs
+rcomp --parser-algo glr arithmentic.rustemo
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+<section id="slide-2-4-11" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-11"><span class="section-number-4">2.4.11.</span> Improve actions - improved</h4>
+<p>
+And, now our actions are more readable.
+</p>
+
+<div class="org-src-container">
+
+<pre data-id="actions-improved-id"><code class="rust" >pub type Token&lt;'i&gt; = RustemoToken&lt;'i, Input, TokenKind&gt;;
+pub type Number = String;
+pub fn number(_ctx: &amp;Ctx, token: Token) -&gt; Number {
+    token.value.into()
+}
+#[derive(Debug, Clone)]
+pub struct Add {
+    pub left: Box&lt;E&gt;,
+    pub right: Box&lt;E&gt;,
+}
+#[derive(Debug, Clone)]
+pub struct Mul {
+    pub left: Box&lt;E&gt;,
+    pub right: Box&lt;E&gt;,
+}
+#[derive(Debug, Clone)]
+pub enum E {
+    Add(Add),
+    Mul(Mul),
+    Paren(Box&lt;E&gt;),
+    Num(Number),
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-12" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-12"><span class="section-number-4">2.4.12.</span> Improve actions - improved</h4>
+<p>
+And, now our actions are more readable.
+</p>
+
+<div class="org-src-container">
+
+<pre data-id="actions-improved-id"><code class="rust" >pub fn e_add(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    E::Add(Add {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_mul(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    E::Mul(Mul {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_paren(_ctx: &amp;Ctx, e: E) -&gt; E {
+    E::Paren(Box::new(e))
+}
+pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
+    E::Num(number)
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-13" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-13"><span class="section-number-4">2.4.13.</span> Improve actions - calculate</h4>
+<p>
+We can now manually tune our actions to do calculations during the build. We
+don&rsquo;t want to build the tree, we want to get the result of the calculation.
+</p>
+
+<p>
+First, we change this:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >pub type Number = String;
+pub fn number(_ctx: &amp;Ctx, token: Token) -&gt; Number {
+    token.value.into()
+}
+</code></pre>
+</div>
+
+<p>
+Into this:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >pub type Number = i32;
+pub fn number(_ctx: &amp;Ctx, token: Token) -&gt; Number {
+    token.value.parse().unwrap()
+}
+</code></pre>
+</div>
+
+<p>
+to convert numbers from strings to integers.
+</p>
+</section>
+<section id="slide-2-4-14" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-14"><span class="section-number-4">2.4.14.</span> Improve actions - calculate</h4>
+<p>
+We replace all these types.
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >#[derive(Debug, Clone)]
+pub struct Add {
+    pub left: Box&lt;E&gt;,
+    pub right: Box&lt;E&gt;,
+}
+#[derive(Debug, Clone)]
+pub struct Mul {
+    pub left: Box&lt;E&gt;,
+    pub right: Box&lt;E&gt;,
+}
+#[derive(Debug, Clone)]
+pub enum E {
+    Add(Add),
+    Mul(Mul),
+    Paren(Box&lt;E&gt;),
+    Num(Number),
+}
+</code></pre>
+</div>
+<p>
+With just:
+</p>
+<div class="org-src-container">
+
+<pre><code class="rust" >pub type E = i32;
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-15" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-15"><span class="section-number-4">2.4.15.</span> Improve actions - calculate</h4>
+<p>
+Now, we replace actions bodies with a proper calculations.
+</p>
+
+<p>
+We replace this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="actions-calculate-id"><code class="rust" >pub fn e_add(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    E::Add(Add {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_mul(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    E::Mul(Mul {
+        left: Box::new(left),
+        right: Box::new(right),
+    })
+}
+pub fn e_paren(_ctx: &amp;Ctx, e: E) -&gt; E {
+    E::Paren(Box::new(e))
+}
+pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
+    E::Num(number)
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-16" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-16"><span class="section-number-4">2.4.16.</span> Improve actions - calculate (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_7...step_8">step 8</a>)</h4>
+<p>
+Now, we replace actions bodies with a proper calculations.
+</p>
+
+<p>
+With this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="actions-calculate-id"><code class="rust" >pub fn e_add(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    left + right
+}
+pub fn e_mul(_ctx: &amp;Ctx, left: E, right: E) -&gt; E {
+    left * right
+}
+pub fn e_paren(_ctx: &amp;Ctx, e: E) -&gt; E {
+    e
+}
+pub fn e_num(_ctx: &amp;Ctx, number: Number) -&gt; E {
+    number
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-17" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-4-17"><span class="section-number-4">2.4.17.</span> Improve actions - run</h4>
+<p>
+Run it again:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >cargo run
+</code></pre>
+</div>
+
+
+<ul>
+<li class="fragment appear">Nothing changed! Why?</li>
+<li class="fragment appear">When using GLR, trees are not converted by builders automatically as it would
+impose a big overhead.</li>
+<li class="fragment appear">We must call builder explicitly over trees extracted from the forest.</li>
+
+</ul>
+</section>
+<section id="slide-2-4-18" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-18"><span class="section-number-4">2.4.18.</span> GLR - calculate over all trees</h4>
+<p>
+Change our <code>main.rs</code> to build all trees from the forest using our new calculation
+actions.
+</p>
+</section>
+<section id="slide-2-4-19" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-19"><span class="section-number-4">2.4.19.</span> GLR - calculate over all trees</h4>
+<p>
+Change from this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="glr-calculate-id" style="font-size: 0.4em;"><code class="rust" data-line-numbers=22-30>use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    for (tree_idx, tree) in forest.iter().enumerate() {
+        println!("**** TREE {tree_idx}");
+        println!("{tree:#?}");
+    }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-20" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-20"><span class="section-number-4">2.4.20.</span> GLR - calculate over all trees</h4>
+<p>
+To this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="glr-calculate-id" style="font-size: 0.33em;"><code class="rust" data-line-numbers=4-5,28-37>use rustemo::Parser;
+use std::io;
+// Use the generated parser and builder
+use crate::arithmetic::{ArithmeticParser, DefaultBuilder};
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&amp;mut builder)
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    println!("{results:?}");
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-4-21" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-4-21"><span class="section-number-4">2.4.21.</span> GLR - calculate over all trees (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_8...step_9">step 9</a>)</h4>
+<p>
+To this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="glr-calculate-id;"><code class="rust" data-line-numbers data-ln-start-from=23>    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&amp;mut builder)
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    println!("{results:?}");
+</code></pre>
+</div>
+</section>
+<section id="slide-2-5" data-background="images/background.png" data-background-size="contain">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Declarative disambiguation</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+</section>
+<section id="slide-2-5-1" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-1"><span class="section-number-4">2.5.1.</span> Rustemo - declarative disambiguation</h4>
+<p>
+But, this language is not ambiguous. We have priorities and associativities.
+Let&rsquo;s disambiguate by using Rustemo declarative disambiguation so we can use LR
+instead of GLR.
+</p>
+
+<div class="org-src-container">
+
+<pre data-id="disamb-id"><code class="text" data-line-numbers>E: left=E '+' right=E {Add}
+ | left=E '*' right=E {Mul}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+</section>
+<section id="slide-2-5-2" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-2"><span class="section-number-4">2.5.2.</span> Rustemo - declarative disambiguation</h4>
+<div class="org-src-container">
+
+<pre data-id="disamb-id"><code class="text" data-line-numbers=1-2>E: left=E '+' right=E {Add, 1, left}
+ | left=E '*' right=E {Mul, 2, left}
+ | '(' E ')' {Paren}
+ | Number {Num}
+;
+
+terminals
+Number: /\d+/;
+Add: '+';
+Mul: '*';
+POpen: '(';
+PClose: ')';
+</code></pre>
+</div>
+</section>
+<section id="slide-2-5-3" data-background="images/background.png" data-background-size="contain">
+<h4 id="2-5-3"><span class="section-number-4">2.5.3.</span> Regenerate the parser</h4>
+<p>
+Now, we can use LR.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="sh" >rcomp arithmetic.rustemo
+</code></pre>
+</div>
+
+<pre class="example" id="org0d6b3ff">
+Generating parser for grammar "arithmetic.rustemo"
+Terminals: 6
+Non-terminals: 1
+Productions: 4
+States: 10
+Writing actions file "arithmetic_actions.rs"
+Writing parser file "arithmetic.rs"
+</pre>
+</section>
+<section id="slide-2-5-4" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-4"><span class="section-number-4">2.5.4.</span> Fix <code>main.rs</code> for LR</h4>
+<p>
+Now, we don&rsquo;t get a forest from the LR parser but the result of the default builder evaluation.
+Let&rsquo;s fix that.
+</p>
+</section>
+<section id="slide-2-5-5" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-5"><span class="section-number-4">2.5.5.</span> Fix <code>main.rs</code> for LR</h4>
+<p>
+We change <code>main.rs</code> from this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="lr-calculate-id" style="font-size: 0.33em;"><code class="rust" data-line-numbers=4-5,28-37>use rustemo::Parser;
+use std::io;
+// Use the generated parser and builder
+use crate::arithmetic::{ArithmeticParser, DefaultBuilder};
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get all results.
+    let forest = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Number of interpretations = {}", forest.solutions());
+
+    // Evaluate each tree from the forest
+    let results = forest
+        .into_iter()
+        .map(|tree| {
+            let mut builder = DefaultBuilder::new();
+            tree.build(&amp;mut builder)
+        })
+        .collect::&lt;Vec&lt;_&gt;&gt;();
+
+    println!("{results:?}");
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-5-6" data-background="images/background.png" data-background-size="contain" data-auto-animate>
+<h4 id="2-5-6"><span class="section-number-4">2.5.6.</span> Fix <code>main.rs</code> for LR (<a href="https://github.com/igordejanovic/langdev2024-rustemo/compare/step_9...step_10">step 10</a>)</h4>
+<p>
+To this:
+</p>
+<div class="org-src-container">
+
+<pre data-id="lr-calculate-id" style="font-size: 0.45em;"><code class="rust" data-line-numbers=3-4,22-25>use rustemo::Parser;
+use std::io;
+// Use the generated parser
+use crate::arithmetic::ArithmeticParser;
+
+// Include generated modules
+#[rustfmt::skip]
+mod arithmetic;
+#[allow(unused)]
+#[rustfmt::skip]
+mod arithmetic_actions;
+
+fn main() {
+    let mut expression = String::new();
+
+    // Read the line from the input
+    println!("Expression:");
+    io::stdin()
+        .read_line(&amp;mut expression)
+        .expect("Failed to read line.");
+
+    // Parse the line and get the result.
+    let result = ArithmeticParser::new().parse(&amp;expression).unwrap();
+
+    println!("Result = {result}");
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3" data-background="images/background.png" data-background-size="contain">
+<h2 id="3"><span class="section-number-2">3.</span> Conclusion</h2>
+<ul>
+<li>Learn more
+<ul>
+<li><a href="https://github.com/igordejanovic/rustemo/">Rustemo GitHub repo</a></li>
+<li><a href="https://www.igordejanovic.net/rustemo/">The Rustemo Book</a></li>
+<li><a href="https://github.com/igordejanovic/rustemo/tree/main/tests/src">Rustemo integration/features tests</a></li>
+
+</ul></li>
+<li>Possible further directions
+<ul>
+<li>Grammars modularization, rule inheritance/macros etc.</li>
+<li>Additional disambiguation filters (static &amp; dynamic)</li>
+<li>Error recovery</li>
+<li>Incremental parsing</li>
+<li>Tooling for working with Rustemo grammars (e.g. LSP server, plugins for popular editors).</li>
+
+</ul></li>
+<li>Rustemo is FLOSS and <a href="https://www.igordejanovic.net/rustemo/contributing.html">open for contributions</a>!</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgd0d33c0" data-background="./images/background-first.png" data-background-size="contain" data-background-transition="slide">
+<h2 id="orgd0d33c0">&nbsp;</h2>
+<p style="font-size: 3em; color: rgb(225, 108, 23);">
+Thanks!
+</p>
+
+<p style="font-size: 3em; color: rgb(225, 108, 23);">
+Q&amp;A
+</p>
+
+<p style="height: auto;">
+<img src="./images/talk-qr.png" alt="talk-qr.png" style="height: auto;" />
+<img src="./images/proxyhands.png" alt="proxyhands.png" />
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1886,
+height: 1062,
+margin: 0.10,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

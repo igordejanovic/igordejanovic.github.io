@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-17 Mon 14:26 -->
+<meta charset="utf-8"/>
+<title>Израда језика у Пајтону</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Израда језика у Пајтону</h1>
+<h2 class="subtitle">Језици специфични за домен (<i><i>Domain Specific Languages</i></i>)</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-17 Mon 14:26, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Проблем и мотивација</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Језици специфични за домен - ЈСД (<i>Domain-Specific Languages - DSL</i>)</h3>
+<ul>
+<li>Језици специфични за домен (ЈСД, енг. <i>Domain-Specific Languages - DSL</i>)
+су језици прилагођени и ограничени на одређени домен проблема.</li>
+<li>За разлику од језика опште намене (ЈОН, енг. <i>General Purpose Language - GPL</i>),
+нуде повећање експресивности кроз употребу концепата и нотација прилагођених
+домену проблема и доменским експертима.</li>
+<li>Називају се још и <i>мали језици</i> (енг. <i>little languages</i>).</li>
+<li>Успешан ЈСД је фокусиран на узак, добро дефинисан домен и покрива га на
+одговарајући начин.</li>
+<li>Домен често има свој језик коришћен од стране доменских експерата иако не
+постоји његова имплементација на рачунару.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Примери</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> SQL</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> JPA мапирање</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >@Entity
+@Table(name="COURSES")
+public class Course {
+
+  private long courseId;
+  private String courseName;
+
+  public Course() {
+  }
+
+  public Course(String courseName) {
+    this.courseName = courseName;
+  }
+
+  @Id
+  @GeneratedValue
+  @Column(name="COURSE_ID")
+  public long getCourseId() {
+    return this.courseId;
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> <i>Build</i> језици (Ant/Maven/Gradle)</h3>
+
+<div id="orgd646de2" class="figure">
+<p><img src="./images/Ant-Maven-Gradle.png" alt="Ant-Maven-Gradle.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Пословни процеси - BPMN</h3>
+
+<div id="org2d815bf" class="figure">
+<p><img src="./images/BPMN.png" alt="BPMN.png" style="height: 700px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> <a href="https://orgmode.org/">OrgMode</a></h3>
+<p>
+Белешке, креирање садржаја, агенда, писмено програмирање (<i>literate programming</i>).
+</p>
+<div class="org-src-container">
+
+<pre><code class="org" >** PROJ
+*** TODO Прегледати пријаву грешке #173
+SCHEDULED: &lt;2022-12-14 Wed&gt;
+1. [x] Неко парче кода:
+   #+begin_src rust
+    fn main() {
+        // Statements here are executed when the compiled binary is called
+
+        // Print text to the console
+        println!("Hello World!");
+    }
+   #+end_src
+
+   #+RESULTS:
+   : Hello World!
+
+2. [ ] Нека друга забелешка...
+
+*** WAIT Предати пројектни извештај
+
+| Активност      | Завршено | Проблеми               |
+|----------------+----------+------------------------|
+| Прва активност |      30% | Нема                   |
+| Друга актиност |      25% | Проблеми у снабдевању  |
+
+</code></pre>
+</div>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> <a href="https://typst.app/">Typst</a></h3>
+<p>
+Припрема за штампу (<i>typesetting</i>).
+</p>
+
+<div id="orgcab1fff" class="figure">
+<p><img src="./images/typst.png" alt="typst.png" style="height: 300px;" />
+</p>
+</div>
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> <a href="https://scratch.mit.edu/">Scratch</a></h3>
+<p>
+Учење програмирања за децу.
+</p>
+
+
+<div id="org04f6caf" class="figure">
+<p><img src="./images/scratch.png" alt="scratch.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Inform</h3>
+<p>
+Inform је језик за креирање интерактивне фикције (текстуалних авантура) базиран
+на природном језику.
+</p>
+<div class="org-src-container">
+
+<pre><code class="text" >    "Cactus Will Outlive Us All"
+
+    Death Valley is a room. Luckless Luke and Dead-Eye Pete are men in the Valley.
+      A cactus is in the Valley. Persuasion rule: persuasion succeeds.
+
+    A person has an action called death knell. The death knell of Luckless Luke is pulling the cactus.
+      The death knell of Dead-Eye Pete is Luke trying dropping the cactus.
+
+    Before an actor doing something:
+        repeat with the victim running through people in the location:
+            let the DK be the death knell of the victim;
+            if the DK is not waiting and the current action is the DK:
+                say "It looks as if [the DK] was the death knell for [the victim], who looks startled,
+                    then nonexistent.";
+                now the victim is nowhere.
+</code></pre>
+</div>
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> <a href="https://chuck.cs.princeton.edu/">ChucK</a></h3>
+<p>
+Језик за креирање музике и синтезу звука у реалном времену.
+</p>
+<div class="org-src-container">
+
+<pre><code class="chuck" >// this synchronizes to period
+.5::second =&gt; dur T;
+T - (now % T) =&gt; now;
+
+// construct the patch
+SndBuf buf =&gt; Gain g =&gt; dac;
+// read in the file
+"kick.wav" =&gt; buf.read;
+// set the gain
+.5 =&gt; g.gain;
+
+// time loop
+while( true )
+{
+    // set the play position to beginning
+    0 =&gt; buf.pos;
+    // randomize gain a bit
+    Math.random2f(.8,.9) =&gt; buf.gain;
+
+    // advance time
+    1::T =&gt; now;
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> GritQL</h3>
+<p>
+<a href="https://github.com/getgrit/gritql">GritQL</a> је ЈСД за претрагу, линтинг и трансформацију кода.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="text" >`console.log($log)` =&gt; . where {
+  $log &lt;: not within `try { $_ } catch { $_ }`
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-11">
+<h3 id="2-11"><span class="section-number-3">2.11.</span> Colobot</h3>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Colobot">Colobot</a> је едукативна real-time стратегија.</li>
+<li>Играч програмира роботе у виртуелном окружењу ЈСД-ом налик на C++ и Javu.</li>
+
+</ul>
+
+
+<div id="org78c71a0" class="figure">
+<p><img src="./images/colobot.png" alt="colobot.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-12">
+<h3 id="2-12"><span class="section-number-3">2.12.</span> PyTabs</h3>
+<p>
+Језик за гитарске таблатуре.
+</p>
+
+<div id="org9ea4d95" class="figure">
+<p><img src="./images/pytabs.png" alt="pytabs.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-13">
+<h3 id="2-13"><span class="section-number-3">2.13.</span> PyFlies</h3>
+<p>
+Језик за израду психолошких тестова.
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tSFdYYnQmjA?si=E46gRfeZcDvGTVJL?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Предности употребе</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Утицај на продуктивност</h3>
+<ul>
+<li>Поједине студије показују да повећање продуктивности иде и до 1000%<sup>1</sup>.</li>
+<li>Шта је основни разлог за повећање продуктивности?</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>MetaCase, <i>Nokia case study</i>, tech. rep., MetaCase, 2007</li>
+
+</ol>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Проблем менталног мапирања</h3>
+
+<div id="org23de2cc" class="figure">
+<p><img src="./images/MentalnoMapiranje-1.png" alt="MentalnoMapiranje-1.png" style="height: auto;" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Решење употребом ЈСД</h3>
+
+<div id="org7aa5703" class="figure">
+<p><img src="./images/MentalnoMapiranje-2.png" alt="MentalnoMapiranje-2.png" style="height: auto;" />
+</p>
+</div>
+
+<p class="footer" style="clear: both;">
+Dmitriev, S. <i>Language oriented programming: The next programming paradigm</i>,
+JetBrains onBoard, 2004.
+</p>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Када језик сматрамо ЈСД-ом?</h3>
+<ul>
+<li>Зависи од тога шта нам је домен.</li>
+<li>Језик може бити више или мање прилагођен неком домену.</li>
+<li>У екстремном случају и општи језик као што је Јава можемо сматрати ЈСД-ом ако
+нам је домен "развој софтвера". Наравно, иако тачно у теоријском смислу, у
+практичном губимо све предности ЈСД.</li>
+<li>Добар ЈСД покрива узак, добро дефинисан домен (домен проблема). Користи само
+концепте циљног домена, ограничен је на дати домен и самим тим је исказивање
+решења језгровитије и јасније доменским експертима.</li>
+<li>Чест је случај да језик настане као ЈСД али се временом прошири до те мере да
+га можемо сматрати ЈОН.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Како правити ЈСД-ове - <a href="https://igordejanovic.net/courses/tech/textX/">textX</a></h2>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

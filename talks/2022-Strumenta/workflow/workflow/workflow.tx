@@ -1,0 +1,17 @@
+/*
+    An example textX language
+*/
+
+Model: elements+=Element;
+Package: 'package' name=ID '{'
+             elements+=Element
+         '}';
+Element: Package | Task;
+Task: 'task' name=ID (state=State)? '{'
+            steps*=Step[',']
+            ('next' next+=[Task|FQN|^elements][','])?
+      '}';
+State: 'TODO' | 'DOING' | 'DONE';
+Step: !'next' ID;
+FQN: ID+['.'];
+Comment: /\/\/.*/;

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-23 Sun 16:21 -->
+<meta charset="utf-8"/>
+<title>Софтверски обрасци и компоненте</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Софтверски обрасци и компоненте</h1>
+<h2 class="subtitle">Креациони обрасци</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-23 Sun 16:21, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org325e6ae">
+<h2 id="org325e6ae">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Фундаментални обрасци</a></li>
+<li><a href="#/slide-2">2. Delegation</a></li>
+<li><a href="#/slide-3">3. Interface</a></li>
+<li><a href="#/slide-4">4. Interface and Abstract Class</a></li>
+<li><a href="#/slide-5">5. Креациони обрасци</a></li>
+<li><a href="#/slide-6">6. Factory Method</a></li>
+<li><a href="#/slide-7">7. Abstract Factory</a></li>
+<li><a href="#/slide-8">8. Prototype</a></li>
+<li><a href="#/slide-9">9. Builder</a></li>
+<li><a href="#/slide-10">10. Singleton</a></li>
+<li><a href="#/slide-11">11. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Фундаментални обрасци</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Фундаментални обрасци</h3>
+<ul>
+<li>Обрасци који се користе за изградњу сложенијих образаца.</li>
+<li>Често подржани програмским језиком.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Delegation</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Delegation</h3>
+<ul>
+<li>Општи начин проширења функционалности класе или објекта.</li>
+<li>Користи се у ситуацијама када наслеђивање није довољно флексибилно, посебно у
+ситуацији када програмски језик омогућава само једноструко наслеђивање.</li>
+<li>Динамичко проширење при инстанцирању класе дефинисањем делегата.</li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Пример проблема</h3>
+
+<div id="org674f002" class="figure">
+<p><img src="./images/Delegation-concreteBad.png" alt="Delegation-concreteBad.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Пример решења</h3>
+
+<div id="org60d029b" class="figure">
+<p><img src="./images/Delegation-concreteGood.png" alt="Delegation-concreteGood.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Структура обрасца</h3>
+
+<div id="org9d137d3" class="figure">
+<p><img src="./images/Delegation-abstract.png" alt="Delegation-abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Пример</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >interface I {
+    void f();
+    void g();
+}
+class A implements I {
+    public void f() { System.out.println("A: doing f()"); }
+    public void g() { System.out.println("A: doing g()"); }
+}
+class B implements I {
+    public void f() { System.out.println("B: doing f()"); }
+    public void g() { System.out.println("B: doing g()"); }
+}
+</code></pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="java" >class C implements I {
+    // delegation
+    I i = new A();
+
+    public void f() { i.f(); }
+    public void g() { i.g(); }
+}
+
+// normal attributes
+public void toA() { i = new A(); }
+public void toB() { i = new B(); }
+
+public class Main {
+    public static void main(String[] args) {
+        C c = new C();
+        c.f();
+        // output: A: doing f()
+        c.g();
+        // output: A: doing g()
+        c.toB();
+        c.f();
+        // output: B: doing f()
+        c.g();
+        // output: B: doing g()
+    }
+}
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Извор: Wikipedia</li>
+
+</ul>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Када користити?</h3>
+<ul>
+<li>Наслеђивање је статичка веза. Потребно је да објекат <i>мења класу</i> у време
+извршавања.</li>
+<li>Потребно је симулирати вишеструко наслеђивање. Делегатор може имати више
+делегата.</li>
+<li>Желимо да наследимо одређену класу али она није под нашом контролом.
+Делегација је у том случају безбеднија јер нас штити од некомпатибилних
+промена надкласе.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Interface</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Interface</h3>
+<ul>
+<li>Желимо да учинимо клијента независним од класа које обезбеђују сервис тако да
+можемо изменити класе без утицаја на клијента.</li>
+<li>Сервисне класе већ наслеђују неке класе а вишеструко наслеђивање није
+подржано.</li>
+
+</ul>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Структура обрасца</h3>
+
+<div id="org16f4b99" class="figure">
+<p><img src="./images/Interface-Abstract.png" alt="Interface-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Пример</h3>
+
+<div id="org369f9f9" class="figure">
+<p><img src="./images/Interface-Concrete.png" alt="Interface-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Сервисна класа може бити замењена без утицаја на клијента.</li>
+<li>Сервисна класа може имплементирати више интерфејса и наслеђивати произвољну
+класу.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Interface and Abstract Class</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Interface and Abstract Class</h3>
+<ul>
+<li>Проширење <i>Interface</i> обрасца.</li>
+<li>Желимо да клијента учинимо независним од хијерархије класа које имплементирају
+сервис на такав начин да можемо мењати класе које имплементирају сервис без
+утицаја на клијента.</li>
+<li>Истовремено желимо да дефинишемо апстрактну имплементацију сервиса тако да
+конкретни сервиси могу да редефинишу/допуне базну имплементацију.</li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Структура обрасца</h3>
+
+<div id="org29e61cb" class="figure">
+<p><img src="./images/IntAndAbsCls-Abstract.png" alt="IntAndAbsCls-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Пример</h3>
+
+<div id="orga664643" class="figure">
+<p><img src="./images/IntAndAbsCls-Concrete.png" alt="IntAndAbsCls-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Конкретан сервис може бити базиран на апстрактној имплементацији али и не
+мора. Довољно је да имплементира интерфејс сервиса.</li>
+<li>Сервисна класа може имплементирати више интерфејса и може наслеђивати
+произвољну класу.</li>
+<li>Апстрактна класа обезбеђује базичну имплементацију чиме се развој нових
+сервисних класа убрзава.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Креациони обрасци</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Креациони обрасци</h3>
+<ul>
+<li>Апстракција и локализација процеса инстанцирања објеката.</li>
+<li>Чине систем независним од начина креирања и композиције објеката.</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Базичне особине</h3>
+<p>
+Базичне особине креационих образаца су следеће:
+</p>
+
+<ul>
+<li>Енкапсулирају знање о конкретним класама које систем користи.</li>
+<li>Скривају начин на који се врши инстацирање класа и композиција објеката.</li>
+
+</ul>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Каталог креационих образаца</h3>
+<p>
+Према [1] креациони обрасци су следећи:
+</p>
+
+<ul>
+<li>Factory Method</li>
+<li>Abstract Factory</li>
+<li>Prototype</li>
+<li>Builder</li>
+<li>Singleton</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Factory Method</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Factory Method</h3>
+<ul>
+<li>Желимо да одвојимо клијента од конкретне имплементације путем Интерфејса.</li>
+<li>Желимо да клијент креира објекте на такав начин да "не зна" коју конкретну
+класу инстанцира.</li>
+
+</ul>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Структура</h3>
+
+<div id="org84da4f3" class="figure">
+<p><img src="./images/FactoryMethod.png" alt="FactoryMethod.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Шта добијамо?</h3>
+<ul>
+<li>Инстанцирање конкретних објеката је локализовано. Програмски код није јако
+спрегнут са типом конкретних инстанци.</li>
+<li>Класа може делегирати креирање конкретних објеката које користи на своје
+подкласе чиме се постиже већа флексибилност.</li>
+
+</ul>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> А шта губимо?</h3>
+<ul>
+<li>Релативно велики број класа.</li>
+<li>Сваки нови Производ захтева новог Креатора.</li>
+
+</ul>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Демонстрација обрасца <i>Factory Method</i> на примеру у Јави</h3>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Abstract Factory</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Abstract Factory</h3>
+<ul>
+<li>Проширење <i>Factory Method</i> обрасца.</li>
+<li>Креирање фамилије објеката сличних по функцији коју врше у апликацији при
+чему клијент (објекат који их користи) "не зна" конкренте класе објеката.</li>
+
+</ul>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Структура</h3>
+
+<div id="org2a6e665" class="figure">
+<p><img src="./images/AbstractFactory.png" alt="AbstractFactory.png" />
+</p>
+</div>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Шта добијамо?</h3>
+<ul>
+<li>Инстанцирање фамилије конкретних објеката је локализовано.</li>
+<li>Програмски код није јако спрегнут са типом конкретних инстанци.</li>
+<li>Промена фамилије конкретних инстанци могућа је изменом програмског кода на
+месту где се инстанцира конкретна фабрика објеката (најчешће једна линија
+кода).</li>
+<li>У одређеним случајевима могућа је динамичка промена фабрике објеката (нпр.
+<a href="https://en.wikipedia.org/wiki/Pluggable_look_and_feel">Swing PLAF</a>).</li>
+
+</ul>
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> А шта губимо?</h3>
+<ul>
+<li>Релативно велики број класа.</li>
+<li>Сваки нови Производ захтева нову методу у свим Креаторима и свака нова
+фамилија производа захтева новог конкретног Креатора и нове конкретне
+производе.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Prototype</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Prototype</h3>
+<p>
+Креирање објекта копирањем већ постојеће инстанце.
+</p>
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Структура</h3>
+
+<div id="org8287e67" class="figure">
+<p><img src="./images/Prototype.png" alt="Prototype.png" />
+</p>
+</div>
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Шта добијамо?</h3>
+<ul>
+<li>Елиминишемо потребу за постојањем креатор класа и њених наследница при
+коришћењу <i>Factory Method</i> дизајн шаблона - смањује се број потребних класа.</li>
+<li>Ако је инстанцирање објеката превише "скупо" са становишта потрошње
+процесорског времена и меморије, клонирање већ креираних објеката може довести
+до убрзања и смањења потрошње меморије.</li>
+<li>Уколико нам требају инстанце објеката чије стање се разликује од иницијалног
+али је слично већ постојећим једноставније је клонирање постојећег, сличног,
+објекта и измена потребних атрибута од креирања и пуне иницијализације новог
+објекта.</li>
+
+</ul>
+</section>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4.</span> На шта треба обратити пажњу?</h3>
+<ul>
+<li>Клонирање се најчешће реализује тзв. "дубоким копирањем" (енг. <i>deep copy</i>).</li>
+<li>Јавина <code>clone</code> операција је реализована као "плитко копирање" (енг. <i>shallow
+copy</i>).</li>
+
+</ul>
+</section>
+<section id="slide-8-5">
+<h3 id="8-5"><span class="section-number-3">8.5.</span> Демонстрација обрасца <i>Prototype</i> на примеру у Јави</h3>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Builder</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+</section>
+<section id="slide-9-1">
+<h3 id="9-1"><span class="section-number-3">9.1.</span> Builder</h3>
+<p>
+Конструкција сложених објеката поделом надлежности на онога ко "зна" како треба
+направити структуру сложеног објекта и онога ко "зна" како треба креирати
+појединачне делове.
+</p>
+</section>
+<section id="slide-9-2">
+<h3 id="9-2"><span class="section-number-3">9.2.</span> Структура</h3>
+
+<div id="org10e9444" class="figure">
+<p><img src="./images/Builder.png" alt="Builder.png" />
+</p>
+</div>
+</section>
+<section id="slide-9-3">
+<h3 id="9-3"><span class="section-number-3">9.3.</span> Шта добијамо?</h3>
+<p>
+Раздвајамо конструкцију сложеног објекта (најчешће <i>Composite</i>) од његове
+репрезентације тако да исти поступак изградње може резултовати различитим
+репрезентацијама.
+</p>
+</section>
+<section id="slide-9-4">
+<h3 id="9-4"><span class="section-number-3">9.4.</span> Када користити?</h3>
+<ul>
+<li>Ако је потребно учинити алгоритам за креирање сложених објеката независним од
+конкретних делова који сачињавају објекат.</li>
+<li>Ако процес конструкције мора обезбедити различите репрезентације објекта који
+се изграђује.</li>
+
+</ul>
+</section>
+<section id="slide-9-5">
+<h3 id="9-5"><span class="section-number-3">9.5.</span> Напомена</h3>
+<p>
+Постоји и друга врста <i>Builder</i> обрасца где се објекат гради у корацима употребом
+помоћног <i>Builder</i> објекта.
+</p>
+
+<p>
+Пример у Јави:
+</p>
+
+<div class="column" style="float:left; width: 45%">
+<div class="org-src-container">
+
+<pre><code class="java" >public class Car {
+    private String make;
+    private String model;
+    private int year;
+    private String color;
+    private int horsepower;
+
+    private Car(Builder builder) {
+        this.make = builder.make;
+        this.model = builder.model;
+        this.year = builder.year;
+        this.color = builder.color;
+        this.horsepower = builder.horsepower;
+    }
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 45%">
+<div class="org-src-container">
+
+<pre><code class="java" >    public static class Builder {
+        private String make;
+        private String model;
+        private int year;
+        private String color;
+        private int horsepower;
+
+        public Builder withMake(String make) {
+            this.make = make;
+            return this;
+        }
+
+        public Builder withModel(String model) {
+            this.model = model;
+            return this;
+        }
+        ...
+
+        public Car build() {
+            return new Car(this);
+        }
+    }
+    ...
+</code></pre>
+</div>
+</div>
+<div style="clear: both;">
+
+
+
+</section>
+<section>
+
+<div class="org-src-container">
+
+<pre><code class="java" >    @Override
+    public String toString() {
+        return "Car{" +
+                "make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", color='" + color + '\'' +
+                ", horsepower=" + horsepower +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Car car = new Car.Builder()
+                .withMake("Toyota")
+                .withModel("Camry")
+                .withYear(2020)
+                .withColor("Blue")
+                .withHorsepower(200)
+                .build();
+
+        System.out.println(car);
+    }
+}
+</code></pre>
+</div>
+
+<pre class="example">
+Car{make='Toyota', model='Camry', year=2020, color='Blue', horsepower=200}
+</pre>
+
+
+<p>
+Може се комбиновати и са <a href="https://docs.rust-embedded.org/book/static-guarantees/typestate-programming.html">Typestate обрасцем</a> у циљу боље контроле могућих конфигурација.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Singleton</h2>
+<div class="outline-text-2" id="text-10">
+</div>
+</section>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Singleton</h3>
+<ul>
+<li>Потребно је да постоји само једна инстанца класе у систему. На пример: logger,
+регистар, јединствена конекција ка бази и сл.</li>
+<li>Јединична инстанца мора бити доступна свим клијентима.</li>
+
+</ul>
+</section>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Структура</h3>
+
+<div id="org49c3834" class="figure">
+<p><img src="./images/Singleton.png" alt="Singleton.png" />
+</p>
+</div>
+</section>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3.</span> Шта добијамо?</h3>
+<ul>
+<li>Контролисани приступ јединственој инстанци.</li>
+<li>Наслеђивање класе јединствене инстанце и омогућавање реконфигурације система и
+у време извршавања (<i>run-time</i>).</li>
+<li>Ако је накнадно потребно, може се обезбедити постојање више од једне инстанце.
+На пример, <i>Connection Pool</i>.</li>
+
+</ul>
+</section>
+<section id="slide-10-4">
+<h3 id="10-4"><span class="section-number-3">10.4.</span> Напомена</h3>
+<ul>
+<li><i>Singleton</i> се данас сматра анти-обрасцем.</li>
+<li>Два главна разлога:
+
+<ul>
+<li><i>Singleton</i> је глобални објекат – глобалне варијабле лоше утичу на квалитет
+дизајна и на конкурентност у контексту вишенитног програмирања.</li>
+<li><i>Singleton</i> се тешко <i>mock-up</i>-ује (клијентски код је чврсто спрегнут са
+<i>Singleton</i> објектом) па је тестирање кода који га користи веома тешко. Овај
+проблем се може решити коришћењем <i>Dependency Injection</i> обрасца.</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Литература</h2>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

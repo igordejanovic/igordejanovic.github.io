@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Sadržaj Uvod Cilj Imamo kreiran DSL i iskaze na njemu (mograme) i šta sada? Krajnji cilj nam je dobijanje izvršivog softvera na bazi naših mograma. Semantika jezika Pragmatični načini definisanja:
+Transformacija iskaza jezika na jezik sa već definisanom semantikom (kompajleri/generatori koda).
+DSL → GPL → asemblerski kôd → mašinski kôd → interpretiranje (na procesoru). DSL → GPL → VM code → interpretiranje (na virtuelnoj mašini). Interpretiranje.
+DSL → interpretiranje Obično se za strukturalne aspekte sistema koristi generisanje koda dok se interpreteri koriste kod aspekata ponašanja.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Generisanje programskog koda • Random bits and pieces'>
+<meta property='og:description' content='Sadržaj Uvod Cilj Imamo kreiran DSL i iskaze na njemu (mograme) i šta sada? Krajnji cilj nam je dobijanje izvršivog softvera na bazi naših mograma. Semantika jezika Pragmatični načini definisanja:
+Transformacija iskaza jezika na jezik sa već definisanom semantikom (kompajleri/generatori koda).
+DSL → GPL → asemblerski kôd → mašinski kôd → interpretiranje (na procesoru). DSL → GPL → VM code → interpretiranje (na virtuelnoj mašini). Interpretiranje.
+DSL → interpretiranje Obično se za strukturalne aspekte sistema koristi generisanje koda dok se interpreteri koriste kod aspekata ponašanja.'>
+<meta property='og:url' content='https://www.igordejanovic.net/courses/jsd/04-generisanje-programskog-koda/generisanje-programskog-koda/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='courses'><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>Generisanje programskog koda • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/courses/jsd/04-generisanje-programskog-koda/generisanje-programskog-koda/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-courses has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item has-current'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Generisanje programskog koda</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='0001-01-01T00:00:00Z'>0001, Jan 01</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+7 mins read
+</span>
+
+
+</div>
+
+
+
+  
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Sadržaj
+</h2>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Uvod
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Cilj
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<ul>
+<li>Imamo kreiran DSL i iskaze na njemu (mograme) i šta sada?</li>
+<li>Krajnji cilj nam je dobijanje izvršivog softvera na bazi naših mograma.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Semantika jezika
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<p>
+Pragmatični načini definisanja:</p>
+<ul>
+<li>
+<p>Transformacija iskaza jezika na jezik sa već definisanom semantikom
+(kompajleri/generatori koda).</p>
+<ul>
+<li>DSL → GPL → asemblerski kôd → mašinski kôd → interpretiranje (na procesoru). </li>
+<li>DSL → GPL → VM code → interpretiranje (na virtuelnoj mašini).</li>
+</ul>
+</li>
+<li>
+<p>Interpretiranje.</p>
+<ul>
+<li>DSL → interpretiranje</li>
+</ul>
+</li>
+<li>Obično se za strukturalne aspekte sistema koristi generisanje koda dok se
+interpreteri koriste kod aspekata ponašanja.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+Generisanje koda
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Generisanje koda (kompajliranje)
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<p><img src="./images/Arhitektura-kompajler.svg" alt="./images/Arhitektura-kompajler.svg" title="./images/Arhitektura-kompajler.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Pristupi u generisanju koda
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<ul>
+<li>Naivan pristup - kombinovanje fragmenata koda - upotreba komandi print oblika.</li>
+<li>API bazirano generisanje</li>
+<li>Inline generisanje</li>
+<li>Generisanje bazirano na šablonima i obrađivačima šablona - <em>Template Engines</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Print pristup
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<ul>
+<li>Generisan kôd se dobija print komandom uz korišćenje spajanja i interpolacije
+stringova.</li>
+<li>Koriste se standardni iskazi jezika domaćina za uslove i petlje.</li>
+<li>Jednostavan pristup ali loše skalira. Kod složenijeg koda koji se generiše
+čitkost je niskog nivoa.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-3">
+<h3 id="headline-9">
+<code class="verbatim">print</code> pristup - primer
+</h3>
+<div id="outline-text-headline-9" class="outline-text-3">
+<div class="src src-python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Class</span>(object):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, name, attributes):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>attributes <span style="color:#f92672">=</span> attributes
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>classes <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>classes<span style="color:#f92672">.</span>append(Class(<span style="color:#e6db74">&#34;Student&#34;</span>, 
+</span></span><span style="display:flex;"><span>                [(<span style="color:#e6db74">&#34;String&#34;</span>, <span style="color:#e6db74">&#34;ime&#34;</span>),
+</span></span><span style="display:flex;"><span>                 (<span style="color:#e6db74">&#34;String&#34;</span>, <span style="color:#e6db74">&#34;prezime&#34;</span>),
+</span></span><span style="display:flex;"><span>                 (<span style="color:#e6db74">&#34;String&#34;</span>, <span style="color:#e6db74">&#34;brojIndeksa&#34;</span>)]))
+</span></span><span style="display:flex;"><span>classes<span style="color:#f92672">.</span>append(Class(<span style="color:#e6db74">&#34;Predmet&#34;</span>, 
+</span></span><span style="display:flex;"><span>                [(<span style="color:#e6db74">&#34;String&#34;</span>, <span style="color:#e6db74">&#34;naziv&#34;</span>),
+</span></span><span style="display:flex;"><span>                 (<span style="color:#e6db74">&#34;String&#34;</span>, <span style="color:#e6db74">&#34;nastavnik&#34;</span>),
+</span></span><span style="display:flex;"><span>                 (<span style="color:#e6db74">&#34;int&#34;</span>, <span style="color:#e6db74">&#34;ESBP&#34;</span>)]))
+</span></span><span style="display:flex;"><span>ime_paketa <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;fakultet&#34;</span></span></span></code></pre></div>
+</div>
+<div class="src src-python">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print <span style="color:#e6db74">&#34;package </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">;&#34;</span> <span style="color:#f92672">%</span> ime_paketa
+</span></span><span style="display:flex;"><span>print
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> cls <span style="color:#f92672">in</span> classes:
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;public class </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> {&#34;</span> <span style="color:#f92672">%</span> cls<span style="color:#f92672">.</span>name
+</span></span><span style="display:flex;"><span>    print
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> attr <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>attributes:
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;    protected </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">;&#34;</span> <span style="color:#f92672">%</span> (attr[<span style="color:#ae81ff">0</span>], attr[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>    print
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> attr <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>attributes:
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;    public </span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> get</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">(){&#34;</span> <span style="color:#f92672">%</span> \
+</span></span><span style="display:flex;"><span>                    (attr[<span style="color:#ae81ff">0</span>], attr[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>capitalize())
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;        return </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">;&#34;</span> <span style="color:#f92672">%</span> attr[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;    }&#34;</span>
+</span></span><span style="display:flex;"><span>        print
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;    public void set</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">){&#34;</span> <span style="color:#f92672">%</span> \
+</span></span><span style="display:flex;"><span>                    (attr[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>capitalize(), attr[<span style="color:#ae81ff">0</span>], attr[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;        this.</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> = </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">;&#34;</span> <span style="color:#f92672">%</span> (attr[<span style="color:#ae81ff">1</span>], attr[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>        print <span style="color:#e6db74">&#34;    }&#34;</span>
+</span></span><span style="display:flex;"><span>        print 
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;}&#34;</span>
+</span></span><span style="display:flex;"><span>    print</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-3">
+<h3 id="headline-10">
+Print pristup - generisani kod
+</h3>
+<div id="outline-text-headline-10" class="outline-text-3">
+<div class="src src-java">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> fakultet<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Student</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> String ime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> String prezime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> String brojIndeksa<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getIme</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setIme</span><span style="color:#f92672">(</span>String ime<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">ime</span> <span style="color:#f92672">=</span> ime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getPrezime</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> prezime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setPrezime</span><span style="color:#f92672">(</span>String prezime<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prezime</span> <span style="color:#f92672">=</span> prezime<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getBrojindeksa</span><span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> brojIndeksa<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setBrojindeksa</span><span style="color:#f92672">(</span>String brojIndeksa<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">brojIndeksa</span> <span style="color:#f92672">=</span> brojIndeksa<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span></span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-3">
+<h3 id="headline-11">
+API bazirano generisanje koda
+</h3>
+<div id="outline-text-headline-11" class="outline-text-3">
+<p><img src="./images/gen_API.svg" alt="./images/gen_API.svg" title="./images/gen_API.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-3">
+<h3 id="headline-12">
+Obrađivači šablona (<em>Template Engines</em>)
+</h3>
+<div id="outline-text-headline-12" class="outline-text-3">
+<ul>
+<li>Za opis generisanog programskog kôda koristi se DSL za zadavanje šablona.</li>
+<li>Fiksni delovi generisanog koda su definisani bez izmena.</li>
+<li>Varijabilni delovi su definisani upotrebom posebnih iskaza šablon DSL-a i biće
+interpretirani od strane obrađivača šablona u vreme generisanja koda.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Arhitektura
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<p><img src="./images/gen_sabloni.svg" alt="./images/gen_sabloni.svg" title="./images/gen_sabloni.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-3">
+<h3 id="headline-14">
+Primer - Jinja/Django
+</h3>
+<div id="outline-text-headline-14" class="outline-text-3">
+<div class="src src-jinja2">
+<pre tabindex="0"><code class="language-jinja2" data-lang="jinja2">{% for component in components %}
+  &lt;component class=&#34;struct&#34;&gt;
+      &lt;type class=&#34;char&#34;&gt;{{component.type_name}}&lt;/type&gt;
+      &lt;name class=&#34;char&#34;&gt;{{component.fqn}}&lt;/name&gt;
+
+      &lt;parameters class=&#34;struct&#34;&gt;
+          {% for parameter in component.all_properties %}
+          &lt;parameter class=&#34;struct&#34;&gt;
+                  {% if parameter.child_property -%}
+                  &lt;parent class=&#34;char&#34;&gt;parameter.owner.name&lt;/parent&gt;
+                  {% endif %}
+              &lt;name class=&#34;char&#34;&gt;{{parameter.name}}&lt;/name&gt;
+              &lt;value class=&#34;double&#34;&gt;{{parameter}}&lt;/value&gt;
+          &lt;/parameter&gt;
+          {% endfor %}
+      &lt;/parameters&gt;
+
+      &lt;terminals class=&#34;struct&#34;&gt;
+          {% for terminal in component %}
+          &lt;terminal class=&#34;struct&#34;&gt;
+              &lt;name class=&#34;char&#34;&gt;{{terminal.name}}&lt;/name&gt;                    
+              &lt;type class=&#34;char&#34;&gt;{{terminal.type}}&lt;/type&gt;             
+              &lt;node class=&#34;char&#34;&gt;{{terminal.node}}&lt;/node&gt;
+          &lt;/terminal&gt;
+          {% endfor %}
+      &lt;/terminals&gt;
+  &lt;/component&gt;
+{% endfor %}</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-3">
+<h3 id="headline-15">
+Primer - JSP
+</h3>
+<div id="outline-text-headline-15" class="outline-text-3">
+<div class="src src-jsp">
+<pre tabindex="0"><code class="language-jsp" data-lang="jsp">&lt;html&gt;
+&lt;head&gt;&lt;title&gt;First JSP&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+  &lt;%
+    double num = Math.random();
+    if (num &gt; 0.95) {
+  %&gt;
+      &lt;h2&gt;You&#39;ll have a luck day!&lt;/h2&gt;&lt;p&gt;(&lt;%= num %&gt;)&lt;/p&gt;
+  &lt;%
+    } else {
+  %&gt;
+      &lt;h2&gt;Well, life goes on ... &lt;/h2&gt;&lt;p&gt;(&lt;%= num %&gt;)&lt;/p&gt;
+  &lt;%
+    }
+  %&gt;
+  &lt;a href=&#34;&lt;%= request.getRequestURI() %&gt;&#34;&gt;&lt;h3&gt;Try Again&lt;/h3&gt;&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+<ul class="footer" style="clear: both;">
+<li><a href="http://www.ntu.edu.sg/home/ehchua/programming/java/JSPByExample.html">http://www.ntu.edu.sg/home/ehchua/programming/java/JSPByExample.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-3">
+<h3 id="headline-16">
+Primer - PHP
+</h3>
+<div id="outline-text-headline-16" class="outline-text-3">
+<div class="src src-php">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span>    $Fname <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#34;Fname&#34;</span>];
+</span></span><span style="display:flex;"><span>    $Lname <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#34;Lname&#34;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;html&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;title&gt;Personal INFO&lt;/title&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;/head&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;form method=&#34;post&#34; action=&#34;&lt;?php echo $PHP_SELF;?&gt;&#34;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            First Name:&lt;input type=&#34;text&#34; size=&#34;12&#34; maxlength=&#34;12&#34; name=&#34;Fname&#34;&gt;&lt;br /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">            Last Name:&lt;input type=&#34;text&#34; size=&#34;12&#34; maxlength=&#34;36&#34; name=&#34;Lname&#34;&gt;&lt;br /&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;/form&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        &lt;?
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        echo &#34;Hello, &#34;.$Fname.&#34; &#34;.$Lname.&#34;.&lt;br /&gt;&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">        ?&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    &lt;/body&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">&lt;/html&gt;
+</span></span></span></code></pre></div>
+</div>
+<ul class="footer" style="clear: both;">
+<li><a href="http://www.ntchosting.com/php/php-in-html.html">http://www.ntchosting.com/php/php-in-html.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-3">
+<h3 id="headline-17">
+Primer - Ruby ERB
+</h3>
+<div id="outline-text-headline-17" class="outline-text-3">
+<div class="src src-erb">
+<pre tabindex="0"><code class="language-erb" data-lang="erb">&lt;h1&gt;Listing Books&lt;/h1&gt;
+ 
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Summary&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+ 
+&lt;% @books.each do |book| %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;%= book.title %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= book.content %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to &#34;Show&#34;, book %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to &#34;Edit&#34;, edit_book_path(book) %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to &#34;Remove&#34;, book, method: :delete, data: { confirm: &#34;Are you sure?&#34; } %&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;% end %&gt;
+&lt;/table&gt;
+ 
+&lt;br /&gt;
+ 
+&lt;%= link_to &#34;New book&#34;, new_book_path %&gt;</code></pre>
+</div>
+<ul class="footer" style="clear: both;">
+<li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html">http://guides.rubyonrails.org/layouts_and_rendering.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
+<h3 id="headline-18">
+Primer - Xtend
+</h3>
+<div id="outline-text-headline-18" class="outline-text-3">
+<div class="src src-xtend">
+<pre tabindex="0"><code class="language-xtend" data-lang="xtend">def compile(Entity e) &#39;&#39;&#39; 
+	«IF e.eContainer.fullyQualifiedName != null»
+		package «e.eContainer.fullyQualifiedName»;
+	«ENDIF»
+	
+	public class «e.name» «IF e.superType != null
+			»extends «e.superType.fullyQualifiedName» «ENDIF»{
+		«FOR f:e.features»
+			«f.compile»
+		«ENDFOR»
+		}
+	&#39;&#39;&#39;
+
+def compile(Feature f) &#39;&#39;&#39;
+	private «f.type.fullyQualifiedName» «f.name»;
+	
+	public «f.type.fullyQualifiedName» get«f.name.toFirstUpper»() {
+		return «f.name»;
+	}
+	
+	public void set«f.name.toFirstUpper»(«f.type.fullyQualifiedName» «f.name») {
+		this.«f.name» = «f.name»;
+	}
+	&#39;&#39;&#39;
+}</code></pre>
+</div>
+<ul class="footer" style="clear: both;">
+<li><a href="http://www.eclipse.org/Xtext/documentation.html">http://www.eclipse.org/Xtext/documentation.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
+<h3 id="headline-19">
+Primer - Stratego
+</h3>
+<div id="outline-text-headline-19" class="outline-text-3">
+<p><img src="./images/stratego.png" alt="./images/stratego.png" title="./images/stratego.png" /></p>
+<ul class="footer" style="clear: both;">
+<li><a href="http://metaborg.org/wiki/spoofax/tour">http://metaborg.org/wiki/spoofax/tour</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-3">
+<h3 id="headline-20">
+In-line generisanje koda
+</h3>
+<div id="outline-text-headline-20" class="outline-text-3">
+<ul>
+<li>Ciljni jezik poseduje iskaze koji se u vreme kompajliranja zamenjuju drugim
+konstrukcijama istog jezika.</li>
+<li>Ova zamena se obavlja najčešće posebnim alatom koji se naziva predprocesor.</li>
+<li>Predprocesiranje može da se obavlja u više koraka, odnosno možemo imati više
+predprocesora koji će vršiti ekspanziju koda pre faze kompajliranja.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-3">
+<h3 id="headline-21">
+Primer - C predprocesor
+</h3>
+<div id="outline-text-headline-21" class="outline-text-3">
+<div class="src src-c">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define SLICES 8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ADD(x) ( (x) / SLICES )
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, c <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> ADD(b <span style="color:#f92672">+</span> c);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, a);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-3">
+<h3 id="headline-22">
+U svim slučajevima…
+</h3>
+<div id="outline-text-headline-22" class="outline-text-3">
+<ul>
+<li>…imamo fiksni, nepromenjivi deo programskog koda i varijabilni deo.</li>
+<li>Šta će u našem slučaju biti izvor za koji definiše varijabilni deo?</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-3">
+<h3 id="headline-23">
+Šta i kako generisati?
+</h3>
+<div id="outline-text-headline-23" class="outline-text-3">
+<ul>
+<li>Truditi se da generisan kod bude čitak. Očuvati nazubljivanje, generisati
+komentare, u komentarima jasno napisati da je generisani kod u pitanju i na
+osnovu čega je generisan.</li>
+<li>Ukoliko DSL dobro pokriva ciljni domen moguće je generisati 100% programskog
+koda. Ovo je obično slučaj kod zrelih DSL-ova.</li>
+<li>Često u toku razvoja, i zbog praktičnih razloga, DSL ne pokriva domen u
+potpunosti. U tom slučaju generiše se deo programskog koda, dok se deo piše
+ručno na jeziku ciljne platforme.</li>
+<li>U ovom slučaju moramo rešiti problem integracije ručno
+pisanog i generisanog koda.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-24" class="outline-3">
+<h3 id="headline-24">
+Ručne izmene u generisanom kodu
+</h3>
+<div id="outline-text-headline-24" class="outline-text-3">
+<ul>
+<li>Ponovno generisanje celih fajlova vs. očuvanje ručnih izmena.</li>
+<li>Kod očuvanja ručnih izmena u generisanom kodu koriste se tzv. zaštićene
+sekcije (<em>protected regions</em>). Najčešće posebne oznake unutar komentara.</li>
+<li>Zaštićene regije komplikuju implementaciju generatora i kontrolu verzija -
+izbegavati.</li>
+<li>Kôd koji se uvek generiše potpuno ne čuvati u sistemu za kontrolu verzija bez
+potrebe - uvek ga možete izgenerisati! Isti je razlog zbog koga ne čuvate Java
+<code class="verbatim">.class</code> fajlove.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-25" class="outline-3">
+<h3 id="headline-25">
+Generisani kôd i kontrola verzija
+</h3>
+<div id="outline-text-headline-25" class="outline-text-3">
+<ul>
+<li>Kod koji se uvek generiše potpuno ne čuvati u sistemu za kontrolu verzija bez
+potrebe - uvek ga možete izgenerisati!</li>
+<li>Razlog je isti zbog kod ne čuvate npr. Java <code class="verbatim">.class</code> fajlove.</li>
+<li>… osim u slučaju kada VCS koristite za integraciju ručno pisanog koda.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-26" class="outline-3">
+<h3 id="headline-26">
+Integracija generisanog i ručno pisanog koda
+</h3>
+<div id="outline-text-headline-26" class="outline-text-3">
+<ul>
+<li>Najčešće se koriste mogućnosti ciljnog programskog jezika.</li>
+<li>Na primer, ukoliko je u pitanju OO jezik možemo koristiti nasleđivanje ili
+ukoliko jezik podržava parcijalne klase (npr. .NET).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-27" class="outline-3">
+<h3 id="headline-27">
+Obrasci za integraciju kod OO jezika - 1
+</h3>
+<div id="outline-text-headline-27" class="outline-text-3">
+<p>
+Generisani kôd poziva ručno pisani.</p>
+<p><img src="./images/integracija_1.svg" alt="./images/integracija_1.svg" title="./images/integracija_1.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-28" class="outline-3">
+<h3 id="headline-28">
+Obrasci za integraciju kod OO jezika - 2
+</h3>
+<div id="outline-text-headline-28" class="outline-text-3">
+<p>
+Ručno pisani kôd poziva generisani.</p>
+<p><img src="./images/integracija_2.svg" alt="./images/integracija_2.svg" title="./images/integracija_2.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-29" class="outline-3">
+<h3 id="headline-29">
+Obrasci za integraciju kod OO jezika - 3
+</h3>
+<div id="outline-text-headline-29" class="outline-text-3">
+<p>
+Generisani kôd nasleđuje apstraktne klase ili implementira interfejse (ručno
+pisane). Ručno pisani kod poziva generisani preko interfejsa ili apstraktnih
+klasa.</p>
+<p><img src="./images/integracija_3.svg" alt="./images/integracija_3.svg" title="./images/integracija_3.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-30" class="outline-3">
+<h3 id="headline-30">
+Obrasci za integraciju kod OO jezika - 4
+</h3>
+<div id="outline-text-headline-30" class="outline-text-3">
+<p>
+Ručno pisani kôd nasleđuje i redefiniše generisani.</p>
+<p><img src="./images/integracija_4.svg" alt="./images/integracija_4.svg" title="./images/integracija_4.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-31" class="outline-3">
+<h3 id="headline-31">
+Obrasci za integraciju kod OO jezika - 5
+</h3>
+<div id="outline-text-headline-31" class="outline-text-3">
+<p>
+Generisani kôd nasleđuje i poziva ručno pisani. Na primer, implementacija
+apstraktnih metoda u kojoj se koriste pozivi konkretnih metoda.</p>
+<p><img src="./images/integracija_5.svg" alt="./images/integracija_5.svg" title="./images/integracija_5.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-32" class="outline-3">
+<h3 id="headline-32">
+Obrasci za integraciju kod OO jezika - 6
+</h3>
+<div id="outline-text-headline-32" class="outline-text-3">
+<p>
+Generisani kôd nasleđuje ručno pisani i definiše apstraktne metode. Ručno pisani
+kôd poziva konkretne metode kao i apstraktne metode koje definiše generisani
+kod. Implementacija <em>Template Method</em> dizajn obrasca.</p>
+<p><img src="./images/integracija_6.svg" alt="./images/integracija_6.svg" title="./images/integracija_6.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>
+<ol>
+<li>Völter and T. Stahl, /Model-Driven Software Development : Technology,</li>
+</ol>
+<p>Engineering, Management/. John Wiley &amp; Sons, June 2006</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-33" class="outline-3">
+<h3 id="headline-33">
+Integracija upotrebom VCS
+</h3>
+<div id="outline-text-headline-33" class="outline-text-3">
+<p><img src="./images/vcs-integracija.png" alt="./images/vcs-integracija.png" title="./images/vcs-integracija.png" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-34" class="outline-2">
+<h2 id="headline-34">
+Interpretiranje
+</h2>
+<div id="outline-text-headline-34" class="outline-text-2">
+<div id="outline-container-headline-35" class="outline-3">
+<h3 id="headline-35">
+Interpretiranje
+</h3>
+<div id="outline-text-headline-35" class="outline-text-3">
+<ul>
+<li>Interpreter je softver koji čita mogram i dinamički ga evaluira u vreme
+izvršavanja (<em>runtime</em>).</li>
+<li>Nema generisanja koda.</li>
+<li>Brži <em>round-trip</em> u razvoju ali sporije izvršavanje.</li>
+<li>Često teže debagovanje ukoliko ne postoje specijalizovani debageri.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-36" class="outline-3">
+<h3 id="headline-36">
+Arhitektura pristupa
+</h3>
+<div id="outline-text-headline-36" class="outline-text-3">
+<p><img src="./images/Arhitektura-interpreter.svg" alt="./images/Arhitektura-interpreter.svg" title="./images/Arhitektura-interpreter.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-37" class="outline-3">
+<h3 id="headline-37">
+Primer - Arpeggio i textX
+</h3>
+<div id="outline-text-headline-37" class="outline-text-3">
+<ul>
+<li>Arpeggio textX su parseri koji vrši interpretiranje gramatike jezika.</li>
+<li>Parser se ne generiše već se arpeggio konfiguriše gramatikom jezika i posle
+toga je spreman da parsira proizvoljne iskaze na definisanom jeziku.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-38" class="outline-2">
+<h2 id="headline-38">
+Finalne napomene
+</h2>
+<div id="outline-text-headline-38" class="outline-text-2">
+<div id="outline-container-headline-39" class="outline-3">
+<h3 id="headline-39">
+Vreme analize modela - generatori vs. interpreteri
+</h3>
+<div id="outline-text-headline-39" class="outline-text-3">
+<ul>
+<li>Analiza modela se kod generatora obavlja u vreme izgradnje dok se kod
+interpretera obavlja u vreme izvršavanja.</li>
+<li>Postoje interpreteri koji će pre startovanja mograma obaviti analizu u cilju
+otkrivanja čestih grešaka.</li>
+<li>Određeni interpreteri vrše validaciju mograma i zatim ga transformišu u
+efikasan međuformat (npr. <em>bytecode</em> za Java virtualnu mašinu).</li>
+<li>Takođe, određeni generatori vrše generisanje koda u vreme izvršavanja (npr.
+<em>JIT kompajleri</em>).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-40" class="outline-3">
+<h3 id="headline-40">
+Generisanje ili interpretacija?
+</h3>
+<div id="outline-text-headline-40" class="outline-text-3">
+<ul>
+<li>Na ovo pitanje ne postoji opšti odgovor.</li>
+<li>Zavisi od jezika, domena, zahteva u razvoju kao i zahtevanih nefunkcioanlnih
+osobina.</li>
+<li>Često se u praksi ova dva pristupa kombinuju.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-41" class="outline-2">
+<h2 id="headline-41">
+Literatura
+</h2>
+<div id="outline-text-headline-41" class="outline-text-2">
+<ul>
+<li>Igor Dejanović, <em>Jezici specifični za domen</em>, Fakultet tehničkih nauka, Novi
+Sad, 2021. (dostupno u skriptarnici FTN-a)</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/courses/jsd/00-upoznavanje/upoznavanje/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Језици специфични за домен</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/courses/jsd/05-anatomija-dsla/anatomija-dsla/'>
+        <span class='screen-reader-text'>Next post: </span>Anatomija jednog JSD-a<span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+

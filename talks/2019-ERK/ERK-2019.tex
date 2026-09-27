@@ -1,0 +1,166 @@
+% Created 2019-10-07 Mon 14:41
+% Intended LaTeX compiler: pdflatex
+\documentclass[presentation]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\setminted{fontsize=\scriptsize,baselinestretch=1}
+\usemintedstyle{trac}
+\usetheme{metropolis}
+\author{University of Novi Sad\textsuperscript{1}, University of Priština\textsuperscript{2}}
+\date{September, 2019 @ ERK Portorož Slovenia}
+\title{Generating program code for psychological experiments from high-level descriptions}
+\subtitle{Igor Dejanović\textsuperscript{1}, Mirjana Dejanović\textsuperscript{2}}
+\hypersetup{
+ pdfauthor={University of Novi Sad\textsuperscript{1}, University of Priština\textsuperscript{2}},
+ pdftitle={Generating program code for psychological experiments from high-level descriptions},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.2.6)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+
+\section*{Introduction}
+\label{sec:org5b711c1}
+\begin{frame}[label={sec:orgb89aeac}]{}
+\begin{center}\Huge{Experiments in Psychology}\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:orge2e0f74}]{An example -- the Simon effect test}
+\begin{center}
+\includegraphics[width=1\textwidth]{./images/simon_experiment.png}
+\end{center} 
+\end{frame}
+\begin{frame}[label={sec:org3f03a3f}]{}
+\begin{center}\Huge{Motivation}\end{center}
+\end{frame}
+
+\section*{Domain-Specific Languages}
+\label{sec:orge9ebbb4}
+\begin{frame}[label={sec:orgcd9d010},fragile]{SQL}
+ \begin{minted}[]{sql}
+SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+\end{minted}
+\end{frame}
+
+\begin{frame}[label={sec:orgaf70dce}]{Business processes - BPMN}
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/BPMN.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:org149dff1}]{But also\ldots{}}
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/MusicNotation-External.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:org00fe4f2}]{Or\ldots{}}
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/ChessNotation.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:orgc2a46d5}]{}
+\vfill
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/textX.png}
+\end{center} 
+\begin{center}
+\fontsize{9pt}\selectfont
+\url{https://github.com/textX/textX}
+\end{center}
+\fontsize{6pt}\selectfont
+\begin{quote}
+I. Dejanović, R. Vaderna, G. Milosavljević, Ž. Vuković, TextX: A Python tool for
+Domain-Specific Languages implementation, Knowledge-Based Systems 115,
+1-4, 2017.
+\end{quote}
+\end{frame}
+\section*{pyFlies}
+\label{sec:org22737d2}
+\begin{frame}[label={sec:org491ceba}]{pyFlies - DSL for psychological RT experiments}
+\begin{center}
+\includegraphics[width=1\textwidth]{./images/pyFliesGUI.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:orgcefe970},fragile]{pyFlies code for the Simon effect test}
+ \begin{minted}[]{text}
+test Simon {
+  conditions {
+    position  color  congruency   response
+
+    left      green  congruent    left
+    left      red    incongruent  right
+    right     green  incongruent  left
+    right     red    congruent    right
+  }
+
+  stimuli{
+    all: shape(rectangle, position position,
+               color color)
+    error: sound(1000)
+    fixation: shape(cross)
+  }
+}
+\end{minted}
+\end{frame}
+\begin{frame}[label={sec:orgaad72a3},fragile]{Connecting stimuli and conditions}
+ \begin{minted}[]{text}
+position=left and color=red
+\end{minted}
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{./images/stimuli-conditions.png}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[label={sec:org4949300}]{Target code generators}
+\begin{center}
+\includegraphics[width=1\textwidth]{./images/architecture.png}
+\end{center} 
+\end{frame}
+
+\begin{frame}[label={sec:org6692072}]{Template engines}
+\begin{center}
+\includegraphics[width=1\textwidth]{./images/template_engine.png}
+\end{center} 
+\end{frame}
+
+\section*{Conclusion}
+\label{sec:org5b619c2}
+
+\begin{frame}[label={sec:orge95e1ed}]{Tabela}
+\begin{center}
+\begin{tabular}{ll}
+asdfasdf & asdf\\
+\hline
+asdfasdkf j & asdkfj askdjf\\
+asdfjasdkf & kasdfjsd kj\\
+\hline
+alsdjfakjdf & 46.00\\
+ & \\
+\end{tabular}
+\end{center}
+\end{frame}
+
+
+\section*{Thanks! Q\&A?}
+\label{sec:org25bf9d8}
+\end{document}

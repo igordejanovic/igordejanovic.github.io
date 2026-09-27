@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Садржај Дефиниција Управљање конфигурацијом Процес за успоставу и одржавање конзистенције функционалних и физичких особина као и перформанси производа у складу са захтевима, дизајном и оперативним информацијама током његовог животног циклуса*.
+* M. Handbook, Configuration management guidance, tech. rep., MIL-HDBK-61A (SE) Department of Defense–United States of America, 2001
+Управљање конфигурацијом Дисциплина која се бави идентификацијом свих компоненти и њихових међусобиних веза, у систему који континуално еволуира, у циљу очувања интегритета, следљивости и контроле промена у току животног циклуса система*.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Управљање конфигурацијом софтвера • Random bits and pieces'>
+<meta property='og:description' content='Садржај Дефиниција Управљање конфигурацијом Процес за успоставу и одржавање конзистенције функционалних и физичких особина као и перформанси производа у складу са захтевима, дизајном и оперативним информацијама током његовог животног циклуса*.
+* M. Handbook, Configuration management guidance, tech. rep., MIL-HDBK-61A (SE) Department of Defense–United States of America, 2001
+Управљање конфигурацијом Дисциплина која се бави идентификацијом свих компоненти и њихових међусобиних веза, у систему који континуално еволуира, у циљу очувања интегритета, следљивости и контроле промена у току животног циклуса система*.'>
+<meta property='og:url' content='https://www.igordejanovic.net/courses/uks/01-osnove/osnove/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='courses'><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>Управљање конфигурацијом софтвера • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/courses/uks/01-osnove/osnove/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-courses has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item has-current'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Управљање конфигурацијом софтвера</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='0001-01-01T00:00:00Z'>0001, Jan 01</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+11 mins read
+</span>
+
+
+</div>
+
+
+
+  
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Садржај
+</h2>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Дефиниција
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Управљање конфигурацијом
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<blockquote>
+<p>Процес за успоставу и одржавање конзистенције функционалних и физичких особина
+као и перформанси производа у складу са захтевима, дизајном и оперативним
+информацијама током његовог животног циклуса<sup>*</sup>.</p>
+</blockquote>
+<p class="footer" style="clear: both;"><code class="verbatim">*</code> M. Handbook, <em>Configuration management guidance</em>, tech. rep., MIL-HDBK-61A
+(SE) Department of Defense–United States of America, 2001</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Управљање конфигурацијом
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<blockquote>
+<p>Дисциплина која се бави идентификацијом свих компоненти и њихових међусобиних
+веза, у систему који континуално еволуира, у циљу очувања интегритета,
+следљивости и контроле промена у току животног циклуса система<sup>*</sup>.</p>
+</blockquote>
+<p class="footer" style="clear: both;"><code class="verbatim">*</code> Британски стандард BS 6488:1984 - <em>Code of practice for configuration
+management of computer-based systems</em></p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Управљање конфигурацијом
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<blockquote>
+<p>Управљање конфигурацијом представља јединствену идентификацију, контролисано
+складиштење, контролисану измену и извештавање о статусу изабраних производа,
+њихових радних везија и компоненти за време животног циклуса система<sup>*</sup>.</p>
+</blockquote>
+<p class="footer" style="clear: both;"><code class="verbatim">*</code> A. Hass, <em>Configuration management principles and practice</em>. Addison-Wesley
+Professional, 2003.</p>
+<blockquote>
+<p>Управљање конфигурацијом софтвера представља контролу еволуције сложених
+софтверских система<sup>*</sup>.</p>
+</blockquote>
+<p class="footer" style="clear: both;"><code class="verbatim">*</code> J. Estublier, <em>Software configuration management: a roadmap</em>, in Proceedings of
+the conference on The future of Software engineering, pp. 279–289, ACM, 2000.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+Мотивација
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Управљање конфигурацијом софтвера
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<ul>
+<li>Организациони оквир за управљање развојем софтверских система кроз све фазе
+животног циклуса</li>
+<li>Омогућава управљање пројектом на структуриран, уређен и продуктиван начин.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Зашто користити УКС?
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<p>
+Успешност технолошких пројеката:</p>
+<table>
+<thead>
+<tr>
+<th>Методологија</th>
+<th>Агилна</th>
+<th><em>Waterfall</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Успешних</td>
+<td>42%</td>
+<td>13%</td>
+</tr>
+<tr>
+<td>Проблематичних</td>
+<td>47%</td>
+<td>59%</td>
+</tr>
+<tr>
+<td>Пропалих</td>
+<td>11%</td>
+<td>28%</td>
+</tr>
+</tbody>
+</table>
+<ul class="footer" style="clear: both;">
+<li>Standish Group Chaos Study Report 2020</li>
+</ul>
+<ul>
+<li>Софтверски производи често “живе” годинама па чак и деценијама.</li>
+<li>Софтверски производи су често изузетно комплексни.</li>
+<li>Да би обезбедили континуалну еволуцију морамо увести процесе, технике и алате
+који ће то омогућити.</li>
+<li>Пракса је показала да је успех пројекта директно повезан са употребом
+ефикасних техника и алата УКС.</li>
+<li>Прва 4 на листи од 12 корака за бољи развој софтвера<sup>1</sup> истакнутог софтвер
+инжењера, писца и аутора изузетно популарног сервиса <a href="http://stackoverflow.com/">StackOverflow</a> <a href="http://www.joelonsoftware.com/AboutMe.html">Џоула
+Сполског</a> представљају технике УКС (контрола верзија изворног кода,
+аутоматизована и континуална изградња и праћење грешака).</li>
+</ul>
+<ol class="footer" style="clear: both;">
+<li><a href="https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/">J. Spolsky, The joel test: 12 steps to better code</a>, August 2000.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-2">
+<h2 id="headline-9">
+Управљање конфигурацијом (УК)
+</h2>
+<div id="outline-text-headline-9" class="outline-text-2">
+<div id="outline-container-headline-10" class="outline-3">
+<h3 id="headline-10">
+Ставка конфигурације (<em>Configuration Item</em>)
+</h3>
+<div id="outline-text-headline-10" class="outline-text-3">
+<ul>
+<li>Према стандарду ANSI/IEEE 1042-1987, ставка конфигурације - СК (<em>Configuration
+Item</em> или <em>Software Configuration Item</em>) представља основну јединицу
+идентификације и праћења.</li>
+<li>Било који артифакт над којим се може вршити контрола верзија, који се може
+пратити.</li>
+<li>На пример, то може бити фајл или директоријум код фајл базираних система,
+објекти смештени у објектно оријентисаним базама података и сл.</li>
+<li>Готово сви системи за контролу верзија данас у употреби имају фиксну СК - а то
+је фајл.</li>
+<li>Можемо рећи да је текуће стање пројекта скуп текућих стања свих ставки
+конфигурације.</li>
+<li>Верзија фајла такође се може посматрати као ставка конфигурације.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-3">
+<h3 id="headline-11">
+Ставка конфигурације и промене - животни циклус
+</h3>
+<div id="outline-text-headline-11" class="outline-text-3">
+<img src="./images/ConfigurationItem-Cycle.png" alt="./images/ConfigurationItem-Cycle.png" title="./images/ConfigurationItem-Cycle.png" style="height: 300px;"/>
+<ul>
+<li>Ставка конфигурације настаје из плана.</li>
+<li>Касније верзије настају као производ захтева за променом.</li>
+<li>Захтев за променом настаје на основу искуства у току коришћења.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-3">
+<h3 id="headline-12">
+Референтна верзија (<em>Baseline</em>)
+</h3>
+<div id="outline-text-headline-12" class="outline-text-3">
+<ul>
+<li>
+<p>Референтна верзија може да значи следеће:</p>
+<ul>
+<li>Идентификација тачних верзија свих СК који чине део једног издања.</li>
+<li>Идентификација тачних верзија СК које су одобрене да постану део следећег
+издања кроз установљен процес ревизије и одобравања промена.</li>
+</ul>
+</li>
+<li>Чини основу која је предмет следећих промена.</li>
+<li>У системима за управљање изворним кодом најчешће се спроводи кроз процес
+&#34;означавања&#34; (енг. <em>Tagging</em>).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Традиционална дефиниција УК-a
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<ul>
+<li>Идентификација конфигурације (<em>Configuration Identification</em>)</li>
+<li>Управљање променама (<em>Change Control</em>)</li>
+<li>Праћење статуса (<em>Status Accounting</em>)</li>
+<li>Ревизија и верификација (<em>Configuration Verification and Audit</em>)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-3">
+<h3 id="headline-14">
+Структура процеса УК
+</h3>
+<div id="outline-text-headline-14" class="outline-text-3">
+<p><img src="./images/SCM-LogicalStructure.svg" alt="./images/SCM-LogicalStructure.svg" title="./images/SCM-LogicalStructure.svg" /></p>
+<ul class="footer" style="clear: both;">
+<li>Anne Mette Jonassen Hass, <em>Configuration Management Principles and Practice</em>,
+Addison-Wesley Professional, 2003.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-3">
+<h3 id="headline-15">
+Архитектура система УК
+</h3>
+<div id="outline-text-headline-15" class="outline-text-3">
+<img src="./images/SCM-architecture.png" alt="./images/SCM-architecture.png" title="./images/SCM-architecture.png" style="height: 700px;"/>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-3">
+<h3 id="headline-16">
+Идентификација конфигурације (<em>Configuration Identification</em>)
+</h3>
+<div id="outline-text-headline-16" class="outline-text-3">
+<ul>
+<li>Обезбеђивање јединствене идентификације за сваки артифакт који је предмет
+праћења.</li>
+<li>Најчешће су предмети праћења разне врсте фајлова: изворни код, бинарни
+фајлови, слике, документа, конфигурациони фајлови итд.</li>
+<li>Идентификација често подразумева и именовање директоријума и фајлова на
+смислен начин који ће поједноставити праћење.</li>
+<li>Артифакти праћења не морају увек бити фајлови у фајл систему већ могу бити
+елементи у репозиторијумима који нису базирани на фајл систему. На пример,
+модели у репозиторијумима модела или документи у системима за управљање
+документима.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-3">
+<h3 id="headline-17">
+Идентификација у контексту
+</h3>
+<div id="outline-text-headline-17" class="outline-text-3">
+<img src="./images/Identification.png" alt="./images/Identification.png" title="./images/Identification.png" style="height: 400px;"/>
+<ul>
+<li>Процес идентификације започиње у два случаја: првобитно креирање ставке
+конфигурације и појава захтева за променом.</li>
+<li>Излаз представљају метаподаци за ставку конфигурације.</li>
+<li>Свака организација прави своју конвенцију јединствене идентификације. Често је
+ова шема наметнута алатима који се користе за УК.</li>
+<li>Поред идентификације ставке конфигурације потребно је идентификовати и сваки
+захтев за променом као и сваку нову верзију ставке конфигурације.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
+<h3 id="headline-18">
+Управљање променама (<em>Change Control</em>)
+</h3>
+<div id="outline-text-headline-18" class="outline-text-3">
+<ul>
+<li>Промене су неизбежне: људи праве грешке, клијенти захтевају промене, радно
+окружење производа еволуира.</li>
+<li>Пуна контрола и управљање захтевима за променама и имплементираним променама
+на основу захтева.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
+<h3 id="headline-19">
+Управљање променама у контексту
+</h3>
+<div id="outline-text-headline-19" class="outline-text-3">
+<img src="./images/ChangeControl.png" alt="./images/ChangeControl.png" title="./images/ChangeControl.png" style="height: 500px;"/>
+<ul>
+<li>Управљање променама је иницирано догађајем.</li>
+<li>Излаз активности управљања променама је документован догађај као и захтеви за
+променама који су резултат тог догађаја.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-3">
+<h3 id="headline-20">
+Догађаји
+</h3>
+<div id="outline-text-headline-20" class="outline-text-3">
+<ul>
+<li>Управљање променама је иницирано догађајем. Догађај може да се посматра и као
+жеља за променом али обично није тако формулисан.</li>
+<li>Догађај може представљати и опсервацију да се десило нешто неочекивано или
+погрешно током употребе ставке конфигурације.</li>
+</ul>
+<ul>
+<li>
+<p>Догађај може бити, на пример:</p>
+<ul>
+<li>Лоша формулација уочена за време ревизије документа.</li>
+<li>Грешка у кодирању уочена за време проласка кроз програмски код.</li>
+<li>Идеја за проширење или побољшање функционалности настала од стране клијента
+за време коришћења производа.</li>
+<li>Грешка пронађена за време интеграционог теста.</li>
+<li>Жеља за побољшањем производа када је производ већ испоручен и у фази је
+активне употребе.</li>
+<li>Упит особљу за помоћ у вези начина употребе производа.</li>
+<li>Прелазак на нову верзију коришћених библиотека и платформи које нису уназад
+компатибилне са претходним верзијама.</li>
+</ul>
+</li>
+<li>Догађај се документује у облику регистрације догађаја.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-3">
+<h3 id="headline-21">
+Захтеви за променама (<em>Change Requests</em>)
+</h3>
+<div id="outline-text-headline-21" class="outline-text-3">
+<ul>
+<li>Захтеви за променама настају као последица регистрације догађаја.</li>
+<li>Неки захтеви за променама могу бити планирани (на пример захтеви настали за
+време ревизије документа), а неки и не (на пример захтев клијента за
+променом).</li>
+<li>Захтеви за променама даље пролазе кроз активност идентификације јер су предмет
+праћења.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-3">
+<h3 id="headline-22">
+Праћење статуса (<em>Status Accounting</em>)
+</h3>
+<div id="outline-text-headline-22" class="outline-text-3">
+<ul>
+<li>Ова активност обезбеђује информације потребне за ефикасно управљање развојем и
+одржавањем производа.</li>
+<li>Друге активностим УК обезбеђују потребне податке у виду метаподатака о
+ставкама конфигурације као и информације о променама.</li>
+<li>Праћење статуса омогућава екстракцију, уређење и форматирање информација о
+ставкама конфигурације и променама на захтевани начин.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-3">
+<h3 id="headline-23">
+Праћење статуса - метрике
+</h3>
+<div id="outline-text-headline-23" class="outline-text-3">
+<ul>
+<li>Увођење метрика које могу указати на уска грла у развоју.</li>
+<li>Пример метрика: број дефеката у једном издању, број линија кода у уведеном
+софтверу, густина дефеката (број дефеката на хиљаду линија кода).</li>
+<li>
+<p>Намена:</p>
+<ul>
+<li>Мерење напретка пројекта</li>
+<li>Мерење квалитета производа</li>
+<li>Напор уложен за израду производа</li>
+<li>Унапређење односа $\frac{вредност\ производа}{цена}$.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-24" class="outline-3">
+<h3 id="headline-24">
+Праћење статуса у контексту
+</h3>
+<div id="outline-text-headline-24" class="outline-text-3">
+<img src="./images/StatusAccounting.png" alt="./images/StatusAccounting.png" title="./images/StatusAccounting.png" style="height: 500px;"/>
+<ul>
+<li>Праћење статуса и извештавање може се обавити у било ком тренутку.</li>
+<li>Излаз ове активности је извештај према задатим критеријумима.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-25" class="outline-3">
+<h3 id="headline-25">
+Ревизија и верификација (<em>Configuration Verification and Audit</em>)
+</h3>
+<div id="outline-text-headline-25" class="outline-text-3">
+<ul>
+<li>Осигурава да софтверски производ који се испоручује одговара постављеним
+захтевима, да је комплетан, да су сви захтеви за променама узети у обзир и да
+су испоштоване успостављене процедуре УКС.</li>
+<li>Комплетност подразумева и све потребне метаподатке који омогућавају комплетан
+увид у историју промена које су довеле до верзије која се испоручује.</li>
+<li>Тест извештаји и документација се користе као основа утврђивања задовољења
+постављених захтева.</li>
+<li>Ова активност се најчешће посматра као део процеса осигурања квалитета.</li>
+</ul>
+<p>
+Ова активност такође се бави дефинисањем:</p>
+<ul>
+<li>Ко и када ће обавити ревизију.</li>
+<li>Обављање ревизије над референтним верзијама.</li>
+<li>Креирање извештаја о обављеним ревизијама.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-26" class="outline-2">
+<h2 id="headline-26">
+Управљање конфигурацијом софтвера (УКС)
+</h2>
+<div id="outline-text-headline-26" class="outline-text-2">
+<div id="outline-container-headline-27" class="outline-3">
+<h3 id="headline-27">
+Software Configuration Management (SCM)
+</h3>
+</div>
+<div id="outline-container-headline-28" class="outline-3">
+<h3 id="headline-28">
+Управљање конфигурацијом софтвера
+</h3>
+<div id="outline-text-headline-28" class="outline-text-3">
+<p>У контексту развоја софтвера управљање конфигурацијом се може посматрати кроз
+следеће активности:</p>
+<ul>
+<li>Управљање изворним кодом (<em>Source Code Management</em>)</li>
+<li>Управљање изградњом (<em>Build Engineering</em>)</li>
+<li>Управљање конфигурацијом окружења (<em>Environment Configuration</em>)</li>
+<li>Управљање променама (<em>Change Control</em>)</li>
+<li>Управљање издањима (<em>Release Management</em>)</li>
+<li>Управљање распоређивањем (<em>Deployment</em>)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-29" class="outline-3">
+<h3 id="headline-29">
+Управљање изворним кодом (<em>Source Code Management</em>)
+</h3>
+<div id="outline-text-headline-29" class="outline-text-3">
+<ul>
+<li>Једна од најважнијих УКС дисциплина.</li>
+<li>
+<p>Бави се:</p>
+<ul>
+<li>Чувањем свих ставки конфигурације које учествују у изградњи производа.</li>
+<li>Праћењем промена над ставкама конифигурације и интеграцијом конкурентних
+промена.</li>
+<li>Креирањем и праћењем алтернативних токова развоја.</li>
+<li>Враћање и увид у историјске верзије произвољних стакви конфигурације.</li>
+</ul>
+</li>
+<li>Даје основу за извођење осталих УКС активности.</li>
+<li>У тесној вези је са праћењем дефеката и захтева који су најчешће интегрисани
+са алатима и процесима управљања изворним кодом.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-30" class="outline-3">
+<h3 id="headline-30">
+Основни принципи управљање изворним кодом
+</h3>
+<div id="outline-text-headline-30" class="outline-text-3">
+<ul>
+<li>Сав кôд је у сигурном складишту и не може бити изгубљен.</li>
+<li>Конкурентне промене се једноставно интегришу. Конфликти се једноставно
+разрешавају.</li>
+<li>За кôд се воде белешке о значајним тренуцима развоја (референтне верзије).</li>
+<li>Управљање варијантама мора бити једноставно употребом грана.</li>
+<li>Кôд промењен у једној варијанти (грани) може се лако пренети на другу
+варијанту.</li>
+<li>У сваком тренутку имамо потпуну следљивост и можемо добити информације ко је,
+када и због чега променио изворни кôд? Шта је тачно при томе промењено?</li>
+<li>Можемо у сваком тренутку поништити промену.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-31" class="outline-3">
+<h3 id="headline-31">
+Управљање изградњом софтвера (<em>Build Engineering</em>)
+</h3>
+<div id="outline-text-headline-31" class="outline-text-3">
+<ul>
+<li>Активност усмерена на изградњу извршне верзије софвера из изворног кода путем
+аутоматизованих процедура на сигуран и брз начин.</li>
+<li>Бави се идентификацијом зависности у време компајлирања и извршавања као и
+других техничких услова потребних за ефикасну изградњу готовог производа.</li>
+<li>Изузетно важна за агилне и итеративне методологије.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-32" class="outline-3">
+<h3 id="headline-32">
+Принципи управљања изградњом софтвера
+</h3>
+<div id="outline-text-headline-32" class="outline-text-3">
+<ul>
+<li>Изградња је разумљива и поновљива.</li>
+<li>Изворни кôд и зависности за компајлирање се могу лако одредити.</li>
+<li>Узрок неуспеле изградње се може једноставно установити и проблем се може брзо
+отклонити.</li>
+<li>Изградња мора бити потпуно аутоматизована.</li>
+<li>Скрипте за аутоматизовању изградњу морају бити читке и морају се једноставно
+одржавати.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-33" class="outline-3">
+<h3 id="headline-33">
+Управљање конфигурацијом окружења (<em>Environment Configuration</em>)
+</h3>
+<div id="outline-text-headline-33" class="outline-text-3">
+<ul>
+<li>Идентификација и управљање зависностима производа у време извршавања
+(<em>runtime dependencies</em>).</li>
+<li>Развојно окружење је често другачије од продукционог или QA (<em>Quality
+Assurance</em>).</li>
+<li>Аутоматизација управљања параметрима окружења (нпр. промењиве окружења,
+конекција са базом, повезивање са веб сервисима).</li>
+<li>Значајно за активност распоређивања (<em>deployment</em>).</li>
+<li>Уколико се одради лоше може довести до несагледивих последица.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-34" class="outline-3">
+<h3 id="headline-34">
+Управљање променама (<em>Change Control</em>)
+</h3>
+<div id="outline-text-headline-34" class="outline-text-3">
+<ul>
+<li>Поред управљања изворним кодом један од најзначајнијих активности у УКС.</li>
+<li>Контролисана измена продукционог окружења (или <em>QA</em> окружења).</li>
+<li>Такође есенцијална активност за одређивање које издање производа ће постати
+део продукционог окружења.</li>
+<li>У великим фирмама често реализована кроз одбор за управљање променама
+(<em>Change Control Board - CCB</em>).</li>
+<li>Процес који прописује начин разрешавања захтева за променама (<em>Request for
+Change</em>).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-35" class="outline-3">
+<h3 id="headline-35">
+Принципи управљање променама
+</h3>
+<div id="outline-text-headline-35" class="outline-text-3">
+<ul>
+<li>Промене морају бити планиране.</li>
+<li>Промене морају бити разумљиве укључујући и утицај који ће имати на
+продукционо окружење.</li>
+<li>Начин одобравања и ауторизација промена мора бити успостављена.</li>
+<li>Процедуре за хитне измене морају бити прописане у случајевима инцидентних
+ситуација.</li>
+<li>Мора постојати јасна следљивост за све извршене промене - Ко је промену
+тражио? Ко је одобрио? Када је промена извршена над продукционим окружењем?
+Који је статус промене?</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-36" class="outline-3">
+<h3 id="headline-36">
+Управљање издањима (<em>Release Management</em>)
+</h3>
+<div id="outline-text-headline-36" class="outline-text-3">
+<ul>
+<li>Процес креирања финалног производа на основу извршне верзије креиране у
+процесу изграње.</li>
+<li>Дефинише стандарде паковања и именовања (идентификације) производа.</li>
+<li>Следљивост ка уграђеним променама и одобрењима датих промена од стране <em>CCB</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-37" class="outline-3">
+<h3 id="headline-37">
+Принципи управљања издањима
+</h3>
+<div id="outline-text-headline-37" class="outline-text-3">
+<ul>
+<li>Издања се могу идентификовати путем непромењивог идентификатора.</li>
+<li>Издања морају бити запакована са свим зависностима.</li>
+<li>Креирање издања мора бити аутоматизовано у циљу избегавања људске грешке.</li>
+<li>Креирање издања мора бити брзо и поуздано да би се могло користити код
+агилног и итеративног развоја.</li>
+<li>Мора постојати начин верификације издања у циљу утврђивања градивних СК.</li>
+<li>Садржај издања мора бити добро познат, укључујући и везу према захтевима.</li>
+<li>Мора постојати механизам извештавања о свим креираним издањима и њиховим
+садржајима.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-38" class="outline-3">
+<h3 id="headline-38">
+Управљање распоређивањем (<em>Deployment</em>)
+</h3>
+<div id="outline-text-headline-38" class="outline-text-3">
+<ul>
+<li>Последња фаза у УКС процесу.</li>
+<li>Увођење издања у продукционо окружење.</li>
+<li>Такође се бави поништавањем акције (враћање на претходну верзију) у случају
+проблема.</li>
+<li>Најчешће посао посебног тима (<em>Operations Team</em>).</li>
+<li>Праћење активне верзије издања и евентуалних неауторизованих модификација
+продукционог окружења.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-39" class="outline-3">
+<h3 id="headline-39">
+Принципи управљања распоређивањем
+</h3>
+<div id="outline-text-headline-39" class="outline-text-3">
+<ul>
+<li>Распоређивање издања (или враћање на старо) мора бити поуздано и једноставно.</li>
+<li>Распоређивање издања (или враћање на старо) мора креирати дневник (лог) свих
+промена.</li>
+<li>Само ауторизовано особље може вршити ову активност.</li>
+<li>У многим организацијама раздвојене надлежности између развојног тима и тима за
+распоређивање…</li>
+<li>…али последњих година развојни тимови преузимају посао распоређивања софтвера
+који развијају.</li>
+<li>Морају постојати механизми за откривање неауторизованих промена.</li>
+<li>Процедура за проверу верзије издања у продукцији (или QA) мора бити јасно
+дефинисана.</li>
+<li>Процес распоређивања мора бити стално ревидиран и унапређиван.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-40" class="outline-2">
+<h2 id="headline-40">
+Унапређење процеса
+</h2>
+<div id="outline-text-headline-40" class="outline-text-2">
+<div id="outline-container-headline-41" class="outline-3">
+<h3 id="headline-41">
+<em>Capability Maturity Model</em>
+</h3>
+<div id="outline-text-headline-41" class="outline-text-3">
+<ul>
+<li>Модел за процену зрелости организације и нивоа формализације спровођења и
+континуалних унапређења процеса.</li>
+<li>Проблем који се решава је како да организација обезбеди развој који је
+конзистентан и поновљив уз оптимално коришћење ресурса.</li>
+<li>Настао 1986 после студије коју је финансирала U.S. DoD.</li>
+<li>Намењен пре свега процесима развоја софтвера али се може применити и на друге процесе.</li>
+<li>2006 <em>Software Engineering Institute</em> на <em>Carnegie Mellon</em> универзитету развија
+нови модел <em>Capability Maturity Model Integration</em> чији је циљ да наследи и
+унапреди <em>CMM</em>.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-42" class="outline-3">
+<h3 id="headline-42">
+Нивои <em>CMM</em>
+</h3>
+<div id="outline-text-headline-42" class="outline-text-3">
+<p style="width: 100%; height: auto;"><img src="images/cmm.svg" alt="images/cmm.svg" title="images/cmm.svg"/></p>
+<ul>
+<li><em>Ниво 1</em> - хаотичан, ad hoc, базиран на индивидуалном хероизму,</li>
+<li><em>Ниво 2</em> - процеси су довољно документовани да је поновљивост могућа,</li>
+<li><em>Ниво 3</em> - процеси су потпуно документовани и стандардизовани,</li>
+<li><em>Ниво 4</em> - процесима се управља у складу са договореним метрикама,</li>
+<li><em>Ниво 5</em> - процесима се управља и врши се континуална оптимизација и унапређење.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-43" class="outline-2">
+<h2 id="headline-43">
+Имплементација УКС унутар организације
+</h2>
+<div id="outline-text-headline-43" class="outline-text-2">
+<div id="outline-container-headline-44" class="outline-3">
+<h3 id="headline-44">
+Процена текућих процеса УКС
+</h3>
+<div id="outline-text-headline-44" class="outline-text-3">
+<ul>
+<li>Свака организација која развија софтвер спроводи одређене процесе УКС иако
+можда нису формални и о њима се не размишља као УКС.</li>
+<li>
+<p>За процену се могу поставити следећа питања:</p>
+<ul>
+<li>Како се фајлови идентификују?</li>
+<li>Како се идентификују издања софтвера?</li>
+<li>Како се контролишу референтне верзије?</li>
+<li>Који су фајлови укључени у cвако издање? Како се издање креира?</li>
+<li>Како се идентификују и прате захтеви за променама?</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-45" class="outline-3">
+<h3 id="headline-45">
+Анализа захтева
+</h3>
+<div id="outline-text-headline-45" class="outline-text-3">
+<ul>
+<li>Шта је циљ који организација жели да постигне увођењем УКС?</li>
+<li>
+<p>На пример циљ може бити:</p>
+<ul>
+<li>постизање одређеног нивоа SW-CMM сертификације,</li>
+<li>постизање ISO-9000 сертификације,</li>
+<li>или једноставно унапређење процеса.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-46" class="outline-3">
+<h3 id="headline-46">
+Улоге у успостављању процеса УКС
+</h3>
+<div id="outline-text-headline-46" class="outline-text-3">
+<ul>
+<li>Особа за контакт за процесе УКС.</li>
+<li>Менаџери морају обезбедити потребне ресурсе и алате потребне за увођење
+процеса УКС</li>
+<li>Одбор за контролу и ревизију (<em>Control and Review Board</em>) - анализира и одобрава
+увођење промена.</li>
+<li>Обезбеђивање квалитета (<em>Quality Assurance - QA</em>) је неопходно за верификацију
+да се документовани процеси УКС спроводе.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-47" class="outline-2">
+<h2 id="headline-47">
+Литература
+</h2>
+<div id="outline-text-headline-47" class="outline-text-2">
+<ol>
+<li>
+<ol>
+<li>Handbook, <em>Configuration management guidance</em>, tech. rep., MIL-HDBK-61A</li>
+</ol>
+<p>(SE) Department of Defense–United States of America, 2001.</p>
+</li>
+<li>
+<ol>
+<li>Hass, <em>Configuration management principles and practice</em>. Addison-Wesley</li>
+</ol>
+<p>Professional, 2003.</p>
+</li>
+<li>
+<ol>
+<li>Keyes, <em>Software Configuration Management</em>, Auerbach Publications, 2004.</li>
+</ol>
+</li>
+<li>
+<ol>
+<li>Estublier, <em>Software configuration management: a roadmap</em>, in Proceedings of</li>
+</ol>
+<p>the conference on The future of Software engineering, pp. 279–289, ACM, 2000.</p>
+</li>
+<li>
+<ol>
+<li>Aiello and L. Sachs, /Configuration Management Best Practices: Practical</li>
+</ol>
+<p>Methods that Work in the Real World/. Addison-Wesley Professional, 1st
+ed., 2010.</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-48" class="outline-2">
+<h2 id="headline-48">
+COMMENT Local variables
+</h2>
+</div>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/courses/uks/03-devops/devops/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Управљање конфигурацијом софтвера</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/courses/uks/00-upoznavanje/upoznavanje/'>
+        <span class='screen-reader-text'>Next post: </span>Управљање конфигурацијом софтвера<span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+

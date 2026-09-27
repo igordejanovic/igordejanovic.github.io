@@ -1,0 +1,36 @@
+@startuml
+set namespaceSeparator .
+
+
+class robot.Program  {
+}
+
+
+class robot.Command <<abstract>> {
+}
+
+
+class robot.InitialCommand  {
+  x : INT
+  y : INT
+}
+
+
+class robot.MoveCommand  {
+  direction : Direction
+  steps : INT
+}
+
+
+robot.Program *--> robot.Command: commands 0..*
+robot.Command <|-- robot.InitialCommand
+robot.Command <|-- robot.MoveCommand
+
+legend
+  Match rules:
+  |= Name  |= Rule details |
+  | Direction | up\|down\|left\|right |
+  | Comment | \\/\\/.*$ |
+end legend
+
+@enduml

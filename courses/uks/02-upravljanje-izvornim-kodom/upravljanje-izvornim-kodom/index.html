@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Sadržaj Sistemi za kontrolu verzija Sistemi za kontrolu verzija Sistem za kontrolu verzija (eng. Version Control System - VCS) upravlja promenama nad digitalnim stavkama konfiguracije (Configuration Item - CI). Daje uvid u sve promene koje su učinjene nad artifaktima koji su predmet kontrole verzija sa svim relevantnim metapodacima kao što su:
+Ko je načinio promenu? Kada je promena učinjena? Šta je tom prilikom promenjeno i na koji način? Nad kojom verzijom je promena učinjena, odnosno koje promene su prethodile?'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Upravljanje konfiguracijom softvera • Random bits and pieces'>
+<meta property='og:description' content='Sadržaj Sistemi za kontrolu verzija Sistemi za kontrolu verzija Sistem za kontrolu verzija (eng. Version Control System - VCS) upravlja promenama nad digitalnim stavkama konfiguracije (Configuration Item - CI). Daje uvid u sve promene koje su učinjene nad artifaktima koji su predmet kontrole verzija sa svim relevantnim metapodacima kao što su:
+Ko je načinio promenu? Kada je promena učinjena? Šta je tom prilikom promenjeno i na koji način? Nad kojom verzijom je promena učinjena, odnosno koje promene su prethodile?'>
+<meta property='og:url' content='https://www.igordejanovic.net/courses/uks/02-upravljanje-izvornim-kodom/upravljanje-izvornim-kodom/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='courses'><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>Upravljanje konfiguracijom softvera • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/courses/uks/02-upravljanje-izvornim-kodom/upravljanje-izvornim-kodom/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-courses has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item has-current'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Upravljanje konfiguracijom softvera</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='0001-01-01T00:00:00Z'>0001, Jan 01</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+9 mins read
+</span>
+
+
+</div>
+
+
+
+  
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Sadržaj
+</h2>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Sistemi za kontrolu verzija
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Sistemi za kontrolu verzija
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<ul>
+<li>Sistem za kontrolu verzija (eng. <em>Version Control System - VCS</em>) upravlja
+promenama nad digitalnim stavkama konfiguracije (<em>Configuration Item - CI</em>).</li>
+<li>
+<p>Daje uvid u sve promene koje su učinjene nad artifaktima koji su predmet
+kontrole verzija sa svim relevantnim metapodacima kao što su:</p>
+<ul>
+<li>Ko je načinio promenu?</li>
+<li>Kada je promena učinjena?</li>
+<li>Šta je tom prilikom promenjeno i na koji način?</li>
+<li>Nad kojom verzijom je promena učinjena, odnosno koje promene su prethodile?</li>
+<li>…</li>
+</ul>
+</li>
+<li>Omogućava vraćanje na verziju iz prošlosti i kreiranje alternativnih tokova
+razvoja/varijanti.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Osnovne definicije
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Verzija
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<ul>
+<li>Verzija predstavlja stanje evoluirajuće stavke konfiguracije.</li>
+<li>Shvatanje verzije u današnjem kontekstu popularnih VCS-ova sa <em>snapshot</em>
+modelom istorije jeste da verzija predstavlja stanje projekta u određenom
+trenutku u istoriji, tj. verzija je <em>snapshot</em>.</li>
+<li>Svaka verzija u VCS-u mora biti identifikovana na jednoznačan način.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Identifikator verzije
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<p>
+Identifikator verzije (IV) je objekat koji zadovoljava sledeća pravila:</p>
+<ul>
+<li><em>jedinstvenost</em> – ne sme postojati dva istorijska objekta (verzije) unutar
+istog repozitorijuma sa istim identifikatorom,</li>
+<li><em>jednostavnost</em> – IV bi, ako je moguće, trebao biti kratak i jednostavan za
+upotrebu (npr. iz korisničkog interfejsa),</li>
+<li><em>stabilnost</em> – IV ne sme da se menja u vremenu i između različitih kopija
+istog repozitorijuma kod DVCS-ova.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-3">
+<h3 id="headline-7">
+Identifikator verzije - dodatne napomene
+</h3>
+<div id="outline-text-headline-7" class="outline-text-3">
+<ul>
+<li>Kod centralizovanih sistema IV može biti numerička oznaka koja se uvećava sa
+svakom verzijom dok kod distribuiranih, zbog prirode arhitekture, moraju se
+koristiti drugi algoritmi.</li>
+<li>Najčešći algoritmi danas u upotrebi kod DVCS-ova su bazirani na kriptografskim
+jednosmernim heš funkcijama (npr. SHA1) nad sadržajem promene.</li>
+<li>S obzirom da vrednost heša nije pogodna za ručni unos neki DVCS-ovi
+pribegavaju uvođenju dodatnih jednostavnih oznaka verzija koje su lokalne
+prirode i automatski se mapiraju na globalne IV-ove. Na taj način obezbeđuje
+se jednostavnost upotrebe uz očuvanje globalne jedinstvenosti koju nudi IV
+baziran na hešu.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Promena (<em>Change</em>)
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<ul>
+<li>Definiše se najčešće kao niz operacija koje prevode stavku konfiguracije iz
+jedne verzije u drugu.</li>
+<li>Posmatra se na nivou jedne stavke konfiguracije (u kontekstu tekućih VCS-ova
+to je fajl).</li>
+<li>Skup promena (eng. <em>changeset - CS</em> ) predstavlja više logički povezanih promena
+koje prevode stanje projekta iz jedne verzije u drugu.</li>
+<li>Promena i skup promena se često nazivaju i <em>delta</em> ili <em>diff</em> (prema jednom od
+popularnijih algoritama i alata za određivanje razlike dva fajla).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-3">
+<h3 id="headline-9">
+Radni prostor (<em>Workspace</em>) ili radna kopija (<em>Working Copy</em>)
+</h3>
+<div id="outline-text-headline-9" class="outline-text-3">
+<ul>
+<li>Privatni prostor u kojem programer vrši izmene.</li>
+<li>Najčešće skup foldera i fajlova na lokalnom računaru programera.</li>
+<li>Prostor je izolovan u smislu da ne utiče na ostale učesnike na projektu.</li>
+<li>Programer može preuzeti nove promene sa linije koju razivija na kontrolisan
+način.</li>
+<li>Često programeri imaju više radnih kopija na svom računaru (različiti projekti
+na kojima rade).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-3">
+<h3 id="headline-10">
+Trajna zabeleška (<em>commit</em> operacija)
+</h3>
+<div id="outline-text-headline-10" class="outline-text-3">
+<p>
+Programer može izmene iz lokalnog radnog prostora trajno zabeležiti u VCS
+repozitorijumu i omogućiti ostalim učesnicima uvid u izmene putem <em>commit</em>
+operacije.</p>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-3">
+<h3 id="headline-11">
+Alternativni tokovi razvoja
+</h3>
+<div id="outline-text-headline-11" class="outline-text-3">
+<ul>
+<li>Projekat u svakom trenutku može imati više aktivnih linija razvoja.</li>
+<li>Razvijamo verziju 2.0 našeg proizvoda li još uvek održavamo verziju 1.x.</li>
+<li>Naš proizvod radi na više operativnih sistema (Linux, Windows, Mac).</li>
+<li>Alternativni tokovi razvoja se u VCS sistemima realizuju upotrebom <em>grana</em>.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-2">
+<h2 id="headline-12">
+Arhitekture i modeli
+</h2>
+<div id="outline-text-headline-12" class="outline-text-2">
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Arhitekture sistema za kontrolu verzija
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<ul>
+<li>
+<p>Centralizovana ili <em>client-server</em> arhitektura.</p>
+<ul>
+<li>Sva istorija je u repozitorijumu centralnog servera. Klijenti imaju samo
+tekuću verziju.</li>
+</ul>
+</li>
+</ul>
+<img src="./images/Centralizovana-arhitektura.svg" alt="./images/Centralizovana-arhitektura.svg" title="./images/Centralizovana-arhitektura.svg" style="height: 300px;"/>
+<ul>
+<li>
+<p>Distribuirana ili <strong>peer-to-peer</strong> arhitektura.</p>
+<ul>
+<li>Svaki klijent ima punu istoriju izmena.</li>
+</ul>
+</li>
+</ul>
+<img src="./images/Distribuirana-arhitektura.svg" alt="./images/Distribuirana-arhitektura.svg" title="./images/Distribuirana-arhitektura.svg" style="height: 300px;"/>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-14" class="outline-2">
+<h2 id="headline-14">
+Modeli repozitorijuma
+</h2>
+<div id="outline-text-headline-14" class="outline-text-2">
+<div id="outline-container-headline-15" class="outline-3">
+<h3 id="headline-15">
+Modeli VCS repozitorijuma
+</h3>
+<div id="outline-text-headline-15" class="outline-text-3">
+<p>
+Najčešće korišćeni modeli VCS repozitorijuma su sledeći:</p>
+<ul>
+<li>Skup fajlova sa promenama.</li>
+<li>Virtuelni fajl sistem sa verzijama.</li>
+<li>Usmereni aciklični graf skupova promena.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-3">
+<h3 id="headline-16">
+Skup fajlova sa promenama
+</h3>
+<div id="outline-text-headline-16" class="outline-text-3">
+<ul>
+<li>Korišćen u starijim sistemima za kontrolu verzija (SCCS, RCS, CVS).</li>
+<li>Svaki fajl je praćen nezavisno tako što se čuvala bazna verzija i promene koje
+su sledile.</li>
+<li>Verzija svakog fajla se nezavisno uvećavala i kreiranje verzije celog projekta
+se obavljalo označavanjem (<em>tagging</em>) ili se, kao odrednica za identifikaciju
+verzije, koristio datum i vreme.</li>
+<li>Podrška za transakcije i obezbeđivanje konzistencije repozitorijuma najčešće
+nije postojala ili je bila na niskom nivou.</li>
+<li>Ovakav model je dugo godina bio u upotrebi zbog svoje jednostavnosti.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-3">
+<h3 id="headline-17">
+Virtuelni fajl sistem sa verzijama
+</h3>
+<div id="outline-text-headline-17" class="outline-text-3">
+<img src="./images/SVNFileSystem.png" alt="./images/SVNFileSystem.png" title="./images/SVNFileSystem.png" style="height: 400px;"/>
+<ul>
+<li>Model korišćen kod subversion (SVN) VCS-a.</li>
+<li>Koristi koncepte klasičnih fajl sistema - fajlove i foldere.</li>
+<li>Svaka promena nad SVN fajl sistemom rezultuje novom verzijom celokupnog fajl
+sistema tj. rezultuje novim <em>snapshot</em>-om.</li>
+<li>Ako posmatramo fajl sistem kao dvodimenzionalnu strukturu onda se fajl sistem
+sa verzijama može posmatrati trodimenzionalno pri čemu je treća dimenzija
+vreme (odnosno verzije).</li>
+</ul>
+<p class="footer" style="clear: both;">Ben Collins-Sussman, Brian W. Fitzpatrick, C. Michael Pilato: <em>Version Control
+with Subversion</em></p>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
+<h3 id="headline-18">
+Virtuelni fajl sistem sa verzijama
+</h3>
+<div id="outline-text-headline-18" class="outline-text-3">
+<ul>
+<li>Operacije izmene su transakcione prirode sa ACID semantikom.</li>
+<li>Upotrebom klijentskog alata moguće je vratiti se na bilo koju verziju
+repozitorijuma u prošlosti.</li>
+<li>SVN koristi referenciranje delova stabla u određenim verzijama i čuvanje samo
+razlika koje su nastale u svakoj verziji.</li>
+<li>Kompleksnost operacije kopiranja i premeštanja fajlova i čitavih podstabala je
+<em>O(1)</em> i obavljaju se gotovo trenutno uz minimalan utrošak prostora (prostor
+potreban da se zabeleže reference na kopirani sadržaj).</li>
+<li>Operacije grananja (eng. <em>branching</em>) i označavanja (eng. <em>tagging</em>) se
+obavljaju operacijom kopiranja.</li>
+<li>Kopija podstabla će imati zajedničku istoriju sa originalom do trenutka
+kopiranja.</li>
+<li>Od trenutka kopiranja svaka kopija je nezavisna.</li>
+<li>Kopija podstabla predstavlja alternativni tok razvoja pa se može koristiti (i
+koristi se) kao grana razvoja.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-19" class="outline-3">
+<h3 id="headline-19">
+Usmereni aciklični graf skupova promena
+</h3>
+<div id="outline-text-headline-19" class="outline-text-3">
+<img src="./images/DAG.svg" alt="./images/DAG.svg" title="./images/DAG.svg" style="height: 500px;"/>
+<ul>
+<li>Usmereni aciklični graf (<em>Directed Acyclic Graph - DAG</em>) skupova promena.</li>
+<li>Najčešće se koristi kod distribuiranih sistema za kontrolu verzija. </li>
+<li>Može se opisati kao graf čije su veze usmerene i kod koga ne postoje zatvorene
+jednosmerne putanje (acikličan je).</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-3">
+<h3 id="headline-20">
+Usmereni aciklični graf skupova promena
+</h3>
+<div id="outline-text-headline-20" class="outline-text-3">
+<img src="./images/DAG.svg" alt="./images/DAG.svg" title="./images/DAG.svg" style="height: 450px;"/>
+<ul>
+<li>U odnosu na opšti DAG korišćena struktura ima ograničenja u pogledu broja
+mogućih ulaznih veza u svaki čvor.</li>
+<li>
+<p>Ograničenja su sledeća:</p>
+<ul>
+<li>Postoji tačno jedan čvor koji nema ulaznih veza. Ovaj čvor predstavlja
+početnu verziju repozitorijuma.</li>
+<li>Svi ostali čvorovi imaju 1 ulaznu vezu ukoliko predstavljaju obične verzije
+ili 2 ulazne veze ukoliko predstavljaju spoj (<em>merge</em>) dve prethodne verzije
+(čvorovi V5 i V7 na slici).</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-3">
+<h3 id="headline-21">
+Modeli upravljanja konkurentnim promenama
+</h3>
+<div id="outline-text-headline-21" class="outline-text-3">
+<ul>
+<li>
+<p>Pesimistički (<em>Lock-Modify-Unlock</em>)</p>
+<ul>
+<li>Konkurentne izmene se izbegavaju zaključavanjem</li>
+<li>Primena moguća samo kod centralizovanih sistema</li>
+<li>
+<p>Mane:</p>
+<ul>
+<li>Smanjena propusnost sistema - posebno izraženo kod projekata sa većim
+brojem učesnika,</li>
+<li>Sindrom &#34;otišao na ručak&#34;.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Optimistički (<em>Copy-Modify-Merge</em>)</p>
+<ul>
+<li>Konkurentne promene se udružuju naknadno (operacija <em>Merge</em>).</li>
+<li>Visoka propusnost - svaki učesnik može da ažurira proizvoljan artifakt</li>
+<li>
+<p>Mane:</p>
+<ul>
+<li>Konkurentne promene mogu biti u konfliktu što se razrešava prilikom
+operacije spajanja.</li>
+<li>Kod proizvoljnih binarnih fajlova gde semantika sadržaja nije poznata
+alatu ovaj pristup ne može da se koristi.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-3">
+<h3 id="headline-22">
+Modelovanje istorije
+</h3>
+<div id="outline-text-headline-22" class="outline-text-3">
+<ul>
+<li>Bazirano na zatečenom stanju - eng. <em>Snapshot</em> ili <em>State-Based Versioning</em>.</li>
+<li>Bazirano na promenama - eng. <em>Changeset</em> ili <em>Change-Based Versioning</em>.</li>
+<li>Većina današnjih sistema za kontrolu verzija koriste SS model u komunikaciji
+sa korisnikom. Korisniku je repozitorijum predstavljen kao niz stanja projekta
+u određenim trenucima vremena.</li>
+<li>Zbog ušteda u prostoru, interno se koriste CS mehanizmi tj. čuvaju se samo
+razlike u odnosu na prethodna stanja.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-2">
+<h2 id="headline-23">
+<em>Merge</em>, <em>diff</em> i <em>patch</em>
+</h2>
+<div id="outline-text-headline-23" class="outline-text-2">
+<div id="outline-container-headline-24" class="outline-3">
+<h3 id="headline-24">
+Spajanje konkurentnih promena - <em>Merge</em>
+</h3>
+<div id="outline-text-headline-24" class="outline-text-3">
+<ul>
+<li>Konkurentno razvijene promene pri korišćenju optimističkog pristupa moraju u
+nekom trenutku biti spojene.</li>
+<li>Podrazumeva kreiranje integralne verzije stavke konfiguracije od više
+nezavisnih verzija.</li>
+<li>Spajanje se sastoji od operacija poređenja, detekcije konflikata, razrešenja
+konflikata i spoja.</li>
+<li>Operacija razrešenja konflikata zahteva intervenciju korisnika.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-25" class="outline-3">
+<h3 id="headline-25">
+Operacija poređenja
+</h3>
+<div id="outline-text-headline-25" class="outline-text-3">
+<ul>
+<li>Određuje razlike između dva CI.</li>
+<li>Za različite vrste CI koriste se različiti algoritmi.</li>
+<li>Na primer, različiti algoritmi se koriste u zavisnosti od toga da li je CI
+tekstulane ili binarne prirode.</li>
+<li>Većina VCS-ova tretira binarne fajlove kao sadržaj bez semantike. Određeni
+komercijalni VCS-ovi pružaju podršku za neke popularne binarne fajl formate.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-26" class="outline-3">
+<h3 id="headline-26">
+Jedinica poređenja (<em>Unit of Comparison - UC</em>)
+</h3>
+<div id="outline-text-headline-26" class="outline-text-3">
+<img src="./images/UnitOfComparison.svg" alt="./images/UnitOfComparison.svg" title="./images/UnitOfComparison.svg" style="height: 300px;"/>
+<ul>
+<li>Esencijalne operacije kontrole verzija su izračunavanje razlike dva CI-a,
+njihova reprezentacija i vizualizacija na ljudski čitljiv način u cilju
+analize promena i razrešavanja eventualnih konflikata.</li>
+<li>Da bi analizirali algoritme za poređenje stavki konfiguracije potrebno je
+uvesti pojam <em>jedinice poređenja</em> (<em>Unit of Comparison - UC</em>).</li>
+<li>Jedinica poređenja definiše granulaciju poređenja.</li>
+<li>Prilikom poređenja, ukoliko ustanovimo da su dve jedinice poređenja različite
+na bilo kom delu, smatramo da su u celosti različite.</li>
+<li>Kod većine sistem za kontrolu verzija jedinica poređenja je linija teksta za
+tekstualne artifakte i ceo fajl za binarne.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-27" class="outline-3">
+<h3 id="headline-27">
+Određivanje, reprezentacija i čuvanje promene
+</h3>
+<div id="outline-text-headline-27" class="outline-text-3">
+<ul>
+<li>Naivan pristup - čuvanje svake verzije u celosti.</li>
+<li>Veliki gubitci prostora s obzirom da se dve sukcesivne verzije fajla u proseku
+razlikuju u svega 2%.</li>
+<li>Delta kodiranje (<em>Delta encoding</em>) - reprezentacija samo razlika između dve
+sukcesivne verzije.</li>
+<li>Propratni efekat je poboljšanje performansi jer je delta često dosta manja od
+originalne verzije a brzine procesora su za više redova veličina veće od
+brzina jedinica spoljne memorije.</li>
+<li>Razmena verzija između repozitorijuma - slanje delti.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-28" class="outline-3">
+<h3 id="headline-28">
+Algoritmi za određivanje promena u tekstualnim CI
+</h3>
+<div id="outline-text-headline-28" class="outline-text-3">
+<p>
+Izračunavanje delti obavlja se algoritmima koji se mogu podeliti u dve klase:</p>
+<ul>
+<li>
+<p><em>copy/insert</em> delta algoritmi:</p>
+<ul>
+<li>Dobijanje odredišnog fajla od polaznog kreiranjem komandi kopiranja
+(<em>copy</em>) za delove koji su nepromenjeni i komandi dodavanja (<em>insert</em>) za
+delove koji su različiti.</li>
+<li>Daje bolje performanse.</li>
+</ul>
+</li>
+<li>
+<p><em>insert/delete</em> delta algoritmi:</p>
+<ul>
+<li>Transformacija polaznog fajla u odredišni dodavanjem sadržaja koji postoji
+samo u odredišnom a ne i u polaznom (<em>insert</em>) i brisanjem sadržaja koji
+postoji samo u polaznom a ne i u odredišnom (<em>delete</em>).</li>
+<li>Ova klasa algoritama je bazirana na algoritmima za određivanje najduže
+zajedničke podsekvence (<em>Longest Common Subsequence - LCS</em> – npr. Majersov
+algoritam). Ovaj algoritam se koristi u unix <em>diff</em> alatu.</li>
+<li>Daje intuitivnije rezultate.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-29" class="outline-3">
+<h3 id="headline-29">
+diff
+</h3>
+<div id="outline-text-headline-29" class="outline-text-3">
+<img src="./images/diff.png" alt="./images/diff.png" title="./images/diff.png" style="height: 600px;"/>
+<ul>
+<li><em>diff</em> je unix komanda koja će za dva ulazna tekstualne fajla odrediti razliku
+i enkodovati je upotrebom jednostavnog delta kodovanja prikazanog na slici.</li>
+<li>Delta predstavlja skup komandi za dodavanje i brisanje linija.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-30" class="outline-3">
+<h3 id="headline-30">
+patch
+</h3>
+<div id="outline-text-headline-30" class="outline-text-3">
+<img src="./images/diff.png" alt="./images/diff.png" title="./images/diff.png" style="height: 700px;"/>
+<ul>
+<li>Upotrebom ovako kodovane razlike, <em>patch</em> komandom možemo dobiti odredišni
+fajl od polaznog.</li>
+<li>Ova tehnika je osnova za izgradnju složenih VCS sistema.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-31" class="outline-3">
+<h3 id="headline-31">
+Dvostrano spajanje
+</h3>
+<div id="outline-text-headline-31" class="outline-text-3">
+<p><img src="./images/2wayMerge.svg" alt="./images/2wayMerge.svg" title="./images/2wayMerge.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-32" class="outline-3">
+<h3 id="headline-32">
+Trostrano spajanje
+</h3>
+<div id="outline-text-headline-32" class="outline-text-3">
+<p><img src="./images/3wayMerge.svg" alt="./images/3wayMerge.svg" title="./images/3wayMerge.svg" /></p>
+</div>
+</div>
+<div id="outline-container-headline-33" class="outline-3">
+<h3 id="headline-33">
+Trostrano poređenje - primer
+</h3>
+<div id="outline-text-headline-33" class="outline-text-3">
+<img src="./images/3wayDiff.png" alt="./images/3wayDiff.png" title="./images/3wayDiff.png" style="height: 700px;"/>
+</div>
+</div>
+<div id="outline-container-headline-34" class="outline-3">
+<h3 id="headline-34">
+Konflikti
+</h3>
+<div id="outline-text-headline-34" class="outline-text-3">
+<ul>
+<li>Javljaju se ukoliko je došlo do konkurentnih promena nad istim jedinicama
+poređenja.</li>
+<li>Neko mora da odluči koja izmenu treba zadržati a koju odbaciti.</li>
+<li>Ova operacija, koja zahteva manuelnu intervenciju, naziva se razrešavanje
+konflikata.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-35" class="outline-3">
+<h3 id="headline-35">
+Spajanje konkurentnih promena nad tekstualnim CI
+</h3>
+<div id="outline-text-headline-35" class="outline-text-3">
+<ul>
+<li>Kod tekstualnih CI, kod kojih je jedinica poređenja linija teksta, najčešće se
+spoj obavi automatski bez pojave konflikata.</li>
+<li>Konflikt se javlja ukoliko je došlo do paralelnih izmena istih linija teksta
+od strane više programera.</li>
+<li>Najčešće onaj koji poslednji pokušava da zabeleži svoju promenu u
+repozitorijumu treba da razreši konflikt.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-36" class="outline-3">
+<h3 id="headline-36">
+Spajanje konkurentnih promena nad binarnim CI
+</h3>
+<div id="outline-text-headline-36" class="outline-text-3">
+<ul>
+<li>Kod binarnih CI, jedinica poređenja je najčešće ceo CI tako da nije moguće
+automatizovati spajanje već se razrešenje konflikta vrši izborom jednog od
+konkurentno razvijenih verzija.</li>
+<li>Zbog toga se, kod binarnih fajlova, ažuriranje ne radi konkurentno.</li>
+<li>Jedan od mehanizama da se to obezbedi je korišćenje pesimističkog pristupa za
+binarne fajlove.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-37" class="outline-2">
+<h2 id="headline-37">
+Modeli alternativnih tokova
+</h2>
+<div id="outline-text-headline-37" class="outline-text-2">
+<div id="outline-container-headline-38" class="outline-3">
+<h3 id="headline-38">
+Modeli alternativnih tokova ili grananja
+</h3>
+<div id="outline-text-headline-38" class="outline-text-3">
+<ul>
+<li>Odnosi se na organizaciju i upravljanje procesom kreiranja grana, trajnih
+zabeleški (<em>commit</em>) i operacije spoja (<em>merge</em>).</li>
+<li>Proces kreiranja grana podrazumeva imenovanje grana na određeni način i
+definisanje načina na koji se grane koriste.</li>
+<li>Često korišćeni termini su razvojne grane (<em>development branches</em>), grane za
+izdanja (<em>release branches</em>), grane za ispravke grešaka (<em>bugfix branches</em>) i
+sl.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-39" class="outline-3">
+<h3 id="headline-39">
+Primer modela grananja - <em>GitFlow</em>
+</h3>
+<div id="outline-text-headline-39" class="outline-text-3">
+<p><img src="./images/GitFlow.svg" alt="./images/GitFlow.svg" title="./images/GitFlow.svg" /></p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/courses/uks/00-upoznavanje/upoznavanje/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Управљање конфигурацијом софтвера</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/courses/uks/projekat/2023/uks-projekat/'>
+        <span class='screen-reader-text'>Next post: </span>UKS projekat<span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+

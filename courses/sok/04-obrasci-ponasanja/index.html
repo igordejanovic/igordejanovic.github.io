@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-12-02 Tue 20:46 -->
+<meta charset="utf-8"/>
+<title>Софтверски обрасци и компоненте</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Софтверски обрасци и компоненте</h1>
+<h2 class="subtitle">Обрасци понашања</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-12-02 Tue 20:46, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org78ca29e">
+<h2 id="org78ca29e">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Обрасци понашања</a></li>
+<li><a href="#/slide-2">2. Iterator</a></li>
+<li><a href="#/slide-3">3. Command</a></li>
+<li><a href="#/slide-4">4. Mediator</a></li>
+<li><a href="#/slide-5">5. Memento</a></li>
+<li><a href="#/slide-6">6. Observer</a></li>
+<li><a href="#/slide-7">7. State</a></li>
+<li><a href="#/slide-8">8. Strategy</a></li>
+<li><a href="#/slide-9">9. Template Method</a></li>
+<li><a href="#/slide-10">10. Visitor</a></li>
+<li><a href="#/slide-11">11. Chain of Responsibility</a></li>
+<li><a href="#/slide-12">12. Литература</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Обрасци понашања</h2>
+<ul>
+<li>Баве се алгоритмима и расподелом одговорности између објеката.</li>
+<li>Не дефинишу само образац структуре већ и образац комуникације између објеката.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Iterator</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Iterator</h3>
+<p>
+Омогућава приступ елементима колекције секвенцијално без откривања конкретне
+репрезентације колекције.
+</p>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Структура обрасца</h3>
+
+<div id="org4e5dc61" class="figure">
+<p><img src="./images/Iterator-Abstract.png" alt="Iterator-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Јава имплементација</h3>
+<p>
+Итератор образац је директно подржан у јавиним стандардним библиотекама –
+интерфејси <code>Iterable&lt;E&gt;</code> и <code>Iterator&lt;E&gt;</code>.
+</p>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Јава имплементација</h3>
+
+<div id="orgad54c1e" class="figure">
+<p><img src="./images/Iterator-Java.png" alt="Iterator-Java.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Јава имплементација - <i>While</i> петља</h3>
+<div class="org-src-container">
+
+<pre><code class="java" >List&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;();
+Iterator&lt;Integer&gt; i = intList.iterator();
+while(i.hasNext()){
+    Integer a = i.next();
+    System.out.println(a);
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Јава имплементација - <i>ForEach</i> петља</h3>
+<p>
+Итератори су подржани директно у Јава програмском језику. <i>For-each</i> петља у јави
+се може користити за било који објекат који имплементира <code>Iterable&lt;E&gt;</code> интерфејс
+или за јава низове.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="java" >List&lt;Integer&gt; intList = new ArrayList&lt;Integer&gt;();
+for(Integer i: intList){
+    System.out.println(i);
+}
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Command</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Command</h3>
+<ul>
+<li>Енкапсулација захтева за обрадом у виду објекта.</li>
+<li>Омогућава креирање редова за обраду (<i>Queues</i>) као и <i>undo</i> операције.</li>
+<li>Познат и под називима <i>Action</i> и <i>Transaction</i>.</li>
+
+</ul>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Структура обрасца</h3>
+
+<div id="orgbe65485" class="figure">
+<p><img src="./images/Command-Abstract.png" alt="Command-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Сарадња учесника</h3>
+
+<div id="org4a87fc4" class="figure">
+<p><img src="./images/Command-Sequence.png" alt="Command-Sequence.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Раздвајамо објекат који иницира извршавање операција од онога који "зна" како
+операцију треба извршити.</li>
+<li><i>Command</i> објекти су објекти првог реда. Могу се третирати као и сви други
+објекти.</li>
+<li>Команде се могу компоновати (употребом <i>Composite</i> обрасца) и формирати
+сложеније команде – макро команде.</li>
+<li>Нове команде се лако додају – није потребно изменити постојеће класе.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Mediator</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> Mediator</h3>
+<ul>
+<li>Објекат који енкапсулира знање о интеракцији групе објеката.</li>
+<li>Омогућава слабо спрезање (<i>loose coupling</i>) објеката тако што објекти не
+референцирају једни друге директно.</li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Структура обрасца</h3>
+
+<div id="orgf1b88e9" class="figure">
+<p><img src="./images/Mediator-Abstract.png" alt="Mediator-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Пример</h3>
+
+<div id="org9923432" class="figure">
+<p><img src="./images/Mediator-Concrete.png" alt="Mediator-Concrete.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Сарадња учесника</h3>
+
+<div id="orgcb63d9d" class="figure">
+<p><img src="./images/Mediator-Sequence.png" alt="Mediator-Sequence.png" />
+</p>
+</div>
+</section>
+<section id="slide-4-5">
+<h3 id="4-5"><span class="section-number-3">4.5.</span> Шта добијамо?</h3>
+<ul>
+<li>Сложена интеракција објеката је централизована – измена се врши наслеђивањем
+једне класе.</li>
+<li>Објекти који ступају у интеракцију су слабо спрегнути – објекте и медијатор
+можемо мењати независно.</li>
+<li>Једноставнији протокол – везе <i>више-на-више</i> замењене везама <i>један-на-више</i> које
+су лакше за разумевање и измену.</li>
+<li>Логика интеракције објеката је одвојена од њиховог индивидуалног понашања –
+инеракција се лакше анализира.</li>
+<li>Проблем који може настати – монолитан и превише комплексан медијатор објекат.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Memento</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> Memento</h3>
+<ul>
+<li>Без нарушавања енкапсулације бележи и екстернализује интерно стање објекта
+тако да се објекат може касније вратити у идентично стање.</li>
+<li>Познат и под називом <i>Token</i>.</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Структура обрасца</h3>
+
+<div id="org8617fd3" class="figure">
+<p><img src="./images/Memento-Abstract.png" alt="Memento-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-5-3">
+<h3 id="5-3"><span class="section-number-3">5.3.</span> Сарадња учесника</h3>
+
+<div id="orgea66273" class="figure">
+<p><img src="./images/Memento-Sequence.png" alt="Memento-Sequence.png" />
+</p>
+</div>
+</section>
+<section id="slide-5-4">
+<h3 id="5-4"><span class="section-number-3">5.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Очувавамо енкапсулацију – мементо не открива детаље интерне имплементације
+<i>Originator</i> објекта иако се његово стање чува ван њега. Приступ <i>Memento</i>
+објекту је могућ само од стране <i>Originator</i> објекта.</li>
+<li>Поједностављен дизајн <i>Originator</i> објекта – клијенти чувају стање објекта кроз
+<i>Memento</i> објекат.</li>
+<li>Боља скалабилност - чување стања се препушта клијентима.</li>
+<li>Коришћење <i>Memento</i> објеката може бити проблематично уколико је стање
+<i>Originator</i>-а дефинисано великом количином података.</li>
+<li>У неким програмским језицима је тешко спречити приступ интерној структури
+<i>Memento</i> објекта од стране других објеката у систему.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Observer</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Observer</h3>
+<ul>
+<li>Дефинише међузависност објеката тако да када се стање једног објекта промени
+сви зависни објекти се аутоматски обавештавају.</li>
+<li>Познат и под називом <i>Publish-Subscribe</i>.</li>
+
+</ul>
+</section>
+<section id="slide-6-2">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Структура обрасца</h3>
+
+<div id="org035aefc" class="figure">
+<p><img src="./images/Observer-Abstract.png" alt="Observer-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-3">
+<h3 id="6-3"><span class="section-number-3">6.3.</span> Сарадња учесника</h3>
+
+<div id="org0700770" class="figure">
+<p><img src="./images/Observer-Sequence.png" alt="Observer-Sequence.png" />
+</p>
+</div>
+</section>
+<section id="slide-6-4">
+<h3 id="6-4"><span class="section-number-3">6.4.</span> Подршка у Јави</h3>
+<ul>
+<li>Интерфејс <code>Observer</code> и класа <code>Observable</code> у пакету <code>java.util</code>.</li>
+<li>Механизам <i>Listener</i>-а у <i>Swing</i>-у прати овај образац.</li>
+
+</ul>
+</section>
+<section id="slide-6-5">
+<h3 id="6-5"><span class="section-number-3">6.5.</span> Шта добијамо?</h3>
+<ul>
+<li>Апстрактно спрезање <i>Observer</i> и <i>Observable</i> објеката. <i>Observable</i> не зна
+конкретне класе <i>Observer</i> објеката већ комуницира са њима путем једноставног
+интерфејса.</li>
+<li><i>Broadcast</i> стил комуникације. <i>Observable</i> јавља да се промена догодила. Не мора
+се наводити прималац поруке. Сви заинтересовани ослушкивачи ће добити
+нотификацију о промени.</li>
+<li>Уколико <i>Observable</i> не наводи у позиву поруке шта је промењено, <i>Observer</i>-и
+морају то сами да испитају што може бити "скупо".</li>
+
+</ul>
+</section>
+<section id="slide-6-6">
+<h3 id="6-6"><span class="section-number-3">6.6.</span> Напомене</h3>
+<ul>
+<li>Уколико <i>Observer</i> посматра више <i>Observable</i> објеката потребно је идентификовати
+објекат који шаље поруку о промени – слање референце на објекат као
+аргумент.</li>
+<li>Измена стања <i>Observable</i> објекта приликом обраде нотификације може довести до
+бесконачне рекурзије.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> State</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> State</h3>
+<p>
+Измена понашања објекта приликом промене његовог интерног стања. Објекат се
+понаша као да је променио класу.
+</p>
+</section>
+<section id="slide-7-2">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Структура обрасца</h3>
+
+<div id="org496be69" class="figure">
+<p><img src="./images/State-Abstract.png" alt="State-Abstract.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-3">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> Сарадња учесника</h3>
+<ul>
+<li><i>Context</i> делегира операције зависне од стања објекту стате (<i>ConcreteStateX</i>).</li>
+<li><i>Context</i> може проследити себе у захтеву уколико стање треба да му приступа.</li>
+<li>Клијенти користе искључиво <i>Context</i>, мада могу, уколико је потребно, поставити
+текуће стање.</li>
+<li>Одлуку о преласку у ново стање може донети <i>Context</i> или текући стате објекат.</li>
+
+</ul>
+</section>
+<section id="slide-7-4">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Пример</h3>
+
+<div id="orgc380825" class="figure">
+<p><img src="./images/State-Concrete.png" alt="State-Concrete.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-5">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Шта добијамо?</h3>
+<ul>
+<li>Локализација кода специфичног за одређено стање у једну класу - избегавање
+великих <i>switch/if-else</i> исказа.</li>
+<li>Експлицитан прелазак између стања.</li>
+
+</ul>
+</section>
+<section id="slide-7-6">
+<h3 id="7-6"><span class="section-number-3">7.6.</span> Напомене</h3>
+<ul>
+<li>Промена стања: <i>Context</i> или <i>ConcreteStateX</i>?
+<ul>
+<li>Уколико мења <i>ConcreteStateX</i> потребно је да приступа <i>Context</i>-у преко
+интерфејса за промену стања.</li>
+<li>Негативно: стања морају да знају једна за друге.</li>
+<li>Уколико <i>Context</i> мења стање – код може бити доста комплексан код већег броја
+стања.</li>
+
+</ul></li>
+<li>Креирање и уништавање <i>State</i> објеката: једном при иницијализацији или при
+свакој промени стања.</li>
+<li>Одређени програмски језици подржавају облик динамичког наслеђивања – природна
+подршка за <i>State</i> образац.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Strategy</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> Strategy</h3>
+<p>
+Дефинисање фамилије алгоритама и омогућавање њихове измене без утицаја на
+клијента.
+</p>
+</section>
+<section id="slide-8-2">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> Структура обрасца</h3>
+
+<div id="orgc5be4db" class="figure">
+<p><img src="./images/Strategy-Abstract.png" alt="Strategy-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-8-3">
+<h3 id="8-3"><span class="section-number-3">8.3.</span> Пример</h3>
+
+<div id="orgc5a5a06" class="figure">
+<p><img src="./images/Strategy-Concrete.png" alt="Strategy-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-8-4">
+<h3 id="8-4"><span class="section-number-3">8.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Дефинисање фамилије алгоритама. Наслеђивање стратегија се може користити за
+имплементацију заједничке функционалности алгоритама.</li>
+<li>Измена понашања објекта динамички. Наслеђивањем контекст класе може се
+постићи измена функционалности али је она статичке природе.</li>
+<li>Елиминација исказа услова (<i>if-else, switch</i>).</li>
+<li>Омогућавамо клијенту избор алгоритма и његових перформанси (нпр. мањи утрошак
+меморије или брже извршавање).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Template Method</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+</section>
+<section id="slide-9-1">
+<h3 id="9-1"><span class="section-number-3">9.1.</span> Template Method</h3>
+<ul>
+<li>Дефинисање структуре алгоритма при чему се дефинисање одређених корака
+оставља класама наследницама.</li>
+<li>Структура алгоритма је непромењива али се одређени кораци могу променити.</li>
+
+</ul>
+</section>
+<section id="slide-9-2">
+<h3 id="9-2"><span class="section-number-3">9.2.</span> Структура обрасца</h3>
+
+<div id="orgdd4f38d" class="figure">
+<p><img src="./images/TemplateMethod-Abstract.png" alt="TemplateMethod-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-9-3">
+<h3 id="9-3"><span class="section-number-3">9.3.</span> Пример</h3>
+
+<div id="org4e4d86e" class="figure">
+<p><img src="./images/TemplateMethod-Concrete.png" alt="TemplateMethod-Concrete.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+<section id="slide-9-4">
+<h3 id="9-4"><span class="section-number-3">9.4.</span> Шта добијамо?</h3>
+<ul>
+<li>Могућност дефинисања инваријантних делова алгоритма у апстрактној класи а
+варијабилних делова у подкласама – спречава се дуплирање кода.</li>
+<li><p>
+Инвертовање контроле – <i>Hollywood principle</i>
+</p>
+
+<blockquote>
+<p>
+Don’t call us, we’ll call you
+</p>
+</blockquote></li>
+
+<li>Дефинисање тзв. <i>hook</i> операција. Најчешће су празне али могу имати дефинисано
+и стандардно понашање. За разлику од апстрактних операција, <i>hook</i> операције су
+опционе (не морају се редефинисати).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Visitor</h2>
+<div class="outline-text-2" id="text-10">
+</div>
+</section>
+<section id="slide-10-1">
+<h3 id="10-1"><span class="section-number-3">10.1.</span> Visitor</h3>
+<ul>
+<li>Раздвајање алгоритма од структуре података над којим оперише.</li>
+<li>Локализација имплементације операције која се извршава над елементима сложене
+структуре података (нпр. чворовима стабла).</li>
+
+</ul>
+</section>
+<section id="slide-10-2">
+<h3 id="10-2"><span class="section-number-3">10.2.</span> Структура</h3>
+
+<div id="org073fed4" class="figure">
+<p><img src="./images/Visitor-Abstract.png" alt="Visitor-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-10-3">
+<h3 id="10-3"><span class="section-number-3">10.3.</span> Сарадња учесника</h3>
+
+<div id="org127ca8c" class="figure">
+<p><img src="./images/Visitor-Sequence.png" alt="Visitor-Sequence.png" />
+</p>
+</div>
+</section>
+<section id="slide-10-4">
+<h3 id="10-4"><span class="section-number-3">10.4.</span> Пример</h3>
+
+<div id="org7a9b782" class="figure">
+<p><img src="./images/Visitor-Concrete.png" alt="Visitor-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-10-5">
+<h3 id="10-5"><span class="section-number-3">10.5.</span> Када користити?</h3>
+<ul>
+<li>Објектна структура садржи елементе различитих класа а потребно је извршити
+операцију која зависи од конкретне класе објекта.</li>
+<li>Више различитих, несродних операција је потребно извршити над елементима
+сложене структуре а желимо избећи "загађивање", свих класа чији објекти чине
+сложену структуру, са новом методом за сваку операцију.</li>
+<li>Хијерархија класа објектне структуре се ретко мења док додавање нових
+операција над структуром може бити честа операција.</li>
+
+</ul>
+</section>
+<section id="slide-10-6">
+<h3 id="10-6"><span class="section-number-3">10.6.</span> Напомене</h3>
+<ul>
+<li><i>Visitor</i> представља имплементацију <i>Double Dispatch</i> механизма. Позвана
+операција зависи истовремено од типа конкретног <i>Visitor</i> објекта као и од типа
+конкретног елемента структуре над којом се операција врши.</li>
+<li>Сродне операције су локализоване у једној класи.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Chain of Responsibility</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+</section>
+<section id="slide-11-1">
+<h3 id="11-1"><span class="section-number-3">11.1.</span> Chain of Responsibility</h3>
+<p>
+Избегавање јаког спрезања објекта који шаље захтев од објекта који врши обраду
+захтева тако што се објекти који врше обраду увезују у листу и даје се шанса
+сваком у низу да обради догађај све док неко не одговори позитивно на захтев
+(изврши обраду).
+</p>
+</section>
+<section id="slide-11-2">
+<h3 id="11-2"><span class="section-number-3">11.2.</span> Структура</h3>
+
+<div id="org1f612d3" class="figure">
+<p><img src="./images/ChainOfResponsibility-Abstract.png" alt="ChainOfResponsibility-Abstract.png" />
+</p>
+</div>
+</section>
+<section id="slide-11-3">
+<h3 id="11-3"><span class="section-number-3">11.3.</span> Пример</h3>
+
+<div id="orgca303bf" class="figure">
+<p><img src="./images/ChainOfResponsibility-Concrete.png" alt="ChainOfResponsibility-Concrete.png" />
+</p>
+</div>
+</section>
+<section id="slide-11-4">
+<h3 id="11-4"><span class="section-number-3">11.4.</span> Када користити?</h3>
+<ul>
+<li>Више од једног објекта може да обради захтев а обрађивач није познат унапред.</li>
+<li>Желимо да упутимо захтев једном из групе објеката а да не наводимо конкретног
+обрађивача експлицитно.</li>
+<li>Листа могућих обрађивача може динамички да се мења у време извршавања.</li>
+
+</ul>
+</section>
+<section id="slide-11-5">
+<h3 id="11-5"><span class="section-number-3">11.5.</span> Напомене</h3>
+<ul>
+<li>Две врсте: прослеђивање захтева низ ланац и после обраде или прекид
+прослеђивања.</li>
+<li>Објекат који врши обраду није експлицитно дефинисан па не постоји гаранција
+да ће захтев бити обрађен.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Литература</h2>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

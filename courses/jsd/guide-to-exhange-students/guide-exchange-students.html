@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>A course on Domain-Specific Languages</title>
+<meta name="author" content="Igor Dejanovic"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/black.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">A course on Domain-Specific Languages</h1><h2 class="author">Igor Dejanovic</h2><p class="date">Created: 2021-11-16 Tue 15:01</p>
+</section>
+
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Base information</h2>
+<ul>
+<li>Professor: <a href="http://igordejanovic.net">dr Igor Dejanović</a> (igord at uns ac rs)</li>
+<li>Both practical and theoretical parts of the course are handled by the course
+professor.</li>
+<li>Consultations may be scheduled via e-mail.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Course project</h2>
+<ul>
+<li>Practical part of the course is fulfilled by implementing a DSL for the
+domain of student&rsquo;s choosing.</li>
+<li>The language must be implemented in <a href="https://github.com/textX/textX">textX</a> using Python.</li>
+<li>It must have a code generator or interpreter.</li>
+<li>Optionally a Visual Studio Code plugin may be developed to make using the
+language easier. See the <a href="https://github.com/textX/textX-LS">textX-LS</a> project.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Theoretical part of the exam</h2>
+<p>
+Is fulfilled by oral exam. The student must show the basic knowledge of the DSL
+field.
+</p>
+
+<p>
+The examination is based on the Markus Völter&rsquo;s book (see the last slide).
+Relevant chapters are:
+</p>
+<ul>
+<li>Introduction to DSLs</li>
+<li>Conceptual Foundations</li>
+<li>Concrete and Abstract Syntax</li>
+<li>Scoping and Linking</li>
+<li>Constraints</li>
+<li>Type Systems</li>
+<li>Transformation and Generation</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Literature and resources</h2>
+<ul>
+<li>M. Völter, <a href="http://dslbook.org/"><i>DSL Engineering: Designing, Implementing and Using Domain-Specific
+Languages</i></a>. 2013 (the book is a donationware)</li>
+<li>Federico Tomassetti, <a href="https://tomassetti.me/domain-specific-languages/"><i>The complete guide to (external) Domain Specific
+Languages</i></a>, published on <a href="https://tomassetti.me/">the author&rsquo;s blog</a>, February 2017. (this post is the
+place to start if you don&rsquo;t know anything about DSLs).</li>
+<li><a href="http://textx.github.io/textX/latest/">textX</a> documentation and tutorials</li>
+<li><a href="https://github.com/pyflies/pyflies">pyFlies</a> is a more complex example of DSL in the field of psychological experiments.</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/lib/js/head.min.js"></script>
+<script src="./reveal.js/js/reveal.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'convex', // see README of reveal.js for options
+transitionSpeed: 'default',
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+ { src: './reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+});
+</script>
+</body>
+</html>

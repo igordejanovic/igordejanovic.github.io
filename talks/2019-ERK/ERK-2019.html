@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Generating program code for psychological experiments from high-level descriptions</title>
+<meta name="author" content="Igor Dejanović$^1$, Mirjana Dejanović$^2$"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../talk-slides.css"/>
+
+<link rel="stylesheet" href="../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Generating program code for psychological experiments from high-level descriptions</h1>
+<h2 class="author">Igor Dejanović\(^1\), Mirjana Dejanović\(^2\) (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<h2 class="venue">University of Novi Sad\(^1\), University of Priština\(^2\), September, 2019 @ ERK Portorož Slovenia</h2>
+<p class="overview-info">Created 2024-10-01 Tue 14:23, press ESC for overview and use arrow keys for movement, press Ctrl+Shift+F for search</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1" class="large-title">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Experiments in Psychology</h3>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> An example &#x2013; the Simon effect test</h3>
+
+<div id="orgc23ec56" class="figure">
+<p><img src="./images/simon_experiment.png" alt="simon_experiment.png" /> 
+</p>
+</div>
+</section>
+<section id="slide-1-3" class="large-title">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Motivation</h3>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Domain-Specific Languages</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> SQL</h3>
+<div class="org-src-container">
+
+<pre><code class="sql" >SELECT player, stadium
+    FROM game JOIN goal ON (id=matchid)
+</code></pre>
+</div>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Business processes - BPMN</h3>
+
+<div id="orga336e83" class="figure">
+<p><img src="./images/BPMN.png" alt="BPMN.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> But also&#x2026;</h3>
+
+<div id="org34b202e" class="figure">
+<p><img src="./images/MusicNotation-External.png" alt="MusicNotation-External.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Or&#x2026;</h3>
+
+<div id="org7282117" class="figure">
+<p><img src="./images/ChessNotation.png" alt="ChessNotation.png" />
+</p>
+</div>
+</section>
+<section id="slide-2-5" class="remove-title">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> textX</h3>
+
+<div id="orgcf06860" class="figure">
+<p><img src="./images/textX.png" alt="textX.png" width="60%" /> 
+</p>
+</div>
+<div style="font-size: 40%;">
+<p>
+<a href="https://github.com/textX/textX">https://github.com/textX/textX</a>
+</p>
+<blockquote>
+<ol>
+<li>Dejanović, R. Vaderna, G. Milosavljević, Ž. Vuković, TextX: A Python tool for</li>
+
+</ol>
+<p>
+Domain-Specific Languages implementation, Knowledge-Based Systems 115,
+1-4, 2017.
+</p>
+</blockquote>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> pyFlies</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> pyFlies - DSL for psychological RT experiments</h3>
+
+<div id="org16a03cf" class="figure">
+<p><img src="./images/pyFliesGUI.png" alt="pyFliesGUI.png" width="80%" />
+</p>
+</div>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> pyFlies code for the Simon effect test</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >test Simon {
+  conditions {
+    position  color  congruency   response
+
+    left      green  congruent    left
+    left      red    incongruent  right
+    right     green  incongruent  left
+    right     red    congruent    right
+  }
+  
+  stimuli{
+    all: shape(rectangle, position position,
+               color color)
+    error: sound(1000)
+    fixation: shape(cross)
+  }
+}
+</code></pre>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Connecting stimuli and conditions</h3>
+<div class="org-src-container">
+
+<pre><code class="text" >   position=left and color=red
+</code></pre>
+</div>
+
+
+<div id="org26ae9b5" class="figure">
+<p><img src="./images/stimuli-conditions.png" alt="stimuli-conditions.png" />
+</p>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Target code generators</h3>
+
+<div id="orgafb4d44" class="figure">
+<p><img src="./images/architecture.png" alt="architecture.png" style="height: auto;" />
+</p>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> Template engines</h3>
+
+<div id="org1e3183d" class="figure">
+<p><img src="./images/template_engine.png" alt="template_engine.png" style="height: auto;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Conclusion</h2>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Thanks! Q&amp;A?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

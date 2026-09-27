@@ -1,0 +1,29 @@
+@startuml
+set namespaceSeparator .
+
+
+class workflow.Model  {
+}
+
+
+class workflow.Element <<abstract>> {
+}
+
+
+class workflow.Package  {
+  name : ID
+}
+
+
+class workflow.Task  {
+  name : ID
+  steps : list[ID]
+}
+
+
+workflow.Model *-- "0..*" workflow.Element
+workflow.Element <|-- workflow.Package
+workflow.Element <|-- workflow.Task
+workflow.Package *-- "0..*" workflow.Element
+workflow.Task o-- workflow.Task
+@enduml

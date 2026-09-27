@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-12-09 Tue 21:24 -->
+<meta charset="utf-8"/>
+<title>Уметање зависности - <i><i>Dependency Injection</i></i></title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Уметање зависности - <i><i>Dependency Injection</i></i></h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-12-09 Tue 21:24, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org8e75860">
+<h2 id="org8e75860">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Мотивација</a></li>
+<li><a href="#/slide-2">2. <i>Dependency Injection</i></a></li>
+<li><a href="#/slide-3">3. <code>Google Guice</code></a></li>
+<li><a href="#/slide-4">4. <code>Injector</code></a></li>
+<li><a href="#/slide-5">5. <code>Flask injector</code></a></li>
+<li><a href="#/slide-6">6. Референце</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Мотивација</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Мотивација</h3>
+<ul>
+<li>Објекти иоле сложенијих апликација формирају сложене графове зависности.</li>
+<li>Како објекат "добија" референце на зависне објекте?</li>
+
+</ul>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Мотивација</h3>
+
+<div id="org4360dc5" class="figure">
+<p><img src="./images/Motivation.png" alt="Motivation.png" />
+</p>
+</div>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Класичан приступ добављања референци</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingService implements BillingService {
+
+   @Override
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+       CreditCardProcessor processor = new PaypalCreditCardProcessor();
+       TransactionLog transactionLog = new DatabaseTransactionLog();
+
+       try {
+         ChargeResult result = processor.charge(creditCard, order.getAmount());
+         transactionLog.logChargeResult(result);
+
+         return result.wasSuccessful()
+             ? Receipt.forSuccessfulCharge(order.getAmount())
+             : Receipt.forDeclinedCharge(result.getDeclineMessage());
+        } catch (UnreachableException e) {
+         transactionLog.logConnectException(e);
+         return Receipt.forSystemFailure(e.getMessage());
+       }
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Употреба <i>Singleton/Factory</i> обрасца</h3>
+<p>
+Објекат се сам брине о добављању референци али то чини посредством глобалне
+дељене референце.
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingService implements BillingService {
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     CreditCardProcessor processor = CreditCardProcessorFactory.getInstance();
+     TransactionLog transactionLog = TransactionLogFactory.getInstance();
+
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful() ?
+             Receipt.forSuccessfulCharge(order.getAmount()) :
+             Receipt.forDeclinedCharge(result.getDeclineMessage());
+     } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> <i>Singleton/Factory</i> - тестирање</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingServiceTest extends TestCase {
+
+   private final PizzaOrder order = new PizzaOrder(100);
+   private final CreditCard creditCard = new CreditCard(5000);
+   private final InMemoryTransactionLog transactionLog = new InMemoryTransactionLog();
+   private final FakeCreditCardProcessor creditCardProcessor = new FakeCreditCardProcessor();
+
+   @Override
+   public void setUp() {
+     TransactionLogFactory.setInstance(transactionLog);
+     CreditCardProcessorFactory.setInstance(creditCardProcessor);
+   }
+
+   @Override
+   public void tearDown() {
+     TransactionLogFactory.setInstance(null);
+     CreditCardProcessorFactory.setInstance(null);
+   }
+
+   public void testSuccessfulCharge() {
+     RealBillingService billingService = new RealBillingService();
+     Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+     assertTrue(receipt.hasSuccessfulCharge());
+     assertEquals(100.0, receipt.getAmount(), 0.001);
+     assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+     assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+     assertTrue(transactionLog.wasSuccessLogged());
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Употреба <i>Singleton/Factory</i> обрасца - проблеми</h3>
+<ul>
+<li>Дељена референца - морамо посебно да пазимо да је постављамо на праве
+вредности.</li>
+<li>Немогуће паралелизовати тестове.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> <i>Dependency Injection</i></h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Уметање зависности - <i>Dependency Injection</i></h3>
+<ul>
+<li>Измештање надлежности за добављање референци ван објекта - неко други ће
+се бринути да "уметне" референце пре њихове употребе.</li>
+<li>Предности:
+<ul>
+<li>Код се поједностављује. Зависност између класа је базирана на апстрактним
+интерфејсима што позитивно утиче на одржавање (<i>maintability</i>), поновну
+искористљивост (<i>reusability</i>) и поделу посла и надлежности.</li>
+<li>Објекат ће до тренутка позива његових сервисних метода већ бити на
+одговарајући начин иницијализован. Смањује се тзв. <i>boilerplate</i> код.</li>
+<li>Тестирање је далеко једноставније. Креирање "лажних" објеката (<i>mockup</i>) је
+могуће и једноставно се изводи. Могућа паралелизација тестова.</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> Механизми уметања зависности</h3>
+<ul>
+<li>Путем параметара конструктора.</li>
+<li>Путем мутатор метода (<i>setters</i>).</li>
+<li>Путем имплементираног интерфејса.</li>
+
+</ul>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Инјекција путем параметара конструктора</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > Client(Service service) {
+     this.service = service;
+ }
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a></li>
+
+</ul>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Инјекција путем <i>setter</i> метода</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public void setService(Service service) {
+     this.service = service;
+ }
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a></li>
+
+</ul>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> Инјекција путем интерфејса</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public interface ServiceSetter {
+     public void setService(Service service);
+ }
+ public class client implements ServiceSetter {
+
+     private Service service;
+
+     @Override
+     public void setService(Service service) {
+         this.service = service;
+     }
+ }
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Wikipedia: <a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a></li>
+
+</ul>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Употреба <i>DI</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingService implements BillingService {
+   private final CreditCardProcessor processor;
+   private final TransactionLog transactionLog;
+
+   public RealBillingService(CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     this.processor = processor;
+     this.transactionLog = transactionLog;
+   }
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful() ?
+            Receipt.forSuccessfulCharge(order.getAmount()) :
+            Receipt.forDeclinedCharge(result.getDeclineMessage());
+     } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Употреба <i>DI</i> - тестирање</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingServiceTest extends TestCase {
+
+   private final PizzaOrder order = new PizzaOrder(100);
+   private final CreditCard creditCard = new CreditCard(5000);
+
+   private final InMemoryTransactionLog transactionLog =
+                                              new InMemoryTransactionLog();
+   private final FakeCreditCardProcessor creditCardProcessor =
+                                              new FakeCreditCardProcessor();
+
+   public void testSuccessfulCharge() {
+     RealBillingService billingService = new RealBillingService(
+         creditCardProcessor, transactionLog);
+     Receipt receipt = billingService.chargeOrder(order, creditCard);
+
+     assertTrue(receipt.hasSuccessfulCharge());
+     assertEquals(100.0, receipt.getAmount(), 0.001);
+     assertEquals(creditCard, creditCardProcessor.getCardOfOnlyCharge());
+     assertEquals(100.0, creditCardProcessor.getAmountOfOnlyCharge(), 0.001);
+     assertTrue(transactionLog.wasSuccessLogged());
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> <i>DI</i> контејнери</h3>
+<ul>
+<li><i>DI</i> се може имплементирати и без посебног алата/оквира.</li>
+<li><i>DI</i> контејнери омогућавају наметање одређених конвенција за примену овог
+обрасца.</li>
+<li>Коришћење <i>DI</i> контејера доноси одређене предности:
+<ul>
+<li>Употреба најбоље праксе</li>
+<li>Стандардизација</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> <i>DI</i> контејнери за Јаву</h3>
+<ul>
+<li><code>Google Guice</code></li>
+<li><code>PicoContainer</code></li>
+<li><code>Spring</code></li>
+<li>&#x2026;</li>
+
+</ul>
+</section>
+<section id="slide-2-10">
+<h3 id="2-10"><span class="section-number-3">2.10.</span> Стандардизација за програмски језик Јава</h3>
+<ul>
+<li>JSR-330<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup></li>
+<li>Дефинише скуп стандардних Јава анотација за <i>DI</i>:
+<ul>
+<li><code>Provider&lt;T&gt;</code> - Provides instances of T</li>
+<li><code>Inject</code> - Identifies injectable constructors, methods, and fields.</li>
+<li><code>Named</code> - String-based qualifier.</li>
+<li><code>Qualifier</code> - Identifies qualifier annotations.</li>
+<li><code>Scope</code> - Identifies scope annotations.</li>
+<li><code>Singleton</code> - Identifies a type that the injector only instantiates once.</li>
+
+</ul></li>
+
+</ul>
+<div class="footnotes">
+<hr />
+<div class="text-footnotes">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara"><a href="https://code.google.com/p/atinject/">https://code.google.com/p/atinject/</a></p></div></div>
+
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> <code>Google Guice</code></h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> <code>Google Guice</code></h3>
+<ul>
+<li><i>Lightweight</i> оквир за <i>DI</i> у Јави.</li>
+<li>Развијен од стране Google-a.</li>
+<li>Конфигурација базирана на Јава анотацијама.</li>
+
+</ul>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Инјекција путем конструктора</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingService implements BillingService {
+   private final CreditCardProcessor processor;
+   private final TransactionLog transactionLog;
+
+   @Inject
+   public RealBillingService(CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     this.processor = processor;
+     this.transactionLog = transactionLog;
+   }
+
+   public Receipt chargeOrder(PizzaOrder order, CreditCard creditCard) {
+     try {
+       ChargeResult result = processor.charge(creditCard, order.getAmount());
+       transactionLog.logChargeResult(result);
+
+       return result.wasSuccessful()
+           ? Receipt.forSuccessfulCharge(order.getAmount())
+           : Receipt.forDeclinedCharge(result.getDeclineMessage());
+      } catch (UnreachableException e) {
+       transactionLog.logConnectException(e);
+       return Receipt.forSystemFailure(e.getMessage());
+     }
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Конфигурација за повезивање - <i>binding/wiring</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+     bind(CreditCardProcessor.class).to(PaypalCreditCardProcessor.class);
+     bind(BillingService.class).to(RealBillingService.class);
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Употреба контејнера</h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public static void main(String[] args) {
+   Injector injector = Guice.createInjector(new BillingModule());
+   BillingService billingService = injector.getInstance(BillingService.class);
+   Receipt result = billingService.chargeOrder(new PizzaOrder(100),
+                                               new CreditCard(500));
+   System.out.println(result.hasSuccessfulCharge());
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-5">
+<h3 id="3-5"><span class="section-number-3">3.5.</span> <i>Linked Bindings</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class).to(DatabaseTransactionLog.class);
+     bind(DatabaseTransactionLog.class).to(MySqlDatabaseTransactionLog.class);
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-6">
+<h3 id="3-6"><span class="section-number-3">3.6.</span> <i>Custom Bindings Annotations</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > package example.pizza;
+ import com.google.inject.BindingAnnotation;
+ import java.lang.annotation.Target;
+ import java.lang.annotation.Retention;
+ import static java.lang.annotation.RetentionPolicy.RUNTIME;
+ import static java.lang.annotation.ElementType.PARAMETER;
+ import static java.lang.annotation.ElementType.FIELD;
+ import static java.lang.annotation.ElementType.METHOD;
+
+ @BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
+ public @interface PayPal {}
+ ...
+ public class RealBillingService implements BillingService {
+
+   @Inject
+   public RealBillingService(@PayPal CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     ...
+   }
+ ...
+     bind(CreditCardProcessor.class)
+         .annotatedWith(PayPal.class)
+         .to(PayPalCreditCardProcessor.class);
+</code></pre>
+</div>
+</section>
+<section id="slide-3-7">
+<h3 id="3-7"><span class="section-number-3">3.7.</span> <i>@Named Binding Annotation</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class RealBillingService implements BillingService {
+
+   @Inject
+   public RealBillingService(@Named("Checkout") CreditCardProcessor processor,
+       TransactionLog transactionLog) {
+     ...
+   }
+  ...
+  ...
+     bind(CreditCardProcessor.class)
+         .annotatedWith(Names.named("Checkout"))
+         .to(CheckoutCreditCardProcessor.class);
+</code></pre>
+</div>
+</section>
+<section id="slide-3-8">
+<h3 id="3-8"><span class="section-number-3">3.8.</span> <i>Instance Bindings</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > bind(String.class)
+     .annotatedWith(Names.named("JDBC URL"))
+     .toInstance("jdbc:mysql://localhost/pizza");
+ bind(Integer.class)
+     .annotatedWith(Names.named("login timeout seconds"))
+     .toInstance(10);
+</code></pre>
+</div>
+</section>
+<section id="slide-3-9">
+<h3 id="3-9"><span class="section-number-3">3.9.</span> <i>@Provides Methods</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     ...
+   }
+
+   @Provides
+   TransactionLog provideTransactionLog() {
+     DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+     transactionLog.setJdbcUrl("jdbc:mysql://localhost/pizza");
+     transactionLog.setThreadPoolSize(30);
+     return transactionLog;
+   }
+ }
+ ...
+   @Provides @PayPal
+   CreditCardProcessor providePayPalCreditCardProcessor(
+       @Named("PayPal API key") String apiKey) {
+     PayPalCreditCardProcessor processor = new PayPalCreditCardProcessor();
+     processor.setApiKey(apiKey);
+     return processor;
+   }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-10">
+<h3 id="3-10"><span class="section-number-3">3.10.</span> <i>Provider Bindings</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > public class DatabaseTransactionLogProvider 
+       implements Provider&lt;TransactionLog&gt; {
+   private final Connection connection;
+
+   @Inject
+   public DatabaseTransactionLogProvider(Connection connection) {
+     this.connection = connection;
+   }
+
+   public TransactionLog get() {
+     DatabaseTransactionLog transactionLog = new DatabaseTransactionLog();
+     transactionLog.setConnection(connection);
+     return transactionLog;
+   }
+ }
+ ...
+ public class BillingModule extends AbstractModule {
+   @Override
+   protected void configure() {
+     bind(TransactionLog.class)
+         .toProvider(DatabaseTransactionLogProvider.class);
+   }
+ }
+</code></pre>
+</div>
+</section>
+<section id="slide-3-11">
+<h3 id="3-11"><span class="section-number-3">3.11.</span> <i>Scopes</i></h3>
+<div class="org-src-container">
+
+<pre><code class="java" > @Singleton
+ public class InMemoryTransactionLog implements TransactionLog {
+   /* everything here should be threadsafe! */
+ }
+ ...
+ bind(TransactionLog.class)
+   .to(InMemoryTransactionLog.class).in(Singleton.class);
+ ...
+ @Provides @Singleton
+ TransactionLog provideTransactionLog() {
+   ...
+ }
+ ...
+ bind(Bar.class).to(Applebees.class).in(Singleton.class);
+ bind(Grill.class).to(Applebees.class).in(Singleton.class);
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> <code>Injector</code></h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-4-1">
+<h3 id="4-1"><span class="section-number-3">4.1.</span> <code>Injector</code></h3>
+<ul>
+<li><a href="https://github.com/alecthomas/injector">https://github.com/alecthomas/injector</a></li>
+<li>Python библиотека за <i>DI</i> моделована према <i>Google Guice</i> али са <i>Pythonic API</i>.</li>
+
+</ul>
+</section>
+<section id="slide-4-2">
+<h3 id="4-2"><span class="section-number-3">4.2.</span> Једноставан пример</h3>
+<div class="org-src-container">
+
+<pre><code class="python" > &gt;&gt;&gt; from injector import Injector, inject
+ &gt;&gt;&gt; class Inner(object):
+ ...     def __init__(self):
+ ...         self.forty_two = 42
+ ...
+ &gt;&gt;&gt; class Outer(object):
+ ...     @inject
+ ...     def __init__(self, inner: Inner):
+ ...         self.inner = inner
+ ...
+ &gt;&gt;&gt; injector = Injector()
+ &gt;&gt;&gt; outer = injector.get(Outer)
+ &gt;&gt;&gt; outer.inner.forty_two
+ 42
+</code></pre>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>Python type hints - <a href="https://docs.python.org/3/library/typing.html">https://docs.python.org/3/library/typing.html</a></li>
+
+</ul>
+</section>
+<section id="slide-4-3">
+<h3 id="4-3"><span class="section-number-3">4.3.</span> Сложенији пример</h3>
+<div class="org-src-container">
+
+<pre><code class="python" > from injector import Key
+ Name = Key('name')
+ Description = Key('description')
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre><code class="python" > from injector import inject, provider, Module
+
+ class User(object):
+     @inject
+     def __init__(self, name: Name, description: Description):
+         self.name = name
+         self.description = description
+
+
+ class UserModule(Module):
+     def configure(self, binder):
+        binder.bind(User)
+
+
+ class UserAttributeModule(Module):
+     def configure(self, binder):
+         binder.bind(Name, to='Sherlock')
+
+     @provider
+     def describe(self, name: Name) -&gt; Description:
+         return '%s is a man of astounding insight' % name
+</code></pre>
+</div>
+
+<p class="footer" style="clear: both;">
+<a href="http://injector.readthedocs.io/en/latest/terminology.html#injection" class="footer" style="clear: both;">http://injector.readthedocs.io/en/latest/terminology.html#injection</a>
+</p>
+</section>
+<section id="slide-4-4">
+<h3 id="4-4"><span class="section-number-3">4.4.</span> Сложенији пример</h3>
+<div class="org-src-container">
+
+<pre><code class="python" > from injector import Injector
+ injector = Injector([UserModule(), UserAttributeModule()])
+</code></pre>
+</div>
+
+<p>
+или
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="python" > injector = Injector([UserModule, UserAttributeModule])
+</code></pre>
+</div>
+
+<p>
+Употреба:
+</p>
+
+<div class="column" style="float:left; width: 49%">
+<div class="org-src-container">
+
+<pre><code class="python" > &gt;&gt;&gt; injector.get(Name)
+ 'Sherlock'
+ &gt;&gt;&gt; injector.get(Description)
+ 'Sherlock is a man of astounding insight'
+</code></pre>
+</div>
+</div>
+
+<div class="column" style="float:right; width: 49%">
+<div class="org-src-container">
+
+<pre><code class="python" > &gt;&gt;&gt; user = injector.get(User)
+ &gt;&gt;&gt; isinstance(user, User)
+ True
+ &gt;&gt;&gt; user.name
+ 'Sherlock'
+ &gt;&gt;&gt; user.description
+ 'Sherlock is a man of astounding insight'
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> <code>Flask injector</code></h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-5-1">
+<h3 id="5-1"><span class="section-number-3">5.1.</span> <code>Flask injector</code></h3>
+<ul>
+<li>Веза између <code>injector</code> библиотеке и <code>Flask</code> оквира за развој.</li>
+
+</ul>
+</section>
+<section id="slide-5-2">
+<h3 id="5-2"><span class="section-number-3">5.2.</span> Пример употребе</h3>
+<div class="org-src-container">
+
+<pre><code class="python" > import sqlite3
+ from flask import Flask, Config
+ from flask.views import View
+ from flask_injector import FlaskInjector
+ from injector import inject
+
+ app = Flask(__name__)
+
+ @app.route("/bar")
+ def bar():
+     return render("bar.html")
+
+ @app.route("/foo")
+ @inject(db=sqlite3.Connection)
+ def foo(db):
+     users = db.execute('SELECT * FROM users').all()
+     return render("foo.html")
+    
+ def configure(binder):
+     binder.bind(
+         sqlite3.Connection,
+         to=sqlite3.Connection(':memory:'),
+         scope=request,
+     )
+
+ FlaskInjector(app=app, modules=[configure])
+
+ app.run()
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Референце</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection on Wikipedia</a></li>
+<li>Martin Fowler, <a href="http://www.martinfowler.com/articles/injection.html">Inversion of Control Containers and the Dependency Injection pattern</a>, January 2004.</li>
+<li><a href="https://github.com/google/guice/wiki">Google Guice Wiki</a></li>
+<li><a href="http://injector.readthedocs.io/en/latest/"><code>Injector</code> dokumentacija</a></li>
+<li><a href="https://github.com/alecthomas/flask_injector"><code>Flask Injector</code> projekat</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>
