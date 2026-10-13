@@ -1,0 +1,32 @@
+vim match za transformaciju liste koja se navodi u boxplot dataframe na summary bez outliera
+
+%s/\([^,]*\),\?$/summary(\1[!\1 %in% boxplot.stats(\1)$out]
+
+Prevodi
+```
+stablo$P_L_Fz_1,
+stablo$P_L_Cz_1,
+stablo$P_L_Pz_1,
+stablo$P_L_Fz_2,
+stablo$P_L_Cz_2,
+stablo$P_L_Pz_2
+
+```
+
+U
+```
+summary(stablo$P_L_Fz_1[!stablo$P_L_Fz_1 %in% boxplot.stats(stablo$P_L_Fz_1)$out]
+summary(stablo$P_L_Cz_1[!stablo$P_L_Cz_1 %in% boxplot.stats(stablo$P_L_Cz_1)$out]
+summary(stablo$P_L_Pz_1[!stablo$P_L_Pz_1 %in% boxplot.stats(stablo$P_L_Pz_1)$out]
+summary(stablo$P_L_Fz_2[!stablo$P_L_Fz_2 %in% boxplot.stats(stablo$P_L_Fz_2)$out]
+summary(stablo$P_L_Cz_2[!stablo$P_L_Cz_2 %in% boxplot.stats(stablo$P_L_Cz_2)$out]
+summary(stablo$P_L_Pz_2[!stablo$P_L_Pz_2 %in% boxplot.stats(stablo$P_L_Pz_2)$out]
+
+```
+
+Pustiti u RStudio i output upisati u boxplot_data.r
+Pozvati
+```
+python getboxplotdata.py boxplot_data.r
+```
+

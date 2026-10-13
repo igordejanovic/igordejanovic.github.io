@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='How to get the changes on a branch in Git # Changes on branch but not on HEAD (three dots) git diff HEAD...branch # List recent branches and switch $ git checkout $(git for-each-ref --sort=&#39;-authordate:iso8601&#39; --format=&#39; %(authordate:relative)%09%(refname:short)&#39; refs | pick | cut -f2) # .gitconfig alias [alias] branches = &#34;!sh -c \&#34;git checkout $(git for-each-ref --sort=&#39;-authordate:iso8601&#39; --format=&#39; %(authordate:relative)%09%(refname:short)&#39; refs | pick | cut -f2)\&#34;&#34; Source. Uses pick.
+See branches merged into other branch git branch --merged master # lists branches merged into master git branch --merged # lists branches merged into HEAD (i.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Git tips • Random bits and pieces'>
+<meta property='og:description' content='How to get the changes on a branch in Git # Changes on branch but not on HEAD (three dots) git diff HEAD...branch # List recent branches and switch $ git checkout $(git for-each-ref --sort=&#39;-authordate:iso8601&#39; --format=&#39; %(authordate:relative)%09%(refname:short)&#39; refs | pick | cut -f2) # .gitconfig alias [alias] branches = &#34;!sh -c \&#34;git checkout $(git for-each-ref --sort=&#39;-authordate:iso8601&#39; --format=&#39; %(authordate:relative)%09%(refname:short)&#39; refs | pick | cut -f2)\&#34;&#34; Source. Uses pick.
+See branches merged into other branch git branch --merged master # lists branches merged into master git branch --merged # lists branches merged into HEAD (i.'>
+<meta property='og:url' content='https://www.igordejanovic.net/recipes/git-tips/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='recipes'><meta property='article:published_time' content='2023-01-10T18:46:24&#43;01:00'/><meta property='article:modified_time' content='2023-01-10T18:46:24&#43;01:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>Git tips • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/recipes/git-tips/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-recipes has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item has-current'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Git tips</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2023-01-10T18:46:24&#43;01:00'>2023, Jan 10</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+3 mins read
+</span>
+
+
+</div>
+
+
+
+  <div class='rtags'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z" />
+<line x1="7" y1="7" x2="7" y2="7" />
+</svg>
+<span class='screen-reader-text'>rtags: </span><a class='rtag' href='/rtags/programming/'>programming</a>, <a class='rtag' href='/rtags/git/'>git</a></div>
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <h2 id="how-to-get-the-changes-on-a-branch-in-git">How to get the changes on a branch in Git</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># Changes on branch but not on HEAD (three dots)</span>
+</span></span><span style="display:flex;"><span>git diff HEAD...branch
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span></code></pre></div><h2 id="list-recent-branches-and-switch">List recent branches and switch</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ git checkout <span style="color:#66d9ef">$(</span>git <span style="color:#66d9ef">for</span>-each-ref --sort<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-authordate:iso8601&#39;</span> --format<span style="color:#f92672">=</span><span style="color:#e6db74">&#39; %(authordate:relative)%09%(refname:short)&#39;</span> refs | pick | cut -f2<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># .gitconfig alias</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>alias<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>branches <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;!sh -c \&#34;git checkout </span><span style="color:#66d9ef">$(</span>git <span style="color:#66d9ef">for</span>-each-ref --sort<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-authordate:iso8601&#39;</span> --format<span style="color:#f92672">=</span><span style="color:#e6db74">&#39; %(authordate:relative)%09%(refname:short)&#39;</span> refs | pick | cut -f2<span style="color:#66d9ef">)</span><span style="color:#e6db74">\&#34;&#34;</span>
+</span></span></code></pre></div><p><a href="https://github.com/rafaelrinaldi/til/blob/master/git/list-branches-by-date.md">Source</a>. Uses <a href="https://github.com/mptre/pick">pick</a>.</p>
+<h2 id="see-branches-merged-into-other-branch">See branches merged into other branch</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git branch --merged master    <span style="color:#75715e"># lists branches merged into master</span>
+</span></span><span style="display:flex;"><span>git branch --merged           <span style="color:#75715e"># lists branches merged into HEAD (i.e. tip of current branch)</span>
+</span></span><span style="display:flex;"><span>git branch --no-merged        <span style="color:#75715e"># lists branches that have not been merged</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># add -a for all branches (local/remote) or -r for remote only</span>
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/questions/226976/how-can-i-know-if-a-branch-has-been-already-merged-into-master">Source</a></p>
+<h2 id="finding-best-common-ancestors-of-two-commits-branches">Finding best common ancestors of two commits/branches</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git merge-base &lt;commit&gt; &lt;commit&gt;
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/a/40011122/2024430">Source</a></p>
+<h2 id="check-if-the-branch-is-current">Check if the branch is current</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ git fetch <span style="color:#f92672">&amp;&amp;</span> git branch -r --merged | grep -q origin/master <span style="color:#f92672">&amp;&amp;</span> echo Incorporates origin/master <span style="color:#f92672">||</span> echo Out of date from origin/master
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In ~/.gitconfig</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>alias<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>   current <span style="color:#f92672">=</span> !git branch -r --merged | grep -q $1 <span style="color:#f92672">&amp;&amp;</span> echo Incorporates $1 <span style="color:#f92672">||</span> echo Out of date from $1 <span style="color:#f92672">&amp;&amp;</span> :
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>And <span style="color:#66d9ef">then</span> run:
+</span></span><span style="display:flex;"><span>$ git current origin/master
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/a/53325693/2024430">Source</a></p>
+<h2 id="check-if-branch-can-merge-without-conflicts">Check if branch can merge without conflicts</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git merge other-branch --no-commit --no-ff
+</span></span><span style="display:flex;"><span>git merge --abort
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/a/6335937/2024430">Source</a></p>
+<h2 id="see-commits-from-a-branch-but-not-from-merged-in-branches">See commits from a branch but not from merged in branches</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git log --first-parent
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/questions/10248137/git-how-to-list-commits-on-this-branch-but-not-from-merged-branches">Source</a></p>
+<h2 id="see-what-is-on-a-branch">See what is on a branch</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># Find commit on this</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># branch that changed something in the current folder</span>
+</span></span><span style="display:flex;"><span>git log <span style="color:#66d9ef">$(</span>git merge-base first_branch HEAD<span style="color:#66d9ef">)</span>..HEAD .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git log --no-merges master..
+</span></span><span style="display:flex;"><span>git log --no-merges master..HEAD --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Jason&#34;</span> .
+</span></span></code></pre></div><h2 id="see-files-in-conflict">See files in conflict</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git diff --name-only --diff-filter<span style="color:#f92672">=</span>U
+</span></span></code></pre></div><h2 id="check-for-conflict-markers-in-code">Check for conflict markers in code</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git diff --check
+</span></span></code></pre></div><h2 id="leaderboards-number-of-commit-by-user-sorted">Leaderboards - number of commit by user sorted</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git shortlog -sn --all --no-merges
+</span></span><span style="display:flex;"><span>git shortlog -sn --since<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;10 weeks&#39;</span> --until<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;2 weeks&#39;</span>
+</span></span></code></pre></div><h2 id="see-recent-branches-you-have-been-working-on">See recent branches you have been working on</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git <span style="color:#66d9ef">for</span>-each-ref --count<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> --sort<span style="color:#f92672">=</span>-committerdate refs/heads/ --format<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;%(refname:short)&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># alias</span>
+</span></span><span style="display:flex;"><span>recent <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;for-each-ref --count=10 --sort=-committerdate refs/heads/ --format=&#39;%(refname:short)&#39;&#34;</span>
+</span></span></code></pre></div><h2 id="remind-yourself-what-you-have-been-doing">Remind yourself what you have been doing</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git log --all --oneline --no-merges --author<span style="color:#f92672">=</span>igor.dejanovic
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># alias</span>
+</span></span><span style="display:flex;"><span>recap <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;log --all --oneline --no-merges --author=igor.dejanovic&#34;</span>
+</span></span></code></pre></div><h2 id="see-what-is-changed-in-the-merge-conflict-resolution">See what is changed in the merge conflict resolution</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git diff hash hash^1 hash^2
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/questions/16573555/show-conflict-diff-part-of-a-merge">Source</a></p>
+<h2 id="git-rerere-reuse-recorded-resolutions"><a href="https://medium.com/@porteneuve/fix-conflicts-only-once-with-git-rerere-7d116b2cec67">git rerere - reuse recorded resolutions</a></h2>
+<h2 id="delete-local-branches-whose-remotes-were-deleted">Delete local branches whose remotes were deleted</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git config --global alias.gone <span style="color:#e6db74">&#34;! git fetch -p &amp;&amp; git for-each-ref --format &#39;%(refname:short) %(upstream:track)&#39; | awk &#39;\$2 == \&#34;[gone]\&#34; {print \$1}&#39; | xargs -r git branch -D&#34;</span>
+</span></span></code></pre></div><p><a href="https://stackoverflow.com/questions/41592156/git-command-to-remove-local-branches-that-have-a-deleted-upstream">Source</a>. Now <code>git gone</code> will delete all local branches whose remotes were deleted.</p>
+<h2 id="find-large-files-in-the-repo-history">Find large files in the repo history</h2>
+<ul>
+<li>This works but is slow for large repos.</li>
+</ul>
+<!--listend-->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git rev-list --all | <span style="color:#66d9ef">while</span> read rev ; <span style="color:#66d9ef">do</span> git ls-tree -rl --full-name $rev ; <span style="color:#66d9ef">done</span> | sort -k4 -nr | uniq &gt; large.txt
+</span></span></code></pre></div><ul>
+<li>This works much faster! See <a href="https://stackoverflow.com/a/42544963/2024430">https://stackoverflow.com/a/42544963/2024430</a>
+Use <code>--since=&quot;2022-09-10&quot;</code> to return only recent blobs.</li>
+</ul>
+<!--listend-->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git rev-list --objects --all |
+</span></span><span style="display:flex;"><span>  git cat-file --batch-check<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;%(objecttype) %(objectname) %(objectsize) %(rest)&#39;</span> |
+</span></span><span style="display:flex;"><span>  sed -n <span style="color:#e6db74">&#39;s/^blob //p&#39;</span> |
+</span></span><span style="display:flex;"><span>  sort --numeric-sort --key<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> |
+</span></span><span style="display:flex;"><span>  cut -c 1-12,41- |
+</span></span><span style="display:flex;"><span>  numfmt --field<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> --to<span style="color:#f92672">=</span>iec-i --suffix<span style="color:#f92672">=</span>b --padding<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span> --round<span style="color:#f92672">=</span>neares
+</span></span></code></pre></div><h2 id="compare-two-branches">Compare two branches</h2>
+<p>Some commands use <a href="https://apps.kde.org/kompare/">kompare</a> or <a href="http://meldmerge.org/">meld</a>.</p>
+<ul>
+<li>Show only file names ignoring whitespace (<code>-w</code>):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    git diff -w --name-status master..integration
+</span></span></code></pre></div></li>
+<li>Show changes between tips of two branches.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    git diff master..integration | kompare -
+</span></span></code></pre></div></li>
+<li>See the diff of modified files only between two branches in folder <code>src</code>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    git diff -w --diff-filter<span style="color:#f92672">=</span>M master..integration src/ | kompare -
+</span></span></code></pre></div></li>
+<li>See what is on branch <code>integration</code> but not on <code>master</code> (notice three dots).
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>    git diff master...integration | kompare -
+</span></span></code></pre></div></li>
+<li>To use meld in previous recipes do the following:
+<ol>
+<li>Configure meld as a diff tool:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>          git config --global diff.tool meld
+</span></span></code></pre></div></li>
+<li>Use git <code>--dir-diff</code>. For example:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>          git difftool -d master...integration
+</span></span></code></pre></div></li>
+</ol>
+</li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://csswizardry.com/2017/05/little-things-i-like-to-do-with-git/">https://csswizardry.com/2017/05/little-things-i-like-to-do-with-git/</a></li>
+</ul>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/recipes/guix-tips-and-tricks/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Guix tips and tricks</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/recipes/debugging-elisp/'>
+        <span class='screen-reader-text'>Next post: </span>Debugging Elisp<span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+

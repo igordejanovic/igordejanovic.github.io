@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be tangled with Org Mode to appropriate locations. See the source of this site.
+See https://wiki.archlinux.org/title/Sway
+Put a warning at the beginning of the tangled file just to be sure not to forget.
+# Warning: this config is maintained through Org Mode file. Do not edit directly! # Tangled from site.org Install sudo pacman -S wayland xorg-xwayland sway swaylock swaybg See other sections for the installation of other tools used in this config.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Sway config • Random bits and pieces'>
+<meta property='og:description' content='Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be tangled with Org Mode to appropriate locations. See the source of this site.
+See https://wiki.archlinux.org/title/Sway
+Put a warning at the beginning of the tangled file just to be sure not to forget.
+# Warning: this config is maintained through Org Mode file. Do not edit directly! # Tangled from site.org Install sudo pacman -S wayland xorg-xwayland sway swaylock swaybg See other sections for the installation of other tools used in this config.'>
+<meta property='og:url' content='https://www.igordejanovic.net/recipes/sway-config/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='recipes'><meta property='article:published_time' content='2026-04-10T18:32:16&#43;02:00'/><meta property='article:modified_time' content='2026-04-10T18:32:16&#43;02:00'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>Sway config • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/recipes/sway-config/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-recipes has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item has-current'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Sway config</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2026-04-10T18:32:16&#43;02:00'>2026, Apr 10</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+15 mins read
+</span>
+
+
+</div>
+
+
+
+  <div class='rtags'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z" />
+<line x1="7" y1="7" x2="7" y2="7" />
+</svg>
+<span class='screen-reader-text'>rtags: </span><a class='rtag' href='/rtags/linux/'>linux</a>, <a class='rtag' href='/rtags/config/'>config</a>, <a class='rtag' href='/rtags/wayland/'>wayland</a></div>
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Migrating to sway/wayland from i3wm/X. This bellow is my sway config. It can be
+<a href="https://orgmode.org/manual/Extracting-Source-Code.html">tangled</a> with <a href="https://orgmode.org/">Org Mode</a> to appropriate locations. See <a href="https://github.com/igordejanovic/igordejanovic.github.io/blob/main/site.org">the source of this site</a>.</p>
+<p>See <a href="https://wiki.archlinux.org/title/Sway">https://wiki.archlinux.org/title/Sway</a></p>
+<p>Put a warning at the beginning of the tangled file just to be sure not to forget.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#75715e"># Warning: this config is maintained through Org Mode file. Do not edit directly!</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Tangled from site.org</span>
+</span></span></code></pre></div><h2 id="install">Install</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S wayland xorg-xwayland sway swaylock swaybg
+</span></span></code></pre></div><p>See other sections for the installation of other tools used in this config.</p>
+<p>The standard location of sway config is <code>~/.config/sway/config</code>.</p>
+<h2 id="some-variables-used-in-the-config">Some variables used in the config</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">set {</span>
+</span></span></code></pre></div><p><code>Mod4</code> is the <code>Win</code> key on most keyboards. Since it is unused for other purposes it
+is ideal to be a sway modifier key.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$mod Mod4</span>
+</span></span></code></pre></div><p>Sway config root.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$sway ~/.config/sway</span>
+</span></span></code></pre></div><p>A script to handle lock/suspend.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$exit $sway/exit.sh</span>
+</span></span></code></pre></div><p>A script to unmount all gocryptfs mounts and remove keys from ssh agent.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$umount_all $sway/umount_all.sh</span>
+</span></span></code></pre></div><p>A script for managing multiple displays. See <a href="#display-profile">bellow</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$display_profile $sway/display-profile.sh</span>
+</span></span></code></pre></div><p>Socket used for <a href="https://github.com/francma/wob">wob</a>, a tool for creating overlay bar during setting of volume,
+screen brightness etc. Create it with <code>mkfifo</code>. See the README of the project. See
+<a href="#media-buttons">bellow for the usage</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span>    <span style="color:#a6e22e">$SWAYSOCK.wob ~/.local/share/sway-wob.sock</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h2 id="windows-setup">Windows setup</h2>
+<p>Use minimal borders.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">default_border pixel 2</span>
+</span></span></code></pre></div><p>Disable border on screen edges and hide title for a single child tabbed/stacked containers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">hide_edge_borders --i3 smart</span>
+</span></span></code></pre></div><p>Use Mouse+$mod to drag floating windows to their wanted position.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">floating_modifier $mod</span>
+</span></span></code></pre></div><p>Background color.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">output &#34;*&#34; bg &#34;#002244&#34; solid_color</span>
+</span></span></code></pre></div><p>Font for window titles and swaybar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">font pango:Hack 10</span>
+</span></span></code></pre></div><p><a href="https://github.com/swaywm/sway/issues/1471">Hide mouse cursor</a> after a period of inactivity. <em>Not using</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">seat * hide_cursor 3000</span>
+</span></span></code></pre></div><h2 id="basic-keybindings">Basic keybindings</h2>
+<p>Start alacritty terminal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Return exec alacritty</span>
+</span></span></code></pre></div><p>Emacs everywhere. Launch emacs to edit content in other applications.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+m exec emacsclient --eval &#34;(emacs-everywhere)&#34;</span>
+</span></span></code></pre></div><p>Screenshot can be taken with <a href="https://github.com/emersion/grim">grim</a> which uses <a href="https://github.com/emersion/slurp">slurp</a> to select a region and then
+open the captured image in <a href="https://wiki.gnome.org/Apps/gthumb">gthumb</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym Print exec grim -g &#34;$(slurp)&#34; ~/screenshot.png &amp;&amp; gthumb ~/screenshot.png</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym Shift+Print exec grim -g &#34;$(slurp)&#34; - | wl-copy</span>
+</span></span></code></pre></div><p>Kill focused window:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+q kill</span>
+</span></span></code></pre></div><p>Switch back and forth between workspaces:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">workspace back_and_forth yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+tab workspace back_and_forth</span>
+</span></span></code></pre></div><p>Change focus (use vim bindings).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+h focus left</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+j focus down</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+k focus up</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+l focus right</span>
+</span></span></code></pre></div><p>Move focused window (vim bindings):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+h move left</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+j move down</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+k move up</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+l move right</span>
+</span></span></code></pre></div><p>Split in horizontal and vertical orientations. When the shortcut is pressed a
+hint is displayed at the side of the window where the next application will be
+positioned.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+b split h</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+v split v</span>
+</span></span></code></pre></div><p>Toggle fullscreen mode for focused window:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+f fullscreen toggle</span>
+</span></span></code></pre></div><p>Change container layout (stacked, tabbed, toggle split):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+s layout stacking</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+w layout tabbed</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+e layout toggle split</span>
+</span></span></code></pre></div><p>Toggle tiling/floating:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+space floating toggle</span>
+</span></span></code></pre></div><p>Change focus between tiling/floating windows</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+space focus mode_toggle</span>
+</span></span></code></pre></div><p>Focus the parent/child container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+a focus parent</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+a focus child</span>
+</span></span></code></pre></div><p>Reload configuration file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+r reload</span>
+</span></span></code></pre></div><p>Exit sway. Log out of wayland session:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+e exec &#34;swaynag -t warning -m &#39;You pressed the exit shortcut. Do you really want to exit sway? This will end your wayland session.&#39; -B &#39;Yes, exit sway&#39; &#39;swaymsg exit&#39;&#34;</span>
+</span></span></code></pre></div><h2 id="workspaces-and-window-associations">Workspaces and window associations</h2>
+<p>Define names for default workspaces for which we configure key bindings later on. We use variables to avoid repeating the names in multiple places.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">set $ws1 1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws2 2</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws3 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws4 4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Set $ws5 5</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws6 6</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws7 7</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws8 8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws9 9</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set $ws10 10</span>
+</span></span></code></pre></div><p>Switch to workspace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+1 workspace $ws1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+2 workspace $ws2</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+3 workspace $ws3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+4 workspace $ws4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+5 workspace $ws5</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+6 workspace $ws6</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+7 workspace $ws7</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+8 workspace $ws8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+9 workspace $ws9</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+0 workspace $ws10</span>
+</span></span></code></pre></div><p>Move focused container to workspace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+1 move container to workspace $ws1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+2 move container to workspace $ws2</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+3 move container to workspace $ws3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+4 move container to workspace $ws4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+5 move container to workspace $ws5</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+6 move container to workspace $ws6</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+7 move container to workspace $ws7</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+8 move container to workspace $ws8</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+9 move container to workspace $ws9</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+0 move container to workspace $ws10</span>
+</span></span></code></pre></div><p>Move workspace to left/right output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+Alt+h move workspace to output left</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+Shift+Alt+l move workspace to output right</span>
+</span></span></code></pre></div><p>You can map workspace to output using this. Can be handy in multi-display
+setups.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">workspace 1 output DP1 eDP1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">workspace 2 output DP1 eDP1</span>
+</span></span></code></pre></div><p>Assign application window classes to workspaces:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">assign [class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Viber&#34;] 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">assign [class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Skype&#34;] 3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">assign [class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Audacious&#34;] 10</span>
+</span></span></code></pre></div><p><em>TODO: Write how to get the name of the application class.</em></p>
+<p>Send current workspace to other output (e.g. from primary to secondary and vice-versa):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+o exec swaymsg -t get_outputs | \</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">jq &#39;.[] | select(.focused!</span><span style="color:#f92672">=</span><span style="color:#e6db74">true) | .name&#39; | head -n1 | xargs swaymsg move workspace to</span>
+</span></span></code></pre></div><p><a href="https://github.com/swaywm/sway/issues/4346">Source</a></p>
+<h2 id="media-buttons">Media buttons with bar overlay</h2>
+<p>Install <a href="https://github.com/francma/wob">wob</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S wob
+</span></span></code></pre></div><p>Setup named pipe/socket (do this once):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkfifo ~/.local/share/sway-wob.sock
+</span></span></code></pre></div><p>Connect socket to wob in the config:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec tail -f $SWAYSOCK.wob | wob</span>
+</span></span></code></pre></div><h3 id="screen-brightness">Screen brightness</h3>
+<p>Install <a href="https://github.com/haikarainen/light">light</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S light
+</span></span></code></pre></div><p>Call light on brightness keys and pipe to wob:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86MonBrightnessUp exec light -A 10 &amp;&amp; light -G | cut -d&#39;.&#39; -f1 &gt; $SWAYSOCK.wob</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86MonBrightnessDown exec light -U 10 &amp;&amp; light -G | cut -d&#39;.&#39; -f1 &gt; $SWAYSOCK.wob</span>
+</span></span></code></pre></div><h3 id="media-player-controls">Media player controls</h3>
+<p>Install <a href="https://github.com/altdesktop/playerctl">playerctl</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S playerctl
+</span></span></code></pre></div><p>Call playerctl on media keys:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioPlay exec playerctl play-pause</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioStop exec playerctl stop</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioNext exec playerctl next</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioPrev exec playerctl previous</span>
+</span></span></code></pre></div><h3 id="sound-volume">Sound volume</h3>
+<p>Install <a href="https://github.com/cdemoulins/pamixer">pamixer</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S pamixer
+</span></span></code></pre></div><p>Call pamixer on volume keys and pipe to wob:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioRaiseVolume exec pamixer -ui 5 &amp;&amp; pamixer --get-volume &gt; $SWAYSOCK.wob</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioLowerVolume exec pamixer -ud 5 &amp;&amp; pamixer --get-volume &gt; $SWAYSOCK.wob</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym XF86AudioMute exec pamixer --toggle-mute</span>
+</span></span></code></pre></div><h2 id="window-resizing">Window resizing</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#75715e"># resize window (you can also use the mouse for that)</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mode &#34;resize&#34; {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># These bindings trigger as soon as you enter the resize mode</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bindsym {</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">h resize shrink width 10 px or 10 ppt</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">j resize grow height 10 px or 10 ppt</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">k resize shrink height 10 px or 10 ppt</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">l resize grow width 10 px or 10 ppt</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># back to normal: Enter or Escape or $mod+r</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">Return mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">Escape mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">$mod+r mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+r mode &#34;resize&#34;</span>
+</span></span></code></pre></div><h2 id="system-mode">System mode</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">set $mode_system (l/L)ock,(e)lout,(s)usp,(r)bt,(Sh+s)stdown</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mode &#34;$mode_system&#34; {</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym l exec $exit lock; mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym e exec $exit logout</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Shift+l exec $exit locksuspend; mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym s exec $exit suspend; mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym r exec systemctl reboot</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Shift+s exec systemctl poweroff</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># back to normal: Enter or Escape</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Return mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Escape mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+End mode &#34;$mode_system&#34;</span>
+</span></span></code></pre></div><h3 id="exit-dot-sh-script-called-on-lock-suspend-logout"><code>exit.sh</code> script called on lock/suspend/logout</h3>
+<p>Exit script which locks and unmounts encFS mounts on suspend.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>export XDG_RUNTIME_DIR<span style="color:#f92672">=</span>/run/user/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>export WAYLAND_DISPLAY<span style="color:#f92672">=</span>wayland-1
+</span></span><span style="display:flex;"><span>export SWAYSOCK<span style="color:#f92672">=</span>$XDG_RUNTIME_DIR/sway-ipc.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.<span style="color:#66d9ef">$(</span>pgrep -x sway<span style="color:#66d9ef">)</span>.sock
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lock<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    swaylock -c <span style="color:#ae81ff">003300</span> &amp;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>    lock<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        lock
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span>    locksuspend<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        ~/.config/sway/umount_all.sh
+</span></span><span style="display:flex;"><span>        lock
+</span></span><span style="display:flex;"><span>        systemctl suspend
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span>    suspend<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#~/.config/sway/umount_all.sh</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#lock</span>
+</span></span><span style="display:flex;"><span>        systemctl suspend
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span>    logout<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        ~/.config/sway/umount_all.sh
+</span></span><span style="display:flex;"><span>        swaymsg <span style="color:#e6db74">&#39;exit&#39;</span>
+</span></span><span style="display:flex;"><span>        ;;
+</span></span><span style="display:flex;"><span>    *<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Usage: </span>$0<span style="color:#e6db74"> {lock|locksuspend|suspend|logout}&#34;</span>
+</span></span><span style="display:flex;"><span>        exit <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exit <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p><a href="https://www.reddit.com/r/swaywm/comments/qngc2q/systemd_service_for_swaylock/">Source</a> for exports setup. Needed cause this is called from system-level systemd service.</p>
+<h3 id="umount-all-dot-sh-script-for-umounting-all-gocryptfs-mounts"><code>umount_all.sh</code> script for umounting all gocryptfs mounts</h3>
+<p>This script is called on suspend when not home or explicitly from <a href="#system-mode">the system mode</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>killall viber
+</span></span><span style="display:flex;"><span>killall whatsdesk
+</span></span><span style="display:flex;"><span>umount ~/Consulting
+</span></span><span style="display:flex;"><span>umount ~/.ssh
+</span></span><span style="display:flex;"><span>umount ~/Maildir
+</span></span><span style="display:flex;"><span>umount ~/org
+</span></span><span style="display:flex;"><span>ssh-add -D
+</span></span></code></pre></div><h3 id="call-exit-dot-sh-script-on-lid-close">Call <code>exit.sh</code> script on lid close</h3>
+<p>System should lock and unmount all encrypted shares on lid close. See <a href="https://wiki.archlinux.org/index.php/Power_management#Sleep_hooks">here</a> for
+power management hooks.</p>
+<p>File &lt;/etc/systemd/logind.conf&gt; has handling of lid switch</p>
+<pre tabindex="0"><code class="language-nil" data-lang="nil">$ loginctl show-session
+HandleLidSwitch=suspend
+HandleLidSwitchDocked=ignore
+</code></pre><p>Create systemd service file in &lt;/etc/systemd/system/suspend@.service&gt;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[Unit]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Description</span><span style="color:#f92672">=</span><span style="color:#e6db74">Lock screen on suspend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Before</span><span style="color:#f92672">=</span><span style="color:#e6db74">sleep.target</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Service]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">User</span><span style="color:#f92672">=</span><span style="color:#e6db74">%I</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Type</span><span style="color:#f92672">=</span><span style="color:#e6db74">forking</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ExecStart</span><span style="color:#f92672">=</span><span style="color:#e6db74">/home/igor/.config/sway/exit.sh suspend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">TimeoutSec</span><span style="color:#f92672">=</span><span style="color:#e6db74">infinity</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Install]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">WantedBy</span><span style="color:#f92672">=</span><span style="color:#e6db74">sleep.target</span>
+</span></span></code></pre></div><p>This must be a system-level service as user services can&rsquo;t have <code>sleep</code> dependencies.</p>
+<p>Enable with <code>sudo systemctl enable suspend@igor</code></p>
+<h2 id="display-profile">Display mode</h2>
+<p>Screen modes by location.</p>
+<p><strong>Note:</strong> mirroring is not <a href="https://github.com/swaywm/sway/issues/1666">yet properly supported by sway</a> but there is <a href="https://github.com/Ferdi265/wl-mirror">wl-mirror</a> as
+a workaround. See also <a href="https://bbs.archlinux.org/viewtopic.php?id=245038">this</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">set $mode_display LOCATION: (l)aptop (h)ome (m)eeting (d)ual dual-(r)ight (p)res-low</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mode &#34;$mode_display&#34; {</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">bindsym {</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">l exec $display_profile laptop, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">h exec $display_profile home, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">d exec $display_profile dual, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">r exec $display_profile dual-right, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">m exec $display_profile meeting, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">p exec $display_profile pres-lowres, mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>             <span style="color:#75715e"># back to normal: Enter or Escape</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">Return mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>             <span style="color:#a6e22e">Escape mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+x mode &#34;$mode_display&#34;</span>
+</span></span></code></pre></div><p>Mirroring of output can be done with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wl-mirror eDP-1
+</span></span></code></pre></div><p>To mirror only a part of the output combine with slurp:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wl-mirror -r <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>slurp<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><h3 id="display-profile-script"><code>display-profile</code> script</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># Set display profiles for various locations.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># WARNING! This script is maintained through Org Mode file. Do not edit directly.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LOCATION<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>LAPTOP_OUTPUT<span style="color:#f92672">=</span>eDP-1
+</span></span><span style="display:flex;"><span>LAPTOP_MODE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>swaymsg -t get_outputs | jq <span style="color:#e6db74">&#34;.[] | select(.name==\&#34;</span>$LAPTOP_OUTPUT<span style="color:#e6db74">\&#34;) | .modes[-1]&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>LAPTOP_RES<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $LAPTOP_MODE | jq <span style="color:#e6db74">&#34;.width&#34;</span><span style="color:#e6db74">`</span>x<span style="color:#e6db74">`</span>echo $LAPTOP_MODE | jq <span style="color:#e6db74">&#34;.height&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>LAPTOP_WIDTH<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $LAPTOP_MODE | jq <span style="color:#e6db74">&#34;.width&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get auxiliary output</span>
+</span></span><span style="display:flex;"><span>AUX_OUTPUT_JSON<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>swaymsg -t get_outputs | jq <span style="color:#e6db74">&#34;.[] | select(.name!=\&#34;</span>$LAPTOP_OUTPUT<span style="color:#e6db74">\&#34;)&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>AUX_MODE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $AUX_OUTPUT_JSON | jq <span style="color:#e6db74">&#34;.modes[0]&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>AUX_OUTPUT<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $AUX_OUTPUT_JSON | jq <span style="color:#e6db74">&#34;.name&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>AUX_RES<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $AUX_MODE | jq <span style="color:#e6db74">&#34;.width&#34;</span><span style="color:#e6db74">`</span>x<span style="color:#e6db74">`</span>echo $AUX_MODE | jq <span style="color:#e6db74">&#34;.height&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>AUX_WIDTH<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>echo $AUX_MODE | jq <span style="color:#e6db74">&#34;.width&#34;</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>echo $LAPTOP_OUTPUT
+</span></span><span style="display:flex;"><span>echo $LAPTOP_RES
+</span></span><span style="display:flex;"><span>echo $LAPTOP_WIDTH
+</span></span><span style="display:flex;"><span>echo $AUX_RES
+</span></span><span style="display:flex;"><span>echo $AUX_OUTPUT
+</span></span><span style="display:flex;"><span>echo $AUX_RES
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>move_workspaces_to_output<span style="color:#f92672">(){</span>
+</span></span><span style="display:flex;"><span>    OUTPUT<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>1..10<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        swaymsg <span style="color:#e6db74">&#34;[workspace=</span>$i<span style="color:#e6db74">]&#34;</span> move workspace to output $OUTPUT
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;</span>$LOCATION<span style="color:#e6db74">&#34;</span> in
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;laptop&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $LAPTOP_OUTPUT enable pos <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> res $LAPTOP_RES
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT disable
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;home&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT enable pos <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> res $AUX_RES, <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                output $LAPTOP_OUTPUT disable
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;dual&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT enable pos <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> res $AUX_RES scale 1, <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                output $LAPTOP_OUTPUT enable pos $AUX_WIDTH <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        move_workspaces_to_output $LAPTOP_OUTPUT
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;dual-right&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH <span style="color:#ae81ff">0</span> res $AUX_RES scale 1, <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                output $LAPTOP_OUTPUT enable pos <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        move_workspaces_to_output $LAPTOP_OUTPUT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;meeting&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT enable pos $AUX_WIDTH <span style="color:#ae81ff">0</span> res $AUX_RES scale 1.5, <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                output $LAPTOP_OUTPUT enable pos <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        move_workspaces_to_output $LAPTOP_OUTPUT
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;pres-lowres&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        swaymsg output $AUX_OUTPUT enable pos $LAPTOP_WIDTH <span style="color:#ae81ff">0</span> res 1280x1024, <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>                output $LAPTOP_OUTPUT enable
+</span></span><span style="display:flex;"><span>        move_workspaces_to_output $LAPTOP_OUTPUT
+</span></span><span style="display:flex;"><span>    ;;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
+</span></span></code></pre></div><h2 id="waybar">waybar</h2>
+<p>Config sway to use waybar.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bar {</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">swaybar_command waybar</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><p>Install font <code>Hack Nerd</code> used for swaync notification icons.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S ttf-hack-nerd
+</span></span></code></pre></div><p>Waybar configuration:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;layer&#34;: &#34;top&#34;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;position&#34;: &#34;bottom&#34;,</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;modules-left&#34;: [</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;sway/workspaces&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/right-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/right-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;sway/mode&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/right-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/right-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/pomodoro&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/right-arrow-dark&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">],</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;modules-right&#34;: [</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;network&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;memory&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;cpu&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;battery&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;pulseaudio&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">//      &#34;idle_inhibitor&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tray&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/weather&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;sway/language&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;custom/notification&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;clock&#34;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">],</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;custom/left-arrow-dark&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip&#34;: false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;custom/left-arrow-light&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip&#34;: false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;custom/right-arrow-dark&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip&#34;: false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">},</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;custom/right-arrow-light&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip&#34;: false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">},</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;sway/workspaces&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;disable-scroll&#34;: true,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;{name}:{icon} &#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format-icons&#34;: {</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">&#34;1&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">&#34;2&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">&#34;3&#34;: &#34;&#34;,</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">&#34;10&#34;: &#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">},</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">&#34;clock&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;format&#34;: &#34;{:%H:%M}&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;locale&#34;: &#34;sr_RS&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip-format&#34;: &#34;&lt;tt&gt;&lt;small&gt;{calendar}&lt;/small&gt;&lt;/tt&gt;&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;on-click&#34;: &#34;gsimplecal&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;tooltip&#34;: true,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;calendar-weeks-pos&#34;: &#34;right&#34;,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;today-format&#34;: &#34;&lt;span color</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#336699&#39;&gt;&lt;b&gt;&lt;u&gt;{}&lt;/u&gt;&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-calendar&#34;: &#34;&lt;span color=&#39;#ecc6d9&#39;&gt;&lt;b&gt;{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-calendar-weeks&#34;: &#34;&lt;span color=&#39;#99ffdd&#39;&gt;&lt;b&gt;Н{:%V}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-calendar-weekdays&#34;: &#34;&lt;span color=&#39;#ffcc66&#39;&gt;&lt;b&gt;{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         &#34;calendar&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;mode&#34;          : &#34;year&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;mode-mon-col&#34;  : 3,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;weeks-pos&#34;     : &#34;right&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;on-scroll&#34;     : 1,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;on-click-right&#34;: &#34;mode&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;format&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;months&#34;:     &#34;&lt;span color=&#39;#ffead3&#39;&gt;&lt;b&gt;{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;days&#34;:       &#34;&lt;span color=&#39;#ecc6d9&#39;&gt;&lt;b&gt;{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;weeks&#34;:      &#34;&lt;span color=&#39;#99ffdd&#39;&gt;&lt;b&gt;W{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;weekdays&#34;:   &#34;&lt;span color=&#39;#ffcc66&#39;&gt;&lt;b&gt;{}&lt;/b&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;today&#34;:      &#34;&lt;span color=&#39;#ff6699&#39;&gt;&lt;b&gt;&lt;u&gt;{}&lt;/u&gt;&lt;/b&gt;&lt;/span&gt;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;custom/weather&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;exec&#34;: &#34;curl &#39;https://wttr.in/Novi_Sad?format=1&#39; -s | cut -c 1-15&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;interval&#34;: 3600
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;custom/pomodoro&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         &#34;format&#34;: &#34;{}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         &#34;exec&#34;: &#34;emacsclient -e &#39;(ird/org-pomodoro-time)&#39; | sed -e &#39;s/^\&#34;//&#39;  -e &#39;s/\&#34;$//&#39;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         &#34;interval&#34;: 30,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">         &#34;signal&#34;: 12
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;sway/language&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format&#34;: &#34;{}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;max-length&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;min-length&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;pulseaudio&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format&#34;: &#34;{icon} {volume:2}%&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-bluetooth&#34;: &#34;{icon}  {volume}%&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-muted&#34;: &#34;MUTE&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-icons&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;headphones&#34;: &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;default&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;scroll-step&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;on-click&#34;: &#34;pamixer -t&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;on-click-right&#34;: &#34;pavucontrol&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;memory&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;interval&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format&#34;: &#34;Mem {}%&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;cpu&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;interval&#34;: 5,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format&#34;: &#34;CPU {usage:2}%&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;battery&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;states&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;good&#34;: 95,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;warning&#34;: 30,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;critical&#34;: 15
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format&#34;: &#34;{icon} {capacity}%&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;format-icons&#34;: [
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;network&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      // &#34;interface&#34;: &#34;wlp2*&#34;, // (Optional) To force the use of this interface
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;interval&#34;: 3,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;format-wifi&#34;: &#34;{essid:.8} ({signalStrength}%,{bandwidthDownBytes:&gt;3}|{bandwidthUpBytes:&gt;3}) &#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;format-ethernet&#34;: &#34;{ifname}: {bandwidthDownBytes:&gt;3}|{bandwidthUpBytes:&gt;3} &#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;format-linked&#34;: &#34;{ifname} (No IP) &#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;format-disconnected&#34;: &#34;Disconnected ⚠&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;format-alt&#34;: &#34;{ifname}: {ipaddr}/{cidr}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;tooltip&#34;: true,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#34;tooltip-format&#34;: &#34;{essid} {ipaddr}/{cidr}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;idle_inhibitor&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;format&#34;: &#34;{icon}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;format-icons&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              &#34;activated&#34;: &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              &#34;deactivated&#34;: &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;custom/notification&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;tooltip&#34;: false,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;format&#34;: &#34;{icon}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;format-icons&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  &#34;notification&#34;: &#34;&lt;span foreground=&#39;red&#39;&gt;&lt;sup&gt;&lt;/sup&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  &#34;none&#34;: &#34;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  &#34;dnd-notification&#34;: &#34;&lt;span foreground=&#39;red&#39;&gt;&lt;sup&gt;&lt;/sup&gt;&lt;/span&gt;&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  &#34;dnd-none&#34;: &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          },
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;return-type&#34;: &#34;json&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;exec-if&#34;: &#34;which swaync-client&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;exec&#34;: &#34;swaync-client -swb&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;on-click&#34;: &#34;swaync-client -t -sw&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;on-click-right&#34;: &#34;swaync-client -d -sw&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          &#34;escape&#34;: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        },</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">&#34;tray&#34;: {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">&#34;icon-size&#34;: 20</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h3 id="css">css</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#f92672">**</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">15</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">font-family</span>: <span style="color:#66d9ef">monospace</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">window</span>#waybar {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#292b2e</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#fdf6e3</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#custom-right-arrow-dark<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-left-arrow-dark {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#1a1a1a</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#custom-right-arrow-light<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-left-arrow-light {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#292b2e</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#1a1a1a</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#workspaces<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#clock<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-weather<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-notification<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-pomodoro<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#language<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#pulseaudio<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#backlight<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#memory<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#cpu<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#temperature<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#network<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#battery<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#tray {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#1a1a1a</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#workspaces <span style="color:#f92672">button</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">2</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#fdf6e3</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#workspaces <span style="color:#f92672">button</span>.<span style="color:#a6e22e">focused</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#268bd2</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#workspaces <span style="color:#f92672">button</span>.<span style="color:#a6e22e">urgent</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#aa0000</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#workspaces <span style="color:#f92672">button</span>:<span style="color:#a6e22e">hover</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">box-shadow</span>: <span style="color:#66d9ef">inherit</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">text-shadow</span>: <span style="color:#66d9ef">inherit</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#workspaces <span style="color:#f92672">button</span>:<span style="color:#a6e22e">hover</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#1a1a1a</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">#1a1a1a</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">3</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#mode {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">background</span>: <span style="color:#ae81ff">#aa0000</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#pulseaudio {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#268bd2</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#backlight {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#b58900</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#memory {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#2aa198</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#temperature {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#b58900</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#cpu {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#6c71c4</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#battery {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#859900</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#battery.<span style="color:#a6e22e">discharging</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#dd9900</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#network {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">color</span>: <span style="color:#ae81ff">#8599aa</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>#custom-notification {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">font-family</span>: <span style="color:#e6db74">&#34;NotoSansMono Nerd Font&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#mode<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#clock<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#pulseaudio<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#backlight<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#memory<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#cpu<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#tray<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#network<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-notification<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-weather<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#custom-pomodoro<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#temperature<span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span>#battery {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">10</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="application-launcher-window-switcher">Application launcher, window switcher</h2>
+<p><a href="https://github.com/davatorium/rofi">Rofi</a> is a popular application launcher and window switcher. See also
+<a href="https://wiki.archlinux.org/title/Rofi">ArchLinux wiki page</a>.</p>
+<p>Currently original rofi has no support for wayland. There is a fork with wayland
+support. Install with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>yay -S --mflags <span style="color:#e6db74">&#34;--nocheck&#34;</span> rofi-lbonn-wayland
+</span></span></code></pre></div><p><code>--nocheck</code> is needed at the moment as there is <a href="https://github.com/lbonn/rofi/issues/63">a problem with libnkutils</a>. If you
+are reading this in a fairly distant future probably you won&rsquo;t need this.</p>
+<p>Keyboard shortcut.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+d exec rofi -modes combi -show combi -combi-modes run,drun</span>
+</span></span></code></pre></div><h3 id="rofi-configuration">Rofi configuration</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">@theme &#34;/usr/share/rofi/themes/Arc-Dark.rasi&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">configuration {</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">modi: &#34;window,run,ssh&#34;;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timeout {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">action: &#34;kb-cancel&#34;;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">delay:  0;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filebrowser {</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">directories-first: true;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sorting-method:    &#34;name&#34;;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h2 id="clipboard">Clipboard</h2>
+<p><a href="https://github.com/bugaevc/wl-clipboard">wl-clipboard</a> is a command line tool for copy/pasting text.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S wl-clipboard
+</span></span></code></pre></div><p>Now, text can be copied from CLI with <code>&lt;some command&gt; | wl-copy</code> or pasted from
+clipboard with <code>wl-paste | &lt;some command&gt;</code>.</p>
+<p>A clipboard is emptied when window is closed by default. To persist clipboard
+after window closing use clipboard manager like <a href="https://github.com/yory8/clipman">clipman</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S clipman
+</span></span></code></pre></div><p>Start with sway:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec wl-paste -t text --watch clipman store --no-persist</span>
+</span></span></code></pre></div><h2 id="touch-pad">Touch pad</h2>
+<p>Enable tap and natural scroll.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">input type:touchpad {</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">tap enabled</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">natural_scroll enabled</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h2 id="keyboards-layouts">Keyboards layouts</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">input * {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">xkb_layout &#34;us,rs,rs&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">xkb_variant &#34;,latin,&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">xkb_options &#34;grp:shifts_toggle&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h2 id="red-shift">Red shift</h2>
+<p>Install <a href="https://gitlab.com/chinstrap/gammastep">gammastep</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S gammastep
+</span></span></code></pre></div><p>Execute it from sway config with your long/lat:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec_always gammastep -l 45.26:19.83</span>
+</span></span></code></pre></div><p>There is also a tray indicator <code>gammastep-indicator</code>. I&rsquo;m not using it.</p>
+<h2 id="networkmanager">NetworkManager</h2>
+<p>Run applet with <code>--indictator</code> switch:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec_always nm-applet --indicator</span>
+</span></span></code></pre></div><h2 id="bluetooth">Bluetooth</h2>
+<p>Install needed packages:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -Sy bluez bluez-utils blueman
+</span></span></code></pre></div><p>Start the bluetooth service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo systemctl enable --now bluetooth.service
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec_always blueman-applet</span>
+</span></span></code></pre></div><p>Configure devices through blueman.</p>
+<h2 id="wacom-tablet">Wacom tablet</h2>
+<p>I use Wacom CTL-471 for screen annotation during lectures. <a href="https://github.com/OpenTabletDriver/OpenTabletDriver">OpenTabletDriver</a> is a
+user-mode cross-platform tablet driver with settings GUI.</p>
+<p>Blacklist wacom kernel module:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo sh -c <span style="color:#e6db74">&#34;echo &#39;blacklist wacom&#39; &gt; /etc/modprobe.d/nowacom.conf&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>yay -S opentabletdriver
+</span></span></code></pre></div><p>Start OTD as a service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl --user start opentabletdriver
+</span></span></code></pre></div><p>Run <code>otd-gui</code> for configuration.</p>
+<h2 id="screen-annotation-with-gromit-mpx">Screen annotation with Gromit-MPX</h2>
+<p>Using <a href="https://github.com/bk138/gromit-mpx/">gromit-mpx</a> for screen annotation.</p>
+<p>There is a problem with capturing hotkeys. A workaround is to <a href="https://github.com/bk138/gromit-mpx/issues/127#issuecomment-1211957811">handle hotkeys
+through sway</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">mode &#34;gromit-mpx&#34; {</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># toggle painting</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym f9 exec gromit-mpx --toggle</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># clear</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Shift+f9 exec gromit-mpx --clear</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># toggle visibility</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Ctrl+f9 exec gromit-mpx --visibility</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># quit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Alt+f9 exec gromit-mpx --quit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># undo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym f8 exec gromit-mpx --undo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># redo</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym Shift+f8 exec gromit-mpx --redo</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Return to default mode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bindsym $mod+g exec gromit-mpx --quit; mode &#34;default&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+g exec gromit-mpx --active; mode &#34;gromit-mpx&#34;</span>
+</span></span></code></pre></div><p>Gromit-MPX use Xwayland. So to find the name of the device use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>xinput --list
+</span></span></code></pre></div><p>Gromit-MPX config with red and green pen and eraser:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">&#34;red Pen&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">PEN (size=7 color=&#34;red&#34;);</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">&#34;green Pen&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red Pen&#34; (color=&#34;green&#34;);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">&#34;Eraser&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">ERASER (size = 75);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">&#34;Virtual core pointer&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red Pen&#34;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">&#34;Virtual core pointer&#34;[Button2]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;green Pen&#34;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">&#34;Virtual core pointer&#34;[Button3]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Eraser&#34;;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[General]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ShowIntroOnStartup</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Drawing]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Opacity</span><span style="color:#f92672">=</span><span style="color:#e6db74">0.75</span>
+</span></span></code></pre></div><h2 id="xournalpp-with-keybinding-modifications">xournalpp with keybinding modifications</h2>
+<p><a href="https://xournalpp.github.io/">Xournal++</a> is a modern rewrite and a more feature-rich version of the famous
+<a href="https://sourceforge.net/projects/xournal/">Xournal</a> program.</p>
+<p>I made some keybinding changes throught <a href="https://github.com/igordejanovic/xournal-keys">this plugin</a> which is based on <a href="https://github.com/ave-63/xournal-keys">this</a>.</p>
+<p>First we shall install Xournal++:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S xournalpp
+</span></span></code></pre></div><p>Run it for config folders to be created. Go to plugins folder and clone
+keybinding plugin repo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>cd ~/.config/xournalpp/plugins
+</span></span><span style="display:flex;"><span>git clone git@github.com:igordejanovic/xournal-keys.git
+</span></span></code></pre></div><h2 id="notification-daemon">Notification daemon</h2>
+<p>Using swaync.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo yay -S swaync
+</span></span></code></pre></div><p>Start with sway.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec_always swaync</span>
+</span></span></code></pre></div><p>Show pannel.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+grave exec swaync-client -t</span>
+</span></span></code></pre></div><p>Toggle Do-Not-Disturb mode.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+p exec swaync-client -d</span>
+</span></span></code></pre></div><p>Close all notifications:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">bindsym $mod+c exec swaync-client -C</span>
+</span></span></code></pre></div><p>See also the waybar configuration above.</p>
+<p>Make some notification transient (I don&rsquo;t want them to persist in the
+notification list).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&#34;notification-visibility&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;emacs-pomodoro&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;_comment&#34;</span>: <span style="color:#e6db74">&#34;Make all emacs org-pomodoro notitification transient&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;transient&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;org-pomodoro&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;connection-info&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;_comment&#34;</span>: <span style="color:#e6db74">&#34;Make all connection info notitification transient&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;state&#34;</span>: <span style="color:#e6db74">&#34;transient&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;app_name&#34;</span>: <span style="color:#e6db74">&#34;NetworkManager Applet&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;summary&#34;</span>: <span style="color:#e6db74">&#34;Connection Established&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="syncthing">Syncthing</h2>
+<p>I&rsquo;m using <a href="https://github.com/syncthing/syncthing">Syncthing</a> for syncing various stuff. Mostly Org files and podcasts
+with my phone and reading stuff with my Boox Air Note 2.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec syncthing-gtk</span>
+</span></span></code></pre></div><p>To enable syncthing service:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl --user enable syncthing.service
+</span></span><span style="display:flex;"><span>systemctl --user start syncthing.service
+</span></span></code></pre></div><h2 id="warning-on-battery-critical-level">Warning on battery critical level</h2>
+<p>Check battery, notify when low and suspend when critical.
+Taken and adapted from <a href="https://wiki.archlinux.org/index.php/Laptop#Hibernate_on_low_battery_level">ArchLinux wiki</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>acpi -b | awk -F<span style="color:#e6db74">&#39;[,:%]&#39;</span> <span style="color:#e6db74">&#39;{print $2, $3}&#39;</span> | <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    read -r status capacity
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$status<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> Discharging <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$capacity<span style="color:#e6db74">&#34;</span> -lt <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>               systemctl suspend
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$capacity<span style="color:#e6db74">&#34;</span> -lt <span style="color:#ae81ff">15</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>               notify-send -u critical <span style="color:#e6db74">&#34;Battery low&#34;</span> <span style="color:#e6db74">&#34;Current capacity is (</span><span style="color:#e6db74">${</span>capacity<span style="color:#e6db74">}</span><span style="color:#e6db74">%).&#34;</span>
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Create crontab entry with command <code>crontab -e</code> which call check script at 5 minute
+interval.</p>
+<pre tabindex="0"><code class="language-cron" data-lang="cron">*/5  * * * *  XDG_RUNTIME_DIR=/run/user/$(id -u) $HOME/.config/sway/check_battery.sh
+</code></pre><h2 id="screen-sharing">Screen sharing</h2>
+<p>See <a href="https://wiki.archlinux.org/title/Screen_capture#Wayland">this</a> and <a href="https://wiki.archlinux.org/title/PipeWire#WebRTC_screen_sharing">this</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo pacman -S xdg-desktop-portal xdg-desktop-portal-wlr
+</span></span></code></pre></div><p>Configuration for output selection and disabling of notification during
+screen-cast.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[screencast]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">output_name</span><span style="color:#f92672">=</span><span style="color:#e6db74">eDP-1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">max_fps</span><span style="color:#f92672">=</span><span style="color:#e6db74">30</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exec_before</span><span style="color:#f92672">=</span><span style="color:#e6db74">swaync-client -dn</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">exec_after</span><span style="color:#f92672">=</span><span style="color:#e6db74">swaync-client -df</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">chooser_type</span><span style="color:#f92672">=</span><span style="color:#e6db74">simple</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">chooser_cmd</span><span style="color:#f92672">=</span><span style="color:#e6db74">slurp -f %o -or</span>
+</span></span></code></pre></div><p>Added this to <code>~/.profile</code> (add manually)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>export XDG_SESSION_TYPE<span style="color:#f92672">=</span>wayland
+</span></span><span style="display:flex;"><span>export XDG_CURRENT_DESKTOP<span style="color:#f92672">=</span>sway
+</span></span></code></pre></div><p>And this to sway config to launch <code>xdg-desktop-portal</code> when sway starts.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec_always /usr/lib/xdg-desktop-portal -r &amp; /usr/lib/xdg-desktop-portal-wlr -r</span>
+</span></span></code></pre></div><p>Firefox works out-of-the-box. For chromium enable experiment setting
+<code>chrome://flags/#enable-webrtc-pipewire-capturer</code>.</p>
+<p>Test with <a href="https://mozilla.github.io/webrtc-landing/gum_test.html">Mozilla&rsquo;s getUserMedia / getDisplayMedia Test Page</a></p>
+<h2 id="autostart-apps">Autostart apps</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">exec {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#swaymsg &#39;workspace 1; exec emacsclient-one-frame.sh&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">swaymsg &#39;workspace 2; exec firefox&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">}</span>
+</span></span></code></pre></div><h2 id="fix-viber-notification-popup">Fix Viber notification popup</h2>
+<p>In recent versions Viber uses an annoying popup for notification instead of
+sending notifications through standard system facilities. This popup is
+displayed on the focused workspace as a new fullscreen window.</p>
+<p>This fix will make notification float in the upper right corner of the screen,
+without focus change, which is less distracting.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cfg" data-lang="cfg"><span style="display:flex;"><span><span style="color:#a6e22e">for_window [title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ViberPC&#34;] floating enable, move up 500, move right 800</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">no_focus [title</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ViberPC&#34;]</span>
+</span></span></code></pre></div>
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/recipes/terminal-tricks/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Terminal/shell tricks</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+
