@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-04 Tue 10:57 -->
+<meta charset="utf-8"/>
+<title>Софтверски обрасци и компоненте</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Софтверски обрасци и компоненте</h1>
+<h2 class="subtitle">Увод</h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord at uns ac rs">igord at uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-04 Tue 10:57, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org2c1b8f6">
+<h2 id="org2c1b8f6">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Увод</a></li>
+<li><a href="#/slide-2">2. Софтверски обрасци</a></li>
+<li><a href="#/slide-3">3. Софтверски антиобрасци</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Увод</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-1-1">
+<h3 id="1-1"><span class="section-number-3">1.1.</span> Развој софтвера</h3>
+<ul>
+<li>Развој софтвера је тежак а развој софтвера на такав начин да се решење може
+поново употребити је још теже.</li>
+<li>Добар, проширив и флексибилан дизајн је тешко а вероватно и немогуће одрадити
+<i>из прве</i> за неискусног пројектанта.</li>
+
+</ul>
+</section>
+<section id="slide-1-2">
+<h3 id="1-2"><span class="section-number-3">1.2.</span> Искуство</h3>
+<ul>
+<li>Искусни пројектанти, тј. експерти, ипак праве добар дизајн.</li>
+<li>Експерти знају нешто што почетници не знају. Шта је то?</li>
+
+</ul>
+</section>
+<section id="slide-1-3">
+<h3 id="1-3"><span class="section-number-3">1.3.</span> Поновно коришћење добрих решења</h3>
+<p>
+Експерти ће поново примењивати решења која су се показала као добра у
+прошлости.
+</p>
+</section>
+<section id="slide-1-4">
+<h3 id="1-4"><span class="section-number-3">1.4.</span> Поновна искористљивост - <i>Reusability</i></h3>
+<p>
+Дефиниција са <i>The Free Dictionary</i>:
+</p>
+
+<blockquote>
+<p>
+The ability to use all or the greater part of the same programming code or
+system design in another application.
+</p>
+</blockquote>
+
+<ul class="footer" style="clear: both;">
+<li><a href="http://encyclopedia2.thefreedictionary.com/reusability/">http://encyclopedia2.thefreedictionary.com/reusability/</a></li>
+
+</ul>
+</section>
+<section id="slide-1-5">
+<h3 id="1-5"><span class="section-number-3">1.5.</span> Поновна искористљивост - Зашто?</h3>
+<ul>
+<li>Да не би измишљали <i>топлу воду</i>.</li>
+<li>Употреба већ постојећих решења - бржа изградња софтвера.</li>
+<li>Већ коришћен софтвер је боље тестиран - робусност.</li>
+
+</ul>
+</section>
+<section id="slide-1-6">
+<h3 id="1-6"><span class="section-number-3">1.6.</span> Поновна искористљивост - Како?</h3>
+<ul>
+<li>На нивоу кода - библиотеке, оквири за развој (<i>frameworks</i>), софтверске
+компоненте итд.</li>
+<li>На нивоу дизајна  - дизајн обрасци.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Софтверски обрасци</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Шта је образац?</h3>
+<p>
+Christopher Alexander и сар. су написали<sup>*</sup>:
+</p>
+
+<blockquote>
+<p>
+Each pattern describes a problem which occurs over and over again in our
+environment, and then describes the core of the solution to that problem, in
+such a way that you can use this solution a million times over, without ever
+doing it the same way twice.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<code>*</code> Christopher Alexander, Sara Ishikawa, Murray Silverstein, Max Jacobson,
+Ingrid Fiksdahl-King, and Shlomo Angel. <i>A Pattern Language</i>. Oxford University
+Press, New York, 1977.
+</p>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> &#x2026;ili у слободном преводу</h3>
+<blockquote>
+<p>
+Сваки образац <i>описује проблем</i> који се <i>појављује наново</i> у нашем окружењу, и
+затим <i>описује суштину решења</i> датог проблема на такав начин да решење можете
+применити милион пута а да никада не решите проблем на потпуно идентичан начин.
+</p>
+</blockquote>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> Шта је софтверски образац?</h3>
+<p>
+Рецепт настао на бази кумулираног експертског знања и искуства у решавању
+одређеног рекурентног проблема у развоју софтвера који описује проблем, решење
+и контекст у коме је решење примењиво као и предности и мане решења.
+</p>
+</section>
+<section id="slide-2-4">
+<h3 id="2-4"><span class="section-number-3">2.4.</span> Градивни елементи софтверског образца</h3>
+<ul>
+<li><i>Назив</i> - Обезбеђује лако референцирање на образац. Чини део вокабулара и
+омогућава комуникацију.</li>
+<li><i>Проблем</i> - Опис проблема и контекста у коме се образац може применити. Често се
+наводи и листа предуслова за употребу обрасца.</li>
+<li><i>Решење</i> - Елементи, међусобне везе, сарадња и одговорност. Апстрактно је да би
+могло бити примењено у различитим конкретним контекстима.</li>
+<li><i>Последице</i> - описују шта је то што добијамо а шта губимо употребом датог
+обрасца (<i>trade-offs</i>).</li>
+
+</ul>
+</section>
+<section id="slide-2-5">
+<h3 id="2-5"><span class="section-number-3">2.5.</span> У чему је предност употребе софтверских образаца?</h3>
+<ul>
+<li>Учење на туђим грешкама.</li>
+<li>Мање искусни пројектанти могу правити добар дизајн.</li>
+<li>Лакша комуникација. Конзистентан вокабулар.</li>
+<li>Лакша анализа дизајна сложеног софтвера. Обрасци имају своју <b>мустру</b>.</li>
+<li>Лакше укључивање нових људи на пројекат.</li>
+<li>Познавање унапред свих евентуалних проблема које решење може да изазове.</li>
+
+</ul>
+</section>
+<section id="slide-2-6">
+<h3 id="2-6"><span class="section-number-3">2.6.</span> Избор програмског језика</h3>
+<p>
+Избор програмског језика и програмске парадигме са становишта софтверских
+образаца је важан!
+</p>
+</section>
+<section id="slide-2-7">
+<h3 id="2-7"><span class="section-number-3">2.7.</span> Организација</h3>
+<ul>
+<li>Класификација и каталогизација у циљу лакшег проналажења.</li>
+<li>Различити аутори - различите класификације.</li>
+<li>Различити домени - различити обрасци.</li>
+
+</ul>
+</section>
+<section id="slide-2-8">
+<h3 id="2-8"><span class="section-number-3">2.8.</span> Класификација ОО дизајн образаца</h3>
+
+<div id="org2d0363a" class="figure">
+<p><img src="./images/patternspace.png" alt="patternspace.png" style="height: 700px;" />
+</p>
+</div>
+
+<ul class="footer" style="clear: both;">
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+
+</ul>
+</section>
+<section id="slide-2-9">
+<h3 id="2-9"><span class="section-number-3">2.9.</span> Класификација ОО дизајн образаца</h3>
+<p>
+Класификација ОО дизајн образаца према [1]:
+</p>
+
+<ul>
+<li>Фундаментални</li>
+<li>Креациони</li>
+<li>Партициони</li>
+<li>Структурални</li>
+<li>Обрасци понашања</li>
+<li>Обрасци за конкурентни дизајн</li>
+
+</ul>
+
+<ol class="footer" style="clear: both;">
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns
+Illustrated with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Софтверски антиобрасци</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Софтверски антиобрасци</h3>
+<ul>
+<li>У развоју софтвера антиобрасци представљају обрасце који су се показали
+неефикасним и контрапродуктивним у пракси<sup>*</sup>.</li>
+<li>Још се зову и <i>pitfalls</i> или <i>dark patterns</i>.</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li><code>*</code> <a href="http://en.wikipedia.org/wiki/Anti-pattern">Anti-pattern</a>, From Wikipedia, the free encyclopedia</li>
+
+</ul>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Како их препознати?</h3>
+<p>
+Антиобрасци исказују следеће особине:
+</p>
+
+<ul>
+<li>Рекурентан образац акције, процеса или структуре који је иницијално изгледао
+као добар али је у пракси показао да доноси више проблема него решења,</li>
+<li>Рефакторисано решење проблема постоји, јасно је документовано и доказано у
+пракси.</li>
+
+</ul>
+</section>
+<section id="slide-3-3">
+<h3 id="3-3"><span class="section-number-3">3.3.</span> Неки од примера антиобразаца</h3>
+<p>
+Примери антиобразаца су<sup>*</sup>:
+</p>
+
+<ul>
+<li><i>Cargo cult programming</i> - Коришћење образаца и метода без разумевања због чега
+се користе.</li>
+<li><i>God object</i> - Концентрисање превише функционалности у један елемент дизајна
+(најчешће класу).</li>
+<li><i>Big ball of mud</i> - Систем без јасне структуре.</li>
+<li><i>Copy and paste programming</i> - Копирање и измена постојећег кода уместо креирања
+генеричког решења.</li>
+<li><i>Not Invented Here (NIH) sindrom</i> - Тенденција ка измишљању <b>топле воде</b> уместо
+коришћења постојећег, опробаног решења.</li>
+<li><i>Premature optimization</i> - Оптимизовање софтвера прерано на уштрб доброг дизајна
+и функционалности.</li>
+<li><i>Dependency hell</i> - Проблеми са верзијама зависних компоненти и софтвера.</li>
+
+</ul>
+
+<ul class="footer" style="clear: both;">
+<li><code>*</code> За шири списак видети <a href="http://en.wikipedia.org/wiki/Anti-pattern">http://en.wikipedia.org/wiki/Anti-pattern</a></li>
+
+</ul>
+</section>
+<section id="slide-3-4">
+<h3 id="3-4"><span class="section-number-3">3.4.</span> Литература</h3>
+<ul>
+<li>E. Gamma, R. Helm, R. Johnson, and J. M. Vlissides, <i>Design Patterns: Elements
+of Reusable Object-Oriented Software</i>, Addison-Wesley Professional, 1994</li>
+<li>M. Grand, <i>Patterns in Java: A Catalog of Reusable Design Patterns Illustrated
+with UML</i>, John Wiley &amp; Sons, Inc., vol. 1, 2002</li>
+<li><a href="http://en.wikipedia.org/wiki/Anti-pattern">Anti-pattern</a>, From Wikipedia, the free encyclopedia</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

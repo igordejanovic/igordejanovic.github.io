@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Eclipse RCP</title>
+
+    <meta name="description" content="Eclipse Rich Client Platform">
+    <meta name="author" content="Igor Dejanović">
+
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../../reveal/css/reveal.css">
+    <link rel="stylesheet" href="../../reveal/css/theme/beige.css" id="theme">
+    <link rel="stylesheet" href="../slides.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../reveal/css/print/pdf.css' : '../../reveal/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!-- google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-68681917-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Eclipse RCP</h1>
+          <p class="center">
+            <small>
+              <a href="http://igordejanovic.net/">dr Igor Dejanović</a> <br/>
+              <a href="https://github.com/igordejanovic/"><img class="contact" src="../../img/github.png"/></a>
+              <a href="https://twitter.com/dejanovicigor"><img class="contact" src="../../img/twitter.png"/></a>
+              <a href="mailto:igord@uns.ac.rs"><img class="contact" src="../../img/mail.png"/></a>
+            </small>
+            <p class="center"><small>Fakultet tehničkih nauka u Novom Sadu</small></p>
+            <p class="center"><small>Katedra za informatiku</small></p>
+          </p>
+        </section>
+
+
+        <section>
+
+
+          <section>
+            <h2>Šta je Eclipse?</h2>
+            <ul>
+              <li>Integrisano okruženje za razvoj softvera zasnovano na robusnom
+                komponentnom modelu.</li>
+              <li>Komponentni model se gradi kao proširenje komponentnog modela
+                OSGi specifikacije kroz koncepte ekstenzija (<em>Extensions</em>) i
+                ekstenzionih tačaka (<em>Extension Points</em>).</li>
+              <li>Standardan korisnički interfejsa baziran na robusnim
+              biblitekama SWT i JFace i konceptima <i>Workbench</i>-a, <i>View</i>-ova,
+              editor-a itd.</li>
+              <li>Podrška za veliki broj programskih jezika, sistem za kontrolu
+                verzija, podsistema za izveštavanje, podrške za aplikativne
+                server, editor za najrazličitije vrste fajlova ...</li>
+              <li>Poseduje sistem za pronalaženje i instalaciju dodatnih
+                komponenti (priključaka - <i>plugins</i>).</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Šta je Eclipse RCP?</h2>
+            <ul>
+              <li><a
+                href="http://wiki.eclipse.org/index.php/Rich_Client_Platform">Eclipse
+                RCP</a> predstavlja podskup priključaka eclipse za izgradnju
+            proizvoljnih desktop aplikacija.</li>
+              <li><a
+                href="https://eclipse.org/community/rcpos.php">Ko i na koji način koristi Eclipse RCP?</a></li>
+              <li><a href="http://www.eclipse.org/rap/">Eclipse RAP tehnologija</a> omogućava kreiranje web bazirane
+                aplikacije koja se ponaša slično desktop aplikaciji uz minimalnu
+                izmenu programskog koda.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Eclipse 4.x - e4</h2>
+            <ul>
+              <li>Od 2012 nova linija razvoja.</li>
+              <li>Ideja da se konsoliduju dobre stvari iz serije 3.x ali da se
+                usput platforma modernizuje i omogući jednosrtavniji rad.</li>
+              <li>Stari priključci mogu da rade preko sloja kompatibilnosti.</li>
+              <li>Struktura aplikacije je opisana modelom aplikacije - <em>The
+                  Application Model</em>.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Model aplikacije</h2>
+            <ul>
+              <li>Opisuje strukturu aplikacije. Baziran na EMF i ECore (platforma
+                za (meta-)modelovanje).</li>
+              <li>Može se modifikovati u vreme razvoja ali i u vreme izvršavanja
+                (<i>run-time</i>).</li>
+              <li>Može se proširivati i baziran je na upotrebi <i>Dependency
+                  Injection</i> obrasca.</li>
+              <li>Prezentacija je razdvojena od suštine tako da se isti model
+                može stilizovati na različite načine upotrebom eksternih fajlova
+                i jezika sličnom CSS-u.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Sloj kompatibilnosti</h2>
+            <ul>
+              <li>Eclipse 4.x implementira sloj kompatibilnosti tako da stari 3.x
+                priključci mogu da rade bez izmena.</li>
+              <li class="fragment"><em>Adapter</em> dizajn obrazac.</li>
+            </ul>
+          </section>
+
+
+        </section>
+
+
+
+        <section>
+
+
+          <section>
+            <h2>Eclipse arhitektura</h2>
+            <img src="EclipseRCP/EclipseArhitektura.png" height="600">
+          </section>
+
+
+          <section>
+            <h2>Eclipse arhitektura (Expressiveness)</h2>
+            <img src="EclipseRCP/ExpressivenessArhitektura.png">
+          </section>
+
+
+          <section>
+            <h2>Mehanizam proširenja platforme i saradnje komponenti</h2>
+            <ul style="font-size:80%">
+              <li>Komponentni model je baziran na priključcima (<em>plugins</em>).</li>
+              <li>Priključci registruju ekstenzione tačke (<em>Extension Points</em>)
+                kao mesta na kome drugi priključci mogu umetnuti svoja
+                proširenja (<em>ekstenzije - Extensions</em>).</li>
+              <li>I ekstenzione tačke i ekstenzije se navode deklarativno u
+                <code>plugin.xml</code> fajlu.</li>
+              <li>Prilikom startovanja platforme plugin.xml fajlovi iz svih
+                priključaka se čitaju i zatim je tim informacijama moguće
+                pristupiti putem <code>IExtensionRegistry</code> interfejsa i registra koji
+              se dobija pozivom <code>RegistryFactory.getRegistry()</code> ili
+              <code>Platform.getExtensionRegistry()</code>.</li>
+            </ul>
+            <img src="EclipseRCP/ExtensionPoints.png" height="300">
+          </section>
+
+
+          <section>
+            <h2>Skalabilnost i odloženo startovanje priključaka</h2>
+            <ul>
+              <li>Priključci mogu dinamički da ispitaju svoja proširenja bez
+                potrebe da se priključci koji nude proširenja startuju.</li>
+              <li>Ovo omogućava dobru skalabilnost sa porastom broja
+                priključaka. Na primer, priključci mogu da ubace nove stavke
+                menija, dugmiće na <i>toolbar</i>-ovima pri čemu se zaista učitavaju i
+              startuju tek kada korisnik izabere akciju.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Ekstenzione tačke (<i>Extension Points - EP</i>)</h2>
+            <ul>
+              <li>Definišu se XML šemom i referencom iz <em>plugin.xml</em>
+                fajla.</li>
+              <li>Ekstenziona tačka definiše obavezne i opcione elemente koje
+                klijent priključak mora da ugradi putem svoje ekstenzije.</li>
+              <li>Editor za <em>MANIFEST.MF</em> i <em>plugin.xml</em> i editor
+                za ekstenzione tačke (XML šeme) omogućavaju lako kreiranje
+                EP-a.</li>
+              <li>Element ekstenzione tačke pored osnovnih tipova (stringovi,
+                integeri, fajlovi - npr. ikone) može biti i aktivan - Java
+                klasa koja će se u određenom trenutku instancirati od strane
+              priključka koji definiše EP.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Ekstenzije (<i>Extensions</i>)</h2>
+            <ul>
+              <li>Ekstenzije se definišu u plugin.xml fajlu nad već postojećim
+                ekstenzionim tačkama.</li>
+              <li>Editor za MANIFEST.MF i plugin.xml fajlove omogućava
+                jednostavno editovanje ekstenzija.</li>
+              <li>Sve registrovane ekstenzione tačke moguće je izlistati i
+                dobiti pomoć prilikom definisanja ekstenzije.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>MANIFEST.MF i plugin.xml editor</h2>
+            <ul>
+              <li>Editovanje MANIFEST.MF i plugin.xml fajla se obavlja
+                integrisanim editorom koji na vizuelan način omogućava pregled
+                i ažuriranje svih elemenata ovih fajlova.</li>
+            </ul>
+          </section>
+
+
+          <section>
+            <h2>Struktura Eclipse IDE korisničkog interfejsa</h2>
+            <img src="EclipseRCP/EclipseWorkbench.png">
+            <footer>
+              <p class="center">Izvor: Eclipse Help</p>
+            </footer>
+          </section>
+
+
+        </section>
+
+
+        <section>
+          <h2>Eclipse RCP</h2>
+          <ul>
+            <li>Eclipse Rich Client Platform</li>
+            <li>Skup Eclipse priključaka koji čine platformu za razvoj
+              Eclipse baziranih aplikacija</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Kreiranje RCP aplikacija</h2>
+          <a href="http://www.vogella.com/tutorials/EclipseRCP/article.html" target="_blank">Lars Vogel, Building Eclipse RCP applications based on Eclipse 4</a>
+        </section>
+
+
+        <section>
+          <h2>Eclipse Target Platform</h2>
+          <a href="http://www.vogella.com/tutorials/EclipseTargetPlatform/article.html" target="_blank">Lars Vogel, Eclipse Target Platform - Tutorial</a>
+        </section>
+
+
+        <section>
+          <h2>Zadatak</h2>
+          <ul>
+            <li>Preraditi rešenje zadatka za vizualizaciju šeme baze podataka da radi
+                kao svežanj pod Equinox-om kao plugin pod Eclipse RCP-om.</li>
+          </ul>
+        </section>
+
+
+      </div>
+    </div>
+
+
+    <script src="../../reveal/lib/js/head.min.js"></script>
+    <script src="../../reveal/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '../../reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+     { src: '../../reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../reveal/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2025-11-17 Mon 15:26 -->
+<meta charset="utf-8"/>
+<title>textX задаци</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/night.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+
+<link rel="stylesheet" href="../../highlight-styles/zenburn.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">textX задаци</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2025-11-17 Mon 15:26, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-org89eb8fc">
+<h2 id="org89eb8fc">Садржај</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#/slide-1">1. Инсталација</a></li>
+<li><a href="#/slide-2">2. Робот пример</a></li>
+<li><a href="#/slide-3">3. Expression пример</a></li>
+<li><a href="#/slide-4">4. ЈСД - услов -&gt; акција</a></li>
+<li><a href="#/slide-5">5. <code>Entity</code> проширење</a></li>
+<li><a href="#/slide-6">6. <i>Turtle graphics</i> језик</a></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Инсталација</h2>
+<ul>
+<li><p>
+Инсталирати textX за развој:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="bash" >$ git clone git@github.com:textX/textX
+$ cd textX
+$ uv venv
+$ source .venv/bin/activate     # (.venv\Scripts\activate.bat na Windows-u)
+$ uv pip install -e .[dev]
+</code></pre>
+</div></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Робот пример</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+</section>
+<section id="slide-2-1">
+<h3 id="2-1"><span class="section-number-3">2.1.</span> Увод</h3>
+<ul>
+<li>Анализирати <a href="https://github.com/textX/textX/tree/master/examples/robot">робот пример</a></li>
+<li>Визуализовати робот мета-модел и примере модела. Испробати и <code>dot</code> и
+<code>plantUML</code> визуализације.
+<ul>
+<li><p>
+За директан преглед <code>dot</code> фајлова можете инсталирати пакет <code>xdot</code>:
+</p>
+<div class="org-src-container">
+
+<pre><code class="sh" >$ uv add xdot
+</code></pre>
+</div></li>
+
+</ul></li>
+<li>Укључити <code>debug</code> мод и анализирати излаз</li>
+
+</ul>
+</section>
+<section id="slide-2-2">
+<h3 id="2-2"><span class="section-number-3">2.2.</span> <code>for</code> петље у Робот језику</h3>
+<p>
+Дорадити робот пример тако да омогући <code>for</code> петље облика:
+</p>
+
+<pre>
+for i in 5..10
+    up 2
+    right i
+end
+</pre>
+</section>
+<section id="slide-2-3">
+<h3 id="2-3"><span class="section-number-3">2.3.</span> <code>if</code> искази у робот језику</h3>
+<p>
+Дорадити робот пример тако да омогући <code>if</code> исказе:
+</p>
+
+<pre>
+if x &gt; 5
+    up 1
+end
+</pre>
+
+<p>
+где <code>x</code> и <code>y</code> вариабле представљају текућу позицију робота. После <code>if</code> исказа наводи
+се Булов израз са стандардним операторима <code>&lt;,&gt;,&gt;=,&lt;=, !=, ==, and, or, not</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Expression пример</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+</section>
+<section id="slide-3-1">
+<h3 id="3-1"><span class="section-number-3">3.1.</span> Увод</h3>
+<ul>
+<li>Анализирати <a href="https://github.com/textX/textX/tree/master/examples/expression">expression пример</a></li>
+<li>Визуализовати еxпрессион мета-модел и примере модела</li>
+<li>Укључити <code>debug</code> мод и анализирати излаз</li>
+
+</ul>
+</section>
+<section id="slide-3-2">
+<h3 id="3-2"><span class="section-number-3">3.2.</span> Позиви функција у <code>expression</code> језику</h3>
+<p>
+У <code>expression</code> примеру омогућити позиве стандардним математичких функција из <code>math</code>
+модула.
+</p>
+
+<pre>
+a = 10;
+b = 2 * a + 17;
+
+5 * sin(a + sqrt(b + 50)) - 3 / 18
+</pre>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> ЈСД - услов -&gt; акција</h2>
+<p>
+Направити textX граматику за парсирање следећег језика:
+</p>
+
+<pre>
+action notify_quota_approaching https://somesite.com/api/v1/notify?user={user_id}
+
+on user.current_usage &gt;= 0.8 * max_quota trigger notify_quota_approaching with user_id = user.id
+</pre>
+
+<ul>
+<li>У првом делу се дефинишу могуће акције. Свака акција почиње кључном речју
+<code>action</code>, има име и REST URL који се позива (шаље се HTTP GET)</li>
+<li>Акција може имати параметре - <code>user_id</code> у примеру</li>
+<li>Правила када се акција позива се дефинишу са <code>on ... trigger... with</code> исказима
+где се дефинише:
+<ul>
+<li>Логички израз који, уколико је задовољен, доводи до акције. Овај исказ може
+имати стандардне логичке операторе <code>and, or, not</code> као и аритметчко поређење
+<code>&lt;,&gt;, &lt;=, &gt;=, ==, !=</code>.</li>
+<li>Акција коју је потребно позвати наводи се после кључне речи <code>trigger</code></li>
+<li>После кључне речи <code>with</code> наводе се вредности параметара позива акције,
+раздвојени зарезима. <code>with</code> део је опцион.</li>
+
+</ul></li>
+<li>И акција и <code>on</code> правила може бити више</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> <code>Entity</code> проширење</h2>
+<p>
+Проучити <i>Entity</i> пример из теxтX документације и проширити га на следећи
+начин:
+</p>
+<ol>
+<li>Омогућити да тип особине буде кардиналитета вишег од 1. Односно да особина
+може бити колекција других ентитета или простих типова.</li>
+<li>Омогућити да тип колекције буде скуп или низ/листа.</li>
+<li>Омогућити двосмерне референце.</li>
+<li>Додати подршку за пакете који могу да се угњезде на произвољну дубину.</li>
+<li>Омогућити референцирање ентитета употребом квалификованих имена
+(<code>paket1.paket2.entitet</code>). За исправно разрешавање референци користити RREL
+изразе у граматици.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> <i>Turtle graphics</i> језик</h2>
+<p>
+Употребом textX-a креирати <a href="https://docs.python.org/3/library/turtle.html">Turtle graphics</a> ЈСД.
+</p>
+<ol>
+<li>Подржати најмање следеће команде: <code>forward</code>, <code>backward</code>, <code>right</code>, <code>left</code>,
+<code>pendown</code>, <code>penup</code>, <code>pensize</code>, <code>color</code>.</li>
+<li>Имплементирати <code>while</code> петљу где ће услов бити логички израз са текућим стањем
+корњаче (нпр. позиција, угао).</li>
+<li>Имплементирати <code>if-else</code> исказ.</li>
+<li>Направити интерпретер.</li>
+<li>Направити компајлер који ће генерисати одговарајући Пајтон кôд.</li>
+
+</ol>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'convex',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

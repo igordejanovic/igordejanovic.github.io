@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<!-- Generated on 2026-01-13 Tue 16:21 -->
+<meta charset="utf-8"/>
+<title>Развој базиран на компонентама</title>
+<meta name="author" content="Игор Дејановић"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../../../s/reveal-slides.css"/>
+
+<link rel="stylesheet" href="../../../s/highlight-styles/docco.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Развој базиран на компонентама</h1>
+<h2 class="subtitle"></h2>
+<h2 class="author">Проф. др Игор Дејановић (<a href="mailto:igord на uns ac rs">igord на uns ac rs</a>)</h2>
+<p class="date">Креирано 2026-01-13 Tue 16:21, притисни ESC за мапу, Ctrl+Shift+F за претрагу, "?" за помоћ</p>
+</section>
+<section>
+<section id="slide-1">
+<h2 id="1"><span class="section-number-2">1.</span> Развој софтвера</h2>
+<blockquote>
+<p>
+In a world of rapidly changing business requirements, custom-made
+software is often too late &#x2013; too late to be productive before
+becoming obsolete.
+</p>
+</blockquote>
+
+<ul class="footer" style="clear: both;">
+<li>C. Szyperski, <i>Component Software: Beyond Object-Oriented Programming</i>, Addison-Wesley Longman Publishing Co., Inc., 2002</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-2">
+<h2 id="2"><span class="section-number-2">2.</span> Модуларизација</h2>
+<ul>
+<li>Савладавање комплексности софтвера поделом на мање целине &#x2013; <i>Divide and
+Conquer</i> принцип.</li>
+<li>Модули треба да имају <b>високу кохезију</b> и <b>слабу спрегу</b> са другим модулима.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-3">
+<h2 id="3"><span class="section-number-2">3.</span> Софтверске компоненте</h2>
+<ul>
+<li>Софтверске компоненте су извршиве јединице које се независно производе,
+добављају и инсталирају и које се могу компоновати у циљу формирања
+функционалног система.</li>
+<li>У циљу обезбеђивања композиције, компоненте морају да поштују одређени
+<i>компонентни модел</i> и да буду креиране за <i>одређену циљну платформу</i>.</li>
+<li>Систем састављен од софтверских компоненти се назива компонентни софтвер
+(<i>component software</i>).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-4">
+<h2 id="4"><span class="section-number-2">4.</span> Развој базиран на компонентама</h2>
+<ul>
+<li>Развој базиран на компонентама (<i>Component-Based Development - CBD</i>) &#x2013; израда
+софтвера употребом софтверских компоненти.</li>
+<li>Компонентизација није нова идеја &#x2013; успешно се примењује у различитим
+областима&#x2026;</li>
+<li>&#x2026;ali до недавно није било великог успеха у области развоја софтвера.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5">
+<h2 id="5"><span class="section-number-2">5.</span> Шта је проблем са софтвером?</h2>
+<p>
+Често се тврди да је софтвер превише флексибилан да би било могуће креирати
+компоненте &#x2013; ово не може бити разлог већ више знак незрелости области.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-6">
+<h2 id="6"><span class="section-number-2">6.</span> Интеграција као предуслов поновне искористљивости компоненти</h2>
+<blockquote>
+<p>
+A key issue is that today's software environments focus on
+writing new software, instead of integrating existing software into
+new systems. In reality, integrating existing code has become a large
+part of the work of software developers. Therefore, there is a need
+for tools that standardize the integration aspects of software so that
+reusing existing components becomes reliable, robust and cheap.
+</p>
+</blockquote>
+
+<p class="footer" style="clear: both;">
+<a href="http://www.osgi.org/About/Technology" class="footer" style="clear: both;">http://www.osgi.org/About/Technology</a>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-7">
+<h2 id="7"><span class="section-number-2">7.</span> Предуслови успешне компонентизације</h2>
+<ul>
+<li>Постојање стандарда који су практични и остварљиви:
+<ul>
+<li>OSGi</li>
+<li>EJB</li>
+<li>DCOM и ActiveX</li>
+<li>CORBA</li>
+
+</ul></li>
+
+<li>Постојање тржишта компоненти:
+<ul>
+<li>Eclipse Marketplace</li>
+<li>Firefox/Chrome прикључци</li>
+<li>Google Play, Apple App Store и др.</li>
+
+</ul></li>
+
+<li>Исплативост развоја: сматра се да компонента мора бар 3 пута да се искористи
+да би се њен развој исплатио.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-8">
+<h2 id="8"><span class="section-number-2">8.</span> Врсте софтвера према начину добављања</h2>
+<ul>
+<li>Наменски израђен софтвер (<i>Custom made</i>)</li>
+<li>Стандардни софтвер</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-9">
+<h2 id="9"><span class="section-number-2">9.</span> Наменски израђен софтвер</h2>
+<ul>
+<li>Може бити у потпуности прилагођен кориснику.</li>
+<li>Може користити власничка знања и искуство фирме за коју се производи.</li>
+<li>Овим се може постићи значајна предност на тржишту.</li>
+<li>Развој и одржавање може бити скупо. Интероперабилност са другим системима може
+бити проблематично.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-10">
+<h2 id="10"><span class="section-number-2">10.</span> Стандардни софтвер</h2>
+<ul>
+<li>Купује се готов и параметризује се да буде <i>довољно добар</i> за посао за који се
+користи.</li>
+<li>Кратко време изградње &#x2013; своди се на конфигурацију и прилагођавање.</li>
+<li>Унапређење, одржавање и имплементација интероперабилности са другим системима
+се пребацује на произвођача стандардног софтвера.</li>
+<li>Тешко може бити основа стицања предности на тржишту јер и конкуренција може
+купити исти софтвер.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-11">
+<h2 id="11"><span class="section-number-2">11.</span> Проблем са стандардним софтвером</h2>
+<ul>
+<li>Често захтева драстичну промену пословних процеса и начина рада у циљу
+прилагођавања &#x2013; пример: увођење SAP R/3 у Аустралијску пошту.</li>
+<li>Измену процеса би требало радити у складу са изменом пословног окружења а не у
+циљу прилагођавања предвиђеном начину рада софтвера.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-12">
+<h2 id="12"><span class="section-number-2">12.</span> Компонентни софтвер &#x2013; хибридни приступ</h2>
+<ul>
+<li>Наменски израдити компоненте у домену експертизе.</li>
+<li>Купити стандардне компоненте за остале домене.</li>
+<li>Пример: куповина GUI компоненти, компоненти за рад са XML датотекама, базама и
+сл.</li>
+<li>Добијамо предност на тржишту јер у свом домену радимо посао на начин на који
+желимо али истовремено убрзавамо развој употребом стандардних, робусних
+компоненти у доменима који нису од пресудног значаја за наш пословни домен.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-13">
+<h2 id="13"><span class="section-number-2">13.</span> Еволутивни развој</h2>
+<ul>
+<li>За разлику од монолитних решења где имамо периодичну замену система новим
+(револутивни приступ) код компонентног развоја унапређење система можемо
+радити еволутивно кроз независно унапређење компоненти.</li>
+<li>Имамо низ чешћих мањих промена уместо ређих великих промена које мењају
+систем из корена.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-14">
+<h2 id="14"><span class="section-number-2">14.</span> Универзалне компоненте?</h2>
+<ul>
+<li>&#x2026; не постоје.</li>
+<li>Компоненте се праве за одређену циљну платформу и морају поштовати одређени
+компонентни модел.</li>
+<li>Такође, морамо унапред имати свест о корисницима компоненте коју развијамо
+односно њиховим очекивањима.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-15">
+<h2 id="15"><span class="section-number-2">15.</span> Апстрактна архитектура софтвера базираног на компонентама</h2>
+
+<div id="org133a236" class="figure">
+<p><img src="./images/AbstractPlatform.png" alt="AbstractPlatform.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-16">
+<h2 id="16"><span class="section-number-2">16.</span> Платформа</h2>
+<ul>
+<li>Обезбеђује инфраструктуру у коју се <i>уграђују</i> компоненте.</li>
+<li>Пружа скуп базичних сервиса које компоненте могу да користе.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-17">
+<h2 id="17"><span class="section-number-2">17.</span> Сервиси</h2>
+<ul>
+<li>Представља скуп функционалности које одређена компонента пружа другим
+компонентама и чије коришћење је дефинисано уговором, који прописује начин
+употребе (нпр. интерфејси и протоколи), и ограничено политиком употребе
+сервиса.</li>
+<li>Платформа мора имати прописане механизме за објављивање и проналажење
+сервиса.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-18">
+<h2 id="18"><span class="section-number-2">18.</span> Конзументи и пружаоци сервиса</h2>
+<ul>
+<li>У компонентном софтверу свака компонента може бити у улози пружаоца и/или
+конзумента сервиса.</li>
+<li>Различите технике проналажења и повезивања сервиса.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-19">
+<h2 id="19"><span class="section-number-2">19.</span> Литература</h2>
+<ul>
+<li>C. Szyperski, <i>Component Software: Beyond Object-Oriented Programming</i>,
+Addison-Wesley Longman Publishing Co., Inc., 2002</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="../../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1400,
+height: 1000,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

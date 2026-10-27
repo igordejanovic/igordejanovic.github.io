@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang='en' dir='auto'><head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='I&rsquo;m a long time vim user and I just love vim modal editing approach. But, I always admired Emacs extensibity, introspection and self-documenting capabilities. Although I gave Emacs a try couple of times in the past I just couldn&rsquo;t get used to non-modal editing and cumbersome finger-stretching keyboard bindings. For some time I was keeping an eye on spacemacs, emacs distribution geared towards vim users. It looked like a perfect blend of vim and emacs so I gave it a try.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='My Spacemacs Odyssey • Random bits and pieces'>
+<meta property='og:description' content='I&rsquo;m a long time vim user and I just love vim modal editing approach. But, I always admired Emacs extensibity, introspection and self-documenting capabilities. Although I gave Emacs a try couple of times in the past I just couldn&rsquo;t get used to non-modal editing and cumbersome finger-stretching keyboard bindings. For some time I was keeping an eye on spacemacs, emacs distribution geared towards vim users. It looked like a perfect blend of vim and emacs so I gave it a try.'>
+<meta property='og:url' content='https://www.igordejanovic.net/posts/my-spacemacs-odyssey/'>
+<meta property='og:site_name' content='Random bits and pieces'>
+<meta property='og:type' content='article'><meta property='article:section' content='posts'><meta property='article:published_time' content='2016-11-08T00:00:00Z'/><meta property='article:modified_time' content='2016-11-08T00:00:00Z'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.105.0">
+
+  <title>My Spacemacs Odyssey • Random bits and pieces</title>
+  <link rel='canonical' href='https://www.igordejanovic.net/posts/my-spacemacs-odyssey/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.ab98e12b.css'><link rel='stylesheet' href='/s/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+<body class='page type-post has-sidebar'>
+
+  <div class='site'><div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    <h2 class='title site-title '>
+      <a href='/'>
+      Random bits and pieces
+      </a>
+    </h2>
+    <div class='desc'>
+    ...about programming, languages, tools, and FOSS software by Igor Dejanović
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-social_menu sep-after'><nav aria-label='Social Menu'>
+    <ul><li>
+        <a href='https://github.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Github account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+</svg>
+</a>
+      </li><li>
+        <a href='mailto:igor.dejanovic@gmail.com' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Contact via Email</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+<polyline points="22,6 12,13 2,6" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://floss.social/@igord' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Mastodon account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="m 20.745,13.949 c -0.591,1.823 -2.546,2.713 -4.289,3.077 -2.768,0.533 -5.643,0.438 -8.388,-0.183 -0.140,1.321 0.850,2.729 2.230,2.797 1.689,0.327 3.447,0.194 5.097,-0.269 0.248,0.941 0.050,2.126 -1.167,2.049 C 11.651,22.102 8.861,21.840 6.392,20.878 4.221,19.766 3.330,17.246 3.096,14.959 2.769,12.414 2.818,9.835 2.961,7.280 3.249,5.132 4.798,2.984 7.063,2.698 10.408,1.982 13.903,2.070 17.247,2.738 c 1.603,0.382 2.907,1.631 3.426,3.185 0.760,2.146 0.420,4.463 0.271,6.679 -0.051,0.451 -0.115,0.901 -0.199,1.347 z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://twitter.com/dejanovicigor' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Twitter account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://gitlab.com/igordejanovic' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Gitlab account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://linkedin.com/in/igor-dejanovi%c4%87-62bb921' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Linkedin account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+<rect x="2" y="9" width="4" height="12" />
+<circle cx="4" cy="4" r="2" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://scholar.google.com/citations?user=SqLKTIkAAAAJ' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Google_scholar account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+</svg>
+</a>
+      </li><li>
+        <a href='https://www.youtube.com/channel/UC-Sge0qopo1q3U7RzLtGLyA' target='_blank' rel='noopener me'>
+          <span class='screen-reader-text'>Open Youtube account in new tab</span><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+<polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+</svg>
+</a>
+      </li></ul>
+  </nav>
+</section><section class='widget widget-sidebar_menu sep-after'><nav id='sidebar-menu' class='menu sidebar-menu' aria-label='Sidebar Menu'>
+    <div class='container'>
+      <ul><li class='item'>
+  <a href='/'>Posts</a></li><li class='item'>
+  <a href='/courses/'>Courses/Предавања</a></li><li class='item'>
+  <a href='/mentoring/'>Mentoring</a></li><li class='item'>
+  <a href='/projects/'>Open-source</a></li><li class='item'>
+  <a href='/recipes/'>Recipes</a></li><li class='item'>
+  <a href='/talks/'>Talks</a></li><li class='item'>
+  <a href='/interviews/'>Interviews</a></li><li class='item'>
+  <a href='/about/'>About</a></li></ul>
+    </div>
+  </nav>
+
+</section><section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div><div class='main'><div class='header-widgets'>
+        <div class='container'>
+          <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="3" y1="12" x2="21" y2="12" />
+<line x1="3" y1="6" x2="21" y2="6" />
+<line x1="3" y1="18" x2="21" y2="18" />
+</svg>
+</span>
+  <span class='close'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="18" y1="6" x2="6" y2="18" />
+<line x1="6" y1="6" x2="18" y2="18" />
+</svg>
+</span>
+</button></div>
+      </div><header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'>
+              <p class='site-title title'>Random bits and pieces</p>
+              <p class='desc site-desc'>...about programming, languages, tools, and FOSS software by Igor Dejanović</p>
+          </div>
+        </div>
+      </header><main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>My Spacemacs Odyssey</h1>
+      
+
+    </div>
+    <div class='entry-meta'>
+  <span class='posted-on'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+<line x1="16" y1="2" x2="16" y2="6" />
+<line x1="8" y1="2" x2="8" y2="6" />
+<line x1="3" y1="10" x2="21" y2="10" />
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2016-11-08T00:00:00Z'>2016, Nov 08</time>
+</span>
+
+  
+<span class='reading-time'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><circle cx="12" cy="12" r="10" />
+<polyline points="12 6 12 12 15 15" />
+</svg>
+5 mins read
+</span>
+
+
+</div>
+
+
+
+  <div class='ptags'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z" />
+<line x1="7" y1="7" x2="7" y2="7" />
+</svg>
+<span class='screen-reader-text'>ptags: </span><a class='ptag' href='/ptags/emacs/'>emacs</a></div>
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>I&rsquo;m a long time vim user and I just love vim modal editing approach. But, I
+always admired Emacs extensibity, introspection and self-documenting
+capabilities. Although I gave Emacs a try couple of times in the past I just
+couldn&rsquo;t get used to non-modal editing and cumbersome finger-stretching keyboard
+bindings. For some time I was keeping an eye on <a href="http://spacemacs.org/">spacemacs</a>, emacs distribution
+geared towards vim users. It looked like a perfect blend of vim and emacs so I
+gave it a try.</p>
+<p>Although spacemacs is still beta the switch-over was surprisingly smooth. It
+took me just a few days to get to the speed thanks to <a href="https://www.emacswiki.org/emacs/Evil">Evil mode</a>, a vim-like
+modal editing support which is enabled by default in spacemacs. Evil works
+remarkably good, even some often used plugins are ported like, for example,
+<a href="https://github.com/tpope/vim-surround">surround</a>.</p>
+<p>First impression are default settings which are most of the time just what I
+want. Configuration is done in <code>.spacemacs</code> file which is well organized and
+commented. Much of the functionality is accessible using key combination
+starting with space bar (hence the name of the distribution) followed by a
+letter which is easy to remember most of the time (<code>SPC b</code> - for buffer actions,
+<code>SPC f</code> - for file actions, <code>SPC p</code> - for project actions etc.). If you don&rsquo;t know
+the right key that proceeds a helpful popup is displayed with the keys that can
+be tried next (thanks to <a href="https://github.com/justbur/emacs-which-key">which-key</a>). You can easily ask emacs to describe
+keybindings, key, package, function (<code>SPC d</code> and than <code>b</code> for bindings, <code>k</code> for keys,
+<code>p</code> for package, <code>f</code> for function, <code>v</code> for variable, <code>m</code> for mode). Help on anything is
+triggered with <code>SPC F1</code>. In all cases a fuzzy searchable list is displayed thanks
+to <a href="https://github.com/emacs-helm/helm">helm</a> package (Emacs incremental completion and selection narrowing
+framework).</p>
+<p>You can quickly toggle some settings using <code>SPC t</code> prefix and than appropriate
+letter. For example to turn on/off indent guide use <code>SPC t i</code>. To directly call
+emacs lisp function use <code>M-x</code> and than type the part of the name.</p>
+<p>Of course, configuration, keybindings, moving around and editing is just a part
+of the story. We all depend heavily on various plugins and extensions that makes
+our life easier. Here are some comments on few of them.</p>
+<h2 id="helm">Helm</h2>
+<p><a href="https://github.com/emacs-helm/helm">Helm</a> is emacs incremental completion and selection narrowing framework. It is
+integrated with most packages that provides a list to select from. I was very
+impressed by a <a href="https://www.emacswiki.org/emacs/HelmSwoop">helm-swoop</a> functionality which I use most of the time now to
+search inside the buffer.</p>
+<p>The functionality similar to this can be achieved in vim using <a href="https://github.com/Shougo/unite.vim">unite</a> but helm
+feels more powerful and better integrated with the rest of the editor.</p>
+<h2 id="magit">Magit</h2>
+<p>For git in vim I used <a href="https://github.com/tpope/vim-fugitive">fugitive</a> which is great. In emacs a standard package is
+<a href="https://github.com/magit/magit">Magit</a>. I find Magit to be as capable as fugitive or even more with a much easier
+to learn interface. Keybindings are easier to grasp and the way of work is just
+more logical. For fugitive It took me quite some time to get to the speed.</p>
+<p>To call magit status use <code>SPC g s</code> or to call magit menu <code>SPC g m</code>. <code>SPC g</code> is prefix
+for some of the more frequently used Magit commands. Check out blame mode, it is
+really nice <code>SPC g b</code>.</p>
+<h2 id="flycheck">flycheck</h2>
+<p>Flycheck is syntax checker for emacs. I didn&rsquo;t have to do much to have it
+working. It <em>just works</em>. For various programming languages you have to install
+external tools. Check the docs.</p>
+<h2 id="yasnippet">Yasnippet</h2>
+<p>In vim I used <a href="https://github.com/SirVer/ultisnips">Ultisnips</a> plugin for snippets. In spacemacs the default is
+<a href="https://github.com/joaotavora/yasnippet">yasnippet</a>. Yasnippet provides you what you would expect from a capable
+snippet/template engine. You can create new snippet by calling <code>yas-new-snippet</code>
+function. In the snippet buffer you can test the snippet <code>C-c C-t</code> and save it
+with <code>C-c C-c</code> when you are satisfied with the result. Nice feature of yasnippet
+is that you can use any emacs lisp expression on entered text which gives you
+great flexibility on what can be done with the engine. Ultisnips use Python for
+similar feature.</p>
+<h2 id="org-mode">Org mode</h2>
+<p>And last but not least is <a href="http://orgmode.org/">Org mode</a>. If there is one package that is worth using
+emacs for it&rsquo;s this one. I could say that it blew my mind and changed the way I
+work. I knew for this gem a long time ago and actually used <a href="https://github.com/jceb/vim-orgmode">its vim clone</a> but
+emacs Org mode is just fantastic. This tool let you organize all your notes,
+todos, schedules in hierarchical structure in plain text files while giving you
+agenda and todo list overview over all files. It provides you with time tracking
+and pomodoro technique all in the same context. It let you work with tables
+seamlessly just as you would edit actual spreadsheet. It really facilitates <a href="http://gettingthingsdone.com/">GTD</a>
+very well. Now I do all my work organization, note-taking activities and
+time-tracking in a set of Org mode files.</p>
+<h2 id="final-thoughts">Final thoughts</h2>
+<p>All in all, this was a pleasant experience for me. After a two weeks of using
+spacemacs I can say that I feel fully productive and the journey has just begun.
+I still get impressed by spac(emacs) features every day. Although still in beta
+it is really well thought-out distribution with a nice configuration and set of
+defaults and packages.</p>
+<p>Furthermore, default Evil mode gives me opportunity to nurture and don&rsquo;t forget
+my vim-fu.</p>
+
+</div>
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/posts/implementing-martin-fowler-state-machine-dsl-in-textx/'>
+        <span aria-hidden='true'><svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="20" y1="12" x2="4" y2="12" />
+<polyline points="10 18 4 12 10 6" />
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Implementing Martin Fowler&#39;s state machine DSL in textX</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/posts/parglare-python-parser/'>
+        <span class='screen-reader-text'>Next post: </span>Parglare Python parser<span aria-hidden='true'>Next <svg
+  class="icon"
+  xmlns="http://www.w3.org/2000/svg"
+  viewbox="0 0 24 24"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-width="2"
+  aria-hidden="true"
+><line x1="4" y1="12" x2="20" y2="12" />
+<polyline points="14 6 20 12 14 18" />
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p> &copy; 2016-2026 Igor Dejanović &ndash; Created with <a href="https://orgmode.org/">Org Mode</a>, <a href="https://ox-hugo.scripter.co/">ox-hugo</a>, <a href="https://gohugo.io/">Hugo</a> with <a href="https://github.com/MunifTanjim/minimo">minimo theme</a>.</p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__assets_js_src="/assets/js/"</script>
+
+<script src='/assets/js/main.c3bcf2df.js'></script><script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+</body>
+
+</html>
+

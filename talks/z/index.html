@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Developing a Domain-Specific Language for Cognitive Tests Using TextX</title>
+<meta name="author" content="Igor Dejanović and Mirjana Dejanović"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="../../s/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="../../s/reveal.js/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="../talk-slides.css"/>
+
+<link rel="stylesheet" href="../../s/highlight-styles/docco.css"/>
+
+<link rel="stylesheet" href="style.css"/>
+<link rel="stylesheet" href=""/>
+<base target="_blank">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide" data-background="images/background.png" data-background-size="contain">
+<h1 class="title">Developing a Domain-Specific Language for Cognitive Tests Using TextX</h1>
+<h2 class="author"><a href="https://igordejanovic.net/">Igor Dejanović and Mirjana Dejanović</a></h2>
+<img src="images/qrcode.png"/>
+</section>
+<section>
+<section id="slide-1" data-background="images/background.png" data-background-size="contain">
+<h2 id="1"><span class="section-number-2">1.</span> Domain-Specific Languages</h2>
+<ul>
+<li>Specialized languages designed for domain experts</li>
+<li>Appropriate level of abstraction</li>
+<li>Domain concepts</li>
+<li>Boost in productivity &#x2013; 10x and more</li>
+<li>Today popular sub-class: Low Code / No Code</li>
+<li>But not easy to develop and maintain</li>
+
+</ul>
+
+
+<div id="org8f252fc" class="figure">
+<p><img src="./images/DSLs.png" alt="DSLs.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-2" data-background="images/background.png" data-background-size="contain">
+<h2 id="2"><span class="section-number-2">2.</span> textX to the rescue</h2>
+<ul>
+<li>DSLs in Python made easy</li>
+<li>We started the project in 2014.</li>
+<li>Open-source - MIT License</li>
+<li>786 stars, 77 forks and 24 contributors on GitHub as of this writing.</li>
+<li>Used in academia and industry for DSL development, data extraction, IDE
+language support, legacy code analysis etc.</li>
+
+</ul>
+
+
+<div id="orgf3f40c7" class="figure">
+<p><img src="./images/textx-github.png" alt="textx-github.png" style="height: 400px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-3" data-background="images/background.png" data-background-size="contain">
+<h2 id="3"><span class="section-number-2">3.</span> textX - workflow</h2>
+
+<div id="org1686d5c" class="figure">
+<p><img src="./images/textX.png" alt="textX.png" style="height: 900px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-4" data-background="images/background.png" data-background-size="contain">
+<h2 id="4"><span class="section-number-2">4.</span> For what is textX used?</h2>
+<ul>
+<li>textX is used to implement various DSLs, including:
+<ul>
+<li>Software construction</li>
+<li>Source code analysis and representation</li>
+<li>e-health</li>
+<li>LLM enabled domain modeling</li>
+<li>Microservice architectures</li>
+<li>Mobile app development</li>
+<li>Game development</li>
+<li>Power electronics models specification</li>
+
+</ul></li>
+<li>In this work, we showcase its use in the specification of cognitive tests.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-5" data-background="images/background.png" data-background-size="contain">
+<h2 id="5"><span class="section-number-2">5.</span> Cognitive tests</h2>
+<ul>
+<li>Used to assess the cognitive capabilities of human or animal subjects.</li>
+<li>Physical changes can be evaluated using CT scans, MRI, etc., but how do we
+assess cognitive changes?</li>
+<li>GUI designers vs. general-purpose programming languages.</li>
+<li>We developed PyFlies, a DSL for cognitive tests, to bridge the gap.</li>
+<li>Test specification by domain experts, such as psychologists and
+neurophysiologists.</li>
+<li>Our focus is primarily on reaction time tests.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-6" data-background="images/background.png" data-background-size="contain">
+<h2 id="6"><span class="section-number-2">6.</span> PyFlies</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+</section>
+<section id="slide-6-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="6-1"><span class="section-number-3">6.1.</span> Domain analysis</h3>
+<ul>
+<li>Talk with domain experts</li>
+<li>Take notes</li>
+<li>Identify nouns (concepts) and verbs (actions/procedures)</li>
+<li>Examples: <code>Test</code>, <code>Trial</code>, <code>Stimulus</code>, <code>Flow</code>, etc.</li>
+
+</ul>
+</section>
+<section id="slide-6-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="6-2"><span class="section-number-3">6.2.</span> Design the syntax and meta-model in textX</h3>
+
+<div id="orgfd563b3" class="figure">
+<p><img src="./images/testtype.png" alt="testtype.png" style="height: 500px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-7" data-background="images/background.png" data-background-size="contain">
+<h2 id="7"><span class="section-number-2">7.</span> Mental Rotation Test</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+</section>
+<section id="slide-7-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="7-1"><span class="section-number-3">7.1.</span> Mental Rotation Test</h3>
+<ul>
+<li>The subject is presented with two images rotated relative to each other by a
+random degree</li>
+<li>The images are either identical or mirrored.</li>
+<li>Task: determine as quickly as possible whether the images are mirrored or not.</li>
+
+</ul>
+
+
+<div id="org344089c" class="figure">
+<p><img src="./images/mental-rotation-test.png" alt="mental-rotation-test.png" style="height: 400px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="7-2"><span class="section-number-3">7.2.</span> Mental Rotation Test implementation</h3>
+
+<div id="org40b9ea5" class="figure">
+<p><img src="./images/mental-rotation-1.png" alt="mental-rotation-1.png" />
+</p>
+</div>
+</section>
+<section id="slide-7-3" data-background="images/background.png" data-background-size="contain">
+<h3 id="7-3"><span class="section-number-3">7.3.</span> The rest of the experiment</h3>
+
+<div id="org55affaf" class="figure">
+<p><img src="./images/mental-rotation-2.png" alt="mental-rotation-2.png" />
+</p>
+</div>
+</section>
+<section id="slide-7-4" data-background="images/background.png" data-background-size="contain">
+<h3 id="7-4"><span class="section-number-3">7.4.</span> Generated Python code</h3>
+
+<div id="org0b1ea1d" class="figure">
+<p><img src="./images/generate.png" alt="generate.png" style="height: 900px;" />
+</p>
+</div>
+</section>
+<section id="slide-7-5" data-background="images/background.png" data-background-size="contain">
+<h3 id="7-5"><span class="section-number-3">7.5.</span> Running the test</h3>
+
+<div id="orgf21036f" class="figure">
+<p><img src="./images/running.png" alt="running.png" style="height: 900px;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-8" data-background="images/background.png" data-background-size="contain">
+<h2 id="8"><span class="section-number-2">8.</span> Results</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+</section>
+<section id="slide-8-1" data-background="images/background.png" data-background-size="contain">
+<h3 id="8-1"><span class="section-number-3">8.1.</span> &nbsp;</h3>
+<table id="org741f5c7" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Lines of Code (LOC) Metrics for the Implementation of PyFlies</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File type</th>
+<th scope="col" class="org-center">LOC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Python</td>
+<td class="org-center">993</td>
+</tr>
+
+<tr>
+<td class="org-left">textX grammar</td>
+<td class="org-center">175</td>
+</tr>
+
+<tr>
+<td class="org-left">Jinja template</td>
+<td class="org-center">80</td>
+</tr>
+</tbody>
+</table>
+
+<ul style="font-size: 0.85em;">
+<li>Language has 34 concepts</li>
+<li>From 175 grammar lines textX dynamically produces a meta-model and a full parser</li>
+<li>Jinja template lines are for built-in generators - CSV and Log.</li>
+
+</ul>
+</section>
+<section id="slide-8-2" data-background="images/background.png" data-background-size="contain">
+<h3 id="8-2"><span class="section-number-3">8.2.</span> &nbsp;</h3>
+<table id="org31700bd" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> Lines of Code (LOC) Metrics for the Implementation of Mental Rotation Test</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-center" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File type</th>
+<th scope="col" class="org-center">LOC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">PyFlies</td>
+<td class="org-center">35</td>
+</tr>
+
+<tr>
+<td class="org-left">Python</td>
+<td class="org-center">873</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>From 35 lines of high-level PyFlies code we generate 873 lines of Python code.</li>
+<li>~25x reduction in code size -&gt; huge increase in productivity</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-9" data-background="images/background.png" data-background-size="contain">
+<h2 id="9"><span class="section-number-2">9.</span> Conclusion</h2>
+<ul>
+<li><b><b>textX</b></b> is a powerful tool for enhancing productivity through the use of
+<b><b>Domain-Specific Languages (DSLs)</b></b>.</li>
+<li>It empowers <b><b>non-programmer domain experts</b></b> to design and implement tests
+effectively.</li>
+<li>All resources presented here are <b><b>free and open-source</b></b>:
+<ul>
+<li><a href="https://github.com/textX/textX/">textX project</a> and <a href="https://textx.github.io/textX/">documentation</a></li>
+<li><a href="https://textx.github.io/textx-playground/">textX playground</a></li>
+<li><a href="https://github.com/pyflies/pyflies/">PyFlies project</a>, <a href="https://pyflies.github.io/pyflies/latest/">documentation</a> and <a href="https://www.youtube.com/watch?v=tSFdYYnQmjA">overview video</a></li>
+
+</ul></li>
+<li>Further Work
+<ul>
+<li>Ongoing <b><b>evaluation</b></b> of textX for <b><b>large-scale industrial DSLs</b></b>.</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org239fe93" data-background="./images/background-first.png" data-background-size="contain" data-background-transition="slide">
+<h2 id="org239fe93">&nbsp;</h2>
+
+<div id="org359cbcc" class="figure">
+<p><img src="./images/qrcode.png" alt="qrcode.png" style="height: 300px;" />
+</p>
+</div>
+
+<p style="font-size: 3em; color: rgb(219, 48, 0);">
+Thanks!
+</p>
+
+<p style="font-size: 3em; color: rgb(219, 48, 0);">
+Q&amp;A
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="../../s/reveal.js/dist/reveal.js"></script>
+<script src="../../s/reveal.js/plugin/highlight/highlight.js"></script>
+<script src="../../s/reveal.js/plugin/search/search.js"></script>
+<script src="../../s/reveal.js/../../s/reveal-plugins/copycode/copycode.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c/t',
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: true,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+width: 1886,
+height: 1062,
+margin: 0.10,
+minScale: 0.30,
+maxScale: 4.00,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealHighlight, RevealSearch, CopyCode ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+,copycode: {button: "always", display: "icons"}});
+</script>
+</body>
+</html>

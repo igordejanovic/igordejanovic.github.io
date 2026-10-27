@@ -1,0 +1,9 @@
+Model: elements*=Element;
+Element: Package | Task;
+Package: 'package' name=ID '{'
+        elements*=Element
+    '}';
+Task: 'task' name=ID '{'
+         steps+=ID[',']
+         ('next' next=[Task])?
+    '}';
